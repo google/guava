@@ -22,20 +22,18 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
 public class AbstractSequentialIteratorTest extends TestCase {
   @GwtIncompatible // Too slow
   public void testDoublerExhaustive() {
-    new IteratorTester<Integer>(3, UNMODIFIABLE, ImmutableList.of(1, 2),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
+    new IteratorTester<Integer>(
+        3, UNMODIFIABLE, ImmutableList.of(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {
         return newDoubler(1, 2);
@@ -44,31 +42,64 @@ public class AbstractSequentialIteratorTest extends TestCase {
   }
 
   public void testDoubler() {
-    Iterable<Integer> doubled = new Iterable<Integer>() {
-      @Override
-      public Iterator<Integer> iterator() {
-        return newDoubler(2, 32);
-      }
-    };
+    Iterable<Integer> doubled =
+        new Iterable<Integer>() {
+          @Override
+          public Iterator<Integer> iterator() {
+            return newDoubler(2, 32);
+          }
+        };
     assertThat(doubled).containsExactly(2, 4, 8, 16, 32).inOrder();
   }
 
   public void testSampleCode() {
-    Iterable<Integer> actual = new Iterable<Integer>() {
-      @Override
-      public Iterator<Integer> iterator() {
-        Iterator<Integer> powersOfTwo = new AbstractSequentialIterator<Integer>(1) {
-          protected Integer computeNext(Integer previous) {
-            return (previous == 1 << 30) ? null : previous * 2;
+    Iterable<Integer> actual =
+        new Iterable<Integer>() {
+          @Override
+          public Iterator<Integer> iterator() {
+            Iterator<Integer> powersOfTwo =
+                new AbstractSequentialIterator<Integer>(1) {
+                  @Override
+                  protected Integer computeNext(Integer previous) {
+                    return (previous == 1 << 30) ? null : previous * 2;
+                  }
+                };
+            return powersOfTwo;
           }
         };
-        return powersOfTwo;
-      }
-    };
     assertThat(actual)
-        .containsExactly(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384,
-            32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216,
-            33554432, 67108864, 134217728, 268435456, 536870912, 1073741824)
+        .containsExactly(
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256,
+            512,
+            1024,
+            2048,
+            4096,
+            8192,
+            16384,
+            32768,
+            65536,
+            131072,
+            262144,
+            524288,
+            1048576,
+            2097152,
+            4194304,
+            8388608,
+            16777216,
+            33554432,
+            67108864,
+            134217728,
+            268435456,
+            536870912,
+            1073741824)
         .inOrder();
   }
 

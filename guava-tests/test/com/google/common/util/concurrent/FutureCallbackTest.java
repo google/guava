@@ -17,18 +17,16 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.addCallback;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
-import org.mockito.Mockito;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nullable;
+import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.mockito.Mockito;
 
 /**
  * Test for {@link FutureCallback}.
@@ -40,7 +38,7 @@ public class FutureCallbackTest extends TestCase {
   public void testSameThreadSuccess() {
     SettableFuture<String> f = SettableFuture.create();
     MockCallback callback = new MockCallback("foo");
-    Futures.addCallback(f, callback);
+    addCallback(f, callback, directExecutor());
     f.set("foo");
   }
 
@@ -58,7 +56,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> f = SettableFuture.create();
     Exception e = new IllegalArgumentException("foo not found");
     MockCallback callback = new MockCallback(e);
-    Futures.addCallback(f, callback);
+    addCallback(f, callback, directExecutor());
     f.setException(e);
   }
 
@@ -80,7 +78,7 @@ public class FutureCallbackTest extends TestCase {
             called = true;
           }
         };
-    Futures.addCallback(f, callback);
+    addCallback(f, callback, directExecutor());
     f.cancel(true);
   }
 
@@ -88,14 +86,14 @@ public class FutureCallbackTest extends TestCase {
     Error error = new AssertionError("ASSERT!");
     ListenableFuture<String> f = UncheckedThrowingFuture.throwingError(error);
     MockCallback callback = new MockCallback(error);
-    Futures.addCallback(f, callback);
+    addCallback(f, callback, directExecutor());
   }
 
   public void testRuntimeExeceptionFromGet() {
     RuntimeException e = new IllegalArgumentException("foo not found");
     ListenableFuture<String> f = UncheckedThrowingFuture.throwingRuntimeException(e);
     MockCallback callback = new MockCallback(e);
-    Futures.addCallback(f, callback);
+    addCallback(f, callback, directExecutor());
   }
 
   @GwtIncompatible // Mockito
@@ -105,7 +103,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> future = SettableFuture.create();
     @SuppressWarnings("unchecked") // Safe for a mock
     FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
-    Futures.addCallback(future, callback);
+    addCallback(future, callback, directExecutor());
     Mockito.doThrow(exception).when(callback).onSuccess(result);
     future.set(result);
     assertEquals(result, future.get());
@@ -121,7 +119,7 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> future = SettableFuture.create();
     @SuppressWarnings("unchecked") // Safe for a mock
     FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
-    Futures.addCallback(future, callback);
+    addCallback(future, callback, directExecutor());
     Mockito.doThrow(error).when(callback).onSuccess(result);
     try {
       future.set(result);
@@ -137,18 +135,20 @@ public class FutureCallbackTest extends TestCase {
   public void testWildcardFuture() {
     SettableFuture<String> settable = SettableFuture.create();
     ListenableFuture<?> f = settable;
-    FutureCallback<Object> callback = new FutureCallback<Object>() {
-      @Override
-      public void onSuccess(Object result) {}
+    FutureCallback<Object> callback =
+        new FutureCallback<Object>() {
+          @Override
+          public void onSuccess(Object result) {}
 
-      @Override
-      public void onFailure(Throwable t) {}
-    };
-    Futures.addCallback(f, callback);
+          @Override
+          public void onFailure(Throwable t) {}
+        };
+    addCallback(f, callback, directExecutor());
   }
 
   private class CountingSameThreadExecutor implements Executor {
     int runCount = 0;
+
     @Override
     public void execute(Runnable command) {
       command.run();
@@ -168,7 +168,7 @@ public class FutureCallbackTest extends TestCase {
     public MockCallback(Throwable expectedFailure) {
       this.failure = expectedFailure;
     }
-    
+
     @Override
     public synchronized void onSuccess(String result) {
       assertFalse(wasCalled);
@@ -178,7 +178,7 @@ public class FutureCallbackTest extends TestCase {
 
     @Override
     public synchronized void onFailure(Throwable t) {
-      assertFalse(wasCalled); 
+      assertFalse(wasCalled);
       wasCalled = true;
       assertEquals(failure, t);
     }

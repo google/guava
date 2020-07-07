@@ -18,14 +18,13 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Futures#withTimeout}.
@@ -35,14 +34,14 @@ import javax.annotation.Nullable;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
-final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
+final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   static <V> ListenableFuture<V> create(
       ListenableFuture<V> delegate,
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
-    TimeoutFuture<V> result = new TimeoutFuture<V>(delegate);
-    TimeoutFuture.Fire<V> fire = new TimeoutFuture.Fire<V>(result);
+    TimeoutFuture<V> result = new TimeoutFuture<>(delegate);
+    Fire<V> fire = new Fire<>(result);
     result.timer = scheduledExecutor.schedule(fire, time, unit);
     delegate.addListener(fire, directExecutor());
     return result;
@@ -62,7 +61,7 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
    * to timer, and importantly this is the main situation in which we need to be able to see the
    * write.
    *
-   * 2. visibility of the writes to cancel:
+   * 2. visibility of the writes to an afterDone() call triggered by cancel():
    *
    * Since these fields are non-final that means that TimeoutFuture is not being 'safely published',
    * thus a motivated caller may be able to expose the reference to another thread that would then
@@ -72,8 +71,8 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
    * write-barriers).
    */
 
-  @Nullable private ListenableFuture<V> delegateRef;
-  @Nullable private Future<?> timer;
+  private @Nullable ListenableFuture<V> delegateRef;
+  private @Nullable ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
@@ -117,9 +116,22 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
         timeoutFuture.setFuture(delegate);
       } else {
         try {
-          // TODO(lukes): this stack trace is particularly useless (all it does is point at the
-          // scheduledexecutorservice thread), consider eliminating it altogether?
-          timeoutFuture.setException(new TimeoutException("Future timed out: " + delegate));
+          ScheduledFuture<?> timer = timeoutFuture.timer;
+          timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
+          String message = "Timed out";
+          // This try-finally block ensures that we complete the timeout future, even if attempting
+          // to produce the message throws (probably StackOverflowError from delegate.toString())
+          try {
+            if (timer != null) {
+              long overDelayMs = Math.abs(timer.getDelay(TimeUnit.MILLISECONDS));
+              if (overDelayMs > 10) { // Not all timing drift is worth reporting
+                message += " (timeout delayed by " + overDelayMs + " ms after scheduled time)";
+              }
+            }
+            message += ": " + delegate;
+          } finally {
+            timeoutFuture.setException(new TimeoutFutureException(message));
+          }
         } finally {
           delegate.cancel(true);
         }
@@ -127,9 +139,39 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
     }
   }
 
+  private static final class TimeoutFutureException extends TimeoutException {
+    private TimeoutFutureException(String message) {
+      super(message);
+    }
+
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+      setStackTrace(new StackTraceElement[0]);
+      return this; // no stack trace, wouldn't be useful anyway
+    }
+  }
+
+  @Override
+  protected String pendingToString() {
+    ListenableFuture<? extends V> localInputFuture = delegateRef;
+    ScheduledFuture<?> localTimer = timer;
+    if (localInputFuture != null) {
+      String message = "inputFuture=[" + localInputFuture + "]";
+      if (localTimer != null) {
+        final long delay = localTimer.getDelay(TimeUnit.MILLISECONDS);
+        // Negative delays look confusing in an error message
+        if (delay > 0) {
+          message += ", remaining delay=[" + delay + " ms]";
+        }
+      }
+      return message;
+    }
+    return null;
+  }
+
   @Override
   protected void afterDone() {
-    maybePropagateCancellation(delegateRef);
+    maybePropagateCancellationTo(delegateRef);
 
     Future<?> localTimer = timer;
     // Try to cancel the timer as an optimization.

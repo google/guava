@@ -18,13 +18,11 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
-
 import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -38,7 +36,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   private final transient int[] axesSizeProduct;
 
   static <E> List<List<E>> create(List<? extends List<? extends E>> lists) {
-    ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<List<E>>(lists.size());
+    ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<>(lists.size());
     for (List<? extends E> list : lists) {
       List<E> copy = ImmutableList.copyOf(list);
       if (copy.isEmpty()) {
@@ -66,6 +64,50 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
 
   private int getAxisIndexForProductIndex(int index, int axis) {
     return (index / axesSizeProduct[axis + 1]) % axes.get(axis).size();
+  }
+
+  @Override
+  public int indexOf(Object o) {
+    if (!(o instanceof List)) {
+      return -1;
+    }
+    List<?> list = (List<?>) o;
+    if (list.size() != axes.size()) {
+      return -1;
+    }
+    ListIterator<?> itr = list.listIterator();
+    int computedIndex = 0;
+    while (itr.hasNext()) {
+      int axisIndex = itr.nextIndex();
+      int elemIndex = axes.get(axisIndex).indexOf(itr.next());
+      if (elemIndex == -1) {
+        return -1;
+      }
+      computedIndex += elemIndex * axesSizeProduct[axisIndex + 1];
+    }
+    return computedIndex;
+  }
+
+  @Override
+  public int lastIndexOf(Object o) {
+    if (!(o instanceof List)) {
+      return -1;
+    }
+    List<?> list = (List<?>) o;
+    if (list.size() != axes.size()) {
+      return -1;
+    }
+    ListIterator<?> itr = list.listIterator();
+    int computedIndex = 0;
+    while (itr.hasNext()) {
+      int axisIndex = itr.nextIndex();
+      int elemIndex = axes.get(axisIndex).lastIndexOf(itr.next());
+      if (elemIndex == -1) {
+        return -1;
+      }
+      computedIndex += elemIndex * axesSizeProduct[axisIndex + 1];
+    }
+    return computedIndex;
   }
 
   @Override
@@ -98,20 +140,20 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(@Nullable Object o) {
-    if (!(o instanceof List)) {
+  public boolean contains(@Nullable Object object) {
+    if (!(object instanceof List)) {
       return false;
     }
-    List<?> list = (List<?>) o;
+    List<?> list = (List<?>) object;
     if (list.size() != axes.size()) {
       return false;
     }
-    ListIterator<?> itr = list.listIterator();
-    while (itr.hasNext()) {
-      int index = itr.nextIndex();
-      if (!axes.get(index).contains(itr.next())) {
+    int i = 0;
+    for (Object o : list) {
+      if (!axes.get(i).contains(o)) {
         return false;
       }
+      i++;
     }
     return true;
   }

@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -29,15 +31,17 @@ public class SingletonImmutableTable_CustomFieldSerializer {
 
   public static SingletonImmutableTable<Object, Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
+    checkGwtRpcEnabled();
     Object rowKey = reader.readObject();
     Object columnKey = reader.readObject();
     Object value = reader.readObject();
-    return new SingletonImmutableTable<Object, Object, Object>(rowKey, columnKey, value);
+    return new SingletonImmutableTable<>(rowKey, columnKey, value);
   }
 
   public static void serialize(
       SerializationStreamWriter writer, SingletonImmutableTable<?, ?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.singleRowKey);
     writer.writeObject(instance.singleColumnKey);
     writer.writeObject(instance.singleValue);

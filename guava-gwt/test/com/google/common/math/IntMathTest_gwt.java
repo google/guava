@@ -18,6 +18,21 @@ public class IntMathTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.math.testModule";
 }
+public void testBinomial() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testBinomial();
+}
+
+public void testBinomialNegative() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testBinomialNegative();
+}
+
+public void testBinomialOutside() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testBinomialOutside();
+}
+
 public void testCeilingPowerOfTwo() throws Exception {
   com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
   testCase.testCeilingPowerOfTwo();
@@ -51,6 +66,11 @@ public void testCheckedPow() throws Exception {
 public void testCheckedSubtract() throws Exception {
   com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
   testCase.testCheckedSubtract();
+}
+
+public void testConstantsBiggestBinomials() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testConstantsBiggestBinomials();
 }
 
 public void testDivByZeroAlwaysFails() throws Exception {

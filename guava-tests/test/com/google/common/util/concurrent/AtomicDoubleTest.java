@@ -13,11 +13,7 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.*;
-
-/**
- * Unit test for {@link AtomicDouble}.
- */
+/** Unit test for {@link AtomicDouble}. */
 public class AtomicDoubleTest extends JSR166TestCase {
 
   private static final double[] VALUES = {
@@ -47,13 +43,10 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   static void assertBitEquals(double x, double y) {
-    assertEquals(Double.doubleToRawLongBits(x),
-                 Double.doubleToRawLongBits(y));
+    assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
   }
 
-  /**
-   * constructor initializes to given value
-   */
+  /** constructor initializes to given value */
   public void testConstructor() {
     for (double x : VALUES) {
       AtomicDouble a = new AtomicDouble(x);
@@ -61,17 +54,13 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * default constructed initializes to zero
-   */
+  /** default constructed initializes to zero */
   public void testConstructor2() {
     AtomicDouble a = new AtomicDouble();
     assertBitEquals(0.0, a.get());
   }
 
-  /**
-   * get returns the last value set
-   */
+  /** get returns the last value set */
   public void testGetSet() {
     AtomicDouble at = new AtomicDouble(1.0);
     assertBitEquals(1.0, at.get());
@@ -81,9 +70,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * get returns the last value lazySet in same thread
-   */
+  /** get returns the last value lazySet in same thread */
   public void testGetLazySet() {
     AtomicDouble at = new AtomicDouble(1.0);
     assertBitEquals(1.0, at.get());
@@ -93,9 +80,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * compareAndSet succeeds in changing value if equal to expected else fails
-   */
+  /** compareAndSet succeeds in changing value if equal to expected else fails */
   public void testCompareAndSet() {
     double prev = Math.E;
     double unused = Math.E + Math.PI;
@@ -110,29 +95,27 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * compareAndSet in one thread enables another waiting for value
-   * to succeed
-   */
+  /** compareAndSet in one thread enables another waiting for value to succeed */
 
-      public void testCompareAndSetInMultipleThreads() throws Exception {
+  public void testCompareAndSetInMultipleThreads() throws Exception {
     final AtomicDouble at = new AtomicDouble(1.0);
-    Thread t = newStartedThread(new CheckedRunnable() {
-        public void realRun() {
-          while (!at.compareAndSet(2.0, 3.0)) {
-            Thread.yield();
-          }
-        }});
+    Thread t =
+        newStartedThread(
+            new CheckedRunnable() {
+              @Override
+              public void realRun() {
+                while (!at.compareAndSet(2.0, 3.0)) {
+                  Thread.yield();
+                }
+              }
+            });
 
     assertTrue(at.compareAndSet(1.0, 2.0));
     awaitTermination(t);
     assertBitEquals(3.0, at.get());
   }
 
-  /**
-   * repeated weakCompareAndSet succeeds in changing value when equal
-   * to expected
-   */
+  /** repeated weakCompareAndSet succeeds in changing value when equal to expected */
   public void testWeakCompareAndSet() {
     double prev = Math.E;
     double unused = Math.E + Math.PI;
@@ -141,17 +124,14 @@ public class AtomicDoubleTest extends JSR166TestCase {
       assertBitEquals(prev, at.get());
       assertFalse(at.weakCompareAndSet(unused, x));
       assertBitEquals(prev, at.get());
-      while (!at.weakCompareAndSet(prev, x)) {
-        ;
+      while (!at.weakCompareAndSet(prev, x)) {;
       }
       assertBitEquals(x, at.get());
       prev = x;
     }
   }
 
-  /**
-   * getAndSet returns previous value and sets to given value
-   */
+  /** getAndSet returns previous value and sets to given value */
   public void testGetAndSet() {
     double prev = Math.E;
     AtomicDouble at = new AtomicDouble(prev);
@@ -161,9 +141,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * getAndAdd returns previous value and adds given value
-   */
+  /** getAndAdd returns previous value and adds given value */
   public void testGetAndAdd() {
     for (double x : VALUES) {
       for (double y : VALUES) {
@@ -175,9 +153,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * addAndGet adds given value to current, and returns current value
-   */
+  /** addAndGet adds given value to current, and returns current value */
   public void testAddAndGet() {
     for (double x : VALUES) {
       for (double y : VALUES) {
@@ -189,9 +165,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * a deserialized serialized atomic holds same value
-   */
+  /** a deserialized serialized atomic holds same value */
   public void testSerialization() throws Exception {
     AtomicDouble a = new AtomicDouble();
     AtomicDouble b = serialClone(a);
@@ -208,9 +182,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * toString returns current value
-   */
+  /** toString returns current value */
   public void testToString() {
     AtomicDouble at = new AtomicDouble();
     assertEquals("0.0", at.toString());
@@ -220,9 +192,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * intValue returns current value.
-   */
+  /** intValue returns current value. */
   public void testIntValue() {
     AtomicDouble at = new AtomicDouble();
     assertEquals(0, at.intValue());
@@ -232,9 +202,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * longValue returns current value.
-   */
+  /** longValue returns current value. */
   public void testLongValue() {
     AtomicDouble at = new AtomicDouble();
     assertEquals(0L, at.longValue());
@@ -244,9 +212,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * floatValue returns current value.
-   */
+  /** floatValue returns current value. */
   public void testFloatValue() {
     AtomicDouble at = new AtomicDouble();
     assertEquals(0.0f, at.floatValue());
@@ -256,9 +222,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * doubleValue returns current value.
-   */
+  /** doubleValue returns current value. */
   public void testDoubleValue() {
     AtomicDouble at = new AtomicDouble();
     assertEquals(0.0d, at.doubleValue());
@@ -268,9 +232,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * compareAndSet treats +0.0 and -0.0 as distinct values
-   */
+  /** compareAndSet treats +0.0 and -0.0 as distinct values */
   public void testDistinctZeros() {
     AtomicDouble at = new AtomicDouble(+0.0);
     assertFalse(at.compareAndSet(-0.0, 7.0));

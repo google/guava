@@ -21,10 +21,9 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class contains static utility methods for writing {@code Multiset} GWT
- * field serializers. Serializers should delegate to
- * {@link #serialize(SerializationStreamWriter, Multiset)} and
- * {@link #populate(SerializationStreamReader, Multiset)}.
+ * This class contains static utility methods for writing {@code Multiset} GWT field serializers.
+ * Serializers should delegate to {@link #serialize(SerializationStreamWriter, Multiset)} and {@link
+ * #populate(SerializationStreamReader, Multiset)}.
  *
  * @author Chris Povirk
  */

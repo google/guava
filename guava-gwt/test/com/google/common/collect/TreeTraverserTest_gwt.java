@@ -23,11 +23,6 @@ public void testBreadthOrder() throws Exception {
   testCase.testBreadthOrder();
 }
 
-public void testInOrder() throws Exception {
-  com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
-  testCase.testInOrder();
-}
-
 public void testPostOrder() throws Exception {
   com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
   testCase.testPostOrder();
@@ -36,5 +31,10 @@ public void testPostOrder() throws Exception {
 public void testPreOrder() throws Exception {
   com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
   testCase.testPreOrder();
+}
+
+public void testUsing() throws Exception {
+  com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
+  testCase.testUsing();
 }
 }

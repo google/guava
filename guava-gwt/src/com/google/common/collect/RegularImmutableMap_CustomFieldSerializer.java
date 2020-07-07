@@ -16,11 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.core.java.util.Map_CustomFieldSerializerBase;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,24 +32,19 @@ import java.util.Map;
  */
 public class RegularImmutableMap_CustomFieldSerializer {
 
-  public static void deserialize(
-      SerializationStreamReader reader, RegularImmutableMap<?, ?> instance) {}
+  public static void deserialize(SerializationStreamReader reader, ImmutableMap<?, ?> instance) {}
 
-  public static RegularImmutableMap<Object, Object> instantiate(SerializationStreamReader reader)
+  public static ImmutableMap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    Map<Object, Object> entries = new LinkedHashMap<Object, Object>();
+    checkGwtRpcEnabled();
+    Map<Object, Object> entries = new LinkedHashMap<>();
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
-    /*
-     * For this custom field serializer to be invoked, the map must have been
-     * RegularImmutableMap before it's serialized.  Since RegularImmutableMap
-     * always have two or more elements, ImmutableMap.copyOf always return
-     * a RegularImmutableMap back.
-     */
-    return (RegularImmutableMap<Object, Object>) ImmutableMap.copyOf(entries);
+    return ImmutableMap.copyOf(entries);
   }
 
-  public static void serialize(SerializationStreamWriter writer, RegularImmutableMap<?, ?> instance)
+  public static void serialize(SerializationStreamWriter writer, ImmutableMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

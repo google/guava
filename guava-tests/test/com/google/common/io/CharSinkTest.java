@@ -22,7 +22,6 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
@@ -90,6 +89,17 @@ public class CharSinkTest extends IoTestCase {
     assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
   }
 
+  public void testWriteLines_stream() throws IOException {
+    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream());
+    String separator = System.getProperty("line.separator");
+    assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
+  }
+
+  public void testWriteLines_stream_separator() throws IOException {
+    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream(), "!");
+    assertEquals("foo!bar!baz!", sink.getString());
+  }
+
   public void testClosesOnErrors_copyingFromCharSourceThatThrows() {
     for (TestOption option : EnumSet.of(OPEN_THROWS, READ_THROWS, CLOSE_THROWS)) {
       TestCharSource failSource = new TestCharSource(STRING, option);
@@ -101,7 +111,8 @@ public class CharSinkTest extends IoTestCase {
       }
       // ensure writer was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if source.newReader() throws).
-      assertTrue("stream not closed when copying from source with option: " + option,
+      assertTrue(
+          "stream not closed when copying from source with option: " + option,
           !okSink.wasStreamOpened() || okSink.wasStreamClosed());
     }
   }

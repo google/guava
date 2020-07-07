@@ -17,18 +17,14 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Collections;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nullable;
-
-/**
- * Implementation of an {@link Optional} not containing a reference.
- */
+/** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
 final class Absent<T> extends Optional<T> {
-  static final Absent<Object> INSTANCE = new Absent<Object>();
+  static final Absent<Object> INSTANCE = new Absent<>();
 
   @SuppressWarnings("unchecked") // implementation is "fully variant"
   static <T> Optional<T> withType() {
@@ -65,8 +61,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  @Nullable
-  public T orNull() {
+  public @Nullable T orNull() {
     return null;
   }
 

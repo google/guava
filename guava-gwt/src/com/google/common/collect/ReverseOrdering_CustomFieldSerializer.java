@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -32,11 +34,13 @@ public class ReverseOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ReverseOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ReverseOrdering<Object>((Ordering<Object>) reader.readObject());
+    checkGwtRpcEnabled();
+    return new ReverseOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ReverseOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.forwardOrder);
   }
 }

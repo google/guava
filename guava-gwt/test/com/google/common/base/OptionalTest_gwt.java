@@ -43,14 +43,14 @@ public void testAsSet_presentIsImmutable() throws Exception {
   testCase.testAsSet_presentIsImmutable();
 }
 
-public void testEqualsAndHashCode_absent() throws Exception {
+public void testEqualsAndHashCode() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testEqualsAndHashCode_absent();
+  testCase.testEqualsAndHashCode();
 }
 
-public void testEqualsAndHashCode_present() throws Exception {
+public void testFromJavaUtil() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testEqualsAndHashCode_present();
+  testCase.testFromJavaUtil();
 }
 
 public void testFromNullable() throws Exception {
@@ -188,6 +188,16 @@ public void testSampleCodeFine2() throws Exception {
   testCase.testSampleCodeFine2();
 }
 
+public void testToJavaUtil_instance() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testToJavaUtil_instance();
+}
+
+public void testToJavaUtil_static() throws Exception {
+  com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
+  testCase.testToJavaUtil_static();
+}
+
 public void testToString_absent() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
   testCase.testToString_absent();
@@ -203,9 +213,9 @@ public void testTransform_absent() throws Exception {
   testCase.testTransform_absent();
 }
 
-public void testTransform_abssent_functionReturnsNull() throws Exception {
+public void testTransform_absent_functionReturnsNull() throws Exception {
   com.google.common.base.OptionalTest testCase = new com.google.common.base.OptionalTest();
-  testCase.testTransform_abssent_functionReturnsNull();
+  testCase.testTransform_absent_functionReturnsNull();
 }
 
 public void testTransform_presentIdentity() throws Exception {

@@ -16,12 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-import com.google.gwt.user.client.rpc.core.java.util.Collection_CustomFieldSerializerBase;
-
-import java.util.List;
 
 /**
  * This class implements the GWT serialization of {@link RegularImmutableMultiset}.
@@ -29,25 +28,18 @@ import java.util.List;
  * @author Louis Wasserman
  */
 public class RegularImmutableMultiset_CustomFieldSerializer {
-  public static void deserialize(
-      SerializationStreamReader reader, RegularImmutableMultiset<?> instance) {}
+  public static void deserialize(SerializationStreamReader reader, ImmutableMultiset<?> instance) {}
 
-  public static RegularImmutableMultiset<Object> instantiate(SerializationStreamReader reader)
+  public static ImmutableMultiset<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    List<Object> elements = Lists.newArrayList();
-    Collection_CustomFieldSerializerBase.deserialize(reader, elements);
-    /*
-     * For this custom field serializer to be invoked, the set must have been
-     * RegularImmutableMultiset before it's serialized. Since
-     * RegularImmutableMultiset always have one or more elements,
-     * ImmutableMultiset.copyOf always return a RegularImmutableMultiset back.
-     */
-    return (RegularImmutableMultiset<Object>) ImmutableMultiset.copyOf(elements);
+    checkGwtRpcEnabled();
+    return ImmutableMultiset.copyOf(
+        Multiset_CustomFieldSerializerBase.populate(reader, LinkedHashMultiset.create()));
   }
 
-  public static void serialize(
-      SerializationStreamWriter writer, RegularImmutableMultiset<?> instance)
+  public static void serialize(SerializationStreamWriter writer, ImmutableMultiset<?> instance)
       throws SerializationException {
-    Collection_CustomFieldSerializerBase.serialize(writer, instance);
+    checkGwtRpcEnabled();
+    Multiset_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

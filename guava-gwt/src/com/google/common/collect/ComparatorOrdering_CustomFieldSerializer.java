@@ -16,10 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-
 import java.util.Comparator;
 
 /**
@@ -35,11 +36,13 @@ public class ComparatorOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ComparatorOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ComparatorOrdering<Object>((Comparator<Object>) reader.readObject());
+    checkGwtRpcEnabled();
+    return new ComparatorOrdering<>((Comparator<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ComparatorOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.comparator);
   }
 }

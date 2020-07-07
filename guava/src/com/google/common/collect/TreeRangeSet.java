@@ -21,7 +21,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,8 +30,7 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link RangeSet} backed by a {@link TreeMap}.
@@ -47,19 +45,30 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
   @VisibleForTesting final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
 
-  /**
-   * Creates an empty {@code TreeRangeSet} instance.
-   */
+  /** Creates an empty {@code TreeRangeSet} instance. */
   public static <C extends Comparable<?>> TreeRangeSet<C> create() {
     return new TreeRangeSet<C>(new TreeMap<Cut<C>, Range<C>>());
   }
 
-  /**
-   * Returns a {@code TreeRangeSet} initialized with the ranges in the specified range set.
-   */
+  /** Returns a {@code TreeRangeSet} initialized with the ranges in the specified range set. */
   public static <C extends Comparable<?>> TreeRangeSet<C> create(RangeSet<C> rangeSet) {
     TreeRangeSet<C> result = create();
     result.addAll(rangeSet);
+    return result;
+  }
+
+  /**
+   * Returns a {@code TreeRangeSet} representing the union of the specified ranges.
+   *
+   * <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. An
+   * element will be contained in this {@code RangeSet} if and only if it is contained in at least
+   * one {@code Range} in {@code ranges}.
+   *
+   * @since 21.0
+   */
+  public static <C extends Comparable<?>> TreeRangeSet<C> create(Iterable<Range<C>> ranges) {
+    TreeRangeSet<C> result = create();
+    result.addAll(ranges);
     return result;
   }
 
@@ -67,8 +76,8 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     this.rangesByLowerBound = rangesByLowerCut;
   }
 
-  private transient Set<Range<C>> asRanges;
-  private transient Set<Range<C>> asDescendingSetOfRanges;
+  private transient @Nullable Set<Range<C>> asRanges;
+  private transient @Nullable Set<Range<C>> asDescendingSetOfRanges;
 
   @Override
   public Set<Range<C>> asRanges() {
@@ -109,8 +118,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   }
 
   @Override
-  @Nullable
-  public Range<C> rangeContaining(C value) {
+  public @Nullable Range<C> rangeContaining(C value) {
     checkNotNull(value);
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(Cut.belowValue(value));
     if (floorEntry != null && floorEntry.getValue().contains(value)) {
@@ -143,8 +151,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     return floorEntry != null && floorEntry.getValue().encloses(range);
   }
 
-  @Nullable
-  private Range<C> rangeEnclosing(Range<C> range) {
+  private @Nullable Range<C> rangeEnclosing(Range<C> range) {
     checkNotNull(range);
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);
     return (floorEntry != null && floorEntry.getValue().encloses(range))
@@ -260,7 +267,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
   }
 
-  private transient RangeSet<C> complement;
+  private transient @Nullable RangeSet<C> complement;
 
   @Override
   public RangeSet<C> complement() {
@@ -364,10 +371,11 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         } else if (upperBoundWindow.lowerBound.isLessThan(lowerEntry.getValue().upperBound)) {
           backingItr = rangesByLowerBound.tailMap(lowerEntry.getKey(), true).values().iterator();
         } else {
-          backingItr = rangesByLowerBound
-              .tailMap(upperBoundWindow.lowerEndpoint(), true)
-              .values()
-              .iterator();
+          backingItr =
+              rangesByLowerBound
+                  .tailMap(upperBoundWindow.lowerEndpoint(), true)
+                  .values()
+                  .iterator();
         }
       }
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
@@ -571,9 +579,10 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                   .iterator());
       Cut<C> cut;
       if (positiveItr.hasNext()) {
-        cut = (positiveItr.peek().upperBound == Cut.<C>aboveAll())
-            ? positiveItr.next().lowerBound
-            : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
+        cut =
+            (positiveItr.peek().upperBound == Cut.<C>aboveAll())
+                ? positiveItr.next().lowerBound
+                : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
       } else if (!complementLowerBoundWindow.contains(Cut.<C>belowAll())
           || positiveRangesByLowerBound.containsKey(Cut.belowAll())) {
         return Iterators.emptyIterator();
@@ -613,8 +622,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    @Nullable
-    public Range<C> get(Object key) {
+    public @Nullable Range<C> get(Object key) {
       if (key instanceof Cut) {
         try {
           @SuppressWarnings("unchecked")
@@ -731,8 +739,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    @Nullable
-    public Range<C> get(@Nullable Object key) {
+    public @Nullable Range<C> get(@Nullable Object key) {
       if (key instanceof Cut) {
         try {
           @SuppressWarnings("unchecked") // we catch CCE's
@@ -853,8 +860,9 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     private final Range<C> restriction;
 
     SubRangeSet(Range<C> restriction) {
-      super(new SubRangeSetRangesByLowerBound<C>(
-          Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
+      super(
+          new SubRangeSetRangesByLowerBound<C>(
+              Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
       this.restriction = restriction;
     }
 
@@ -868,8 +876,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
 
     @Override
-    @Nullable
-    public Range<C> rangeContaining(C value) {
+    public @Nullable Range<C> rangeContaining(C value) {
       if (!restriction.contains(value)) {
         return null;
       }

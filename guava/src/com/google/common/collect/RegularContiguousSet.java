@@ -15,16 +15,15 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.Collection;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link ContiguousSet} that contains one or more elements.
@@ -42,7 +41,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
-    return (range.isConnected(other))
+    return range.isConnected(other)
         ? ContiguousSet.create(range.intersection(other), domain)
         : new EmptyContiguousSet<C>(domain);
   }
@@ -118,6 +117,26 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @Override
   public C last() {
     return range.upperBound.greatestValueBelow(domain);
+  }
+
+  @Override
+  ImmutableList<C> createAsList() {
+    if (domain.supportsFastOffset) {
+      return new ImmutableAsList<C>() {
+        @Override
+        ImmutableSortedSet<C> delegateCollection() {
+          return RegularContiguousSet.this;
+        }
+
+        @Override
+        public C get(int i) {
+          checkElementIndex(i, size());
+          return domain.offset(first(), i);
+        }
+      };
+    } else {
+      return super.createAsList();
+    }
   }
 
   @Override

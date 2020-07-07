@@ -19,9 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.InvocationTargetException;
@@ -31,24 +31,24 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
- * make common reflective operation easier to deal with, such as {@link #isPublic},
- * {@link #getParameters} etc.
+ * make common reflective operation easier to deal with, such as {@link #isPublic}, {@link
+ * #getParameters} etc.
  *
  * <p>In addition to convenience methods, {@link TypeToken#method} and {@link TypeToken#constructor}
  * will resolve the type parameters of the method or constructor in the context of the owner type,
  * which may be a subtype of the declaring class. For example:
  *
- * <pre>   {@code
- *   Method getMethod = List.class.getMethod("get", int.class);
- *   Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
- *   assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
- *   assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());}</pre>
- * 
+ * <pre>{@code
+ * Method getMethod = List.class.getMethod("get", int.class);
+ * Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
+ * assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
+ * assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
+ * }</pre>
+ *
  * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
  *     constructor.
@@ -64,7 +64,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   /** Returns {@link Invokable} of {@code method}. */
   public static Invokable<?, Object> from(Method method) {
-    return new MethodInvokable<Object>(method);
+    return new MethodInvokable<>(method);
   }
 
   /** Returns {@link Invokable} of {@code constructor}. */
@@ -111,15 +111,18 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   /**
    * Returns all declared parameters of this {@code Invokable}. Note that if this is a constructor
-   * of a non-static inner class, unlike {@link Constructor#getParameterTypes}, the hidden
-   * {@code this} parameter of the enclosing class is excluded from the returned parameters.
+   * of a non-static inner class, unlike {@link Constructor#getParameterTypes}, the hidden {@code
+   * this} parameter of the enclosing class is excluded from the returned parameters.
    */
   public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
+    AnnotatedType[] annotatedTypes = getAnnotatedParameterTypes();
     ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
-      builder.add(new Parameter(this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
+      builder.add(
+          new Parameter(
+              this, i, TypeToken.of(parameterTypes[i]), annotations[i], annotatedTypes[i]));
     }
     return builder.build();
   }
@@ -139,9 +142,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   /**
    * Explicitly specifies the return type of this {@code Invokable}. For example:
-   * <pre>   {@code
-   *   Method factoryMethod = Person.class.getMethod("create");
-   *   Invokable<?, Person> factory = Invokable.of(getNameMethod).returning(Person.class);}</pre>
+   *
+   * <pre>{@code
+   * Method factoryMethod = Person.class.getMethod("create");
+   * Invokable<?, Person> factory = Invokable.of(getNameMethod).returning(Person.class);
+   * }</pre>
    */
   public final <R1 extends R> Invokable<T, R1> returning(Class<R1> returnType) {
     return returning(TypeToken.of(returnType));
@@ -177,12 +182,16 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   abstract Type[] getGenericParameterTypes();
 
+  abstract AnnotatedType[] getAnnotatedParameterTypes();
+
   /** This should never return a type that's not a subtype of Throwable. */
   abstract Type[] getGenericExceptionTypes();
 
   abstract Annotation[][] getParameterAnnotations();
 
   abstract Type getGenericReturnType();
+
+  public abstract AnnotatedType getAnnotatedReturnType();
 
   static class MethodInvokable<T> extends Invokable<T, Object> {
 
@@ -207,6 +216,16 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     @Override
     Type[] getGenericParameterTypes() {
       return method.getGenericParameterTypes();
+    }
+
+    @Override
+    AnnotatedType[] getAnnotatedParameterTypes() {
+      return method.getAnnotatedParameterTypes();
+    }
+
+    @Override
+    public AnnotatedType getAnnotatedReturnType() {
+      return method.getAnnotatedReturnType();
     }
 
     @Override
@@ -257,7 +276,10 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       }
     }
 
-    /** If the class is parameterized, such as ArrayList, this returns ArrayList<E>. */
+    /**
+     * If the class is parameterized, such as {@link java.util.ArrayList ArrayList}, this returns
+     * {@code ArrayList<E>}.
+     */
     @Override
     Type getGenericReturnType() {
       Class<?> declaringClass = getDeclaringClass();
@@ -284,6 +306,16 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
+    AnnotatedType[] getAnnotatedParameterTypes() {
+      return constructor.getAnnotatedParameterTypes();
+    }
+
+    @Override
+    public AnnotatedType getAnnotatedReturnType() {
+      return constructor.getAnnotatedReturnType();
+    }
+
+    @Override
     Type[] getGenericExceptionTypes() {
       return constructor.getGenericExceptionTypes();
     }
@@ -296,7 +328,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     /**
      * {@inheritDoc}
      *
-     * {@code [<E>]} will be returned for ArrayList's constructor. When both the class and the
+     * <p>{@code [<E>]} will be returned for ArrayList's constructor. When both the class and the
      * constructor have type parameters, the class parameters are prepended before those of the
      * constructor's. This is an arbitrary rule since no existing language spec mandates one way or
      * the other. From the declaration syntax, the class type parameter appears first, but the call
@@ -310,9 +342,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
           new TypeVariable<?>[declaredByClass.length + declaredByConstructor.length];
       System.arraycopy(declaredByClass, 0, result, 0, declaredByClass.length);
       System.arraycopy(
-          declaredByConstructor, 0,
-          result, declaredByClass.length,
-          declaredByConstructor.length);
+          declaredByConstructor, 0, result, declaredByClass.length, declaredByConstructor.length);
       return result;
     }
 

@@ -16,12 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of
- * {@link EmptyImmutableListMultimap}.
+ * This class implements the GWT serialization of {@link EmptyImmutableListMultimap}.
  *
  * @author Chris Povirk
  */
@@ -31,9 +32,12 @@ public class EmptyImmutableListMultimap_CustomFieldSerializer {
       SerializationStreamReader reader, EmptyImmutableListMultimap instance) {}
 
   public static EmptyImmutableListMultimap instantiate(SerializationStreamReader reader) {
+    checkGwtRpcEnabled();
     return EmptyImmutableListMultimap.INSTANCE;
   }
 
   public static void serialize(
-      SerializationStreamWriter writer, EmptyImmutableListMultimap instance) {}
+      SerializationStreamWriter writer, EmptyImmutableListMultimap instance) {
+    checkGwtRpcEnabled();
+  }
 }

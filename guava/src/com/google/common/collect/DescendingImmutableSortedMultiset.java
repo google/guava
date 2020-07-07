@@ -15,8 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
@@ -59,11 +58,7 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   @Override
   Entry<E> getEntry(int index) {
-    return forward
-        .entrySet()
-        .asList()
-        .reverse()
-        .get(index);
+    return forward.entrySet().asList().reverse().get(index);
   }
 
   @Override

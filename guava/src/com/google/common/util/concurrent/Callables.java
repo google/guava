@@ -20,10 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
-
 import java.util.concurrent.Callable;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -35,10 +33,8 @@ import javax.annotation.Nullable;
 public final class Callables {
   private Callables() {}
 
-  /**
-   * Creates a {@code Callable} which immediately returns a preset value each time it is called.
-   */
-  public static <T> Callable<T> returning(@Nullable final T value) {
+  /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
+  public static <T> Callable<T> returning(final @Nullable T value) {
     return new Callable<T>() {
       @Override
       public T call() {
@@ -50,16 +46,15 @@ public final class Callables {
   /**
    * Creates an {@link AsyncCallable} from a {@link Callable}.
    *
-   * <p>The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from
-   * {@link ListeningExecutorService#submit(Callable)}.
+   * <p>The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from {@link
+   * ListeningExecutorService#submit(Callable)}.
    *
    * @since 20.0
    */
   @Beta
   @GwtIncompatible
   public static <T> AsyncCallable<T> asAsyncCallable(
-      final Callable<T> callable,
-      final ListeningExecutorService listeningExecutorService) {
+      final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
     return new AsyncCallable<T>() {
@@ -134,9 +129,10 @@ public final class Callables {
   /** Tries to set name of the given {@link Thread}, returns true if successful. */
   @GwtIncompatible // threads
   private static boolean trySetName(final String threadName, Thread currentThread) {
-    // In AppEngine, this will always fail. Should we test for that explicitly using
-    // MoreExecutors.isAppEngine? More generally, is there a way to see if we have the modifyThread
-    // permission without catching an exception?
+    /*
+     * setName should usually succeed, but the security manager can prohibit it. Is there a way to
+     * see if we have the modifyThread permission without catching an exception?
+     */
     try {
       currentThread.setName(threadName);
       return true;

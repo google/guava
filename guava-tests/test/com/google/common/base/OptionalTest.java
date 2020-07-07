@@ -16,20 +16,19 @@
 
 package com.google.common.base;
 
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Optional}.
@@ -38,6 +37,23 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
+  public void testToJavaUtil_static() {
+    assertNull(Optional.toJavaUtil(null));
+    assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
+    assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
+  }
+
+  public void testToJavaUtil_instance() {
+    assertEquals(java.util.Optional.empty(), Optional.absent().toJavaUtil());
+    assertEquals(java.util.Optional.of("abc"), Optional.of("abc").toJavaUtil());
+  }
+
+  public void testFromJavaUtil() {
+    assertNull(Optional.fromJavaUtil(null));
+    assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
+    assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
+  }
+
   public void testAbsent() {
     Optional<String> optionalName = Optional.absent();
     assertFalse(optionalName.isPresent());
@@ -189,30 +205,25 @@ public final class OptionalTest extends TestCase {
     }
   }
 
-  public void testTransform_abssent_functionReturnsNull() {
-    assertEquals(Optional.absent(),
-        Optional.absent().transform(
-          new Function<Object, Object>() {
-            @Override public Object apply(Object input) {
-              return null;
-            }
-          }));
+  public void testTransform_absent_functionReturnsNull() {
+    assertEquals(
+        Optional.absent(),
+        Optional.absent()
+            .transform(
+                new Function<Object, Object>() {
+                  @Override
+                  public Object apply(Object input) {
+                    return null;
+                  }
+                }));
   }
 
-  // TODO(kevinb): use EqualsTester
-
-  public void testEqualsAndHashCode_absent() {
-    assertEquals(Optional.<String>absent(), Optional.<Integer>absent());
-    assertEquals(Optional.absent().hashCode(), Optional.absent().hashCode());
-    assertThat(Optional.absent().hashCode())
-        .isNotEqualTo(Optional.of(0).hashCode());
-  }
-
-  public void testEqualsAndHashCode_present() {
-    assertEquals(Optional.of("training"), Optional.of("training"));
-    assertFalse(Optional.of("a").equals(Optional.of("b")));
-    assertFalse(Optional.of("a").equals(Optional.absent()));
-    assertEquals(Optional.of("training").hashCode(), Optional.of("training").hashCode());
+  public void testEqualsAndHashCode() {
+    new EqualsTester()
+        .addEqualityGroup(Optional.absent(), reserialize(Optional.absent()))
+        .addEqualityGroup(Optional.of(new Long(5)), reserialize(Optional.of(new Long(5))))
+        .addEqualityGroup(Optional.of(new Long(42)), reserialize(Optional.of(new Long(42))))
+        .testEquals();
   }
 
   public void testToString_absent() {
@@ -230,8 +241,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testPresentInstances_allAbsent() {
-    List<Optional<Object>> optionals =
-        ImmutableList.of(Optional.absent(), Optional.absent());
+    List<Optional<Object>> optionals = ImmutableList.of(Optional.absent(), Optional.absent());
     assertThat(Optional.presentInstances(optionals)).isEmpty();
   }
 
@@ -253,7 +263,7 @@ public final class OptionalTest extends TestCase {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).containsExactly(2).inOrder();
+    assertThat(onlyPresent).containsExactly(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {
@@ -295,14 +305,8 @@ public final class OptionalTest extends TestCase {
     // Sadly, the following is what users will have to do in some circumstances.
 
     @SuppressWarnings("unchecked") // safe covariant cast
-    Optional<Number> first = (Optional) numbers.first();
+    Optional<Number> first = (Optional<Number>) numbers.first();
     Number value = first.or(0.5); // fine
-  }
-
-  @GwtIncompatible // SerializableTester
-  public void testSerialization() {
-    SerializableTester.reserializeAndAssert(Optional.absent());
-    SerializableTester.reserializeAndAssert(Optional.of("foo"));
   }
 
   @GwtIncompatible // NullPointerTester

@@ -26,7 +26,6 @@ import static junit.framework.Assert.assertTrue;
 
 import com.google.common.base.Preconditions;
 import com.google.common.cache.LocalCache.LocalLoadingCache;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.cache.LocalCache.ValueReference;
 import com.google.common.collect.ImmutableList;
@@ -36,7 +35,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.FakeTicker;
-
 import java.lang.ref.Reference;
 import java.util.Collection;
 import java.util.List;
@@ -46,23 +44,23 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection of utilities for {@link Cache} testing.
  *
  * @author mike nonemacher
  */
+@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 class CacheTesting {
 
   /**
    * Poke into the Cache internals to simulate garbage collection of the value associated with the
    * given key. This assumes that the associated entry is a WeakValueReference or a
-   * SoftValueReference (and not a LoadingValueReference), and throws an IllegalStateException
-   * if that assumption does not hold.
+   * SoftValueReference (and not a LoadingValueReference), and throws an IllegalStateException if
+   * that assumption does not hold.
    */
-  @SuppressWarnings("unchecked")  // the instanceof check and the cast generate this warning
+  @SuppressWarnings("unchecked") // the instanceof check and the cast generate this warning
   static <K, V> void simulateValueReclamation(Cache<K, V> cache, K key) {
     ReferenceEntry<K, V> entry = getReferenceEntry(cache, key);
     if (entry != null) {
@@ -81,7 +79,7 @@ class CacheTesting {
    * that the given entry is a weak or soft reference, and throws an IllegalStateException if that
    * assumption does not hold.
    */
-  @SuppressWarnings("unchecked")  // the instanceof check and the cast generate this warning
+  @SuppressWarnings("unchecked") // the instanceof check and the cast generate this warning
   static <K, V> void simulateKeyReclamation(Cache<K, V> cache, K key) {
     ReferenceEntry<K, V> entry = getReferenceEntry(cache, key);
 
@@ -100,8 +98,7 @@ class CacheTesting {
   }
 
   /**
-   * Forces the segment containing the given {@code key} to expand (see
-   * {@link Segment#expand()}.
+   * Forces the segment containing the given {@code key} to expand (see {@link Segment#expand()}.
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
     checkNotNull(cache);
@@ -120,13 +117,13 @@ class CacheTesting {
     if (cache instanceof LocalLoadingCache) {
       return ((LocalLoadingCache<K, V>) cache).localCache;
     }
-    throw new IllegalArgumentException("Cache of type " + cache.getClass()
-        + " doesn't have a LocalCache.");
+    throw new IllegalArgumentException(
+        "Cache of type " + cache.getClass() + " doesn't have a LocalCache.");
   }
 
   /**
-   * Determines whether the given cache can be converted to a LocalCache by
-   * {@link #toLocalCache} without throwing an exception.
+   * Determines whether the given cache can be converted to a LocalCache by {@link #toLocalCache}
+   * without throwing an exception.
    */
   static boolean hasLocalCache(Cache<?, ?> cache) {
     return (checkNotNull(cache) instanceof LocalLoadingCache);
@@ -183,8 +180,8 @@ class CacheTesting {
   /**
    * Peeks into the cache's internals to check its internal consistency. Verifies that each
    * segment's count matches its #elements (after cleanup), each segment is unlocked, each entry
-   * contains a non-null key and value, and the eviction and expiration queues are consistent
-   * (see {@link #checkEviction}, {@link #checkExpiration}).
+   * contains a non-null key and value, and the eviction and expiration queues are consistent (see
+   * {@link #checkEviction}, {@link #checkExpiration}).
    */
   static void checkValidState(Cache<?, ?> cache) {
     if (hasLocalCache(cache)) {
@@ -213,8 +210,8 @@ class CacheTesting {
 
   /**
    * Peeks into the cache's internals to verify that its expiration queue is consistent. Verifies
-   * that the next/prev links in the expiration queue are correct, and that the queue is ordered
-   * by expiration time.
+   * that the next/prev links in the expiration queue are correct, and that the queue is ordered by
+   * expiration time.
    */
   static void checkExpiration(Cache<?, ?> cache) {
     if (hasLocalCache(cache)) {
@@ -256,8 +253,9 @@ class CacheTesting {
             assertSame(prev, current.getPreviousInAccessQueue());
             assertSame(prev.getNextInAccessQueue(), current);
             // read accesses may be slightly misordered
-            assertTrue(prev.getAccessTime() <= current.getAccessTime()
-                || prev.getAccessTime() - current.getAccessTime() < 1000);
+            assertTrue(
+                prev.getAccessTime() <= current.getAccessTime()
+                    || prev.getAccessTime() - current.getAccessTime() < 1000);
           }
           Object key = current.getKey();
           if (key != null) {
@@ -273,9 +271,9 @@ class CacheTesting {
   }
 
   /**
-   * Peeks into the cache's internals to verify that its eviction queue is consistent. Verifies
-   * that the prev/next links are correct, and that all items in each segment are also in that
-   * segment's eviction (recency) queue.
+   * Peeks into the cache's internals to verify that its eviction queue is consistent. Verifies that
+   * the prev/next links are correct, and that all items in each segment are also in that segment's
+   * eviction (recency) queue.
    */
   static void checkEviction(Cache<?, ?> cache) {
     if (hasLocalCache(cache)) {
@@ -375,11 +373,13 @@ class CacheTesting {
   /**
    * Assuming the given cache has maximum size {@code maxSize}, this method populates the cache (by
    * getting a bunch of different keys), then makes sure all the items in the cache are also in the
-   * eviction queue. It will invoke the given {@code operation} on the first element in the
-   * eviction queue, and then reverify that all items in the cache are in the eviction queue, and
-   * verify that the head of the eviction queue has changed as a result of the operation.
+   * eviction queue. It will invoke the given {@code operation} on the first element in the eviction
+   * queue, and then reverify that all items in the cache are in the eviction queue, and verify that
+   * the head of the eviction queue has changed as a result of the operation.
    */
-  static void checkRecency(LoadingCache<Integer, Integer> cache, int maxSize,
+  static void checkRecency(
+      LoadingCache<Integer, Integer> cache,
+      int maxSize,
       Receiver<ReferenceEntry<Integer, Integer>> operation) {
     checkNotNull(operation);
     if (hasLocalCache(cache)) {
@@ -393,7 +393,7 @@ class CacheTesting {
 
       ReferenceEntry<?, ?> originalHead = segment.accessQueue.peek();
       @SuppressWarnings("unchecked")
-      ReferenceEntry<Integer, Integer> entry = (ReferenceEntry) originalHead;
+      ReferenceEntry<Integer, Integer> entry = (ReferenceEntry<Integer, Integer>) originalHead;
       operation.accept(entry);
       drainRecencyQueue(segment);
 
@@ -402,9 +402,7 @@ class CacheTesting {
     }
   }
 
-  /**
-   * Warms the given cache by getting all values in {@code [start, end)}, in order.
-   */
+  /** Warms the given cache by getting all values in {@code [start, end)}, in order. */
   static void warmUp(LoadingCache<Integer, Integer> map, int start, int end) {
     checkNotNull(map);
     for (int i = start; i < end; i++) {
@@ -417,8 +415,7 @@ class CacheTesting {
     expireEntries(toLocalCache(cache), expiringTime, ticker);
   }
 
-  static void expireEntries(
-      LocalCache<?, ?> cchm, long expiringTime, FakeTicker ticker) {
+  static void expireEntries(LocalCache<?, ?> cchm, long expiringTime, FakeTicker ticker) {
 
     for (Segment<?, ?> segment : cchm.segments) {
       drainRecencyQueue(segment);
@@ -445,6 +442,7 @@ class CacheTesting {
       segment.unlock();
     }
   }
+
   static void checkEmpty(Cache<?, ?> cache) {
     assertEquals(0, cache.size());
     assertFalse(cache.asMap().containsKey(null));

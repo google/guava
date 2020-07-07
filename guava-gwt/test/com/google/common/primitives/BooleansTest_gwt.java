@@ -93,6 +93,11 @@ public void testEnsureCapacity_fail() throws Exception {
   testCase.testEnsureCapacity_fail();
 }
 
+public void testFalseFirst() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testFalseFirst();
+}
+
 public void testHashCode() throws Exception {
   com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
   testCase.testHashCode();
@@ -123,6 +128,16 @@ public void testLexicographicalComparator() throws Exception {
   testCase.testLexicographicalComparator();
 }
 
+public void testReverse() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testReverseIndexed();
+}
+
 public void testToArray() throws Exception {
   com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
   testCase.testToArray();
@@ -136,5 +151,10 @@ public void testToArray_threadSafe() throws Exception {
 public void testToArray_withNull() throws Exception {
   com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
   testCase.testToArray_withNull();
+}
+
+public void testTrueFirst() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testTrueFirst();
 }
 }

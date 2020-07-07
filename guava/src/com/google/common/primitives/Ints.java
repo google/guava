@@ -23,7 +23,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -32,26 +31,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
  * {@link Integer} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Ints {
+public final class Ints extends IntsMethodsForWeb {
   private Ints() {}
 
   /**
    * The number of bytes required to represent a primitive {@code int} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Integer#BYTES} instead.
    */
   public static final int BYTES = Integer.SIZE / Byte.SIZE;
 
@@ -63,8 +64,10 @@ public final class Ints {
   public static final int MAX_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Integer) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
+   * value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
    *
    * @param value a primitive {@code int} value
    * @return a hash code for the value
@@ -83,10 +86,7 @@ public final class Ints {
    */
   public static int checkedCast(long value) {
     int result = (int) value;
-    if (result != value) {
-      // don't use checkArgument here, to avoid boxing
-      throw new IllegalArgumentException("Out of range: " + value);
-    }
+    checkArgument(result == value, "Out of range: %s", value);
     return result;
   }
 
@@ -129,8 +129,7 @@ public final class Ints {
    *
    * @param array an array of {@code int} values, possibly empty
    * @param target a primitive {@code int} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(int[] array, int target) {
     for (int value : array) {
@@ -164,12 +163,11 @@ public final class Ints {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -223,6 +221,8 @@ public final class Ints {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int min(int... array) {
     checkArgument(array.length > 0);
     int min = array[0];
@@ -242,6 +242,8 @@ public final class Ints {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int max(int... array) {
     checkArgument(array.length > 0);
     int max = array[0];
@@ -254,9 +256,27 @@ public final class Ints {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new int[] {a, b}, new int[] {}, new int[] {c}} returns the array {@code {a, b,
-   * c}}.
+   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+   *
+   * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
+   *
+   * @param value the {@code int} value to constrain
+   * @param min the lower bound (inclusive) of the range to constrain {@code value} to
+   * @param max the upper bound (inclusive) of the range to constrain {@code value} to
+   * @throws IllegalArgumentException if {@code min > max}
+   * @since 21.0
+   */
+  @Beta
+  public static int constrainToRange(int value, int min, int max) {
+    checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new int[] {a, b}, new int[] {}, new int[] {c}} returns the array {@code {a, b, c}}.
    *
    * @param arrays zero or more {@code int} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -277,14 +297,13 @@ public final class Ints {
 
   /**
    * Returns a big-endian representation of {@code value} in a 4-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(4).putInt(value).array()}. For example, the input value
-   * {@code 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
+   * {@code ByteBuffer.allocate(4).putInt(value).array()}. For example, the input value {@code
+   * 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
-   * use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
+   * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
+   * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
-  @GwtIncompatible // doesn't work
   public static byte[] toByteArray(int value) {
     return new byte[] {
       (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value
@@ -294,15 +313,14 @@ public final class Ints {
   /**
    * Returns the {@code int} value whose big-endian representation is stored in the first 4 bytes of
    * {@code bytes}; equivalent to {@code ByteBuffer.wrap(bytes).getInt()}. For example, the input
-   * byte array {@code {0x12, 0x13, 0x14, 0x15, 0x33}} would yield the {@code int} value
-   * {@code 0x12131415}.
+   * byte array {@code {0x12, 0x13, 0x14, 0x15, 0x33}} would yield the {@code int} value {@code
+   * 0x12131415}.
    *
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that library exposes much more
    * flexibility at little cost in readability.
    *
    * @throws IllegalArgumentException if {@code bytes} has fewer than 4 elements
    */
-  @GwtIncompatible // doesn't work
   public static int fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);
@@ -314,7 +332,6 @@ public final class Ints {
    *
    * @since 7.0
    */
-  @GwtIncompatible // doesn't work
   public static int fromBytes(byte b1, byte b2, byte b3, byte b4) {
     return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
   }
@@ -346,9 +363,9 @@ public final class Ints {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and integers using
-   * {@link Integer#decode} and {@link Integer#toString()}. The returned converter throws
-   * {@link NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and integers using {@link
+   * Integer#decode} and {@link Integer#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Integer#decode} to understand exactly how strings are
    * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
@@ -371,8 +388,8 @@ public final class Ints {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static int[] ensureCapacity(int[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -441,11 +458,65 @@ public final class Ints {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(int[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(int[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Ints.asList(array))}, but is likely to be more efficient.
+   *
+   * @since 23.1
+   */
+  public static void reverse(int[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Ints.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+   * efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 23.1
+   */
+  public static void reverse(int[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      int tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code int} value
    * in the manner of {@link Number#intValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -469,13 +540,16 @@ public final class Ints {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Integer} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableIntArray}
+   * instead, which has an {@link ImmutableIntArray#asList asList} view.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -518,6 +592,11 @@ public final class Ints {
     public Integer get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    public Spliterator.OfInt spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override
@@ -610,11 +689,7 @@ public final class Ints {
     }
 
     int[] toIntArray() {
-      // Arrays.copyOfRange() is not available under GWT
-      int size = size();
-      int[] result = new int[size];
-      System.arraycopy(array, start, result, 0, size);
-      return result;
+      return Arrays.copyOfRange(array, start, end);
     }
 
     private static final long serialVersionUID = 0;
@@ -634,12 +709,11 @@ public final class Ints {
    * @param string the string representation of an integer value
    * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
    *     a length of zero or cannot be parsed as an integer value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
-  public static Integer tryParse(String string) {
+  public static @Nullable Integer tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -658,14 +732,13 @@ public final class Ints {
    * @param radix the radix to use when parsing
    * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as an integer value
-   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
-   *     {@code radix > Character.MAX_RADIX}
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
-  public static Integer tryParse(String string, int radix) {
+  public static @Nullable Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {
       return null;

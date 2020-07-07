@@ -17,14 +17,12 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Contains dummy collection implementations to convince GWT that part of
- * serializing a collection is serializing its elements.
+ * Contains dummy collection implementations to convince GWT that part of serializing a collection
+ * is serializing its elements.
  *
  * <p>See {@linkplain com.google.common.collect.GwtSerializationDependencies the
  * com.google.common.collect version} for more details.
@@ -36,7 +34,7 @@ final class GwtSerializationDependencies {
   private GwtSerializationDependencies() {}
 
   static final class OptionalDependencies<T> extends Optional<T> {
-    T value;
+    @Nullable T value;
 
     OptionalDependencies() {
       super();

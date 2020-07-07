@@ -16,64 +16,50 @@
 
 package com.google.common.graph;
 
-import javax.annotation.Nullable;
+import com.google.common.annotations.Beta;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
- * class rather than implement {@link Graph} directly, to ensure consistent {@link #equals(Object)}
- * and {@link #hashCode()} results across different graph implementations.
+ * class rather than implement {@link Graph} directly.
  *
  * @author James Sexton
  * @param <N> Node parameter type
- * @param <E> Edge parameter type
+ * @since 20.0
  */
-public abstract class AbstractGraph<N, E> implements Graph<N, E> {
-
-  protected final GraphConfig config;
-
-  /**
-   * Not all subclasses necessarily need to expose a constructor that takes a {@link GraphConfig},
-   * but they do need to provide the {@code config} here that will be returned by {@link #config()}.
-   */
-  protected AbstractGraph(GraphConfig config) {
-    this.config = config;
-  }
+@Beta
+public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
 
   @Override
-  public GraphConfig config() {
-    return config;
-  }
-
-  @Override
-  public int degree(Object node) {
-    return incidentEdges(node).size();
-  }
-
-  @Override
-  public int inDegree(Object node) {
-    return inEdges(node).size();
-  }
-
-  @Override
-  public int outDegree(Object node) {
-    return outEdges(node).size();
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (!(object instanceof Graph)) {
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Graph)) {
       return false;
     }
-    return Graphs.equal(this, (Graph<?, ?>) object);
+    Graph<?> other = (Graph<?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edges().equals(other.edges());
   }
 
   @Override
-  public int hashCode() {
-    return Graphs.hashCode(this);
+  public final int hashCode() {
+    return edges().hashCode();
   }
 
+  /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    return Graphs.toString(this);
+    return "isDirected: "
+        + isDirected()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edges();
   }
 }

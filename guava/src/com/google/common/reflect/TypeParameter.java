@@ -17,20 +17,19 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
-
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
  *
- * <pre>   {@code
- *   static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
- *     return new TypeToken<List<T>>() {}
- *         .where(new TypeParameter<T>() {}, elementType);
- *   }}</pre>
+ * <pre>{@code
+ * static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
+ *   return new TypeToken<List<T>>() {}
+ *       .where(new TypeParameter<T>() {}, elementType);
+ * }
+ * }</pre>
  *
  * @author Ben Yu
  * @since 12.0

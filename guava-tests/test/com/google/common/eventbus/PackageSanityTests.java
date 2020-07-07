@@ -17,10 +17,8 @@
 package com.google.common.eventbus;
 
 import com.google.common.testing.AbstractPackageSanityTests;
-
 import java.lang.reflect.Method;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic sanity tests for the entire package.
@@ -43,8 +41,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     private final EventBus eventBus = new EventBus();
 
     @Subscribe
-    public void handle(@Nullable Object anything) {
-    }
+    public void handle(@Nullable Object anything) {}
 
     Subscriber toSubscriber() throws Exception {
       return Subscriber.create(eventBus, this, subscriberMethod());

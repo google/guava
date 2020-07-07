@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>20.0-SNAPSHOT</version>
+    <version>HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
   <name>Guava GWT compatible libs</name>
@@ -17,8 +17,10 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
-    <gwt.version>2.8.0-beta1</gwt.version>
+    <!-- We skip GWT tests by default. To run, pass -Dgwt.test.include=**/GwtTestSuite.java -->
+    <gwt.test.include>**/DoesNotMatchAnyTests.java</gwt.test.include>
+    <gwt.version>2.8.2</gwt.version>
+    <gwt.plugin.version>2.8.2</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <repositories>
@@ -42,29 +44,20 @@
     </pluginRepository>
   </pluginRepositories>
   <dependencies>
-    <!-- GWT requires a library's transitive dependencies to be present when
-         compiling a project that uses that library, thanks to its full-program
-         compilation, so we don't use optional=true. -->
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <optional>false</optional>
+      <groupId>com.google.guava</groupId>
+      <artifactId>failureaccess</artifactId>
+      <version>1.0.1</version>
     </dependency>
-    <dependency>
-      <groupId>com.google.errorprone</groupId>
-      <artifactId>error_prone_annotations</artifactId>
-      <optional>false</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.j2objc</groupId>
-      <artifactId>j2objc-annotations</artifactId>
-      <optional>false</optional>
-    </dependency>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-promise</artifactId>
+      <version>1.0.0-RC1</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -105,20 +98,62 @@
       <classifier>gwt</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.truth.extensions</groupId>
+      <artifactId>truth-java8-extension</artifactId>
+      <version>${truth.version}</version>
+      <classifier>gwt</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
+            <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
+            <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 2. Don't include the source in the jar (since that would let users depend on it from GWT client code, which is compiled from source). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 3. Don't include it in the source jar (since it's really more of a "test" than it is production code). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <sourceFileExcludes>
+            <!-- 4. Don't build Javadoc for it (since that, too, would require a *non-test* dep on gwt-user. -->
+            <sourceFileExclude>**/ForceGuavaCompilation*</sourceFileExclude>
+          </sourceFileExcludes>
+          <!-- After removing GWT-RPC support, we will have no real classes to build Javadoc for. This would result in an empty Javadoc jar, which the Sonatype repository manager would reject. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
+          <show>package</show>
+        </configuration>
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
       <plugin>
@@ -130,6 +165,20 @@
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <execution>
+            <id>unpack-failureaccess-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>failureaccess</includeArtifactIds>
+              <classifier>sources</classifier>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/failureaccess-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
           <execution>
             <id>unpack-guava-sources</id>
             <phase>generate-resources</phase>
@@ -190,6 +239,12 @@
         <dependencies>
           <dependency>
             <groupId>com.google.guava</groupId>
+            <artifactId>failureaccess</artifactId>
+            <version>1.0.1</version>
+            <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
@@ -223,14 +278,28 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target name="copy-gwt-resources">
-                <copy toDir="${project.build.directory}/guava-gwt-sources"
-                      verbose="true">
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
-                <copy toDir="${project.build.directory}/guava-test-gwt-sources"
-                      verbose="true">
+                <!-- The following don't contain @GwtCompatible for dependency reasons. -->
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/guava-sources">
+                    <include name="**/ListenableFuture.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutures.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutureFailureAccess.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
@@ -243,7 +312,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.version}</version>
+        <version>${gwt.plugin.version}</version>
         <executions>
           <execution>
             <id>gwt-compile</id>
@@ -255,7 +324,13 @@
               <failOnError>true</failOnError>
               <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
-              <sourceLevel>1.7</sourceLevel>
+              <sourceLevel>1.8</sourceLevel>
+              <!--
+                To avoid "java.io.IOException: User limit of inotify watches reached" under JDK10.
+                Presumably we don't need inotify, since we don't intend to change files during the
+                build?
+                -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
           <!--
@@ -301,10 +376,16 @@
               <includes>${gwt.test.include}</includes>
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
+              <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
-              <testTimeOut>600</testTimeOut>
+              <!-- Fix OutOfMemoryError under Travis. -->
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
-              <sourceLevel>1.7</sourceLevel>
+              <sourceLevel>1.8</sourceLevel>
+              <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
+              <testTimeOut>86400 <!-- seconds --></testTimeOut>
+              <testMethodTimeout>1440 <!-- minutes --></testMethodTimeout>
+              <!-- Presumably we want watchFileChanges=false here, since we want it for compile: -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
         </executions>

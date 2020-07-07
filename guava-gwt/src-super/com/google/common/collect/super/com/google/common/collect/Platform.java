@@ -16,13 +16,12 @@
 
 package com.google.common.collect;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
@@ -32,6 +31,37 @@ import java.util.LinkedList;
  * @author Hayward Chan
  */
 final class Platform {
+  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+    return Maps.newHashMapWithExpectedSize(expectedSize);
+  }
+
+  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+    return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+    return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+    return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred map implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+    return Maps.newLinkedHashMap();
+  }
+
+  /**
+   * Returns the platform preferred set implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+    return Sets.newLinkedHashSet();
+  }
 
   static <T> T[] newArray(T[] reference, int length) {
     T[] clone = Arrays.copyOf(reference, 0);
@@ -41,6 +71,13 @@ final class Platform {
 
   private static void resizeArray(Object array, int newSize) {
     ((NativeArray) array).setLength(newSize);
+  }
+
+  /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+    T[] result = newArray(arrayOfType, to - from);
+    System.arraycopy(source, from, result, 0, to - from);
+    return result;
   }
 
   // TODO(user): Move this logic to a utility class.
@@ -54,9 +91,24 @@ final class Platform {
     return mapMaker;
   }
 
-  static <E> Deque<E> newFastestDeque(int ignored) {
-    return new LinkedList<E>();
+  static int reduceIterationsIfGwt(int iterations) {
+    return iterations / 10;
   }
+
+  static int reduceExponentIfGwt(int exponent) {
+    return exponent / 2;
+  }
+
+  /*
+   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
+   * the client side. There's little practical difference: If it's disabled on the server, it won't
+   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
+   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
+   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
+   * out how to set both properties. It's easier to have to set only one, and it might as well be
+   * the Java property, since Guava already reads another Java property.
+   */
+  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

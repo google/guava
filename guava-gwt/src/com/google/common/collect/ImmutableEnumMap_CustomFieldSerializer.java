@@ -16,11 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.core.java.util.Map_CustomFieldSerializerBase;
-
 import java.util.Map;
 
 /**
@@ -35,6 +36,7 @@ public class ImmutableEnumMap_CustomFieldSerializer {
 
   public static <K extends Enum<K>, V> ImmutableEnumMap<?, ?> instantiate(
       SerializationStreamReader reader) throws SerializationException {
+    checkGwtRpcEnabled();
     Map<K, V> deserialized = Maps.newHashMap();
     Map_CustomFieldSerializerBase.deserialize(reader, deserialized);
     /*
@@ -47,6 +49,7 @@ public class ImmutableEnumMap_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, ImmutableEnumMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

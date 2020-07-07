@@ -14,11 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ListenableFuture} whose result can be set by a {@link #set(Object)}, {@link
@@ -26,9 +24,10 @@ import javax.annotation.Nullable;
  * other {@code Future}, be {@linkplain #cancel cancelled}.
  *
  * <p>{@code SettableFuture} is the recommended {@code ListenableFuture} implementation when your
- * task is not a good fit for a {@link ListeningExecutorService} task. If your needs are more
- * complex than {@code SettableFuture} supports, use {@link AbstractFuture}, which offers an
- * extensible version of the API.
+ * task cannot be implemented with {@link ListeningExecutorService}, the various {@link Futures}
+ * utility methods, or {@link ListenableFutureTask}. Those APIs have less opportunity for developer
+ * error. If your needs are more complex than {@code SettableFuture} supports, use {@link
+ * AbstractFuture}, which offers an extensible version of the API.
  *
  * @author Sven Mawson
  * @since 9.0 (in 1.0 as {@code ValueFuture})
@@ -54,7 +53,6 @@ public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
     return super.setException(throwable);
   }
 
-  @Beta
   @CanIgnoreReturnValue
   @Override
   public boolean setFuture(ListenableFuture<? extends V> future) {

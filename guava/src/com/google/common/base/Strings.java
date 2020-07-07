@@ -16,11 +16,12 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-
-import javax.annotation.Nullable;
+import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.
@@ -39,7 +40,7 @@ public final class Strings {
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
   public static String nullToEmpty(@Nullable String string) {
-    return (string == null) ? "" : string;
+    return Platform.nullToEmpty(string);
   }
 
   /**
@@ -48,9 +49,8 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
-  @Nullable
-  public static String emptyToNull(@Nullable String string) {
-    return isNullOrEmpty(string) ? null : string;
+  public static @Nullable String emptyToNull(@Nullable String string) {
+    return Platform.emptyToNull(string);
   }
 
   /**
@@ -65,7 +65,7 @@ public final class Strings {
    * @return {@code true} if the string is null or is the empty string
    */
   public static boolean isNullOrEmpty(@Nullable String string) {
-    return string == null || string.isEmpty();
+    return Platform.stringIsNullOrEmpty(string);
   }
 
   /**
@@ -73,8 +73,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padStart("7", 3, '0')} returns {@code "007"}
-   * <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
+   *   <li>{@code padStart("7", 3, '0')} returns {@code "007"}
+   *   <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -104,8 +104,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
-   * <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
+   *   <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
+   *   <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -167,10 +167,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code prefix} such that
-   * {@code a.toString().startsWith(prefix) && b.toString().startsWith(prefix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common prefix, returns the empty
-   * string.
+   * Returns the longest string {@code prefix} such that {@code a.toString().startsWith(prefix) &&
+   * b.toString().startsWith(prefix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common prefix, returns the empty string.
    *
    * @since 11.0
    */
@@ -190,10 +189,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code suffix} such that
-   * {@code a.toString().endsWith(suffix) && b.toString().endsWith(suffix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common suffix, returns the empty
-   * string.
+   * Returns the longest string {@code suffix} such that {@code a.toString().endsWith(suffix) &&
+   * b.toString().endsWith(suffix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common suffix, returns the empty string.
    *
    * @since 11.0
    */
@@ -223,5 +221,96 @@ public final class Strings {
         && index <= (string.length() - 2)
         && Character.isHighSurrogate(string.charAt(index))
         && Character.isLowSurrogate(string.charAt(index + 1));
+  }
+
+  /**
+   * Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
+   * the corresponding argument value from {@code args}; or, if the placeholder and argument counts
+   * do not match, returns a best-effort form of that string. Will not throw an exception under
+   * normal conditions.
+   *
+   * <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
+   * {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
+   * full range of <a
+   * href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+   * specifiers</a>, and alert you to usage errors by throwing {@link
+   * java.util.IllegalFormatException}.
+   *
+   * <p>In certain cases, such as outputting debugging information or constructing a message to be
+   * used for another unchecked exception, an exception during string formatting would serve little
+   * purpose except to supplant the real information you were trying to provide. These are the cases
+   * this method is made for; it instead generates a best-effort string with all supplied argument
+   * values present. This method is also useful in environments such as GWT where {@code
+   * String.format} is not available. As an example, method implementations of the {@link
+   * Preconditions} class use this formatter, for both of the reasons just discussed.
+   *
+   * <p><b>Warning:</b> Only the exact two-character placeholder sequence {@code "%s"} is
+   * recognized.
+   *
+   * @param template a string containing zero or more {@code "%s"} placeholder sequences. {@code
+   *     null} is treated as the four-character string {@code "null"}.
+   * @param args the arguments to be substituted into the message template. The first argument
+   *     specified is substituted for the first occurrence of {@code "%s"} in the template, and so
+   *     forth. A {@code null} argument is converted to the four-character string {@code "null"};
+   *     non-null values are converted to strings using {@link Object#toString()}.
+   * @since 25.1
+   */
+  // TODO(diamondm) consider using Arrays.toString() for array parameters
+  public static String lenientFormat(
+      @Nullable String template, @Nullable Object @Nullable ... args) {
+    template = String.valueOf(template); // null -> "null"
+
+    if (args == null) {
+      args = new Object[] {"(Object[])null"};
+    } else {
+      for (int i = 0; i < args.length; i++) {
+        args[i] = lenientToString(args[i]);
+      }
+    }
+
+    // start substituting the arguments into the '%s' placeholders
+    StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
+    int templateStart = 0;
+    int i = 0;
+    while (i < args.length) {
+      int placeholderStart = template.indexOf("%s", templateStart);
+      if (placeholderStart == -1) {
+        break;
+      }
+      builder.append(template, templateStart, placeholderStart);
+      builder.append(args[i++]);
+      templateStart = placeholderStart + 2;
+    }
+    builder.append(template, templateStart, template.length());
+
+    // if we run out of placeholders, append the extra args in square braces
+    if (i < args.length) {
+      builder.append(" [");
+      builder.append(args[i++]);
+      while (i < args.length) {
+        builder.append(", ");
+        builder.append(args[i++]);
+      }
+      builder.append(']');
+    }
+
+    return builder.toString();
+  }
+
+  private static String lenientToString(@Nullable Object o) {
+    if (o == null) {
+      return "null";
+    }
+    try {
+      return o.toString();
+    } catch (Exception e) {
+      // Default toString() behavior - see Object.toString()
+      String objectToString =
+          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));
+      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.
+      Logger.getLogger("com.google.common.base.Strings")
+          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);
+      return "<" + objectToString + " threw " + e.getClass().getName() + ">";
+    }
   }
 }

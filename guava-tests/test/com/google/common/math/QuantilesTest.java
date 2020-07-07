@@ -20,6 +20,7 @@ import static com.google.common.math.Quantiles.median;
 import static com.google.common.math.Quantiles.percentiles;
 import static com.google.common.math.Quantiles.quartiles;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -34,15 +35,14 @@ import com.google.common.math.Quantiles.ScaleAndIndexes;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
-import junit.framework.TestCase;
-
+import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Quantiles}.
@@ -77,17 +77,43 @@ public class QuantilesTest extends TestCase {
 
   private static final double ALLOWED_ERROR = 1.0e-10;
 
-  // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
+  /**
+   * A {@link Correspondence} which accepts finite values within {@link #ALLOWED_ERROR} of each
+   * other.
+   */
+  private static final Correspondence<Number, Number> FINITE_QUANTILE_CORRESPONDENCE =
+      Correspondence.tolerance(ALLOWED_ERROR);
 
   /**
-   * The squares of the 16 integers from 0 to 15, in an arbitrary order.
+   * A {@link Correspondence} which accepts either finite values within {@link #ALLOWED_ERROR} of
+   * each other or identical non-finite values.
    */
-  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES = ImmutableList.of(25.0, 100.0,
-      0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0, 196.0);
-  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS = ImmutableList.of(25L, 100L,
-      0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
-  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS = ImmutableList.of(25, 100,
-      0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
+  private static final Correspondence<Double, Double> QUANTILE_CORRESPONDENCE =
+      Correspondence.from(
+          new BinaryPredicate<Double, Double>() {
+            @Override
+            public boolean apply(@Nullable Double actual, @Nullable Double expected) {
+              // Test for equality to allow non-finite values to match; otherwise, use the finite
+              // test.
+              return actual.equals(expected)
+                  || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
+            }
+          },
+          "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE);
+
+  // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
+
+  /** The squares of the 16 integers from 0 to 15, in an arbitrary order. */
+  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES =
+      ImmutableList.of(
+          25.0, 100.0, 0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0,
+          196.0);
+
+  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS =
+      ImmutableList.of(
+          25L, 100L, 0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
+  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS =
+      ImmutableList.of(25, 100, 0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
   private static final double SIXTEEN_SQUARES_MIN = 0.0;
   private static final double SIXTEEN_SQUARES_DECILE_1 = 0.5 * (1.0 + 4.0);
   private static final double SIXTEEN_SQUARES_QUARTILE_1 = 0.25 * 9.0 + 0.75 * 16.0;
@@ -97,248 +123,277 @@ public class QuantilesTest extends TestCase {
   private static final double SIXTEEN_SQUARES_MAX = 225.0;
 
   public void testMedian_compute_doubleCollection() {
-    assertQuantile(1, SIXTEEN_SQUARES_MEDIAN, median().compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(median().compute(SIXTEEN_SQUARES_DOUBLES))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_MEDIAN);
   }
 
   public void testMedian_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    assertQuantile(1, SIXTEEN_SQUARES_MEDIAN, median().computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(median().computeInPlace(dataset)).isWithin(ALLOWED_ERROR).of(SIXTEEN_SQUARES_MEDIAN);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   public void testQuartiles_index_compute_doubleCollection() {
-    assertQuantile(1,
-        SIXTEEN_SQUARES_QUARTILE_1, quartiles().index(1).compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(quartiles().index(1).compute(SIXTEEN_SQUARES_DOUBLES))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_QUARTILE_1);
   }
 
   public void testQuartiles_index_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    assertQuantile(1, SIXTEEN_SQUARES_QUARTILE_1, quartiles().index(1).computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(quartiles().index(1).computeInPlace(dataset))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_QUARTILE_1);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   public void testQuartiles_indexes_varargs_compute_doubleCollection() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        1, SIXTEEN_SQUARES_QUARTILE_1,
-        3, SIXTEEN_SQUARES_QUARTILE_3
-        );
-    assertQuantilesMap(expected, quartiles().indexes(1, 3).compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(quartiles().indexes(1, 3).compute(SIXTEEN_SQUARES_DOUBLES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(1, SIXTEEN_SQUARES_QUARTILE_1, 3, SIXTEEN_SQUARES_QUARTILE_3);
   }
 
   public void testQuartiles_indexes_varargs_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        1, SIXTEEN_SQUARES_QUARTILE_1,
-        3, SIXTEEN_SQUARES_QUARTILE_3
-        );
-    assertQuantilesMap(expected, quartiles().indexes(1, 3).computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(quartiles().indexes(1, 3).computeInPlace(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            1, SIXTEEN_SQUARES_QUARTILE_1,
+            3, SIXTEEN_SQUARES_QUARTILE_3);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   public void testScale_index_compute_doubleCollection() {
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1,
-        Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_DOUBLES))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
   }
 
   public void testScale_index_compute_longCollection() {
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1,
-        Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_LONGS));
+    assertThat(Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_LONGS))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
   }
 
   public void testScale_index_compute_integerCollection() {
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1,
-        Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_INTEGERS));
+    assertThat(Quantiles.scale(10).index(1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
   }
 
   public void testScale_index_compute_doubleVarargs() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1, Quantiles.scale(10).index(1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(Quantiles.scale(10).index(1).compute(dataset))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
+    assertThat(dataset)
+        .usingExactEquality()
+        .containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES)
+        .inOrder();
   }
 
   public void testScale_index_compute_longVarargs() {
     long[] dataset = Longs.toArray(SIXTEEN_SQUARES_LONGS);
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1, Quantiles.scale(10).index(1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_LONGS, dataset);
+    assertThat(Quantiles.scale(10).index(1).compute(dataset))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
+    assertThat(dataset).asList().isEqualTo(SIXTEEN_SQUARES_LONGS);
   }
 
   public void testScale_index_compute_intVarargs() {
     int[] dataset = Ints.toArray(SIXTEEN_SQUARES_INTEGERS);
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1, Quantiles.scale(10).index(1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_INTEGERS, dataset);
+    assertThat(Quantiles.scale(10).index(1).compute(dataset))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
+    assertThat(dataset).asList().isEqualTo(SIXTEEN_SQUARES_INTEGERS);
   }
 
   public void testScale_index_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    assertQuantile(1, SIXTEEN_SQUARES_DECILE_1,
-        Quantiles.scale(10).index(1).computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(Quantiles.scale(10).index(1).computeInPlace(dataset))
+        .isWithin(ALLOWED_ERROR)
+        .of(SIXTEEN_SQUARES_DECILE_1);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   public void testScale_index_computeInPlace_explicitVarargs() {
-    assertQuantile(1, 45.6, Quantiles.scale(10).index(5).computeInPlace(78.9, 12.3, 45.6));
+    assertThat(Quantiles.scale(10).index(5).computeInPlace(78.9, 12.3, 45.6))
+        .isWithin(ALLOWED_ERROR)
+        .of(45.6);
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
     // Note that we specify index 1 twice, which by the method contract should be ignored.
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_DOUBLES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection_snapshotsIndexes() {
     // This test is the same as testScale_indexes_varargs_compute_doubleCollection except that the
     // array of indexes to be calculated is modified between the calls to indexes and compute: since
     // the contract is that it is snapshotted, this shouldn't make any difference to the result.
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    int[] indexes = { 0, 10, 5, 1, 8, 10 };
+    int[] indexes = {0, 10, 5, 1, 8, 10};
     ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(indexes);
     indexes[0] = 3;
-    assertQuantilesMap(expected, intermediate.compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(intermediate.compute(SIXTEEN_SQUARES_DOUBLES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
   }
 
   public void testScale_indexes_largeVarargs_compute_doubleCollection() {
     int scale = Integer.MAX_VALUE;
-    int otherIndex = (Integer.MAX_VALUE - 1) / 3;  // this divides exactly
+    int otherIndex = (Integer.MAX_VALUE - 1) / 3; // this divides exactly
     // For the otherIndex calculation, we have q=Integer.MAX_VALUE, k=(Integer.MAX_VALUE-1)/3, and
     // N=16. Therefore k*(N-1)/q = 5-5/Integer.MAX_VALUE, which has floor 4 and fractional part
     // (1-5/Integer.MAX_VALUE).
     double otherValue = 16.0 * 5.0 / Integer.MAX_VALUE + 25.0 * (1.0 - 5.0 / Integer.MAX_VALUE);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        scale, SIXTEEN_SQUARES_MAX,
-        otherIndex, otherValue
-        );
-    assertQuantilesMap(expected,
-        Quantiles.scale(scale).indexes(0, scale, otherIndex).compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(
+            Quantiles.scale(scale).indexes(0, scale, otherIndex).compute(SIXTEEN_SQUARES_DOUBLES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN, scale, SIXTEEN_SQUARES_MAX, otherIndex, otherValue);
   }
 
   public void testScale_indexes_varargs_compute_longCollection() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
     // Note that we specify index 1 twice, which by the method contract should be ignored.
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_LONGS));
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_LONGS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
   }
 
   public void testScale_indexes_varargs_compute_integerCollection() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
     // Note that we specify index 1 twice, which by the method contract should be ignored.
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS));
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+  }
+
+  public void testScale_indexes_varargs_compute_indexOrderIsMaintained() {
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8)
+        .inOrder();
   }
 
   public void testScale_indexes_varargs_compute_doubleVarargs() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    assertQuantilesMap(expected, Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+    assertThat(dataset)
+        .usingExactEquality()
+        .containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES)
+        .inOrder();
   }
 
   public void testScale_indexes_varargs_compute_longVarargs() {
     long[] dataset = Longs.toArray(SIXTEEN_SQUARES_LONGS);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    assertQuantilesMap(expected, Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_LONGS, dataset);
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+    assertThat(dataset).asList().isEqualTo(SIXTEEN_SQUARES_LONGS);
   }
 
   public void testScale_indexes_varargs_compute_intVarargs() {
     int[] dataset = Ints.toArray(SIXTEEN_SQUARES_INTEGERS);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    assertQuantilesMap(expected, Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset));
-    assertDatasetInOrder(SIXTEEN_SQUARES_INTEGERS, dataset);
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+    assertThat(dataset).asList().isEqualTo(SIXTEEN_SQUARES_INTEGERS);
   }
 
   public void testScale_indexes_varargs_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).computeInPlace(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   public void testScale_indexes_varargs_computeInPlace_explicitVarargs() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, 12.3,
-        10, 78.9
-        );
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(0, 10).computeInPlace(78.9, 12.3, 45.6));
+    assertThat(Quantiles.scale(10).indexes(0, 10).computeInPlace(78.9, 12.3, 45.6))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, 12.3,
+            10, 78.9);
   }
 
   public void testScale_indexes_collection_compute_doubleCollection() {
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
     // Note that we specify index 1 twice, which by the method contract should be ignored.
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(ImmutableList.of(0, 10, 5, 1, 8, 1))
-            .compute(SIXTEEN_SQUARES_DOUBLES));
+    assertThat(
+            Quantiles.scale(10)
+                .indexes(ImmutableList.of(0, 10, 5, 1, 8, 1))
+                .compute(SIXTEEN_SQUARES_DOUBLES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
   }
 
   public void testScale_indexes_collection_computeInPlace() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
-    ImmutableMap<Integer, Double> expected = ImmutableMap.of(
-        0, SIXTEEN_SQUARES_MIN,
-        10, SIXTEEN_SQUARES_MAX,
-        5, SIXTEEN_SQUARES_MEDIAN,
-        1, SIXTEEN_SQUARES_DECILE_1,
-        8, SIXTEEN_SQUARES_DECILE_8
-        );
-    assertQuantilesMap(expected,
-        Quantiles.scale(10).indexes(ImmutableList.of(0, 10, 5, 1, 8, 1)).computeInPlace(dataset));
-    assertDatasetAnyOrder(SIXTEEN_SQUARES_DOUBLES, dataset);
+    assertThat(
+            Quantiles.scale(10)
+                .indexes(ImmutableList.of(0, 10, 5, 1, 8, 1))
+                .computeInPlace(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
   // 2. Tests on hardcoded datasets include non-finite values for chains starting with scale(10):
@@ -348,81 +403,89 @@ public class QuantilesTest extends TestCase {
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NEGATIVE_INFINITY =
       ImmutableList.of(3.0, 5.0, NEGATIVE_INFINITY, 1.0, 4.0, 2.0);
   private static final ImmutableList<Double> NEGATIVE_INFINITY_AND_FIVE_POSITIVE_INFINITIES =
-      ImmutableList.of(POSITIVE_INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_INFINITY,
-          POSITIVE_INFINITY, POSITIVE_INFINITY);
+      ImmutableList.of(
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          NEGATIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY);
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NAN =
       ImmutableList.of(3.0, 5.0, NaN, 1.0, 4.0, 2.0);
 
   public void testScale_indexes_varargs_compute_doubleCollection_positiveInfinity() {
-    Map<Integer, Double> actual =
-        Quantiles.scale(10).indexes(0, 1, 2, 8, 9, 10).compute(ONE_TO_FIVE_AND_POSITIVE_INFINITY);
-    Map<Integer, Double> expected = ImmutableMap.<Integer, Double>builder()
-        .put(0, 1.0)
-        .put(1, 1.5)
-        .put(2, 2.0)
-        .put(8, 5.0)
-        .put(9, POSITIVE_INFINITY)  // interpolating between 5.0 and POSITIVE_INFNINITY
-        .put(10, POSITIVE_INFINITY)
-        .build();
-    assertQuantilesMap(expected, actual);
+    assertThat(
+            Quantiles.scale(10)
+                .indexes(0, 1, 2, 8, 9, 10)
+                .compute(ONE_TO_FIVE_AND_POSITIVE_INFINITY))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, 1.0,
+            1, 1.5,
+            2, 2.0,
+            8, 5.0,
+            9, POSITIVE_INFINITY, // interpolating between 5.0 and POSITIVE_INFNINITY
+            10, POSITIVE_INFINITY);
   }
 
   public void testScale_index_compute_doubleCollection_positiveInfinity() {
-    assertQuantile(9, POSITIVE_INFINITY,  // interpolating between 5.0 and POSITIVE_INFNINITY
-        Quantiles.scale(10).index(9).compute(ONE_TO_FIVE_AND_POSITIVE_INFINITY));
+    // interpolating between 5.0 and POSITIVE_INFNINITY
+    assertThat(Quantiles.scale(10).index(9).compute(ONE_TO_FIVE_AND_POSITIVE_INFINITY))
+        .isPositiveInfinity();
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection_negativeInfinity() {
-    Map<Integer, Double> actual =
-        Quantiles.scale(10).indexes(0, 1, 2, 8, 9, 10).compute(ONE_TO_FIVE_AND_NEGATIVE_INFINITY);
-    Map<Integer, Double> expected = ImmutableMap.<Integer, Double>builder()
-        .put(0, NEGATIVE_INFINITY)
-        .put(1, NEGATIVE_INFINITY)  // interpolating between NEGATIVE_INFNINITY and 1.0
-        .put(2, 1.0)
-        .put(8, 4.0)
-        .put(9, 4.5)
-        .put(10, 5.0)
-        .build();
-    assertQuantilesMap(expected, actual);
+    assertThat(
+            Quantiles.scale(10)
+                .indexes(0, 1, 2, 8, 9, 10)
+                .compute(ONE_TO_FIVE_AND_NEGATIVE_INFINITY))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, NEGATIVE_INFINITY,
+            1, NEGATIVE_INFINITY, // interpolating between NEGATIVE_INFNINITY and 1.0
+            2, 1.0,
+            8, 4.0,
+            9, 4.5,
+            10, 5.0);
   }
 
   public void testScale_index_compute_doubleCollection_negativeInfinity() {
-    assertQuantile(1, NEGATIVE_INFINITY,  // interpolating between NEGATIVE_INFNINITY and 1.0
-        Quantiles.scale(10).index(1).compute(ONE_TO_FIVE_AND_NEGATIVE_INFINITY));
+    // interpolating between NEGATIVE_INFNINITY and 1.0
+    assertThat(Quantiles.scale(10).index(1).compute(ONE_TO_FIVE_AND_NEGATIVE_INFINITY))
+        .isNegativeInfinity();
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection_bothInfinities() {
-    Map<Integer, Double> actual = Quantiles.scale(10).indexes(0, 1, 2, 8, 9, 10)
-        .compute(NEGATIVE_INFINITY_AND_FIVE_POSITIVE_INFINITIES);
-    Map<Integer, Double> expected = ImmutableMap.<Integer, Double>builder()
-        .put(0, NEGATIVE_INFINITY)
-        .put(1, NaN)  // interpolating between NEGATIVE_ and POSITIVE_INFINITY values
-        .put(2, POSITIVE_INFINITY)
-        .put(8, POSITIVE_INFINITY)
-        .put(9, POSITIVE_INFINITY)  // interpolating between two POSITIVE_INFINITY values
-        .put(10, POSITIVE_INFINITY)
-        .build();
-    assertQuantilesMap(expected, actual);
+    assertThat(
+            Quantiles.scale(10)
+                .indexes(0, 1, 2, 8, 9, 10)
+                .compute(NEGATIVE_INFINITY_AND_FIVE_POSITIVE_INFINITIES))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, NEGATIVE_INFINITY,
+            1, NaN, // interpolating between NEGATIVE_ and POSITIVE_INFINITY values
+            2, POSITIVE_INFINITY,
+            8, POSITIVE_INFINITY,
+            9, POSITIVE_INFINITY, // interpolating between two POSITIVE_INFINITY values
+            10, POSITIVE_INFINITY);
   }
 
   public void testScale_indexes_varargs_compute_doubleCollection_nan() {
-    Map<Integer, Double> actual =
-        Quantiles.scale(10).indexes(0, 1, 2, 8, 9, 10).compute(ONE_TO_FIVE_AND_NAN);
-    Map<Integer, Double> expected = ImmutableMap.<Integer, Double>builder()
-        .put(0, NaN)
-        .put(1, NaN)
-        .put(2, NaN)
-        .put(8, NaN)
-        .put(9, NaN)
-        .put(10, NaN)
-        .build();
-    assertQuantilesMap(expected, actual);
+    assertThat(Quantiles.scale(10).indexes(0, 1, 2, 8, 9, 10).compute(ONE_TO_FIVE_AND_NAN))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, NaN,
+            1, NaN,
+            2, NaN,
+            8, NaN,
+            9, NaN,
+            10, NaN);
   }
 
   public void testScale_index_compute_doubleCollection_nan() {
-    assertQuantile(5, NaN, Quantiles.scale(10).index(5).compute(ONE_TO_FIVE_AND_NAN));
+    assertThat(Quantiles.scale(10).index(5).compute(ONE_TO_FIVE_AND_NAN)).isNaN();
   }
-  
+
   // 3. Tests on a mechanically generated dataset for chains starting with percentiles():
 
   private static final int PSEUDORANDOM_DATASET_SIZE = 9951;
@@ -457,19 +520,31 @@ public class QuantilesTest extends TestCase {
 
   public void testPercentiles_index_compute_doubleCollection() {
     for (int index = 0; index <= 100; index++) {
-      double expected = expectedLargeDatasetPercentile(index);
-      assertQuantile(index, expected, percentiles().index(index).compute(PSEUDORANDOM_DATASET));
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).compute(PSEUDORANDOM_DATASET))
+          .isWithin(ALLOWED_ERROR)
+          .of(expectedLargeDatasetPercentile(index));
     }
   }
 
   @AndroidIncompatible // slow
   public void testPercentiles_index_computeInPlace() {
+    // Assert that the computation gives the correct result for all possible percentiles.
     for (int index = 0; index <= 100; index++) {
       double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-      double expected = expectedLargeDatasetPercentile(index);
-      assertQuantile(index, expected, percentiles().index(index).computeInPlace(dataset));
-      assertDatasetAnyOrder(PSEUDORANDOM_DATASET, dataset);
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).computeInPlace(dataset))
+          .isWithin(ALLOWED_ERROR)
+          .of(expectedLargeDatasetPercentile(index));
     }
+
+    // Assert that the dataset contains the same elements after the in-place computation (although
+    // they may be reordered). We only do this for one index rather than for all indexes, as it is
+    // quite expensives (quadratic in the size of PSEUDORANDOM_DATASET).
+    double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
+    @SuppressWarnings("unused")
+    double actual = percentiles().index(33).computeInPlace(dataset);
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(PSEUDORANDOM_DATASET);
   }
 
   public void testPercentiles_indexes_varargsPairs_compute_doubleCollection() {
@@ -480,15 +555,15 @@ public class QuantilesTest extends TestCase {
         if (index2 != index1) {
           expectedBuilder.put(index2, expectedLargeDatasetPercentile(index2));
         }
-        ImmutableMap<Integer, Double> expected = expectedBuilder.build();
-        assertQuantilesMap(expected,
-            percentiles().indexes(index1, index2).compute(PSEUDORANDOM_DATASET));
+        assertThat(percentiles().indexes(index1, index2).compute(PSEUDORANDOM_DATASET))
+            .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+            .containsExactlyEntriesIn(expectedBuilder.build());
       }
     }
   }
 
   public void testPercentiles_indexes_varargsAll_compute_doubleCollection() {
-    ArrayList<Integer> indexes = new ArrayList<Integer>(); 
+    ArrayList<Integer> indexes = new ArrayList<>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);
@@ -496,13 +571,15 @@ public class QuantilesTest extends TestCase {
     }
     Random random = new Random(770683168895677741L);
     Collections.shuffle(indexes, random);
-    assertQuantilesMap(expectedBuilder.build(),
-        percentiles().indexes(Ints.toArray(indexes)).compute(PSEUDORANDOM_DATASET));
+    assertThat(percentiles().indexes(Ints.toArray(indexes)).compute(PSEUDORANDOM_DATASET))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactlyEntriesIn(expectedBuilder.build());
   }
 
+  @AndroidIncompatible // slow
   public void testPercentiles_indexes_varargsAll_computeInPlace() {
     double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-    List<Integer> indexes = new ArrayList<Integer>(); 
+    List<Integer> indexes = new ArrayList<>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);
@@ -510,9 +587,10 @@ public class QuantilesTest extends TestCase {
     }
     Random random = new Random(770683168895677741L);
     Collections.shuffle(indexes, random);
-    assertQuantilesMap(expectedBuilder.build(),
-        percentiles().indexes(Ints.toArray(indexes)).computeInPlace(dataset));
-    assertDatasetAnyOrder(PSEUDORANDOM_DATASET, dataset);
+    assertThat(percentiles().indexes(Ints.toArray(indexes)).computeInPlace(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactlyEntriesIn(expectedBuilder.build());
+    assertThat(dataset).usingExactEquality().containsExactlyElementsIn(PSEUDORANDOM_DATASET);
   }
 
   // 4. Tests of illegal usages of the API:
@@ -679,70 +757,12 @@ public class QuantilesTest extends TestCase {
     }
   }
 
-  /**
-   * Assests that the actual quantile value returned matches the expected value, allowing
-   * the margin of error {@link #ALLOWED_ERROR}. The assertion passes when the expected and actual
-   * values are the same non-finite value.
-   */
-  private static void assertQuantile(int index, double expected, double actual) {
-    if (expected == POSITIVE_INFINITY) {
-      assertThat(actual).named("quantile at index " + index).isPositiveInfinity();
-    } else if (expected == NEGATIVE_INFINITY) {
-      assertThat(actual).named("quantile at index " + index).isNegativeInfinity();
-    } else if (Double.isNaN(expected)) {
-      assertThat(actual).named("quantile at index " + index).isNaN();
-    } else {
-      assertThat(actual).named("quantile at index " + index).isWithin(ALLOWED_ERROR).of(expected);
+  public void testScale_indexes_indexes_computeInPlace_empty() {
+    int[] emptyIndexes = {};
+    try {
+      Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
     }
-  }
-
-  /**
-   * Assests that the actual map of quantile values returned matches the expected map, allowing
-   * the margin of error {@link #ALLOWED_ERROR} on the values. The assertion passes when the
-   * expected and actual values are the same non-finite value.
-   */
-  private static void assertQuantilesMap(
-      Map<Integer, Double> expected, Map<Integer, Double> actual) {
-    assertThat(actual.keySet()).isEqualTo(expected.keySet());
-    for (int index : expected.keySet()) {
-      assertQuantile(index, expected.get(index), actual.get(index));
-    }
-  }
-
-  /**
-   * Asserts that the actual dataset, as a double array, has the expected values, although not
-   * necessarily in the same order. This tests the contract on the {@code computeInPlace} methods,
-   * which may reorder the dataset.
-   */
-  private static void assertDatasetAnyOrder(Iterable<Double> expected, double[] actual) {
-    assertThat(Doubles.asList(actual)).containsExactlyElementsIn(expected);
-  }
-
-  /**
-   * Asserts that the actual dataset, as a double array, has the expected values, in the expected
-   * order. This tests the contract on the {@code compute} methods, which may not mutate the
-   * dataset.
-   */
-  private static void assertDatasetInOrder(Collection<Double> expected, double[] actual) {
-    // TODO(b/25905237): Use ofElementsIn(expected) when that's available in guava
-    assertThat(actual).hasValuesWithin(0.0).of(Doubles.toArray(expected));
-  }
-
-  /**
-   * Asserts that the actual dataset, as a long array, has the expected values, in the expected
-   * order. This tests the contract on the {@code compute} methods, which may not mutate the
-   * dataset.
-   */
-  private static void assertDatasetInOrder(Iterable<Long> expected, long[] actual) {
-    assertThat(actual).asList().isEqualTo(expected);
-  }
-
-  /**
-   * Asserts that the actual dataset, as an int array, has the expected values, in the expected
-   * order. This tests the contract on the {@code compute} methods, which may not mutate the
-   * dataset.
-   */
-  private static void assertDatasetInOrder(Iterable<Integer> expected, int[] actual) {
-    assertThat(actual).asList().isEqualTo(expected);
   }
 }

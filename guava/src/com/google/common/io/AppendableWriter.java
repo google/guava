@@ -17,13 +17,11 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Writer that places all output on an {@link Appendable} target. If the target is {@link Flushable}
@@ -52,27 +50,11 @@ class AppendableWriter extends Writer {
    */
 
   @Override
-  public void write(char cbuf[], int off, int len) throws IOException {
+  public void write(char[] cbuf, int off, int len) throws IOException {
     checkNotClosed();
     // It turns out that creating a new String is usually as fast, or faster
     // than wrapping cbuf in a light-weight CharSequence.
     target.append(new String(cbuf, off, len));
-  }
-
-  @Override
-  public void flush() throws IOException {
-    checkNotClosed();
-    if (target instanceof Flushable) {
-      ((Flushable) target).flush();
-    }
-  }
-
-  @Override
-  public void close() throws IOException {
-    this.closed = true;
-    if (target instanceof Closeable) {
-      ((Closeable) target).close();
-    }
   }
 
   /*
@@ -96,6 +78,22 @@ class AppendableWriter extends Writer {
     checkNotClosed();
     // tricky: append takes start, end pair...
     target.append(str, off, off + len);
+  }
+
+  @Override
+  public void flush() throws IOException {
+    checkNotClosed();
+    if (target instanceof Flushable) {
+      ((Flushable) target).flush();
+    }
+  }
+
+  @Override
+  public void close() throws IOException {
+    this.closed = true;
+    if (target instanceof Closeable) {
+      ((Closeable) target).close();
+    }
   }
 
   @Override

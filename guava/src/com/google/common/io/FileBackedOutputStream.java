@@ -17,7 +17,7 @@ package com.google.common.io;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,10 +26,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
  * once the data reaches a configurable size.
+ *
+ * <p>Temporary files created by this stream may live in the local filesystem until either:
+ *
+ * <ul>
+ *   <li>{@link #reset} is called (removing the data in this stream and deleting the file), or...
+ *   <li>this stream (or, more precisely, its {@link #asByteSource} view) is finalized during
+ *       garbage collection, <strong>AND</strong> this stream was not constructed with {@linkplain
+ *       #FileBackedOutputStream(int) the 1-arg constructor} or the {@linkplain
+ *       #FileBackedOutputStream(int, boolean) 2-arg constructor} passing {@code false} in the
+ *       second parameter.
+ * </ul>
  *
  * <p>This class is thread-safe.
  *
@@ -39,14 +51,19 @@ import java.io.OutputStream;
 @Beta
 @GwtIncompatible
 public final class FileBackedOutputStream extends OutputStream {
-
   private final int fileThreshold;
   private final boolean resetOnFinalize;
   private final ByteSource source;
+  @Nullable private final File parentDirectory;
 
+  @GuardedBy("this")
   private OutputStream out;
+
+  @GuardedBy("this")
   private MemoryOutput memory;
-  private File file;
+
+  @GuardedBy("this")
+  private @Nullable File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {
@@ -80,12 +97,18 @@ public final class FileBackedOutputStream extends OutputStream {
    * the {@link ByteSource} returned by {@link #asByteSource} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
-   * @param resetOnFinalize if true, the {@link #reset} method will be called when the
-   *     {@link ByteSource} returned by {@link #asByteSource} is finalized
+   * @param resetOnFinalize if true, the {@link #reset} method will be called when the {@link
+   *     ByteSource} returned by {@link #asByteSource} is finalized.
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
+    this(fileThreshold, resetOnFinalize, null);
+  }
+
+  private FileBackedOutputStream(
+      int fileThreshold, boolean resetOnFinalize, @Nullable File parentDirectory) {
     this.fileThreshold = fileThreshold;
     this.resetOnFinalize = resetOnFinalize;
+    this.parentDirectory = parentDirectory;
     memory = new MemoryOutput();
     out = memory;
 
@@ -191,9 +214,10 @@ public final class FileBackedOutputStream extends OutputStream {
    * Checks if writing {@code len} bytes would go over threshold, and switches to file buffering if
    * so.
    */
+  @GuardedBy("this")
   private void update(int len) throws IOException {
     if (file == null && (memory.getCount() + len > fileThreshold)) {
-      File temp = File.createTempFile("FileBackedOutputStream", null);
+      File temp = File.createTempFile("FileBackedOutputStream", null, parentDirectory);
       if (resetOnFinalize) {
         // Finalizers are not guaranteed to be called on system shutdown;
         // this is insurance.

@@ -18,15 +18,13 @@ package com.google.common.base;
 
 import com.google.common.base.internal.Finalizer;
 import com.google.common.testing.GcFinalization;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collections;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link FinalizableReferenceQueue}.
@@ -43,14 +41,15 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   public void testFinalizeReferentCalled() {
-    final MockReference reference = new MockReference(
-        frq = new FinalizableReferenceQueue());
+    final MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
 
-    GcFinalization.awaitDone(new GcFinalization.FinalizationPredicate() {
-        public boolean isDone() {
-          return reference.finalizeReferentCalled;
-        }
-      });
+    GcFinalization.awaitDone(
+        new GcFinalization.FinalizationPredicate() {
+          @Override
+          public boolean isDone() {
+            return reference.finalizeReferentCalled;
+          }
+        });
   }
 
   static class MockReference extends FinalizableWeakReference<Object> {
@@ -68,9 +67,8 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   /**
-   * Keeps a weak reference to the underlying reference queue. When this
-   * reference is cleared, we know that the background thread has stopped
-   * and released its strong reference.
+   * Keeps a weak reference to the underlying reference queue. When this reference is cleared, we
+   * know that the background thread has stopped and released its strong reference.
    */
   private WeakReference<ReferenceQueue<Object>> queueReference;
 
@@ -79,32 +77,27 @@ public class FinalizableReferenceQueueTest extends TestCase {
     GcFinalization.awaitClear(queueReference);
   }
 
-  /**
-   * If we don't keep a strong reference to the reference object, it won't
-   * be enqueued.
-   */
+  /** If we don't keep a strong reference to the reference object, it won't be enqueued. */
   FinalizableWeakReference<Object> reference;
 
-  /**
-   * Create the FRQ in a method that goes out of scope so that we're sure
-   * it will be reclaimed.
-   */
+  /** Create the FRQ in a method that goes out of scope so that we're sure it will be reclaimed. */
   private void weaklyReferenceQueue() {
     frq = new FinalizableReferenceQueue();
-    queueReference = new WeakReference<ReferenceQueue<Object>>(frq.queue);
+    queueReference = new WeakReference<>(frq.queue);
 
     /*
      * Queue and clear a reference for good measure. We test later on that
      * the finalizer thread stopped, but we should test that it actually
      * started first.
      */
-    reference = new FinalizableWeakReference<Object>(new Object(), frq) {
-      @Override
-      public void finalizeReferent() {
-        reference = null;
-        frq = null;
-      }
-    };
+    reference =
+        new FinalizableWeakReference<Object>(new Object(), frq) {
+          @Override
+          public void finalizeReferent() {
+            reference = null;
+            frq = null;
+          }
+        };
   }
 
   @AndroidIncompatible // no concept of separate ClassLoaders
@@ -113,7 +106,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
         new FinalizableReferenceQueue.DecoupledLoader() {
           @Override
           URLClassLoader newLoader(URL base) {
-            return new DecoupledClassLoader(new URL[] { base });
+            return new DecoupledClassLoader(new URL[] {base});
           }
         };
 
@@ -152,7 +145,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
     assertNotNull(getClass().getResource("internal/Finalizer.class"));
   }
 
-  public void testFinalizeClassHasNoNestedClases() throws Exception {
+  public void testFinalizeClassHasNoNestedClasses() throws Exception {
     // Ensure that the Finalizer class has no nested classes.
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1505
     assertEquals(Collections.emptyList(), Arrays.asList(Finalizer.class.getDeclaredClasses()));

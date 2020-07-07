@@ -16,12 +16,10 @@ package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Reader} that concatenates multiple readers.
@@ -32,16 +30,14 @@ import javax.annotation.Nullable;
 @GwtIncompatible
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
-  private Reader current;
+  private @Nullable Reader current;
 
   MultiReader(Iterator<? extends CharSource> readers) throws IOException {
     this.it = readers;
     advance();
   }
 
-  /**
-   * Closes the current reader and opens the next one, if any.
-   */
+  /** Closes the current reader and opens the next one, if any. */
   private void advance() throws IOException {
     close();
     if (it.hasNext()) {
@@ -50,7 +46,7 @@ class MultiReader extends Reader {
   }
 
   @Override
-  public int read(@Nullable char cbuf[], int off, int len) throws IOException {
+  public int read(char @Nullable [] cbuf, int off, int len) throws IOException {
     if (current == null) {
       return -1;
     }

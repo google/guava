@@ -48,6 +48,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testContains();
@@ -103,19 +108,29 @@ public void testMax() throws Exception {
   testCase.testMax();
 }
 
-public void testMax_noArgs() throws Exception {
-  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
-  testCase.testMax_noArgs();
-}
-
 public void testMin() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testMin();
 }
 
-public void testMin_noArgs() throws Exception {
+public void testReverse() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
-  testCase.testMin_noArgs();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testReverseIndexed();
+}
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testSortDescendingIndexed();
 }
 
 public void testStringConverter_convert() throws Exception {

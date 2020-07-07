@@ -18,15 +18,14 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
 import java.util.EnumSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link FakeTicker}.
@@ -42,6 +41,7 @@ public class FakeTickerTest extends TestCase {
     tester.testAllPublicInstanceMethods(new FakeTicker());
   }
 
+  @GwtIncompatible // java.time.Duration
   public void testAdvance() {
     FakeTicker ticker = new FakeTicker();
     assertEquals(0, ticker.read());
@@ -49,6 +49,8 @@ public class FakeTickerTest extends TestCase {
     assertEquals(10, ticker.read());
     ticker.advance(1, TimeUnit.MILLISECONDS);
     assertEquals(1000010L, ticker.read());
+    ticker.advance(java.time.Duration.ofMillis(1));
+    assertEquals(2000010L, ticker.read());
   }
 
   public void testAutoIncrementStep_returnsSameInstance() {
@@ -77,6 +79,14 @@ public class FakeTickerTest extends TestCase {
     assertEquals(6000000000L, ticker.read());
   }
 
+  @GwtIncompatible // java.time.Duration
+  public void testAutoIncrementStep_duration() {
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(java.time.Duration.ofMillis(1));
+    assertEquals(0, ticker.read());
+    assertEquals(1000000, ticker.read());
+    assertEquals(2000000, ticker.read());
+  }
+
   public void testAutoIncrementStep_resetToZero() {
     FakeTicker ticker = new FakeTicker().setAutoIncrementStep(10, TimeUnit.NANOSECONDS);
     assertEquals(0, ticker.read());
@@ -87,7 +97,8 @@ public class FakeTickerTest extends TestCase {
       ticker.setAutoIncrementStep(0, timeUnit);
       assertEquals(
           "Expected no auto-increment when setting autoIncrementStep to 0 " + timeUnit,
-          30, ticker.read());
+          30,
+          ticker.read());
     }
   }
 
@@ -106,7 +117,8 @@ public class FakeTickerTest extends TestCase {
     final FakeTicker ticker = new FakeTicker();
 
     int numberOfThreads = 64;
-    runConcurrentTest(numberOfThreads,
+    runConcurrentTest(
+        numberOfThreads,
         new Callable<Void>() {
           @Override
           public Void call() throws Exception {
@@ -129,7 +141,8 @@ public class FakeTickerTest extends TestCase {
         new FakeTicker().setAutoIncrementStep(incrementByNanos, TimeUnit.NANOSECONDS);
 
     int numberOfThreads = 64;
-    runConcurrentTest(numberOfThreads,
+    runConcurrentTest(
+        numberOfThreads,
         new Callable<Void>() {
           @Override
           public Void call() throws Exception {
@@ -141,9 +154,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(incrementByNanos * numberOfThreads, ticker.read());
   }
 
-  /**
-   * Runs {@code callable} concurrently {@code numberOfThreads} times.
-   */
+  /** Runs {@code callable} concurrently {@code numberOfThreads} times. */
   @GwtIncompatible // concurrency
   private void runConcurrentTest(int numberOfThreads, final Callable<Void> callable)
       throws Exception {
@@ -151,16 +162,19 @@ public class FakeTickerTest extends TestCase {
     final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
     final CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {
-      executorService.submit(new Callable<Void>() {
-        @Override
-        public Void call() throws Exception {
-          startLatch.countDown();
-          startLatch.await();
-          callable.call();
-          doneLatch.countDown();
-          return null;
-        }
-      });
+      @SuppressWarnings("unused") // go/futurereturn-lsc
+      Future<?> possiblyIgnoredError =
+          executorService.submit(
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  startLatch.countDown();
+                  startLatch.await();
+                  callable.call();
+                  doneLatch.countDown();
+                  return null;
+                }
+              });
     }
     doneLatch.await();
   }

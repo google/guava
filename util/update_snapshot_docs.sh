@@ -5,7 +5,7 @@
 set -e -u
 
 if [ "$TRAVIS_REPO_SLUG" == "google/guava" ] && \
-   [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && \
+   [ "$TRAVIS_JDK_VERSION" == "openjdk8" ] && \
    [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
    [ "$TRAVIS_BRANCH" == "master" ]; then
   echo "Publishing Javadoc and JDiff..."

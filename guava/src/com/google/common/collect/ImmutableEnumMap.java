@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
-
 import java.io.Serializable;
 import java.util.EnumMap;
-
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link
- * java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
  *
  * @author Louis Wasserman
  */
@@ -42,7 +42,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
         Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
         return ImmutableMap.of(entry.getKey(), entry.getValue());
       default:
-        return new ImmutableEnumMap<K, V>(map);
+        return new ImmutableEnumMap<>(map);
     }
   }
 
@@ -56,6 +56,11 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   @Override
   UnmodifiableIterator<K> keyIterator() {
     return Iterators.unmodifiableIterator(delegate.keySet().iterator());
+  }
+
+  @Override
+  Spliterator<K> keySpliterator() {
+    return delegate.keySet().spliterator();
   }
 
   @Override
@@ -90,6 +95,16 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
+  Spliterator<Entry<K, V>> entrySpliterator() {
+    return CollectSpliterators.map(delegate.entrySet().spliterator(), Maps::unmodifiableEntry);
+  }
+
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    delegate.forEach(action);
+  }
+
+  @Override
   boolean isPartialView() {
     return false;
   }
@@ -97,7 +112,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   // All callers of the constructor are restricted to <K extends Enum<K>>.
   @Override
   Object writeReplace() {
-    return new EnumSerializedForm<K, V>(delegate);
+    return new EnumSerializedForm<>(delegate);
   }
 
   /*
@@ -111,7 +126,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     }
 
     Object readResolve() {
-      return new ImmutableEnumMap<K, V>(delegate);
+      return new ImmutableEnumMap<>(delegate);
     }
 
     private static final long serialVersionUID = 0;

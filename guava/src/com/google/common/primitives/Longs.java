@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -31,16 +30,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
  * either {@link Long} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -51,6 +50,8 @@ public final class Longs {
 
   /**
    * The number of bytes required to represent a primitive {@code long} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -62,12 +63,14 @@ public final class Longs {
   public static final long MAX_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Long) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Long)
+   * value).hashCode()}.
    *
    * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
-   * might be different from {@code ((Long) value).hashCode()} in GWT because
-   * {@link Long#hashCode()} in GWT does not obey the JRE contract.
+   * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
+   * Long#hashCode()} in GWT does not obey the JRE contract.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
@@ -97,8 +100,7 @@ public final class Longs {
    *
    * @param array an array of {@code long} values, possibly empty
    * @param target a primitive {@code long} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(long[] array, long target) {
     for (long value : array) {
@@ -132,12 +134,11 @@ public final class Longs {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -222,9 +223,27 @@ public final class Longs {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array
-   * {@code {a, b, c}}.
+   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+   *
+   * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
+   *
+   * @param value the {@code long} value to constrain
+   * @param min the lower bound (inclusive) of the range to constrain {@code value} to
+   * @param max the upper bound (inclusive) of the range to constrain {@code value} to
+   * @throws IllegalArgumentException if {@code min > max}
+   * @since 21.0
+   */
+  @Beta
+  public static long constrainToRange(long value, long min, long max) {
+    checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array {@code {a, b, c}}.
    *
    * @param arrays zero or more {@code long} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -245,13 +264,13 @@ public final class Longs {
 
   /**
    * Returns a big-endian representation of {@code value} in an 8-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(8).putLong(value).array()}. For example, the input value
-   * {@code 0x1213141516171819L} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16,
-   * 0x17, 0x18, 0x19}}.
+   * {@code ByteBuffer.allocate(8).putLong(value).array()}. For example, the input value {@code
+   * 0x1213141516171819L} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+   * 0x18, 0x19}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
-   * use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
+   * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
+   * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
   public static byte[] toByteArray(long value) {
     // Note that this code needs to stay compatible with GWT, which has known
@@ -299,28 +318,36 @@ public final class Longs {
         | (b8 & 0xFFL);
   }
 
-  private static final byte[] asciiDigits = createAsciiDigits();
+  /*
+   * Moving asciiDigits into this static holder class lets ProGuard eliminate and inline the Longs
+   * class.
+   */
+  static final class AsciiDigits {
+    private AsciiDigits() {}
 
-  private static byte[] createAsciiDigits() {
-    byte[] result = new byte[128];
-    Arrays.fill(result, (byte) -1);
-    for (int i = 0; i <= 9; i++) {
-      result['0' + i] = (byte) i;
-    }
-    for (int i = 0; i <= 26; i++) {
-      result['A' + i] = (byte) (10 + i);
-      result['a' + i] = (byte) (10 + i);
-    }
-    return result;
-  }
+    private static final byte[] asciiDigits;
 
-  private static int digit(char c) {
-    return (c < 128) ? asciiDigits[c] : -1;
+    static {
+      byte[] result = new byte[128];
+      Arrays.fill(result, (byte) -1);
+      for (int i = 0; i < 10; i++) {
+        result['0' + i] = (byte) i;
+      }
+      for (int i = 0; i < 26; i++) {
+        result['A' + i] = (byte) (10 + i);
+        result['a' + i] = (byte) (10 + i);
+      }
+      asciiDigits = result;
+    }
+
+    static int digit(char c) {
+      return (c < 128) ? asciiDigits[c] : -1;
+    }
   }
 
   /**
-   * Parses the specified string as a signed decimal long value. The ASCII character {@code '-'}
-   * (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+   * Parses the specified string as a signed decimal long value. The ASCII character {@code '-'} (
+   * <code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
    * <p>Unlike {@link Long#parseLong(String)}, this method returns {@code null} instead of throwing
    * an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
@@ -332,12 +359,11 @@ public final class Longs {
    * @param string the string representation of a long value
    * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
    *     length of zero or cannot be parsed as a long value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
-  public static Long tryParse(String string) {
+  public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -356,14 +382,13 @@ public final class Longs {
    * @param radix the radix to use when parsing
    * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as a long value
-   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
-   *     {@code radix > Character.MAX_RADIX}
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
-  public static Long tryParse(String string, int radix) {
+  public static @Nullable Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }
@@ -376,7 +401,7 @@ public final class Longs {
     if (index == string.length()) {
       return null;
     }
-    int digit = digit(string.charAt(index++));
+    int digit = AsciiDigits.digit(string.charAt(index++));
     if (digit < 0 || digit >= radix) {
       return null;
     }
@@ -385,7 +410,7 @@ public final class Longs {
     long cap = Long.MIN_VALUE / radix;
 
     while (index < string.length()) {
-      digit = digit(string.charAt(index++));
+      digit = AsciiDigits.digit(string.charAt(index++));
       if (digit < 0 || digit >= radix || accum < cap) {
         return null;
       }
@@ -431,9 +456,9 @@ public final class Longs {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and longs using
-   * {@link Long#decode} and {@link Long#toString()}. The returned converter throws
-   * {@link NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and longs using {@link
+   * Long#decode} and {@link Long#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Long#decode} to understand exactly how strings are parsed.
    * For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the value
@@ -456,8 +481,8 @@ public final class Longs {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static long[] ensureCapacity(long[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -496,8 +521,8 @@ public final class Longs {
    * example, {@code [] < [1L] < [1L, 2L] < [2L]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(long[], long[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(long[],
+   * long[])}.
    *
    * @since 2.0
    */
@@ -527,11 +552,65 @@ public final class Longs {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(long[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(long[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Longs.asList(array))}, but is likely to be more efficient.
+   *
+   * @since 23.1
+   */
+  public static void reverse(long[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Longs.asList(array).subList(fromIndex, toIndex))}, but is likely to be more
+   * efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 23.1
+   */
+  public static void reverse(long[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      long tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code long} value
    * in the manner of {@link Number#longValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -555,13 +634,16 @@ public final class Longs {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Long} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
+   *
+   * <p><b>Note:</b> when possible, you should represent your data as an {@link ImmutableLongArray}
+   * instead, which has an {@link ImmutableLongArray#asList asList} view.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -604,6 +686,11 @@ public final class Longs {
     public Long get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    public Spliterator.OfLong spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override
@@ -696,11 +783,7 @@ public final class Longs {
     }
 
     long[] toLongArray() {
-      // Arrays.copyOfRange() is not available under GWT
-      int size = size();
-      long[] result = new long[size];
-      System.arraycopy(array, start, result, 0, size);
-      return result;
+      return Arrays.copyOfRange(array, start, end);
     }
 
     private static final long serialVersionUID = 0;

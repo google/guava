@@ -39,7 +39,8 @@ final class SingletonImmutableList<E> extends ForwardingImmutableList<E> {
     this.element = element;
   }
 
-  @Override List<E> delegateList() {
+  @Override
+  List<E> delegateList() {
     return delegate;
   }
 }

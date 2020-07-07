@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -34,14 +35,16 @@ public class SingletonImmutableBiMap_CustomFieldSerializer {
 
   public static SingletonImmutableBiMap<Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
+    checkGwtRpcEnabled();
     Object key = checkNotNull(reader.readObject());
     Object value = checkNotNull(reader.readObject());
-    return new SingletonImmutableBiMap<Object, Object>(key, value);
+    return new SingletonImmutableBiMap<>(key, value);
   }
 
   public static void serialize(
       SerializationStreamWriter writer, SingletonImmutableBiMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.singleKey);
     writer.writeObject(instance.singleValue);
   }

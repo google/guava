@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
@@ -33,21 +32,20 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import java.util.function.ObjIntConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Basic implementation of {@code Multiset<E>} backed by an instance of {@code
- * Map<E, Count>}.
+ * Basic implementation of {@code Multiset<E>} backed by an instance of {@code Map<E, Count>}.
  *
- * <p>For serialization to work, the subclass must specify explicit {@code
- * readObject} and {@code writeObject} methods.
+ * <p>For serialization to work, the subclass must specify explicit {@code readObject} and {@code
+ * writeObject} methods.
  *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
 abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implements Serializable {
-
+  // TODO(lowasser): consider overhauling this back to Map<E, Integer>
   private transient Map<E, Count> backingMap;
 
   /*
@@ -59,8 +57,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
 
   /** Standard constructor. */
   protected AbstractMapBasedMultiset(Map<E, Count> backingMap) {
-    this.backingMap = checkNotNull(backingMap);
-    this.size = super.size();
+    checkArgument(backingMap.isEmpty());
+    this.backingMap = backingMap;
   }
 
   /** Used during deserialization only. The backing map must be empty. */
@@ -73,9 +71,9 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   /**
    * {@inheritDoc}
    *
-   * <p>Invoking {@link Multiset.Entry#getCount} on an entry in the returned
-   * set always returns the current count of that element in the multiset, as
-   * opposed to the count at the time the entry was retrieved.
+   * <p>Invoking {@link Multiset.Entry#getCount} on an entry in the returned set always returns the
+   * current count of that element in the multiset, as opposed to the count at the time the entry
+   * was retrieved.
    */
   @Override
   public Set<Multiset.Entry<E>> entrySet() {
@@ -83,10 +81,38 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   @Override
+  Iterator<E> elementIterator() {
+    final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
+    return new Iterator<E>() {
+      Map.@Nullable Entry<E, Count> toRemove;
+
+      @Override
+      public boolean hasNext() {
+        return backingEntries.hasNext();
+      }
+
+      @Override
+      public E next() {
+        final Map.Entry<E, Count> mapEntry = backingEntries.next();
+        toRemove = mapEntry;
+        return mapEntry.getKey();
+      }
+
+      @Override
+      public void remove() {
+        checkRemove(toRemove != null);
+        size -= toRemove.getValue().getAndSet(0);
+        backingEntries.remove();
+        toRemove = null;
+      }
+    };
+  }
+
+  @Override
   Iterator<Entry<E>> entryIterator() {
     final Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
     return new Iterator<Multiset.Entry<E>>() {
-      Map.Entry<E, Count> toRemove;
+      Map.@Nullable Entry<E, Count> toRemove;
 
       @Override
       public boolean hasNext() {
@@ -128,6 +154,12 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   @Override
+  public void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    backingMap.forEach((element, count) -> action.accept(element, count.get()));
+  }
+
+  @Override
   public void clear() {
     for (Count frequency : backingMap.values()) {
       frequency.set(0);
@@ -160,7 +192,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
    */
   private class MapBasedMultisetIterator implements Iterator<E> {
     final Iterator<Map.Entry<E, Count>> entryIterator;
-    Map.Entry<E, Count> currentEntry;
+    Map.@Nullable Entry<E, Count> currentEntry;
     int occurrencesLeft;
     boolean canRemove;
 
@@ -210,9 +242,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   /**
    * {@inheritDoc}
    *
-   * @throws IllegalArgumentException if the call would result in more than
-   *     {@link Integer#MAX_VALUE} occurrences of {@code element} in this
-   *     multiset.
+   * @throws IllegalArgumentException if the call would result in more than {@link
+   *     Integer#MAX_VALUE} occurrences of {@code element} in this multiset.
    */
   @CanIgnoreReturnValue
   @Override

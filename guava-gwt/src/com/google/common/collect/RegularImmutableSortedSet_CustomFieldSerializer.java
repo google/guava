@@ -16,18 +16,18 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.core.java.util.Collection_CustomFieldSerializerBase;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * This class implements the GWT serialization of
- * {@link RegularImmutableSortedSet}.
+ * This class implements the GWT serialization of {@link RegularImmutableSortedSet}.
  *
  * @author Chris Povirk
  */
@@ -37,6 +37,7 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
 
   public static RegularImmutableSortedSet<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     /*
      * Nothing we can do, but we're already assuming the serialized form is
      * correctly typed, anyway.
@@ -44,7 +45,7 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
     @SuppressWarnings("unchecked")
     Comparator<Object> comparator = (Comparator<Object>) reader.readObject();
 
-    List<Object> elements = new ArrayList<Object>();
+    List<Object> elements = new ArrayList<>();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
     /*
      * For this custom field serializer to be invoked, the set must have been
@@ -58,6 +59,7 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
   public static void serialize(
       SerializationStreamWriter writer, RegularImmutableSortedSet<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.comparator());
 
     Collection_CustomFieldSerializerBase.serialize(writer, instance);

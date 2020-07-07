@@ -16,16 +16,16 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Skeletal, implementation-agnostic implementation of the {@link Table} interface.
@@ -107,7 +107,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  private transient Set<Cell<R, C, V>> cellSet;
+  @LazyInit private transient @Nullable Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -120,6 +120,8 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   abstract Iterator<Table.Cell<R, C, V>> cellIterator();
+
+  abstract Spliterator<Table.Cell<R, C, V>> cellSpliterator();
 
   @WeakOuter
   class CellSet extends AbstractSet<Cell<R, C, V>> {
@@ -158,12 +160,17 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
+    public Spliterator<Cell<R, C, V>> spliterator() {
+      return cellSpliterator();
+    }
+
+    @Override
     public int size() {
       return AbstractTable.this.size();
     }
   }
 
-  private transient Collection<V> values;
+  @LazyInit private transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -184,11 +191,20 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     };
   }
 
+  Spliterator<V> valuesSpliterator() {
+    return CollectSpliterators.map(cellSpliterator(), Table.Cell::getValue);
+  }
+
   @WeakOuter
   class Values extends AbstractCollection<V> {
     @Override
     public Iterator<V> iterator() {
       return valuesIterator();
+    }
+
+    @Override
+    public Spliterator<V> spliterator() {
+      return valuesSpliterator();
     }
 
     @Override
@@ -217,9 +233,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     return cellSet().hashCode();
   }
 
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
+  /** Returns the string representation {@code rowMap().toString()}. */
   @Override
   public String toString() {
     return rowMap().toString();

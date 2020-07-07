@@ -16,11 +16,14 @@
 
 package com.google.common.base;
 
-import java.util.concurrent.TimeUnit;
+import static jsinterop.annotations.JsPackage.GLOBAL;
 
-/**
- * @author Jesse Wilson
- */
+import java.util.concurrent.TimeUnit;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsType;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+/** @author Jesse Wilson */
 final class Platform {
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     // CharMatcher.precomputed() produces CharMatchers that are maybe a little
@@ -30,6 +33,7 @@ final class Platform {
     return matcher;
   }
 
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   static long systemNanoTime() {
     // System.nanoTime() is not available in GWT, so we get milliseconds
     // and convert to nanos.
@@ -43,6 +47,49 @@ final class Platform {
       return Optional.absent();
     }
   }
+
+  static String formatCompact4Digits(double value) {
+    return "" + ((Number) (Object) value).toPrecision(4);
+  }
+
+  @JsMethod
+  static native boolean stringIsNullOrEmpty(@Nullable String string) /*-{
+    return !string;
+  }-*/;
+
+  @JsMethod
+  static native String nullToEmpty(@Nullable String string) /*-{
+    return string || "";
+  }-*/;
+
+  @JsMethod
+  static native String emptyToNull(@Nullable String string) /*-{
+    return string || null;
+  }-*/;
+
+  @JsType(isNative = true, name = "number", namespace = GLOBAL)
+  private interface Number {
+    double toPrecision(int precision);
+  }
+
+  static CommonPattern compilePattern(String pattern) {
+    throw new UnsupportedOperationException();
+  }
+
+  static boolean patternCompilerIsPcreLike() {
+    throw new UnsupportedOperationException();
+  }
+
+  /*
+   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
+   * the client side. There's little practical difference: If it's disabled on the server, it won't
+   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
+   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
+   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
+   * out how to set both properties. It's easier to have to set only one, and it might as well be
+   * the Java property, since Guava already reads another Java property.
+   */
+  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

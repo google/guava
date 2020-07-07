@@ -18,6 +18,11 @@ public class ImmutableBiMapTest_gwt extends com.google.gwt.junit.client.GWTTestC
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testNoop() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest testCase = new com.google.common.collect.ImmutableBiMapTest();
+  testCase.testNoop();
+}
+
 public void testDoubleInverse__BiMapSpecificTests() throws Exception {
   com.google.common.collect.ImmutableBiMapTest.BiMapSpecificTests testCase = new com.google.common.collect.ImmutableBiMapTest.BiMapSpecificTests();
   testCase.testDoubleInverse();
@@ -166,6 +171,16 @@ public void testPuttingTheSameKeyTwiceThrowsOnBuild__CreationTests() throws Exce
 public void testSingletonBuilder__CreationTests() throws Exception {
   com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
   testCase.testSingletonBuilder();
+}
+
+public void testToImmutableBiMap__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testToImmutableBiMap();
+}
+
+public void testToImmutableBiMap_exceptionOnDuplicateKey__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testToImmutableBiMap_exceptionOnDuplicateKey();
 }
 
 public void testClear__InverseMapTests() throws Exception {

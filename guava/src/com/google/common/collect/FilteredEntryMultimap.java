@@ -26,7 +26,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,8 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(Multimap, Predicate)}.
@@ -128,7 +126,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
   @Override
   Collection<V> createValues() {
-    return new FilteredMultimapValues<K, V>(this);
+    return new FilteredMultimapValues<>(this);
   }
 
   @Override
@@ -142,7 +140,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
   }
 
   @Override
-  public Set<K> keySet() {
+  Set<K> createKeySet() {
     return asMap().keySet();
   }
 
@@ -393,15 +391,14 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         }
 
         private boolean removeEntriesIf(final Predicate<? super Multiset.Entry<K>> predicate) {
-          return FilteredEntryMultimap.this
-              .removeEntriesIf(
-                  new Predicate<Map.Entry<K, Collection<V>>>() {
-                    @Override
-                    public boolean apply(Map.Entry<K, Collection<V>> entry) {
-                      return predicate.apply(
-                          Multisets.immutableEntry(entry.getKey(), entry.getValue().size()));
-                    }
-                  });
+          return FilteredEntryMultimap.this.removeEntriesIf(
+              new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override
+                public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return predicate.apply(
+                      Multisets.immutableEntry(entry.getKey(), entry.getValue().size()));
+                }
+              });
         }
 
         @Override

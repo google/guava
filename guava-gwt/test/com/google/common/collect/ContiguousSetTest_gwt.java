@@ -18,6 +18,11 @@ public class ContiguousSetTest_gwt extends com.google.gwt.junit.client.GWTTestCa
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testAsList() throws Exception {
+  com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
+  testCase.testAsList();
+}
+
 public void testContains() throws Exception {
   com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
   testCase.testContains();
@@ -71,6 +76,16 @@ public void testIntersection() throws Exception {
 public void testIntersection_empty() throws Exception {
   com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
   testCase.testIntersection_empty();
+}
+
+public void testInvalidIntRange() throws Exception {
+  com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
+  testCase.testInvalidIntRange();
+}
+
+public void testInvalidLongRange() throws Exception {
+  com.google.common.collect.ContiguousSetTest testCase = new com.google.common.collect.ContiguousSetTest();
+  testCase.testInvalidLongRange();
 }
 
 public void testLast() throws Exception {

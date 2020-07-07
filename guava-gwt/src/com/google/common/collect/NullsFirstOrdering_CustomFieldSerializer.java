@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -33,11 +35,13 @@ public class NullsFirstOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static NullsFirstOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new NullsFirstOrdering<Object>((Ordering<Object>) reader.readObject());
+    checkGwtRpcEnabled();
+    return new NullsFirstOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, NullsFirstOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.ordering);
   }
 }

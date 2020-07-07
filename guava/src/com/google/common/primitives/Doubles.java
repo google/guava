@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -34,35 +33,38 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import java.util.regex.Pattern;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not already found in
  * either {@link Double} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Doubles {
+public final class Doubles extends DoublesMethodsForWeb {
   private Doubles() {}
 
   /**
    * The number of bytes required to represent a primitive {@code double} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Double#BYTES} instead.
    *
    * @since 10.0
    */
   public static final int BYTES = Double.SIZE / Byte.SIZE;
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Double) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
+   * value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Double#hashCode(double)} instead.
    *
    * @param value a primitive {@code double} value
    * @return a hash code for the value
@@ -96,10 +98,12 @@ public final class Doubles {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
    *
+   * <p><b>Java 8 users:</b> use {@link Double#isFinite(double)} instead.
+   *
    * @since 10.0
    */
   public static boolean isFinite(double value) {
-    return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
+    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
   }
 
   /**
@@ -108,8 +112,7 @@ public final class Doubles {
    *
    * @param array an array of {@code double} values, possibly empty
    * @param target a primitive {@code double} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(double[] array, double target) {
     for (double value : array) {
@@ -144,12 +147,11 @@ public final class Doubles {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * <p>Note that this always returns {@code -1} when {@code target} contains {@code NaN}.
    *
@@ -199,14 +201,16 @@ public final class Doubles {
   }
 
   /**
-   * Returns the least value present in {@code array}, using the same rules of comparison as
-   * {@link Math#min(double, double)}.
+   * Returns the least value present in {@code array}, using the same rules of comparison as {@link
+   * Math#min(double, double)}.
    *
    * @param array a <i>nonempty</i> array of {@code double} values
    * @return the value present in {@code array} that is less than or equal to every other value in
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static double min(double... array) {
     checkArgument(array.length > 0);
     double min = array[0];
@@ -225,6 +229,8 @@ public final class Doubles {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static double max(double... array) {
     checkArgument(array.length > 0);
     double max = array[0];
@@ -235,9 +241,28 @@ public final class Doubles {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new double[] {a, b}, new double[] {}, new double[] {c}} returns the array
-   * {@code {a, b, c}}.
+   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+   *
+   * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
+   *
+   * @param value the {@code double} value to constrain
+   * @param min the lower bound (inclusive) of the range to constrain {@code value} to
+   * @param max the upper bound (inclusive) of the range to constrain {@code value} to
+   * @throws IllegalArgumentException if {@code min > max}
+   * @since 21.0
+   */
+  @Beta
+  public static double constrainToRange(double value, double min, double max) {
+    checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new double[] {a, b}, new double[] {}, new double[] {c}} returns the array {@code {a, b,
+   * c}}.
    *
    * @param arrays zero or more {@code double} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -283,8 +308,8 @@ public final class Doubles {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and doubles using
-   * {@link Double#valueOf} and {@link Double#toString()}.
+   * Returns a serializable converter object that converts between strings and doubles using {@link
+   * Double#valueOf} and {@link Double#toString()}.
    *
    * @since 16.0
    */
@@ -303,8 +328,8 @@ public final class Doubles {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static double[] ensureCapacity(double[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -347,8 +372,8 @@ public final class Doubles {
    * lesser. For example, {@code [] < [1.0] < [1.0, 2.0] < [2.0]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(double[], double[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(double[],
+   * double[])}.
    *
    * @since 2.0
    */
@@ -378,11 +403,71 @@ public final class Doubles {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
+   * all NaN values as equal and 0.0 as greater than -0.0.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(double[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * <p>Note that this method uses the total order imposed by {@link Double#compare}, which treats
+   * all NaN values as equal and 0.0 as greater than -0.0.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(double[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Doubles.asList(array))}, but is likely to be more efficient.
+   *
+   * @since 23.1
+   */
+  public static void reverse(double[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Doubles.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+   * more efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 23.1
+   */
+  public static void reverse(double[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      double tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code double}
    * value in the manner of {@link Number#doubleValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -406,16 +491,19 @@ public final class Doubles {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Double} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
    *
-   * <p>The returned list may have unexpected behavior if it contains {@code
-   * NaN}, or if {@code NaN} is used as a parameter to any of its methods.
+   * <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
+   * is used as a parameter to any of its methods.
+   *
+   * <p><b>Note:</b> when possible, you should represent your data as an {@link
+   * ImmutableDoubleArray} instead, which has an {@link ImmutableDoubleArray#asList asList} view.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -458,6 +546,11 @@ public final class Doubles {
     public Double get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
+    }
+
+    @Override
+    public Spliterator.OfDouble spliterator() {
+      return Spliterators.spliterator(array, start, end, 0);
     }
 
     @Override
@@ -551,11 +644,7 @@ public final class Doubles {
     }
 
     double[] toDoubleArray() {
-      // Arrays.copyOfRange() is not available under GWT
-      int size = size();
-      double[] result = new double[size];
-      System.arraycopy(array, start, result, 0, size);
-      return result;
+      return Arrays.copyOfRange(array, start, end);
     }
 
     private static final long serialVersionUID = 0;
@@ -567,16 +656,32 @@ public final class Doubles {
    * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.
    */
   @GwtIncompatible // regular expressions
-  static final Pattern FLOATING_POINT_PATTERN = fpPattern();
+  static final
+  java.util.regex.Pattern
+      FLOATING_POINT_PATTERN = fpPattern();
 
   @GwtIncompatible // regular expressions
-  private static Pattern fpPattern() {
-    String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";
-    String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";
-    String hex = "(?:\\p{XDigit}++(?:\\.\\p{XDigit}*+)?|\\.\\p{XDigit}++)";
-    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d++[fFdD]?";
+  private static
+  java.util.regex.Pattern
+      fpPattern() {
+    /*
+     * We use # instead of * for possessive quantifiers. This lets us strip them out when building
+     * the regex for RE2 (which doesn't support them) but leave them in when building it for
+     * java.util.regex (where we want them in order to avoid catastrophic backtracking).
+     */
+    String decimal = "(?:\\d+#(?:\\.\\d*#)?|\\.\\d+#)";
+    String completeDec = decimal + "(?:[eE][+-]?\\d+#)?[fFdD]?";
+    String hex = "(?:[0-9a-fA-F]+#(?:\\.[0-9a-fA-F]*#)?|\\.[0-9a-fA-F]+#)";
+    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d+#[fFdD]?";
     String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";
-    return Pattern.compile(fpPattern);
+    fpPattern =
+        fpPattern.replace(
+            "#",
+            "+"
+            );
+    return
+    java.util.regex.Pattern
+        .compile(fpPattern);
   }
 
   /**
@@ -584,22 +689,21 @@ public final class Doubles {
    * {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
    * <p>Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of
-   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by
-   * {@link Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.
+   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link
+   * Double#valueOf(String)}, except that leading and trailing whitespace is not permitted.
    *
-   * <p>This implementation is likely to be faster than {@code
-   * Double.parseDouble} if many failures are expected.
+   * <p>This implementation is likely to be faster than {@code Double.parseDouble} if many failures
+   * are expected.
    *
    * @param string the string representation of a {@code double} value
-   * @return the floating point value represented by {@code string}, or {@code null} if
-   *     {@code string} has a length of zero or cannot be parsed as a {@code double} value
+   * @return the floating point value represented by {@code string}, or {@code null} if {@code
+   *     string} has a length of zero or cannot be parsed as a {@code double} value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
   @GwtIncompatible // regular expressions
-  public static Double tryParse(String string) {
+  public static @Nullable Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing

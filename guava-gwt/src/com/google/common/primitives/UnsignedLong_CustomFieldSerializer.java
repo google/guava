@@ -14,6 +14,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -28,11 +30,13 @@ public class UnsignedLong_CustomFieldSerializer {
 
   public static UnsignedLong instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return UnsignedLong.fromLongBits(reader.readLong());
   }
 
   public static void serialize(SerializationStreamWriter writer, UnsignedLong instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeLong(instance.longValue());
   }
 }

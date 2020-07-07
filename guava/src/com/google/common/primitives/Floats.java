@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -34,34 +33,36 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code float} primitives, that are not already found in
  * either {@link Float} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Floats {
+public final class Floats extends FloatsMethodsForWeb {
   private Floats() {}
 
   /**
    * The number of bytes required to represent a primitive {@code float} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Float#BYTES} instead.
    *
    * @since 10.0
    */
   public static final int BYTES = Float.SIZE / Byte.SIZE;
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Float) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Float)
+   * value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Float#hashCode(float)} instead.
    *
    * @param value a primitive {@code float} value
    * @return a hash code for the value
@@ -92,21 +93,21 @@ public final class Floats {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
    *
+   * <p><b>Java 8 users:</b> use {@link Float#isFinite(float)} instead.
+   *
    * @since 10.0
    */
   public static boolean isFinite(float value) {
-    return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
+    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
   }
 
   /**
    * Returns {@code true} if {@code target} is present as an element anywhere in {@code array}. Note
-   * that this always returns {@code false} when {@code
-   * target} is {@code NaN}.
+   * that this always returns {@code false} when {@code target} is {@code NaN}.
    *
    * @param array an array of {@code float} values, possibly empty
    * @param target a primitive {@code float} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(float[] array, float target) {
     for (float value : array) {
@@ -141,12 +142,11 @@ public final class Floats {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * <p>Note that this always returns {@code -1} when {@code target} contains {@code NaN}.
    *
@@ -196,14 +196,16 @@ public final class Floats {
   }
 
   /**
-   * Returns the least value present in {@code array}, using the same rules of comparison as
-   * {@link Math#min(float, float)}.
+   * Returns the least value present in {@code array}, using the same rules of comparison as {@link
+   * Math#min(float, float)}.
    *
    * @param array a <i>nonempty</i> array of {@code float} values
    * @return the value present in {@code array} that is less than or equal to every other value in
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static float min(float... array) {
     checkArgument(array.length > 0);
     float min = array[0];
@@ -222,6 +224,8 @@ public final class Floats {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static float max(float... array) {
     checkArgument(array.length > 0);
     float max = array[0];
@@ -232,9 +236,28 @@ public final class Floats {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new float[] {a, b}, new float[] {}, new float[] {c}} returns the array {@code {a,
-   * b, c}}.
+   * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
+   *
+   * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
+   *
+   * @param value the {@code float} value to constrain
+   * @param min the lower bound (inclusive) of the range to constrain {@code value} to
+   * @param max the upper bound (inclusive) of the range to constrain {@code value} to
+   * @throws IllegalArgumentException if {@code min > max}
+   * @since 21.0
+   */
+  @Beta
+  public static float constrainToRange(float value, float min, float max) {
+    checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new float[] {a, b}, new float[] {}, new float[] {c}} returns the array {@code {a, b,
+   * c}}.
    *
    * @param arrays zero or more {@code float} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -280,8 +303,8 @@ public final class Floats {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and floats using
-   * {@link Float#valueOf} and {@link Float#toString()}.
+   * Returns a serializable converter object that converts between strings and floats using {@link
+   * Float#valueOf} and {@link Float#toString()}.
    *
    * @since 16.0
    */
@@ -300,8 +323,8 @@ public final class Floats {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static float[] ensureCapacity(float[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -315,8 +338,7 @@ public final class Floats {
    * {@code join("-", 1.0f, 2.0f, 3.0f)} returns the string {@code "1.0-2.0-3.0"}.
    *
    * <p>Note that {@link Float#toString(float)} formats {@code float} differently in GWT. In the
-   * previous example, it returns the string {@code
-   * "1-2-3"}.
+   * previous example, it returns the string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in the resulting string
    *     (but not at the start or end)
@@ -345,8 +367,8 @@ public final class Floats {
    * lesser. For example, {@code [] < [1.0f] < [1.0f, 2.0f] < [2.0f]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(float[], float[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(float[],
+   * float[])}.
    *
    * @since 2.0
    */
@@ -376,11 +398,71 @@ public final class Floats {
   }
 
   /**
+   * Sorts the elements of {@code array} in descending order.
+   *
+   * <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
+   * all NaN values as equal and 0.0 as greater than -0.0.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(float[] array) {
+    checkNotNull(array);
+    sortDescending(array, 0, array.length);
+  }
+
+  /**
+   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive in descending order.
+   *
+   * <p>Note that this method uses the total order imposed by {@link Float#compare}, which treats
+   * all NaN values as equal and 0.0 as greater than -0.0.
+   *
+   * @since 23.1
+   */
+  public static void sortDescending(float[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    Arrays.sort(array, fromIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
+   * Reverses the elements of {@code array}. This is equivalent to {@code
+   * Collections.reverse(Floats.asList(array))}, but is likely to be more efficient.
+   *
+   * @since 23.1
+   */
+  public static void reverse(float[] array) {
+    checkNotNull(array);
+    reverse(array, 0, array.length);
+  }
+
+  /**
+   * Reverses the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.reverse(Floats.asList(array).subList(fromIndex, toIndex))}, but is likely to be
+   * more efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since 23.1
+   */
+  public static void reverse(float[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      float tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code float}
    * value in the manner of {@link Number#floatValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -404,16 +486,16 @@ public final class Floats {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Float} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
    * the returned list is unspecified.
    *
-   * <p>The returned list may have unexpected behavior if it contains {@code
-   * NaN}, or if {@code NaN} is used as a parameter to any of its methods.
+   * <p>The returned list may have unexpected behavior if it contains {@code NaN}, or if {@code NaN}
+   * is used as a parameter to any of its methods.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array
@@ -548,11 +630,7 @@ public final class Floats {
     }
 
     float[] toFloatArray() {
-      // Arrays.copyOfRange() is not available under GWT
-      int size = size();
-      float[] result = new float[size];
-      System.arraycopy(array, start, result, 0, size);
-      return result;
+      return Arrays.copyOfRange(array, start, end);
     }
 
     private static final long serialVersionUID = 0;
@@ -563,22 +641,21 @@ public final class Floats {
    * {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
    * <p>Unlike {@link Float#parseFloat(String)}, this method returns {@code null} instead of
-   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by
-   * {@link Float#valueOf(String)}, except that leading and trailing whitespace is not permitted.
+   * throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link
+   * Float#valueOf(String)}, except that leading and trailing whitespace is not permitted.
    *
-   * <p>This implementation is likely to be faster than {@code
-   * Float.parseFloat} if many failures are expected.
+   * <p>This implementation is likely to be faster than {@code Float.parseFloat} if many failures
+   * are expected.
    *
    * @param string the string representation of a {@code float} value
-   * @return the floating point value represented by {@code string}, or {@code null} if
-   *     {@code string} has a length of zero or cannot be parsed as a {@code float} value
+   * @return the floating point value represented by {@code string}, or {@code null} if {@code
+   *     string} has a length of zero or cannot be parsed as a {@code float} value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
   @GwtIncompatible // regular expressions
-  public static Float tryParse(String string) {
+  public static @Nullable Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing

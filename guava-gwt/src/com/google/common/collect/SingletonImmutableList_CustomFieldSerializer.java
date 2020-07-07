@@ -16,13 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of
- * {@link SingletonImmutableList}.
+ * This class implements the GWT serialization of {@link SingletonImmutableList}.
  *
  * @author Chris Povirk
  */
@@ -33,12 +34,14 @@ public class SingletonImmutableList_CustomFieldSerializer {
 
   public static SingletonImmutableList<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Object element = reader.readObject();
-    return new SingletonImmutableList<Object>(element);
+    return new SingletonImmutableList<>(element);
   }
 
   public static void serialize(SerializationStreamWriter writer, SingletonImmutableList<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.element);
   }
 }

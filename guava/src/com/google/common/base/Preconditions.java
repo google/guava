@@ -14,81 +14,100 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Strings.lenientFormat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked
- * correctly (whether its <i>preconditions</i> have been met). These methods generally accept a
- * {@code boolean} expression which is expected to be {@code true} (or in the case of {@code
- * checkNotNull}, an object reference which is expected to be non-null). When {@code false} (or
- * {@code null}) is passed instead, the {@code Preconditions} method throws an unchecked exception,
- * which helps the calling method communicate to <i>its</i> caller that <i>that</i> caller has made
- * a mistake. Example: <pre>   {@code
+ * correctly (that is, whether its <i>preconditions</i> were met).
  *
- *   /**
- *    * Returns the positive square root of the given value.
- *    *
- *    * @throws IllegalArgumentException if the value is negative
- *    *}{@code /
- *   public static double sqrt(double value) {
- *     Preconditions.checkArgument(value >= 0.0, "negative value: %s", value);
- *     // calculate the square root
+ * <p>If the precondition is not met, the {@code Preconditions} method throws an unchecked exception
+ * of a specified type, which helps the method in which the exception was thrown communicate that
+ * its caller has made a mistake. This allows constructs such as
+ *
+ * <pre>{@code
+ * public static double sqrt(double value) {
+ *   if (value < 0) {
+ *     throw new IllegalArgumentException("input is negative: " + value);
  *   }
+ *   // calculate square root
+ * }
+ * }</pre>
  *
- *   void exampleBadCaller() {
- *     double d = sqrt(-1.0);
- *   }}</pre>
+ * <p>to be replaced with the more compact
  *
- * In this example, {@code checkArgument} throws an {@code IllegalArgumentException} to indicate
- * that {@code exampleBadCaller} made an error in <i>its</i> call to {@code sqrt}.
+ * <pre>{@code
+ * public static double sqrt(double value) {
+ *   checkArgument(value >= 0, "input is negative: %s", value);
+ *   // calculate square root
+ * }
+ * }</pre>
  *
- * <h3>Warning about performance</h3>
+ * <p>so that a hypothetical bad caller of this method, such as:
  *
- * <p>The goal of this class is to improve readability of code, but in some circumstances this may
- * come at a significant performance cost. Remember that parameter values for message construction
- * must all be computed eagerly, and autoboxing and varargs array creation may happen as well, even
- * when the precondition check then succeeds (as it should almost always do in production). In some
- * circumstances these wasted CPU cycles and allocations can add up to a real problem.
- * Performance-sensitive precondition checks can always be converted to the customary form:
- * <pre>   {@code
+ * <pre>{@code
+ * void exampleBadCaller() {
+ *   double d = sqrt(-1.0);
+ * }
+ * }</pre>
  *
- *   if (value < 0.0) {
- *     throw new IllegalArgumentException("negative value: " + value);
- *   }}</pre>
+ * <p>would be flagged as having called {@code sqrt()} with an illegal argument.
+ *
+ * <h3>Performance</h3>
+ *
+ * <p>Avoid passing message arguments that are expensive to compute; your code will always compute
+ * them, even though they usually won't be needed. If you have such arguments, use the conventional
+ * if/throw idiom instead.
+ *
+ * <p>Depending on your message arguments, memory may be allocated for boxing and varargs array
+ * creation. However, the methods of this class have a large number of overloads that prevent such
+ * allocations in many common cases.
+ *
+ * <p>The message string is not formatted unless the exception will be thrown, so the cost of the
+ * string formatting itself should not be a concern.
+ *
+ * <p>As with any performance concerns, you should consider profiling your code (in a production
+ * environment if possible) before spending a lot of effort on tweaking a particular element.
  *
  * <h3>Other types of preconditions</h3>
  *
  * <p>Not every type of precondition failure is supported by these methods. Continue to throw
- * standard JDK exceptions such as {@link java.util.NoSuchElementException} or
- * {@link UnsupportedOperationException} in the situations they are intended for.
+ * standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
+ * UnsupportedOperationException} in the situations they are intended for.
  *
  * <h3>Non-preconditions</h3>
  *
  * <p>It is of course possible to use the methods of this class to check for invalid conditions
  * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
- * misleading to future readers of the code and of stack traces. See
- * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
- * explained</a> in the Guava User Guide for more advice.
+ * misleading to future readers of the code and of stack traces. See <a
+ * href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
+ * explained</a> in the Guava User Guide for more advice. Notably, {@link Verify} offers assertions
+ * similar to those in this class for non-precondition checks.
  *
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
  *
- * <p>Projects which use {@code com.google.common} should generally avoid the use of
- * {@link java.util.Objects#requireNonNull(Object)}. Instead, use whichever of
- * {@link #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the
- * situation. (The same goes for the message-accepting overloads.)
+ * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
+ * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link
+ * #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the situation.
+ * (The same goes for the message-accepting overloads.)
  *
  * <h3>Only {@code %s} is supported</h3>
  *
- * <p>In {@code Preconditions} error message template strings, only the {@code "%s"} specifier is
- * supported, not the full range of {@link java.util.Formatter} specifiers.
+ * <p>{@code Preconditions} uses {@link Strings#lenientFormat} to format error message template
+ * strings. This only supports the {@code "%s"} specifier, not the full range of {@link
+ * java.util.Formatter} specifiers. However, note that if the number of arguments does not match the
+ * number of occurrences of {@code "%s"} in the format string, {@code Preconditions} will still
+ * behave as expected, and will still include all argument values in the error message; the message
+ * will simply not be formatted exactly as intended.
  *
  * <h3>More information</h3>
  *
- * <p>See the Guava User Guide on
- * <a href="https://github.com/google/guava/wiki/PreconditionsExplained">using {@code
+ * <p>See the Guava User Guide on <a
+ * href="https://github.com/google/guava/wiki/PreconditionsExplained">using {@code
  * Preconditions}</a>.
  *
  * @author Kevin Bourrillion
@@ -136,15 +155,13 @@ public final class Preconditions {
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalArgumentException if {@code expression} is false
-   * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
-   *     {@code errorMessageArgs} is null (don't let this happen)
    */
   public static void checkArgument(
       boolean expression,
       @Nullable String errorMessageTemplate,
-      @Nullable Object... errorMessageArgs) {
+      @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
   }
 
@@ -152,10 +169,12 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, char p1) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -163,10 +182,12 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, int p1) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -174,10 +195,12 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, long p1) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -185,11 +208,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -197,11 +222,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -209,11 +236,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -221,11 +250,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -233,11 +264,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -245,11 +278,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -257,11 +292,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -269,11 +306,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -281,11 +320,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -293,11 +334,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -305,11 +348,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -317,11 +362,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -329,11 +376,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -341,11 +390,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -353,11 +404,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -365,11 +418,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -377,11 +432,13 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -389,6 +446,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b,
@@ -397,7 +456,7 @@ public final class Preconditions {
       @Nullable Object p2,
       @Nullable Object p3) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2, p3));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
   }
 
@@ -405,6 +464,8 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkArgument(
       boolean b,
@@ -414,7 +475,7 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (!b) {
-      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2, p3, p4));
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
 
@@ -424,6 +485,7 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @throws IllegalStateException if {@code expression} is false
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(boolean expression) {
     if (!expression) {
@@ -439,6 +501,7 @@ public final class Preconditions {
    * @param errorMessage the exception message to use if the check fails; will be converted to a
    *     string using {@link String#valueOf(Object)}
    * @throws IllegalStateException if {@code expression} is false
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
@@ -459,15 +522,14 @@ public final class Preconditions {
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalStateException if {@code expression} is false
-   * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
-   *     {@code errorMessageArgs} is null (don't let this happen)
+   * @see Verify#verify Verify.verify()
    */
   public static void checkState(
       boolean expression,
       @Nullable String errorMessageTemplate,
-      @Nullable Object... errorMessageArgs) {
+      @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
   }
 
@@ -476,10 +538,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -488,10 +552,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -500,10 +566,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -512,11 +580,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
     }
   }
 
@@ -525,11 +595,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -538,10 +610,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -550,11 +624,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -563,11 +639,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -576,10 +654,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -588,10 +668,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -600,10 +682,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -612,11 +696,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -625,11 +711,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -638,10 +726,12 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -650,11 +740,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -663,11 +755,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -676,11 +770,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -689,11 +785,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -702,11 +800,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -715,11 +815,13 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2));
     }
   }
 
@@ -728,6 +830,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b,
@@ -736,7 +840,7 @@ public final class Preconditions {
       @Nullable Object p2,
       @Nullable Object p3) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2, p3));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
   }
 
@@ -745,6 +849,8 @@ public final class Preconditions {
    * involving any parameters to the calling method.
    *
    * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(
       boolean b,
@@ -754,7 +860,7 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (!b) {
-      throw new IllegalStateException(format(errorMessageTemplate, p1, p2, p3, p4));
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
 
@@ -764,9 +870,10 @@ public final class Preconditions {
    * @param reference an object reference
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T reference) {
+  public static <T extends @NonNull Object> T checkNotNull(T reference) {
     if (reference == null) {
       throw new NullPointerException();
     }
@@ -781,9 +888,11 @@ public final class Preconditions {
    *     string using {@link String#valueOf(Object)}
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T reference, @Nullable Object errorMessage) {
     if (reference == null) {
       throw new NullPointerException(String.valueOf(errorMessage));
     }
@@ -803,13 +912,15 @@ public final class Preconditions {
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
+   * @see Verify#verifyNotNull Verify.verifyNotNull()
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
-      T reference, @Nullable String errorMessageTemplate, @Nullable Object... errorMessageArgs) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T reference,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object @Nullable ... errorMessageArgs) {
     if (reference == null) {
-      // If either of these parameters is null, the right thing happens anyway
-      throw new NullPointerException(format(errorMessageTemplate, errorMessageArgs));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
     return reference;
   }
@@ -818,11 +929,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, char p1) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1));
     }
     return obj;
   }
@@ -831,11 +945,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, int p1) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1));
     }
     return obj;
   }
@@ -844,11 +961,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, long p1) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1));
     }
     return obj;
   }
@@ -857,12 +977,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, @Nullable Object p1) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1));
     }
     return obj;
   }
@@ -871,11 +993,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, char p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, char p1, char p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -884,11 +1009,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, int p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, char p1, int p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -897,11 +1025,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, long p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, char p1, long p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -910,12 +1041,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -924,11 +1057,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, char p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, int p1, char p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -937,11 +1073,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, int p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, int p1, int p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -950,11 +1089,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, long p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, int p1, long p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -963,12 +1105,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -977,11 +1121,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, char p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, long p1, char p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -990,11 +1137,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, int p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, long p1, int p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1003,11 +1153,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, long p2) {
+  public static <T extends @NonNull Object> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, long p1, long p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1016,12 +1169,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1030,12 +1185,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1044,12 +1201,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1058,12 +1217,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1072,12 +1233,14 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2));
     }
     return obj;
   }
@@ -1086,16 +1249,18 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj,
       @Nullable String errorMessageTemplate,
       @Nullable Object p1,
       @Nullable Object p2,
       @Nullable Object p3) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2, p3));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
     return obj;
   }
@@ -1104,9 +1269,11 @@ public final class Preconditions {
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   *
+   * @since 20.0 (varargs overload since 2.0)
    */
   @CanIgnoreReturnValue
-  public static <T> T checkNotNull(
+  public static <T extends @NonNull Object> T checkNotNull(
       T obj,
       @Nullable String errorMessageTemplate,
       @Nullable Object p1,
@@ -1114,7 +1281,7 @@ public final class Preconditions {
       @Nullable Object p3,
       @Nullable Object p4) {
     if (obj == null) {
-      throw new NullPointerException(format(errorMessageTemplate, p1, p2, p3, p4));
+      throw new NullPointerException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
     return obj;
   }
@@ -1180,13 +1347,13 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badElementIndex(int index, int size, String desc) {
+  private static String badElementIndex(int index, int size, @Nullable String desc) {
     if (index < 0) {
-      return format("%s (%s) must not be negative", desc, index);
+      return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
       throw new IllegalArgumentException("negative size: " + size);
     } else { // index >= size
-      return format("%s (%s) must be less than size (%s)", desc, index, size);
+      return lenientFormat("%s (%s) must be less than size (%s)", desc, index, size);
     }
   }
 
@@ -1225,23 +1392,23 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badPositionIndex(int index, int size, String desc) {
+  private static String badPositionIndex(int index, int size, @Nullable String desc) {
     if (index < 0) {
-      return format("%s (%s) must not be negative", desc, index);
+      return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
       throw new IllegalArgumentException("negative size: " + size);
     } else { // index > size
-      return format("%s (%s) must not be greater than size (%s)", desc, index, size);
+      return lenientFormat("%s (%s) must not be greater than size (%s)", desc, index, size);
     }
   }
 
   /**
-   * Ensures that {@code start} and {@code end} specify a valid <i>positions</i> in an array, list
-   * or string of size {@code size}, and are in order. A position index may range from zero to
-   * {@code size}, inclusive.
+   * Ensures that {@code start} and {@code end} specify valid <i>positions</i> in an array, list or
+   * string of size {@code size}, and are in order. A position index may range from zero to {@code
+   * size}, inclusive.
    *
    * @param start a user-supplied index identifying a starting position in an array, list or string
-   * @param end a user-supplied index identifying a ending position in an array, list or string
+   * @param end a user-supplied index identifying an ending position in an array, list or string
    * @param size the size of that array, list or string
    * @throws IndexOutOfBoundsException if either index is negative or is greater than {@code size},
    *     or if {@code end} is less than {@code start}
@@ -1262,49 +1429,6 @@ public final class Preconditions {
       return badPositionIndex(end, size, "end index");
     }
     // end < start
-    return format("end index (%s) must not be less than start index (%s)", end, start);
-  }
-
-  /**
-   * Substitutes each {@code %s} in {@code template} with an argument. These are matched by
-   * position: the first {@code %s} gets {@code args[0]}, etc. If there are more arguments than
-   * placeholders, the unmatched arguments will be appended to the end of the formatted message in
-   * square braces.
-   *
-   * @param template a non-null string containing 0 or more {@code %s} placeholders.
-   * @param args the arguments to be substituted into the message template. Arguments are converted
-   *     to strings using {@link String#valueOf(Object)}. Arguments can be null.
-   */
-  // Note that this is somewhat-improperly used from Verify.java as well.
-  static String format(String template, @Nullable Object... args) {
-    template = String.valueOf(template); // null -> "null"
-
-    // start substituting the arguments into the '%s' placeholders
-    StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
-    int templateStart = 0;
-    int i = 0;
-    while (i < args.length) {
-      int placeholderStart = template.indexOf("%s", templateStart);
-      if (placeholderStart == -1) {
-        break;
-      }
-      builder.append(template, templateStart, placeholderStart);
-      builder.append(args[i++]);
-      templateStart = placeholderStart + 2;
-    }
-    builder.append(template, templateStart, template.length());
-
-    // if we run out of placeholders, append the extra args in square braces
-    if (i < args.length) {
-      builder.append(" [");
-      builder.append(args[i++]);
-      while (i < args.length) {
-        builder.append(", ");
-        builder.append(args[i++]);
-      }
-      builder.append(']');
-    }
-
-    return builder.toString();
+    return lenientFormat("end index (%s) must not be less than start index (%s)", end, start);
   }
 }

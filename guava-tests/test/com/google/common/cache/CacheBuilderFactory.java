@@ -23,12 +23,10 @@ import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Helper class for creating {@link CacheBuilder} instances with all combinations of several sets of
@@ -91,12 +89,21 @@ class CacheBuilderFactory {
 
   Iterable<CacheBuilder<Object, Object>> buildAllPermutations() {
     @SuppressWarnings("unchecked")
-    Iterable<List<Object>> combinations = buildCartesianProduct(concurrencyLevels,
-        initialCapacities, maximumSizes, expireAfterWrites, expireAfterAccesses, refreshes,
-        keyStrengths, valueStrengths);
-    return Iterables.transform(combinations,
+    Iterable<List<Object>> combinations =
+        buildCartesianProduct(
+            concurrencyLevels,
+            initialCapacities,
+            maximumSizes,
+            expireAfterWrites,
+            expireAfterAccesses,
+            refreshes,
+            keyStrengths,
+            valueStrengths);
+    return Iterables.transform(
+        combinations,
         new Function<List<Object>, CacheBuilder<Object, Object>>() {
-          @Override public CacheBuilder<Object, Object> apply(List<Object> combination) {
+          @Override
+          public CacheBuilder<Object, Object> apply(List<Object> combination) {
             return createCacheBuilder(
                 (Integer) combination.get(0),
                 (Integer) combination.get(1),
@@ -112,24 +119,25 @@ class CacheBuilderFactory {
 
   private static final Function<Object, Optional<?>> NULLABLE_TO_OPTIONAL =
       new Function<Object, Optional<?>>() {
-        @Override public Optional<?> apply(@Nullable Object obj) {
+        @Override
+        public Optional<?> apply(@Nullable Object obj) {
           return Optional.fromNullable(obj);
         }
       };
 
   private static final Function<Optional<?>, Object> OPTIONAL_TO_NULLABLE =
       new Function<Optional<?>, Object>() {
-        @Override public Object apply(Optional<?> optional) {
+        @Override
+        public Object apply(Optional<?> optional) {
           return optional.orNull();
         }
       };
 
   /**
-   * Sets.cartesianProduct doesn't allow sets that contain null, but we want null to mean
-   * "don't call the associated CacheBuilder method" - that is, get the default CacheBuilder
-   * behavior. This method wraps the elements in the input sets (which may contain null) as
-   * Optionals, calls Sets.cartesianProduct with those, then transforms the result to unwrap
-   * the Optionals. 
+   * Sets.cartesianProduct doesn't allow sets that contain null, but we want null to mean "don't
+   * call the associated CacheBuilder method" - that is, get the default CacheBuilder behavior. This
+   * method wraps the elements in the input sets (which may contain null) as Optionals, calls
+   * Sets.cartesianProduct with those, then transforms the result to unwrap the Optionals.
    */
   private Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
     List<Set<Optional<?>>> optionalSets = Lists.newArrayListWithExpectedSize(sets.length);
@@ -139,18 +147,25 @@ class CacheBuilderFactory {
       optionalSets.add(optionalSet);
     }
     Set<List<Optional<?>>> cartesianProduct = Sets.cartesianProduct(optionalSets);
-    return Iterables.transform(cartesianProduct,
+    return Iterables.transform(
+        cartesianProduct,
         new Function<List<Optional<?>>, List<Object>>() {
-          @Override public List<Object> apply(List<Optional<?>> objs) {
+          @Override
+          public List<Object> apply(List<Optional<?>> objs) {
             return Lists.transform(objs, OPTIONAL_TO_NULLABLE);
           }
         });
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder(
-      Integer concurrencyLevel, Integer initialCapacity, Integer maximumSize,
-      DurationSpec expireAfterWrite, DurationSpec expireAfterAccess, DurationSpec refresh,
-      Strength keyStrength, Strength valueStrength) {
+      Integer concurrencyLevel,
+      Integer initialCapacity,
+      Integer maximumSize,
+      DurationSpec expireAfterWrite,
+      DurationSpec expireAfterAccess,
+      DurationSpec refresh,
+      Strength keyStrength,
+      Strength valueStrength) {
 
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (concurrencyLevel != null) {

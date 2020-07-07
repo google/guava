@@ -16,40 +16,34 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.core.java.util.Map_CustomFieldSerializerBase;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class implements the GWT serialization of
- * {@link RegularImmutableBiMap}.
+ * This class implements the GWT serialization of {@link RegularImmutableBiMap}.
  *
  * @author Chris Povirk
  */
 public class RegularImmutableBiMap_CustomFieldSerializer {
-  public static void deserialize(
-      SerializationStreamReader reader, RegularImmutableBiMap<?, ?> instance) {}
+  public static void deserialize(SerializationStreamReader reader, ImmutableBiMap<?, ?> instance) {}
 
-  public static RegularImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)
+  public static ImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    Map<Object, Object> entries = new LinkedHashMap<Object, Object>();
+    checkGwtRpcEnabled();
+    Map<Object, Object> entries = new LinkedHashMap<>();
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
-    /*
-     * For this custom field serializer to be invoked, the map must have been
-     * RegularImmutableBiMap before it's serialized. Since RegularImmutableBiMap
-     * always have one or more elements, ImmutableBiMap.copyOf always return a
-     * RegularImmutableBiMap back.
-     */
-    return (RegularImmutableBiMap<Object, Object>) ImmutableBiMap.copyOf(entries);
+    return ImmutableBiMap.copyOf(entries);
   }
 
-  public static void serialize(
-      SerializationStreamWriter writer, RegularImmutableBiMap<?, ?> instance)
+  public static void serialize(SerializationStreamWriter writer, ImmutableBiMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

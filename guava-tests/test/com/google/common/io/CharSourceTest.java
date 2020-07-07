@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
@@ -26,9 +27,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.testing.TestLogHandler;
-
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -36,6 +34,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Stream;
+import junit.framework.TestSuite;
 
 /**
  * Tests for the default implementations of {@code CharSource} methods.
@@ -48,10 +48,14 @@ public class CharSourceTest extends IoTestCase {
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     for (boolean asByteSource : new boolean[] {false, true}) {
-      suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",
-          SourceSinkFactories.stringCharSourceFactory(), asByteSource));
-      suite.addTest(CharSourceTester.tests("CharSource.empty[]",
-          SourceSinkFactories.emptyCharSourceFactory(), asByteSource));
+      suite.addTest(
+          CharSourceTester.tests(
+              "CharSource.wrap[CharSequence]",
+              SourceSinkFactories.stringCharSourceFactory(),
+              asByteSource));
+      suite.addTest(
+          CharSourceTester.tests(
+              "CharSource.empty[]", SourceSinkFactories.emptyCharSourceFactory(), asByteSource));
     }
     suite.addTestSuite(CharSourceTest.class);
     return suite;
@@ -59,6 +63,8 @@ public class CharSourceTest extends IoTestCase {
 
   private static final String STRING = ASCII + I18N;
   private static final String LINES = "foo\nbar\r\nbaz\rsomething";
+  private static final ImmutableList<String> SPLIT_LINES =
+      ImmutableList.of("foo", "bar", "baz", "something");
 
   private TestCharSource source;
 
@@ -83,6 +89,21 @@ public class CharSourceTest extends IoTestCase {
 
     assertTrue(source.wasStreamClosed());
     assertEquals(STRING, writer.toString());
+  }
+
+  public void testLines() throws IOException {
+    source = new TestCharSource(LINES);
+
+    ImmutableList<String> lines;
+    try (Stream<String> linesStream = source.lines()) {
+      assertTrue(source.wasStreamOpened());
+      assertFalse(source.wasStreamClosed());
+
+      lines = linesStream.collect(toImmutableList());
+    }
+
+    assertTrue(source.wasStreamClosed());
+    assertEquals(SPLIT_LINES, lines);
   }
 
   public void testCopyTo_appendable() throws IOException {
@@ -125,42 +146,57 @@ public class CharSourceTest extends IoTestCase {
 
   public void testReadLines_withProcessor() throws IOException {
     TestCharSource lines = new TestCharSource(LINES);
-    List<String> list = lines.readLines(new LineProcessor<List<String>>() {
-      List<String> list = Lists.newArrayList();
+    List<String> list =
+        lines.readLines(
+            new LineProcessor<List<String>>() {
+              List<String> list = Lists.newArrayList();
 
-      @Override
-      public boolean processLine(String line) throws IOException {
-        list.add(line);
-        return true;
-      }
+              @Override
+              public boolean processLine(String line) throws IOException {
+                list.add(line);
+                return true;
+              }
 
-      @Override
-      public List<String> getResult() {
-        return list;
-      }
-    });
+              @Override
+              public List<String> getResult() {
+                return list;
+              }
+            });
     assertEquals(ImmutableList.of("foo", "bar", "baz", "something"), list);
     assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
   }
 
   public void testReadLines_withProcessor_stopsOnFalse() throws IOException {
     TestCharSource lines = new TestCharSource(LINES);
-    List<String> list = lines.readLines(new LineProcessor<List<String>>() {
-      List<String> list = Lists.newArrayList();
+    List<String> list =
+        lines.readLines(
+            new LineProcessor<List<String>>() {
+              List<String> list = Lists.newArrayList();
 
-      @Override
-      public boolean processLine(String line) throws IOException {
-        list.add(line);
-        return false;
-      }
+              @Override
+              public boolean processLine(String line) throws IOException {
+                list.add(line);
+                return false;
+              }
 
-      @Override
-      public List<String> getResult() {
-        return list;
-      }
-    });
+              @Override
+              public List<String> getResult() {
+                return list;
+              }
+            });
     assertEquals(ImmutableList.of("foo"), list);
     assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
+  }
+
+  public void testForEachLine() throws IOException {
+    source = new TestCharSource(LINES);
+
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+    source.forEachLine(builder::add);
+
+    assertEquals(SPLIT_LINES, builder.build());
+    assertTrue(source.wasStreamOpened());
+    assertTrue(source.wasStreamClosed());
   }
 
   public void testCopyToAppendable_doesNotCloseIfWriter() throws IOException {
@@ -180,7 +216,8 @@ public class CharSourceTest extends IoTestCase {
       }
       // ensure reader was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if sink.newWriter() throws).
-      assertTrue("stream not closed when copying to sink with option: " + option,
+      assertTrue(
+          "stream not closed when copying to sink with option: " + option,
           !okSource.wasStreamOpened() || okSource.wasStreamClosed());
     }
   }
@@ -212,12 +249,9 @@ public class CharSourceTest extends IoTestCase {
 
     String expected = "abcde";
 
-    assertEquals(expected,
-        CharSource.concat(ImmutableList.of(c1, c2, c3)).read());
-    assertEquals(expected,
-        CharSource.concat(c1, c2, c3).read());
-    assertEquals(expected,
-        CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
+    assertEquals(expected, CharSource.concat(ImmutableList.of(c1, c2, c3)).read());
+    assertEquals(expected, CharSource.concat(c1, c2, c3).read());
+    assertEquals(expected, CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
     assertFalse(CharSource.concat(c1, c2, c3).isEmpty());
 
     CharSource emptyConcat = CharSource.concat(CharSource.empty(), CharSource.empty());
@@ -248,10 +282,10 @@ public class CharSourceTest extends IoTestCase {
   static final CharSink BROKEN_CLOSE_SINK = new TestCharSink(CLOSE_THROWS);
   static final CharSink BROKEN_OPEN_SINK = new TestCharSink(OPEN_THROWS);
 
-  private static final ImmutableSet<CharSource> BROKEN_SOURCES
-      = ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
-  private static final ImmutableSet<CharSink> BROKEN_SINKS
-      = ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
+  private static final ImmutableSet<CharSource> BROKEN_SOURCES =
+      ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
+  private static final ImmutableSet<CharSink> BROKEN_SINKS =
+      ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
     if (!Closer.SuppressingSuppressor.isAvailable()) {
@@ -327,9 +361,7 @@ public class CharSourceTest extends IoTestCase {
     }
   }
 
-  /**
-   * @return the number of exceptions that were suppressed on the expected thrown exception
-   */
+  /** @return the number of exceptions that were suppressed on the expected thrown exception */
   private static int runSuppressionFailureTest(CharSource in, CharSink out) {
     try {
       in.copyTo(out);
@@ -346,7 +378,8 @@ public class CharSourceTest extends IoTestCase {
 
   private static CharSink newNormalCharSink() {
     return new CharSink() {
-      @Override public Writer openStream() {
+      @Override
+      public Writer openStream() {
         return new StringWriter();
       }
     };

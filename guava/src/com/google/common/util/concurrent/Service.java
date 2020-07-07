@@ -14,26 +14,29 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * An object with an operational state, plus asynchronous {@link #startAsync()} and
- * {@link #stopAsync()} lifecycle methods to transition between states. Example services include
+ * An object with an operational state, plus asynchronous {@link #startAsync()} and {@link
+ * #stopAsync()} lifecycle methods to transition between states. Example services include
  * webservers, RPC servers and timers.
  *
  * <p>The normal lifecycle of a service is:
+ *
  * <ul>
- * <li>{@linkplain State#NEW NEW} -&gt;
- * <li>{@linkplain State#STARTING STARTING} -&gt;
- * <li>{@linkplain State#RUNNING RUNNING} -&gt;
- * <li>{@linkplain State#STOPPING STOPPING} -&gt;
- * <li>{@linkplain State#TERMINATED TERMINATED}
+ *   <li>{@linkplain State#NEW NEW} -&gt;
+ *   <li>{@linkplain State#STARTING STARTING} -&gt;
+ *   <li>{@linkplain State#RUNNING RUNNING} -&gt;
+ *   <li>{@linkplain State#STOPPING STOPPING} -&gt;
+ *   <li>{@linkplain State#TERMINATED TERMINATED}
  * </ul>
  *
  * <p>There are deviations from this if there are failures or if {@link Service#stopAsync} is called
@@ -51,7 +54,7 @@ import java.util.concurrent.TimeoutException;
  * @author Luke Sandberg
  * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
  */
-@Beta
+@DoNotMock("Create an AbstractIdleService")
 @GwtIncompatible
 public interface Service {
   /**
@@ -60,28 +63,23 @@ public interface Service {
    *
    * @return this
    * @throws IllegalStateException if the service is not {@link State#NEW}
-   *
    * @since 15.0
    */
   @CanIgnoreReturnValue
   Service startAsync();
 
-  /**
-   * Returns {@code true} if this service is {@linkplain State#RUNNING running}.
-   */
+  /** Returns {@code true} if this service is {@linkplain State#RUNNING running}. */
   boolean isRunning();
 
-  /**
-   * Returns the lifecycle state of the service.
-   */
+  /** Returns the lifecycle state of the service. */
   State state();
 
   /**
    * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
-   * this initiates service shutdown and returns immediately. If the service is
-   * {@linkplain State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been
-   * started nor stopped. If the service has already been stopped, this method returns immediately
-   * without taking action.
+   * this initiates service shutdown and returns immediately. If the service is {@linkplain
+   * State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been started nor
+   * stopped. If the service has already been stopped, this method returns immediately without
+   * taking action.
    *
    * @return this
    * @since 15.0
@@ -93,10 +91,8 @@ public interface Service {
    * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state}.
    *
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
-   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is
-   *     {@code State#TERMINATED} when this method is called then this will throw an
-   *     IllegalStateException.
-   *
+   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
    * @since 15.0
    */
   void awaitRunning();
@@ -106,25 +102,51 @@ public interface Service {
    * than the given time.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service reaches a state from which it is not possible to
+   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
+   * @since 28.0
+   */
+  default void awaitRunning(Duration timeout) throws TimeoutException {
+    awaitRunning(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no more
+   * than the given time.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if the service has not reached the given state within the deadline
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
-   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is
-   *     {@code State#TERMINATED} when this method is called then this will throw an
-   *     IllegalStateException.
-   *
+   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
    * @since 15.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException;
 
   /**
    * Waits for the {@link Service} to reach the {@linkplain State#TERMINATED terminated state}.
    *
    * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
-   *
    * @since 15.0
    */
   void awaitTerminated();
+
+  /**
+   * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED
+   * terminated} or {@link Service.State#FAILED failed}) for no more than the given time.
+   *
+   * @param timeout the maximum time to wait
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
+   * @since 28.0
+   */
+  default void awaitTerminated(Duration timeout) throws TimeoutException {
+    awaitTerminated(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED
@@ -136,13 +158,13 @@ public interface Service {
    * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
    * @since 15.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException;
 
   /**
    * Returns the {@link Throwable} that caused this service to fail.
    *
    * @throws IllegalStateException if this service's state isn't {@linkplain State#FAILED FAILED}.
-   *
    * @since 14.0
    */
   Throwable failureCause();
@@ -166,8 +188,8 @@ public interface Service {
    *
    * @param listener the listener to run when the service changes state is complete
    * @param executor the executor in which the listeners callback methods will be run. For fast,
-   *     lightweight listeners that would be safe to execute in any thread, consider
-   *     {@link MoreExecutors#directExecutor}.
+   *     lightweight listeners that would be safe to execute in any thread, consider {@link
+   *     MoreExecutors#directExecutor}.
    * @since 13.0
    */
   void addListener(Listener listener, Executor executor);
@@ -176,17 +198,14 @@ public interface Service {
    * The lifecycle states of a service.
    *
    * <p>The ordering of the {@link State} enum is defined such that if there is a state transition
-   * from {@code A -> B} then {@code A.compareTo(B} < 0}. N.B. The converse is not true, i.e. if
-   * {@code A.compareTo(B} < 0} then there is <b>not</b> guaranteed to be a valid state transition
+   * from {@code A -> B} then {@code A.compareTo(B) < 0}. N.B. The converse is not true, i.e. if
+   * {@code A.compareTo(B) < 0} then there is <b>not</b> guaranteed to be a valid state transition
    * {@code A -> B}.
    *
    * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})
    */
-  @Beta // should come out of Beta when Service does
   enum State {
-    /**
-     * A service in this state is inactive. It does minimal work and consumes minimal resources.
-     */
+    /** A service in this state is inactive. It does minimal work and consumes minimal resources. */
     NEW {
       @Override
       boolean isTerminal() {
@@ -194,9 +213,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is transitioning to {@link #RUNNING}.
-     */
+    /** A service in this state is transitioning to {@link #RUNNING}. */
     STARTING {
       @Override
       boolean isTerminal() {
@@ -204,9 +221,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is operational.
-     */
+    /** A service in this state is operational. */
     RUNNING {
       @Override
       boolean isTerminal() {
@@ -214,9 +229,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is transitioning to {@link #TERMINATED}.
-     */
+    /** A service in this state is transitioning to {@link #TERMINATED}. */
     STOPPING {
       @Override
       boolean isTerminal() {
@@ -258,25 +271,24 @@ public interface Service {
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 13.0)
    */
-  @Beta // should come out of Beta when Service does
   abstract class Listener {
     /**
-     * Called when the service transitions from {@linkplain State#NEW NEW} to
-     * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called
-     * the first time.
+     * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain
+     * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first
+     * time.
      */
     public void starting() {}
 
     /**
-     * Called when the service transitions from {@linkplain State#STARTING STARTING} to
-     * {@linkplain State#RUNNING RUNNING}. This occurs when a service has successfully started.
+     * Called when the service transitions from {@linkplain State#STARTING STARTING} to {@linkplain
+     * State#RUNNING RUNNING}. This occurs when a service has successfully started.
      */
     public void running() {}
 
     /**
      * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The
-     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or
-     * {@linkplain State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.
+     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or {@linkplain
+     * State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.
      *
      * @param from The previous state that is being transitioned from.
      */
@@ -285,12 +297,12 @@ public interface Service {
     /**
      * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state.
      * The {@linkplain State#TERMINATED TERMINATED} state is a terminal state in the transition
-     * diagram. Therefore, if this method is called, no other methods will be called on the
-     * {@link Listener}.
+     * diagram. Therefore, if this method is called, no other methods will be called on the {@link
+     * Listener}.
      *
-     * @param from The previous state that is being transitioned from. The only valid values for
-     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or
-     *     {@linkplain State#STOPPING STOPPING}.
+     * @param from The previous state that is being transitioned from. Failure can occur in any
+     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain
+     *     State#TERMINATED TERMINATED}.
      */
     public void terminated(State from) {}
 

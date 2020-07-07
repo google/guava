@@ -20,10 +20,8 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
-/**
- * Emulation of AggregateFutureState.
- */
-abstract class AggregateFutureState {
+/** Emulation of AggregateFutureState. */
+abstract class AggregateFutureState<OutputT> extends AbstractFuture.TrustedFuture<OutputT> {
   // Lazily initialized the first time we see an exception; not released until all the input futures
   // & this future completes. Released when the future releases the reference to the running state
   private Set<Throwable> seenExceptions = null;
@@ -45,5 +43,9 @@ abstract class AggregateFutureState {
 
   final int decrementRemainingAndGet() {
     return --remaining;
+  }
+
+  final void clearSeenExceptions() {
+    seenExceptions = null;
   }
 }

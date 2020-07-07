@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -32,11 +34,13 @@ public class ExplicitOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ExplicitOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ExplicitOrdering<Object>((ImmutableMap<Object, Integer>) reader.readObject());
+    checkGwtRpcEnabled();
+    return new ExplicitOrdering<>((ImmutableMap<Object, Integer>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ExplicitOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.rankMap);
   }
 }

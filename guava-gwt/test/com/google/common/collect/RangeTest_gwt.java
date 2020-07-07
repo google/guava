@@ -113,6 +113,21 @@ public void testEquivalentFactories() throws Exception {
   testCase.testEquivalentFactories();
 }
 
+public void testGap_connectedAdjacentYieldsEmpty() throws Exception {
+  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
+  testCase.testGap_connectedAdjacentYieldsEmpty();
+}
+
+public void testGap_general() throws Exception {
+  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
+  testCase.testGap_general();
+}
+
+public void testGap_overlapping() throws Exception {
+  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
+  testCase.testGap_overlapping();
+}
+
 public void testGreaterThan() throws Exception {
   com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
   testCase.testGreaterThan();
@@ -141,11 +156,6 @@ public void testIntersection_singleton() throws Exception {
 public void testIsConnected() throws Exception {
   com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
   testCase.testIsConnected();
-}
-
-public void testLegacyComparable() throws Exception {
-  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
-  testCase.testLegacyComparable();
 }
 
 public void testLessThan() throws Exception {

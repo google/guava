@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Platform.checkGwtRpcEnabled;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -32,11 +34,13 @@ public class Present_CustomFieldSerializer {
 
   public static Present<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return (Present<Object>) Optional.of(reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, Present<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.get());
   }
 }

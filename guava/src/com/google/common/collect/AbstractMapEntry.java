@@ -18,14 +18,12 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-
 import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Implementation of the {@code equals}, {@code hashCode}, and {@code toString}
- * methods of {@code Entry}.
+ * Implementation of the {@code equals}, {@code hashCode}, and {@code toString} methods of {@code
+ * Entry}.
  *
  * @author Jared Levy
  */
@@ -60,9 +58,7 @@ abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
     return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
   }
 
-  /**
-   * Returns a string representation of the form {@code {key}={value}}.
-   */
+  /** Returns a string representation of the form {@code {key}={value}}. */
   @Override
   public String toString() {
     return getKey() + "=" + getValue();

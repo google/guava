@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.common.base.Function;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -34,12 +36,14 @@ public class ByFunctionOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ByFunctionOrdering<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ByFunctionOrdering<Object, Object>(
+    checkGwtRpcEnabled();
+    return new ByFunctionOrdering<>(
         (Function<Object, Object>) reader.readObject(), (Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ByFunctionOrdering<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.function);
     writer.writeObject(instance.ordering);
   }

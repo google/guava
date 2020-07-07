@@ -18,22 +18,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Objects;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nullable;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link AbstractMultiset}.
@@ -48,51 +46,77 @@ public class SimpleAbstractMultisetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SimpleAbstractMultisetTest.class);
-    suite.addTest(MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            Multiset<String> ms = new NoRemoveMultiset<String>();
-            Collections.addAll(ms, elements);
-            return ms;
-          }
-        })
-        .named("NoRemoveMultiset")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ADD)
-        .createTestSuite());
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    Multiset<String> ms = new NoRemoveMultiset<>();
+                    Collections.addAll(ms, elements);
+                    return ms;
+                  }
+                })
+            .named("NoRemoveMultiset")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SUPPORTS_ADD)
+            .createTestSuite());
     return suite;
   }
 
   public void testFastAddAllMultiset() {
     final AtomicInteger addCalls = new AtomicInteger();
-    Multiset<String> multiset = new NoRemoveMultiset<String>() {
-      @Override
-      public int add(String element, int occurrences) {
-        addCalls.incrementAndGet();
-        return super.add(element, occurrences);
-      }
-    };
+    Multiset<String> multiset =
+        new NoRemoveMultiset<String>() {
+          @Override
+          public int add(String element, int occurrences) {
+            addCalls.incrementAndGet();
+            return super.add(element, occurrences);
+          }
+        };
     ImmutableMultiset<String> adds =
         new ImmutableMultiset.Builder<String>().addCopies("x", 10).build();
     multiset.addAll(adds);
-    assertEquals(addCalls.get(), 1);
+    assertEquals(1, addCalls.get());
   }
 
   public void testRemoveUnsupported() {
-    Multiset<String> multiset = new NoRemoveMultiset<String>();
+    Multiset<String> multiset = new NoRemoveMultiset<>();
     multiset.add("a");
     try {
       multiset.remove("a");
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E>
-      implements Serializable {
+  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
-    @Override public int add(@Nullable E element, int occurrences) {
+    @Override
+    public int size() {
+      return Multisets.linearTimeSizeImpl(this);
+    }
+
+    @Override
+    public void clear() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int count(@Nullable Object element) {
+      for (Entry<E> entry : entrySet()) {
+        if (Objects.equal(entry.getElement(), element)) {
+          return entry.getCount();
+        }
+      }
+      return 0;
+    }
+
+    @Override
+    public int add(@Nullable E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {
@@ -104,6 +128,11 @@ public class SimpleAbstractMultisetTest extends TestCase {
       checkArgument(occurrences <= Integer.MAX_VALUE - frequency);
       backingMap.put(element, frequency + occurrences);
       return frequency;
+    }
+
+    @Override
+    Iterator<E> elementIterator() {
+      return Multisets.elementIterator(entryIterator());
     }
 
     @Override
@@ -132,6 +161,11 @@ public class SimpleAbstractMultisetTest extends TestCase {
           };
         }
       };
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return Multisets.iteratorImpl(this);
     }
 
     @Override

@@ -16,11 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * This class implements the GWT serialization of {@link CompoundOrdering}.
@@ -34,11 +37,21 @@ public class CompoundOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static CompoundOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new CompoundOrdering<Object>((ImmutableList<Comparator<Object>>) reader.readObject());
+    checkGwtRpcEnabled();
+    int n = reader.readInt();
+    List<Comparator<Object>> comparators = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      comparators.add((Comparator<Object>) reader.readObject());
+    }
+    return new CompoundOrdering<>(comparators);
   }
 
   public static void serialize(SerializationStreamWriter writer, CompoundOrdering<?> instance)
       throws SerializationException {
-    writer.writeObject(instance.comparators);
+    checkGwtRpcEnabled();
+    writer.writeInt(instance.comparators.length);
+    for (Comparator<?> comparator : instance.comparators) {
+      writer.writeObject(comparator);
+    }
   }
 }
