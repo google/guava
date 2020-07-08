@@ -20800,6 +20800,14 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="elements" type="java.lang.Iterable&lt;? extends E&gt;"/>
+      <doc>
+      <![CDATA[Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
+ elements (only the first duplicate element is added).
+
+ @param elements the elements to add
+ @return this {@code Builder} object
+ @throws NullPointerException if {@code elements} is null or contains a null element]]>
+      </doc>
     </method>
     <method name="addAll" return="com.google.common.collect.ImmutableSet.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
