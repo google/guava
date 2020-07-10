@@ -363,7 +363,7 @@ public abstract class Traverser<N> {
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
-          return new DepthFirstIterator(startNodes, Order.PREORDER);
+          return Walker.inGraph(graph).preOrder(startNodes.iterator());
         }
       };
     }
@@ -386,7 +386,7 @@ public abstract class Traverser<N> {
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
-          return new DepthFirstIterator(startNodes, Order.POSTORDER);
+          return Walker.inGraph(graph).postOrder(startNodes.iterator());
         }
       };
     }
@@ -425,58 +425,6 @@ public abstract class Traverser<N> {
           }
         }
         return current;
-      }
-    }
-
-    private final class DepthFirstIterator extends AbstractIterator<N> {
-      private final Deque<NodeAndSuccessors> stack = new ArrayDeque<>();
-      private final Set<N> visited = new HashSet<>();
-      private final Order order;
-
-      DepthFirstIterator(Iterable<? extends N> roots, Order order) {
-        stack.push(new NodeAndSuccessors(null, roots));
-        this.order = order;
-      }
-
-      @Override
-      protected N computeNext() {
-        while (true) {
-          if (stack.isEmpty()) {
-            return endOfData();
-          }
-          NodeAndSuccessors nodeAndSuccessors = stack.getFirst();
-          boolean firstVisit = visited.add(nodeAndSuccessors.node);
-          boolean lastVisit = !nodeAndSuccessors.successorIterator.hasNext();
-          boolean produceNode =
-              (firstVisit && order == Order.PREORDER) || (lastVisit && order == Order.POSTORDER);
-          if (lastVisit) {
-            stack.pop();
-          } else {
-            // we need to push a neighbor, but only if we haven't already seen it
-            N successor = nodeAndSuccessors.successorIterator.next();
-            if (!visited.contains(successor)) {
-              stack.push(withSuccessors(successor));
-            }
-          }
-          if (produceNode && nodeAndSuccessors.node != null) {
-            return nodeAndSuccessors.node;
-          }
-        }
-      }
-
-      NodeAndSuccessors withSuccessors(N node) {
-        return new NodeAndSuccessors(node, graph.successors(node));
-      }
-
-      /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */
-      private final class NodeAndSuccessors {
-        final @Nullable N node;
-        final Iterator<? extends N> successorIterator;
-
-        NodeAndSuccessors(@Nullable N node, Iterable<? extends N> successors) {
-          this.node = node;
-          this.successorIterator = successors.iterator();
-        }
       }
     }
   }
@@ -529,7 +477,7 @@ public abstract class Traverser<N> {
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
-          return new DepthFirstPreOrderIterator(startNodes);
+          return Walker.inTree(tree).preOrder(startNodes.iterator());
         }
       };
     }
@@ -552,7 +500,7 @@ public abstract class Traverser<N> {
       return new Iterable<N>() {
         @Override
         public Iterator<N> iterator() {
-          return new DepthFirstPostOrderIterator(startNodes);
+          return Walker.inTree(tree).postOrder(startNodes.iterator());
         }
       };
     }
@@ -585,77 +533,106 @@ public abstract class Traverser<N> {
         return current;
       }
     }
-
-    private final class DepthFirstPreOrderIterator extends UnmodifiableIterator<N> {
-      private final Deque<Iterator<? extends N>> stack = new ArrayDeque<>();
-
-      DepthFirstPreOrderIterator(Iterable<? extends N> roots) {
-        stack.addLast(roots.iterator());
-      }
-
-      @Override
-      public boolean hasNext() {
-        return !stack.isEmpty();
-      }
-
-      @Override
-      public N next() {
-        Iterator<? extends N> iterator = stack.getLast(); // throws NoSuchElementException if empty
-        N result = checkNotNull(iterator.next());
-        if (!iterator.hasNext()) {
-          stack.removeLast();
-        }
-        Iterator<? extends N> childIterator = tree.successors(result).iterator();
-        if (childIterator.hasNext()) {
-          stack.addLast(childIterator);
-        }
-        return result;
-      }
-    }
-
-    private final class DepthFirstPostOrderIterator extends AbstractIterator<N> {
-      private final ArrayDeque<NodeAndChildren> stack = new ArrayDeque<>();
-
-      DepthFirstPostOrderIterator(Iterable<? extends N> roots) {
-        stack.addLast(new NodeAndChildren(null, roots));
-      }
-
-      @Override
-      protected N computeNext() {
-        while (!stack.isEmpty()) {
-          NodeAndChildren top = stack.getLast();
-          if (top.childIterator.hasNext()) {
-            N child = top.childIterator.next();
-            stack.addLast(withChildren(child));
-          } else {
-            stack.removeLast();
-            if (top.node != null) {
-              return top.node;
-            }
-          }
-        }
-        return endOfData();
-      }
-
-      NodeAndChildren withChildren(N node) {
-        return new NodeAndChildren(node, tree.successors(node));
-      }
-
-      /** A simple tuple of a node and a partially iterated {@link Iterator} of its children. */
-      private final class NodeAndChildren {
-        final @Nullable N node;
-        final Iterator<? extends N> childIterator;
-
-        NodeAndChildren(@Nullable N node, Iterable<? extends N> children) {
-          this.node = node;
-          this.childIterator = children.iterator();
-        }
-      }
-    }
   }
 
-  private enum Order {
-    PREORDER,
-    POSTORDER
+  /**
+   * Abstracts away the difference between traversing a graph vs. a tree. For a tree, we just take
+   * the next element from the next non-empty iterator; for graph, we need to loop through the next
+   * non-empty iterator to find first unvisited node.
+   */
+  private abstract static class Walker<N> {
+    final SuccessorsFunction<N> successorFunction;
+
+    Walker(SuccessorsFunction<N> successorFunction) {
+      this.successorFunction = checkNotNull(successorFunction);
+    }
+
+    static <N> Walker<N> inGraph(SuccessorsFunction<N> graph) {
+      final Set<N> visited = new HashSet<>();
+      return new Walker<N>(graph) {
+        @Override
+        N visitNext(Deque<Iterator<? extends N>> horizon) {
+          Iterator<? extends N> top = horizon.getFirst();
+          while (top.hasNext()) {
+            N element = checkNotNull(top.next());
+            if (visited.add(element)) {
+              return element;
+            }
+          }
+          horizon.removeFirst();
+          return null;
+        }
+      };
+    }
+
+    static <N> Walker<N> inTree(SuccessorsFunction<N> tree) {
+      return new Walker<N>(tree) {
+        @Override
+        N visitNext(Deque<Iterator<? extends N>> horizon) {
+          Iterator<? extends N> top = horizon.getFirst();
+          if (top.hasNext()) {
+            return checkNotNull(top.next());
+          }
+          horizon.removeFirst();
+          return null;
+        }
+      };
+    }
+
+    final Iterator<N> preOrder(Iterator<? extends N> startNodes) {
+      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
+      horizon.addFirst(startNodes);
+      return new AbstractIterator<N>() {
+        @Override
+        protected N computeNext() {
+          do {
+            N next = visitNext(horizon);
+            if (next != null) {
+              Iterator<? extends N> successors = successorFunction.successors(next).iterator();
+              if (successors.hasNext()) {
+                horizon.addFirst(successors);
+              }
+              return next;
+            }
+          } while (!horizon.isEmpty());
+          return endOfData();
+        }
+      };
+    }
+
+    final Iterator<N> postOrder(Iterator<? extends N> startNodes) {
+      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
+      horizon.addFirst(startNodes);
+      final Deque<N> ancestorStack = new ArrayDeque<>();
+      return new AbstractIterator<N>() {
+        @Override
+        protected N computeNext() {
+          for (N next = visitNext(horizon); next != null; next = visitNext(horizon)) {
+            Iterator<? extends N> successors = successorFunction.successors(next).iterator();
+            if (!successors.hasNext()) {
+              return next;
+            }
+            horizon.addFirst(successors);
+            ancestorStack.push(next);
+          }
+          return ancestorStack.isEmpty() ? endOfData() : ancestorStack.pop();
+        }
+      };
+    }
+
+    /**
+     * Visits the next node from the top iterator of {@code horizon} and returns the visited node.
+     * Null is returned to indicate reaching the end of the top iterator, which can be used by the
+     * traversal strategies to decide what to return in such case: in pre-order, continue to poll
+     * the next top iterator with {@code visitNext()}; in post-order, return the parent node.
+     *
+     * <p>For example, if horizon is {@code [[a, b], [c, d], [e]]}, {@code visitNext()} will return
+     * {@code [a, b, null, c, d, null, e, null]} sequentially, encoding the topological structure.
+     * (Note, however, that the callers of {@code visitNext()} often insert additional iterators
+     * into {@code horizon} between calls to {@code visitNext()}. This causes them to receive
+     * additional values interleaved with those shown above.)
+     */
+    @Nullable
+    abstract N visitNext(Deque<Iterator<? extends N>> horizon);
   }
 }
