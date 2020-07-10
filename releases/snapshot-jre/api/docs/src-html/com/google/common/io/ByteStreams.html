@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>import java.nio.channels.WritableByteChannel;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.ArrayDeque;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.Arrays;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import java.util.Deque;<a name="line.43"></a>
+<span class="sourceLineNo">043</span>import java.util.Queue;<a name="line.43"></a>
 <span class="sourceLineNo">044</span><a name="line.44"></a>
 <span class="sourceLineNo">045</span>/**<a name="line.45"></a>
 <span class="sourceLineNo">046</span> * Provides utility methods for working with byte arrays and I/O streams.<a name="line.46"></a>
@@ -173,7 +173,7 @@
 <span class="sourceLineNo">165</span>   * a total combined length of {@code totalLen} bytes) followed by all bytes remaining in the given<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   * input stream.<a name="line.166"></a>
 <span class="sourceLineNo">167</span>   */<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  private static byte[] toByteArrayInternal(InputStream in, Deque&lt;byte[]&gt; bufs, int totalLen)<a name="line.168"></a>
+<span class="sourceLineNo">168</span>  private static byte[] toByteArrayInternal(InputStream in, Queue&lt;byte[]&gt; bufs, int totalLen)<a name="line.168"></a>
 <span class="sourceLineNo">169</span>      throws IOException {<a name="line.169"></a>
 <span class="sourceLineNo">170</span>    // Starting with an 8k buffer, double the size of each sucessive buffer. Buffers are retained<a name="line.170"></a>
 <span class="sourceLineNo">171</span>    // in a deque so that there's no copying between buffers while reading and so all of the bytes<a name="line.171"></a>
@@ -204,11 +204,11 @@
 <span class="sourceLineNo">196</span>    }<a name="line.196"></a>
 <span class="sourceLineNo">197</span>  }<a name="line.197"></a>
 <span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  private static byte[] combineBuffers(Deque&lt;byte[]&gt; bufs, int totalLen) {<a name="line.199"></a>
+<span class="sourceLineNo">199</span>  private static byte[] combineBuffers(Queue&lt;byte[]&gt; bufs, int totalLen) {<a name="line.199"></a>
 <span class="sourceLineNo">200</span>    byte[] result = new byte[totalLen];<a name="line.200"></a>
 <span class="sourceLineNo">201</span>    int remaining = totalLen;<a name="line.201"></a>
 <span class="sourceLineNo">202</span>    while (remaining &gt; 0) {<a name="line.202"></a>
-<span class="sourceLineNo">203</span>      byte[] buf = bufs.removeFirst();<a name="line.203"></a>
+<span class="sourceLineNo">203</span>      byte[] buf = bufs.remove();<a name="line.203"></a>
 <span class="sourceLineNo">204</span>      int bytesToCopy = Math.min(remaining, buf.length);<a name="line.204"></a>
 <span class="sourceLineNo">205</span>      int resultOffset = totalLen - remaining;<a name="line.205"></a>
 <span class="sourceLineNo">206</span>      System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);<a name="line.206"></a>
@@ -261,7 +261,7 @@
 <span class="sourceLineNo">253</span>    }<a name="line.253"></a>
 <span class="sourceLineNo">254</span><a name="line.254"></a>
 <span class="sourceLineNo">255</span>    // the stream was longer, so read the rest normally<a name="line.255"></a>
-<span class="sourceLineNo">256</span>    Deque&lt;byte[]&gt; bufs = new ArrayDeque&lt;byte[]&gt;(TO_BYTE_ARRAY_DEQUE_SIZE + 2);<a name="line.256"></a>
+<span class="sourceLineNo">256</span>    Queue&lt;byte[]&gt; bufs = new ArrayDeque&lt;byte[]&gt;(TO_BYTE_ARRAY_DEQUE_SIZE + 2);<a name="line.256"></a>
 <span class="sourceLineNo">257</span>    bufs.add(bytes);<a name="line.257"></a>
 <span class="sourceLineNo">258</span>    bufs.add(new byte[] {(byte) b});<a name="line.258"></a>
 <span class="sourceLineNo">259</span>    return toByteArrayInternal(in, bufs, bytes.length + 1);<a name="line.259"></a>
