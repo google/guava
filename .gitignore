@@ -2,6 +2,9 @@
 target/
 *.ser
 *.ec
+mvnw
+mvnw.cmd
+.mvn/
 
 # IntelliJ Idea
 .idea/
@@ -15,6 +18,17 @@ out/
 .project
 .settings/
 .metadata/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# VS Code
+.vscode/
 
 # OS X
 .DS_Store
