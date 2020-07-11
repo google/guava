@@ -6,6 +6,11 @@ jdk:
   - openjdk8
   - openjdk11
 
+addons:
+  apt:
+    packages:
+      - openjdk-8-source
+
 install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
 
 # https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received

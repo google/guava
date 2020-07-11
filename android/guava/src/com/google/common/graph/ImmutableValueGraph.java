@@ -42,8 +42,8 @@ import com.google.errorprone.annotations.Immutable;
  */
 @Beta
 @Immutable(containerOf = {"N", "V"})
-@SuppressWarnings("Immutable") // Extends ConfigurableValueGraph but uses ImmutableMaps.
-public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
+@SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
+public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {
     super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
@@ -64,6 +64,11 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
   @Deprecated
   public static <N, V> ImmutableValueGraph<N, V> copyOf(ImmutableValueGraph<N, V> graph) {
     return checkNotNull(graph);
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
   }
 
   @Override
@@ -125,7 +130,10 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
     private final MutableValueGraph<N, V> mutableValueGraph;
 
     Builder(ValueGraphBuilder<N, V> graphBuilder) {
-      this.mutableValueGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableValueGraph =
+          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

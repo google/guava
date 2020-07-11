@@ -32,6 +32,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
@@ -459,6 +460,47 @@ public final class Uninterruptibles {
         try {
           // Semaphore treats negative timeouts just like zero.
           return semaphore.tryAcquire(permits, remainingNanos, NANOSECONDS);
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
+   * uninterruptibly.
+   *
+   * @since NEXT
+   */
+  @GwtIncompatible // concurrency
+  @Beta
+  public static boolean tryLockUninterruptibly(Lock lock, Duration timeout) {
+    return tryLockUninterruptibly(lock, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
+   * uninterruptibly.
+   *
+   * @since NEXT
+   */
+  @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  public static boolean tryLockUninterruptibly(Lock lock, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
+      while (true) {
+        try {
+          return lock.tryLock(remainingNanos, NANOSECONDS);
         } catch (InterruptedException e) {
           interrupted = true;
           remainingNanos = end - System.nanoTime();

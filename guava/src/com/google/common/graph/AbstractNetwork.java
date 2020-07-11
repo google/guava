@@ -108,6 +108,13 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       }
 
       @Override
+      public ElementOrder<N> incidentEdgeOrder() {
+        // TODO(b/142723300): Return AbstractNetwork.this.incidentEdgeOrder() once Network has that
+        //   method.
+        return ElementOrder.unordered();
+      }
+
+      @Override
       public boolean isDirected() {
         return AbstractNetwork.this.isDirected();
       }

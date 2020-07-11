@@ -949,6 +949,13 @@ public class SetsTest extends TestCase {
     }
   }
 
+  public void testPowerSetEquals_independentOfOrder() {
+    ImmutableSet<Integer> elements = ImmutableSet.of(1, 2, 3, 4);
+    Set<Set<Integer>> forward = powerSet(elements);
+    Set<Set<Integer>> reverse = powerSet(ImmutableSet.copyOf(elements.asList().reverse()));
+    new EqualsTester().addEqualityGroup(forward, reverse).testEquals();
+  }
+
   /**
    * Test that a hash code miscomputed by "input.hashCode() * tooFarValue / 2" is correct under our
    * {@code hashCode} implementation.

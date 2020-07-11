@@ -14,11 +14,11 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -31,7 +31,6 @@ import java.util.concurrent.TimeoutException;
  * @author Chris Nokleberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractIdleService implements Service {
 
@@ -165,6 +164,12 @@ public abstract class AbstractIdleService implements Service {
     delegate.awaitRunning();
   }
 
+  /** @since 28.0 */
+  @Override
+  public final void awaitRunning(Duration timeout) throws TimeoutException {
+    Service.super.awaitRunning(timeout);
+  }
+
   /** @since 15.0 */
   @Override
   public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
@@ -175,6 +180,12 @@ public abstract class AbstractIdleService implements Service {
   @Override
   public final void awaitTerminated() {
     delegate.awaitTerminated();
+  }
+
+  /** @since 28.0 */
+  @Override
+  public final void awaitTerminated(Duration timeout) throws TimeoutException {
+    Service.super.awaitTerminated(timeout);
   }
 
   /** @since 15.0 */

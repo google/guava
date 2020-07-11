@@ -629,6 +629,16 @@ public class ListsTest extends TestCase {
     assertEquals(actual.indexOf(list(1, 1, 1)), -1);
   }
 
+  public void testCartesianProduct_lastIndexOf() {
+    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 1), list(2, 3));
+    assertThat(actual.lastIndexOf(list(1, 2))).isEqualTo(2);
+    assertThat(actual.lastIndexOf(list(1, 3))).isEqualTo(3);
+    assertThat(actual.lastIndexOf(list(1, 1))).isEqualTo(-1);
+
+    assertThat(actual.lastIndexOf(list(1))).isEqualTo(-1);
+    assertThat(actual.lastIndexOf(list(1, 1, 1))).isEqualTo(-1);
+  }
+
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     List<Integer> x = list(1, 2);

@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -37,11 +38,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -121,14 +123,39 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   }
 
   /**
-   * The hashtable. Its values are indexes to the elements and entries arrays.
-   *
-   * <p>Currently, the UNSET value means "null pointer", and any positive value x is the actual
-   * index + 1.
-   *
-   * <p>Its size must be a power of two.
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
    */
-  @MonotonicNonNull private transient Object table;
+  @VisibleForTesting(
+      )
+  static final double HASH_FLOODING_FPP = 0.001;
+
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashSet based
+   * implementation. Experimentally determined.
+   */
+  private static final int MAX_HASH_BUCKET_LENGTH = 9;
+
+  /**
+   * The hashtable object. This can be either:
+   *
+   * <ul>
+   *   <li>a byte[], short[], or int[], with size a power of two, created by
+   *       CompactHashing.createTable, whose values are either
+   *       <ul>
+   *         <li>UNSET, meaning "null pointer"
+   *         <li>one plus an index into the entries and elements array
+   *       </ul>
+   *   <li>another java.util.Set delegate implementation. In most modern JDKs, normal java.util hash
+   *       collections intelligently fall back to a binary search tree if hash table collisions are
+   *       detected. Rather than going to all the trouble of reimplementing this ourselves, we
+   *       simply switch over to use the JDK implementation wholesale if probable hash flooding is
+   *       detected, sacrificing the compactness guarantee in very rare cases in exchange for much
+   *       more reliable worst-case behavior.
+   *   <li>null, if no entries have yet been added to the map
+   * </ul>
+   */
+  @Nullable private transient Object table;
 
   /**
    * Contains the logical entries, in the range of [0, size()). The high bits of each int are the
@@ -145,13 +172,13 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    *
    * <p>The pointers in [size(), entries.length) are all "null" (UNSET).
    */
-  private transient int @MonotonicNonNull [] entries;
+  private transient int @Nullable [] entries;
 
   /**
    * The elements contained in the set, in the range of [0, size()). The elements in [size(),
    * elements.length) are all {@code null}.
    */
-  @VisibleForTesting transient Object @MonotonicNonNull [] elements;
+  @VisibleForTesting transient Object @Nullable [] elements;
 
   /**
    * Keeps track of metadata like the number of hash table bits and modifications of this data
@@ -183,7 +210,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     Preconditions.checkArgument(expectedSize >= 0, "Expected size must be >= 0");
 
     // Save expectedSize for use in allocArrays()
-    this.metadata = Math.max(1, Math.min(CompactHashing.MAX_SIZE, expectedSize));
+    this.metadata = Ints.constrainToRange(expectedSize, 1, CompactHashing.MAX_SIZE);
   }
 
   /** Returns whether arrays need to be allocated. */
@@ -208,6 +235,40 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     return expectedSize;
   }
 
+  @SuppressWarnings("unchecked")
+  @VisibleForTesting
+  @Nullable
+  Set<E> delegateOrNull() {
+    if (table instanceof Set) {
+      return (Set<E>) table;
+    }
+    return null;
+  }
+
+  private Set<E> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashSet<>(tableSize, 1.0f);
+  }
+
+  @SuppressWarnings("unchecked")
+  @VisibleForTesting
+  @CanIgnoreReturnValue
+  Set<E> convertToHashFloodingResistantImplementation() {
+    Set<E> newDelegate = createHashFloodingResistantDelegate(hashTableMask() + 1);
+    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
+      newDelegate.add((E) elements[i]);
+    }
+    this.table = newDelegate;
+    this.entries = null;
+    this.elements = null;
+    incrementModCount();
+    return newDelegate;
+  }
+
+  @VisibleForTesting
+  boolean isUsingHashFloodingResistance() {
+    return delegateOrNull() != null;
+  }
+
   /** Stores the hash table mask as the number of bits needed to represent an index. */
   private void setHashTableMask(int mask) {
     int hashTableBits = Integer.SIZE - Integer.numberOfLeadingZeros(mask);
@@ -230,6 +291,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     if (needsAllocArrays()) {
       allocArrays();
     }
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.add(object);
+    }
     int[] entries = this.entries;
     Object[] elements = this.elements;
 
@@ -250,6 +315,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
       int entryIndex;
       int entry;
       int hashPrefix = CompactHashing.getHashPrefix(hash, mask);
+      int bucketLength = 0;
       do {
         entryIndex = next - 1;
         entry = entries[entryIndex];
@@ -258,7 +324,13 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
           return false;
         }
         next = CompactHashing.getNext(entry, mask);
+        bucketLength++;
       } while (next != UNSET);
+
+      if (bucketLength >= MAX_HASH_BUCKET_LENGTH) {
+        return convertToHashFloodingResistantImplementation().add(object);
+      }
+
       if (newSize > mask) {
         // Resize and add new entry
         mask = resizeTable(mask, CompactHashing.newCapacity(mask), hash, newEntryIndex);
@@ -345,6 +417,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     if (needsAllocArrays()) {
       return false;
     }
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.contains(object);
+    }
     int hash = smearedHash(object);
     int mask = hashTableMask();
     int next = CompactHashing.tableGet(table, hash & mask);
@@ -369,6 +445,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   public boolean remove(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
+    }
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.remove(object);
     }
     int mask = hashTableMask();
     int index =
@@ -444,6 +524,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @Override
   public Iterator<E> iterator() {
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.iterator();
+    }
     return new Iterator<E>() {
       int expectedMetadata = metadata;
       int currentIndex = firstEntryIndex();
@@ -494,26 +578,35 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     if (needsAllocArrays()) {
       return Spliterators.spliterator(new Object[0], Spliterator.DISTINCT | Spliterator.ORDERED);
     }
-    return Spliterators.spliterator(elements, 0, size, Spliterator.DISTINCT | Spliterator.ORDERED);
+    @Nullable Set<E> delegate = delegateOrNull();
+    return (delegate != null)
+        ? delegate.spliterator()
+        : Spliterators.spliterator(elements, 0, size, Spliterator.DISTINCT | Spliterator.ORDERED);
   }
 
   @SuppressWarnings("unchecked") // known to be Es
   @Override
   public void forEach(Consumer<? super E> action) {
     checkNotNull(action);
-    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
-      action.accept((E) elements[i]);
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      delegate.forEach(action);
+    } else {
+      for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
+        action.accept((E) elements[i]);
+      }
     }
   }
 
   @Override
   public int size() {
-    return size;
+    @Nullable Set<E> delegate = delegateOrNull();
+    return (delegate != null) ? delegate.size() : size;
   }
 
   @Override
   public boolean isEmpty() {
-    return size == 0;
+    return size() == 0;
   }
 
   @Override
@@ -521,7 +614,8 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     if (needsAllocArrays()) {
       return new Object[0];
     }
-    return Arrays.copyOf(elements, size);
+    @Nullable Set<E> delegate = delegateOrNull();
+    return (delegate != null) ? delegate.toArray() : Arrays.copyOf(elements, size);
   }
 
   @CanIgnoreReturnValue
@@ -533,7 +627,10 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
       }
       return a;
     }
-    return ObjectArrays.toArrayImpl(elements, 0, size, a);
+    @Nullable Set<E> delegate = delegateOrNull();
+    return (delegate != null)
+        ? delegate.toArray(a)
+        : ObjectArrays.toArrayImpl(elements, 0, size, a);
   }
 
   /**
@@ -542,6 +639,13 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    */
   public void trimToSize() {
     if (needsAllocArrays()) {
+      return;
+    }
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      Set<E> newDelegate = createHashFloodingResistantDelegate(size());
+      newDelegate.addAll(delegate);
+      this.table = newDelegate;
       return;
     }
     int size = this.size;
@@ -561,17 +665,26 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
       return;
     }
     incrementModCount();
-    Arrays.fill(elements, 0, size, null);
-    CompactHashing.tableClear(table);
-    Arrays.fill(entries, 0, size, 0);
-    this.size = 0;
+    @Nullable Set<E> delegate = delegateOrNull();
+    if (delegate != null) {
+      metadata =
+          Ints.constrainToRange(size(), CompactHashing.DEFAULT_SIZE, CompactHashing.MAX_SIZE);
+      delegate.clear(); // invalidate any iterators left over!
+      table = null;
+      size = 0;
+    } else {
+      Arrays.fill(elements, 0, size, null);
+      CompactHashing.tableClear(table);
+      Arrays.fill(entries, 0, size, 0);
+      this.size = 0;
+    }
   }
 
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeInt(size);
-    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
-      stream.writeObject(elements[i]);
+    stream.writeInt(size());
+    for (E e : this) {
+      stream.writeObject(e);
     }
   }
 

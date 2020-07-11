@@ -30,10 +30,6 @@ import org.junit.Test;
  */
 public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTest {
 
-  abstract boolean allowsSelfLoops();
-
-  abstract ElementOrder<Integer> incidentEdgeOrder();
-
   @Override
   @Test
   public void nodes_checkReturnedSetMutability() {
@@ -174,7 +170,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void adjacentNodes_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     putEdge(N1, N2);
@@ -183,7 +179,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void predecessors_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.predecessors(N1)).containsExactly(N1);
@@ -193,7 +189,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void successors_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.successors(N1)).containsExactly(N1);
@@ -203,7 +199,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void incidentEdges_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.incidentEdges(N1)).containsExactly(EndpointPair.ordered(N1, N1));
@@ -214,7 +210,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void degree_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.degree(N1)).isEqualTo(2);
@@ -224,7 +220,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void inDegree_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.inDegree(N1)).isEqualTo(1);
@@ -234,7 +230,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void outDegree_selfLoop() {
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graph.outDegree(N1)).isEqualTo(1);
@@ -248,7 +244,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   // Ideally, the ordering in test should never be updated.
   @Test
   public void stableIncidentEdgeOrder_edges_returnsInStableOrder() {
-    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
 
     populateStarShapedGraph();
 
@@ -265,7 +261,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void stableIncidentEdgeOrder_adjacentNodes_returnsInConnectingEdgeInsertionOrder() {
-    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
 
     populateStarShapedGraph();
 
@@ -274,7 +270,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void stableIncidentEdgeOrder_predecessors_returnsInConnectingEdgeInsertionOrder() {
-    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
 
     populateStarShapedGraph();
 
@@ -283,18 +279,16 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
 
   @Test
   public void stableIncidentEdgeOrder_successors_returnsInConnectingEdgeInsertionOrder() {
-    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
 
     populateStarShapedGraph();
 
     assertThat(graph.successors(1)).containsExactly(4, 3, 2).inOrder();
   }
 
-  // Note: Stable order means that the ordering doesn't change between iterations and versions.
-  // Ideally, the ordering in test should never be updated.
   @Test
   public void stableIncidentEdgeOrder_incidentEdges_returnsInEdgeInsertionOrder() {
-    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
 
     populateStarShapedGraph();
 
@@ -306,6 +300,25 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
             EndpointPair.ordered(5, 1),
             EndpointPair.ordered(1, 2),
             EndpointPair.ordered(3, 1))
+        .inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_incidentEdges_withSelfLoop_returnsInEdgeInsertionOrder() {
+    assume().that(graph.incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(graph.allowsSelfLoops()).isTrue();
+
+    putEdge(2, 1);
+    putEdge(1, 1);
+    putEdge(1, 3);
+    putEdge(1, 2);
+
+    assertThat(graph.incidentEdges(1))
+        .containsExactly(
+            EndpointPair.ordered(2, 1),
+            EndpointPair.ordered(1, 1),
+            EndpointPair.ordered(1, 3),
+            EndpointPair.ordered(1, 2))
         .inOrder();
   }
 
@@ -383,7 +396,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   @Test
   public void putEdge_doesntAllowSelfLoops() {
     assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isFalse();
+    assume().that(graph.allowsSelfLoops()).isFalse();
 
     try {
       graphAsMutableGraph.putEdge(N1, N1);
@@ -396,7 +409,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   @Test
   public void putEdge_allowsSelfLoops() {
     assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     assertThat(graphAsMutableGraph.putEdge(N1, N1)).isTrue();
     assertThat(graph.successors(N1)).containsExactly(N1);
@@ -406,7 +419,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   @Test
   public void putEdge_existingSelfLoopEdgeBetweenSameNodes() {
     assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     graphAsMutableGraph.putEdge(N1, N1);
     assertThat(graphAsMutableGraph.putEdge(N1, N1)).isFalse();
@@ -447,7 +460,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   @Test
   public void removeNode_existingNodeWithSelfLoopEdge() {
     assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     addNode(N1);
     putEdge(N1, N1);
@@ -458,7 +471,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   @Test
   public void removeEdge_existingSelfLoopEdge() {
     assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
+    assume().that(graph.allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
     assertThat(graphAsMutableGraph.removeEdge(N1, N1)).isTrue();

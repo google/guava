@@ -3,9 +3,11 @@
 [![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 
-Guava is a set of core libraries that includes new collection types (such as
-multimap and multiset), immutable collections, a graph library, and utilities
-for concurrency, I/O, hashing, primitives, strings, and more!
+Guava is a set of core Java libraries from Google that includes new collection types
+(such as multimap and multiset), immutable collections, a graph library, and
+utilities for concurrency, I/O, hashing, caching, primitives, strings, and more! It
+is widely used on most Java projects within Google, and widely used by many
+other companies as well.
 
 Guava comes in two flavors.
 
@@ -17,11 +19,11 @@ Guava comes in two flavors.
 
 ## Adding Guava to your build
 
-Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava`.
+Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or Java 7 or by any library that wants to be compatible with
 either of those. These flavors are specified in the Maven version field as
-either `28.1-jre` or `28.1-android`. For more about depending on Guava, see
+either `29.0-jre` or `29.0-android`. For more about depending on Guava, see
 [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -30,9 +32,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>28.1-jre</version>
+  <version>29.0-jre</version>
   <!-- or, for Android: -->
-  <version>28.1-android</version>
+  <version>29.0-android</version>
 </dependency>
 ```
 
@@ -43,16 +45,16 @@ dependencies {
   // Pick one:
 
   // 1. Use Guava in your implementation only:
-  implementation("com.google.guava:guava:28.1-jre")
+  implementation("com.google.guava:guava:29.0-jre")
 
   // 2. Use Guava types in your public API:
-  api("com.google.guava:guava:28.1-jre")
+  api("com.google.guava:guava:29.0-jre")
 
   // 3. Android - Use Guava in your implementation only:
-  implementation("com.google.guava:guava:28.1-android")
+  implementation("com.google.guava:guava:29.0-android")
 
   // 4. Android - Use Guava types in your public API:
-  api("com.google.guava:guava:28.1-android")
+  api("com.google.guava:guava:29.0-android")
 }
 ```
 
@@ -60,7 +62,7 @@ For more information on when to use `api` and when to use `implementation`,
 consult the
 [Gradle documentation on API and implementation separation](https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation).
 
-## Snapshots
+## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
 using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
@@ -87,8 +89,8 @@ flavor.
 
 1.  APIs marked with the `@Beta` annotation at the class or method level are
     subject to change. They can be modified in any way, or even removed, at any
-    time. If your code is a library itself (i.e. it is used on the CLASSPATH of
-    users outside your own control), you should not use beta APIs, unless you
+    time. If your code is a library itself (i.e., it is used on the CLASSPATH of
+    users outside your own control), you should not use beta APIs unless you
     [repackage] them. **If your code is a library, we strongly recommend using
     the [Guava Beta Checker] to ensure that you do not use any `@Beta` APIs!**
 
@@ -114,8 +116,8 @@ flavor.
     correctly in other environments. For the Android flavor, our unit tests run
     on API level 15 (Ice Cream Sandwich).
 
-[guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
-[guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
+[guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
 [Guava Beta Checker]: https://github.com/google/guava-beta-checker
 

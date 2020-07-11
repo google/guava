@@ -31,6 +31,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
+import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.Futures.inCompletionOrder;
 import static com.google.common.util.concurrent.Futures.lazyTransform;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
@@ -136,6 +137,14 @@ public class FuturesTest extends TestCase {
     assertSame(DATA1, getDone(future));
     assertSame(DATA1, getDoneFromTimeoutOverload(future));
     assertThat(future.toString()).contains("[status=SUCCESS, result=[" + DATA1 + "]]");
+  }
+
+  public void testImmediateVoidFuture() throws Exception {
+    ListenableFuture<Void> voidFuture = immediateVoidFuture();
+
+    assertThat(getDone(voidFuture)).isNull();
+    assertThat(getDoneFromTimeoutOverload(voidFuture)).isNull();
+    assertThat(voidFuture.toString()).contains("[status=SUCCESS, result=[null]]");
   }
 
   public void testImmediateFailedFuture() throws Exception {

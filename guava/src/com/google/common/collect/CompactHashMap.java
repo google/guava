@@ -47,7 +47,6 @@ import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -200,7 +199,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     Preconditions.checkArgument(expectedSize >= 0, "Expected size must be >= 0");
 
     // Save expectedSize for use in allocArrays()
-    this.metadata = Math.max(1, Math.min(CompactHashing.MAX_SIZE, expectedSize));
+    this.metadata = Ints.constrainToRange(expectedSize, 1, CompactHashing.MAX_SIZE);
   }
 
   /** Returns whether arrays need to be allocated. */
@@ -612,7 +611,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  private transient @MonotonicNonNull Set<K> keySetView;
+  private transient @Nullable Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -721,7 +720,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  private transient @MonotonicNonNull Set<Entry<K, V>> entrySetView;
+  private transient @Nullable Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -833,9 +832,8 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @SuppressWarnings("unchecked") // known to be a V
-    @Nullable
     @Override
-    public V getValue() {
+    public @Nullable V getValue() {
       @Nullable Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return delegate.get(key);
@@ -888,7 +886,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return false;
   }
 
-  private transient @MonotonicNonNull Collection<V> valuesView;
+  private transient @Nullable Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {
@@ -1011,6 +1009,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     if (delegate != null) {
       metadata =
           Ints.constrainToRange(size(), CompactHashing.DEFAULT_SIZE, CompactHashing.MAX_SIZE);
+      delegate.clear(); // invalidate any iterators left over!
       table = null;
       size = 0;
     } else {

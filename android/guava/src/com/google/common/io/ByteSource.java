@@ -530,7 +530,9 @@ public abstract class ByteSource {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
       long maxLength = this.length - offset;
-      return ByteSource.this.slice(this.offset + offset, Math.min(length, maxLength));
+      return maxLength <= 0
+          ? ByteSource.empty()
+          : ByteSource.this.slice(this.offset + offset, Math.min(length, maxLength));
     }
 
     @Override

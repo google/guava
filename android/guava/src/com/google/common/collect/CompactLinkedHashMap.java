@@ -22,7 +22,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -78,7 +77,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient long[] links;
+  @VisibleForTesting @NullableDecl transient long[] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;

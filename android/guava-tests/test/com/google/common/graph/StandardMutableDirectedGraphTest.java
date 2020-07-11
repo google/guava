@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-/** Tests for a directed {@link ConfigurableMutableGraph}. */
+/** Tests for a directed {@link StandardMutableGraph}. */
 @AndroidIncompatible
 @RunWith(Parameterized.class)
 public final class StandardMutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {
@@ -48,19 +48,9 @@ public final class StandardMutableDirectedGraphTest extends AbstractStandardDire
   }
 
   @Override
-  boolean allowsSelfLoops() {
-    return allowsSelfLoops;
-  }
-
-  @Override
-  ElementOrder<Integer> incidentEdgeOrder() {
-    return incidentEdgeOrder;
-  }
-
-  @Override
   public MutableGraph<Integer> createGraph() {
     return GraphBuilder.directed()
-        .allowsSelfLoops(allowsSelfLoops())
+        .allowsSelfLoops(allowsSelfLoops)
         .incidentEdgeOrder(incidentEdgeOrder)
         .build();
   }

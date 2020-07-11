@@ -31,8 +31,6 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -40,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
@@ -50,9 +48,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  *   <li>automatic loading of entries into the cache
  *   <li>least-recently-used eviction when a maximum size is exceeded
  *   <li>time-based expiration of entries, measured since last access or last write
- *   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
- *   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
- *       SoftReference soft} references
+ *   <li>keys automatically wrapped in {@code WeakReference}
+ *   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
  *   <li>notification of evicted (or otherwise removed) entries
  *   <li>accumulation of cache access statistics
  * </ul>
@@ -233,10 +230,10 @@ public final class CacheBuilder<K, V> {
   int concurrencyLevel = UNSET_INT;
   long maximumSize = UNSET_INT;
   long maximumWeight = UNSET_INT;
-  @MonotonicNonNull Weigher<? super K, ? super V> weigher;
+  @Nullable Weigher<? super K, ? super V> weigher;
 
-  @MonotonicNonNull Strength keyStrength;
-  @MonotonicNonNull Strength valueStrength;
+  @Nullable Strength keyStrength;
+  @Nullable Strength valueStrength;
 
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long expireAfterWriteNanos = UNSET_INT;
@@ -247,11 +244,11 @@ public final class CacheBuilder<K, V> {
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long refreshNanos = UNSET_INT;
 
-  @MonotonicNonNull Equivalence<Object> keyEquivalence;
-  @MonotonicNonNull Equivalence<Object> valueEquivalence;
+  @Nullable Equivalence<Object> keyEquivalence;
+  @Nullable Equivalence<Object> valueEquivalence;
 
-  @MonotonicNonNull RemovalListener<? super K, ? super V> removalListener;
-  @MonotonicNonNull Ticker ticker;
+  @Nullable RemovalListener<? super K, ? super V> removalListener;
+  @Nullable Ticker ticker;
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 

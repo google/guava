@@ -912,7 +912,7 @@ public final class InetAddresses {
    *
    * @param address {@link InetAddress} to convert
    * @return {@code BigInteger} representation of the address
-   * @since NEXT
+   * @since 28.2
    */
   public static BigInteger toBigInteger(InetAddress address) {
     return new BigInteger(1, address.getAddress());
@@ -934,7 +934,7 @@ public final class InetAddresses {
    * @param address BigInteger representing the IPv4 address
    * @return Inet4Address representation of the given BigInteger
    * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
-   * @since NEXT
+   * @since 28.2
    */
   public static Inet4Address fromIPv4BigInteger(BigInteger address) {
     return (Inet4Address) fromBigInteger(address, false);
@@ -945,7 +945,7 @@ public final class InetAddresses {
    * @param address BigInteger representing the IPv6 address
    * @return Inet6Address representation of the given BigInteger
    * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
-   * @since NEXT
+   * @since 28.2
    */
   public static Inet6Address fromIPv6BigInteger(BigInteger address) {
     return (Inet6Address) fromBigInteger(address, true);

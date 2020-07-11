@@ -30,7 +30,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped
@@ -98,10 +98,10 @@ public final class MapMaker {
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
 
-  @MonotonicNonNull Strength keyStrength;
-  @MonotonicNonNull Strength valueStrength;
+  @Nullable Strength keyStrength;
+  @Nullable Strength valueStrength;
 
-  @MonotonicNonNull Equivalence<Object> keyEquivalence;
+  @Nullable Equivalence<Object> keyEquivalence;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong

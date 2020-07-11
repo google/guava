@@ -28,6 +28,11 @@ public void testCreateAudioType() throws Exception {
   testCase.testCreateAudioType();
 }
 
+public void testCreateFontType() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreateFontType();
+}
+
 public void testCreateImageType() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testCreateImageType();

@@ -88,4 +88,14 @@ public class BigIntegerMathRoundingBenchmark {
     }
     return tmp;
   }
+
+  @Benchmark
+  long roundToDouble(int reps) {
+    long tmp = 0;
+    for (int i = 0; i < reps; i++) {
+      int j = i & ARRAY_MASK;
+      tmp += Double.doubleToRawLongBits(BigIntegerMath.roundToDouble(nonzero1[j], mode));
+    }
+    return tmp;
+  }
 }

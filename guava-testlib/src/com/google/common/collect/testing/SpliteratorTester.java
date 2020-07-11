@@ -199,8 +199,8 @@ public final class SpliteratorTester<E> {
     abstract <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer);
   }
 
-  @Nullable
-  private static <E> GeneralSpliterator<E> trySplitTestingSize(GeneralSpliterator<E> spliterator) {
+  private static <E> @Nullable GeneralSpliterator<E> trySplitTestingSize(
+      GeneralSpliterator<E> spliterator) {
     boolean subsized = spliterator.hasCharacteristics(Spliterator.SUBSIZED);
     long originalSize = spliterator.estimateSize();
     GeneralSpliterator<E> trySplit = spliterator.trySplit();

@@ -58,7 +58,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(
-            new ConfigurableValueGraph<N, Presence>(
+            new StandardValueGraph<N, Presence>(
                 GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size()));
   }
 
@@ -70,6 +70,11 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
   @Deprecated
   public static <N> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
     return checkNotNull(graph);
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
   }
 
   private static <N> ImmutableMap<N, GraphConnections<N, Presence>> getNodeConnections(

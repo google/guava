@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -107,7 +106,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  @LazyInit @MonotonicNonNullDecl private transient Set<Cell<R, C, V>> cellSet;
+  @LazyInit @NullableDecl private transient Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -163,7 +162,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  @LazyInit @MonotonicNonNullDecl private transient Collection<V> values;
+  @LazyInit @NullableDecl private transient Collection<V> values;
 
   @Override
   public Collection<V> values() {

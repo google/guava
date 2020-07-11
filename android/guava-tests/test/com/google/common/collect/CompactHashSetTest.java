@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.*;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;

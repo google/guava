@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import junit.framework.Test;
@@ -53,6 +54,7 @@ public class CompactLinkedHashSetTest extends TestCase {
 
     TestSuite suite = new TestSuite();
     suite.addTestSuite(CompactLinkedHashSetTest.class);
+    suite.addTestSuite(FloodingTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(
                 new TestStringSetGenerator() {
@@ -62,6 +64,20 @@ public class CompactLinkedHashSetTest extends TestCase {
                   }
                 })
             .named("CompactLinkedHashSet")
+            .withFeatures(allFeatures)
+            .createTestSuite());
+    suite.addTest(
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    CompactLinkedHashSet<String> set = CompactLinkedHashSet.create();
+                    set.convertToHashFloodingResistantImplementation();
+                    Collections.addAll(set, elements);
+                    return set;
+                  }
+                })
+            .named("CompactLinkedHashSet with flooding protection")
             .withFeatures(allFeatures)
             .createTestSuite());
     return suite;
@@ -87,6 +103,15 @@ public class CompactLinkedHashSetTest extends TestCase {
       assertThat(set.needsAllocArrays()).isFalse();
       int expectedSize = Math.max(1, i);
       assertThat(set.elements).hasLength(expectedSize);
+    }
+  }
+
+  public static class FloodingTest extends AbstractHashFloodingTest<Set<Object>> {
+    public FloodingTest() {
+      super(
+          ImmutableList.of(Construction.setFromElements(CompactLinkedHashSet::create)),
+          n -> n * Math.log(n),
+          ImmutableList.of(QueryOp.SET_CONTAINS));
     }
   }
 }

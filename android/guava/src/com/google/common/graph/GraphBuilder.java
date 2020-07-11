@@ -91,8 +91,8 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
     return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder());
-    // TODO(b/142723300): Add incidentEdgeOrder
+        .nodeOrder(graph.nodeOrder())
+        .incidentEdgeOrder(graph.incidentEdgeOrder());
   }
 
   /**
@@ -154,9 +154,9 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
    *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   * @since 29.0
    */
-  // TODO(b/142723300): Make this method public
-  <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
+  public <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
     checkArgument(
         incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED
             || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,
@@ -170,7 +170,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new ConfigurableMutableGraph<N1>(this);
+    return new StandardMutableGraph<N1>(this);
   }
 
   GraphBuilder<N> copy() {

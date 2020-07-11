@@ -91,6 +91,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <h3>Other notes</h3>
  *
  * <ul>
+ *   <li>All ranges are shallow-immutable.
  *   <li>Instances of this type are obtained using the static factory methods in this class.
  *   <li>Ranges are <i>convex</i>: whenever two values are contained, all values in between them
  *       must also be contained. More formally, for any {@code c1 <= c2 <= c3} of type {@code C},

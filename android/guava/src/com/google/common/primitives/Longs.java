@@ -328,10 +328,10 @@ public final class Longs {
     static {
       byte[] result = new byte[128];
       Arrays.fill(result, (byte) -1);
-      for (int i = 0; i <= 9; i++) {
+      for (int i = 0; i < 10; i++) {
         result['0' + i] = (byte) i;
       }
-      for (int i = 0; i <= 26; i++) {
+      for (int i = 0; i < 26; i++) {
         result['A' + i] = (byte) (10 + i);
         result['a' + i] = (byte) (10 + i);
       }
