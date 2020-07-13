@@ -22,13 +22,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.UnmodifiableIterator;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Queue;
 import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -63,6 +60,11 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 public abstract class Traverser<N> {
+  private final SuccessorsFunction<N> successorFunction;
+
+  private Traverser(SuccessorsFunction<N> successorFunction) {
+    this.successorFunction = checkNotNull(successorFunction);
+  }
 
   /**
    * Creates a new traverser for the given general {@code graph}.
@@ -88,9 +90,13 @@ public abstract class Traverser<N> {
    *
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
-  public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
-    checkNotNull(graph);
-    return new GraphTraverser<>(graph);
+  public static <N> Traverser<N> forGraph(final SuccessorsFunction<N> graph) {
+    return new Traverser<N>(graph) {
+      @Override
+      Traversal<N> newTraversal() {
+        return Traversal.inGraph(graph);
+      }
+    };
   }
 
   /**
@@ -166,15 +172,19 @@ public abstract class Traverser<N> {
    * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
    *     one path between any two nodes
    */
-  public static <N> Traverser<N> forTree(SuccessorsFunction<N> tree) {
-    checkNotNull(tree);
+  public static <N> Traverser<N> forTree(final SuccessorsFunction<N> tree) {
     if (tree instanceof BaseGraph) {
       checkArgument(((BaseGraph<?>) tree).isDirected(), "Undirected graphs can never be trees.");
     }
     if (tree instanceof Network) {
       checkArgument(((Network<?, ?>) tree).isDirected(), "Undirected networks can never be trees.");
     }
-    return new TreeTraverser<>(tree);
+    return new Traverser<N>(tree) {
+      @Override
+      Traversal<N> newTraversal() {
+        return Traversal.inTree(tree);
+      }
+    };
   }
 
   /**
@@ -208,7 +218,9 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
-  public abstract Iterable<N> breadthFirst(N startNode);
+  public final Iterable<N> breadthFirst(N startNode) {
+    return breadthFirst(ImmutableSet.of(startNode));
+  }
 
   /**
    * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code
@@ -220,7 +232,15 @@ public abstract class Traverser<N> {
    * @see #breadthFirst(Object)
    * @since 24.1
    */
-  public abstract Iterable<N> breadthFirst(Iterable<? extends N> startNodes);
+  public final Iterable<N> breadthFirst(Iterable<? extends N> startNodes) {
+    final ImmutableSet<N> validated = validate(startNodes);
+    return new Iterable<N>() {
+      @Override
+      public Iterator<N> iterator() {
+        return newTraversal().breadthFirst(validated.iterator());
+      }
+    };
+  }
 
   /**
    * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in
@@ -253,7 +273,9 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
-  public abstract Iterable<N> depthFirstPreOrder(N startNode);
+  public final Iterable<N> depthFirstPreOrder(N startNode) {
+    return depthFirstPreOrder(ImmutableSet.of(startNode));
+  }
 
   /**
    * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code
@@ -265,7 +287,15 @@ public abstract class Traverser<N> {
    * @see #depthFirstPreOrder(Object)
    * @since 24.1
    */
-  public abstract Iterable<N> depthFirstPreOrder(Iterable<? extends N> startNodes);
+  public final Iterable<N> depthFirstPreOrder(Iterable<? extends N> startNodes) {
+    final ImmutableSet<N> validated = validate(startNodes);
+    return new Iterable<N>() {
+      @Override
+      public Iterator<N> iterator() {
+        return newTraversal().preOrder(validated.iterator());
+      }
+    };
+  }
 
   /**
    * Returns an unmodifiable {@code Iterable} over the nodes reachable from {@code startNode}, in
@@ -298,7 +328,9 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if {@code startNode} is not an element of the graph
    */
-  public abstract Iterable<N> depthFirstPostOrder(N startNode);
+  public final Iterable<N> depthFirstPostOrder(N startNode) {
+    return depthFirstPostOrder(ImmutableSet.of(startNode));
+  }
 
   /**
    * Returns an unmodifiable {@code Iterable} over the nodes reachable from any of the {@code
@@ -310,229 +342,25 @@ public abstract class Traverser<N> {
    * @see #depthFirstPostOrder(Object)
    * @since 24.1
    */
-  public abstract Iterable<N> depthFirstPostOrder(Iterable<? extends N> startNodes);
-
-  // Avoid subclasses outside of this class
-  private Traverser() {}
-
-  private static final class GraphTraverser<N> extends Traverser<N> {
-    private final SuccessorsFunction<N> graph;
-
-    GraphTraverser(SuccessorsFunction<N> graph) {
-      this.graph = checkNotNull(graph);
-    }
-
-    @Override
-    public Iterable<N> breadthFirst(final N startNode) {
-      checkNotNull(startNode);
-      return breadthFirst(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> breadthFirst(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N startNode : startNodes) {
-        checkThatNodeIsInGraph(startNode);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return new BreadthFirstIterator(startNodes);
-        }
-      };
-    }
-
-    @Override
-    public Iterable<N> depthFirstPreOrder(final N startNode) {
-      checkNotNull(startNode);
-      return depthFirstPreOrder(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> depthFirstPreOrder(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N startNode : startNodes) {
-        checkThatNodeIsInGraph(startNode);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return Walker.inGraph(graph).preOrder(startNodes.iterator());
-        }
-      };
-    }
-
-    @Override
-    public Iterable<N> depthFirstPostOrder(final N startNode) {
-      checkNotNull(startNode);
-      return depthFirstPostOrder(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> depthFirstPostOrder(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N startNode : startNodes) {
-        checkThatNodeIsInGraph(startNode);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return Walker.inGraph(graph).postOrder(startNodes.iterator());
-        }
-      };
-    }
-
-    @SuppressWarnings("CheckReturnValue")
-    private void checkThatNodeIsInGraph(N startNode) {
-      // successors() throws an IllegalArgumentException for nodes that are not an element of the
-      // graph.
-      graph.successors(startNode);
-    }
-
-    private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
-      private final Queue<N> queue = new ArrayDeque<>();
-      private final Set<N> visited = new HashSet<>();
-
-      BreadthFirstIterator(Iterable<? extends N> roots) {
-        for (N root : roots) {
-          // add all roots to the queue, skipping duplicates
-          if (visited.add(root)) {
-            queue.add(root);
-          }
-        }
-      }
-
+  public final Iterable<N> depthFirstPostOrder(Iterable<? extends N> startNodes) {
+    final ImmutableSet<N> validated = validate(startNodes);
+    return new Iterable<N>() {
       @Override
-      public boolean hasNext() {
-        return !queue.isEmpty();
+      public Iterator<N> iterator() {
+        return newTraversal().postOrder(validated.iterator());
       }
-
-      @Override
-      public N next() {
-        N current = queue.remove();
-        for (N neighbor : graph.successors(current)) {
-          if (visited.add(neighbor)) {
-            queue.add(neighbor);
-          }
-        }
-        return current;
-      }
-    }
+    };
   }
 
-  private static final class TreeTraverser<N> extends Traverser<N> {
-    private final SuccessorsFunction<N> tree;
+  abstract Traversal<N> newTraversal();
 
-    TreeTraverser(SuccessorsFunction<N> tree) {
-      this.tree = checkNotNull(tree);
+  @SuppressWarnings("CheckReturnValue")
+  private ImmutableSet<N> validate(Iterable<? extends N> startNodes) {
+    ImmutableSet<N> copy = ImmutableSet.copyOf(startNodes);
+    for (N node : copy) {
+      successorFunction.successors(node); // Will throw if node doesn't exist
     }
-
-    @Override
-    public Iterable<N> breadthFirst(final N startNode) {
-      checkNotNull(startNode);
-      return breadthFirst(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> breadthFirst(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N startNode : startNodes) {
-        checkThatNodeIsInTree(startNode);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return new BreadthFirstIterator(startNodes);
-        }
-      };
-    }
-
-    @Override
-    public Iterable<N> depthFirstPreOrder(final N startNode) {
-      checkNotNull(startNode);
-      return depthFirstPreOrder(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> depthFirstPreOrder(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N node : startNodes) {
-        checkThatNodeIsInTree(node);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return Walker.inTree(tree).preOrder(startNodes.iterator());
-        }
-      };
-    }
-
-    @Override
-    public Iterable<N> depthFirstPostOrder(final N startNode) {
-      checkNotNull(startNode);
-      return depthFirstPostOrder(ImmutableSet.of(startNode));
-    }
-
-    @Override
-    public Iterable<N> depthFirstPostOrder(final Iterable<? extends N> startNodes) {
-      checkNotNull(startNodes);
-      if (Iterables.isEmpty(startNodes)) {
-        return ImmutableSet.of();
-      }
-      for (N startNode : startNodes) {
-        checkThatNodeIsInTree(startNode);
-      }
-      return new Iterable<N>() {
-        @Override
-        public Iterator<N> iterator() {
-          return Walker.inTree(tree).postOrder(startNodes.iterator());
-        }
-      };
-    }
-
-    @SuppressWarnings("CheckReturnValue")
-    private void checkThatNodeIsInTree(N startNode) {
-      // successors() throws an IllegalArgumentException for nodes that are not an element of the
-      // graph.
-      tree.successors(startNode);
-    }
-
-    private final class BreadthFirstIterator extends UnmodifiableIterator<N> {
-      private final Queue<N> queue = new ArrayDeque<>();
-
-      BreadthFirstIterator(Iterable<? extends N> roots) {
-        for (N root : roots) {
-          queue.add(root);
-        }
-      }
-
-      @Override
-      public boolean hasNext() {
-        return !queue.isEmpty();
-      }
-
-      @Override
-      public N next() {
-        N current = queue.remove();
-        Iterables.addAll(queue, tree.successors(current));
-        return current;
-      }
-    }
+    return copy;
   }
 
   /**
@@ -540,16 +368,16 @@ public abstract class Traverser<N> {
    * the next element from the next non-empty iterator; for graph, we need to loop through the next
    * non-empty iterator to find first unvisited node.
    */
-  private abstract static class Walker<N> {
+  private abstract static class Traversal<N> {
     final SuccessorsFunction<N> successorFunction;
 
-    Walker(SuccessorsFunction<N> successorFunction) {
-      this.successorFunction = checkNotNull(successorFunction);
+    Traversal(SuccessorsFunction<N> successorFunction) {
+      this.successorFunction = successorFunction;
     }
 
-    static <N> Walker<N> inGraph(SuccessorsFunction<N> graph) {
+    static <N> Traversal<N> inGraph(SuccessorsFunction<N> graph) {
       final Set<N> visited = new HashSet<>();
-      return new Walker<N>(graph) {
+      return new Traversal<N>(graph) {
         @Override
         N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
@@ -565,8 +393,8 @@ public abstract class Traverser<N> {
       };
     }
 
-    static <N> Walker<N> inTree(SuccessorsFunction<N> tree) {
-      return new Walker<N>(tree) {
+    static <N> Traversal<N> inTree(SuccessorsFunction<N> tree) {
+      return new Traversal<N>(tree) {
         @Override
         N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
@@ -579,9 +407,23 @@ public abstract class Traverser<N> {
       };
     }
 
+    final Iterator<N> breadthFirst(Iterator<? extends N> startNodes) {
+      return topDown(startNodes, InsertionOrder.BACK);
+    }
+
     final Iterator<N> preOrder(Iterator<? extends N> startNodes) {
+      return topDown(startNodes, InsertionOrder.FRONT);
+    }
+
+    /**
+     * In top-down traversal, an ancestor node is always traversed before any of its descendant
+     * nodes. The traversal order among descendant nodes (particularly aunts and nieces) are
+     * determined by the {@code InsertionOrder} parameter: nieces are placed at the FRONT before
+     * aunts for pre-order; while in BFS they are placed at the BACK after aunts.
+     */
+    private Iterator<N> topDown(Iterator<? extends N> startNodes, final InsertionOrder order) {
       final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
-      horizon.addFirst(startNodes);
+      horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override
         protected N computeNext() {
@@ -590,7 +432,9 @@ public abstract class Traverser<N> {
             if (next != null) {
               Iterator<? extends N> successors = successorFunction.successors(next).iterator();
               if (successors.hasNext()) {
-                horizon.addFirst(successors);
+                // BFS: horizon.addLast(successors)
+                // Pre-order: horizon.addFirst(successors)
+                order.insertInto(horizon, successors);
               }
               return next;
             }
@@ -601,9 +445,9 @@ public abstract class Traverser<N> {
     }
 
     final Iterator<N> postOrder(Iterator<? extends N> startNodes) {
-      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
-      horizon.addFirst(startNodes);
       final Deque<N> ancestorStack = new ArrayDeque<>();
+      final Deque<Iterator<? extends N>> horizon = new ArrayDeque<>();
+      horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override
         protected N computeNext() {
@@ -622,9 +466,7 @@ public abstract class Traverser<N> {
 
     /**
      * Visits the next node from the top iterator of {@code horizon} and returns the visited node.
-     * Null is returned to indicate reaching the end of the top iterator, which can be used by the
-     * traversal strategies to decide what to return in such case: in pre-order, continue to poll
-     * the next top iterator with {@code visitNext()}; in post-order, return the parent node.
+     * Null is returned to indicate reaching the end of the top iterator.
      *
      * <p>For example, if horizon is {@code [[a, b], [c, d], [e]]}, {@code visitNext()} will return
      * {@code [a, b, null, c, d, null, e, null]} sequentially, encoding the topological structure.
@@ -634,5 +476,23 @@ public abstract class Traverser<N> {
      */
     @NullableDecl
     abstract N visitNext(Deque<Iterator<? extends N>> horizon);
+  }
+
+  /** Poor man's method reference for {@code Deque::addFirst} and {@code Deque::addLast}. */
+  private enum InsertionOrder {
+    FRONT {
+      @Override
+      <T> void insertInto(Deque<T> deque, T value) {
+        deque.addFirst(value);
+      }
+    },
+    BACK {
+      @Override
+      <T> void insertInto(Deque<T> deque, T value) {
+        deque.addLast(value);
+      }
+    };
+
+    abstract <T> void insertInto(Deque<T> deque, T value);
   }
 }
