@@ -38846,8 +38846,8 @@
       </doc>
     </method>
     <method name="breadthFirst" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNode" type="N"/>
       <doc>
@@ -38883,8 +38883,8 @@
       </doc>
     </method>
     <method name="breadthFirst" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
@@ -38899,8 +38899,8 @@
       </doc>
     </method>
     <method name="depthFirstPreOrder" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNode" type="N"/>
       <doc>
@@ -38936,8 +38936,8 @@
       </doc>
     </method>
     <method name="depthFirstPreOrder" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
@@ -38952,8 +38952,8 @@
       </doc>
     </method>
     <method name="depthFirstPostOrder" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNode" type="N"/>
       <doc>
@@ -38989,8 +38989,8 @@
       </doc>
     </method>
     <method name="depthFirstPostOrder" return="java.lang.Iterable&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="startNodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
