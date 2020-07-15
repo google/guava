@@ -1078,31 +1078,12 @@ public final class MoreExecutors {
       return delegate;
     }
     return new Executor() {
-      boolean thrownFromDelegate = true;
-
       @Override
-      public void execute(final Runnable command) {
+      public void execute(Runnable command) {
         try {
-          delegate.execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  thrownFromDelegate = false;
-                  command.run();
-                }
-
-                @Override
-                public String toString() {
-                  return command.toString();
-                }
-              });
+          delegate.execute(command);
         } catch (RejectedExecutionException e) {
-          if (thrownFromDelegate) {
-            // wrap exception?
-            future.setException(e);
-          }
-          // otherwise it must have been thrown from a transitive call and the delegate runnable
-          // should have handled it.
+          future.setException(e);
         }
       }
     };
