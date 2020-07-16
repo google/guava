@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
@@ -59,6 +60,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 23.1
  */
 @Beta
+@DoNotMock(
+    "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"
+        + " GraphBuilder)")
 public abstract class Traverser<N> {
   private final SuccessorsFunction<N> successorFunction;
 
