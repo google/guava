@@ -383,8 +383,8 @@ public class TraverserTest {
   @Test
   public void forGraph_depthFirstPreOrder_infinite() {
     Iterable<Integer> result =
-        Traverser.forGraph(fixedSuccessors(Iterables.cycle(1, 2, 3))).breadthFirst(0);
-    assertThat(Iterables.limit(result, 2)).containsExactly(0, 1).inOrder();
+        Traverser.forGraph(fixedSuccessors(Iterables.cycle(1, 2, 3))).depthFirstPreOrder(0);
+    assertThat(Iterables.limit(result, 3)).containsExactly(0, 1, 2).inOrder();
   }
 
   @Test
