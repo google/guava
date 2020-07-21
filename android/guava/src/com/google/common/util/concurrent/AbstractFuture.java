@@ -595,6 +595,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * #wasInterrupted} as necessary. This ensures that the work is done even if the future is
    * cancelled without a call to {@code cancel}, such as by calling {@code
    * setFuture(cancelledFuture)}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    */
   @CanIgnoreReturnValue
   @Override
@@ -728,6 +731,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
+   *
    * @param value the value to be used as the result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
@@ -749,6 +755,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * {@code Future} may have previously been set asynchronously, in which case its result may not be
    * known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param throwable the exception to be used as the failed result
    * @return true if the attempt was accepted, completing the {@code Future}
@@ -783,6 +792,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * it will never trigger interruption behavior. In particular, it will not cause this future to
    * invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
    * return {@code true}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
