@@ -62177,7 +62177,10 @@
  subclasses should override {@link #afterDone}, consulting {@link #isCancelled} and {@link
  #wasInterrupted} as necessary. This ensures that the work is done even if the future is
  cancelled without a call to {@code cancel}, such as by calling {@code
- setFuture(cancelledFuture)}.]]>
+ setFuture(cancelledFuture)}.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.]]>
       </doc>
     </method>
     <method name="interruptTask"
@@ -62233,6 +62236,9 @@
  yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
  method, only by a call to {@link #cancel}.
 
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.
+
  @param value the value to be used as the result
  @return true if the attempt was accepted, completing the {@code Future}]]>
       </doc>
@@ -62250,6 +62256,9 @@
  {@code Future} may have previously been set asynchronously, in which case its result may not be
  known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
  method, only by a call to {@link #cancel}.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.
 
  @param throwable the exception to be used as the failed result
  @return true if the attempt was accepted, completing the {@code Future}]]>
@@ -62280,6 +62289,9 @@
  it will never trigger interruption behavior. In particular, it will not cause this future to
  invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
  return {@code true}.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.
 
  @param future the future to delegate to
  @return true if the attempt was accepted, indicating that the {@code Future} was not previously
@@ -65708,9 +65720,7 @@
  }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
- the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
- documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
- functions passed to this method.
+ the warnings the {@link MoreExecutors#directExecutor} documentation.
 
  @param input the primary input {@code Future}
  @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -65774,11 +65784,7 @@
  }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
- the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
- documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
- functions passed to this method. (Specifically, {@code directExecutor} functions should avoid
- heavyweight operations inside {@code AsyncFunction.apply}. Any heavyweight operations should
- occur in other threads responsible for completing the returned {@code Future}.)
+ the warnings the {@link MoreExecutors#directExecutor} documentation.
 
  @param input the primary input {@code Future}
  @param exceptionType the exception type that triggers use of {@code fallback}. The exception
@@ -65858,11 +65864,7 @@
  }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
- the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
- documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
- functions passed to this method. (Specifically, {@code directExecutor} functions should avoid
- heavyweight operations inside {@code AsyncFunction.apply}. Any heavyweight operations should
- occur in other threads responsible for completing the returned {@code Future}.)
+ the warnings the {@link MoreExecutors#directExecutor} documentation.
 
  <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
  input future and that of the future returned by the chain function. That is, if the returned
@@ -65898,9 +65900,7 @@
  }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
- the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
- documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
- functions passed to this method.
+ the warnings the {@link MoreExecutors#directExecutor} documentation.
 
  <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
  input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel
@@ -66164,9 +66164,7 @@
  }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
- the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
- documentation. All its warnings about heavyweight listeners are also applicable to heavyweight
- callbacks passed to this method.
+ the warnings the {@link MoreExecutors#directExecutor} documentation.
 
  <p>For a more general interface to attach a completion listener to a {@code Future}, see {@link
  ListenableFuture#addListener addListener}.
@@ -66602,20 +66600,10 @@
  thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and
  logged.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
- {@link MoreExecutors#directExecutor}. Otherwise, avoid it. Heavyweight {@code directExecutor}
- listeners can cause problems, and these problems can be difficult to reproduce because they
- depend on timing. For example:
-
- <ul>
-   <li>The listener may be executed by the caller of {@code addListener}. That caller may be a
-       UI thread or other latency-sensitive thread. This can harm UI responsiveness.
-   <li>The listener may be executed by the thread that completes this {@code Future}. That
-       thread may be an internal system thread such as an RPC network thread. Blocking that
-       thread may stall progress of the whole system. It may even cause a deadlock.
-   <li>The listener may delay other listeners, even listeners that are not themselves {@code
-       directExecutor} listeners.
- </ul>
+ <p>Note: If your listener is lightweight -- and will not cause stack overflow by completing
+ more futures or adding more {@code directExecutor()} listeners inline -- consider {@link
+ MoreExecutors#directExecutor}. Otherwise, avoid it: See the warnings on the docs for {@code
+ directExecutor}.
 
  <p>This is the most general listener interface. For common operations performed using
  listeners, see {@link Futures}. For a simplified but general listener interface, see {@link
@@ -67897,6 +67885,32 @@
       <doc>
       <![CDATA[Returns an {@link Executor} that runs each task in the thread that invokes {@link
  Executor#execute execute}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}.
+
+ <p>This executor is appropriate for tasks that are lightweight and not deeply chained.
+ Inappropriate {@code directExecutor} usage can cause problems, and these problems can be
+ difficult to reproduce because they depend on timing. For example:
+
+ <ul>
+   <li>A call like {@code future.transform(function, directExecutor())} may execute the function
+       immediately in the thread that is calling {@code transform}. (This specific case happens
+       if the future is already completed.) If {@code transform} call was made from a UI thread
+       or other latency-sensitive thread, a heavyweight function can harm responsiveness.
+   <li>If the task will be executed later, consider which thread will trigger the execution --
+       since that thread will execute the task inline. If the thread is a shared system thread
+       like an RPC network thread, a heavyweight task can stall progress of the whole system or
+       even deadlock it.
+   <li>If many tasks will be triggered by the same event, one heavyweight task may delay other
+       tasks -- even tasks that are not themselves {@code directExecutor} tasks.
+   <li>If many such tasks are chained together (such as with {@code
+       future.transform(...).transform(...).transform(...)....}), they may overflow the stack.
+       (In simple cases, callers can avoid this by registering all tasks with the same {@link
+       MoreExecutors#newSequentialExecutor} wrapper around {@code directExecutor()}. More
+       complex cases may require using thread pools or making deeper changes.)
+ </ul>
+
+ Additionally, beware of executing tasks with {@code directExecutor} while holding a lock. Since
+ the task you submit to the executor (or any other arbitrary work the executor does) may do slow
+ work or acquire other locks, you risk deadlocks.
 
  <p>This instance is equivalent to:
 

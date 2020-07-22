@@ -271,19 +271,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
  thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--">direct execution</a>) will be caught and
  logged.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
- <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it. Heavyweight <code>directExecutor</code>
- listeners can cause problems, and these problems can be difficult to reproduce because they
- depend on timing. For example:
-
- <ul>
-   <li>The listener may be executed by the caller of <code>addListener</code>. That caller may be a
-       UI thread or other latency-sensitive thread. This can harm UI responsiveness.
-   <li>The listener may be executed by the thread that completes this <code>Future</code>. That
-       thread may be an internal system thread such as an RPC network thread. Blocking that
-       thread may stall progress of the whole system. It may even cause a deadlock.
-   <li>The listener may delay other listeners, even listeners that are not themselves <code>directExecutor</code> listeners.
- </ul>
+ <p>Note: If your listener is lightweight -- and will not cause stack overflow by completing
+ more futures or adding more <code>directExecutor()</code> listeners inline -- consider <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it: See the warnings on the docs for <code>directExecutor</code>.
 
  <p>This is the most general listener interface. For common operations performed using
  listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-"><code>addCallback()</code></a>.

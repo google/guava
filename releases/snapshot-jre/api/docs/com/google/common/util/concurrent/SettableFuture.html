@@ -281,7 +281,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
  the <code>Future</code> is guaranteed to be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone--">done</a> <b>only if</b> the call was
  accepted (in which case it returns <code>true</code>). If it returns <code>false</code>, the <code>Future</code> may have previously been set asynchronously, in which case its result may not be known
  yet. That result, though not yet known, cannot be overridden by a call to a <code>set*</code>
- method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>AbstractFuture.cancel(boolean)</code></a>.</div>
+ method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>AbstractFuture.cancel(boolean)</code></a>.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#set-V-">set</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;</code></dd>
@@ -307,7 +310,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
  the call was accepted (in which case it returns <code>true</code>). If it returns <code>false</code>, the
  <code>Future</code> may have previously been set asynchronously, in which case its result may not be
  known yet. That result, though not yet known, cannot be overridden by a call to a <code>set*</code>
- method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>AbstractFuture.cancel(boolean)</code></a>.</div>
+ method, only by a call to <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-"><code>AbstractFuture.cancel(boolean)</code></a>.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setException-java.lang.Throwable-">setException</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;</code></dd>
@@ -344,7 +350,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
  <p>Note that, even if the supplied future is cancelled and it causes this future to complete,
  it will never trigger interruption behavior. In particular, it will not cause this future to
  invoke the <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#interruptTask--"><code>AbstractFuture.interruptTask()</code></a> method, and the <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted--"><code>AbstractFuture.wasInterrupted()</code></a> method will not
- return <code>true</code>.</div>
+ return <code>true</code>.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;</code></dd>
@@ -487,19 +496,8 @@ public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util
  thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--">direct execution</a>) will be caught and
  logged.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
- <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it. Heavyweight <code>directExecutor</code>
- listeners can cause problems, and these problems can be difficult to reproduce because they
- depend on timing. For example:
-
- <ul>
-   <li>The listener may be executed by the caller of <code>addListener</code>. That caller may be a
-       UI thread or other latency-sensitive thread. This can harm UI responsiveness.
-   <li>The listener may be executed by the thread that completes this <code>Future</code>. That
-       thread may be an internal system thread such as an RPC network thread. Blocking that
-       thread may stall progress of the whole system. It may even cause a deadlock.
-   <li>The listener may delay other listeners, even listeners that are not themselves <code>directExecutor</code> listeners.
- </ul>
+ <p>Note: If your listener is lightweight -- and will not cause stack overflow by completing
+ more futures or adding more <code>directExecutor()</code> listeners inline -- consider <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it: See the warnings on the docs for <code>directExecutor</code>.
 
  <p>This is the most general listener interface. For common operations performed using
  listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-"><code>addCallback()</code></a>.
@@ -548,7 +546,10 @@ public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/commo
 
  <p>Rather than override this method to perform additional cancellation work or cleanup,
  subclasses should override <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#afterDone--"><code>AbstractFuture.afterDone()</code></a>, consulting <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isCancelled--"><code>AbstractFuture.isCancelled()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted--"><code>AbstractFuture.wasInterrupted()</code></a> as necessary. This ensures that the work is done even if the future is
- cancelled without a call to <code>cancel</code>, such as by calling <code>setFuture(cancelledFuture)</code>.</div>
+ cancelled without a call to <code>cancel</code>, such as by calling <code>setFuture(cancelledFuture)</code>.
+
+ <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+ acquire other locks, risking deadlocks.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#cancel-boolean-" title="class or interface in java.util.concurrent">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
