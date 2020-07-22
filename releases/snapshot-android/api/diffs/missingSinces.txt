@@ -1,4 +1,6 @@
 OK: com.google.common.math.BigDecimalMath Class
+OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService, long, java.util.concurrent.TimeUnit)
+OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)
 OK: com.google.common.collect.Comparators Method max(T, T, java.util.Comparator<T>)
 OK: com.google.common.collect.Comparators Method max(T extends java.lang.Comparable<? super T>, T extends java.lang.Comparable<? super T>)
 OK: com.google.common.collect.Comparators Method min(T, T, java.util.Comparator<T>)

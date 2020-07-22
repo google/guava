@@ -66804,6 +66804,32 @@
  @since NEXT]]>
       </doc>
     </method>
+    <method name="awaitTerminationUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="executor" type="java.util.concurrent.ExecutorService"/>
+      <doc>
+      <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
+ awaitTermination(long, TimeUnit)} uninterruptibly with no timeout.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="awaitTerminationUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="executor" type="java.util.concurrent.ExecutorService"/>
+      <param name="timeout" type="long"/>
+      <param name="unit" type="java.util.concurrent.TimeUnit"/>
+      <doc>
+      <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
+ awaitTermination(long, TimeUnit)} uninterruptibly.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
  interrupted during such a call, the call continues to block until the result is available or the
