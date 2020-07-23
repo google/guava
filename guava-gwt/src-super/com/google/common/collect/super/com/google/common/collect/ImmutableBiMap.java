@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
-import com.google.common.annotations.Beta;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,7 +31,6 @@ import java.util.stream.Collector;
  */
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction) {
