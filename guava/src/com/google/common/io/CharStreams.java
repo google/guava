@@ -74,22 +74,20 @@ public final class CharStreams {
       // optimize for common output types which are optimized to deal with char[]
       if (to instanceof StringBuilder) {
         return copyReaderToBuilder((Reader) from, (StringBuilder) to);
-      } else {
-        return copyReaderToWriter((Reader) from, asWriter(to));
       }
-    } else {
-      checkNotNull(from);
-      checkNotNull(to);
-      long total = 0;
-      CharBuffer buf = createBuffer();
-      while (from.read(buf) != -1) {
-        buf.flip();
-        to.append(buf);
-        total += buf.remaining();
-        buf.clear();
-      }
-      return total;
+      return copyReaderToWriter((Reader) from, asWriter(to));
     }
+    checkNotNull(from);
+    checkNotNull(to);
+    long total = 0;
+    CharBuffer buf = createBuffer();
+    while (from.read(buf) != -1) {
+      buf.flip();
+      to.append(buf);
+      total += buf.remaining();
+      buf.clear();
+    }
+    return total;
   }
 
   // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able
