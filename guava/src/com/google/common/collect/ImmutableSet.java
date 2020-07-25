@@ -234,9 +234,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     if (elements instanceof Set) {
       // assume probably no duplicates (though it might be using different equality semantics)
       return construct(array.length, array.length, array);
-    } else {
-      return constructUnknownDuplication(array.length, array);
     }
+    return constructUnknownDuplication(array.length, array);
   }
 
   /**
@@ -271,9 +270,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     E first = elements.next();
     if (!elements.hasNext()) {
       return of(first);
-    } else {
-      return new ImmutableSet.Builder<E>().add(first).addAll(elements).build();
     }
+    return new ImmutableSet.Builder<E>().add(first).addAll(elements).build();
   }
 
   /**
@@ -310,7 +308,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
-    } else if (object instanceof ImmutableSet
+    }
+    if (object instanceof ImmutableSet
         && isHashCodeFast()
         && ((ImmutableSet<?>) object).isHashCodeFast()
         && hashCode() != object.hashCode()) {
