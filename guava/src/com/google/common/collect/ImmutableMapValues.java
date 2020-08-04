@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -98,26 +97,5 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   public void forEach(Consumer<? super V> action) {
     checkNotNull(action);
     map.forEach((k, v) -> action.accept(v));
-  }
-
-  @GwtIncompatible // serialization
-  @Override
-  Object writeReplace() {
-    return new SerializedForm<V>(map);
-  }
-
-  @GwtIncompatible // serialization
-  private static class SerializedForm<V> implements Serializable {
-    final ImmutableMap<?, V> map;
-
-    SerializedForm(ImmutableMap<?, V> map) {
-      this.map = map;
-    }
-
-    Object readResolve() {
-      return map.values();
-    }
-
-    private static final long serialVersionUID = 0;
   }
 }

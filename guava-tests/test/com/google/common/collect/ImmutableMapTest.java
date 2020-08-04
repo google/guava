@@ -51,6 +51,8 @@ import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -61,6 +63,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.Test;
@@ -815,6 +818,119 @@ public class ImmutableMapTest extends TestCase {
     Collection<Integer> reserializedValues = reserialize(map.values());
     assertEquals(Lists.newArrayList(map.values()), Lists.newArrayList(reserializedValues));
     assertTrue(reserializedValues instanceof ImmutableCollection);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testKeySetIsSerializable_regularImmutableMap() {
+    class NonSerializableClass {}
+
+    Map<String, NonSerializableClass> map =
+        RegularImmutableMap.fromEntries(ImmutableMap.entryOf("one", new NonSerializableClass()));
+    Set<String> set = map.keySet();
+
+    LenientSerializableTester.reserializeAndAssertLenient(set);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testKeySetIsSerializable_jdkBackedImmutableMap() {
+    class NonSerializableClass {}
+
+    Entry<String, NonSerializableClass>[] entries =
+        arrayOf(ImmutableMap.entryOf("one", new NonSerializableClass()));
+
+    Map<String, NonSerializableClass> map = JdkBackedImmutableMap.create(1, entries);
+    Set<String> set = map.keySet();
+
+    LenientSerializableTester.reserializeAndAssertLenient(set);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testValuesCollectionIsSerializable_regularImmutableMap() {
+    class NonSerializableClass {}
+
+    Map<NonSerializableClass, String> map =
+        RegularImmutableMap.fromEntries(ImmutableMap.entryOf(new NonSerializableClass(), "value"));
+    Collection<String> collection = map.values();
+
+    LenientSerializableTester.reserializeAndAssertElementsEqual(collection);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testValuesCollectionIsSerializable_jdkBackedImmutableMap() {
+    class NonSerializableClass {}
+
+    Entry<NonSerializableClass, String>[] entries =
+        arrayOf(ImmutableMap.entryOf(new NonSerializableClass(), "value"));
+
+    Map<NonSerializableClass, String> map = JdkBackedImmutableMap.create(1, entries);
+    Collection<String> collection = map.values();
+
+    LenientSerializableTester.reserializeAndAssertElementsEqual(collection);
+  }
+
+  // TODO: Re-enable this test after moving to new serialization format in ImmutableMap.
+  @GwtIncompatible // SerializableTester
+  @SuppressWarnings("unchecked")
+  public void ignore_testSerializationNoDuplication_regularImmutableMap() throws Exception {
+    // Tests that searializing a map, its keySet, and values only writes the underlying data once.
+
+    Entry<Integer, Integer>[] entries = (Entry<Integer, Integer>[]) new Entry<?, ?>[1000];
+    for (int i = 0; i < 1000; i++) {
+      entries[i] = ImmutableMap.entryOf(i, i);
+    }
+
+    ImmutableMap<Integer, Integer> map = RegularImmutableMap.fromEntries(entries);
+    Set<Integer> keySet = map.keySet();
+    Collection<Integer> values = map.values();
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(bytes);
+    oos.writeObject(map);
+    oos.flush();
+
+    int mapSize = bytes.size();
+    oos.writeObject(keySet);
+    oos.writeObject(values);
+    oos.close();
+
+    int finalSize = bytes.size();
+
+    assertThat(finalSize - mapSize).isLessThan(100);
+  }
+
+  // TODO: Re-enable this test after moving to new serialization format in ImmutableMap.
+  @GwtIncompatible // SerializableTester
+  @SuppressWarnings("unchecked")
+  public void ignore_testSerializationNoDuplication_jdkBackedImmutableMap() throws Exception {
+    // Tests that searializing a map, its keySet, and values only writes
+    // the underlying data once.
+
+    Entry<Integer, Integer>[] entries = (Entry<Integer, Integer>[]) new Entry<?, ?>[1000];
+    for (int i = 0; i < 1000; i++) {
+      entries[i] = ImmutableMap.entryOf(i, i);
+    }
+
+    ImmutableMap<Integer, Integer> map = JdkBackedImmutableMap.create(entries.length, entries);
+    Set<Integer> keySet = map.keySet();
+    Collection<Integer> values = map.values();
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(bytes);
+    oos.writeObject(map);
+    oos.flush();
+
+    int mapSize = bytes.size();
+    oos.writeObject(keySet);
+    oos.writeObject(values);
+    oos.close();
+
+    int finalSize = bytes.size();
+
+    assertThat(finalSize - mapSize).isLessThan(100);
+  }
+
+  private static <T> T[] arrayOf(T... objs) {
+    return objs;
   }
 
   @GwtIncompatible("assumptions about splitting")
