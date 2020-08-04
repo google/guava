@@ -899,40 +899,88 @@
 <span class="sourceLineNo">891</span>   * reconstructed using public factory methods. This ensures that the implementation types remain<a name="line.891"></a>
 <span class="sourceLineNo">892</span>   * as implementation details.<a name="line.892"></a>
 <span class="sourceLineNo">893</span>   */<a name="line.893"></a>
-<span class="sourceLineNo">894</span>  static class SerializedForm implements Serializable {<a name="line.894"></a>
-<span class="sourceLineNo">895</span>    private final Object[] keys;<a name="line.895"></a>
-<span class="sourceLineNo">896</span>    private final Object[] values;<a name="line.896"></a>
-<span class="sourceLineNo">897</span><a name="line.897"></a>
-<span class="sourceLineNo">898</span>    SerializedForm(ImmutableMap&lt;?, ?&gt; map) {<a name="line.898"></a>
-<span class="sourceLineNo">899</span>      keys = new Object[map.size()];<a name="line.899"></a>
-<span class="sourceLineNo">900</span>      values = new Object[map.size()];<a name="line.900"></a>
-<span class="sourceLineNo">901</span>      int i = 0;<a name="line.901"></a>
-<span class="sourceLineNo">902</span>      for (Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.902"></a>
-<span class="sourceLineNo">903</span>        keys[i] = entry.getKey();<a name="line.903"></a>
-<span class="sourceLineNo">904</span>        values[i] = entry.getValue();<a name="line.904"></a>
-<span class="sourceLineNo">905</span>        i++;<a name="line.905"></a>
-<span class="sourceLineNo">906</span>      }<a name="line.906"></a>
-<span class="sourceLineNo">907</span>    }<a name="line.907"></a>
-<span class="sourceLineNo">908</span><a name="line.908"></a>
-<span class="sourceLineNo">909</span>    Object readResolve() {<a name="line.909"></a>
-<span class="sourceLineNo">910</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;(keys.length);<a name="line.910"></a>
-<span class="sourceLineNo">911</span>      return createMap(builder);<a name="line.911"></a>
-<span class="sourceLineNo">912</span>    }<a name="line.912"></a>
-<span class="sourceLineNo">913</span><a name="line.913"></a>
-<span class="sourceLineNo">914</span>    Object createMap(Builder&lt;Object, Object&gt; builder) {<a name="line.914"></a>
-<span class="sourceLineNo">915</span>      for (int i = 0; i &lt; keys.length; i++) {<a name="line.915"></a>
-<span class="sourceLineNo">916</span>        builder.put(keys[i], values[i]);<a name="line.916"></a>
-<span class="sourceLineNo">917</span>      }<a name="line.917"></a>
-<span class="sourceLineNo">918</span>      return builder.build();<a name="line.918"></a>
-<span class="sourceLineNo">919</span>    }<a name="line.919"></a>
-<span class="sourceLineNo">920</span><a name="line.920"></a>
-<span class="sourceLineNo">921</span>    private static final long serialVersionUID = 0;<a name="line.921"></a>
-<span class="sourceLineNo">922</span>  }<a name="line.922"></a>
-<span class="sourceLineNo">923</span><a name="line.923"></a>
-<span class="sourceLineNo">924</span>  Object writeReplace() {<a name="line.924"></a>
-<span class="sourceLineNo">925</span>    return new SerializedForm(this);<a name="line.925"></a>
-<span class="sourceLineNo">926</span>  }<a name="line.926"></a>
-<span class="sourceLineNo">927</span>}<a name="line.927"></a>
+<span class="sourceLineNo">894</span>  static class SerializedForm&lt;K, V&gt; implements Serializable {<a name="line.894"></a>
+<span class="sourceLineNo">895</span>    // This object retains references to collections returned by keySet() and value(). This saves<a name="line.895"></a>
+<span class="sourceLineNo">896</span>    // bytes when the both the map and its keySet or value collection are written to the same<a name="line.896"></a>
+<span class="sourceLineNo">897</span>    // instance of ObjectOutputStream.<a name="line.897"></a>
+<span class="sourceLineNo">898</span><a name="line.898"></a>
+<span class="sourceLineNo">899</span>    // TODO(b/160980469): remove support for the old serialization format after some time<a name="line.899"></a>
+<span class="sourceLineNo">900</span>    private static final boolean USE_LEGACY_SERIALIZATION = true;<a name="line.900"></a>
+<span class="sourceLineNo">901</span><a name="line.901"></a>
+<span class="sourceLineNo">902</span>    private final Object keys;<a name="line.902"></a>
+<span class="sourceLineNo">903</span>    private final Object values;<a name="line.903"></a>
+<span class="sourceLineNo">904</span><a name="line.904"></a>
+<span class="sourceLineNo">905</span>    SerializedForm(ImmutableMap&lt;K, V&gt; map) {<a name="line.905"></a>
+<span class="sourceLineNo">906</span>      if (USE_LEGACY_SERIALIZATION) {<a name="line.906"></a>
+<span class="sourceLineNo">907</span>        Object[] keys = new Object[map.size()];<a name="line.907"></a>
+<span class="sourceLineNo">908</span>        Object[] values = new Object[map.size()];<a name="line.908"></a>
+<span class="sourceLineNo">909</span>        int i = 0;<a name="line.909"></a>
+<span class="sourceLineNo">910</span>        for (Entry&lt;?, ?&gt; entry : map.entrySet()) {<a name="line.910"></a>
+<span class="sourceLineNo">911</span>          keys[i] = entry.getKey();<a name="line.911"></a>
+<span class="sourceLineNo">912</span>          values[i] = entry.getValue();<a name="line.912"></a>
+<span class="sourceLineNo">913</span>          i++;<a name="line.913"></a>
+<span class="sourceLineNo">914</span>        }<a name="line.914"></a>
+<span class="sourceLineNo">915</span>        this.keys = keys;<a name="line.915"></a>
+<span class="sourceLineNo">916</span>        this.values = values;<a name="line.916"></a>
+<span class="sourceLineNo">917</span>        return;<a name="line.917"></a>
+<span class="sourceLineNo">918</span>      }<a name="line.918"></a>
+<span class="sourceLineNo">919</span>      this.keys = map.keySet();<a name="line.919"></a>
+<span class="sourceLineNo">920</span>      this.values = map.values();<a name="line.920"></a>
+<span class="sourceLineNo">921</span>    }<a name="line.921"></a>
+<span class="sourceLineNo">922</span><a name="line.922"></a>
+<span class="sourceLineNo">923</span>    @SuppressWarnings("unchecked")<a name="line.923"></a>
+<span class="sourceLineNo">924</span>    final Object readResolve() {<a name="line.924"></a>
+<span class="sourceLineNo">925</span>      if (!(this.keys instanceof ImmutableSet)) {<a name="line.925"></a>
+<span class="sourceLineNo">926</span>        return legacyReadResolve();<a name="line.926"></a>
+<span class="sourceLineNo">927</span>      }<a name="line.927"></a>
+<span class="sourceLineNo">928</span><a name="line.928"></a>
+<span class="sourceLineNo">929</span>      ImmutableSet&lt;K&gt; keySet = (ImmutableSet&lt;K&gt;) this.keys;<a name="line.929"></a>
+<span class="sourceLineNo">930</span>      ImmutableCollection&lt;V&gt; values = (ImmutableCollection&lt;V&gt;) this.values;<a name="line.930"></a>
+<span class="sourceLineNo">931</span><a name="line.931"></a>
+<span class="sourceLineNo">932</span>      Builder&lt;K, V&gt; builder = makeBuilder(keySet.size());<a name="line.932"></a>
+<span class="sourceLineNo">933</span><a name="line.933"></a>
+<span class="sourceLineNo">934</span>      UnmodifiableIterator&lt;K&gt; keyIter = keySet.iterator();<a name="line.934"></a>
+<span class="sourceLineNo">935</span>      UnmodifiableIterator&lt;V&gt; valueIter = values.iterator();<a name="line.935"></a>
+<span class="sourceLineNo">936</span><a name="line.936"></a>
+<span class="sourceLineNo">937</span>      while (keyIter.hasNext()) {<a name="line.937"></a>
+<span class="sourceLineNo">938</span>        builder.put(keyIter.next(), valueIter.next());<a name="line.938"></a>
+<span class="sourceLineNo">939</span>      }<a name="line.939"></a>
+<span class="sourceLineNo">940</span><a name="line.940"></a>
+<span class="sourceLineNo">941</span>      return builder.build();<a name="line.941"></a>
+<span class="sourceLineNo">942</span>    }<a name="line.942"></a>
+<span class="sourceLineNo">943</span><a name="line.943"></a>
+<span class="sourceLineNo">944</span>    @SuppressWarnings("unchecked")<a name="line.944"></a>
+<span class="sourceLineNo">945</span>    final Object legacyReadResolve() {<a name="line.945"></a>
+<span class="sourceLineNo">946</span>      K[] keys = (K[]) this.keys;<a name="line.946"></a>
+<span class="sourceLineNo">947</span>      V[] values = (V[]) this.values;<a name="line.947"></a>
+<span class="sourceLineNo">948</span><a name="line.948"></a>
+<span class="sourceLineNo">949</span>      Builder&lt;K, V&gt; builder = makeBuilder(keys.length);<a name="line.949"></a>
+<span class="sourceLineNo">950</span><a name="line.950"></a>
+<span class="sourceLineNo">951</span>      for (int i = 0; i &lt; keys.length; i++) {<a name="line.951"></a>
+<span class="sourceLineNo">952</span>        builder.put(keys[i], values[i]);<a name="line.952"></a>
+<span class="sourceLineNo">953</span>      }<a name="line.953"></a>
+<span class="sourceLineNo">954</span>      return builder.build();<a name="line.954"></a>
+<span class="sourceLineNo">955</span>    }<a name="line.955"></a>
+<span class="sourceLineNo">956</span><a name="line.956"></a>
+<span class="sourceLineNo">957</span>    /**<a name="line.957"></a>
+<span class="sourceLineNo">958</span>     * Returns a builder that builds the unserialized type. Subclasses should override this method.<a name="line.958"></a>
+<span class="sourceLineNo">959</span>     */<a name="line.959"></a>
+<span class="sourceLineNo">960</span>    Builder&lt;K, V&gt; makeBuilder(int size) {<a name="line.960"></a>
+<span class="sourceLineNo">961</span>      return new Builder&lt;&gt;(size);<a name="line.961"></a>
+<span class="sourceLineNo">962</span>    }<a name="line.962"></a>
+<span class="sourceLineNo">963</span><a name="line.963"></a>
+<span class="sourceLineNo">964</span>    private static final long serialVersionUID = 0;<a name="line.964"></a>
+<span class="sourceLineNo">965</span>  }<a name="line.965"></a>
+<span class="sourceLineNo">966</span><a name="line.966"></a>
+<span class="sourceLineNo">967</span>  /**<a name="line.967"></a>
+<span class="sourceLineNo">968</span>   * Returns a serializable form of this object. Non-public subclasses should not override this<a name="line.968"></a>
+<span class="sourceLineNo">969</span>   * method. Publicly-accessible subclasses must override this method and should return a subclass<a name="line.969"></a>
+<span class="sourceLineNo">970</span>   * of SerializedForm whose readResolve() method returns objects of the subclass type.<a name="line.970"></a>
+<span class="sourceLineNo">971</span>   */<a name="line.971"></a>
+<span class="sourceLineNo">972</span>  Object writeReplace() {<a name="line.972"></a>
+<span class="sourceLineNo">973</span>    return new SerializedForm&lt;&gt;(this);<a name="line.973"></a>
+<span class="sourceLineNo">974</span>  }<a name="line.974"></a>
+<span class="sourceLineNo">975</span>}<a name="line.975"></a>
 
 
 

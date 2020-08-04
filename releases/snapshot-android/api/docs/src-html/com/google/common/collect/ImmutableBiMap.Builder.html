@@ -359,25 +359,24 @@
 <span class="sourceLineNo">351</span>   * &lt;p&gt;Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the<a name="line.351"></a>
 <span class="sourceLineNo">352</span>   * bimap and its inverse in sync during serialization, the way AbstractBiMap does.<a name="line.352"></a>
 <span class="sourceLineNo">353</span>   */<a name="line.353"></a>
-<span class="sourceLineNo">354</span>  private static class SerializedForm extends ImmutableMap.SerializedForm {<a name="line.354"></a>
-<span class="sourceLineNo">355</span>    SerializedForm(ImmutableBiMap&lt;?, ?&gt; bimap) {<a name="line.355"></a>
+<span class="sourceLineNo">354</span>  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    SerializedForm(ImmutableBiMap&lt;K, V&gt; bimap) {<a name="line.355"></a>
 <span class="sourceLineNo">356</span>      super(bimap);<a name="line.356"></a>
 <span class="sourceLineNo">357</span>    }<a name="line.357"></a>
 <span class="sourceLineNo">358</span><a name="line.358"></a>
 <span class="sourceLineNo">359</span>    @Override<a name="line.359"></a>
-<span class="sourceLineNo">360</span>    Object readResolve() {<a name="line.360"></a>
-<span class="sourceLineNo">361</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;();<a name="line.361"></a>
-<span class="sourceLineNo">362</span>      return createMap(builder);<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    }<a name="line.363"></a>
-<span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>    private static final long serialVersionUID = 0;<a name="line.365"></a>
-<span class="sourceLineNo">366</span>  }<a name="line.366"></a>
-<span class="sourceLineNo">367</span><a name="line.367"></a>
-<span class="sourceLineNo">368</span>  @Override<a name="line.368"></a>
-<span class="sourceLineNo">369</span>  Object writeReplace() {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>    return new SerializedForm(this);<a name="line.370"></a>
-<span class="sourceLineNo">371</span>  }<a name="line.371"></a>
-<span class="sourceLineNo">372</span>}<a name="line.372"></a>
+<span class="sourceLineNo">360</span>    Builder&lt;K, V&gt; makeBuilder(int size) {<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      return new Builder&lt;&gt;(size);<a name="line.361"></a>
+<span class="sourceLineNo">362</span>    }<a name="line.362"></a>
+<span class="sourceLineNo">363</span><a name="line.363"></a>
+<span class="sourceLineNo">364</span>    private static final long serialVersionUID = 0;<a name="line.364"></a>
+<span class="sourceLineNo">365</span>  }<a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>  @Override<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  Object writeReplace() {<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    return new SerializedForm&lt;&gt;(this);<a name="line.369"></a>
+<span class="sourceLineNo">370</span>  }<a name="line.370"></a>
+<span class="sourceLineNo">371</span>}<a name="line.371"></a>
 
 
 

@@ -924,33 +924,31 @@
 <span class="sourceLineNo">916</span>   * are reconstructed using public factory methods. This ensures that the implementation types<a name="line.916"></a>
 <span class="sourceLineNo">917</span>   * remain as implementation details.<a name="line.917"></a>
 <span class="sourceLineNo">918</span>   */<a name="line.918"></a>
-<span class="sourceLineNo">919</span>  private static class SerializedForm extends ImmutableMap.SerializedForm {<a name="line.919"></a>
-<span class="sourceLineNo">920</span>    private final Comparator&lt;Object&gt; comparator;<a name="line.920"></a>
+<span class="sourceLineNo">919</span>  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {<a name="line.919"></a>
+<span class="sourceLineNo">920</span>    private final Comparator&lt;? super K&gt; comparator;<a name="line.920"></a>
 <span class="sourceLineNo">921</span><a name="line.921"></a>
-<span class="sourceLineNo">922</span>    @SuppressWarnings("unchecked")<a name="line.922"></a>
-<span class="sourceLineNo">923</span>    SerializedForm(ImmutableSortedMap&lt;?, ?&gt; sortedMap) {<a name="line.923"></a>
-<span class="sourceLineNo">924</span>      super(sortedMap);<a name="line.924"></a>
-<span class="sourceLineNo">925</span>      comparator = (Comparator&lt;Object&gt;) sortedMap.comparator();<a name="line.925"></a>
-<span class="sourceLineNo">926</span>    }<a name="line.926"></a>
-<span class="sourceLineNo">927</span><a name="line.927"></a>
-<span class="sourceLineNo">928</span>    @Override<a name="line.928"></a>
-<span class="sourceLineNo">929</span>    Object readResolve() {<a name="line.929"></a>
-<span class="sourceLineNo">930</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;(comparator);<a name="line.930"></a>
-<span class="sourceLineNo">931</span>      return createMap(builder);<a name="line.931"></a>
-<span class="sourceLineNo">932</span>    }<a name="line.932"></a>
-<span class="sourceLineNo">933</span><a name="line.933"></a>
-<span class="sourceLineNo">934</span>    private static final long serialVersionUID = 0;<a name="line.934"></a>
-<span class="sourceLineNo">935</span>  }<a name="line.935"></a>
-<span class="sourceLineNo">936</span><a name="line.936"></a>
-<span class="sourceLineNo">937</span>  @Override<a name="line.937"></a>
-<span class="sourceLineNo">938</span>  Object writeReplace() {<a name="line.938"></a>
-<span class="sourceLineNo">939</span>    return new SerializedForm(this);<a name="line.939"></a>
-<span class="sourceLineNo">940</span>  }<a name="line.940"></a>
-<span class="sourceLineNo">941</span><a name="line.941"></a>
-<span class="sourceLineNo">942</span>  // This class is never actually serialized directly, but we have to make the<a name="line.942"></a>
-<span class="sourceLineNo">943</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.943"></a>
-<span class="sourceLineNo">944</span>  private static final long serialVersionUID = 0;<a name="line.944"></a>
-<span class="sourceLineNo">945</span>}<a name="line.945"></a>
+<span class="sourceLineNo">922</span>    SerializedForm(ImmutableSortedMap&lt;K, V&gt; sortedMap) {<a name="line.922"></a>
+<span class="sourceLineNo">923</span>      super(sortedMap);<a name="line.923"></a>
+<span class="sourceLineNo">924</span>      comparator = sortedMap.comparator();<a name="line.924"></a>
+<span class="sourceLineNo">925</span>    }<a name="line.925"></a>
+<span class="sourceLineNo">926</span><a name="line.926"></a>
+<span class="sourceLineNo">927</span>    @Override<a name="line.927"></a>
+<span class="sourceLineNo">928</span>    Builder&lt;K, V&gt; makeBuilder(int size) {<a name="line.928"></a>
+<span class="sourceLineNo">929</span>      return new Builder&lt;&gt;(comparator);<a name="line.929"></a>
+<span class="sourceLineNo">930</span>    }<a name="line.930"></a>
+<span class="sourceLineNo">931</span><a name="line.931"></a>
+<span class="sourceLineNo">932</span>    private static final long serialVersionUID = 0;<a name="line.932"></a>
+<span class="sourceLineNo">933</span>  }<a name="line.933"></a>
+<span class="sourceLineNo">934</span><a name="line.934"></a>
+<span class="sourceLineNo">935</span>  @Override<a name="line.935"></a>
+<span class="sourceLineNo">936</span>  Object writeReplace() {<a name="line.936"></a>
+<span class="sourceLineNo">937</span>    return new SerializedForm&lt;&gt;(this);<a name="line.937"></a>
+<span class="sourceLineNo">938</span>  }<a name="line.938"></a>
+<span class="sourceLineNo">939</span><a name="line.939"></a>
+<span class="sourceLineNo">940</span>  // This class is never actually serialized directly, but we have to make the<a name="line.940"></a>
+<span class="sourceLineNo">941</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.941"></a>
+<span class="sourceLineNo">942</span>  private static final long serialVersionUID = 0;<a name="line.942"></a>
+<span class="sourceLineNo">943</span>}<a name="line.943"></a>
 
 
 
