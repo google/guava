@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -57,6 +58,15 @@ final class LenientSerializableTester {
     Multiset<E> copy = reserialize(original);
     assertEquals(original, copy);
     assertTrue(copy instanceof ImmutableMultiset);
+    return copy;
+  }
+
+  @CanIgnoreReturnValue
+  @GwtIncompatible // SerializableTester
+  static <E> Collection<E> reserializeAndAssertElementsEqual(Collection<E> original) {
+    Collection<E> copy = reserialize(original);
+    assertTrue(Iterables.elementsEqual(original, copy));
+    assertTrue(copy instanceof ImmutableCollection);
     return copy;
   }
 

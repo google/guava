@@ -22,11 +22,9 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.Serializable;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -207,10 +205,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @GwtCompatible(emulated = true)
-  private static final class KeySet<K, V> extends IndexedImmutableSet<K> {
-    private final RegularImmutableMap<K, V> map;
+  private static final class KeySet<K> extends IndexedImmutableSet<K> {
+    private final RegularImmutableMap<K, ?> map;
 
-    KeySet(RegularImmutableMap<K, V> map) {
+    KeySet(RegularImmutableMap<K, ?> map) {
       this.map = map;
     }
 
@@ -232,27 +230,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     public int size() {
       return map.size();
-    }
-
-    @GwtIncompatible // serialization
-    @Override
-    Object writeReplace() {
-      return new SerializedForm<K>(map);
-    }
-
-    @GwtIncompatible // serialization
-    private static class SerializedForm<K> implements Serializable {
-      final ImmutableMap<K, ?> map;
-
-      SerializedForm(ImmutableMap<K, ?> map) {
-        this.map = map;
-      }
-
-      Object readResolve() {
-        return map.keySet();
-      }
-
-      private static final long serialVersionUID = 0;
     }
   }
 
@@ -282,27 +259,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     boolean isPartialView() {
       return true;
-    }
-
-    @GwtIncompatible // serialization
-    @Override
-    Object writeReplace() {
-      return new SerializedForm<V>(map);
-    }
-
-    @GwtIncompatible // serialization
-    private static class SerializedForm<V> implements Serializable {
-      final ImmutableMap<?, V> map;
-
-      SerializedForm(ImmutableMap<?, V> map) {
-        this.map = map;
-      }
-
-      Object readResolve() {
-        return map.values();
-      }
-
-      private static final long serialVersionUID = 0;
     }
   }
 

@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import java.io.Serializable;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -73,26 +71,5 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   @Override
   boolean isPartialView() {
     return true;
-  }
-
-  @GwtIncompatible // serialization
-  @Override
-  Object writeReplace() {
-    return new KeySetSerializedForm<K>(map);
-  }
-
-  @GwtIncompatible // serialization
-  private static class KeySetSerializedForm<K> implements Serializable {
-    final ImmutableMap<K, ?> map;
-
-    KeySetSerializedForm(ImmutableMap<K, ?> map) {
-      this.map = map;
-    }
-
-    Object readResolve() {
-      return map.keySet();
-    }
-
-    private static final long serialVersionUID = 0;
   }
 }
