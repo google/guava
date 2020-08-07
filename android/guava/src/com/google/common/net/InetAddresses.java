@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -102,7 +103,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
-  private static final Splitter IPV4_SPLITTER = Splitter.on('.').limit(IPV4_PART_COUNT);
+  private static final char IPV4_DELIMITER = '.';
+  private static final CharMatcher IPV4_DELIMITER_MATCHER = CharMatcher.is(IPV4_DELIMITER);
   private static final Splitter IPV6_SPLITTER = Splitter.on(':').limit(IPV6_PART_COUNT + 2);
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
@@ -197,6 +199,9 @@ public final class InetAddresses {
       }
       return textToNumericFormatV6(ipString);
     } else if (hasDot) {
+      if (percentIndex != -1) {
+        return null; // Scope IDs are not supported for IPV4
+      }
       return textToNumericFormatV4(ipString);
     }
     return null;
@@ -204,17 +209,28 @@ public final class InetAddresses {
 
   @NullableDecl
   private static byte[] textToNumericFormatV4(String ipString) {
-    byte[] bytes = new byte[IPV4_PART_COUNT];
-    int i = 0;
-    try {
-      for (String octet : IPV4_SPLITTER.split(ipString)) {
-        bytes[i++] = parseOctet(octet);
-      }
-    } catch (NumberFormatException ex) {
-      return null;
+    if (IPV4_DELIMITER_MATCHER.countIn(ipString) + 1 != IPV4_PART_COUNT) {
+      return null; // Wrong number of parts
     }
 
-    return i == IPV4_PART_COUNT ? bytes : null;
+    byte[] bytes = new byte[IPV4_PART_COUNT];
+    int start = 0;
+    // Iterate through the parts of the ip string.
+    // Invariant: start is always the beginning of an octet.
+    for (int i = 0; i < IPV4_PART_COUNT; i++) {
+      int end = ipString.indexOf(IPV4_DELIMITER, start);
+      if (end == -1) {
+        end = ipString.length();
+      }
+      try {
+        bytes[i] = parseOctet(ipString, start, end);
+      } catch (NumberFormatException ex) {
+        return null;
+      }
+      start = end + 1;
+    }
+
+    return bytes;
   }
 
   @NullableDecl
@@ -293,10 +309,6 @@ public final class InetAddresses {
     String penultimate = Integer.toHexString(((quad[0] & 0xff) << 8) | (quad[1] & 0xff));
     String ultimate = Integer.toHexString(((quad[2] & 0xff) << 8) | (quad[3] & 0xff));
     return initialPart + penultimate + ":" + ultimate;
-  }
-
-  private static byte parseOctet(String ipPart) {
-    return parseOctet(ipPart, 0, ipPart.length());
   }
 
   private static byte parseOctet(String ipString, int start, int end) {
