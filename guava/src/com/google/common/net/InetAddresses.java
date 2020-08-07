@@ -292,21 +292,51 @@ public final class InetAddresses {
   }
 
   private static byte parseOctet(String ipPart) {
-    // Note: we already verified that this string contains only hex digits.
-    int octet = Integer.parseInt(ipPart);
+    return parseOctet(ipPart, 0, ipPart.length());
+  }
+
+  private static byte parseOctet(String ipString, int start, int end) {
+    // Note: we already verified that this string contains only hex digits, but the string may still
+    // contain non-decimal characters.
+    int length = end - start;
+    if (length <= 0 || length > 3) {
+      throw new NumberFormatException();
+    }
     // Disallow leading zeroes, because no clear standard exists on
     // whether these should be interpreted as decimal or octal.
-    if (octet > 255 || (ipPart.startsWith("0") && ipPart.length() > 1)) {
+    if (length > 1 && ipString.charAt(start) == '0') {
+      throw new NumberFormatException();
+    }
+    int octet = 0;
+    for (int i = start; i < end; i++) {
+      octet *= 10;
+      int digit = Character.digit(ipString.charAt(i), 10);
+      if (digit < 0) {
+        throw new NumberFormatException();
+      }
+      octet += digit;
+    }
+    if (octet > 255) {
       throw new NumberFormatException();
     }
     return (byte) octet;
   }
 
   private static short parseHextet(String ipPart) {
+    return parseHextet(ipPart, 0, ipPart.length());
+  }
+
+  // Parse a hextet out of the ipString from start (inclusive) to end (exclusive)
+  private static short parseHextet(String ipString, int start, int end) {
     // Note: we already verified that this string contains only hex digits.
-    int hextet = Integer.parseInt(ipPart, 16);
-    if (hextet > 0xffff) {
+    int length = end - start;
+    if (length <= 0 || length > 4) {
       throw new NumberFormatException();
+    }
+    int hextet = 0;
+    for (int i = start; i < end; i++) {
+      hextet = hextet << 4;
+      hextet |= Character.digit(ipString.charAt(i), 16);
     }
     return (short) hextet;
   }

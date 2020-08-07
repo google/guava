@@ -74,6 +74,7 @@ public class InetAddressesTest extends TestCase {
             "12345.67899.-54321.-98765",
             "257.0.0.0",
             "42.42.42.-42",
+            "42.42.42.ab",
             "3ffe::1.net",
             "3ffe::1::1",
             "1::2::3::4:5",
