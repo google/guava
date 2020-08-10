@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.base.Strings.lenientFormat;
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.POSITIVE_INFINITY;
 
@@ -250,8 +251,13 @@ public final class Floats extends FloatsMethodsForWeb {
    */
   @Beta
   public static float constrainToRange(float value, float min, float max) {
-    checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
-    return Math.min(Math.max(value, min), max);
+    // avoid auto-boxing by not using Preconditions.checkArgument(); see Guava issue 3984
+    // Reject NaN by testing for the good case (min <= max) instead of the bad (min > max).
+    if (min <= max) {
+      return Math.min(Math.max(value, min), max);
+    }
+    throw new IllegalArgumentException(
+        lenientFormat("min (%s) must be less than or equal to max (%s)", min, max));
   }
 
   /**
