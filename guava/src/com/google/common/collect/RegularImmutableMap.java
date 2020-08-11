@@ -22,9 +22,11 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serializable;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -231,6 +233,23 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     public int size() {
       return map.size();
     }
+
+    // No longer used for new writes, but kept so that old data can still be read.
+    @GwtIncompatible // serialization
+    @SuppressWarnings("unused")
+    private static class SerializedForm<K> implements Serializable {
+      final ImmutableMap<K, ?> map;
+
+      SerializedForm(ImmutableMap<K, ?> map) {
+        this.map = map;
+      }
+
+      Object readResolve() {
+        return map.keySet();
+      }
+
+      private static final long serialVersionUID = 0;
+    }
   }
 
   @Override
@@ -259,6 +278,23 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override
     boolean isPartialView() {
       return true;
+    }
+
+    // No longer used for new writes, but kept so that old data can still be read.
+    @GwtIncompatible // serialization
+    @SuppressWarnings("unused")
+    private static class SerializedForm<V> implements Serializable {
+      final ImmutableMap<?, V> map;
+
+      SerializedForm(ImmutableMap<?, V> map) {
+        this.map = map;
+      }
+
+      Object readResolve() {
+        return map.values();
+      }
+
+      private static final long serialVersionUID = 0;
     }
   }
 
