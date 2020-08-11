@@ -104,7 +104,6 @@ public final class Multimaps {
    *
    * @since 21.0
    */
-  @Beta
   public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> toMultimap(
       java.util.function.Function<? super T, ? extends K> keyFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction,
