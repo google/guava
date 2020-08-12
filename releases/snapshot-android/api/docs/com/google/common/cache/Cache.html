@@ -109,7 +109,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use CacheBuilder.newBuilder().build()")
+<pre>@DoNotMock(value="Use CacheBuilder.newBuilder().build()")
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public interface <a href="../../../../src-html/com/google/common/cache/Cache.html#line.42">Cache</a>&lt;K,V&gt;</pre>
 <div class="block">A semi-persistent mapping from keys to values. Cache entries are manually added using <a href="../../../../com/google/common/cache/Cache.html#get-K-java.util.concurrent.Callable-"><code>get(Object, Callable)</code></a> or <a href="../../../../com/google/common/cache/Cache.html#put-K-V-"><code>put(Object, Object)</code></a>, and are stored in the cache until either
@@ -239,7 +239,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <li class="blockList">
 <h4>getIfPresent</h4>
 <pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.51">getIfPresent</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
+<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.51">getIfPresent</a>(@CompatibleWith(value="K")
                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -365,7 +365,7 @@ throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidate</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.131">invalidate</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K")
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.131">invalidate</a>(@CompatibleWith(value="K")
                 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </li>

@@ -335,7 +335,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>doStart</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@ForOverride</a>
+<pre>@ForOverride
 protected abstract&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.204">doStart</a>()</pre>
 <div class="block">This method is called by <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#startAsync--"><code>startAsync()</code></a> to initiate service startup. The invocation of
  this method should cause a call to <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStarted--"><code>notifyStarted()</code></a>, either during this method's run,
@@ -352,7 +352,7 @@ protected abstract&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>doStop</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@ForOverride</a>
+<pre>@ForOverride
 protected abstract&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.221">doStop</a>()</pre>
 <div class="block">This method should be used to initiate service shutdown. The invocation of this method should
  cause a call to <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStopped--"><code>notifyStopped()</code></a>, either during this method's run, or after it has
@@ -373,7 +373,7 @@ protected abstract&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/co
 <li class="blockList">
 <h4>doCancelStart</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
- <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@ForOverride</a>
+ @ForOverride
 protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.239">doCancelStart</a>()</pre>
 <div class="block">This method is called by <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#stopAsync--"><code>stopAsync()</code></a> when the service is still starting (i.e. <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#startAsync--"><code>startAsync()</code></a> has been called but <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStarted--"><code>notifyStarted()</code></a> has not). Subclasses can override the
  method to cancel pending work and then call <a href="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStopped--"><code>notifyStopped()</code></a> to stop the service.
@@ -396,7 +396,7 @@ protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>startAsync</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.243">startAsync</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#startAsync--">Service</a></code></span></div>
 <div class="block">If the service state is <a href="../../../../../com/google/common/util/concurrent/Service.State.html#NEW"><code>Service.State.NEW</code></a>, this initiates service startup and returns
@@ -415,7 +415,7 @@ public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Serv
 <ul class="blockList">
 <li class="blockList">
 <h4>stopAsync</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.263">stopAsync</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#stopAsync--">Service</a></code></span></div>
 <div class="block">If the service is <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STARTING">starting</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running</a>,
