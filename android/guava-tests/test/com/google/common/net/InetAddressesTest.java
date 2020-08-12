@@ -85,6 +85,7 @@ public class InetAddressesTest extends TestCase {
             "FEDC:9878",
             "+1.+2.+3.4",
             "1.2.3.4e0",
+            "6:5:4:3:2:1:0", // too few parts
             "::7:6:5:4:3:2:1:0", // too many parts
             "7:6:5:4:3:2:1:0::", // too many parts
             "9:8:7:6:5:4:3::2:1", // too many parts
