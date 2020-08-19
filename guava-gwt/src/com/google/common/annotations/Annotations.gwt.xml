@@ -14,6 +14,7 @@
   <super-source path="super"/>
    
   <inherits name="com.google.gwt.user.User"/>
+      
   <inherits name="com.google.gwt.core.Core"/>
    
 </module>
