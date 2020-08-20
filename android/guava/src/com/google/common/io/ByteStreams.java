@@ -145,11 +145,11 @@ public final class ByteStreams {
     ByteBuffer buf = ByteBuffer.wrap(createBuffer());
     long total = 0;
     while (from.read(buf) != -1) {
-      buf.flip();
+      Java8Compatibility.flip(buf);
       while (buf.hasRemaining()) {
         total += to.write(buf);
       }
-      buf.clear();
+      Java8Compatibility.clear(buf);
     }
     return total;
   }

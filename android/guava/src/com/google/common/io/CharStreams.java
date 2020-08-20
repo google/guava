@@ -83,10 +83,10 @@ public final class CharStreams {
       long total = 0;
       CharBuffer buf = createBuffer();
       while (from.read(buf) != -1) {
-        buf.flip();
+        Java8Compatibility.flip(buf);
         to.append(buf);
         total += buf.remaining();
-        buf.clear();
+        Java8Compatibility.clear(buf);
       }
       return total;
     }
@@ -243,7 +243,7 @@ public final class CharStreams {
     CharBuffer buf = createBuffer();
     while ((read = readable.read(buf)) != -1) {
       total += read;
-      buf.clear();
+      Java8Compatibility.clear(buf);
     }
     return total;
   }
