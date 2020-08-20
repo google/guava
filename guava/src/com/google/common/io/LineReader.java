@@ -70,7 +70,7 @@ public final class LineReader {
   @CanIgnoreReturnValue // to skip a line
   public String readLine() throws IOException {
     while (lines.peek() == null) {
-      cbuf.clear();
+      Java8Compatibility.clear(cbuf);
       // The default implementation of Reader#read(CharBuffer) allocates a
       // temporary char[], so we call Reader#read(char[], int, int) instead.
       int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);
