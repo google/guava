@@ -482,6 +482,13 @@ public final class HttpHeaders {
    */
   public static final String SEC_CH_UA = "Sec-CH-UA";
   /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-arch">{@code
+   * Sec-CH-UA-Arch}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_ARCH = "Sec-CH-UA-Arch";
+  /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
    * Sec-CH-UA-Model}</a> header field name.
    *
