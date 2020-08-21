@@ -76,21 +76,11 @@ abstract class Dispatcher {
 
     /** Per-thread queue of events to dispatch. */
     private final ThreadLocal<Queue<Event>> queue =
-        new ThreadLocal<Queue<Event>>() {
-          @Override
-          protected Queue<Event> initialValue() {
-            return Queues.newArrayDeque();
-          }
-        };
+            ThreadLocal.withInitial(Queues::newArrayDeque);
 
     /** Per-thread dispatch state, used to avoid reentrant event dispatching. */
     private final ThreadLocal<Boolean> dispatching =
-        new ThreadLocal<Boolean>() {
-          @Override
-          protected Boolean initialValue() {
-            return false;
-          }
-        };
+            ThreadLocal.withInitial(() -> false);
 
     @Override
     void dispatch(Object event, Iterator<Subscriber> subscribers) {

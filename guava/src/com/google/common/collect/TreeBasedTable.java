@@ -31,6 +31,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -316,14 +318,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     final Iterator<C> merged =
         Iterators.mergeSorted(
-            Iterables.transform(
-                backingMap.values(),
-                new Function<Map<C, V>, Iterator<C>>() {
-                  @Override
-                  public Iterator<C> apply(Map<C, V> input) {
-                    return input.keySet().iterator();
-                  }
-                }),
+                backingMap.values().stream().map(input -> input.keySet().iterator()).collect(Collectors.toList()),
             comparator);
 
     return new AbstractIterator<C>() {
