@@ -431,7 +431,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
           node.setNext(oldHead);
           if (ATOMIC_HELPER.casWaiters(this, oldHead, node)) {
             while (true) {
-              LockSupport.parkNanos(this, remainingNanos);
+              OverflowAvoidingLockSupport.parkNanos(this, remainingNanos);
               // Check interruption first, if we woke up due to interruption we need to honor that.
               if (Thread.interrupted()) {
                 removeWaiter(node);
