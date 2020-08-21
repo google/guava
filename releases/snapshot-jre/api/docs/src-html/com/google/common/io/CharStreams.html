@@ -91,10 +91,10 @@
 <span class="sourceLineNo">083</span>      long total = 0;<a name="line.83"></a>
 <span class="sourceLineNo">084</span>      CharBuffer buf = createBuffer();<a name="line.84"></a>
 <span class="sourceLineNo">085</span>      while (from.read(buf) != -1) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>        buf.flip();<a name="line.86"></a>
+<span class="sourceLineNo">086</span>        Java8Compatibility.flip(buf);<a name="line.86"></a>
 <span class="sourceLineNo">087</span>        to.append(buf);<a name="line.87"></a>
 <span class="sourceLineNo">088</span>        total += buf.remaining();<a name="line.88"></a>
-<span class="sourceLineNo">089</span>        buf.clear();<a name="line.89"></a>
+<span class="sourceLineNo">089</span>        Java8Compatibility.clear(buf);<a name="line.89"></a>
 <span class="sourceLineNo">090</span>      }<a name="line.90"></a>
 <span class="sourceLineNo">091</span>      return total;<a name="line.91"></a>
 <span class="sourceLineNo">092</span>    }<a name="line.92"></a>
@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>    CharBuffer buf = createBuffer();<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    while ((read = readable.read(buf)) != -1) {<a name="line.244"></a>
 <span class="sourceLineNo">245</span>      total += read;<a name="line.245"></a>
-<span class="sourceLineNo">246</span>      buf.clear();<a name="line.246"></a>
+<span class="sourceLineNo">246</span>      Java8Compatibility.clear(buf);<a name="line.246"></a>
 <span class="sourceLineNo">247</span>    }<a name="line.247"></a>
 <span class="sourceLineNo">248</span>    return total;<a name="line.248"></a>
 <span class="sourceLineNo">249</span>  }<a name="line.249"></a>

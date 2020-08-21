@@ -78,7 +78,7 @@
 <span class="sourceLineNo">070</span>  @CanIgnoreReturnValue // to skip a line<a name="line.70"></a>
 <span class="sourceLineNo">071</span>  public String readLine() throws IOException {<a name="line.71"></a>
 <span class="sourceLineNo">072</span>    while (lines.peek() == null) {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      cbuf.clear();<a name="line.73"></a>
+<span class="sourceLineNo">073</span>      Java8Compatibility.clear(cbuf);<a name="line.73"></a>
 <span class="sourceLineNo">074</span>      // The default implementation of Reader#read(CharBuffer) allocates a<a name="line.74"></a>
 <span class="sourceLineNo">075</span>      // temporary char[], so we call Reader#read(char[], int, int) instead.<a name="line.75"></a>
 <span class="sourceLineNo">076</span>      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);<a name="line.76"></a>
