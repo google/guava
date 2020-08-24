@@ -439,7 +439,7 @@
 <span class="sourceLineNo">431</span>          node.setNext(oldHead);<a name="line.431"></a>
 <span class="sourceLineNo">432</span>          if (ATOMIC_HELPER.casWaiters(this, oldHead, node)) {<a name="line.432"></a>
 <span class="sourceLineNo">433</span>            while (true) {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>              LockSupport.parkNanos(this, remainingNanos);<a name="line.434"></a>
+<span class="sourceLineNo">434</span>              OverflowAvoidingLockSupport.parkNanos(this, remainingNanos);<a name="line.434"></a>
 <span class="sourceLineNo">435</span>              // Check interruption first, if we woke up due to interruption we need to honor that.<a name="line.435"></a>
 <span class="sourceLineNo">436</span>              if (Thread.interrupted()) {<a name="line.436"></a>
 <span class="sourceLineNo">437</span>                removeWaiter(node);<a name="line.437"></a>

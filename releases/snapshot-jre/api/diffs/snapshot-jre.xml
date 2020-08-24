@@ -51687,6 +51687,17 @@
  @since NEXT]]>
       </doc>
     </field>
+    <field name="SEC_CH_UA_ARCH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-arch">{@code
+ Sec-CH-UA-Arch}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_CH_UA_MODEL" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -66746,6 +66757,16 @@
       deprecated="not deprecated">
       <param name="listener" type="java.lang.Runnable"/>
       <param name="exec" type="java.util.concurrent.Executor"/>
+    </method>
+    <method name="get" return="V"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="long"/>
+      <param name="unit" type="java.util.concurrent.TimeUnit"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
     <method name="done"
       abstract="false" native="false" synchronized="false"
