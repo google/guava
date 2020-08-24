@@ -16,6 +16,7 @@ package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
@@ -31,6 +32,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.primitives.Primitives;
 import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.j2objc.annotations.Weak;
@@ -170,7 +172,12 @@ final class SubscriberRegistry {
   }
 
   private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
-    return subscriberMethodsCache.getUnchecked(clazz);
+    try {
+      return subscriberMethodsCache.getUnchecked(clazz);
+    } catch (UncheckedExecutionException e) {
+      throwIfUnchecked(e.getCause());
+      throw e;
+    }
   }
 
   private static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
@@ -183,10 +190,19 @@ final class SubscriberRegistry {
           Class<?>[] parameterTypes = method.getParameterTypes();
           checkArgument(
               parameterTypes.length == 1,
-              "Method %s has @Subscribe annotation but has %s parameters."
+              "Method %s has @Subscribe annotation but has %s parameters. "
                   + "Subscriber methods must have exactly 1 parameter.",
               method,
               parameterTypes.length);
+
+          checkArgument(
+              !parameterTypes[0].isPrimitive(),
+              "@Subscribe method %s's parameter is %s. "
+                  + "Subscriber methods cannot accept primitives. "
+                  + "Consider changing the parameter to %s.",
+              method,
+              parameterTypes[0].getName(),
+              Primitives.wrap(parameterTypes[0]).getSimpleName());
 
           MethodIdentifier ident = new MethodIdentifier(method);
           if (!identifiers.containsKey(ident)) {
