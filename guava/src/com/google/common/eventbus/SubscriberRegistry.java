@@ -37,9 +37,9 @@ import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -175,27 +175,34 @@ final class SubscriberRegistry {
 
   private static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
     Set<? extends Class<?>> supertypes = TypeToken.of(clazz).getTypes().rawTypes();
-    Map<MethodIdentifier, Method> identifiers = Maps.newHashMap();
-    for (Class<?> supertype : supertypes) {
-      for (Method method : supertype.getDeclaredMethods()) {
-        if (method.isAnnotationPresent(Subscribe.class) && !method.isSynthetic()) {
-          // TODO(cgdecker): Should check for a generic parameter type and error out
-          Class<?>[] parameterTypes = method.getParameterTypes();
-          checkArgument(
-              parameterTypes.length == 1,
-              "Method %s has @Subscribe annotation but has %s parameters."
-                  + "Subscriber methods must have exactly 1 parameter.",
-              method,
-              parameterTypes.length);
-
-          MethodIdentifier ident = new MethodIdentifier(method);
-          if (!identifiers.containsKey(ident)) {
-            identifiers.put(ident, method);
-          }
+    Set<MethodIdentifier> identifiers = new HashSet<>();
+    return supertypes
+      .stream()
+      .filter(cls -> !Objects.equal(cls, Object.class))
+      .flatMap(supertype -> {
+        Method[] methods;
+        try {
+          methods = supertype.getDeclaredMethods();
+        } catch (SecurityException e) {
+          methods = supertype.getMethods();
         }
-      }
-    }
-    return ImmutableList.copyOf(identifiers.values());
+        return Arrays.stream(methods)
+          .filter(method -> method.isAnnotationPresent(Subscribe.class))
+          .filter(method -> !method.isSynthetic())
+          .peek(method -> {
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            checkArgument(
+                    parameterTypes.length == 1,
+                    "Method %s has @Subscribe annotation but has %s parameters."
+                            + "Subscriber methods must have exactly 1 parameter.",
+                    method,
+                    parameterTypes.length);
+          }
+        );
+        }
+      )
+      .filter(method -> identifiers.add(new MethodIdentifier(method)))
+      .collect(ImmutableList.toImmutableList());
   }
 
   /** Global cache of classes to their flattened hierarchy of supertypes. */
