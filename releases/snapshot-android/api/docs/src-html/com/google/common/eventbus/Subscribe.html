@@ -31,20 +31,21 @@
 <span class="sourceLineNo">023</span>/**<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * Marks a method as an event subscriber.<a name="line.24"></a>
 <span class="sourceLineNo">025</span> *<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * &lt;p&gt;The type of event will be indicated by the method's first (and only) parameter. If this<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * annotation is applied to methods with zero parameters, or more than one parameter, the object<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * containing the method will not be able to register for event delivery from the {@link EventBus}.<a name="line.28"></a>
-<span class="sourceLineNo">029</span> *<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * &lt;p&gt;Unless also annotated with @{@link AllowConcurrentEvents}, event subscriber methods will be<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * invoked serially by each event bus that they are registered with.<a name="line.31"></a>
-<span class="sourceLineNo">032</span> *<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * @author Cliff Biffle<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * @since 10.0<a name="line.34"></a>
-<span class="sourceLineNo">035</span> */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>@Retention(RetentionPolicy.RUNTIME)<a name="line.36"></a>
-<span class="sourceLineNo">037</span>@Target(ElementType.METHOD)<a name="line.37"></a>
-<span class="sourceLineNo">038</span>@Beta<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public @interface Subscribe {}<a name="line.39"></a>
+<span class="sourceLineNo">026</span> * &lt;p&gt;The type of event will be indicated by the method's first (and only) parameter, which cannot<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * be primitive. If this annotation is applied to methods with zero parameters, or more than one<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * parameter, the object containing the method will not be able to register for event delivery from<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * the {@link EventBus}.<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * &lt;p&gt;Unless also annotated with @{@link AllowConcurrentEvents}, event subscriber methods will be<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * invoked serially by each event bus that they are registered with.<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * @author Cliff Biffle<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @since 10.0<a name="line.35"></a>
+<span class="sourceLineNo">036</span> */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>@Retention(RetentionPolicy.RUNTIME)<a name="line.37"></a>
+<span class="sourceLineNo">038</span>@Target(ElementType.METHOD)<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@Beta<a name="line.39"></a>
+<span class="sourceLineNo">040</span>public @interface Subscribe {}<a name="line.40"></a>
 
 
 
