@@ -4817,8 +4817,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#createTempDir--">createTempDir()</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
-<div class="block">Atomically creates a new directory somewhere beneath the system's temporary directory (as
- defined by the <code>java.io.tmpdir</code> system property), and returns its name.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">For Android users, see the <a
+     href="https://developer.android.com/training/data-storage" target="_blank">Data and File
+     Storage overview</a> to select an appropriate temporary directory (perhaps <code>context.getCacheDir()</code>). For developers on Java 7 or later, use <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/Files.html?is-external=true#createTempDirectory-java.nio.file.Path-java.lang.String-java.nio.file.attribute.FileAttribute...-" title="class or interface in java.nio.file"><code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code></a>, transforming it to a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io"><code>File</code></a> using <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/Path.html?is-external=true#toFile--" title="class or interface in java.nio.file"><code>toFile()</code></a> if needed.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#createUnstarted--">createUnstarted()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>

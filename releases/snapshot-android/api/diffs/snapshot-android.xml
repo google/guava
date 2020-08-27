@@ -44127,7 +44127,12 @@
     <method name="createTempDir" return="java.io.File"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="For Android users, see the lEsS_tHaNa
+     href=quote_cHaRhttps://developer.android.com/training/data-storagequote_cHaR target=quote_cHaR_blankquote_cHaR>Data and File
+     Storage overviewlEsS_tHaN/a> to select an appropriate temporary directory (perhaps {@code
+     context.getCacheDir()}). For developers on Java 7 or later, use {@link
+     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link
+     java.nio.file.Path#toFile() toFile()} if needed.">
       <doc>
       <![CDATA[Atomically creates a new directory somewhere beneath the system's temporary directory (as
  defined by the {@code java.io.tmpdir} system property), and returns its name.
@@ -44138,6 +44143,11 @@
  be exploited to create security vulnerabilities, especially when executable files are to be
  written into the directory.
 
+ <p>Depending on the environmment that this code is run in, the system temporary directory (and
+ thus the directory this method creates) may be more visible that a program would like - files
+ written to this directory may be read or overwritten by hostile programs running on the same
+ machine.
+
  <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
  and that it will not be called thousands of times per second.
 
@@ -44145,7 +44155,13 @@
  java.nio.file.Files#createTempDirectory}.
 
  @return the newly-created directory
- @throws IllegalStateException if the directory could not be created]]>
+ @throws IllegalStateException if the directory could not be created
+ @deprecated For Android users, see the <a
+     href="https://developer.android.com/training/data-storage" target="_blank">Data and File
+     Storage overview</a> to select an appropriate temporary directory (perhaps {@code
+     context.getCacheDir()}). For developers on Java 7 or later, use {@link
+     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link
+     java.nio.file.Path#toFile() toFile()} if needed.]]>
       </doc>
     </method>
     <method name="touch"

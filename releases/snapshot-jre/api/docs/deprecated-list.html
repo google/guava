@@ -347,80 +347,87 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><a href="com/google/common/io/Files.html#createTempDir--">com.google.common.io.Files.createTempDir()</a>
+<div class="block"><span class="deprecationComment">For Android users, see the <a
+     href="https://developer.android.com/training/data-storage" target="_blank">Data and File
+     Storage overview</a> to select an appropriate temporary directory (perhaps <code>context.getCacheDir()</code>). For developers on Java 7 or later, use <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/Files.html?is-external=true#createTempDirectory-java.nio.file.Path-java.lang.String-java.nio.file.attribute.FileAttribute...-" title="class or interface in java.nio.file"><code>Files.createTempDirectory(java.nio.file.Path, java.lang.String, java.nio.file.attribute.FileAttribute&lt;?&gt;...)</code></a>, transforming it to a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io"><code>File</code></a> using <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/Path.html?is-external=true#toFile--" title="class or interface in java.nio.file"><code>toFile()</code></a> if needed.</span></div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#digit--">com.google.common.base.CharMatcher.digit()</a>
 <div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableBiMap.html#forcePut-K-V-">com.google.common.collect.ImmutableBiMap.forcePut(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.FluentFuture-">com.google.common.util.concurrent.FluentFuture.from(FluentFuture&lt;V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/FluentIterable.html#from-com.google.common.collect.FluentIterable-">com.google.common.collect.FluentIterable.from(FluentIterable&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">instances of <code>FluentIterable</code> don't need to be converted to <code>FluentIterable</code></span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Ordering.html#from-com.google.common.collect.Ordering-">com.google.common.collect.Ordering.from(Ordering&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#hash-java.io.File-com.google.common.hash.HashFunction-">com.google.common.io.Files.hash(File, HashFunction)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>. This method is scheduled to
      be removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/hash/Hasher.html#hashCode--">com.google.common.hash.Hasher.hashCode()</a>
 <div class="block"><span class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>hash().asInt()</code>.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#invisible--">com.google.common.base.CharMatcher.invisible()</a>
 <div class="block"><span class="deprecationComment">Most invisible characters are supplementary characters; see the class
      documentation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#javaDigit--">com.google.common.base.CharMatcher.javaDigit()</a>
 <div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#javaLetter--">com.google.common.base.CharMatcher.javaLetter()</a>
 <div class="block"><span class="deprecationComment">Most letters are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#javaLetterOrDigit--">com.google.common.base.CharMatcher.javaLetterOrDigit()</a>
 <div class="block"><span class="deprecationComment">Most letters and digits are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#javaLowerCase--">com.google.common.base.CharMatcher.javaLowerCase()</a>
 <div class="block"><span class="deprecationComment">Some lowercase characters are supplementary characters; see the class
      documentation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#javaUpperCase--">com.google.common.base.CharMatcher.javaUpperCase()</a>
 <div class="block"><span class="deprecationComment">Some uppercase characters are supplementary characters; see the class
      documentation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/TreeMultimap.html#keyComparator--">com.google.common.collect.TreeMultimap.keyComparator()</a>
 <div class="block"><span class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/hash/Hashing.html#md5--">com.google.common.hash.Hashing.md5()</a>
 <div class="block"><span class="deprecationComment">If you must interoperate with a system that requires MD5, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid MD5, which is
@@ -432,104 +439,104 @@
      </ul></span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/math/DoubleMath.html#mean-double...-">com.google.common.math.DoubleMath.mean(double...)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf-java.lang.Iterable-"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/math/DoubleMath.html#mean-int...-">com.google.common.math.DoubleMath.mean(int...)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf-java.lang.Iterable-"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/math/DoubleMath.html#mean-java.lang.Iterable-">com.google.common.math.DoubleMath.mean(Iterable&lt;? extends Number&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf-java.lang.Iterable-"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/math/DoubleMath.html#mean-java.util.Iterator-">com.google.common.math.DoubleMath.mean(Iterator&lt;? extends Number&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf-java.lang.Iterable-"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/math/DoubleMath.html#mean-long...-">com.google.common.math.DoubleMath.mean(long...)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/math/Stats.html#meanOf-java.lang.Iterable-"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#merge-K-V-java.util.function.BiFunction-">com.google.common.collect.ImmutableMap.merge(K, V, BiFunction&lt;? super V, ? super V, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeMap.html#merge-com.google.common.collect.Range-V-java.util.function.BiFunction-">com.google.common.collect.ImmutableRangeMap.merge(Range&lt;K&gt;, V, BiFunction&lt;? super V, ? super V, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Sets.html#newSetFromMap-java.util.Map-">com.google.common.collect.Sets.newSetFromMap(Map&lt;E, Boolean&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#newSetFromMap-java.util.Map-" title="class or interface in java.util"><code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code></a> instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedMap.Builder.html#orderEntriesByValue-java.util.Comparator-">com.google.common.collect.ImmutableSortedMap.Builder.orderEntriesByValue(Comparator&lt;? super V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported by ImmutableSortedMap.Builder.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Iterators.html#peekingIterator-com.google.common.collect.PeekingIterator-">com.google.common.collect.Iterators.peekingIterator(PeekingIterator&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedSet.html#pollFirst--">com.google.common.collect.ImmutableSortedSet.pollFirst()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedMap.html#pollFirstEntry--">com.google.common.collect.ImmutableSortedMap.pollFirstEntry()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedMultiset.html#pollFirstEntry--">com.google.common.collect.ImmutableSortedMultiset.pollFirstEntry()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedSet.html#pollLast--">com.google.common.collect.ImmutableSortedSet.pollLast()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedMap.html#pollLastEntry--">com.google.common.collect.ImmutableSortedMap.pollLastEntry()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSortedMultiset.html#pollLastEntry--">com.google.common.collect.ImmutableSortedMultiset.pollLastEntry()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/TreeTraverser.html#postOrderTraversal-T-">com.google.common.collect.TreeTraverser.postOrderTraversal(T)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#depthFirstPostOrder-N-"><code>Traverser.depthFirstPostOrder(N)</code></a> instead, which
      has the same behavior.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/TreeTraverser.html#preOrderTraversal-T-">com.google.common.collect.TreeTraverser.preOrderTraversal(T)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#depthFirstPreOrder-N-"><code>Traverser.depthFirstPreOrder(N)</code></a> instead, which has
      the same behavior.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/Throwables.html#propagate-java.lang.Throwable-">com.google.common.base.Throwables.propagate(Throwable)</a>
 <div class="block"><span class="deprecationComment">Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly, or use a
      combination of <a href="com/google/common/base/Throwables.html#throwIfUnchecked-java.lang.Throwable-"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>. For
@@ -537,300 +544,300 @@
      <code>Throwables.propagate</code></a>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/Throwables.html#propagateIfInstanceOf-java.lang.Throwable-java.lang.Class-">com.google.common.base.Throwables.propagateIfInstanceOf(Throwable, Class&lt;X&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/Throwables.html#throwIfInstanceOf-java.lang.Throwable-java.lang.Class-"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior but rejects <code>null</code>.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/Throwables.html#propagateIfPossible-java.lang.Throwable-">com.google.common.base.Throwables.propagateIfPossible(Throwable)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/Throwables.html#throwIfUnchecked-java.lang.Throwable-"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects <code>null</code>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#put-K-V-">com.google.common.collect.ImmutableMultimap.put(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#put-K-V-">com.google.common.collect.ImmutableMap.put(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeMap.html#put-com.google.common.collect.Range-V-">com.google.common.collect.ImmutableRangeMap.put(Range&lt;K&gt;, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableTable.html#put-R-C-V-">com.google.common.collect.ImmutableTable.put(R, C, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#put-com.google.common.reflect.TypeToken-B-">com.google.common.reflect.ImmutableTypeToInstanceMap.put(TypeToken&lt;? extends B&gt;, B)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#put-com.google.common.reflect.TypeToken-B-">com.google.common.reflect.MutableTypeToInstanceMap.put(TypeToken&lt;? extends B&gt;, B)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#putAll-K-java.lang.Iterable-">com.google.common.collect.ImmutableMultimap.putAll(K, Iterable&lt;? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#putAll-java.util.Map-">com.google.common.collect.ImmutableMap.putAll(Map&lt;? extends K, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putAll-java.util.Map-">com.google.common.reflect.ImmutableTypeToInstanceMap.putAll(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#putAll-java.util.Map-">com.google.common.reflect.MutableTypeToInstanceMap.putAll(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#putAll-com.google.common.collect.Multimap-">com.google.common.collect.ImmutableMultimap.putAll(Multimap&lt;? extends K, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeMap.html#putAll-com.google.common.collect.RangeMap-">com.google.common.collect.ImmutableRangeMap.putAll(RangeMap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableTable.html#putAll-com.google.common.collect.Table-">com.google.common.collect.ImmutableTable.putAll(Table&lt;? extends R, ? extends C, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeMap.html#putCoalescing-com.google.common.collect.Range-V-">com.google.common.collect.ImmutableRangeMap.putCoalescing(Range&lt;K&gt;, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#putIfAbsent-K-V-">com.google.common.collect.ImmutableMap.putIfAbsent(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance-java.lang.Class-T-">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance(Class&lt;T&gt;, T)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableClassToInstanceMap.html#putInstance-java.lang.Class-T-">com.google.common.collect.ImmutableClassToInstanceMap.putInstance(Class&lt;T&gt;, T)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance-com.google.common.reflect.TypeToken-T-">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance(TypeToken&lt;T&gt;, T)</a>
 <div class="block"><span class="deprecationComment">unsupported operation</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#readBytes-java.io.File-com.google.common.io.ByteProcessor-">com.google.common.io.Files.readBytes(File, ByteProcessor&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>. This method is scheduled to be
      removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#readFirstLine-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.readFirstLine(File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>. This method is
      scheduled to be removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#readLines-java.io.File-java.nio.charset.Charset-com.google.common.io.LineProcessor-">com.google.common.io.Files.readLines(File, Charset, LineProcessor&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>. This method is
      scheduled to be removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/UnmodifiableIterator.html#remove--">com.google.common.collect.UnmodifiableIterator.remove()</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#remove-int-">com.google.common.collect.ImmutableList.remove(int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Sets.SetView.html#remove-java.lang.Object-">com.google.common.collect.Sets.SetView.remove(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#remove-java.lang.Object-">com.google.common.collect.ImmutableMap.remove(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableCollection.html#remove-java.lang.Object-">com.google.common.collect.ImmutableCollection.remove(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#remove-java.lang.Object-int-">com.google.common.collect.ImmutableMultiset.remove(Object, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#remove-java.lang.Object-java.lang.Object-">com.google.common.collect.ImmutableMultimap.remove(Object, Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#remove-java.lang.Object-java.lang.Object-">com.google.common.collect.ImmutableMap.remove(Object, Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableTable.html#remove-java.lang.Object-java.lang.Object-">com.google.common.collect.ImmutableTable.remove(Object, Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ArrayTable.html#remove-java.lang.Object-java.lang.Object-">com.google.common.collect.ArrayTable.remove(Object, Object)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/collect/ArrayTable.html#erase-java.lang.Object-java.lang.Object-"><code>ArrayTable.erase(java.lang.Object, java.lang.Object)</code></a></span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeSet.html#remove-com.google.common.collect.Range-">com.google.common.collect.ImmutableRangeSet.remove(Range&lt;C&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeMap.html#remove-com.google.common.collect.Range-">com.google.common.collect.ImmutableRangeMap.remove(Range&lt;K&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Sets.SetView.html#removeAll-java.util.Collection-">com.google.common.collect.Sets.SetView.removeAll(Collection&lt;?&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableCollection.html#removeAll-java.util.Collection-">com.google.common.collect.ImmutableCollection.removeAll(Collection&lt;?&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeSet.html#removeAll-java.lang.Iterable-">com.google.common.collect.ImmutableRangeSet.removeAll(Iterable&lt;Range&lt;C&gt;&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#removeAll-java.lang.Object-">com.google.common.collect.ImmutableMultimap.removeAll(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSetMultimap.html#removeAll-java.lang.Object-">com.google.common.collect.ImmutableSetMultimap.removeAll(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableListMultimap.html#removeAll-java.lang.Object-">com.google.common.collect.ImmutableListMultimap.removeAll(Object)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableRangeSet.html#removeAll-com.google.common.collect.RangeSet-">com.google.common.collect.ImmutableRangeSet.removeAll(RangeSet&lt;C&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Sets.SetView.html#removeIf-java.util.function.Predicate-">com.google.common.collect.Sets.SetView.removeIf(Predicate&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableCollection.html#removeIf-java.util.function.Predicate-">com.google.common.collect.ImmutableCollection.removeIf(Predicate&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#replace-K-V-">com.google.common.collect.ImmutableMap.replace(K, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#replace-K-V-V-">com.google.common.collect.ImmutableMap.replace(K, V, V)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMap.html#replaceAll-java.util.function.BiFunction-">com.google.common.collect.ImmutableMap.replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#replaceAll-java.util.function.UnaryOperator-">com.google.common.collect.ImmutableList.replaceAll(UnaryOperator&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultimap.html#replaceValues-K-java.lang.Iterable-">com.google.common.collect.ImmutableMultimap.replaceValues(K, Iterable&lt;? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableSetMultimap.html#replaceValues-K-java.lang.Iterable-">com.google.common.collect.ImmutableSetMultimap.replaceValues(K, Iterable&lt;? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableListMultimap.html#replaceValues-K-java.lang.Iterable-">com.google.common.collect.ImmutableListMultimap.replaceValues(K, Iterable&lt;? extends V&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Sets.SetView.html#retainAll-java.util.Collection-">com.google.common.collect.Sets.SetView.retainAll(Collection&lt;?&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableCollection.html#retainAll-java.util.Collection-">com.google.common.collect.ImmutableCollection.retainAll(Collection&lt;?&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/TreeBasedTable.html#rowComparator--">com.google.common.collect.TreeBasedTable.rowComparator()</a>
 <div class="block"><span class="deprecationComment">Use <code>table.rowKeySet().comparator()</code> instead.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/UnmodifiableListIterator.html#set-E-">com.google.common.collect.UnmodifiableListIterator.set(E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#set-int-E-">com.google.common.collect.ImmutableList.set(int, E)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableMultiset.html#setCount-E-int-int-">com.google.common.collect.ImmutableMultiset.setCount(E, int, int)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/hash/Hashing.html#sha1--">com.google.common.hash.Hashing.sha1()</a>
 <div class="block"><span class="deprecationComment">If you must interoperate with a system that requires SHA-1, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
@@ -842,88 +849,88 @@
      </ul></span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/base/CharMatcher.html#singleWidth--">com.google.common.base.CharMatcher.singleWidth()</a>
 <div class="block"><span class="deprecationComment">Many such characters are supplementary characters; see the class documentation.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ImmutableList.html#sort-java.util.Comparator-">com.google.common.collect.ImmutableList.sort(Comparator&lt;? super E&gt;)</a>
 <div class="block"><span class="deprecationComment">Unsupported operation.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Streams.html#stream-java.util.Collection-">com.google.common.collect.Streams.stream(Collection&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/base/Equivalence.html#test-T-T-">com.google.common.base.Equivalence.test(T, T)</a>
 <div class="block"><span class="deprecationComment">Provided only to satisfy the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiPredicate.html?is-external=true" title="class or interface in java.util.function"><code>BiPredicate</code></a> interface; use <a href="com/google/common/base/Equivalence.html#equivalent-T-T-"><code>Equivalence.equivalent(T, T)</code></a>
      instead.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#toString-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.toString(File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>. This method is scheduled to be
      removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/ArrayListMultimap.html#trimToSize--">com.google.common.collect.ArrayListMultimap.trimToSize()</a>
 <div class="block"><span class="deprecationComment">For a <a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> that automatically trims to size, use <a href="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>. If you need a mutable collection, remove the <code>trimToSize</code>
      call, or switch to a <code>HashMap&lt;K, ArrayList&lt;V&gt;&gt;</code>.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Iterables.html#unmodifiableIterable-com.google.common.collect.ImmutableCollection-">com.google.common.collect.Iterables.unmodifiableIterable(ImmutableCollection&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Iterators.html#unmodifiableIterator-com.google.common.collect.UnmodifiableIterator-">com.google.common.collect.Iterators.unmodifiableIterator(UnmodifiableIterator&lt;T&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableListMultimap-com.google.common.collect.ImmutableListMultimap-">com.google.common.collect.Multimaps.unmodifiableListMultimap(ImmutableListMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableMultimap-com.google.common.collect.ImmutableMultimap-">com.google.common.collect.Multimaps.unmodifiableMultimap(ImmutableMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/Multisets.html#unmodifiableMultiset-com.google.common.collect.ImmutableMultiset-">com.google.common.collect.Multisets.unmodifiableMultiset(ImmutableMultiset&lt;E&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/collect/Multimaps.html#unmodifiableSetMultimap-com.google.common.collect.ImmutableSetMultimap-">com.google.common.collect.Multimaps.unmodifiableSetMultimap(ImmutableSetMultimap&lt;K, V&gt;)</a>
 <div class="block"><span class="deprecationComment">no need to use this</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/TreeTraverser.html#using-com.google.common.base.Function-">com.google.common.collect.TreeTraverser.using(Function&lt;T, ? extends Iterable&lt;T&gt;&gt;)</a>
 <div class="block"><span class="deprecationComment">Use <a href="com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>Traverser.forTree(com.google.common.graph.SuccessorsFunction&lt;N&gt;)</code></a> instead. If you are using a
      lambda, these methods have exactly the same signature.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/Files.html#write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">com.google.common.io.Files.write(CharSequence, File, Charset)</a>
 <div class="block"><span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>. This method is scheduled to be
      removed in October 2019.</span></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colOne"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes-java.lang.String-">com.google.common.io.ByteArrayDataOutput.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">This method is dangerous as it discards the high byte of every character. For
      UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</span></div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colOne"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes-java.lang.String-">com.google.common.io.LittleEndianDataOutputStream.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF-java.lang.String-"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars-java.lang.String-"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</span></div>
