@@ -14,7 +14,7 @@
   <inherits name="com.google.common.html.Html"/>
       
   <inherits name="com.google.common.truth.Truth"/>
-                    
+                     
   <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
 </module>
