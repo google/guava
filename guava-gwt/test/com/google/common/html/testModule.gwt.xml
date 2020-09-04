@@ -14,7 +14,9 @@
   <inherits name="com.google.common.html.Html"/>
       
   <inherits name="com.google.common.truth.Truth"/>
-                    
+            
+  <inherits name="com.google.async.function.Function"/>
+           
   <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
 </module>
