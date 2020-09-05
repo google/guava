@@ -256,7 +256,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
     @Override
     void describeAsLowerBound(StringBuilder sb) {
-      throw new AssertionError();
+      throw new IllegalArgumentException();
     }
 
     @Override
