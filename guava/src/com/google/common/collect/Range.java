@@ -578,8 +578,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    */
   public Range<C> gap(Range<C> otherRange) {
 
-    if ((this.lowerBound.compareTo(otherRange.upperBound) < 0
-            && otherRange.lowerBound.compareTo(upperBound) < 0)) {
+    if (this.lowerBound.compareTo(otherRange.upperBound) < 0
+            && otherRange.lowerBound.compareTo(upperBound) < 0) {
       throw new IllegalArgumentException("The two ranges should be disconnected or immediately adjacent");
     }
 
