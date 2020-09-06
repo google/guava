@@ -577,6 +577,15 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * @since 27.0
    */
   public Range<C> gap(Range<C> otherRange) {
+
+    // check if the two ranges are either disconnected or immediately adjacent.
+    if ((this.lowerBound.compareTo(otherRange.lowerBound) > 0
+            && this.lowerBound.compareTo(otherRange.upperBound) < 0)
+            || (this.upperBound.compareTo(otherRange.lowerBound) > 0
+            && this.upperBound.compareTo(otherRange.upperBound) < 0)) {
+      throw new IllegalArgumentException("The two ranges should be disconnected or immediately adjacent");
+    }
+
     boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) < 0;
     Range<C> firstRange = isThisFirst ? this : otherRange;
     Range<C> secondRange = isThisFirst ? otherRange : this;
