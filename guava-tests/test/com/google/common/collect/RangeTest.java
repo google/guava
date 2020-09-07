@@ -472,6 +472,20 @@ public class RangeTest extends TestCase {
     }
   }
 
+  public void testGap_invalidRangesWithInfinity(){
+
+    try {
+      Range.atLeast(1).gap(Range.atLeast(2));
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
+      Range.atMost(1).gap(Range.atMost(2));
+    } catch (IllegalArgumentException expected) {
+    }
+
+  }
+
   public void testGap_connectedAdjacentYieldsEmpty() {
     Range<Integer> range = Range.open(3, 4);
 

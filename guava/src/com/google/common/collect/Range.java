@@ -580,7 +580,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
 
     if (this.lowerBound.compareTo(otherRange.upperBound) < 0
             && otherRange.lowerBound.compareTo(upperBound) < 0) {
-      throw new IllegalArgumentException("The two ranges should be disconnected or immediately adjacent");
+      throw new IllegalArgumentException("Invalid ranges for gap, " + toString(this.lowerBound, this.upperBound)
+              + ", " + toString(otherRange.lowerBound, otherRange.upperBound));
     }
 
     boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) < 0;
