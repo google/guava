@@ -41,6 +41,8 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,6 +52,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
@@ -68,6 +71,8 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -82,6 +87,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  * @author Isaac Shum
  * @author Louis Wasserman
+ * @author Alexei KLENIN
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
@@ -4264,5 +4270,208 @@ public final class Maps {
       return map.headMap(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(map);
+  }
+
+  /**
+   * Merges the contents from {@code firstMap} and {@code secondMap} into a new {@link Map}, using provided
+   * {@code mergeFunction} to handle duplicate keys.
+   *
+   * <p>Argument maps are unchanged. They don't need to be mutable. Method returns a new immutable {@code Map} instance.
+   *
+   * <p>Example usage:
+   * <pre>{@code
+   *     Map<String, Set<String>> tags1 = ImmutableMap.of(
+   *             "guava", newHashSet("java", "collections"),
+   *             "junit", newHashSet("tests"));
+   *     Map<String, Set<String>> tags2 = ImmutableMap.of(
+   *             "spring", newHashSet("di", "boot"),
+   *             "junit", newHashSet("runner", "platform"));
+   *
+   *     Map<String, Set<String>> merged = Maps.merge(tags1, tags2, Sets::union);
+   * }</pre>
+   *
+   * @param firstMap first map
+   * @param secondMap second map
+   * @param mergeFunction merge function for map entries with the same key. It's left argument is the value from the
+   *                      first map, and right argument the value from the second map
+   * @param <K> type of the map keys
+   * @param <MV> type of the values from merged map
+   * @param <V1> type of the values from {@code firstMap}
+   * @param <V2> type of the values from {@code secondMap}
+   * @return the map containing entries from both argument map, with values merged using {@code mergeFunction}
+   */
+  @Beta
+  @SuppressWarnings("unchecked")
+  public static <K, MV, V1 extends MV, V2 extends MV> Map<K, MV> merge(
+          Map<K, V1> firstMap,
+          Map<K, V2> secondMap,
+          BiFunction<V1, V2, MV> mergeFunction) {
+    Preconditions.checkNotNull(firstMap);
+    Preconditions.checkNotNull(secondMap);
+    Preconditions.checkNotNull(mergeFunction);
+
+    Map<K, MV> result = new HashMap<>(firstMap);
+    secondMap.forEach((key, value) -> result.merge(key, value, (v1, ignored) -> mergeFunction.apply((V1) v1, value)));
+    return Collections.unmodifiableMap(result);
+  }
+
+  /**
+   * Merges the contents from {@code firstMap} and {@code otherMaps} into a new {@link Map}, using provided
+   * {@code mergeFunction} to handle duplicate keys.
+   *
+   * <p>Example usage:
+   * <pre>{@code
+   *     Map<String, Set<String>> tags1 = ImmutableMap.of(
+   *             "guava", newHashSet("java", "collections"),
+   *             "junit", newHashSet("tests"));
+   *     Map<String, Set<String>> tags2 = ImmutableMap.of(
+   *             "spring", newHashSet("di", "boot"),
+   *             "junit", newHashSet("runner", "platform"));
+   *     Map<String, Set<String>> tags3 = ImmutableMap.of(
+   *             "guava", newHashSet("optionals", "java", "library"),
+   *             "junit", newHashSet("jdk", "parameters"),
+   *             "spring", newHashSet("web", "batch"));
+   *
+   *     Map<String, Set<String>> merged = Maps.mergeAll(
+   *             sets -> sets.stream().reduce(newHashSet(), Sets::union),
+   *             tags1, tags2, tags3);
+   * }</pre>
+   *
+   * @param mergeFunction merge function that accepts a {@link List} of all values sharing the same key. The values in
+   *                      this list have the same order as their maps in the method call
+   * @param firstMap first map
+   * @param otherMaps other maps
+   * @param <K> type of the map keys
+   * @param <V> type of the values from merged map
+   * @return the map containing entries from all maps passed as varargs, with values merged using {@code mergeFunction}
+   */
+  @Beta
+  @GwtIncompatible
+  @SafeVarargs
+  public static <K, V> Map<K, V> mergeAll(
+          java.util.function.Function<List<V>, @Nullable V> mergeFunction,
+          Map<? extends K, ? extends V> firstMap,
+          Map<? extends K, ? extends V>... otherMaps) {
+    Preconditions.checkNotNull(mergeFunction);
+    Preconditions.checkNotNull(firstMap);
+    Preconditions.checkNotNull(otherMaps);
+
+    List<Map<? extends K, ? extends V>> allMaps = new ArrayList<>();
+    allMaps.add(firstMap);
+    allMaps.addAll(Arrays.asList(otherMaps));
+
+    return mergeAll(mergeFunction, allMaps);
+  }
+
+  /**
+   * Merges the contents from all {@code maps} into a new {@link Map}, using provided {@code mergeFunction} to handle
+   * duplicate keys.
+   *
+   * <p>Example usage:
+   * <pre>{@code
+   *     Map<String, Set<String>> tags1 = ImmutableMap.of(
+   *             "guava", newHashSet("java", "collections"),
+   *             "junit", newHashSet("tests"));
+   *     Map<String, Set<String>> tags2 = ImmutableMap.of(
+   *             "spring", newHashSet("di", "boot"),
+   *             "junit", newHashSet("runner", "platform"));
+   *     Map<String, Set<String>> tags3 = ImmutableMap.of(
+   *             "guava", newHashSet("optionals", "java", "library"),
+   *             "junit", newHashSet("jdk", "parameters"),
+   *             "spring", newHashSet("web", "batch"));
+   *
+   *     Map<String, Set<String>> merged = Maps.mergeAll(
+   *             sets -> sets.stream().reduce(newHashSet(), Sets::union),
+   *             Arrays.asList(tags1, tags2, tags3));
+   * }</pre>
+   *
+   * @param mergeFunction merge function that accepts a {@link List} of all values sharing the same key. The values in
+   *                      this list have the same order as their maps in {@code maps} iterable
+   * @param maps maps to merge
+   * @param <K> type of the map keys
+   * @param <V> type of the values from merged map
+   * @return the map containing entries from all argument {@code maps}, with values merged using {@code mergeFunction}
+   */
+  @Beta
+  @GwtIncompatible
+  public static <K, V> Map<K, V> mergeAll(
+          java.util.function.Function<List<V>, @Nullable V> mergeFunction,
+          Iterable<Map<? extends K, ? extends V>> maps) {
+    Preconditions.checkNotNull(mergeFunction);
+    Preconditions.checkNotNull(maps);
+
+    ListMultimap<K, V> multiMap = StreamSupport
+            .stream(maps.spliterator(), false)
+            .map(Preconditions::checkNotNull)
+            .map(Map::entrySet)
+            .reduce(
+                    ImmutableListMultimap.builder(),
+                    ImmutableListMultimap.Builder::putAll,
+                    ImmutableListMultimap.Builder<K, V>::combine)
+            .build();
+
+    Map<K, V> result = new HashMap<>();
+    for (K key : multiMap.keySet()) {
+      List<V> values = multiMap.get(key);
+
+      if (values.size() == 1) {
+        result.put(key, values.get(0));
+      } else {
+        result.put(key, mergeFunction.apply(values));
+      }
+    }
+
+    return Collections.unmodifiableMap(result);
+  }
+
+  /**
+   * Returns a {@code Collector} which performs merging of its input {@link Map} elements, using provided
+   * {@code downstream} collector to merge values from maps entries sharing the same key.
+   *
+   * <p>Example usage:
+   * <pre>{@code
+   *     Map<String, Set<String>> tags1 = ImmutableMap.of(
+   *             "guava", newHashSet("java", "collections"),
+   *             "junit", newHashSet("tests"));
+   *     Map<String, Set<String>> tags2 = ImmutableMap.of(
+   *             "spring", newHashSet("di", "boot"),
+   *             "junit", newHashSet("runner", "platform"));
+   *     Map<String, Set<String>> tags3 = ImmutableMap.of(
+   *             "guava", newHashSet("optionals", "java", "library"),
+   *             "junit", newHashSet("jdk", "parameters"),
+   *             "spring", newHashSet("web", "batch"));
+   *
+   *     Map<String, Set<String>> merged = Stream
+   *             .of(tags1, tags2, tags3)
+   *             .collect(Maps.mergeCollector(Collectors.reducing(newHashSet(), Sets::union)));
+   * }</pre>
+   *
+   * @param downstream collector for values with the same key
+   * @param <K> type of the map keys
+   * @param <V> type of the values from merged map
+   * @return the map containing entries from all input maps, with values merged using {@code downstream} collector
+   */
+  @GwtIncompatible
+  public static <K, V> Collector<? super Map<? extends K, ? extends V>, ?, Map<K, V>>
+  mergeCollector(Collector<V, ?, V> downstream) {
+    Preconditions.checkNotNull(downstream);
+
+    return Collector.of(
+            ImmutableListMultimap::<K, V>builder,
+            (accumulatingMap, nextMap) -> accumulatingMap.putAll(nextMap.entrySet()),
+            ImmutableListMultimap.Builder::combine,
+            builder -> {
+              ListMultimap<K, V> accumulatingMap = builder.build();
+
+              return accumulatingMap
+                      .keySet()
+                      .stream()
+                      .collect(Collectors.toMap(
+                              key -> key,
+                              key -> accumulatingMap
+                                      .get(key)
+                                      .stream()
+                                      .collect(downstream)));
+            });
   }
 }

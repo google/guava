@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Maps.transformEntries;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -40,6 +41,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,6 +64,9 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import junit.framework.TestCase;
 
 /**
@@ -70,6 +75,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Jared Levy
+ * @author Alexei KLENIN
  */
 @GwtCompatible(emulated = true)
 public class MapsTest extends TestCase {
@@ -1947,5 +1953,284 @@ public class MapsTest extends TestCase {
     assertEquals(
         ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0),
         Maps.subMap(map, Range.<Integer>all()));
+  }
+
+  public void testMergeMaps_numbers() {
+    Map<String, Integer> measurements1 = ImmutableMap.of(
+            "speed", 7,
+            "temperature", 27);
+    Map<String, Double> measurements2 = ImmutableMap.of(
+            "speed", 7.2d,
+            "air-pressure", 1610.11d);
+
+    Map<String, Number> averages = Maps.merge(measurements1, measurements2,
+            (i, d) -> (i + d) / 2);
+
+    assertThat(averages).isNotNull();
+    assertThat(averages).isNotEmpty();
+    assertThat(averages).hasSize(3);
+    assertThat(averages).containsEntry("speed", 7.1d);
+    assertThat(averages).containsEntry("temperature", 27);
+    assertThat(averages).containsEntry("air-pressure", 1610.11d);
+  }
+
+  public void testMergeMaps_lists() {
+    Map<String, List<Integer>> map1 = ImmutableMap.of(
+            "alpha", asList(1, 2, 3),
+            "beta", asList(6, 7));
+    Map<String, List<Integer>> map2 = ImmutableMap.of(
+            "beta", asList(4, 5),
+            "gamma", asList(12, 13));
+
+    Map<String, List<Integer>> merged = Maps.merge(map1, map2,
+            (l1, l2) -> Lists.newArrayList(Iterables.concat(l1, l2)));
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("alpha", asList(1, 2, 3));
+    assertThat(merged).containsEntry("beta", asList(6, 7, 4, 5));
+    assertThat(merged).containsEntry("gamma", asList(12, 13));
+  }
+
+  public void testMergeMaps_sets() {
+    Map<String, Set<String>> tags1 = ImmutableMap.of(
+            "guava", newHashSet("java", "collections"),
+            "junit", newHashSet("tests"));
+    Map<String, Set<String>> tags2 = ImmutableMap.of(
+            "spring", newHashSet("di", "boot"),
+            "junit", newHashSet("runner", "platform"));
+
+    Map<String, Set<String>> merged = Maps.merge(tags1, tags2, Sets::union);
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("guava", newHashSet("java", "collections"));
+    assertThat(merged).containsEntry("spring", newHashSet("di", "boot"));
+    assertThat(merged).containsEntry("junit", newHashSet("tests", "runner", "platform"));
+  }
+
+  public void testMergeMaps_withEmptyMaps() {
+    Map<String, Integer> measurements = ImmutableMap.of(
+            "speed", 7,
+            "temperature", 27);
+
+    BiFunction<Integer, Integer, Number> avg = (n1, n2) -> (n1.doubleValue() + n2.doubleValue()) / 2;
+
+    Map<String, Number> merged1 = Maps.merge(measurements, Collections.emptyMap(), avg);
+    Map<String, Number> merged2 = Maps.merge(Collections.emptyMap(), measurements, avg);
+    Map<String, Number> merged3 = Maps.merge(Collections.emptyMap(), Collections.emptyMap(), avg);
+
+    assertThat(merged1).isEqualTo(measurements);
+    assertThat(merged2).isEqualTo(measurements);
+    assertThat(merged3).isEqualTo(Collections.emptyMap());
+  }
+
+  public void testMergeAll_iterable() {
+    Map<String, Integer> measurements1 = ImmutableMap.of(
+            "speed", 7,
+            "temperature", 27);
+    Map<String, Double> measurements2 = ImmutableMap.of(
+            "speed", 7.2d,
+            "air-pressure", 1610.11d);
+    Map<String, Float> measurements3 = ImmutableMap.of(
+            "temperature", 26.4f,
+            "air-pressure", 1611.2f);
+
+    java.util.function.Function<List<Number>, Number> avg = (numbers) -> numbers
+            .stream()
+            .mapToDouble(Number::doubleValue)
+            .average()
+            .getAsDouble();
+
+    Map<String, Number> averages = Maps.mergeAll(avg, asList(measurements1, measurements2, measurements3));
+
+    assertThat(averages).isNotNull();
+    assertThat(averages).isNotEmpty();
+    assertThat(averages).hasSize(3);
+    assertThat(averages).containsEntry("speed", 7.1d);
+    assertThat(averages).containsEntry("temperature", 26.699999809265137d);
+    assertThat(averages).containsEntry("air-pressure", 1610.6549755859373d);
+  }
+
+  public void testMergeAll_iterable_emptyIterable() {
+    @SuppressWarnings("unchecked")
+    Map<String, ? extends Number>[] array = (Map<String, ? extends Number>[]) Array.newInstance(Map.class, 0);
+    java.util.function.Function<List<Number>, Number> avg = (numbers) -> numbers
+            .stream()
+            .mapToDouble(Number::doubleValue)
+            .average()
+            .getAsDouble();
+
+    Map<String, Number> averages = Maps.mergeAll(avg, Collections.emptyList());
+
+    assertThat(averages).isNotNull();
+    assertThat(averages).isEmpty();
+  }
+
+  public void testMergeAll_iterable_sets() {
+    Map<String, Set<String>> tags1 = ImmutableMap.of(
+            "guava", newHashSet("java", "collections"),
+            "junit", newHashSet("tests"));
+    Map<String, Set<String>> tags2 = ImmutableMap.of(
+            "spring", newHashSet("di", "boot"),
+            "junit", newHashSet("runner", "platform"));
+    Map<String, Set<String>> tags3 = ImmutableMap.of(
+            "guava", newHashSet("optionals", "java", "library"),
+            "junit", newHashSet("jdk", "parameters"),
+            "spring", newHashSet("web", "batch"));
+
+    Map<String, Set<String>> merged = Maps.mergeAll(
+            sets -> sets.stream().reduce(newHashSet(), Sets::union),
+            Arrays.asList(tags1, tags2, tags3));
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("guava", newHashSet("java", "collections", "optionals", "library"));
+    assertThat(merged).containsEntry("spring", newHashSet("di", "boot", "web", "batch"));
+    assertThat(merged).containsEntry("junit", newHashSet("tests", "runner", "platform", "jdk", "parameters"));
+  }
+
+  public void testMergeAll_varargs_numbers() {
+    Map<String, Integer> measurements1 = ImmutableMap.of(
+            "speed", 7,
+            "temperature", 27);
+    Map<String, Double> measurements2 = ImmutableMap.of(
+            "speed", 7.2d,
+            "air-pressure", 1610.11d);
+    Map<String, Float> measurements3 = ImmutableMap.of(
+            "temperature", 26.4f,
+            "air-pressure", 1611.2f);
+
+    java.util.function.Function<List<Number>, Number> avg = (numbers) -> numbers
+              .stream()
+              .mapToDouble(Number::doubleValue)
+              .average()
+              .getAsDouble();
+
+    Map<String, Number> averages = Maps.mergeAll(avg, measurements1, measurements2, measurements3);
+
+    assertThat(averages).isNotNull();
+    assertThat(averages).isNotEmpty();
+    assertThat(averages).hasSize(3);
+    assertThat(averages).containsEntry("speed", 7.1d);
+    assertThat(averages).containsEntry("temperature", 26.699999809265137d);
+    assertThat(averages).containsEntry("air-pressure", 1610.6549755859373d);
+  }
+
+  public void testMergeAll_varargs_lists() {
+    Map<String, List<Integer>> map1 = ImmutableMap.of(
+            "alpha", asList(1, 2, 3),
+            "beta", asList(6, 7));
+    Map<String, List<Integer>> map2 = ImmutableMap.of("beta", asList(4, 5));
+    Map<String, List<Integer>> map3 = ImmutableMap.of("gamma", asList(12, 13));
+
+    Map<String, List<Integer>> merged = Maps.mergeAll(
+        (lists) -> Lists.newArrayList(Iterables.concat(lists)),
+        Collections.emptyMap(),
+        map1, map2, map3);
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("alpha", asList(1, 2, 3));
+    assertThat(merged).containsEntry("beta", asList(6, 7, 4, 5));
+    assertThat(merged).containsEntry("gamma", asList(12, 13));
+  }
+
+  public void testMergeAll_varargs_sets() {
+    Map<String, Set<String>> tags1 = ImmutableMap.of(
+            "guava", newHashSet("java", "collections"),
+            "junit", newHashSet("tests"));
+    Map<String, Set<String>> tags2 = ImmutableMap.of(
+            "spring", newHashSet("di", "boot"),
+            "junit", newHashSet("runner", "platform"));
+    Map<String, Set<String>> tags3 = ImmutableMap.of(
+            "guava", newHashSet("optionals", "java", "library"),
+            "junit", newHashSet("jdk", "parameters"),
+            "spring", newHashSet("web", "batch"));
+
+    Map<String, Set<String>> merged = Maps.mergeAll(
+            sets -> sets.stream().reduce(newHashSet(), Sets::union),
+            tags1, tags2, tags3);
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("guava", newHashSet("java", "collections", "optionals", "library"));
+    assertThat(merged).containsEntry("spring", newHashSet("di", "boot", "web", "batch"));
+    assertThat(merged).containsEntry("junit", newHashSet("tests", "runner", "platform", "jdk", "parameters"));
+  }
+
+  public void testMergeCollector_numbers() {
+    Map<String, Integer> measurements1 = ImmutableMap.of(
+            "speed", 7,
+            "temperature", 27);
+    Map<String, Double> measurements2 = ImmutableMap.of(
+            "speed", 7.2d,
+            "air-pressure", 1610.11d);
+    Map<String, Float> measurements3 = ImmutableMap.of(
+            "temperature", 26.4f,
+            "air-pressure", 1611.2f);
+
+    Map<String, Number> averages = Stream
+            .of(measurements1, measurements2, measurements3)
+            .collect(Maps.mergeCollector(
+                    Collectors.collectingAndThen(Collectors.averagingDouble(Number::doubleValue),
+                    d -> (Number) d)));
+
+    assertThat(averages).isNotNull();
+    assertThat(averages).isNotEmpty();
+    assertThat(averages).hasSize(3);
+    assertThat(averages).containsEntry("speed", 7.1d);
+    assertThat(averages).containsEntry("temperature", 26.699999809265137d);
+    assertThat(averages).containsEntry("air-pressure", 1610.6549755859373d);
+  }
+
+  public void testMergeCollector_lists() {
+    Map<String, List<Integer>> map1 = ImmutableMap.of(
+            "alpha", asList(1, 2, 3),
+            "beta", asList(6, 7));
+    Map<String, List<Integer>> map2 = ImmutableMap.of("beta", asList(4, 5));
+    Map<String, List<Integer>> map3 = ImmutableMap.of("gamma", asList(12, 13));
+
+    Map<String, List<Integer>> merged = Stream
+            .of(map1, map2, map3)
+            .collect(Maps.mergeCollector(Collectors.reducing(
+                    Collections.emptyList(),
+                    (res, list) -> Lists.newArrayList(Iterables.concat(res, list)))));
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("alpha", asList(1, 2, 3));
+    assertThat(merged).containsEntry("beta", asList(6, 7, 4, 5));
+    assertThat(merged).containsEntry("gamma", asList(12, 13));
+  }
+
+  public void testMergeCollector_sets() {
+    Map<String, Set<String>> tags1 = ImmutableMap.of(
+            "guava", newHashSet("java", "collections"),
+            "junit", newHashSet("tests"));
+    Map<String, Set<String>> tags2 = ImmutableMap.of(
+            "spring", newHashSet("di", "boot"),
+            "junit", newHashSet("runner", "platform"));
+    Map<String, Set<String>> tags3 = ImmutableMap.of(
+            "guava", newHashSet("optionals", "java", "library"),
+            "junit", newHashSet("jdk", "parameters"),
+            "spring", newHashSet("web", "batch"));
+
+    Map<String, Set<String>> merged = Stream
+            .of(tags1, tags2, tags3)
+            .collect(Maps.mergeCollector(Collectors.reducing(newHashSet(), Sets::union)));
+
+    assertThat(merged).isNotNull();
+    assertThat(merged).isNotEmpty();
+    assertThat(merged).hasSize(3);
+    assertThat(merged).containsEntry("guava", newHashSet("java", "collections", "optionals", "library"));
+    assertThat(merged).containsEntry("spring", newHashSet("di", "boot", "web", "batch"));
+    assertThat(merged).containsEntry("junit", newHashSet("tests", "runner", "platform", "jdk", "parameters"));
   }
 }
