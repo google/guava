@@ -98,7 +98,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
     }
-    // An execution exception holds a runtime exception (from throwables.propogate) that holds our
+    // An execution exception holds a runtime exception (from throwables.propagate) that holds our
     // original exception.
     assertEquals(service.runException, service.failureCause());
     assertEquals(Service.State.FAILED, service.state());
