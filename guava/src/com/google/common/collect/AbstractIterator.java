@@ -28,41 +28,41 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * interface easier to implement for certain types of data sources.
  *
  * <p>{@code Iterator} requires its implementations to support querying the end-of-data status
- * without changing the iterator's state, using the {@link #hasNext} method. But many data sources,
- * such as {@link java.io.Reader#read()}, do not expose this information; the only way to discover
- * whether there is any data left is by trying to retrieve it. These types of data sources are
- * ordinarily difficult to write iterators for. But using this class, one must implement only the
- * {@link #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
- *
- * <p>Another example is an iterator that skips over null elements in a backing iterator. This could
- * be implemented as:
- *
- * <pre>{@code
- * public static Iterator<String> skipNulls(final Iterator<String> in) {
- *   return new AbstractIterator<String>() {
- *     protected String computeNext() {
- *       while (in.hasNext()) {
- *         String s = in.next();
- *         if (s != null) {
- *           return s;
- *         }
- *       }
- *       return endOfData();
- *     }
- *   };
- * }
- * }</pre>
- *
- * <p>This class supports iterators that include null elements.
- *
- * @author Kevin Bourrillion
- * @since 2.0
- */
+* without changing the iterators state, using the {@link #hasNext} method. But many data sources,
+* such as {@link java.io.Reader#read()}, do not expose this information; the only way to discover
+* whether there is any data left is by trying to retrieve it. These types of data sources are
+* ordinarily difficult to write iterators for. But using this class, one must implement only the
+* {@link #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
+*
+* <p>Another example is an iterator that skips over null elements in a backing iterator. This could
+* be implemented as:
+*
+* <pre>{@code
+* public static Iterator<String> skipNulls(final Iterator<String> in) {
+*   return new AbstractIterator<String>() {
+*     protected String computeNext() {
+*       while (in.hasNext()) {
+*         String s = in.next();
+*         if (s != null) {
+*           return s;
+*         }
+*       }
+*       return endOfData();
+*     }
+*   };
+* }
+* }</pre>
+*
+* <p>This class supports iterators that include null elements.
+*
+* @author Kevin Bourrillion
+* @since 2.0
+*/
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
 @GwtCompatible
 public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
-  private State state = State.NOT_READY;
+private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */
   protected AbstractIterator() {}

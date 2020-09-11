@@ -22,7 +22,7 @@ Guava comes in two flavors.
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or Java 7 or by any library that wants to be compatible with
-either of those. These flavors are specified in the Maven version field as
+either of those. The maven version field specifies these flavors 
 either `29.0-jre` or `29.0-android`. For more about depending on Guava, see
 [using Guava in your build].
 
@@ -108,7 +108,7 @@ flavor.
     otherwise. Do not persist these and assume they can be read by a future
     version of the library.
 
-5.  Our classes are not designed to protect against a malicious caller. You
+5.  Our classes aren't designed to protect against a malicious caller. You
     should not use them for communication between trusted and untrusted code.
 
 6.  For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8
