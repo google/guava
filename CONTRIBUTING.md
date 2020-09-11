@@ -6,7 +6,7 @@ things you should know about contributing:
 
   1. API changes require discussion, use cases, etc. Code comes later.
   2. Pull requests are great for small fixes for bugs, documentation, etc.
-  3. Pull requests aren't merged directly into the master branch.
+  3. Pull requests are not merged directly into the master branch.
   3. Code contributions require signing a Google CLA.
 
 API changes
@@ -30,7 +30,7 @@ Pull requests
 Unless the change is a trivial fix such as for a typo, it's generally best to
 start by opening a new issue describing the bug or feature you're intending to
 fix. Even if you think it's relatively minor, it's helpful to know what people
-are working on. Also, as mentioned above, API changes should be discussed
+are working on. And as mentioned above, API changes should be discussed
 thoroughly before moving to code.
 
 Some examples of types of pull requests that are immediately helpful:
