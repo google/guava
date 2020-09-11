@@ -620,7 +620,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
           rValue = true;
-          // We call interuptTask before calling complete(), which is consistent with
+          // We call interruptTask before calling complete(), which is consistent with
           // FutureTask
           if (mayInterruptIfRunning) {
             abstractFuture.interruptTask();
