@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * interface easier to implement for certain types of data sources.
  *
  * <p>{@code Iterator} requires its implementations to support querying the end-of-data status
- * without changing the iterators state, using the {@link #hasNext} method. But many data sources,
+ * without changing the iterator's state, using the {@link #hasNext} method. But many data sources,
  * such as {@link java.io.Reader#read()}, do not expose this information; the only way to discover
  * whether there is any data left is by trying to retrieve it. These types of data sources are
  * ordinarily difficult to write iterators for. But using this class, one must implement only the
