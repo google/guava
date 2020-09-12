@@ -108,7 +108,7 @@ flavor.
     otherwise. Do not persist these and assume they can be read by a future
     version of the library.
 
-5.  Our classes aren't designed to protect against a malicious caller. You
+5.  Our classes are not designed to protect against a malicious caller. You
     should not use them for communication between trusted and untrusted code.
 
 6.  For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8
