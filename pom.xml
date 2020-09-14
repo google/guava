@@ -248,7 +248,7 @@
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
-        <version>2.11.1</version>
+        <version>3.5.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
