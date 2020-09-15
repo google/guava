@@ -628,7 +628,7 @@
 <span class="sourceLineNo">620</span>      while (true) {<a name="line.620"></a>
 <span class="sourceLineNo">621</span>        if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {<a name="line.621"></a>
 <span class="sourceLineNo">622</span>          rValue = true;<a name="line.622"></a>
-<span class="sourceLineNo">623</span>          // We call interuptTask before calling complete(), which is consistent with<a name="line.623"></a>
+<span class="sourceLineNo">623</span>          // We call interruptTask before calling complete(), which is consistent with<a name="line.623"></a>
 <span class="sourceLineNo">624</span>          // FutureTask<a name="line.624"></a>
 <span class="sourceLineNo">625</span>          if (mayInterruptIfRunning) {<a name="line.625"></a>
 <span class="sourceLineNo">626</span>            abstractFuture.interruptTask();<a name="line.626"></a>

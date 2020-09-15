@@ -1,4 +1,27 @@
 OK: com.google.common.math.BigDecimalMath Class
+OK: com.google.common.util.concurrent.ClosingFuture Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.ClosingCallable Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.ClosingFunction Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner2 Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner2.AsyncClosingFunction2 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner2.ClosingFunction2 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner3 Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner3.AsyncClosingFunction3 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner3.ClosingFunction3 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner4 Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner4.AsyncClosingFunction4 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner5 Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner5.AsyncClosingFunction5 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Combiner5.ClosingFunction5 Interface
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.DeferredCloser Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.Peeker Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.ValueAndCloser Class
+MISSING @SINCE TAG: com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer Interface
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService, long, java.util.concurrent.TimeUnit)
 OK: com.google.common.util.concurrent.Uninterruptibles Method awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)

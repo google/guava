@@ -223,6 +223,10 @@
 <dd>
 <div class="block">The HTTP <code>Accept</code> header field name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html#accept-com.google.common.util.concurrent.ClosingFuture.ValueAndCloser-">accept(ClosingFuture.ValueAndCloser&lt;V&gt;)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a></dt>
+<dd>
+<div class="block">Accepts a <a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.ValueAndCloser</code></a> for the last step in a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#ACCEPT_CHARSET">ACCEPT_CHARSET</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Accept-Charset</code> header field name.</div>
@@ -1174,6 +1178,46 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AsyncFunction.html#apply-I-">apply(I)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a></dt>
 <dd>
 <div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-T-">apply(ClosingFuture.DeferredCloser, T)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a></dt>
+<dd>
+<div class="block">Applies this function to an input, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-T-">apply(ClosingFuture.DeferredCloser, T)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a></dt>
+<dd>
+<div class="block">Applies this function to an input, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-">apply(ClosingFuture.DeferredCloser, V1, V2)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner2.AsyncClosingFunction2</a></dt>
+<dd>
+<div class="block">Applies this function to two inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-">apply(ClosingFuture.DeferredCloser, V1, V2)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner2.ClosingFunction2</a></dt>
+<dd>
+<div class="block">Applies this function to two inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-">apply(ClosingFuture.DeferredCloser, V1, V2, V3)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner3.AsyncClosingFunction3</a></dt>
+<dd>
+<div class="block">Applies this function to three inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-">apply(ClosingFuture.DeferredCloser, V1, V2, V3)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner3.ClosingFunction3</a></dt>
+<dd>
+<div class="block">Applies this function to three inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-V4-">apply(ClosingFuture.DeferredCloser, V1, V2, V3, V4)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner4.AsyncClosingFunction4</a></dt>
+<dd>
+<div class="block">Applies this function to four inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-V4-">apply(ClosingFuture.DeferredCloser, V1, V2, V3, V4)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner4.ClosingFunction4</a></dt>
+<dd>
+<div class="block">Applies this function to four inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-V4-V5-">apply(ClosingFuture.DeferredCloser, V1, V2, V3, V4, V5)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner5.AsyncClosingFunction5</a></dt>
+<dd>
+<div class="block">Applies this function to five inputs, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html#apply-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-V1-V2-V3-V4-V5-">apply(ClosingFuture.DeferredCloser, V1, V2, V3, V4, V5)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner5.ClosingFunction5</a></dt>
+<dd>
+<div class="block">Applies this function to five inputs, or throws an exception if unable to do so.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#approximateElementCount--">approximateElementCount()</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
@@ -2340,6 +2384,43 @@
 <dd>
 <div class="block">Computes a result <code>Future</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html#call-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-">call(ClosingFuture.DeferredCloser)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingCallable</a></dt>
+<dd>
+<div class="block">Computes a result, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.AsyncCombiningCallable.html#call-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-com.google.common.util.concurrent.ClosingFuture.Peeker-">call(ClosingFuture.DeferredCloser, ClosingFuture.Peeker)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a></dt>
+<dd>
+<div class="block">Computes a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> result, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html#call-com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable-java.util.concurrent.Executor-">call(ClosingFuture.Combiner.CombiningCallable&lt;V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ combining function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.CombiningCallable.html#call-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-com.google.common.util.concurrent.ClosingFuture.Peeker-">call(ClosingFuture.DeferredCloser, ClosingFuture.Peeker)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.CombiningCallable</a></dt>
+<dd>
+<div class="block">Computes a result, or throws an exception if unable to do so.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html#call-com.google.common.util.concurrent.ClosingFuture.Combiner2.ClosingFunction2-java.util.concurrent.Executor-">call(ClosingFuture.Combiner2.ClosingFunction2&lt;V1, V2, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ combining function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html#call-com.google.common.util.concurrent.ClosingFuture.Combiner3.ClosingFunction3-java.util.concurrent.Executor-">call(ClosingFuture.Combiner3.ClosingFunction3&lt;V1, V2, V3, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ combining function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html#call-com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4-java.util.concurrent.Executor-">call(ClosingFuture.Combiner4.ClosingFunction4&lt;V1, V2, V3, V4, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ combining function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html#call-com.google.common.util.concurrent.ClosingFuture.Combiner5.ClosingFunction5-java.util.concurrent.Executor-">call(ClosingFuture.Combiner5.ClosingFunction5&lt;V1, V2, V3, V4, V5, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ combining function to their values.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-java.util.concurrent.Executor-">call(Callable&lt;C&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
 <dd>
 <div class="block">Creates the <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true#call--" title="class or interface in java.util.concurrent"><code>Callable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
@@ -2347,6 +2428,31 @@
 <dt><a href="com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Callables</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a> interface.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html#callAsync-com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable-java.util.concurrent.Executor-">callAsync(ClosingFuture.Combiner.AsyncCombiningCallable&lt;V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ <code>ClosingFuture</code>-returning function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html#callAsync-com.google.common.util.concurrent.ClosingFuture.Combiner2.AsyncClosingFunction2-java.util.concurrent.Executor-">callAsync(ClosingFuture.Combiner2.AsyncClosingFunction2&lt;V1, V2, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ <code>ClosingFuture</code>-returning function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html#callAsync-com.google.common.util.concurrent.ClosingFuture.Combiner3.AsyncClosingFunction3-java.util.concurrent.Executor-">callAsync(ClosingFuture.Combiner3.AsyncClosingFunction3&lt;V1, V2, V3, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ <code>ClosingFuture</code>-returning function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html#callAsync-com.google.common.util.concurrent.ClosingFuture.Combiner4.AsyncClosingFunction4-java.util.concurrent.Executor-">callAsync(ClosingFuture.Combiner4.AsyncClosingFunction4&lt;V1, V2, V3, V4, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ <code>ClosingFuture</code>-returning function to their values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html#callAsync-com.google.common.util.concurrent.ClosingFuture.Combiner5.AsyncClosingFunction5-java.util.concurrent.Executor-">callAsync(ClosingFuture.Combiner5.AsyncClosingFunction5&lt;V1, V2, V3, V4, V5, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
+ <code>ClosingFuture</code>-returning function to their values.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-">callAsync(AsyncCallable&lt;C&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
 <dd>
@@ -2376,6 +2482,10 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-">cancel(boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dd>
 <div class="block">Attempts to cancel execution of this task.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#cancel-boolean-">cancel(boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Attempts to cancel execution of this step.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.html#cancel-boolean-">cancel(boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
 <dd>&nbsp;</dd>
@@ -2416,6 +2526,11 @@
 <dd>
 <div class="block">Utility class for converting between various ASCII case formats.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#catching-java.lang.Class-com.google.common.util.concurrent.ClosingFuture.ClosingFunction-java.util.concurrent.Executor-">catching(Class&lt;X&gt;, ClosingFuture.ClosingFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
+ to its exception if it is an instance of a given exception type.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#catching-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">catching(Class&lt;X&gt;, Function&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>.</div>
@@ -2425,6 +2540,12 @@
 <div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
  primary input fails with the given <code>exceptionType</code>, from the result provided by the
  <code>fallback</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#catchingAsync-java.lang.Class-com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction-java.util.concurrent.Executor-">catchingAsync(Class&lt;X&gt;, ClosingFuture.AsyncClosingFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
+ that returns a <code>ClosingFuture</code> to its exception if it is an instance of a given exception
+ type.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#catchingAsync-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">catchingAsync(Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
@@ -3102,6 +3223,11 @@
 <dd>
 <div class="block">Utility methods for working with <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> objects.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#closeAsync--">closeAsync()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.ValueAndCloser</a></dt>
+<dd>
+<div class="block">Starts closing all closeable objects captured during the <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>'s asynchronous
+ operation on the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a>s specified by calls to <code>DeferredCloser#eventuallyClose(Closeable, Executor)</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ContiguousSet.html#closed-int-int-">closed(int, int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a></dt>
 <dd>
 <div class="block">Returns a nonempty contiguous set containing all <code>int</code> values from <code>lower</code>
@@ -3146,6 +3272,115 @@
 <dd>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
  <a href="com/google/common/io/Closer.html#close--">closed</a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A step in a pipeline of an asynchronous computation.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.AsyncClosingFunction</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">T</a>,<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function from an input to a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> of a result.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ClosingCallable</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="type parameter in ClosingFuture.ClosingCallable">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An operation that computes a result.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ClosingFunction</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="type parameter in ClosingFuture.ClosingFunction">T</a>,<a href="com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="type parameter in ClosingFuture.ClosingFunction">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function from an input to a result.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A builder of a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> step that is derived from more than one input step.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner.AsyncCombiningCallable</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.AsyncCombiningCallable.html" title="type parameter in ClosingFuture.Combiner.AsyncCombiningCallable">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An operation that returns a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> result and may throw an exception.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner.CombiningCallable</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.CombiningCallable.html" title="type parameter in ClosingFuture.Combiner.CombiningCallable">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An operation that returns a result and may throw an exception.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner2</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="type parameter in ClosingFuture.Combiner2">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="type parameter in ClosingFuture.Combiner2">V2</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A generic <a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine two <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner2.AsyncClosingFunction2</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.AsyncClosingFunction2">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.AsyncClosingFunction2">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.AsyncClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.AsyncClosingFunction2">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> when applied to the values of the two futures
+ passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner2.ClosingFunction2</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.ClosingFunction2">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.ClosingFunction2">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner2.ClosingFunction2.html" title="type parameter in ClosingFuture.Combiner2.ClosingFunction2">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a value when applied to the values of the two futures passed to
+ <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner3</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V3</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A generic <a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine three
+ <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner3.AsyncClosingFunction3</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.AsyncClosingFunction3">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.AsyncClosingFunction3">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.AsyncClosingFunction3">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.AsyncClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.AsyncClosingFunction3">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> when applied to the values of the three
+ futures passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner3.ClosingFunction3</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.ClosingFunction3">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.ClosingFunction3">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.ClosingFunction3">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner3.ClosingFunction3.html" title="type parameter in ClosingFuture.Combiner3.ClosingFunction3">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a value when applied to the values of the three futures passed to
+ <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner4</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V4</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A generic <a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine four
+ <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner4.AsyncClosingFunction4</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.AsyncClosingFunction4">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.AsyncClosingFunction4">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.AsyncClosingFunction4">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.AsyncClosingFunction4">V4</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.AsyncClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.AsyncClosingFunction4">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> when applied to the values of the four
+ futures passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture,
+ ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner4.ClosingFunction4</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.ClosingFunction4">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.ClosingFunction4">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.ClosingFunction4">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.ClosingFunction4">V4</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" title="type parameter in ClosingFuture.Combiner4.ClosingFunction4">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a value when applied to the values of the four futures passed to
+ <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner5</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V4</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V5</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A generic <a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine five
+ <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner5.AsyncClosingFunction5</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">V4</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">V5</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.AsyncClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.AsyncClosingFunction5">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> when applied to the values of the five
+ futures passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture,
+ ClosingFuture, ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Combiner5.ClosingFunction5</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">V1</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">V2</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">V3</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">V4</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">V5</a>,<a href="com/google/common/util/concurrent/ClosingFuture.Combiner5.ClosingFunction5.html" title="type parameter in ClosingFuture.Combiner5.ClosingFunction5">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A function that returns a value when applied to the values of the five futures passed to
+ <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-"><code>ClosingFuture.whenAllSucceed(ClosingFuture, ClosingFuture, ClosingFuture, ClosingFuture,
+ ClosingFuture)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.DeferredCloser</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An object that can capture objects to be closed later, when a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is
+ done.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.Peeker.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.Peeker</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An object that can return the value of the <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s that are passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-java.lang.Iterable-"><code>ClosingFuture.whenAllComplete(Iterable)</code></a> or <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-java.lang.Iterable-"><code>ClosingFuture.whenAllSucceed(Iterable)</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloser</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An object that holds the final result of an asynchronous <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> operation and
+ allows the user to close all the closeable objects that were captured during it for later
+ closing.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloserConsumer</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="type parameter in ClosingFuture.ValueAndCloserConsumer">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">Represents an operation that accepts a <a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.ValueAndCloser</code></a> for the last step in a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/escape/UnicodeEscaper.html#codePointAt-java.lang.CharSequence-int-int-">codePointAt(CharSequence, int, int)</a></span> - Static method in class com.google.common.escape.<a href="com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a></dt>
 <dd>
@@ -6090,6 +6325,21 @@
 <dd>
 <div class="block">Creates a new EventBus with the given <a href="com/google/common/eventbus/SubscriberExceptionHandler.html" title="interface in com.google.common.eventbus"><code>SubscriberExceptionHandler</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html#eventuallyClose-C-java.util.concurrent.Executor-">eventuallyClose(C, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.DeferredCloser</a></dt>
+<dd>
+<div class="block">Captures an object to be closed when a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is done.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#eventuallyClosing-com.google.common.util.concurrent.ListenableFuture-java.util.concurrent.Executor-">eventuallyClosing(ListenableFuture&lt;C&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Creating <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a>s of closeable types is dangerous in general because the
+     underlying value may never be closed if the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> is canceled after its operation
+     begins. Consider replacing code that creates <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>s of closeable types,
+     including those that pass them to this method, with <a href="com/google/common/util/concurrent/ClosingFuture.html#submit-com.google.common.util.concurrent.ClosingFuture.ClosingCallable-java.util.concurrent.Executor-"><code>ClosingFuture.submit(ClosingCallable,
+     Executor)</code></a> in order to ensure that resources do not leak. Or, to start a pipeline with a
+     <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that doesn't create values that should be closed, use <a href="com/google/common/util/concurrent/ClosingFuture.html#from-com.google.common.util.concurrent.ListenableFuture-"><code>ClosingFuture.from(com.google.common.util.concurrent.ListenableFuture&lt;V&gt;)</code></a>.</span></div>
+</div>
+</dd>
 <dt><a href="com/google/common/collect/EvictingQueue.html" title="class in com.google.common.collect"><span class="typeNameLink">EvictingQueue</span></a>&lt;<a href="com/google/common/collect/EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -6482,6 +6732,8 @@
 <dd>
 <div class="block">Constructs a new finalizable weak reference.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#finalize--">finalize()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/FinalizableReference.html#finalizeReferent--">finalizeReferent()</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/FinalizableReference.html" title="interface in com.google.common.base">FinalizableReference</a></dt>
 <dd>
 <div class="block">Invoked on a background thread after the referent has been garbage collected unless security
@@ -6505,6 +6757,14 @@
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Iterators.html#find-java.util.Iterator-com.google.common.base.Predicate-T-">find(Iterator&lt;? extends T&gt;, Predicate&lt;? super T&gt;, T)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
 <div class="block">Returns the first element in <code>iterator</code> that satisfies the given predicate.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#finishToFuture--">finishToFuture()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#finishToValueAndCloser-com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer-java.util.concurrent.Executor-">finishToValueAndCloser(ClosingFuture.ValueAndCloserConsumer&lt;? super V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/FluentIterable.html#first--">first()</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
@@ -7139,6 +7399,10 @@
 <dd>
 <div class="block">Returns <a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#from-com.google.common.util.concurrent.ListenableFuture-">from(ListenableFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline with a <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.ListenableFuture-">from(ListenableFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
@@ -7490,6 +7754,11 @@
 <div class="block">Returns the value associated with <code>key</code>, or zero if there is no value associated with
  <code>key</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#get--">get()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.ValueAndCloser</a></dt>
+<dd>
+<div class="block">Returns the final value of the associated <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>, or throws an exception as
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> would.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.html#get--">get()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ForwardingFuture.html#get-long-java.util.concurrent.TimeUnit-">get(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
@@ -7632,6 +7901,10 @@
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/Parameter.html#getDeclaringInvokable--">getDeclaringInvokable()</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/Parameter.html" title="class in com.google.common.reflect">Parameter</a></dt>
 <dd>
 <div class="block">Returns the <a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> that declares this parameter.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Peeker.html#getDone-com.google.common.util.concurrent.ClosingFuture-">getDone(ClosingFuture&lt;D&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Peeker.html" title="class in com.google.common.util.concurrent">ClosingFuture.Peeker</a></dt>
+<dd>
+<div class="block">Returns the value of <code>closingFuture</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#getDone-java.util.concurrent.Future-">getDone(Future&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -9238,6 +9511,8 @@
  href="http://java.sun.com/docs/books/jls/third_edition/html/execution.html#12.4.2">JLS Section
  12.4.2</a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html#inputs">inputs</a></span> - Variable in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#inRange-char-char-">inRange(char, char)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Returns a <code>char</code> matcher that matches any character in a given BMP range (both endpoints
@@ -16535,6 +16810,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/StatsAccumulator.html#StatsAccumulator--">StatsAccumulator()</a></span> - Constructor for class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#statusFuture--">statusFuture()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns a future that finishes when this step does.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#stop--">stop()</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
 <div class="block">Stops the stopwatch.</div>
@@ -16674,6 +16953,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit(Callable&lt;T&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractListeningExecutorService.html" title="class in com.google.common.util.concurrent">AbstractListeningExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#submit-com.google.common.util.concurrent.ClosingFuture.ClosingCallable-java.util.concurrent.Executor-">submit(ClosingFuture.ClosingCallable&lt;V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline by submitting a callable block to an executor.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ExecutionSequencer.html#submit-java.util.concurrent.Callable-java.util.concurrent.Executor-">submit(Callable&lt;T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ExecutionSequencer.html" title="class in com.google.common.util.concurrent">ExecutionSequencer</a></dt>
 <dd>
 <div class="block">Enqueues a task to run when the previous task (if any) completes.</div>
@@ -17539,6 +17822,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicLongMap.html#toString--">toString()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#toString--">toString()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/RateLimiter.html#toString--">toString()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#toString--">toString()</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
@@ -17626,6 +17911,11 @@
 <dd>
 <div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#transform-com.google.common.util.concurrent.ClosingFuture.ClosingFunction-java.util.concurrent.Executor-">transform(ClosingFuture.ClosingFunction&lt;? super V, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
+ to its value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#transform-com.google.common.base.Function-java.util.concurrent.Executor-">transform(Function&lt;? super V, T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
@@ -17638,6 +17928,11 @@
 <dd>
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
  with the concatenated combination of results.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#transformAsync-com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction-java.util.concurrent.Executor-">transformAsync(ClosingFuture.AsyncClosingFunction&lt;? super V, U&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
+ that returns a <code>ClosingFuture</code> to its value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#transformAsync-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">transformAsync(AsyncFunction&lt;? super V, T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
@@ -18821,6 +19116,14 @@ the order they are declared.</div>
 <dd>
 <div class="block">Calculates the weights of cache entries.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-java.lang.Iterable-">whenAllComplete(Iterable&lt;? extends ClosingFuture&lt;?&gt;&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture...-">whenAllComplete(ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#whenAllComplete-com.google.common.util.concurrent.ListenableFuture...-">whenAllComplete(ListenableFuture&lt;? extends V&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Creates a <a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
@@ -18830,6 +19133,36 @@ the order they are declared.</div>
 <dd>
 <div class="block">Creates a <a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
  successful.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-java.lang.Iterable-">whenAllSucceed(Iterable&lt;? extends ClosingFuture&lt;?&gt;&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming they
+ all succeed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed(ClosingFuture&lt;V1&gt;, ClosingFuture&lt;V2&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine two <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
+ they all succeed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed(ClosingFuture&lt;V1&gt;, ClosingFuture&lt;V2&gt;, ClosingFuture&lt;V3&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine three <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
+ they all succeed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed(ClosingFuture&lt;V1&gt;, ClosingFuture&lt;V2&gt;, ClosingFuture&lt;V3&gt;, ClosingFuture&lt;V4&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine four <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
+ they all succeed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed(ClosingFuture&lt;V1&gt;, ClosingFuture&lt;V2&gt;, ClosingFuture&lt;V3&gt;, ClosingFuture&lt;V4&gt;, ClosingFuture&lt;V5&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine five <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
+ they all succeed.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture...-">whenAllSucceed(ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;, ClosingFuture&lt;?&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts specifying how to combine <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming they
+ all succeed.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#whenAllSucceed-com.google.common.util.concurrent.ListenableFuture...-">whenAllSucceed(ListenableFuture&lt;? extends V&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -18892,6 +19225,12 @@ the order they are declared.</div>
 <dd>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified key-value splitter.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#withoutCloser-com.google.common.util.concurrent.AsyncFunction-">withoutCloser(AsyncFunction&lt;V, U&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Returns an <a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><code>ClosingFuture.AsyncClosingFunction</code></a> that applies an <a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> to an input,
+ ignoring the DeferredCloser and returning a <code>ClosingFuture</code> derived from the returned
+ <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#withoutParameters--">withoutParameters()</a></span> - Method in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
