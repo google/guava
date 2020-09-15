@@ -87,7 +87,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testCancel_notDoneNoInterrupt() throws Exception {
-    InterruptableFuture future = new InterruptableFuture();
+    InterruptibleFuture future = new InterruptibleFuture();
     assertTrue(future.cancel(false));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
@@ -103,7 +103,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testCancel_notDoneInterrupt() throws Exception {
-    InterruptableFuture future = new InterruptableFuture();
+    InterruptibleFuture future = new InterruptibleFuture();
     assertTrue(future.cancel(true));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
@@ -1269,7 +1269,7 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
-  private static final class InterruptableFuture extends AbstractFuture<String> {
+  private static final class InterruptibleFuture extends AbstractFuture<String> {
     boolean interruptTaskWasCalled;
 
     @Override
