@@ -45,7 +45,6 @@ import com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCa
 import com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable;
 import com.google.common.util.concurrent.Futures.FutureCombiner;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Closeable;
 import java.io.IOException;
@@ -1148,7 +1147,6 @@ public final class ClosingFuture<V> {
    *           .closing(executor);
    * }</pre>
    */
-  @DoNotMock("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
   public static class Combiner {
 
     private final CloseableList closeables = new CloseableList();
