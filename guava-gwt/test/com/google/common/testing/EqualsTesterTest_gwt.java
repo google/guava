@@ -42,6 +42,12 @@ public void testAddTwoEqualObjectsAtOnceWithNull() throws Exception {
   testCase.testAddTwoEqualObjectsAtOnceWithNull();
 }
 
+public void testEqualityBasedOnToString() throws Exception {
+  com.google.common.testing.EqualsTesterTest testCase = new com.google.common.testing.EqualsTesterTest();
+  testCase.setUp();
+  testCase.testEqualityBasedOnToString();
+}
+
 public void testEqualityGroups() throws Exception {
   com.google.common.testing.EqualsTesterTest testCase = new com.google.common.testing.EqualsTesterTest();
   testCase.setUp();
