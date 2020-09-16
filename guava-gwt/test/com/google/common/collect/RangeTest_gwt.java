@@ -123,6 +123,11 @@ public void testGap_general() throws Exception {
   testCase.testGap_general();
 }
 
+public void testGap_invalidRangesWithInfinity() throws Exception {
+  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
+  testCase.testGap_invalidRangesWithInfinity();
+}
+
 public void testGap_overlapping() throws Exception {
   com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
   testCase.testGap_overlapping();
