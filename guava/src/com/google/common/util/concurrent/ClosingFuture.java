@@ -1144,6 +1144,7 @@ public final class ClosingFuture<V> {
    *           .closing(executor);
    * }</pre>
    */
+  @com.google.errorprone.annotations.DoNotMock
   public static class Combiner {
 
     private final CloseableList closeables = new CloseableList();
