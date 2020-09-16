@@ -1053,12 +1053,12 @@ public abstract class BaseEncoding {
   @GwtIncompatible // Writer
   static Writer separatingWriter(
       final Writer delegate, final String separator, final int afterEveryChars) {
-    final Appendable seperatingAppendable =
+    final Appendable separatingAppendable =
         separatingAppendable(delegate, separator, afterEveryChars);
     return new Writer() {
       @Override
       public void write(int c) throws IOException {
-        seperatingAppendable.append((char) c);
+        separatingAppendable.append((char) c);
       }
 
       @Override

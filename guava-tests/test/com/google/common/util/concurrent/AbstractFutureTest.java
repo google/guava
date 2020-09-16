@@ -395,7 +395,7 @@ public class AbstractFutureTest extends TestCase {
     final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
     final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     final AtomicInteger numSuccessfulSetCalls = new AtomicInteger();
-    Callable<Void> completeSucessFullyRunnable =
+    Callable<Void> completeSuccessfullyRunnable =
         new Callable<Void>() {
           @Override
           public Void call() {
@@ -430,7 +430,7 @@ public class AbstractFutureTest extends TestCase {
             return null;
           }
         };
-    Callable<Void> setFutureCompleteSucessFullyRunnable =
+    Callable<Void> setFutureCompleteSuccessfullyRunnable =
         new Callable<Void>() {
           ListenableFuture<String> future = Futures.immediateFuture("setFuture");
 
@@ -511,10 +511,10 @@ public class AbstractFutureTest extends TestCase {
           }
         };
     List<Callable<?>> allTasks = new ArrayList<>();
-    allTasks.add(completeSucessFullyRunnable);
+    allTasks.add(completeSuccessfullyRunnable);
     allTasks.add(completeExceptionallyRunnable);
     allTasks.add(cancelRunnable);
-    allTasks.add(setFutureCompleteSucessFullyRunnable);
+    allTasks.add(setFutureCompleteSuccessfullyRunnable);
     allTasks.add(setFutureCompleteExceptionallyRunnable);
     allTasks.add(setFutureCancelRunnable);
     for (int k = 0; k < 50; k++) {
@@ -577,24 +577,24 @@ public class AbstractFutureTest extends TestCase {
     final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
     final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     final AtomicReference<AbstractFuture<String>> setFutureFuture = Atomics.newReference();
-    final AtomicBoolean setFutureSetSucess = new AtomicBoolean();
-    final AtomicBoolean setFutureCompletionSucess = new AtomicBoolean();
-    final AtomicBoolean cancellationSucess = new AtomicBoolean();
+    final AtomicBoolean setFutureSetSuccess = new AtomicBoolean();
+    final AtomicBoolean setFutureCompletionSuccess = new AtomicBoolean();
+    final AtomicBoolean cancellationSuccess = new AtomicBoolean();
     Runnable cancelRunnable =
         new Runnable() {
           @Override
           public void run() {
-            cancellationSucess.set(currentFuture.get().cancel(true));
+            cancellationSuccess.set(currentFuture.get().cancel(true));
             awaitUnchecked(barrier);
           }
         };
-    Runnable setFutureCompleteSucessFullyRunnable =
+    Runnable setFutureCompleteSuccessfullyRunnable =
         new Runnable() {
           @Override
           public void run() {
             AbstractFuture<String> future = setFutureFuture.get();
-            setFutureSetSucess.set(currentFuture.get().setFuture(future));
-            setFutureCompletionSucess.set(future.set("hello-async-world"));
+            setFutureSetSuccess.set(currentFuture.get().setFuture(future));
+            setFutureCompletionSuccess.set(future.set("hello-async-world"));
             awaitUnchecked(barrier);
           }
         };
@@ -640,7 +640,7 @@ public class AbstractFutureTest extends TestCase {
         };
     List<Runnable> allTasks = new ArrayList<>();
     allTasks.add(cancelRunnable);
-    allTasks.add(setFutureCompleteSucessFullyRunnable);
+    allTasks.add(setFutureCompleteSuccessfullyRunnable);
     for (int k = 0; k < size; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
       // get usecase and another task that adds it as a listener to the future to exercise both
@@ -673,12 +673,12 @@ public class AbstractFutureTest extends TestCase {
       Object result = Iterables.getOnlyElement(finalResults);
       if (result == CancellationException.class) {
         assertTrue(future.isCancelled());
-        assertTrue(cancellationSucess.get());
+        assertTrue(cancellationSuccess.get());
         // cancellation can interleave in 3 ways
         // 1. prior to setFuture
         // 2. after setFuture before set() on the future assigned
         // 3. after setFuture and set() are called but before the listener completes.
-        if (!setFutureSetSucess.get() || !setFutureCompletionSucess.get()) {
+        if (!setFutureSetSuccess.get() || !setFutureCompletionSuccess.get()) {
           // If setFuture fails or set on the future fails then it must be because that future was
           // cancelled
           assertTrue(setFuture.isCancelled());
@@ -686,14 +686,14 @@ public class AbstractFutureTest extends TestCase {
         }
       } else {
         // set on the future completed
-        assertFalse(cancellationSucess.get());
-        assertTrue(setFutureSetSucess.get());
-        assertTrue(setFutureCompletionSucess.get());
+        assertFalse(cancellationSuccess.get());
+        assertTrue(setFutureSetSuccess.get());
+        assertTrue(setFutureCompletionSuccess.get());
       }
       // reset for next iteration
-      setFutureSetSucess.set(false);
-      setFutureCompletionSucess.set(false);
-      cancellationSucess.set(false);
+      setFutureSetSuccess.set(false);
+      setFutureCompletionSuccess.set(false);
+      cancellationSuccess.set(false);
       finalResults.clear();
     }
     executor.shutdown();
@@ -710,17 +710,17 @@ public class AbstractFutureTest extends TestCase {
     final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
     final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     final AtomicBoolean setFutureSuccess = new AtomicBoolean();
-    final AtomicBoolean cancellationSucess = new AtomicBoolean();
+    final AtomicBoolean cancellationSuccess = new AtomicBoolean();
     Callable<Void> cancelRunnable =
         new Callable<Void>() {
           @Override
           public Void call() {
-            cancellationSucess.set(currentFuture.get().cancel(true));
+            cancellationSuccess.set(currentFuture.get().cancel(true));
             awaitUnchecked(barrier);
             return null;
           }
         };
-    Callable<Void> setFutureCompleteSucessFullyRunnable =
+    Callable<Void> setFutureCompleteSuccessfullyRunnable =
         new Callable<Void>() {
           final ListenableFuture<String> future = Futures.immediateFuture("hello");
 
@@ -750,7 +750,7 @@ public class AbstractFutureTest extends TestCase {
         };
     List<Callable<?>> allTasks = new ArrayList<>();
     allTasks.add(cancelRunnable);
-    allTasks.add(setFutureCompleteSucessFullyRunnable);
+    allTasks.add(setFutureCompleteSuccessfullyRunnable);
     allTasks.add(Executors.callable(collectResultsRunnable));
     assertEquals(allTasks.size() + 1, barrier.getParties()); // sanity check
     for (int i = 0; i < 1000; i++) {
@@ -768,15 +768,15 @@ public class AbstractFutureTest extends TestCase {
       Object result = Iterables.getOnlyElement(finalResults);
       if (result == CancellationException.class) {
         assertTrue(future.isCancelled());
-        assertTrue(cancellationSucess.get());
+        assertTrue(cancellationSuccess.get());
         assertFalse(setFutureSuccess.get());
       } else {
         assertTrue(setFutureSuccess.get());
-        assertFalse(cancellationSucess.get());
+        assertFalse(cancellationSuccess.get());
       }
       // reset for next iteration
       setFutureSuccess.set(false);
-      cancellationSucess.set(false);
+      cancellationSuccess.set(false);
       finalResults.clear();
     }
     executor.shutdown();
