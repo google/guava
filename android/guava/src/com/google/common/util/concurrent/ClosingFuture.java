@@ -45,6 +45,7 @@ import com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCa
 import com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable;
 import com.google.common.util.concurrent.Futures.FutureCombiner;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Closeable;
 import java.io.IOException;
@@ -189,6 +190,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @Beta // @Beta for one release.
+@DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
 // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V> {
 
@@ -1147,6 +1149,9 @@ public final class ClosingFuture<V> {
    *           .closing(executor);
    * }</pre>
    */
+  // TODO(cpovirk): Use simple name instead of fully qualified after we stop building with JDK 8.
+  @com.google.errorprone.annotations.DoNotMock(
+      "Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
   public static class Combiner {
 
     private final CloseableList closeables = new CloseableList();
