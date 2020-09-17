@@ -175,7 +175,7 @@
 <span class="sourceLineNo">167</span>   */<a name="line.167"></a>
 <span class="sourceLineNo">168</span>  private static byte[] toByteArrayInternal(InputStream in, Queue&lt;byte[]&gt; bufs, int totalLen)<a name="line.168"></a>
 <span class="sourceLineNo">169</span>      throws IOException {<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    // Starting with an 8k buffer, double the size of each sucessive buffer. Buffers are retained<a name="line.170"></a>
+<span class="sourceLineNo">170</span>    // Starting with an 8k buffer, double the size of each successive buffer. Buffers are retained<a name="line.170"></a>
 <span class="sourceLineNo">171</span>    // in a deque so that there's no copying between buffers while reading and so all of the bytes<a name="line.171"></a>
 <span class="sourceLineNo">172</span>    // in each new allocated buffer are available for reading from the stream.<a name="line.172"></a>
 <span class="sourceLineNo">173</span>    for (int bufSize = BUFFER_SIZE;<a name="line.173"></a>

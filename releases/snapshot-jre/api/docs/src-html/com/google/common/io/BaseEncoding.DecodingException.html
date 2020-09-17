@@ -1060,12 +1060,12 @@
 <span class="sourceLineNo">1052</span>  @GwtIncompatible // Writer<a name="line.1052"></a>
 <span class="sourceLineNo">1053</span>  static Writer separatingWriter(<a name="line.1053"></a>
 <span class="sourceLineNo">1054</span>      final Writer delegate, final String separator, final int afterEveryChars) {<a name="line.1054"></a>
-<span class="sourceLineNo">1055</span>    final Appendable seperatingAppendable =<a name="line.1055"></a>
+<span class="sourceLineNo">1055</span>    final Appendable separatingAppendable =<a name="line.1055"></a>
 <span class="sourceLineNo">1056</span>        separatingAppendable(delegate, separator, afterEveryChars);<a name="line.1056"></a>
 <span class="sourceLineNo">1057</span>    return new Writer() {<a name="line.1057"></a>
 <span class="sourceLineNo">1058</span>      @Override<a name="line.1058"></a>
 <span class="sourceLineNo">1059</span>      public void write(int c) throws IOException {<a name="line.1059"></a>
-<span class="sourceLineNo">1060</span>        seperatingAppendable.append((char) c);<a name="line.1060"></a>
+<span class="sourceLineNo">1060</span>        separatingAppendable.append((char) c);<a name="line.1060"></a>
 <span class="sourceLineNo">1061</span>      }<a name="line.1061"></a>
 <span class="sourceLineNo">1062</span><a name="line.1062"></a>
 <span class="sourceLineNo">1063</span>      @Override<a name="line.1063"></a>
