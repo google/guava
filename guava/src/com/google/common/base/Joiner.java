@@ -227,6 +227,11 @@ public class Joiner {
       public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified useForNull");
       }
+      
+      @Override
+      public Joiner skipSpecifiedEle(final String nullText) {
+        throw new UnsupportedOperationException("already specified skipSpecifiedEle");
+      }
 
       @Override
       public Joiner skipNulls() {
@@ -266,14 +271,65 @@ public class Joiner {
       public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified skipNulls");
       }
+      @Override
+      public Joiner skipSpecifiedEle(String nullText) {
+        throw new UnsupportedOperationException("already specified skipSpecifiedEle");
+      }
 
+      @Override
+      public MapJoiner withKeyValueSeparator(String kvs) {
+        throw new UnsupportedOperationException("can't use .skipNulls() with maps");
+      }
+      
+    };
+  }
+
+  
+   /**
+   * Returns a joiner with the same behavior as this joiner, except automatically skipping over any
+   * provided specified element.
+   */
+  public Joiner skipSpecifiedEle(final String nullText) {
+    checkNotNull(nullText);
+    return new Joiner(this) {
+      @Override
+      public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
+        checkNotNull(appendable, "appendable");
+        checkNotNull(parts, "parts");
+        while (parts.hasNext()) {
+          Object part = parts.next();
+          if (!part.equals(nullText)) {
+            appendable.append(Joiner.this.toString(part));
+            break;
+          }
+        }
+        while (parts.hasNext()) {
+          Object part = parts.next();
+          if (!part.equals(nullText)) {
+            appendable.append(separator);
+            appendable.append(Joiner.this.toString(part));
+          }
+        }
+        return appendable;
+      }
+
+      @Override
+      public Joiner useForNull(String nullText) {
+        throw new UnsupportedOperationException("already specified skipNulls");
+      }
+      
+      @Override
+      public Joiner skipNulls() {
+        throw new UnsupportedOperationException("already specified useForNull");
+      }
+      
       @Override
       public MapJoiner withKeyValueSeparator(String kvs) {
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
   }
-
+  
   /**
    * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
    * this {@code Joiner} otherwise.
