@@ -76,8 +76,8 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(Object object) {
-    return delegate().remove(object);
+  public V remove(Object key) {
+    return delegate().remove(key);
   }
 
   @Override
