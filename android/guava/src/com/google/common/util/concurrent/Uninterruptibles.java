@@ -300,6 +300,45 @@ public final class Uninterruptibles {
     }
   }
 
+  /** Invokes {@code queue.}{@link BlockingQueue#offer(E e, long timeout, TimeUnit unit) offer(e, timeout, unit)} uninterruptibly. */
+  @GwtIncompatible //concurrency
+  public static <E> boolean offerUninterruptibly(BlockingQueue<E> queue, E element, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return queue.offer(element, timeout, unit);
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+
+  /** Invokes {@code queue.}{@link BlockingQueue#poll() poll(timeout, unit)} uninterruptibly. */
+  @GwtIncompatible //concurrency
+  public static <E> E pollUninterruptibly(BlockingQueue<E> queue, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return queue.poll(timeout, unit);
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
   @GwtIncompatible // concurrency
