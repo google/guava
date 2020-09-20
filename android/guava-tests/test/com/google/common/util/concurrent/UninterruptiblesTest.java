@@ -22,6 +22,8 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.offerUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.pollUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterruptibly;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -35,6 +37,7 @@ import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
