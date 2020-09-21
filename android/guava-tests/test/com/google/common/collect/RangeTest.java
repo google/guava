@@ -119,6 +119,8 @@ public class RangeTest extends TestCase {
 
   public void testIsConnected() {
     assertTrue(Range.closed(3, 5).isConnected(Range.open(5, 6)));
+    assertTrue(Range.closed(3, 5).isConnected(Range.closed(5, 6)));
+    assertTrue(Range.closed(5, 6).isConnected(Range.closed(3, 5)));
     assertTrue(Range.closed(3, 5).isConnected(Range.openClosed(5, 5)));
     assertTrue(Range.open(3, 5).isConnected(Range.closed(5, 6)));
     assertTrue(Range.closed(3, 7).isConnected(Range.open(6, 8)));
