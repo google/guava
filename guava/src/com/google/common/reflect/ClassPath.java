@@ -178,19 +178,21 @@ public final class ClassPath {
    */
   @Beta
   public static class ResourceInfo {
+    private final File file;
     private final String resourceName;
 
     final ClassLoader loader;
 
-    static ResourceInfo of(String resourceName, ClassLoader loader) {
+    static ResourceInfo of(File file, String resourceName, ClassLoader loader) {
       if (resourceName.endsWith(CLASS_FILE_NAME_EXTENSION)) {
-        return new ClassInfo(resourceName, loader);
+        return new ClassInfo(file, resourceName, loader);
       } else {
-        return new ResourceInfo(resourceName, loader);
+        return new ResourceInfo(file, resourceName, loader);
       }
     }
 
-    ResourceInfo(String resourceName, ClassLoader loader) {
+    ResourceInfo(File file, String resourceName, ClassLoader loader) {
+      this.file = checkNotNull(file);
       this.resourceName = checkNotNull(resourceName);
       this.loader = checkNotNull(loader);
     }
@@ -239,6 +241,11 @@ public final class ClassPath {
       return resourceName;
     }
 
+    /** Returns the file that includes this resource. */
+    final File getFile() {
+      return file;
+    }
+
     @Override
     public int hashCode() {
       return resourceName.hashCode();
@@ -269,8 +276,8 @@ public final class ClassPath {
   public static final class ClassInfo extends ResourceInfo {
     private final String className;
 
-    ClassInfo(String resourceName, ClassLoader loader) {
-      super(resourceName, loader);
+    ClassInfo(File file, String resourceName, ClassLoader loader) {
+      super(file, resourceName, loader);
       this.className = getClassName(resourceName);
     }
 
@@ -346,8 +353,8 @@ public final class ClassPath {
   abstract static class Scanner {
 
     // We only scan each file once independent of the classloader that resource might be associated
-    // with.
-    private final Set<File> scannedUris = Sets.newHashSet();
+    // with. Use concurrent set so that subclasses can be thread-safe.
+    private final Set<File> scannedUris = Sets.newConcurrentHashSet();
 
     public final void scan(ClassLoader classloader) throws IOException {
       for (Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
@@ -368,7 +375,7 @@ public final class ClassPath {
     /** Called when a jar file is scanned for resource entries. */
     protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
 
-    private void scanFrom(File file, ClassLoader classloader) throws IOException {
+    protected void scanFrom(File file, ClassLoader classloader) throws IOException {
       try {
         if (!file.exists()) {
           return;
@@ -501,33 +508,28 @@ public final class ClassPath {
     }
   }
 
-  @VisibleForTesting
-  static final class DefaultScanner extends Scanner {
-    private final SetMultimap<ClassLoader, String> resources =
-        MultimapBuilder.hashKeys().linkedHashSetValues().build();
-
-    ImmutableSet<ResourceInfo> getResources() {
-      ImmutableSet.Builder<ResourceInfo> builder = ImmutableSet.builder();
-      for (Entry<ClassLoader, String> entry : resources.entries()) {
-        builder.add(ResourceInfo.of(entry.getValue(), entry.getKey()));
-      }
-      return builder.build();
-    }
+  /** Scans {@link ResourceInfo resources} in the class path of a class loader. */
+  abstract static class ResourceScanner extends Scanner {
+    /**
+     * Called each time a resource (uniqueness not guaranteed if the class path includes redundant
+     * entries)
+     */
+    protected abstract void scanResource(ResourceInfo resource) throws IOException;
 
     @Override
-    protected void scanJarFile(ClassLoader classloader, JarFile file) {
+    protected final void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
       Enumeration<JarEntry> entries = file.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
         if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
           continue;
         }
-        resources.get(classloader).add(entry.getName());
+        scanResource(ResourceInfo.of(new File(file.getName()), entry.getName(), classloader));
       }
     }
 
     @Override
-    protected void scanDirectory(ClassLoader classloader, File directory) throws IOException {
+    protected final void scanDirectory(ClassLoader classloader, File directory) throws IOException {
       Set<File> currentPath = new HashSet<>();
       currentPath.add(directory.getCanonicalFile());
       scanDirectory(directory, classloader, "", currentPath);
@@ -565,10 +567,25 @@ public final class ClassPath {
         } else {
           String resourceName = packagePrefix + name;
           if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
-            resources.get(classloader).add(resourceName);
+            scanResource(ResourceInfo.of(f, resourceName, classloader));
           }
         }
       }
+    }
+  }
+
+  @VisibleForTesting
+  static final class DefaultScanner extends ResourceScanner {
+    private final SetMultimap<ClassLoader, ResourceInfo> resources =
+        MultimapBuilder.hashKeys().linkedHashSetValues().build();
+
+    ImmutableSet<ResourceInfo> getResources() {
+      return ImmutableSet.copyOf(resources.values());
+    }
+
+    @Override
+    protected void scanResource(ResourceInfo resource) {
+      resources.get(resource.loader).add(resource);
     }
   }
 

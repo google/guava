@@ -59,15 +59,16 @@ import org.junit.Test;
 /** Functional tests of {@link ClassPath}. */
 public class ClassPathTest extends TestCase {
   private static final Logger log = Logger.getLogger(ClassPathTest.class.getName());
+  private static final File FILE = new File(".");
 
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
         .addEqualityGroup(classInfo(Test.class), classInfo(Test.class, getClass().getClassLoader()))
         .addEqualityGroup(
-            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
-            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()))
-        .addEqualityGroup(new ResourceInfo("x.txt", getClass().getClassLoader()))
+            new ResourceInfo(FILE, "a/b/c.txt", getClass().getClassLoader()),
+            new ResourceInfo(FILE, "a/b/c.txt", getClass().getClassLoader()))
+        .addEqualityGroup(new ResourceInfo(FILE, "x.txt", getClass().getClassLoader()))
         .testEquals();
   }
 
@@ -339,19 +340,20 @@ public class ClassPathTest extends TestCase {
 
   public void testGetSimpleName() {
     ClassLoader classLoader = getClass().getClassLoader();
-    assertEquals("Foo", new ClassInfo("Foo.class", classLoader).getSimpleName());
-    assertEquals("Foo", new ClassInfo("a/b/Foo.class", classLoader).getSimpleName());
-    assertEquals("Foo", new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
-    assertEquals("", new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
-    assertEquals("Foo", new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
-    assertEquals("", new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
-    assertEquals("Local", new ClassInfo("a/b/Bar$1Local.class", classLoader).getSimpleName());
+    assertEquals("Foo", new ClassInfo(FILE, "Foo.class", classLoader).getSimpleName());
+    assertEquals("Foo", new ClassInfo(FILE, "a/b/Foo.class", classLoader).getSimpleName());
+    assertEquals("Foo", new ClassInfo(FILE, "a/b/Bar$Foo.class", classLoader).getSimpleName());
+    assertEquals("", new ClassInfo(FILE, "a/b/Bar$1.class", classLoader).getSimpleName());
+    assertEquals("Foo", new ClassInfo(FILE, "a/b/Bar$Foo.class", classLoader).getSimpleName());
+    assertEquals("", new ClassInfo(FILE, "a/b/Bar$1.class", classLoader).getSimpleName());
+    assertEquals("Local", new ClassInfo(FILE, "a/b/Bar$1Local.class", classLoader).getSimpleName());
   }
 
   public void testGetPackageName() {
-    assertEquals("", new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
     assertEquals(
-        "a.b", new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
+        "", new ClassInfo(FILE, "Foo.class", getClass().getClassLoader()).getPackageName());
+    assertEquals(
+        "a.b", new ClassInfo(FILE, "a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
   // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
@@ -464,7 +466,7 @@ public class ClassPathTest extends TestCase {
   private static ResourceInfo resourceInfo(Class<?> cls) {
     String resource = cls.getName().replace('.', '/') + ".class";
     ClassLoader loader = cls.getClassLoader();
-    return ResourceInfo.of(resource, loader);
+    return ResourceInfo.of(FILE, resource, loader);
   }
 
   private static ClassInfo classInfo(Class<?> cls) {
@@ -473,7 +475,7 @@ public class ClassPathTest extends TestCase {
 
   private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
     String resource = cls.getName().replace('.', '/') + ".class";
-    return new ClassInfo(resource, classLoader);
+    return new ClassInfo(FILE, resource, classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {
