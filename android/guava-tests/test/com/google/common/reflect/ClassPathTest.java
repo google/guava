@@ -37,18 +37,14 @@ import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.Permission;
 import java.security.PermissionCollection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.Attributes;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
@@ -520,20 +516,8 @@ public class ClassPathTest extends TestCase {
     final Set<String> resources = new HashSet<>();
 
     @Override
-    protected void scanDirectory(ClassLoader loader, File root) throws IOException {
-      URI base = root.toURI();
-      for (File entry : Files.fileTraverser().depthFirstPreOrder(root)) {
-        String resourceName = new File(base.relativize(entry.toURI()).getPath()).getPath();
-        resources.add(resourceName);
-      }
-    }
-
-    @Override
-    protected void scanJarFile(ClassLoader loader, JarFile file) throws IOException {
-      Enumeration<JarEntry> entries = file.entries();
-      while (entries.hasMoreElements()) {
-        resources.add(entries.nextElement().getName());
-      }
+    protected void scanResource(ResourceInfo resource) throws IOException {
+      resources.add(resource.getResourceName());
     }
   }
 
@@ -559,13 +543,18 @@ public class ClassPathTest extends TestCase {
     }
 
     @Override
-    protected void scanJarFile(ClassLoader loader, JarFile file) throws IOException {
-      this.found = new File(file.getName());
+    protected void scanFrom(File file, ClassLoader loader) throws IOException {
+      if (file.isDirectory()) {
+        return;
+      }
+      this.found = file;
       throw new StopScanningException();
     }
 
     @Override
-    protected void scanDirectory(ClassLoader loader, File root) {}
+    protected void scanResource(ResourceInfo resource) throws IOException {
+      throw new IllegalStateException();
+    }
 
     // Special exception just to terminate the scanning when we get any jar file to use.
     private static final class StopScanningException extends RuntimeException {}
