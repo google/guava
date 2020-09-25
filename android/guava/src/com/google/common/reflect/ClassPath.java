@@ -46,7 +46,7 @@ import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -357,7 +357,7 @@ public final class ClassPath {
     private final Set<File> scannedUris = Sets.newConcurrentHashSet();
 
     public final void scan(ClassLoader classloader) throws IOException {
-      for (Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
+      for (Map.Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
         scan(entry.getKey(), entry.getValue());
       }
     }
@@ -369,11 +369,11 @@ public final class ClassPath {
       }
     }
 
-    /** Called when a directory is scanned for resource files. */
-    protected abstract void scanDirectory(ClassLoader loader, File directory) throws IOException;
-
-    /** Called when a jar file is scanned for resource entries. */
-    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
+    /**
+     * Called each time a resource (uniqueness not guaranteed if the class path includes redundant
+     * entries)
+     */
+    protected abstract void scanResource(ResourceInfo resource) throws IOException;
 
     protected void scanFrom(File file, ClassLoader classloader) throws IOException {
       try {
@@ -507,18 +507,8 @@ public final class ClassPath {
     static URL getClassPathEntry(File jarFile, String path) throws MalformedURLException {
       return new URL(jarFile.toURI().toURL(), path);
     }
-  }
 
-  /** Scans {@link ResourceInfo resources} in the class path of a class loader. */
-  abstract static class ResourceScanner extends Scanner {
-    /**
-     * Called each time a resource (uniqueness not guaranteed if the class path includes redundant
-     * entries)
-     */
-    protected abstract void scanResource(ResourceInfo resource) throws IOException;
-
-    @Override
-    protected final void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
+    private void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
       Enumeration<JarEntry> entries = file.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
@@ -529,8 +519,7 @@ public final class ClassPath {
       }
     }
 
-    @Override
-    protected final void scanDirectory(ClassLoader classloader, File directory) throws IOException {
+    private void scanDirectory(ClassLoader classloader, File directory) throws IOException {
       Set<File> currentPath = new HashSet<>();
       currentPath.add(directory.getCanonicalFile());
       scanDirectory(directory, classloader, "", currentPath);
@@ -576,7 +565,7 @@ public final class ClassPath {
   }
 
   @VisibleForTesting
-  static final class DefaultScanner extends ResourceScanner {
+  static final class DefaultScanner extends Scanner {
     private final SetMultimap<ClassLoader, ResourceInfo> resources =
         MultimapBuilder.hashKeys().linkedHashSetValues().build();
 
@@ -586,7 +575,7 @@ public final class ClassPath {
 
     @Override
     protected void scanResource(ResourceInfo resource) {
-      resources.get(resource.loader).add(resource);
+      resources.put(resource.loader, resource);
     }
   }
 
