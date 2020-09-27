@@ -1007,6 +1007,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * callbacks, but any callback added through this method is guaranteed to be called once the
    * computation is complete.
    *
+   * <p>Exceptions thrown by a {@code callback} will be propagated up to the executor. Any exception thrown
+   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception
+   * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and
+   * logged.
+   *
    * <p>Example:
    *
    * <pre>{@code
