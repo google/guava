@@ -45,6 +45,7 @@ import java.security.PermissionCollection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.Attributes;
+import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
@@ -543,18 +544,13 @@ public class ClassPathTest extends TestCase {
     }
 
     @Override
-    protected void scanFrom(File file, ClassLoader loader) throws IOException {
-      if (file.isDirectory()) {
-        return;
-      }
-      this.found = file;
+    void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
+      this.found = new File(file.getName());
       throw new StopScanningException();
     }
 
     @Override
-    protected void scanResource(ResourceInfo resource) throws IOException {
-      throw new IllegalStateException();
-    }
+    protected void scanResource(ResourceInfo resource) {}
 
     // Special exception just to terminate the scanning when we get any jar file to use.
     private static final class StopScanningException extends RuntimeException {}
