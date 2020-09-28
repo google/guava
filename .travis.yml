@@ -11,10 +11,13 @@ addons:
     packages:
       - openjdk-8-source
 
-install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
+install: 
+  - if [[ "${TRAVIS_CPU_ARCH}" != "ppc64le" ]]; then mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM; fi
 
 # https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received
-script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
+script:
+  - if [[ jdk == "openjdk11" ]]; then jdk_switcher use openjdk11; export JAVA_HOME=$HOME/openjdk11; $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME; fi
+  - travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 
 after_success:
   - util/deploy_snapshot.sh
@@ -40,3 +43,11 @@ branches:
   only:
     - master
     - /^release.*$/
+
+arch:
+  - amd64
+  - ppc64le
+
+before_install:
+ - if [[ "${TRAVIS_CPU_ARCH}" == "ppc64le" ]]; then mkdir -p /opt/maven; curl https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz|tar -xz --strip 1 -C /opt/maven; export MAVEN_HOME=/opt/maven; export PATH=${MAVEN_HOME}/bin:${PATH}; fi
+
