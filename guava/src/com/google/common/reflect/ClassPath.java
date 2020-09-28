@@ -507,7 +507,8 @@ public final class ClassPath {
       return new URL(jarFile.toURI().toURL(), path);
     }
 
-    private void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
+    @VisibleForTesting
+    void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
       Enumeration<JarEntry> entries = file.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
