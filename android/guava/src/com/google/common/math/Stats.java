@@ -348,11 +348,11 @@ public final class Stats implements Serializable {
       return false;
     }
     Stats other = (Stats) obj;
-    return (count == other.count)
-        && (doubleToLongBits(mean) == doubleToLongBits(other.mean))
-        && (doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas))
-        && (doubleToLongBits(min) == doubleToLongBits(other.min))
-        && (doubleToLongBits(max) == doubleToLongBits(other.max));
+    return count == other.count
+        && doubleToLongBits(mean) == doubleToLongBits(other.mean)
+        && doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas)
+        && doubleToLongBits(min) == doubleToLongBits(other.min)
+        && doubleToLongBits(max) == doubleToLongBits(other.max);
   }
 
   /**
