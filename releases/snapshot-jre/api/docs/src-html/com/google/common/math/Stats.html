@@ -432,11 +432,11 @@
 <span class="sourceLineNo">424</span>      return false;<a name="line.424"></a>
 <span class="sourceLineNo">425</span>    }<a name="line.425"></a>
 <span class="sourceLineNo">426</span>    Stats other = (Stats) obj;<a name="line.426"></a>
-<span class="sourceLineNo">427</span>    return (count == other.count)<a name="line.427"></a>
-<span class="sourceLineNo">428</span>        &amp;&amp; (doubleToLongBits(mean) == doubleToLongBits(other.mean))<a name="line.428"></a>
-<span class="sourceLineNo">429</span>        &amp;&amp; (doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas))<a name="line.429"></a>
-<span class="sourceLineNo">430</span>        &amp;&amp; (doubleToLongBits(min) == doubleToLongBits(other.min))<a name="line.430"></a>
-<span class="sourceLineNo">431</span>        &amp;&amp; (doubleToLongBits(max) == doubleToLongBits(other.max));<a name="line.431"></a>
+<span class="sourceLineNo">427</span>    return count == other.count<a name="line.427"></a>
+<span class="sourceLineNo">428</span>        &amp;&amp; doubleToLongBits(mean) == doubleToLongBits(other.mean)<a name="line.428"></a>
+<span class="sourceLineNo">429</span>        &amp;&amp; doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas)<a name="line.429"></a>
+<span class="sourceLineNo">430</span>        &amp;&amp; doubleToLongBits(min) == doubleToLongBits(other.min)<a name="line.430"></a>
+<span class="sourceLineNo">431</span>        &amp;&amp; doubleToLongBits(max) == doubleToLongBits(other.max);<a name="line.431"></a>
 <span class="sourceLineNo">432</span>  }<a name="line.432"></a>
 <span class="sourceLineNo">433</span><a name="line.433"></a>
 <span class="sourceLineNo">434</span>  /**<a name="line.434"></a>
