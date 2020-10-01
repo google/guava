@@ -62,7 +62,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * monitoring, debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
+ *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
