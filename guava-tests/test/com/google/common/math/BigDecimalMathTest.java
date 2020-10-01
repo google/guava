@@ -26,7 +26,6 @@ import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
 import static java.math.RoundingMode.values;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -36,9 +35,8 @@ import java.util.EnumSet;
 import java.util.Map;
 import junit.framework.TestCase;
 
-@GwtCompatible(emulated = true)
+@GwtIncompatible
 public class BigDecimalMathTest extends TestCase {
-  @GwtIncompatible
   private static final class RoundToDoubleTester {
     private final BigDecimal input;
     private final Map<RoundingMode, Double> expectedValues = new EnumMap<>(RoundingMode.class);
@@ -88,12 +86,10 @@ public class BigDecimalMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_zero() {
     new RoundToDoubleTester(BigDecimal.ZERO).setExpectation(0.0, values()).test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_oneThird() {
     new RoundToDoubleTester(
             BigDecimal.ONE.divide(BigDecimal.valueOf(3), new MathContext(50, HALF_EVEN)))
@@ -103,7 +99,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_halfMinDouble() {
     BigDecimal minDouble = new BigDecimal(Double.MIN_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
@@ -114,7 +109,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_halfNegativeMinDouble() {
     BigDecimal minDouble = new BigDecimal(-Double.MIN_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
@@ -125,19 +119,16 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_smallPositive() {
     new RoundToDoubleTester(BigDecimal.valueOf(16)).setExpectation(16.0, values()).test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_maxPreciselyRepresentable() {
     new RoundToDoubleTester(BigDecimal.valueOf(1L << 53))
         .setExpectation(Math.pow(2, 53), values())
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_maxPreciselyRepresentablePlusOne() {
     double twoToThe53 = Math.pow(2, 53);
     // the representable doubles are 2^53 and 2^53 + 2.
@@ -149,7 +140,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_twoToThe54PlusOne() {
     double twoToThe54 = Math.pow(2, 54);
     // the representable doubles are 2^54 and 2^54 + 4
@@ -161,7 +151,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_twoToThe54PlusOneHalf() {
     double twoToThe54 = Math.pow(2, 54);
     // the representable doubles are 2^54 and 2^54 + 4
@@ -173,7 +162,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_twoToThe54PlusThree() {
     double twoToThe54 = Math.pow(2, 54);
     // the representable doubles are 2^54 and 2^54 + 4
@@ -185,20 +173,17 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_twoToThe54PlusFour() {
     new RoundToDoubleTester(BigDecimal.valueOf((1L << 54) + 4))
         .setExpectation(Math.pow(2, 54) + 4, values())
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_maxDouble() {
     BigDecimal maxDoubleAsBD = new BigDecimal(Double.MAX_VALUE);
     new RoundToDoubleTester(maxDoubleAsBD).setExpectation(Double.MAX_VALUE, values()).test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_maxDoublePlusOne() {
     BigDecimal maxDoubleAsBD = new BigDecimal(Double.MAX_VALUE).add(BigDecimal.ONE);
     new RoundToDoubleTester(maxDoubleAsBD)
@@ -208,7 +193,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_wayTooBig() {
     BigDecimal bi = BigDecimal.valueOf(2).pow(2 * Double.MAX_EXPONENT);
     new RoundToDoubleTester(bi)
@@ -218,19 +202,16 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_smallNegative() {
     new RoundToDoubleTester(BigDecimal.valueOf(-16)).setExpectation(-16.0, values()).test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_minPreciselyRepresentable() {
     new RoundToDoubleTester(BigDecimal.valueOf(-1L << 53))
         .setExpectation(-Math.pow(2, 53), values())
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_minPreciselyRepresentableMinusOne() {
     // the representable doubles are -2^53 and -2^53 - 2.
     // -2^53-1 is halfway between, so HALF_UP will go up and HALF_DOWN will go down.
@@ -241,7 +222,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_negativeTwoToThe54MinusOne() {
     new RoundToDoubleTester(BigDecimal.valueOf((-1L << 54) - 1))
         .setExpectation(-Math.pow(2, 54), DOWN, CEILING, HALF_DOWN, HALF_UP, HALF_EVEN)
@@ -250,7 +230,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_negativeTwoToThe54MinusThree() {
     new RoundToDoubleTester(BigDecimal.valueOf((-1L << 54) - 3))
         .setExpectation(-Math.pow(2, 54), DOWN, CEILING)
@@ -260,20 +239,17 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_negativeTwoToThe54MinusFour() {
     new RoundToDoubleTester(BigDecimal.valueOf((-1L << 54) - 4))
         .setExpectation(-Math.pow(2, 54) - 4, values())
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_minDouble() {
     BigDecimal minDoubleAsBD = new BigDecimal(-Double.MAX_VALUE);
     new RoundToDoubleTester(minDoubleAsBD).setExpectation(-Double.MAX_VALUE, values()).test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_minDoubleMinusOne() {
     BigDecimal minDoubleAsBD = new BigDecimal(-Double.MAX_VALUE).subtract(BigDecimal.ONE);
     new RoundToDoubleTester(minDoubleAsBD)
@@ -283,7 +259,6 @@ public class BigDecimalMathTest extends TestCase {
         .test();
   }
 
-  @GwtIncompatible
   public void testRoundToDouble_negativeWayTooBig() {
     BigDecimal bi = BigDecimal.valueOf(2).pow(2 * Double.MAX_EXPONENT).negate();
     new RoundToDoubleTester(bi)
