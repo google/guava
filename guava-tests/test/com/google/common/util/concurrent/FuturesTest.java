@@ -3267,7 +3267,7 @@ public class FuturesTest extends TestCase {
       throw failureWithCause(e, "Unexpected exception");
     } finally {
       executor.shutdownNow();
-      // TODO(cpovirk: assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
+      // TODO(cpovirk): assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
     }
   }
 
