@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
-// TODO(azana/cpovirk): Should this be merged into UninterruptiblesTest?
+// TODO(cpovirk): Should this be merged into UninterruptiblesTest?
 /**
  * Unit test for {@link Uninterruptibles#getUninterruptibly}
  *
