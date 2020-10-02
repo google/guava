@@ -352,7 +352,7 @@ public final class Iterables {
   @CanIgnoreReturnValue
   public static <T> boolean addAll(Collection<T> addTo, Iterable<? extends T> elementsToAdd) {
     if (elementsToAdd instanceof Collection) {
-      return addTo.addAll(elementsToAdd);
+      return addTo.addAll((Collection<? extends T>) elementsToAdd);
     }
     return Iterators.addAll(addTo, checkNotNull(elementsToAdd).iterator());
   }
