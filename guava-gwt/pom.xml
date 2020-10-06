@@ -89,7 +89,7 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
@@ -151,7 +151,9 @@
             <!-- 4. Don't build Javadoc for it (since that, too, would require a *non-test* dep on gwt-user. -->
             <sourceFileExclude>**/ForceGuavaCompilation*</sourceFileExclude>
           </sourceFileExcludes>
-          <!-- After removing GWT-RPC support, we will have no real classes to build Javadoc for. This would result in an empty Javadoc jar, which the Sonatype repository manager would reject. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
+          <!-- The above exclusion doesn't actually matter unless I prevent Javadoc from autodiscovering the source in the sourcepath, which defaults to the source directory :\ Boo for -sourcepath. -->
+          <sourcepath>doesnotexist</sourcepath>
+          <!-- Note that we do need to build Javadoc for *some* class. Otherwise, we get an empty Javadoc jar, which the Sonatype repository manager rejects. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
           <show>package</show>
         </configuration>
       </plugin>
