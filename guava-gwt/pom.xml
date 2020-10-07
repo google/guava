@@ -17,8 +17,6 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <!-- We skip GWT tests by default. To run, pass -Dgwt.test.include=**/GwtTestSuite.java -->
-    <gwt.test.include>**/DoesNotMatchAnyTests.java</gwt.test.include>
     <gwt.version>2.8.2</gwt.version>
     <gwt.plugin.version>2.8.2</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
@@ -375,7 +373,7 @@
             </goals>
             <configuration>
               <module>com.google.common.GuavaTests</module>
-              <includes>${gwt.test.include}</includes>
+              <includes>**/GwtTestSuite.java</includes>
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
