@@ -352,8 +352,7 @@ public final class Iterables {
   @CanIgnoreReturnValue
   public static <T> boolean addAll(Collection<T> addTo, Iterable<? extends T> elementsToAdd) {
     if (elementsToAdd instanceof Collection) {
-      Collection<? extends T> c = Collections2.cast(elementsToAdd);
-      return addTo.addAll(c);
+      return addTo.addAll((Collection<? extends T>) elementsToAdd);
     }
     return Iterators.addAll(addTo, checkNotNull(elementsToAdd).iterator());
   }
@@ -826,7 +825,7 @@ public final class Iterables {
   @NullableDecl
   public static <T> T getLast(Iterable<? extends T> iterable, @NullableDecl T defaultValue) {
     if (iterable instanceof Collection) {
-      Collection<? extends T> c = Collections2.cast(iterable);
+      Collection<? extends T> c = (Collection<? extends T>) iterable;
       if (c.isEmpty()) {
         return defaultValue;
       } else if (iterable instanceof List) {
