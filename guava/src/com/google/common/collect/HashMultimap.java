@@ -37,8 +37,9 @@ import java.util.Set;
  * views are modifiable.
  *
  * <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
- * read operations will work correctly. To allow concurrent update operations, wrap your multimap
- * with a call to {@link Multimaps#synchronizedSetMultimap}.
+ * read operations will work correctly if the last write <i>happens-before</i> any reads. To allow
+ * concurrent update operations, wrap your multimap with a call to {@link
+ * Multimaps#synchronizedSetMultimap}.
  *
  * @author Jared Levy
  * @since 2.0
