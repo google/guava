@@ -802,7 +802,7 @@
 <span class="sourceLineNo">794</span>    checkNotNull(collection);<a name="line.794"></a>
 <span class="sourceLineNo">795</span>    Iterable&lt;E&gt; iterable = getDelegate();<a name="line.795"></a>
 <span class="sourceLineNo">796</span>    if (iterable instanceof Collection) {<a name="line.796"></a>
-<span class="sourceLineNo">797</span>      collection.addAll(Collections2.cast(iterable));<a name="line.797"></a>
+<span class="sourceLineNo">797</span>      collection.addAll((Collection&lt;E&gt;) iterable);<a name="line.797"></a>
 <span class="sourceLineNo">798</span>    } else {<a name="line.798"></a>
 <span class="sourceLineNo">799</span>      for (E item : iterable) {<a name="line.799"></a>
 <span class="sourceLineNo">800</span>        collection.add(item);<a name="line.800"></a>

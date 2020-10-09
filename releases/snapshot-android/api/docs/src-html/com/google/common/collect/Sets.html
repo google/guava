@@ -211,7 +211,7 @@
 <span class="sourceLineNo">203</span>   */<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.204"></a>
 <span class="sourceLineNo">205</span>    return (elements instanceof Collection)<a name="line.205"></a>
-<span class="sourceLineNo">206</span>        ? new HashSet&lt;E&gt;(Collections2.cast(elements))<a name="line.206"></a>
+<span class="sourceLineNo">206</span>        ? new HashSet&lt;E&gt;((Collection&lt;? extends E&gt;) elements)<a name="line.206"></a>
 <span class="sourceLineNo">207</span>        : newHashSet(elements.iterator());<a name="line.207"></a>
 <span class="sourceLineNo">208</span>  }<a name="line.208"></a>
 <span class="sourceLineNo">209</span><a name="line.209"></a>
@@ -316,7 +316,7 @@
 <span class="sourceLineNo">308</span>   */<a name="line.308"></a>
 <span class="sourceLineNo">309</span>  public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.309"></a>
 <span class="sourceLineNo">310</span>    if (elements instanceof Collection) {<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      return new LinkedHashSet&lt;E&gt;(Collections2.cast(elements));<a name="line.311"></a>
+<span class="sourceLineNo">311</span>      return new LinkedHashSet&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.311"></a>
 <span class="sourceLineNo">312</span>    }<a name="line.312"></a>
 <span class="sourceLineNo">313</span>    LinkedHashSet&lt;E&gt; set = newLinkedHashSet();<a name="line.313"></a>
 <span class="sourceLineNo">314</span>    Iterables.addAll(set, elements);<a name="line.314"></a>
@@ -444,7 +444,7 @@
 <span class="sourceLineNo">436</span>    // quadratic cost of adding them to the COWAS directly.<a name="line.436"></a>
 <span class="sourceLineNo">437</span>    Collection&lt;? extends E&gt; elementsCollection =<a name="line.437"></a>
 <span class="sourceLineNo">438</span>        (elements instanceof Collection)<a name="line.438"></a>
-<span class="sourceLineNo">439</span>            ? Collections2.cast(elements)<a name="line.439"></a>
+<span class="sourceLineNo">439</span>            ? (Collection&lt;? extends E&gt;) elements<a name="line.439"></a>
 <span class="sourceLineNo">440</span>            : Lists.newArrayList(elements);<a name="line.440"></a>
 <span class="sourceLineNo">441</span>    return new CopyOnWriteArraySet&lt;E&gt;(elementsCollection);<a name="line.441"></a>
 <span class="sourceLineNo">442</span>  }<a name="line.442"></a>

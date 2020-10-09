@@ -82,7 +82,7 @@
 <span class="sourceLineNo">074</span>   */<a name="line.74"></a>
 <span class="sourceLineNo">075</span>  public static &lt;E&gt; ArrayDeque&lt;E&gt; newArrayDeque(Iterable&lt;? extends E&gt; elements) {<a name="line.75"></a>
 <span class="sourceLineNo">076</span>    if (elements instanceof Collection) {<a name="line.76"></a>
-<span class="sourceLineNo">077</span>      return new ArrayDeque&lt;E&gt;(Collections2.cast(elements));<a name="line.77"></a>
+<span class="sourceLineNo">077</span>      return new ArrayDeque&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.77"></a>
 <span class="sourceLineNo">078</span>    }<a name="line.78"></a>
 <span class="sourceLineNo">079</span>    ArrayDeque&lt;E&gt; deque = new ArrayDeque&lt;E&gt;();<a name="line.79"></a>
 <span class="sourceLineNo">080</span>    Iterables.addAll(deque, elements);<a name="line.80"></a>
@@ -105,7 +105,7 @@
 <span class="sourceLineNo">097</span>  public static &lt;E&gt; ConcurrentLinkedQueue&lt;E&gt; newConcurrentLinkedQueue(<a name="line.97"></a>
 <span class="sourceLineNo">098</span>      Iterable&lt;? extends E&gt; elements) {<a name="line.98"></a>
 <span class="sourceLineNo">099</span>    if (elements instanceof Collection) {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>      return new ConcurrentLinkedQueue&lt;E&gt;(Collections2.cast(elements));<a name="line.100"></a>
+<span class="sourceLineNo">100</span>      return new ConcurrentLinkedQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.100"></a>
 <span class="sourceLineNo">101</span>    }<a name="line.101"></a>
 <span class="sourceLineNo">102</span>    ConcurrentLinkedQueue&lt;E&gt; queue = new ConcurrentLinkedQueue&lt;E&gt;();<a name="line.102"></a>
 <span class="sourceLineNo">103</span>    Iterables.addAll(queue, elements);<a name="line.103"></a>
@@ -145,7 +145,7 @@
 <span class="sourceLineNo">137</span>  @GwtIncompatible // LinkedBlockingDeque<a name="line.137"></a>
 <span class="sourceLineNo">138</span>  public static &lt;E&gt; LinkedBlockingDeque&lt;E&gt; newLinkedBlockingDeque(Iterable&lt;? extends E&gt; elements) {<a name="line.138"></a>
 <span class="sourceLineNo">139</span>    if (elements instanceof Collection) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>      return new LinkedBlockingDeque&lt;E&gt;(Collections2.cast(elements));<a name="line.140"></a>
+<span class="sourceLineNo">140</span>      return new LinkedBlockingDeque&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.140"></a>
 <span class="sourceLineNo">141</span>    }<a name="line.141"></a>
 <span class="sourceLineNo">142</span>    LinkedBlockingDeque&lt;E&gt; deque = new LinkedBlockingDeque&lt;E&gt;();<a name="line.142"></a>
 <span class="sourceLineNo">143</span>    Iterables.addAll(deque, elements);<a name="line.143"></a>
@@ -181,7 +181,7 @@
 <span class="sourceLineNo">173</span>  @GwtIncompatible // LinkedBlockingQueue<a name="line.173"></a>
 <span class="sourceLineNo">174</span>  public static &lt;E&gt; LinkedBlockingQueue&lt;E&gt; newLinkedBlockingQueue(Iterable&lt;? extends E&gt; elements) {<a name="line.174"></a>
 <span class="sourceLineNo">175</span>    if (elements instanceof Collection) {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>      return new LinkedBlockingQueue&lt;E&gt;(Collections2.cast(elements));<a name="line.176"></a>
+<span class="sourceLineNo">176</span>      return new LinkedBlockingQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.176"></a>
 <span class="sourceLineNo">177</span>    }<a name="line.177"></a>
 <span class="sourceLineNo">178</span>    LinkedBlockingQueue&lt;E&gt; queue = new LinkedBlockingQueue&lt;E&gt;();<a name="line.178"></a>
 <span class="sourceLineNo">179</span>    Iterables.addAll(queue, elements);<a name="line.179"></a>
@@ -215,7 +215,7 @@
 <span class="sourceLineNo">207</span>  public static &lt;E extends Comparable&gt; PriorityBlockingQueue&lt;E&gt; newPriorityBlockingQueue(<a name="line.207"></a>
 <span class="sourceLineNo">208</span>      Iterable&lt;? extends E&gt; elements) {<a name="line.208"></a>
 <span class="sourceLineNo">209</span>    if (elements instanceof Collection) {<a name="line.209"></a>
-<span class="sourceLineNo">210</span>      return new PriorityBlockingQueue&lt;E&gt;(Collections2.cast(elements));<a name="line.210"></a>
+<span class="sourceLineNo">210</span>      return new PriorityBlockingQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.210"></a>
 <span class="sourceLineNo">211</span>    }<a name="line.211"></a>
 <span class="sourceLineNo">212</span>    PriorityBlockingQueue&lt;E&gt; queue = new PriorityBlockingQueue&lt;E&gt;();<a name="line.212"></a>
 <span class="sourceLineNo">213</span>    Iterables.addAll(queue, elements);<a name="line.213"></a>
@@ -245,7 +245,7 @@
 <span class="sourceLineNo">237</span>  public static &lt;E extends Comparable&gt; PriorityQueue&lt;E&gt; newPriorityQueue(<a name="line.237"></a>
 <span class="sourceLineNo">238</span>      Iterable&lt;? extends E&gt; elements) {<a name="line.238"></a>
 <span class="sourceLineNo">239</span>    if (elements instanceof Collection) {<a name="line.239"></a>
-<span class="sourceLineNo">240</span>      return new PriorityQueue&lt;E&gt;(Collections2.cast(elements));<a name="line.240"></a>
+<span class="sourceLineNo">240</span>      return new PriorityQueue&lt;E&gt;((Collection&lt;? extends E&gt;) elements);<a name="line.240"></a>
 <span class="sourceLineNo">241</span>    }<a name="line.241"></a>
 <span class="sourceLineNo">242</span>    PriorityQueue&lt;E&gt; queue = new PriorityQueue&lt;E&gt;();<a name="line.242"></a>
 <span class="sourceLineNo">243</span>    Iterables.addAll(queue, elements);<a name="line.243"></a>

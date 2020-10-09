@@ -322,7 +322,7 @@
 <span class="sourceLineNo">314</span>  @CanIgnoreReturnValue<a name="line.314"></a>
 <span class="sourceLineNo">315</span>  public static &lt;T&gt; boolean addAll(Collection&lt;T&gt; addTo, Iterable&lt;? extends T&gt; elementsToAdd) {<a name="line.315"></a>
 <span class="sourceLineNo">316</span>    if (elementsToAdd instanceof Collection) {<a name="line.316"></a>
-<span class="sourceLineNo">317</span>      Collection&lt;? extends T&gt; c = Collections2.cast(elementsToAdd);<a name="line.317"></a>
+<span class="sourceLineNo">317</span>      Collection&lt;? extends T&gt; c = (Collection&lt;? extends T&gt;) elementsToAdd;<a name="line.317"></a>
 <span class="sourceLineNo">318</span>      return addTo.addAll(c);<a name="line.318"></a>
 <span class="sourceLineNo">319</span>    }<a name="line.319"></a>
 <span class="sourceLineNo">320</span>    return Iterators.addAll(addTo, checkNotNull(elementsToAdd).iterator());<a name="line.320"></a>
@@ -822,7 +822,7 @@
 <span class="sourceLineNo">814</span>   */<a name="line.814"></a>
 <span class="sourceLineNo">815</span>  public static &lt;T&gt; @Nullable T getLast(Iterable&lt;? extends T&gt; iterable, @Nullable T defaultValue) {<a name="line.815"></a>
 <span class="sourceLineNo">816</span>    if (iterable instanceof Collection) {<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      Collection&lt;? extends T&gt; c = Collections2.cast(iterable);<a name="line.817"></a>
+<span class="sourceLineNo">817</span>      Collection&lt;? extends T&gt; c = (Collection&lt;? extends T&gt;) iterable;<a name="line.817"></a>
 <span class="sourceLineNo">818</span>      if (c.isEmpty()) {<a name="line.818"></a>
 <span class="sourceLineNo">819</span>        return defaultValue;<a name="line.819"></a>
 <span class="sourceLineNo">820</span>      } else if (iterable instanceof List) {<a name="line.820"></a>
