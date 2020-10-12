@@ -50,6 +50,28 @@ import java.util.Iterator;
  * verify() method, which is called <em>after</em> each sequence and is guaranteed to be called
  * using the latest values obtained from {@link IteratorTester#newTargetIterator()}.
  *
+ * <p>For example, to test {@link java.util.ArrayList#iterator() ArrayList.iterator()}:
+ *
+ * <pre>{@code
+ * List<String> expectedElements =
+ *     Arrays.asList("a", "b", "c", "d", "e");
+ * List<String> actualElements =
+ *     new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e"));
+ * IteratorTester<String> iteratorTester =
+ *     new IteratorTester<String>(
+ *         5,
+ *         IteratorFeature.MODIFIABLE,
+ *         expectedElements,
+ *         KnownOrder.KNOWN_ORDER) {
+ *       @Override
+ *       protected Iterator<String> newTargetIterator() {
+ *         return actualElements.iterator();
+ *       }
+ *     };
+ * iteratorTester.test();
+ * iteratorTester.testForEachRemaining();
+ * }</pre>
+ *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
