@@ -348,6 +348,12 @@ final class Types {
    * TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it, but that
    * should hopefully be rare.
    *
+   * <p>TODO(b/147144588): We are currently also missing the methods inherited from {@link
+   * AnnotatedElement}, which {@code TypeVariable} began to extend only in Java 8. Those methods
+   * refer only to types present in Java 7, so we could implement them in {@code TypeVariableImpl}
+   * today. (We could probably then make {@code TypeVariableImpl} implement {@code AnnotatedElement}
+   * so that we get partial compile-time checking.)
+   *
    * <p>This workaround should be removed at a distant future time when we no longer support Java
    * versions earlier than 8.
    */

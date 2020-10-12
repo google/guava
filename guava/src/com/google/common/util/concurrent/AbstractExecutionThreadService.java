@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -32,7 +33,6 @@ import java.util.logging.Logger;
  * @author Jesse Wilson
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =
@@ -140,7 +140,14 @@ public abstract class AbstractExecutionThreadService implements Service {
    * Invoked to request the service to stop.
    *
    * <p>By default this method does nothing.
+   *
+   * <p>Currently, this method is invoked while holding a lock. If an implementation of this method
+   * blocks, it can prevent this service from changing state. If you need to performing a blocking
+   * operation in order to trigger shutdown, consider instead registering a listener and
+   * implementing {@code stopping}. Note, however, that {@code stopping} does not run at exactly the
+   * same times as {@code triggerShutdown}.
    */
+  @Beta
   protected void triggerShutdown() {}
 
   /**
@@ -211,6 +218,12 @@ public abstract class AbstractExecutionThreadService implements Service {
     delegate.awaitRunning();
   }
 
+  /** @since 28.0 */
+  @Override
+  public final void awaitRunning(Duration timeout) throws TimeoutException {
+    Service.super.awaitRunning(timeout);
+  }
+
   /** @since 15.0 */
   @Override
   public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
@@ -221,6 +234,12 @@ public abstract class AbstractExecutionThreadService implements Service {
   @Override
   public final void awaitTerminated() {
     delegate.awaitTerminated();
+  }
+
+  /** @since 28.0 */
+  @Override
+  public final void awaitTerminated(Duration timeout) throws TimeoutException {
+    Service.super.awaitTerminated(timeout);
   }
 
   /** @since 15.0 */

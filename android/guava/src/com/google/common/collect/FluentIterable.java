@@ -794,7 +794,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
     checkNotNull(collection);
     Iterable<E> iterable = getDelegate();
     if (iterable instanceof Collection) {
-      collection.addAll(Collections2.cast(iterable));
+      collection.addAll((Collection<E>) iterable);
     } else {
       for (E item : iterable) {
         collection.add(item);

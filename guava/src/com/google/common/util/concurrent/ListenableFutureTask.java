@@ -14,10 +14,17 @@
 
 package com.google.common.util.concurrent;
 
+import static java.lang.Math.min;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -78,6 +85,20 @@ public class ListenableFutureTask<V> extends FutureTask<V> implements Listenable
   @Override
   public void addListener(Runnable listener, Executor exec) {
     executionList.add(listener, exec);
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  public V get(long timeout, TimeUnit unit)
+      throws TimeoutException, InterruptedException, ExecutionException {
+
+    long timeoutNanos = unit.toNanos(timeout);
+    if (timeoutNanos <= OverflowAvoidingLockSupport.MAX_NANOSECONDS_THRESHOLD) {
+      return super.get(timeout, unit);
+    }
+    // Waiting 68 years should be enough for any program.
+    return super.get(
+        min(timeoutNanos, OverflowAvoidingLockSupport.MAX_NANOSECONDS_THRESHOLD), NANOSECONDS);
   }
 
   /** Internal implementation detail used to invoke the listeners. */

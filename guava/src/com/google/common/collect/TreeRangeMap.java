@@ -119,7 +119,6 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @Override
   public void put(Range<K> range, V value) {
-    // don't short-circuit if the range is empty - it may be between two ranges we can coalesce.
     if (!range.isEmpty()) {
       checkNotNull(value);
       remove(range);
@@ -129,6 +128,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @Override
   public void putCoalescing(Range<K> range, V value) {
+    // don't short-circuit if the range is empty - it may be between two ranges we can coalesce.
     if (entriesByLowerBound.isEmpty()) {
       put(range, value);
       return;
@@ -508,7 +508,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
     @Override
     public void putCoalescing(Range<K> range, V value) {
-      if (entriesByLowerBound.isEmpty() || range.isEmpty() || !subRange.encloses(range)) {
+      if (entriesByLowerBound.isEmpty() || !subRange.encloses(range)) {
         put(range, value);
         return;
       }

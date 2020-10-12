@@ -28,6 +28,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Provides utility methods for working with character streams.
@@ -82,10 +83,10 @@ public final class CharStreams {
       long total = 0;
       CharBuffer buf = createBuffer();
       while (from.read(buf) != -1) {
-        buf.flip();
+        Java8Compatibility.flip(buf);
         to.append(buf);
         total += buf.remaining();
-        buf.clear();
+        Java8Compatibility.clear(buf);
       }
       return total;
     }
@@ -242,7 +243,7 @@ public final class CharStreams {
     CharBuffer buf = createBuffer();
     while ((read = readable.read(buf)) != -1) {
       total += read;
-      buf.clear();
+      Java8Compatibility.clear(buf);
     }
     return total;
   }
@@ -306,14 +307,13 @@ public final class CharStreams {
     }
 
     @Override
-    public Writer append(CharSequence csq) {
-      checkNotNull(csq);
+    public Writer append(@NullableDecl CharSequence csq) {
       return this;
     }
 
     @Override
-    public Writer append(CharSequence csq, int start, int end) {
-      checkPositionIndexes(start, end, csq.length());
+    public Writer append(@NullableDecl CharSequence csq, int start, int end) {
+      checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }
 

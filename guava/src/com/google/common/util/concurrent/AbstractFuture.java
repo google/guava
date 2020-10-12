@@ -16,6 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.Integer.toHexString;
+import static java.lang.System.identityHashCode;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
@@ -69,9 +71,20 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  private static final boolean GENERATE_CANCELLATION_CAUSES =
-      Boolean.parseBoolean(
-          System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
+  private static final boolean GENERATE_CANCELLATION_CAUSES;
+
+  static {
+    // System.getProperty may throw if the security policy does not permit access.
+    boolean generateCancellationCauses;
+    try {
+      generateCancellationCauses =
+          Boolean.parseBoolean(
+              System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
+    } catch (SecurityException e) {
+      generateCancellationCauses = false;
+    }
+    GENERATE_CANCELLATION_CAUSES = generateCancellationCauses;
+  }
 
   /**
    * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
@@ -418,7 +431,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
           node.setNext(oldHead);
           if (ATOMIC_HELPER.casWaiters(this, oldHead, node)) {
             while (true) {
-              LockSupport.parkNanos(this, remainingNanos);
+              OverflowAvoidingLockSupport.parkNanos(this, remainingNanos);
               // Check interruption first, if we woke up due to interruption we need to honor that.
               if (Thread.interrupted()) {
                 removeWaiter(node);
@@ -584,6 +597,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * #wasInterrupted} as necessary. This ensures that the work is done even if the future is
    * cancelled without a call to {@code cancel}, such as by calling {@code
    * setFuture(cancelledFuture)}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    */
   @CanIgnoreReturnValue
   @Override
@@ -604,7 +620,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
           rValue = true;
-          // We call interuptTask before calling complete(), which is consistent with
+          // We call interruptTask before calling complete(), which is consistent with
           // FutureTask
           if (mayInterruptIfRunning) {
             abstractFuture.interruptTask();
@@ -717,6 +733,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
+   *
    * @param value the value to be used as the result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
@@ -738,6 +757,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * {@code Future} may have previously been set asynchronously, in which case its result may not be
    * known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param throwable the exception to be used as the failed result
    * @return true if the attempt was accepted, completing the {@code Future}
@@ -772,6 +794,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * it will never trigger interruption behavior. In particular, it will not cause this future to
    * invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
    * return {@code true}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
@@ -999,8 +1024,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * @since 27.0
    */
   @Override
-  @Nullable
-  protected final Throwable tryInternalFastPathGetFailure() {
+  protected final @Nullable Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {
       Object obj = value;
       if (obj instanceof Failure) {
@@ -1059,7 +1083,14 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   // TODO(user): move parts into a default method on ListenableFuture?
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder().append(super.toString()).append("[status=");
+    // TODO(cpovirk): Presize to something plausible?
+    StringBuilder builder = new StringBuilder();
+    if (getClass().getName().startsWith("com.google.common.util.concurrent.")) {
+      builder.append(getClass().getSimpleName());
+    } else {
+      builder.append(getClass().getName());
+    }
+    builder.append('@').append(toHexString(identityHashCode(this))).append("[status=");
     if (isCancelled()) {
       builder.append("CANCELLED");
     } else if (isDone()) {
@@ -1087,43 +1118,46 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   private void addPendingString(StringBuilder builder) {
-    // Be careful not to append to the builder with anything that might be invalidated
-
-    String pendingDescription;
-    try {
-      pendingDescription = Strings.emptyToNull(pendingToString());
-    } catch (RuntimeException e) {
-      // Don't call getMessage or toString() on the exception, in case the exception thrown by the
-      // subclass is implemented with bugs similar to the subclass.
-      pendingDescription = "Exception thrown from implementation: " + e.getClass();
-    }
-
-    String setFutureString = null;
-    Object localValue = value;
-    if (localValue instanceof SetFuture) {
-      setFutureString = userObjectToString(((SetFuture) localValue).future);
-    }
-
-    // The future may complete before we reach this point, so we check once more to see if the
-    // future is done
-    if (isDone()) {
-      addDoneString(builder);
-      return;
-    }
+    // Capture current builder length so it can be truncated if this future ends up completing while
+    // the toString is being calculated
+    int truncateLength = builder.length();
 
     builder.append("PENDING");
-    if (pendingDescription != null) {
-      builder.append(", info=[").append(pendingDescription).append("]");
+
+    Object localValue = value;
+    if (localValue instanceof SetFuture) {
+      builder.append(", setFuture=[");
+      appendUserObject(builder, ((SetFuture) localValue).future);
+      builder.append("]");
+    } else {
+      String pendingDescription;
+      try {
+        pendingDescription = Strings.emptyToNull(pendingToString());
+      } catch (RuntimeException | StackOverflowError e) {
+        // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+        // subclass is implemented with bugs similar to the subclass.
+        pendingDescription = "Exception thrown from implementation: " + e.getClass();
+      }
+      if (pendingDescription != null) {
+        builder.append(", info=[").append(pendingDescription).append("]");
+      }
     }
-    if (setFutureString != null) {
-      builder.append(", setFuture=[").append(setFutureString).append("]");
+
+    // The future may complete while calculating the toString, so we check once more to see if the
+    // future is done
+    if (isDone()) {
+      // Truncate anything that was appended before realizing this future is done
+      builder.delete(truncateLength, builder.length());
+      addDoneString(builder);
     }
   }
 
   private void addDoneString(StringBuilder builder) {
     try {
       V value = getUninterruptibly(this);
-      builder.append("SUCCESS, result=[").append(userObjectToString(value)).append("]");
+      builder.append("SUCCESS, result=[");
+      appendUserObject(builder, value);
+      builder.append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
@@ -1134,15 +1168,22 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   /** Helper for printing user supplied objects into our toString method. */
-  private String userObjectToString(Object o) {
-    // This is some basic recursion detection for when people create cycles via set/setFuture
-    // This is however only partial protection though since it only detects self loops.  We could
-    // detect arbitrary cycles using a thread local or possibly by catching StackOverflowExceptions
-    // but this should be a good enough solution (it is also what jdk collections do in these cases)
-    if (o == this) {
-      return "this future";
+  private void appendUserObject(StringBuilder builder, Object o) {
+    // This is some basic recursion detection for when people create cycles via set/setFuture or
+    // when deep chains of futures exist resulting in a StackOverflowException. We could detect
+    // arbitrary cycles using a thread local but this should be a good enough solution (it is also
+    // what jdk collections do in these cases)
+    try {
+      if (o == this) {
+        builder.append("this future");
+      } else {
+        builder.append(o);
+      }
+    } catch (RuntimeException | StackOverflowError e) {
+      // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+      // user object is implemented with bugs similar to the user object.
+      builder.append("Exception thrown from implementation: ").append(e.getClass());
     }
-    return String.valueOf(o);
   }
 
   /**

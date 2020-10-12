@@ -31,6 +31,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
+import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.Futures.inCompletionOrder;
 import static com.google.common.util.concurrent.Futures.lazyTransform;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
@@ -136,6 +137,14 @@ public class FuturesTest extends TestCase {
     assertSame(DATA1, getDone(future));
     assertSame(DATA1, getDoneFromTimeoutOverload(future));
     assertThat(future.toString()).contains("[status=SUCCESS, result=[" + DATA1 + "]]");
+  }
+
+  public void testImmediateVoidFuture() throws Exception {
+    ListenableFuture<Void> voidFuture = immediateVoidFuture();
+
+    assertThat(getDone(voidFuture)).isNull();
+    assertThat(getDoneFromTimeoutOverload(voidFuture)).isNull();
+    assertThat(voidFuture.toString()).contains("[status=SUCCESS, result=[null]]");
   }
 
   public void testImmediateFailedFuture() throws Exception {
@@ -2610,37 +2619,37 @@ public class FuturesTest extends TestCase {
     // Waiting on backing futures
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " info=\\[futures=\\[\\S+SettableFuture@\\w+\\[status=PENDING],"
-                + " \\S+SettableFuture@\\w+\\[status=PENDING]]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=PENDING],"
+                + " SettableFuture@\\w+\\[status=PENDING]]]]");
     Integer integerPartial = 1;
     futureInteger.set(integerPartial);
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " info=\\[futures=\\[\\S+SettableFuture@\\w+\\[status=SUCCESS, result=\\[1]],"
-                + " \\S+SettableFuture@\\w+\\[status=PENDING]]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=SUCCESS, result=\\[1]],"
+                + " SettableFuture@\\w+\\[status=PENDING]]]]");
 
     // Backing futures complete
     Boolean booleanPartial = true;
     futureBoolean.set(booleanPartial);
     // Once the backing futures are done there's a (brief) moment where we know nothing
-    assertThat(futureResult.toString()).matches("\\S+CombinedFuture@\\w+\\[status=PENDING]");
+    assertThat(futureResult.toString()).matches("CombinedFuture@\\w+\\[status=PENDING]");
     callableBlocking.countDown();
     // Need to wait for resultFuture to be returned.
     assertTrue(executor.awaitTermination(10, SECONDS));
     // But once the async function has returned a future we can include that in the toString
     assertThat(futureResult.toString())
         .matches(
-            "\\S+CombinedFuture@\\w+\\[status=PENDING,"
-                + " setFuture=\\[\\S+SettableFuture@\\w+\\[status=PENDING]]]");
+            "CombinedFuture@\\w+\\[status=PENDING,"
+                + " setFuture=\\[SettableFuture@\\w+\\[status=PENDING]]]");
 
     // Future complete
     resultOfCombiner.set(createCombinedResult(getDone(futureInteger), getDone(futureBoolean)));
     String expectedResult = createCombinedResult(integerPartial, booleanPartial);
     assertEquals(expectedResult, futureResult.get());
     assertThat(futureResult.toString())
-        .matches("\\S+CombinedFuture@\\w+\\[status=SUCCESS, result=\\[" + expectedResult + "]]");
+        .matches("CombinedFuture@\\w+\\[status=SUCCESS, result=\\[" + expectedResult + "]]");
   }
 
   public void testWhenAllComplete_asyncError() throws Exception {
@@ -3258,7 +3267,7 @@ public class FuturesTest extends TestCase {
       throw failureWithCause(e, "Unexpected exception");
     } finally {
       executor.shutdownNow();
-      // TODO(cpovirk: assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
+      // TODO(cpovirk): assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
     }
   }
 

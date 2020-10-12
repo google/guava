@@ -170,8 +170,8 @@ public final class Stats implements Serializable {
    * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
    * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
    *
-   * <p>If you only want to calculate the mean, use {#meanOf} instead of creating a {@link Stats}
-   * instance.
+   * <p>If you only want to calculate the mean, use {@link #meanOf} instead of creating a {@link
+   * Stats} instance.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -348,11 +348,11 @@ public final class Stats implements Serializable {
       return false;
     }
     Stats other = (Stats) obj;
-    return (count == other.count)
-        && (doubleToLongBits(mean) == doubleToLongBits(other.mean))
-        && (doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas))
-        && (doubleToLongBits(min) == doubleToLongBits(other.min))
-        && (doubleToLongBits(max) == doubleToLongBits(other.max));
+    return count == other.count
+        && doubleToLongBits(mean) == doubleToLongBits(other.mean)
+        && doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas)
+        && doubleToLongBits(min) == doubleToLongBits(other.min)
+        && doubleToLongBits(max) == doubleToLongBits(other.max);
   }
 
   /**

@@ -14,10 +14,15 @@
   <super-source path="super"/>
    
   <inherits name="com.google.gwt.user.User"/>
+    
   <inherits name="com.google.common.annotations.Annotations"/>
-  <inherits name="com.google.common.base.Base"/>
-  <inherits name="com.google.common.math.Math"/>
-  <inherits name="com.google.common.primitives.Primitives"/>
-  <inherits name="com.google.gwt.core.Core"/>
    
+  <inherits name="com.google.common.base.Base"/>
+   
+  <inherits name="com.google.common.math.Math"/>
+   
+  <inherits name="com.google.common.primitives.Primitives"/>
+     
+  <inherits name="com.google.gwt.core.Core"/>
+    
 </module>

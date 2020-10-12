@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
@@ -93,7 +94,8 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   public static <N, V> ValueGraphBuilder<N, V> from(ValueGraph<N, V> graph) {
     return new ValueGraphBuilder<N, V>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder());
+        .nodeOrder(graph.nodeOrder())
+        .incidentEdgeOrder(graph.incidentEdgeOrder());
   }
 
   /**
@@ -101,6 +103,9 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * ValueGraphBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
+   *
+   * <p>Note that the returned builder will always have {@link #incidentEdgeOrder} set to {@link
+   * ElementOrder#stable()}, regardless of the value that was set in this builder.
    *
    * @since 28.0
    */
@@ -143,11 +148,45 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   }
 
   /**
+   * Specifies the order of iteration for the elements of {@link ValueGraph#edges()}, {@link
+   * ValueGraph#adjacentNodes(Object)}, {@link ValueGraph#predecessors(Object)}, {@link
+   * ValueGraph#successors(Object)} and {@link ValueGraph#incidentEdges(Object)}.
+   *
+   * <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+   * immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+   * stable} order.
+   *
+   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   * @since 29.0
+   */
+  public <N1 extends N> ValueGraphBuilder<N1, V> incidentEdgeOrder(
+      ElementOrder<N1> incidentEdgeOrder) {
+    checkArgument(
+        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED
+            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,
+        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"
+            + " ElementOrder.unordered() and ElementOrder.stable().",
+        incidentEdgeOrder);
+    ValueGraphBuilder<N1, V> newBuilder = cast();
+    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);
+    return newBuilder;
+  }
+  /**
    * Returns an empty {@link MutableValueGraph} with the properties of this {@link
    * ValueGraphBuilder}.
    */
   public <N1 extends N, V1 extends V> MutableValueGraph<N1, V1> build() {
-    return new ConfigurableMutableValueGraph<>(this);
+    return new StandardMutableValueGraph<>(this);
+  }
+
+  ValueGraphBuilder<N, V> copy() {
+    ValueGraphBuilder<N, V> newBuilder = new ValueGraphBuilder<>(directed);
+    newBuilder.allowsSelfLoops = allowsSelfLoops;
+    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.expectedNodeCount = expectedNodeCount;
+    newBuilder.incidentEdgeOrder = incidentEdgeOrder;
+    return newBuilder;
   }
 
   @SuppressWarnings("unchecked")

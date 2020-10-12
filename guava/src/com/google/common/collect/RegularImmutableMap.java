@@ -207,10 +207,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @GwtCompatible(emulated = true)
-  private static final class KeySet<K, V> extends IndexedImmutableSet<K> {
-    private final RegularImmutableMap<K, V> map;
+  private static final class KeySet<K> extends IndexedImmutableSet<K> {
+    private final RegularImmutableMap<K, ?> map;
 
-    KeySet(RegularImmutableMap<K, V> map) {
+    KeySet(RegularImmutableMap<K, ?> map) {
       this.map = map;
     }
 
@@ -234,13 +234,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return map.size();
     }
 
+    // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
-    @Override
-    Object writeReplace() {
-      return new SerializedForm<K>(map);
-    }
-
-    @GwtIncompatible // serialization
+    @SuppressWarnings("unused")
     private static class SerializedForm<K> implements Serializable {
       final ImmutableMap<K, ?> map;
 
@@ -284,13 +280,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return true;
     }
 
+    // No longer used for new writes, but kept so that old data can still be read.
     @GwtIncompatible // serialization
-    @Override
-    Object writeReplace() {
-      return new SerializedForm<V>(map);
-    }
-
-    @GwtIncompatible // serialization
+    @SuppressWarnings("unused")
     private static class SerializedForm<V> implements Serializable {
       final ImmutableMap<?, V> map;
 

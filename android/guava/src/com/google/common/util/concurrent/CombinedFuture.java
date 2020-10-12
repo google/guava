@@ -89,7 +89,6 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   @WeakOuter
   private abstract class CombinedFutureInterruptibleTask<T> extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
-    boolean thrownByExecute = true;
 
     CombinedFutureInterruptibleTask(Executor listenerExecutor) {
       this.listenerExecutor = checkNotNull(listenerExecutor);
@@ -104,9 +103,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       try {
         listenerExecutor.execute(this);
       } catch (RejectedExecutionException e) {
-        if (thrownByExecute) {
-          CombinedFuture.this.setException(e);
-        }
+        CombinedFuture.this.setException(e);
       }
     }
 
@@ -153,7 +150,6 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
     @Override
     ListenableFuture<V> runInterruptibly() throws Exception {
-      thrownByExecute = false;
       ListenableFuture<V> result = callable.call();
       return checkNotNull(
           result,
@@ -184,7 +180,6 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
     @Override
     V runInterruptibly() throws Exception {
-      thrownByExecute = false;
       return callable.call();
     }
 

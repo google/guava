@@ -28,13 +28,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -831,8 +831,8 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    @MonotonicNonNullDecl private transient BaseEncoding upperCase;
-    @MonotonicNonNullDecl private transient BaseEncoding lowerCase;
+    @LazyInit @NullableDecl private transient BaseEncoding upperCase;
+    @LazyInit @NullableDecl private transient BaseEncoding lowerCase;
 
     @Override
     public BaseEncoding upperCase() {
@@ -1053,12 +1053,12 @@ public abstract class BaseEncoding {
   @GwtIncompatible // Writer
   static Writer separatingWriter(
       final Writer delegate, final String separator, final int afterEveryChars) {
-    final Appendable seperatingAppendable =
+    final Appendable separatingAppendable =
         separatingAppendable(delegate, separator, afterEveryChars);
     return new Writer() {
       @Override
       public void write(int c) throws IOException {
-        seperatingAppendable.append((char) c);
+        separatingAppendable.append((char) c);
       }
 
       @Override

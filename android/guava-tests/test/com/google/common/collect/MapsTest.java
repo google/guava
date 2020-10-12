@@ -245,6 +245,8 @@ public class MapsTest extends TestCase {
     assertEquals(original, map);
   }
 
+  // Intentionally using IdentityHashMap to test creation.
+  @SuppressWarnings("IdentityHashMapBoxing")
   public void testIdentityHashMap() {
     IdentityHashMap<Integer, Integer> map = Maps.newIdentityHashMap();
     assertEquals(Collections.emptyMap(), map);

@@ -25,6 +25,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
@@ -46,7 +47,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -60,6 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@DoNotMock("Use ImmutableMap.of or another implementation")
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
@@ -244,8 +245,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 2.0
    */
+  @DoNotMock
   public static class Builder<K, V> {
-    @MonotonicNonNull Comparator<? super V> valueComparator;
+    @Nullable Comparator<? super V> valueComparator;
     Entry<K, V>[] entries;
     int size;
     boolean entriesUsed;
@@ -889,37 +891,85 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * reconstructed using public factory methods. This ensures that the implementation types remain
    * as implementation details.
    */
-  static class SerializedForm implements Serializable {
-    private final Object[] keys;
-    private final Object[] values;
+  static class SerializedForm<K, V> implements Serializable {
+    // This object retains references to collections returned by keySet() and value(). This saves
+    // bytes when the both the map and its keySet or value collection are written to the same
+    // instance of ObjectOutputStream.
 
-    SerializedForm(ImmutableMap<?, ?> map) {
-      keys = new Object[map.size()];
-      values = new Object[map.size()];
-      int i = 0;
-      for (Entry<?, ?> entry : map.entrySet()) {
-        keys[i] = entry.getKey();
-        values[i] = entry.getValue();
-        i++;
+    // TODO(b/160980469): remove support for the old serialization format after some time
+    private static final boolean USE_LEGACY_SERIALIZATION = true;
+
+    private final Object keys;
+    private final Object values;
+
+    SerializedForm(ImmutableMap<K, V> map) {
+      if (USE_LEGACY_SERIALIZATION) {
+        Object[] keys = new Object[map.size()];
+        Object[] values = new Object[map.size()];
+        int i = 0;
+        for (Entry<?, ?> entry : map.entrySet()) {
+          keys[i] = entry.getKey();
+          values[i] = entry.getValue();
+          i++;
+        }
+        this.keys = keys;
+        this.values = values;
+        return;
       }
+      this.keys = map.keySet();
+      this.values = map.values();
     }
 
-    Object readResolve() {
-      Builder<Object, Object> builder = new Builder<>(keys.length);
-      return createMap(builder);
+    @SuppressWarnings("unchecked")
+    final Object readResolve() {
+      if (!(this.keys instanceof ImmutableSet)) {
+        return legacyReadResolve();
+      }
+
+      ImmutableSet<K> keySet = (ImmutableSet<K>) this.keys;
+      ImmutableCollection<V> values = (ImmutableCollection<V>) this.values;
+
+      Builder<K, V> builder = makeBuilder(keySet.size());
+
+      UnmodifiableIterator<K> keyIter = keySet.iterator();
+      UnmodifiableIterator<V> valueIter = values.iterator();
+
+      while (keyIter.hasNext()) {
+        builder.put(keyIter.next(), valueIter.next());
+      }
+
+      return builder.build();
     }
 
-    Object createMap(Builder<Object, Object> builder) {
+    @SuppressWarnings("unchecked")
+    final Object legacyReadResolve() {
+      K[] keys = (K[]) this.keys;
+      V[] values = (V[]) this.values;
+
+      Builder<K, V> builder = makeBuilder(keys.length);
+
       for (int i = 0; i < keys.length; i++) {
         builder.put(keys[i], values[i]);
       }
       return builder.build();
     }
 
+    /**
+     * Returns a builder that builds the unserialized type. Subclasses should override this method.
+     */
+    Builder<K, V> makeBuilder(int size) {
+      return new Builder<>(size);
+    }
+
     private static final long serialVersionUID = 0;
   }
 
+  /**
+   * Returns a serializable form of this object. Non-public subclasses should not override this
+   * method. Publicly-accessible subclasses must override this method and should return a subclass
+   * of SerializedForm whose readResolve() method returns objects of the subclass type.
+   */
   Object writeReplace() {
-    return new SerializedForm(this);
+    return new SerializedForm<>(this);
   }
 }
