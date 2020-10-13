@@ -30,13 +30,50 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Serializes execution of a set of operations. This class guarantees that a submitted callable will
- * not be called before previously submitted callables (and any {@code Future}s returned from them)
- * have completed.
+ * Serializes execution of tasks, somewhat like an "asynchronous {@code synchronized} block." Each
+ * {@linkplain #submit enqueued} callable will not be submitted to its associated executor until the
+ * previous callable has returned -- and, if the previous callable was an {@link AsyncCallable}, not
+ * until the {@code Future} it returned is {@linkplain Future#isDone done} (successful, failed, or
+ * cancelled).
  *
- * <p>This class implements a superset of the behavior of {@link
- * MoreExecutors#newSequentialExecutor}. If your tasks all run on the same underlying executor and
- * don't need to wait for {@code Future}s returned from {@code AsyncCallable}s, use it instead.
+ * <p>This class has limited support for cancellation and other "early completion":
+ *
+ * <ul>
+ *   <li>While calls to {@code submit} and {@code submitAsync} return a {@code Future} that can be
+ *       cancelled, cancellation never propagates to a task that has started to run -- neither to
+ *       the callable itself nor to any {@code Future} returned by an {@code AsyncCallable}.
+ *       (However, cancellation can prevent an <i>unstarted</i> task from running.) Therefore, the
+ *       next task will wait for any running callable (or pending {@code Future} returned by an
+ *       {@code AsyncCallable}) to complete, without interrupting it (and without calling {@code
+ *       cancel} on the {@code Future}). So beware: <i>Even if you cancel every precededing {@code
+ *       Future} returned by this class, the next task may still have to wait.</i>.
+ *   <li>Once an {@code AsyncCallable} returns a {@code Future}, this class considers that task to
+ *       be "done" as soon as <i>that</i> {@code Future} completes in any way. Notably, a {@code
+ *       Future} is "completed" even if it is cancelled while its underlying work continues on a
+ *       thread, an RPC, etc. The {@code Future} is also "completed" if it fails "early" -- for
+ *       example, if the deadline expires on a {@code Future} returned from {@link
+ *       Futures#withTimeout} while the {@code Future} it wraps continues its underlying work. So
+ *       beware: <i>Your {@code AsyncCallable} should not complete its {@code Future} until it is
+ *       safe for the next task to start.</i>
+ * </ul>
+ *
+ * <p>An additional limitation: this class serializes execution of <i>tasks</i> but not any
+ * <i>listeners</i> of those tasks.
+ *
+ * <p>This class is similar to {@link MoreExecutors#newSequentialExecutor}. This class is different
+ * in a few ways:
+ *
+ * <ul>
+ *   <li>Each task may be associated with a different executor.
+ *   <li>Tasks may be of type {@code AsyncCallable}.
+ *   <li>Running tasks <i>cannot</i> be interrupted. (Note that {@code newSequentialExecutor} does
+ *       not return {@code Future} objects, so it doesn't support interruption directly, either.
+ *       However, utilities that <i>use</i> that executor have the ability to interrupt tasks
+ *       running on it. This class, by contrast, does not expose an {@code Executor} API.)
+ * </ul>
+ *
+ * <p>If you don't need the features of this class, you may prefer {@code newSequentialExecutor} for
+ * its simplicity and ability to accommodate interruption.
  *
  * @since 26.0
  */
@@ -183,6 +220,28 @@ public final class ExecutionSequencer {
               // so when oldFuture completes it is safe to allow the next submitted task to
               // proceed. Doing this immediately here lets the next task run without waiting for
               // the cancelled task's executor to run the noop AsyncCallable.
+              //
+              // ---
+              //
+              // If the CAS fails, the provided callable already started running (or it is about
+              // to). Our contract promises:
+              //
+              // 1. not to execute a new callable until the old one has returned
+              //
+              // If we were to cancel taskFuture, that would let the next task start while the old
+              // one is still running.
+              //
+              // Now, maybe we could tweak our implementation to not start the next task until the
+              // callable actually completes. (We could detect completion in our wrapper
+              // `AsyncCallable task`.) However, our contract also promises:
+              //
+              // 2. not to cancel any Future the user returned from an AsyncCallable
+              //
+              // We promise this because, once we cancel that Future, we would no longer be able to
+              // tell when any underlying work it is doing is done. Thus, we might start a new task
+              // while that underlying work is still running.
+              //
+              // So that is why we cancel only in the case of CAS success.
               taskFuture.cancel(false);
             }
           }
