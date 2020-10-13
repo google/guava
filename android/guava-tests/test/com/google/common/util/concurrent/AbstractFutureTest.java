@@ -25,6 +25,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -213,6 +214,44 @@ public class AbstractFutureTest extends TestCase {
     assertThat(SettableFuture.create().toString()).isNotEqualTo(SettableFuture.create().toString());
   }
 
+  public void testToString_oom() throws Exception {
+    SettableFuture<Object> future = SettableFuture.create();
+    future.set(
+        new Object() {
+          @Override
+          public String toString() {
+            throw new OutOfMemoryError();
+          }
+
+          @Override
+          public int hashCode() {
+            throw new OutOfMemoryError();
+          }
+        });
+
+    String unused = future.toString();
+
+    SettableFuture<Object> future2 = SettableFuture.create();
+
+    // A more organic OOM from a toString implementation
+    Object object =
+        new Object() {
+          @Override
+          public String toString() {
+            return new String(new char[50_000]);
+          }
+        };
+    List<Object> list = Collections.singletonList(object);
+    for (int i = 0; i < 10; i++) {
+      Object[] array = new Object[500];
+      Arrays.fill(array, list);
+      list = Arrays.asList(array);
+    }
+    future2.set(list);
+
+    unused = future.toString();
+  }
+
   public void testToString_notDone() throws Exception {
     AbstractFuture<Object> testFuture =
         new AbstractFuture<Object>() {
@@ -243,7 +282,8 @@ public class AbstractFutureTest extends TestCase {
             return "cause=[Because this test isn't done]";
           }
         };
-    assertThat(testFuture.toString()).matches("[^\\[]+\\[status=SUCCESS, result=\\[true\\]\\]");
+    assertThat(testFuture.toString())
+        .matches("[^\\[]+\\[status=SUCCESS, result=\\[java.lang.Boolean@\\w+\\]\\]");
   }
 
   /**
@@ -308,7 +348,7 @@ public class AbstractFutureTest extends TestCase {
                 + " info=\\[cause=\\[Someday...]]]]]");
     testFuture2.set("result string");
     assertThat(testFuture3.toString())
-        .matches("[^\\[]+\\[status=SUCCESS, result=\\[result string\\]\\]");
+        .matches("[^\\[]+\\[status=SUCCESS, result=\\[java.lang.String@\\w+\\]\\]");
   }
 
   public void testToString_cancelled() throws Exception {
@@ -944,11 +984,11 @@ public class AbstractFutureTest extends TestCase {
   public void testSetIndirectSelf_toString() {
     final SettableFuture<Object> orig = SettableFuture.create();
     // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
-    orig.set(
-        new Object() {
+    orig.setFuture(
+        new ForwardingListenableFuture<Object>() {
           @Override
-          public String toString() {
-            return orig.toString();
+          protected ListenableFuture<Object> delegate() {
+            return orig;
           }
         });
     assertThat(orig.toString())
