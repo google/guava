@@ -22,8 +22,12 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 
 /**
- * Provides equivalent behavior to {@link String#intern} for other immutable types. Common
- * implementations are available from the {@link Interners} class.
+ * Provides similar behavior to {@link String#intern} for any immutable type. Common implementations
+ * are available from the {@link Interners} class.
+ *
+ * <p>Note that {@code String.intern()} has some well-known performance limitations, and should
+ * generally be avoided. Prefer {@link Interners#newWeakInterner} or another {@code Interner}
+ * implementation even for {@code String} interning.
  *
  * @author Kevin Bourrillion
  * @since 3.0
