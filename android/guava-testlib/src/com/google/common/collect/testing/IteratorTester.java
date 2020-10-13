@@ -50,19 +50,21 @@ import java.util.Iterator;
  * verify() method, which is called <em>after</em> each sequence and is guaranteed to be called
  * using the latest values obtained from {@link IteratorTester#newTargetIterator()}.
  *
- * <p>For example, to test {@link java.util.ArrayList#iterator() ArrayList.iterator()}:
+ * <p>For example, to test {@link java.util.Collections#unmodifiableList(java.util.List)
+ * Collections.unmodifiableList}'s iterator:
  *
  * <pre>{@code
  * List<String> expectedElements =
  *     Arrays.asList("a", "b", "c", "d", "e");
  * List<String> actualElements =
- *     new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e"));
+ *     Collections.unmodifiableList(
+ *         Arrays.asList("a", "b", "c", "d", "e"));
  * IteratorTester<String> iteratorTester =
  *     new IteratorTester<String>(
  *         5,
- *         IteratorFeature.MODIFIABLE,
+ *         IteratorFeature.UNMODIFIABLE,
  *         expectedElements,
- *         KnownOrder.KNOWN_ORDER) {
+ *         IteratorTester.KnownOrder.KNOWN_ORDER) {
  *       @Override
  *       protected Iterator<String> newTargetIterator() {
  *         return actualElements.iterator();
@@ -71,6 +73,9 @@ import java.util.Iterator;
  * iteratorTester.test();
  * iteratorTester.testForEachRemaining();
  * }</pre>
+ *
+ * <p><b>Note</b>: It is necessary to use {@code IteratorTester.KnownOrder} as shown above, rather
+ * than {@code KnownOrder} directly, because otherwise the code is not compilable.
  *
  * @author Kevin Bourrillion
  * @author Chris Povirk
