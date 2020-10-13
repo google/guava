@@ -38,331 +38,390 @@
 <span class="sourceLineNo">030</span>import java.util.concurrent.atomic.AtomicReference;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>/**<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * Serializes execution of a set of operations. This class guarantees that a submitted callable will<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * not be called before previously submitted callables (and any {@code Future}s returned from them)<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * have completed.<a name="line.35"></a>
-<span class="sourceLineNo">036</span> *<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * &lt;p&gt;This class implements a superset of the behavior of {@link<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * MoreExecutors#newSequentialExecutor}. If your tasks all run on the same underlying executor and<a name="line.38"></a>
-<span class="sourceLineNo">039</span> * don't need to wait for {@code Future}s returned from {@code AsyncCallable}s, use it instead.<a name="line.39"></a>
+<span class="sourceLineNo">033</span> * Serializes execution of tasks, somewhat like an "asynchronous {@code synchronized} block." Each<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * {@linkplain #submit enqueued} callable will not be submitted to its associated executor until the<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * previous callable has returned -- and, if the previous callable was an {@link AsyncCallable}, not<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * until the {@code Future} it returned is {@linkplain Future#isDone done} (successful, failed, or<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * cancelled).<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * &lt;p&gt;This class has limited support for cancellation and other "early completion":<a name="line.39"></a>
 <span class="sourceLineNo">040</span> *<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * @since 26.0<a name="line.41"></a>
-<span class="sourceLineNo">042</span> */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>@Beta<a name="line.43"></a>
-<span class="sourceLineNo">044</span>public final class ExecutionSequencer {<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  private ExecutionSequencer() {}<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  /** Creates a new instance. */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  public static ExecutionSequencer create() {<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    return new ExecutionSequencer();<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  }<a name="line.51"></a>
-<span class="sourceLineNo">052</span><a name="line.52"></a>
-<span class="sourceLineNo">053</span>  /** This reference acts as a pointer tracking the head of a linked list of ListenableFutures. */<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private final AtomicReference&lt;ListenableFuture&lt;Void&gt;&gt; ref =<a name="line.54"></a>
-<span class="sourceLineNo">055</span>      new AtomicReference&lt;&gt;(immediateVoidFuture());<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  /**<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * This object is unsafely published, but avoids problematic races by relying exclusively on the<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   * identity equality of its Thread field so that the task field is only accessed by a single<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * thread.<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  private static final class ThreadConfinedTaskQueue {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    /**<a name="line.65"></a>
-<span class="sourceLineNo">066</span>     * This field is only used for identity comparisons with the current thread. Field assignments<a name="line.66"></a>
-<span class="sourceLineNo">067</span>     * are atomic, but do not provide happens-before ordering; however:<a name="line.67"></a>
-<span class="sourceLineNo">068</span>     *<a name="line.68"></a>
-<span class="sourceLineNo">069</span>     * &lt;ul&gt;<a name="line.69"></a>
-<span class="sourceLineNo">070</span>     *   &lt;li&gt;If this field's value == currentThread, we know that it's up to date, because write<a name="line.70"></a>
-<span class="sourceLineNo">071</span>     *       operations in a thread always happen-before subsequent read operations in the same<a name="line.71"></a>
-<span class="sourceLineNo">072</span>     *       thread<a name="line.72"></a>
-<span class="sourceLineNo">073</span>     *   &lt;li&gt;If this field's value == null because of unsafe publication, we know that it isn't the<a name="line.73"></a>
-<span class="sourceLineNo">074</span>     *       object associated with our thread, because if it was the publication wouldn't have been<a name="line.74"></a>
-<span class="sourceLineNo">075</span>     *       unsafe and we'd have seen our thread as the value. This state is also why a new<a name="line.75"></a>
-<span class="sourceLineNo">076</span>     *       ThreadConfinedTaskQueue object must be created for each inline execution, because<a name="line.76"></a>
-<span class="sourceLineNo">077</span>     *       observing a null thread does not mean the object is safe to reuse.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>     *   &lt;li&gt;If this field's value is some other thread object, we know that it's not our thread.<a name="line.78"></a>
-<span class="sourceLineNo">079</span>     *   &lt;li&gt;If this field's value == null because it originally belonged to another thread and that<a name="line.79"></a>
-<span class="sourceLineNo">080</span>     *       thread cleared it, we still know that it's not associated with our thread<a name="line.80"></a>
-<span class="sourceLineNo">081</span>     *   &lt;li&gt;If this field's value == null because it was associated with our thread and was<a name="line.81"></a>
-<span class="sourceLineNo">082</span>     *       cleared, we know that we're not executing inline any more<a name="line.82"></a>
-<span class="sourceLineNo">083</span>     * &lt;/ul&gt;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>     *<a name="line.84"></a>
-<span class="sourceLineNo">085</span>     * All the states where thread != currentThread are identical for our purposes, and so even<a name="line.85"></a>
-<span class="sourceLineNo">086</span>     * though it's racy, we don't care which of those values we get, so no need to synchronize.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>     */<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    Thread thread;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    /** Only used by the thread associated with this object */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    Runnable nextTask;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    /** Only used by the thread associated with this object */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    Executor nextExecutor;<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * Enqueues a task to run when the previous task (if any) completes.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   *<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * &lt;p&gt;Cancellation does not propagate from the output future to a callable that has begun to<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * execute, but if the output future is cancelled before {@link Callable#call()} is invoked,<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * {@link Callable#call()} will not be invoked.<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  public &lt;T&gt; ListenableFuture&lt;T&gt; submit(final Callable&lt;T&gt; callable, Executor executor) {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    checkNotNull(callable);<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    checkNotNull(executor);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    return submitAsync(<a name="line.105"></a>
-<span class="sourceLineNo">106</span>        new AsyncCallable&lt;T&gt;() {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>          @Override<a name="line.107"></a>
-<span class="sourceLineNo">108</span>          public ListenableFuture&lt;T&gt; call() throws Exception {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>            return immediateFuture(callable.call());<a name="line.109"></a>
-<span class="sourceLineNo">110</span>          }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>          @Override<a name="line.112"></a>
-<span class="sourceLineNo">113</span>          public String toString() {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>            return callable.toString();<a name="line.114"></a>
-<span class="sourceLineNo">115</span>          }<a name="line.115"></a>
-<span class="sourceLineNo">116</span>        },<a name="line.116"></a>
-<span class="sourceLineNo">117</span>        executor);<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
-<span class="sourceLineNo">119</span><a name="line.119"></a>
-<span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   * Enqueues a task to run when the previous task (if any) completes.<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   *<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * &lt;p&gt;Cancellation does not propagate from the output future to the future returned from {@code<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   * callable} or a callable that has begun to execute, but if the output future is cancelled before<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * {@link AsyncCallable#call()} is invoked, {@link AsyncCallable#call()} will not be invoked.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   */<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public &lt;T&gt; ListenableFuture&lt;T&gt; submitAsync(<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      final AsyncCallable&lt;T&gt; callable, final Executor executor) {<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    checkNotNull(callable);<a name="line.129"></a>
-<span class="sourceLineNo">130</span>    checkNotNull(executor);<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    final TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    final AsyncCallable&lt;T&gt; task =<a name="line.132"></a>
-<span class="sourceLineNo">133</span>        new AsyncCallable&lt;T&gt;() {<a name="line.133"></a>
-<span class="sourceLineNo">134</span>          @Override<a name="line.134"></a>
-<span class="sourceLineNo">135</span>          public ListenableFuture&lt;T&gt; call() throws Exception {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>            if (!taskExecutor.trySetStarted()) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>              return immediateCancelledFuture();<a name="line.137"></a>
-<span class="sourceLineNo">138</span>            }<a name="line.138"></a>
-<span class="sourceLineNo">139</span>            return callable.call();<a name="line.139"></a>
-<span class="sourceLineNo">140</span>          }<a name="line.140"></a>
-<span class="sourceLineNo">141</span><a name="line.141"></a>
-<span class="sourceLineNo">142</span>          @Override<a name="line.142"></a>
-<span class="sourceLineNo">143</span>          public String toString() {<a name="line.143"></a>
-<span class="sourceLineNo">144</span>            return callable.toString();<a name="line.144"></a>
-<span class="sourceLineNo">145</span>          }<a name="line.145"></a>
-<span class="sourceLineNo">146</span>        };<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    /*<a name="line.147"></a>
-<span class="sourceLineNo">148</span>     * Four futures are at play here:<a name="line.148"></a>
-<span class="sourceLineNo">149</span>     * taskFuture is the future tracking the result of the callable.<a name="line.149"></a>
-<span class="sourceLineNo">150</span>     * newFuture is a future that completes after this and all prior tasks are done.<a name="line.150"></a>
-<span class="sourceLineNo">151</span>     * oldFuture is the previous task's newFuture.<a name="line.151"></a>
-<span class="sourceLineNo">152</span>     * outputFuture is the future we return to the caller, a nonCancellationPropagating taskFuture.<a name="line.152"></a>
-<span class="sourceLineNo">153</span>     *<a name="line.153"></a>
-<span class="sourceLineNo">154</span>     * newFuture is guaranteed to only complete once all tasks previously submitted to this instance<a name="line.154"></a>
-<span class="sourceLineNo">155</span>     * have completed - namely after oldFuture is done, and taskFuture has either completed or been<a name="line.155"></a>
-<span class="sourceLineNo">156</span>     * cancelled before the callable started execution.<a name="line.156"></a>
-<span class="sourceLineNo">157</span>     */<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    final SettableFuture&lt;Void&gt; newFuture = SettableFuture.create();<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>    final ListenableFuture&lt;Void&gt; oldFuture = ref.getAndSet(newFuture);<a name="line.160"></a>
-<span class="sourceLineNo">161</span><a name="line.161"></a>
-<span class="sourceLineNo">162</span>    // Invoke our task once the previous future completes.<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    final TrustedListenableFutureTask&lt;T&gt; taskFuture = TrustedListenableFutureTask.create(task);<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    oldFuture.addListener(taskFuture, taskExecutor);<a name="line.164"></a>
-<span class="sourceLineNo">165</span><a name="line.165"></a>
-<span class="sourceLineNo">166</span>    final ListenableFuture&lt;T&gt; outputFuture = Futures.nonCancellationPropagating(taskFuture);<a name="line.166"></a>
-<span class="sourceLineNo">167</span><a name="line.167"></a>
-<span class="sourceLineNo">168</span>    // newFuture's lifetime is determined by taskFuture, which can't complete before oldFuture<a name="line.168"></a>
-<span class="sourceLineNo">169</span>    // unless taskFuture is cancelled, in which case it falls back to oldFuture. This ensures that<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    // if the future we return is cancelled, we don't begin execution of the next task until after<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    // oldFuture completes.<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    Runnable listener =<a name="line.172"></a>
-<span class="sourceLineNo">173</span>        new Runnable() {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>          @Override<a name="line.174"></a>
-<span class="sourceLineNo">175</span>          public void run() {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>            if (taskFuture.isDone()) {<a name="line.176"></a>
-<span class="sourceLineNo">177</span>              // Since the value of oldFuture can only ever be immediateFuture(null) or setFuture of<a name="line.177"></a>
-<span class="sourceLineNo">178</span>              // a future that eventually came from immediateFuture(null), this doesn't leak<a name="line.178"></a>
-<span class="sourceLineNo">179</span>              // throwables or completion values.<a name="line.179"></a>
-<span class="sourceLineNo">180</span>              newFuture.setFuture(oldFuture);<a name="line.180"></a>
-<span class="sourceLineNo">181</span>            } else if (outputFuture.isCancelled() &amp;&amp; taskExecutor.trySetCancelled()) {<a name="line.181"></a>
-<span class="sourceLineNo">182</span>              // If this CAS succeeds, we know that the provided callable will never be invoked,<a name="line.182"></a>
-<span class="sourceLineNo">183</span>              // so when oldFuture completes it is safe to allow the next submitted task to<a name="line.183"></a>
-<span class="sourceLineNo">184</span>              // proceed. Doing this immediately here lets the next task run without waiting for<a name="line.184"></a>
-<span class="sourceLineNo">185</span>              // the cancelled task's executor to run the noop AsyncCallable.<a name="line.185"></a>
-<span class="sourceLineNo">186</span>              taskFuture.cancel(false);<a name="line.186"></a>
-<span class="sourceLineNo">187</span>            }<a name="line.187"></a>
-<span class="sourceLineNo">188</span>          }<a name="line.188"></a>
-<span class="sourceLineNo">189</span>        };<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    // Adding the listener to both futures guarantees that newFuture will aways be set. Adding to<a name="line.190"></a>
-<span class="sourceLineNo">191</span>    // taskFuture guarantees completion if the callable is invoked, and adding to outputFuture<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    // propagates cancellation if the callable has not yet been invoked.<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    outputFuture.addListener(listener, directExecutor());<a name="line.193"></a>
-<span class="sourceLineNo">194</span>    taskFuture.addListener(listener, directExecutor());<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>    return outputFuture;<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
+<span class="sourceLineNo">041</span> * &lt;ul&gt;<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *   &lt;li&gt;While calls to {@code submit} and {@code submitAsync} return a {@code Future} that can be<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *       cancelled, cancellation never propagates to a task that has started to run -- neither to<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *       the callable itself nor to any {@code Future} returned by an {@code AsyncCallable}.<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *       (However, cancellation can prevent an &lt;i&gt;unstarted&lt;/i&gt; task from running.) Therefore, the<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *       next task will wait for any running callable (or pending {@code Future} returned by an<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *       {@code AsyncCallable}) to complete, without interrupting it (and without calling {@code<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *       cancel} on the {@code Future}). So beware: &lt;i&gt;Even if you cancel every precededing {@code<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *       Future} returned by this class, the next task may still have to wait.&lt;/i&gt;.<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;Once an {@code AsyncCallable} returns a {@code Future}, this class considers that task to<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *       be "done" as soon as &lt;i&gt;that&lt;/i&gt; {@code Future} completes in any way. Notably, a {@code<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *       Future} is "completed" even if it is cancelled while its underlying work continues on a<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *       thread, an RPC, etc. The {@code Future} is also "completed" if it fails "early" -- for<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *       example, if the deadline expires on a {@code Future} returned from {@link<a name="line.54"></a>
+<span class="sourceLineNo">055</span> *       Futures#withTimeout} while the {@code Future} it wraps continues its underlying work. So<a name="line.55"></a>
+<span class="sourceLineNo">056</span> *       beware: &lt;i&gt;Your {@code AsyncCallable} should not complete its {@code Future} until it is<a name="line.56"></a>
+<span class="sourceLineNo">057</span> *       safe for the next task to start.&lt;/i&gt;<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * &lt;/ul&gt;<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * &lt;p&gt;An additional limitation: this class serializes execution of &lt;i&gt;tasks&lt;/i&gt; but not any<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * &lt;i&gt;listeners&lt;/i&gt; of those tasks.<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * &lt;p&gt;This class is similar to {@link MoreExecutors#newSequentialExecutor}. This class is different<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * in a few ways:<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * &lt;ul&gt;<a name="line.66"></a>
+<span class="sourceLineNo">067</span> *   &lt;li&gt;Each task may be associated with a different executor.<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *   &lt;li&gt;Tasks may be of type {@code AsyncCallable}.<a name="line.68"></a>
+<span class="sourceLineNo">069</span> *   &lt;li&gt;Running tasks &lt;i&gt;cannot&lt;/i&gt; be interrupted. (Note that {@code newSequentialExecutor} does<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *       not return {@code Future} objects, so it doesn't support interruption directly, either.<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *       However, utilities that &lt;i&gt;use&lt;/i&gt; that executor have the ability to interrupt tasks<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *       running on it. This class, by contrast, does not expose an {@code Executor} API.)<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * &lt;/ul&gt;<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *<a name="line.74"></a>
+<span class="sourceLineNo">075</span> * &lt;p&gt;If you don't need the features of this class, you may prefer {@code newSequentialExecutor} for<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * its simplicity and ability to accommodate interruption.<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * @since 26.0<a name="line.78"></a>
+<span class="sourceLineNo">079</span> */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>@Beta<a name="line.80"></a>
+<span class="sourceLineNo">081</span>public final class ExecutionSequencer {<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  private ExecutionSequencer() {}<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /** Creates a new instance. */<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public static ExecutionSequencer create() {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return new ExecutionSequencer();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /** This reference acts as a pointer tracking the head of a linked list of ListenableFutures. */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  private final AtomicReference&lt;ListenableFuture&lt;Void&gt;&gt; ref =<a name="line.91"></a>
+<span class="sourceLineNo">092</span>      new AtomicReference&lt;&gt;(immediateVoidFuture());<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * This object is unsafely published, but avoids problematic races by relying exclusively on the<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * identity equality of its Thread field so that the task field is only accessed by a single<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * thread.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  private static final class ThreadConfinedTaskQueue {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>     * This field is only used for identity comparisons with the current thread. Field assignments<a name="line.103"></a>
+<span class="sourceLineNo">104</span>     * are atomic, but do not provide happens-before ordering; however:<a name="line.104"></a>
+<span class="sourceLineNo">105</span>     *<a name="line.105"></a>
+<span class="sourceLineNo">106</span>     * &lt;ul&gt;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>     *   &lt;li&gt;If this field's value == currentThread, we know that it's up to date, because write<a name="line.107"></a>
+<span class="sourceLineNo">108</span>     *       operations in a thread always happen-before subsequent read operations in the same<a name="line.108"></a>
+<span class="sourceLineNo">109</span>     *       thread<a name="line.109"></a>
+<span class="sourceLineNo">110</span>     *   &lt;li&gt;If this field's value == null because of unsafe publication, we know that it isn't the<a name="line.110"></a>
+<span class="sourceLineNo">111</span>     *       object associated with our thread, because if it was the publication wouldn't have been<a name="line.111"></a>
+<span class="sourceLineNo">112</span>     *       unsafe and we'd have seen our thread as the value. This state is also why a new<a name="line.112"></a>
+<span class="sourceLineNo">113</span>     *       ThreadConfinedTaskQueue object must be created for each inline execution, because<a name="line.113"></a>
+<span class="sourceLineNo">114</span>     *       observing a null thread does not mean the object is safe to reuse.<a name="line.114"></a>
+<span class="sourceLineNo">115</span>     *   &lt;li&gt;If this field's value is some other thread object, we know that it's not our thread.<a name="line.115"></a>
+<span class="sourceLineNo">116</span>     *   &lt;li&gt;If this field's value == null because it originally belonged to another thread and that<a name="line.116"></a>
+<span class="sourceLineNo">117</span>     *       thread cleared it, we still know that it's not associated with our thread<a name="line.117"></a>
+<span class="sourceLineNo">118</span>     *   &lt;li&gt;If this field's value == null because it was associated with our thread and was<a name="line.118"></a>
+<span class="sourceLineNo">119</span>     *       cleared, we know that we're not executing inline any more<a name="line.119"></a>
+<span class="sourceLineNo">120</span>     * &lt;/ul&gt;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>     *<a name="line.121"></a>
+<span class="sourceLineNo">122</span>     * All the states where thread != currentThread are identical for our purposes, and so even<a name="line.122"></a>
+<span class="sourceLineNo">123</span>     * though it's racy, we don't care which of those values we get, so no need to synchronize.<a name="line.123"></a>
+<span class="sourceLineNo">124</span>     */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    Thread thread;<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    /** Only used by the thread associated with this object */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    Runnable nextTask;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    /** Only used by the thread associated with this object */<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    Executor nextExecutor;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>  /**<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * Enqueues a task to run when the previous task (if any) completes.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * &lt;p&gt;Cancellation does not propagate from the output future to a callable that has begun to<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * execute, but if the output future is cancelled before {@link Callable#call()} is invoked,<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * {@link Callable#call()} will not be invoked.<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  public &lt;T&gt; ListenableFuture&lt;T&gt; submit(final Callable&lt;T&gt; callable, Executor executor) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    checkNotNull(callable);<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    checkNotNull(executor);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return submitAsync(<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        new AsyncCallable&lt;T&gt;() {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>          @Override<a name="line.144"></a>
+<span class="sourceLineNo">145</span>          public ListenableFuture&lt;T&gt; call() throws Exception {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>            return immediateFuture(callable.call());<a name="line.146"></a>
+<span class="sourceLineNo">147</span>          }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>          @Override<a name="line.149"></a>
+<span class="sourceLineNo">150</span>          public String toString() {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>            return callable.toString();<a name="line.151"></a>
+<span class="sourceLineNo">152</span>          }<a name="line.152"></a>
+<span class="sourceLineNo">153</span>        },<a name="line.153"></a>
+<span class="sourceLineNo">154</span>        executor);<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * Enqueues a task to run when the previous task (if any) completes.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   *<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * &lt;p&gt;Cancellation does not propagate from the output future to the future returned from {@code<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * callable} or a callable that has begun to execute, but if the output future is cancelled before<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * {@link AsyncCallable#call()} is invoked, {@link AsyncCallable#call()} will not be invoked.<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  public &lt;T&gt; ListenableFuture&lt;T&gt; submitAsync(<a name="line.164"></a>
+<span class="sourceLineNo">165</span>      final AsyncCallable&lt;T&gt; callable, final Executor executor) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    checkNotNull(callable);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    checkNotNull(executor);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    final TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    final AsyncCallable&lt;T&gt; task =<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        new AsyncCallable&lt;T&gt;() {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>          @Override<a name="line.171"></a>
+<span class="sourceLineNo">172</span>          public ListenableFuture&lt;T&gt; call() throws Exception {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>            if (!taskExecutor.trySetStarted()) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>              return immediateCancelledFuture();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>            }<a name="line.175"></a>
+<span class="sourceLineNo">176</span>            return callable.call();<a name="line.176"></a>
+<span class="sourceLineNo">177</span>          }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>          @Override<a name="line.179"></a>
+<span class="sourceLineNo">180</span>          public String toString() {<a name="line.180"></a>
+<span class="sourceLineNo">181</span>            return callable.toString();<a name="line.181"></a>
+<span class="sourceLineNo">182</span>          }<a name="line.182"></a>
+<span class="sourceLineNo">183</span>        };<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    /*<a name="line.184"></a>
+<span class="sourceLineNo">185</span>     * Four futures are at play here:<a name="line.185"></a>
+<span class="sourceLineNo">186</span>     * taskFuture is the future tracking the result of the callable.<a name="line.186"></a>
+<span class="sourceLineNo">187</span>     * newFuture is a future that completes after this and all prior tasks are done.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>     * oldFuture is the previous task's newFuture.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>     * outputFuture is the future we return to the caller, a nonCancellationPropagating taskFuture.<a name="line.189"></a>
+<span class="sourceLineNo">190</span>     *<a name="line.190"></a>
+<span class="sourceLineNo">191</span>     * newFuture is guaranteed to only complete once all tasks previously submitted to this instance<a name="line.191"></a>
+<span class="sourceLineNo">192</span>     * have completed - namely after oldFuture is done, and taskFuture has either completed or been<a name="line.192"></a>
+<span class="sourceLineNo">193</span>     * cancelled before the callable started execution.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>     */<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    final SettableFuture&lt;Void&gt; newFuture = SettableFuture.create();<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>    final ListenableFuture&lt;Void&gt; oldFuture = ref.getAndSet(newFuture);<a name="line.197"></a>
 <span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  enum RunningState {<a name="line.199"></a>
-<span class="sourceLineNo">200</span>    NOT_RUN,<a name="line.200"></a>
-<span class="sourceLineNo">201</span>    CANCELLED,<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    STARTED,<a name="line.202"></a>
-<span class="sourceLineNo">203</span>  }<a name="line.203"></a>
+<span class="sourceLineNo">199</span>    // Invoke our task once the previous future completes.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    final TrustedListenableFutureTask&lt;T&gt; taskFuture = TrustedListenableFutureTask.create(task);<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    oldFuture.addListener(taskFuture, taskExecutor);<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>    final ListenableFuture&lt;T&gt; outputFuture = Futures.nonCancellationPropagating(taskFuture);<a name="line.203"></a>
 <span class="sourceLineNo">204</span><a name="line.204"></a>
-<span class="sourceLineNo">205</span>  /**<a name="line.205"></a>
-<span class="sourceLineNo">206</span>   * This class helps avoid a StackOverflowError when large numbers of tasks are submitted with<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   * {@link MoreExecutors#directExecutor}. Normally, when the first future completes, all the other<a name="line.207"></a>
-<span class="sourceLineNo">208</span>   * tasks would be called recursively. Here, we detect that the delegate executor is executing<a name="line.208"></a>
-<span class="sourceLineNo">209</span>   * inline, and maintain a queue to dispatch tasks iteratively. There is one instance of this class<a name="line.209"></a>
-<span class="sourceLineNo">210</span>   * per call to submit() or submitAsync(), and each instance supports only one call to execute().<a name="line.210"></a>
-<span class="sourceLineNo">211</span>   *<a name="line.211"></a>
-<span class="sourceLineNo">212</span>   * &lt;p&gt;This class would certainly be simpler and easier to reason about if it were built with<a name="line.212"></a>
-<span class="sourceLineNo">213</span>   * ThreadLocal; however, ThreadLocal is not well optimized for the case where the ThreadLocal is<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   * non-static, and is initialized/removed frequently - this causes churn in the Thread specific<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   * hashmaps. Using a static ThreadLocal to avoid that overhead would mean that different<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * ExecutionSequencer objects interfere with each other, which would be undesirable, in addition<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   * to increasing the memory footprint of every thread that interacted with it. In order to release<a name="line.217"></a>
-<span class="sourceLineNo">218</span>   * entries in thread-specific maps when the ThreadLocal object itself is no longer referenced,<a name="line.218"></a>
-<span class="sourceLineNo">219</span>   * ThreadLocal is usually implemented with a WeakReference, which can have negative performance<a name="line.219"></a>
-<span class="sourceLineNo">220</span>   * properties; for example, calling WeakReference.get() on Android will block during an<a name="line.220"></a>
-<span class="sourceLineNo">221</span>   * otherwise-concurrent GC cycle.<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   */<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  @SuppressWarnings("ShouldNotSubclass") // Saving an allocation here is worth it<a name="line.223"></a>
-<span class="sourceLineNo">224</span>  private static final class TaskNonReentrantExecutor extends AtomicReference&lt;RunningState&gt;<a name="line.224"></a>
-<span class="sourceLineNo">225</span>      implements Executor, Runnable {<a name="line.225"></a>
-<span class="sourceLineNo">226</span><a name="line.226"></a>
-<span class="sourceLineNo">227</span>    /**<a name="line.227"></a>
-<span class="sourceLineNo">228</span>     * Used to update and read the latestTaskQueue field. Set to null once the runnable has been run<a name="line.228"></a>
-<span class="sourceLineNo">229</span>     * or queued.<a name="line.229"></a>
-<span class="sourceLineNo">230</span>     */<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    ExecutionSequencer sequencer;<a name="line.231"></a>
-<span class="sourceLineNo">232</span><a name="line.232"></a>
-<span class="sourceLineNo">233</span>    /**<a name="line.233"></a>
-<span class="sourceLineNo">234</span>     * Executor the task was set to run on. Set to null when the task has been queued, run, or<a name="line.234"></a>
-<span class="sourceLineNo">235</span>     * cancelled.<a name="line.235"></a>
-<span class="sourceLineNo">236</span>     */<a name="line.236"></a>
-<span class="sourceLineNo">237</span>    Executor delegate;<a name="line.237"></a>
-<span class="sourceLineNo">238</span><a name="line.238"></a>
-<span class="sourceLineNo">239</span>    /**<a name="line.239"></a>
-<span class="sourceLineNo">240</span>     * Set before calling delegate.execute(); set to null once run, so that it can be GCed; this<a name="line.240"></a>
-<span class="sourceLineNo">241</span>     * object may live on after, if submitAsync returns an incomplete future.<a name="line.241"></a>
-<span class="sourceLineNo">242</span>     */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>    Runnable task;<a name="line.243"></a>
-<span class="sourceLineNo">244</span><a name="line.244"></a>
-<span class="sourceLineNo">245</span>    /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */<a name="line.245"></a>
-<span class="sourceLineNo">246</span>    Thread submitting;<a name="line.246"></a>
-<span class="sourceLineNo">247</span><a name="line.247"></a>
-<span class="sourceLineNo">248</span>    private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {<a name="line.248"></a>
-<span class="sourceLineNo">249</span>      super(NOT_RUN);<a name="line.249"></a>
-<span class="sourceLineNo">250</span>      this.delegate = delegate;<a name="line.250"></a>
-<span class="sourceLineNo">251</span>      this.sequencer = sequencer;<a name="line.251"></a>
-<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
-<span class="sourceLineNo">253</span><a name="line.253"></a>
-<span class="sourceLineNo">254</span>    @Override<a name="line.254"></a>
-<span class="sourceLineNo">255</span>    public void execute(Runnable task) {<a name="line.255"></a>
-<span class="sourceLineNo">256</span>      // If this operation was successfully cancelled already, calling the runnable will be a noop.<a name="line.256"></a>
-<span class="sourceLineNo">257</span>      // This also avoids a race where if outputFuture is cancelled, it will call taskFuture.cancel,<a name="line.257"></a>
-<span class="sourceLineNo">258</span>      // which will call newFuture.setFuture(oldFuture), to allow the next task in the queue to run<a name="line.258"></a>
-<span class="sourceLineNo">259</span>      // without waiting for the user's executor to run our submitted Runnable. However, this can<a name="line.259"></a>
-<span class="sourceLineNo">260</span>      // interact poorly with the reentrancy-avoiding behavior of this executor - when the operation<a name="line.260"></a>
-<span class="sourceLineNo">261</span>      // before the cancelled future completes, it will synchronously complete both the newFuture<a name="line.261"></a>
-<span class="sourceLineNo">262</span>      // from the cancelled operation and its own. This can cause one runnable to queue two tasks,<a name="line.262"></a>
-<span class="sourceLineNo">263</span>      // breaking the invariant this method relies on to iteratively run the next task after the<a name="line.263"></a>
-<span class="sourceLineNo">264</span>      // previous one completes.<a name="line.264"></a>
-<span class="sourceLineNo">265</span>      if (get() == RunningState.CANCELLED) {<a name="line.265"></a>
-<span class="sourceLineNo">266</span>        delegate = null;<a name="line.266"></a>
-<span class="sourceLineNo">267</span>        sequencer = null;<a name="line.267"></a>
-<span class="sourceLineNo">268</span>        return;<a name="line.268"></a>
-<span class="sourceLineNo">269</span>      }<a name="line.269"></a>
-<span class="sourceLineNo">270</span>      submitting = Thread.currentThread();<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      try {<a name="line.271"></a>
-<span class="sourceLineNo">272</span>        ThreadConfinedTaskQueue submittingTaskQueue = sequencer.latestTaskQueue;<a name="line.272"></a>
-<span class="sourceLineNo">273</span>        if (submittingTaskQueue.thread == submitting) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>          sequencer = null;<a name="line.274"></a>
-<span class="sourceLineNo">275</span>          // Submit from inside a reentrant submit. We don't know if this one will be reentrant (and<a name="line.275"></a>
-<span class="sourceLineNo">276</span>          // can't know without submitting something to the executor) so queue to run iteratively.<a name="line.276"></a>
-<span class="sourceLineNo">277</span>          // Task must be null, since each execution on this executor can only produce one more<a name="line.277"></a>
-<span class="sourceLineNo">278</span>          // execution.<a name="line.278"></a>
-<span class="sourceLineNo">279</span>          checkState(submittingTaskQueue.nextTask == null);<a name="line.279"></a>
-<span class="sourceLineNo">280</span>          submittingTaskQueue.nextTask = task;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>          submittingTaskQueue.nextExecutor = delegate;<a name="line.281"></a>
-<span class="sourceLineNo">282</span>          delegate = null;<a name="line.282"></a>
-<span class="sourceLineNo">283</span>        } else {<a name="line.283"></a>
-<span class="sourceLineNo">284</span>          Executor localDelegate = delegate;<a name="line.284"></a>
-<span class="sourceLineNo">285</span>          delegate = null;<a name="line.285"></a>
-<span class="sourceLineNo">286</span>          this.task = task;<a name="line.286"></a>
-<span class="sourceLineNo">287</span>          localDelegate.execute(this);<a name="line.287"></a>
-<span class="sourceLineNo">288</span>        }<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      } finally {<a name="line.289"></a>
-<span class="sourceLineNo">290</span>        // Important to null this out here - if we did *not* execute inline, we might still<a name="line.290"></a>
-<span class="sourceLineNo">291</span>        // run() on the same thread that called execute() - such as in a thread pool, and think<a name="line.291"></a>
-<span class="sourceLineNo">292</span>        // that it was happening inline. As a side benefit, avoids holding on to the Thread object<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        // longer than necessary.<a name="line.293"></a>
-<span class="sourceLineNo">294</span>        submitting = null;<a name="line.294"></a>
-<span class="sourceLineNo">295</span>      }<a name="line.295"></a>
-<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">205</span>    // newFuture's lifetime is determined by taskFuture, which can't complete before oldFuture<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    // unless taskFuture is cancelled, in which case it falls back to oldFuture. This ensures that<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    // if the future we return is cancelled, we don't begin execution of the next task until after<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    // oldFuture completes.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    Runnable listener =<a name="line.209"></a>
+<span class="sourceLineNo">210</span>        new Runnable() {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>          @Override<a name="line.211"></a>
+<span class="sourceLineNo">212</span>          public void run() {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>            if (taskFuture.isDone()) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>              // Since the value of oldFuture can only ever be immediateFuture(null) or setFuture of<a name="line.214"></a>
+<span class="sourceLineNo">215</span>              // a future that eventually came from immediateFuture(null), this doesn't leak<a name="line.215"></a>
+<span class="sourceLineNo">216</span>              // throwables or completion values.<a name="line.216"></a>
+<span class="sourceLineNo">217</span>              newFuture.setFuture(oldFuture);<a name="line.217"></a>
+<span class="sourceLineNo">218</span>            } else if (outputFuture.isCancelled() &amp;&amp; taskExecutor.trySetCancelled()) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>              // If this CAS succeeds, we know that the provided callable will never be invoked,<a name="line.219"></a>
+<span class="sourceLineNo">220</span>              // so when oldFuture completes it is safe to allow the next submitted task to<a name="line.220"></a>
+<span class="sourceLineNo">221</span>              // proceed. Doing this immediately here lets the next task run without waiting for<a name="line.221"></a>
+<span class="sourceLineNo">222</span>              // the cancelled task's executor to run the noop AsyncCallable.<a name="line.222"></a>
+<span class="sourceLineNo">223</span>              //<a name="line.223"></a>
+<span class="sourceLineNo">224</span>              // ---<a name="line.224"></a>
+<span class="sourceLineNo">225</span>              //<a name="line.225"></a>
+<span class="sourceLineNo">226</span>              // If the CAS fails, the provided callable already started running (or it is about<a name="line.226"></a>
+<span class="sourceLineNo">227</span>              // to). Our contract promises:<a name="line.227"></a>
+<span class="sourceLineNo">228</span>              //<a name="line.228"></a>
+<span class="sourceLineNo">229</span>              // 1. not to execute a new callable until the old one has returned<a name="line.229"></a>
+<span class="sourceLineNo">230</span>              //<a name="line.230"></a>
+<span class="sourceLineNo">231</span>              // If we were to cancel taskFuture, that would let the next task start while the old<a name="line.231"></a>
+<span class="sourceLineNo">232</span>              // one is still running.<a name="line.232"></a>
+<span class="sourceLineNo">233</span>              //<a name="line.233"></a>
+<span class="sourceLineNo">234</span>              // Now, maybe we could tweak our implementation to not start the next task until the<a name="line.234"></a>
+<span class="sourceLineNo">235</span>              // callable actually completes. (We could detect completion in our wrapper<a name="line.235"></a>
+<span class="sourceLineNo">236</span>              // `AsyncCallable task`.) However, our contract also promises:<a name="line.236"></a>
+<span class="sourceLineNo">237</span>              //<a name="line.237"></a>
+<span class="sourceLineNo">238</span>              // 2. not to cancel any Future the user returned from an AsyncCallable<a name="line.238"></a>
+<span class="sourceLineNo">239</span>              //<a name="line.239"></a>
+<span class="sourceLineNo">240</span>              // We promise this because, once we cancel that Future, we would no longer be able to<a name="line.240"></a>
+<span class="sourceLineNo">241</span>              // tell when any underlying work it is doing is done. Thus, we might start a new task<a name="line.241"></a>
+<span class="sourceLineNo">242</span>              // while that underlying work is still running.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>              //<a name="line.243"></a>
+<span class="sourceLineNo">244</span>              // So that is why we cancel only in the case of CAS success.<a name="line.244"></a>
+<span class="sourceLineNo">245</span>              taskFuture.cancel(false);<a name="line.245"></a>
+<span class="sourceLineNo">246</span>            }<a name="line.246"></a>
+<span class="sourceLineNo">247</span>          }<a name="line.247"></a>
+<span class="sourceLineNo">248</span>        };<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    // Adding the listener to both futures guarantees that newFuture will aways be set. Adding to<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    // taskFuture guarantees completion if the callable is invoked, and adding to outputFuture<a name="line.250"></a>
+<span class="sourceLineNo">251</span>    // propagates cancellation if the callable has not yet been invoked.<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    outputFuture.addListener(listener, directExecutor());<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    taskFuture.addListener(listener, directExecutor());<a name="line.253"></a>
+<span class="sourceLineNo">254</span><a name="line.254"></a>
+<span class="sourceLineNo">255</span>    return outputFuture;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  }<a name="line.256"></a>
+<span class="sourceLineNo">257</span><a name="line.257"></a>
+<span class="sourceLineNo">258</span>  enum RunningState {<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    NOT_RUN,<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    CANCELLED,<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    STARTED,<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
+<span class="sourceLineNo">263</span><a name="line.263"></a>
+<span class="sourceLineNo">264</span>  /**<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * This class helps avoid a StackOverflowError when large numbers of tasks are submitted with<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * {@link MoreExecutors#directExecutor}. Normally, when the first future completes, all the other<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * tasks would be called recursively. Here, we detect that the delegate executor is executing<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * inline, and maintain a queue to dispatch tasks iteratively. There is one instance of this class<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * per call to submit() or submitAsync(), and each instance supports only one call to execute().<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * &lt;p&gt;This class would certainly be simpler and easier to reason about if it were built with<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * ThreadLocal; however, ThreadLocal is not well optimized for the case where the ThreadLocal is<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * non-static, and is initialized/removed frequently - this causes churn in the Thread specific<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * hashmaps. Using a static ThreadLocal to avoid that overhead would mean that different<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * ExecutionSequencer objects interfere with each other, which would be undesirable, in addition<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * to increasing the memory footprint of every thread that interacted with it. In order to release<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   * entries in thread-specific maps when the ThreadLocal object itself is no longer referenced,<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * ThreadLocal is usually implemented with a WeakReference, which can have negative performance<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * properties; for example, calling WeakReference.get() on Android will block during an<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * otherwise-concurrent GC cycle.<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   */<a name="line.281"></a>
+<span class="sourceLineNo">282</span>  @SuppressWarnings("ShouldNotSubclass") // Saving an allocation here is worth it<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  private static final class TaskNonReentrantExecutor extends AtomicReference&lt;RunningState&gt;<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      implements Executor, Runnable {<a name="line.284"></a>
+<span class="sourceLineNo">285</span><a name="line.285"></a>
+<span class="sourceLineNo">286</span>    /**<a name="line.286"></a>
+<span class="sourceLineNo">287</span>     * Used to update and read the latestTaskQueue field. Set to null once the runnable has been run<a name="line.287"></a>
+<span class="sourceLineNo">288</span>     * or queued.<a name="line.288"></a>
+<span class="sourceLineNo">289</span>     */<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    ExecutionSequencer sequencer;<a name="line.290"></a>
+<span class="sourceLineNo">291</span><a name="line.291"></a>
+<span class="sourceLineNo">292</span>    /**<a name="line.292"></a>
+<span class="sourceLineNo">293</span>     * Executor the task was set to run on. Set to null when the task has been queued, run, or<a name="line.293"></a>
+<span class="sourceLineNo">294</span>     * cancelled.<a name="line.294"></a>
+<span class="sourceLineNo">295</span>     */<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    Executor delegate;<a name="line.296"></a>
 <span class="sourceLineNo">297</span><a name="line.297"></a>
-<span class="sourceLineNo">298</span>    @SuppressWarnings("ShortCircuitBoolean")<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    @Override<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    public void run() {<a name="line.300"></a>
-<span class="sourceLineNo">301</span>      Thread currentThread = Thread.currentThread();<a name="line.301"></a>
-<span class="sourceLineNo">302</span>      if (currentThread != submitting) {<a name="line.302"></a>
-<span class="sourceLineNo">303</span>        Runnable localTask = task;<a name="line.303"></a>
-<span class="sourceLineNo">304</span>        task = null;<a name="line.304"></a>
-<span class="sourceLineNo">305</span>        localTask.run();<a name="line.305"></a>
-<span class="sourceLineNo">306</span>        return;<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      }<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      // Executor called reentrantly! Make sure that further calls don't overflow stack. Further<a name="line.308"></a>
-<span class="sourceLineNo">309</span>      // reentrant calls will see that their current thread is the same as the one set in<a name="line.309"></a>
-<span class="sourceLineNo">310</span>      // latestTaskQueue, and queue rather than calling execute() directly.<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      ThreadConfinedTaskQueue executingTaskQueue = new ThreadConfinedTaskQueue();<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      executingTaskQueue.thread = currentThread;<a name="line.312"></a>
-<span class="sourceLineNo">313</span>      // Unconditionally set; there is no risk of throwing away a queued task from another thread,<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      // because in order for the current task to run on this executor the previous task must have<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      // already started execution. Because each task on a TaskNonReentrantExecutor can only produce<a name="line.315"></a>
-<span class="sourceLineNo">316</span>      // one execute() call to another instance from the same ExecutionSequencer, we know by<a name="line.316"></a>
-<span class="sourceLineNo">317</span>      // induction that the task that launched this one must not have added any other runnables to<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      // that thread's queue, and thus we cannot be replacing a TaskAndThread object that would<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      // otherwise have another task queued on to it. Note the exception to this, cancellation, is<a name="line.319"></a>
-<span class="sourceLineNo">320</span>      // specially handled in execute() - execute() calls triggered by cancellation are no-ops, and<a name="line.320"></a>
-<span class="sourceLineNo">321</span>      // thus don't count.<a name="line.321"></a>
-<span class="sourceLineNo">322</span>      sequencer.latestTaskQueue = executingTaskQueue;<a name="line.322"></a>
-<span class="sourceLineNo">323</span>      sequencer = null;<a name="line.323"></a>
-<span class="sourceLineNo">324</span>      try {<a name="line.324"></a>
-<span class="sourceLineNo">325</span>        Runnable localTask = task;<a name="line.325"></a>
-<span class="sourceLineNo">326</span>        task = null;<a name="line.326"></a>
-<span class="sourceLineNo">327</span>        localTask.run();<a name="line.327"></a>
-<span class="sourceLineNo">328</span>        // Now check if our task attempted to reentrantly execute the next task.<a name="line.328"></a>
-<span class="sourceLineNo">329</span>        Runnable queuedTask;<a name="line.329"></a>
-<span class="sourceLineNo">330</span>        Executor queuedExecutor;<a name="line.330"></a>
-<span class="sourceLineNo">331</span>        // Intentionally using non-short-circuit operator<a name="line.331"></a>
-<span class="sourceLineNo">332</span>        while ((queuedTask = executingTaskQueue.nextTask) != null<a name="line.332"></a>
-<span class="sourceLineNo">333</span>            &amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>          executingTaskQueue.nextTask = null;<a name="line.334"></a>
-<span class="sourceLineNo">335</span>          executingTaskQueue.nextExecutor = null;<a name="line.335"></a>
-<span class="sourceLineNo">336</span>          queuedExecutor.execute(queuedTask);<a name="line.336"></a>
-<span class="sourceLineNo">337</span>        }<a name="line.337"></a>
-<span class="sourceLineNo">338</span>      } finally {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>        // Null out the thread field, so that we don't leak a reference to Thread, and so that<a name="line.339"></a>
-<span class="sourceLineNo">340</span>        // future `thread == currentThread()` calls from this thread don't incorrectly queue instead<a name="line.340"></a>
-<span class="sourceLineNo">341</span>        // of executing. Don't null out the latestTaskQueue field, because the work done here<a name="line.341"></a>
-<span class="sourceLineNo">342</span>        // may have scheduled more operations on another thread, and if those operations then<a name="line.342"></a>
-<span class="sourceLineNo">343</span>        // trigger reentrant calls that thread will have updated the latestTaskQueue field, and<a name="line.343"></a>
-<span class="sourceLineNo">344</span>        // we'd be interfering with their operation.<a name="line.344"></a>
-<span class="sourceLineNo">345</span>        executingTaskQueue.thread = null;<a name="line.345"></a>
-<span class="sourceLineNo">346</span>      }<a name="line.346"></a>
-<span class="sourceLineNo">347</span>    }<a name="line.347"></a>
-<span class="sourceLineNo">348</span><a name="line.348"></a>
-<span class="sourceLineNo">349</span>    private boolean trySetStarted() {<a name="line.349"></a>
-<span class="sourceLineNo">350</span>      return compareAndSet(NOT_RUN, STARTED);<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    }<a name="line.351"></a>
-<span class="sourceLineNo">352</span><a name="line.352"></a>
-<span class="sourceLineNo">353</span>    private boolean trySetCancelled() {<a name="line.353"></a>
-<span class="sourceLineNo">354</span>      return compareAndSet(NOT_RUN, CANCELLED);<a name="line.354"></a>
+<span class="sourceLineNo">298</span>    /**<a name="line.298"></a>
+<span class="sourceLineNo">299</span>     * Set before calling delegate.execute(); set to null once run, so that it can be GCed; this<a name="line.299"></a>
+<span class="sourceLineNo">300</span>     * object may live on after, if submitAsync returns an incomplete future.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     */<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    Runnable task;<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>    /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    Thread submitting;<a name="line.305"></a>
+<span class="sourceLineNo">306</span><a name="line.306"></a>
+<span class="sourceLineNo">307</span>    private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>      super(NOT_RUN);<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      this.delegate = delegate;<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      this.sequencer = sequencer;<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    }<a name="line.311"></a>
+<span class="sourceLineNo">312</span><a name="line.312"></a>
+<span class="sourceLineNo">313</span>    @Override<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    public void execute(Runnable task) {<a name="line.314"></a>
+<span class="sourceLineNo">315</span>      // If this operation was successfully cancelled already, calling the runnable will be a noop.<a name="line.315"></a>
+<span class="sourceLineNo">316</span>      // This also avoids a race where if outputFuture is cancelled, it will call taskFuture.cancel,<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      // which will call newFuture.setFuture(oldFuture), to allow the next task in the queue to run<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      // without waiting for the user's executor to run our submitted Runnable. However, this can<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      // interact poorly with the reentrancy-avoiding behavior of this executor - when the operation<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      // before the cancelled future completes, it will synchronously complete both the newFuture<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      // from the cancelled operation and its own. This can cause one runnable to queue two tasks,<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      // breaking the invariant this method relies on to iteratively run the next task after the<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      // previous one completes.<a name="line.323"></a>
+<span class="sourceLineNo">324</span>      if (get() == RunningState.CANCELLED) {<a name="line.324"></a>
+<span class="sourceLineNo">325</span>        delegate = null;<a name="line.325"></a>
+<span class="sourceLineNo">326</span>        sequencer = null;<a name="line.326"></a>
+<span class="sourceLineNo">327</span>        return;<a name="line.327"></a>
+<span class="sourceLineNo">328</span>      }<a name="line.328"></a>
+<span class="sourceLineNo">329</span>      submitting = Thread.currentThread();<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      try {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>        ThreadConfinedTaskQueue submittingTaskQueue = sequencer.latestTaskQueue;<a name="line.331"></a>
+<span class="sourceLineNo">332</span>        if (submittingTaskQueue.thread == submitting) {<a name="line.332"></a>
+<span class="sourceLineNo">333</span>          sequencer = null;<a name="line.333"></a>
+<span class="sourceLineNo">334</span>          // Submit from inside a reentrant submit. We don't know if this one will be reentrant (and<a name="line.334"></a>
+<span class="sourceLineNo">335</span>          // can't know without submitting something to the executor) so queue to run iteratively.<a name="line.335"></a>
+<span class="sourceLineNo">336</span>          // Task must be null, since each execution on this executor can only produce one more<a name="line.336"></a>
+<span class="sourceLineNo">337</span>          // execution.<a name="line.337"></a>
+<span class="sourceLineNo">338</span>          checkState(submittingTaskQueue.nextTask == null);<a name="line.338"></a>
+<span class="sourceLineNo">339</span>          submittingTaskQueue.nextTask = task;<a name="line.339"></a>
+<span class="sourceLineNo">340</span>          submittingTaskQueue.nextExecutor = delegate;<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          delegate = null;<a name="line.341"></a>
+<span class="sourceLineNo">342</span>        } else {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>          Executor localDelegate = delegate;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>          delegate = null;<a name="line.344"></a>
+<span class="sourceLineNo">345</span>          this.task = task;<a name="line.345"></a>
+<span class="sourceLineNo">346</span>          localDelegate.execute(this);<a name="line.346"></a>
+<span class="sourceLineNo">347</span>        }<a name="line.347"></a>
+<span class="sourceLineNo">348</span>      } finally {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>        // Important to null this out here - if we did *not* execute inline, we might still<a name="line.349"></a>
+<span class="sourceLineNo">350</span>        // run() on the same thread that called execute() - such as in a thread pool, and think<a name="line.350"></a>
+<span class="sourceLineNo">351</span>        // that it was happening inline. As a side benefit, avoids holding on to the Thread object<a name="line.351"></a>
+<span class="sourceLineNo">352</span>        // longer than necessary.<a name="line.352"></a>
+<span class="sourceLineNo">353</span>        submitting = null;<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      }<a name="line.354"></a>
 <span class="sourceLineNo">355</span>    }<a name="line.355"></a>
-<span class="sourceLineNo">356</span>  }<a name="line.356"></a>
-<span class="sourceLineNo">357</span>}<a name="line.357"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>    @SuppressWarnings("ShortCircuitBoolean")<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    @Override<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    public void run() {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      Thread currentThread = Thread.currentThread();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      if (currentThread != submitting) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>        Runnable localTask = task;<a name="line.362"></a>
+<span class="sourceLineNo">363</span>        task = null;<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        localTask.run();<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        return;<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      }<a name="line.366"></a>
+<span class="sourceLineNo">367</span>      // Executor called reentrantly! Make sure that further calls don't overflow stack. Further<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      // reentrant calls will see that their current thread is the same as the one set in<a name="line.368"></a>
+<span class="sourceLineNo">369</span>      // latestTaskQueue, and queue rather than calling execute() directly.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      ThreadConfinedTaskQueue executingTaskQueue = new ThreadConfinedTaskQueue();<a name="line.370"></a>
+<span class="sourceLineNo">371</span>      executingTaskQueue.thread = currentThread;<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      // Unconditionally set; there is no risk of throwing away a queued task from another thread,<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      // because in order for the current task to run on this executor the previous task must have<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      // already started execution. Because each task on a TaskNonReentrantExecutor can only produce<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      // one execute() call to another instance from the same ExecutionSequencer, we know by<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      // induction that the task that launched this one must not have added any other runnables to<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      // that thread's queue, and thus we cannot be replacing a TaskAndThread object that would<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      // otherwise have another task queued on to it. Note the exception to this, cancellation, is<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      // specially handled in execute() - execute() calls triggered by cancellation are no-ops, and<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      // thus don't count.<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      sequencer.latestTaskQueue = executingTaskQueue;<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      sequencer = null;<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      try {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        Runnable localTask = task;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>        task = null;<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        localTask.run();<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        // Now check if our task attempted to reentrantly execute the next task.<a name="line.387"></a>
+<span class="sourceLineNo">388</span>        Runnable queuedTask;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>        Executor queuedExecutor;<a name="line.389"></a>
+<span class="sourceLineNo">390</span>        // Intentionally using non-short-circuit operator<a name="line.390"></a>
+<span class="sourceLineNo">391</span>        while ((queuedTask = executingTaskQueue.nextTask) != null<a name="line.391"></a>
+<span class="sourceLineNo">392</span>            &amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {<a name="line.392"></a>
+<span class="sourceLineNo">393</span>          executingTaskQueue.nextTask = null;<a name="line.393"></a>
+<span class="sourceLineNo">394</span>          executingTaskQueue.nextExecutor = null;<a name="line.394"></a>
+<span class="sourceLineNo">395</span>          queuedExecutor.execute(queuedTask);<a name="line.395"></a>
+<span class="sourceLineNo">396</span>        }<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      } finally {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        // Null out the thread field, so that we don't leak a reference to Thread, and so that<a name="line.398"></a>
+<span class="sourceLineNo">399</span>        // future `thread == currentThread()` calls from this thread don't incorrectly queue instead<a name="line.399"></a>
+<span class="sourceLineNo">400</span>        // of executing. Don't null out the latestTaskQueue field, because the work done here<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        // may have scheduled more operations on another thread, and if those operations then<a name="line.401"></a>
+<span class="sourceLineNo">402</span>        // trigger reentrant calls that thread will have updated the latestTaskQueue field, and<a name="line.402"></a>
+<span class="sourceLineNo">403</span>        // we'd be interfering with their operation.<a name="line.403"></a>
+<span class="sourceLineNo">404</span>        executingTaskQueue.thread = null;<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>    }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>    private boolean trySetStarted() {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      return compareAndSet(NOT_RUN, STARTED);<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    }<a name="line.410"></a>
+<span class="sourceLineNo">411</span><a name="line.411"></a>
+<span class="sourceLineNo">412</span>    private boolean trySetCancelled() {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      return compareAndSet(NOT_RUN, CANCELLED);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    }<a name="line.414"></a>
+<span class="sourceLineNo">415</span>  }<a name="line.415"></a>
+<span class="sourceLineNo">416</span>}<a name="line.416"></a>
 
 
 
