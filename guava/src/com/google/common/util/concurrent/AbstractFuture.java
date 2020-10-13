@@ -1156,7 +1156,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     try {
       V value = getUninterruptibly(this);
       builder.append("SUCCESS, result=[");
-      appendUserObject(builder, value);
+      appendResultObject(builder, value);
       builder.append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
@@ -1164,6 +1164,24 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       builder.append("CANCELLED"); // shouldn't be reachable
     } catch (RuntimeException e) {
       builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
+    }
+  }
+
+  /**
+   * Any object can be the result of a Future, and not every object has a reasonable toString()
+   * implementation. Using a reconstruction of the default Object.toString() prevents OOMs and stack
+   * overflows, and helps avoid sensitive data inadvertently ending up in exception messages.
+   */
+  private void appendResultObject(StringBuilder builder, Object o) {
+    if (o == null) {
+      builder.append("null");
+    } else if (o == this) {
+      builder.append("this future");
+    } else {
+      builder
+          .append(o.getClass().getName())
+          .append("@")
+          .append(Integer.toHexString(System.identityHashCode(o)));
     }
   }
 
