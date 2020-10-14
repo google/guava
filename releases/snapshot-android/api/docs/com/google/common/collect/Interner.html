@@ -104,9 +104,13 @@ var activeTableTab = "activeTableTab";
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  @DoNotMock(value="Use Interners.new*Interner")
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/Interner.html#line.34">Interner</a>&lt;E&gt;</pre>
-<div class="block">Provides equivalent behavior to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#intern--" title="class or interface in java.lang"><code>String.intern()</code></a> for other immutable types. Common
- implementations are available from the <a href="../../../../com/google/common/collect/Interners.html" title="class in com.google.common.collect"><code>Interners</code></a> class.</div>
+public interface <a href="../../../../src-html/com/google/common/collect/Interner.html#line.38">Interner</a>&lt;E&gt;</pre>
+<div class="block">Provides similar behavior to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#intern--" title="class or interface in java.lang"><code>String.intern()</code></a> for any immutable type. Common implementations
+ are available from the <a href="../../../../com/google/common/collect/Interners.html" title="class in com.google.common.collect"><code>Interners</code></a> class.
+
+ <p>Note that <code>String.intern()</code> has some well-known performance limitations, and should
+ generally be avoided. Prefer <a href="../../../../com/google/common/collect/Interners.html#newWeakInterner--"><code>Interners.newWeakInterner()</code></a> or another <code>Interner</code>
+ implementation even for <code>String</code> interning.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.0</dd>
@@ -162,7 +166,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Interne
 <li class="blockList">
 <h4>intern</h4>
 <pre>@CanIgnoreReturnValue
-<a href="../../../../com/google/common/collect/Interner.html" title="type parameter in Interner">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interner.html#line.48">intern</a>(<a href="../../../../com/google/common/collect/Interner.html" title="type parameter in Interner">E</a>&nbsp;sample)</pre>
+<a href="../../../../com/google/common/collect/Interner.html" title="type parameter in Interner">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interner.html#line.52">intern</a>(<a href="../../../../com/google/common/collect/Interner.html" title="type parameter in Interner">E</a>&nbsp;sample)</pre>
 <div class="block">Chooses and returns the representative instance for any of a collection of instances that are
  equal to each other. If two <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equal</a> inputs are given to this method,
  both calls will return the same instance. That is, <code>intern(a).equals(a)</code> always holds,
