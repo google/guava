@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Function;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
@@ -69,11 +70,6 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(secondCallable.called).isFalse();
     firstFuture.set(null);
     assertThat(secondCallable.called).isTrue();
-  }
-
-  public void testCancellationNotPropagatedIfAlreadyStarted() {
-    serializer.submitAsync(firstCallable, directExecutor()).cancel(true);
-    assertThat(firstFuture.isCancelled()).isFalse();
   }
 
   public void testCancellationDoesNotViolateSerialization() {
@@ -302,6 +298,25 @@ public class ExecutionSequencerTest extends TestCase {
         .isLessThan(Thread.currentThread().getStackTrace().length + 100);
   }
 
+  private static Function<Integer, Integer> add(final int delta) {
+    return new Function<Integer, Integer>() {
+      @Override
+      public Integer apply(Integer input) {
+        return input + delta;
+      }
+    };
+  }
+
+  private static AsyncCallable<Integer> asyncAdd(
+      final ListenableFuture<Integer> future, final int delta, final Executor executor) {
+    return new AsyncCallable<Integer>() {
+      @Override
+      public ListenableFuture<Integer> call() throws Exception {
+        return Futures.transform(future, add(delta), executor);
+      }
+    };
+  }
+
   private static final class LongHolder {
     long count;
   }
@@ -391,8 +406,9 @@ public class ExecutionSequencerTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ObjectToString") // Intended behavior
   public void testToString() {
-    Future<?> first = serializer.submitAsync(firstCallable, directExecutor());
+    Future<?> unused = serializer.submitAsync(firstCallable, directExecutor());
     TestCallable secondCallable = new TestCallable(SettableFuture.<Void>create());
     Future<?> second = serializer.submitAsync(secondCallable, directExecutor());
     assertThat(secondCallable.called).isFalse();
