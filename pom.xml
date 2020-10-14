@@ -37,12 +37,11 @@
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <module.status>integration</module.status>
-    <module.parentVersion>HEAD-jre-SNAPSHOT</module.parentVersion>
     <variant.jvmVersion>8</variant.jvmVersion>
-    <variant.checkerframework>"checker-qual"</variant.checkerframework>
+    <variant.checkerframework>checker-qual</variant.checkerframework>
     <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmVersion>6</otherVariant.jvmVersion>
-    <otherVariant.checkerframework>"checker-compat-qual", "version": { "requires": "2.5.5" }</otherVariant.checkerframework>
+    <otherVariant.checkerframework>checker-compat-qual</otherVariant.checkerframework>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
