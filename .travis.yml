@@ -1,7 +1,9 @@
 sudo: false
 
 language: java
-
+arch:
+ - amd64
+ - ppc64le
 jdk:
   - openjdk8
   - openjdk11
