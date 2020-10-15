@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 mvn clean install -DskipTests
 mvn clean install -DskipTests -f android
 
