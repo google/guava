@@ -19,7 +19,7 @@ install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4j
 script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 
 before_install:
-travis_retry travis_wait mvn install --projects janusgraph-${MODULE} --also-make \
+script: travis_retry travis_wait mvn install --projects janusgraph-${MODULE} --also-make \
           -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode --show-version ${INSTALL_ARGS};
 
 after_success:
