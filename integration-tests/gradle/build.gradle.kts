@@ -47,16 +47,20 @@ subprojects {
             // - reduced runtime classpath is used (w/o annotation libraries)
             // - capability conflicts are detected between Google Collections and Listenablefuture
             if (name.contains("Java6")) {
-                if (name.contains("runtimeClasspath")) {
+                if (name.contains("RuntimeClasspath")) {
                     expectedReducedRuntimeClasspathJava6
-                } else {
+                } else if (name.contains("CompileClasspath")) {
                     expectedCompileClasspathJava6
+                } else {
+                    error("unexpected classpath type: " + name)
                 }
             } else {
-                if (name.contains("runtimeClasspath")) {
+                if (name.contains("RuntimeClasspath")) {
                     expectedReducedRuntimeClasspathJava8
-                } else {
+                } else if (name.contains("CompileClasspath")) {
                     expectedCompileClasspathJava8
+                } else {
+                    error("unexpected classpath type: " + name)
                 }
             }
         }
