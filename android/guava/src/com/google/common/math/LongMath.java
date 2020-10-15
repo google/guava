@@ -1005,8 +1005,29 @@ public final class LongMath {
       checkNonNegative("n", n);
       return false;
     }
-    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
-      return true;
+    if (n < 66) {
+      // Encode all primes less than 66 into mask without 0 and 1.
+      long mask =
+          (1L << (2 - 2))
+              | (1L << (3 - 2))
+              | (1L << (5 - 2))
+              | (1L << (7 - 2))
+              | (1L << (11 - 2))
+              | (1L << (13 - 2))
+              | (1L << (17 - 2))
+              | (1L << (19 - 2))
+              | (1L << (23 - 2))
+              | (1L << (29 - 2))
+              | (1L << (31 - 2))
+              | (1L << (37 - 2))
+              | (1L << (41 - 2))
+              | (1L << (43 - 2))
+              | (1L << (47 - 2))
+              | (1L << (53 - 2))
+              | (1L << (59 - 2))
+              | (1L << (61 - 2));
+      // Look up n within the mask.
+      return ((mask >> ((int) n - 2)) & 1) != 0;
     }
 
     if ((SIEVE_30 & (1 << (n % 30))) != 0) {
