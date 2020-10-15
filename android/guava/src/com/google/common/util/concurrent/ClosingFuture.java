@@ -1040,6 +1040,7 @@ public final class ClosingFuture<V> {
    * @return {@code false} if the step could not be cancelled, typically because it has already
    *     completed normally; {@code true} otherwise
    */
+  @CanIgnoreReturnValue
   public boolean cancel(boolean mayInterruptIfRunning) {
     logger.log(FINER, "cancelling {0}", this);
     boolean cancelled = future.cancel(mayInterruptIfRunning);
