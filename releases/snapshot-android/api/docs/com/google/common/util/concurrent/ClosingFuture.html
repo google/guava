@@ -1110,7 +1110,8 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>cancel</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.1043">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
+<pre>@CanIgnoreReturnValue
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.1044">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block">Attempts to cancel execution of this step. This attempt will fail if the step has already
  completed, has already been cancelled, or could not be cancelled for some other reason. If
  successful, and this step has not started when <code>cancel</code> is called, this step should never
@@ -1136,7 +1137,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2044">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2045">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -1169,7 +1170,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>finalize</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2050">finalize</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2051">finalize</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Called by the garbage collector on an object when garbage collection
  determines that there are no more references to the object.
