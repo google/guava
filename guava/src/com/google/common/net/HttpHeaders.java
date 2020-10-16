@@ -270,14 +270,14 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP">{@code
    * Cross-Origin-Embedder-Policy}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String CROSS_ORIGIN_EMBEDDER_POLICY = "Cross-Origin-Embedder-Policy";
   /**
    * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP-RO">{@code
    * Cross-Origin-Embedder-Policy-Report-Only}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY =
       "Cross-Origin-Embedder-Policy-Report-Only";
@@ -478,49 +478,49 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA = "Sec-CH-UA";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-arch">{@code
    * Sec-CH-UA-Arch}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_ARCH = "Sec-CH-UA-Arch";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
    * Sec-CH-UA-Model}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform">{@code
    * Sec-CH-UA-Platform}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform-version">{@code
    * Sec-CH-UA-Platform-Version}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-full-version">{@code
    * Sec-CH-UA-Full-Version}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-mobile">{@code
    * Sec-CH-UA-Mobile}</a> header field name.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";
 

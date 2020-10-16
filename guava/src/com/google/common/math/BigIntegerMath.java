@@ -327,7 +327,7 @@ public final class BigIntegerMath {
    *
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not precisely representable as a {@code double}
-   * @since NEXT
+   * @since 30.0
    */
   @GwtIncompatible
   public static double roundToDouble(BigInteger x, RoundingMode mode) {
