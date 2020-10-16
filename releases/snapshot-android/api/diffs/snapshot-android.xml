@@ -10570,7 +10570,7 @@
  @param a first value to compare, returned if less than or equal to b.
  @param b second value to compare.
  @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="min" return="T"
@@ -10593,7 +10593,7 @@
  @param b second value to compare.
  @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
      comparator.
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="max" return="T extends java.lang.Comparable&lt;? super T&gt;"
@@ -10613,7 +10613,7 @@
  @param a first value to compare, returned if greater than or equal to b.
  @param b second value to compare.
  @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="max" return="T"
@@ -10636,7 +10636,7 @@
  @param b second value to compare.
  @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
      comparator.
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <doc>
@@ -45248,14 +45248,14 @@
 
  @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
      is not precisely representable as a {@code double}
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <doc>
     <![CDATA[A class for arithmetic on {@link BigDecimal} that is not covered by its built-in methods.
 
  @author Louis Wasserman
- @since NEXT]]>
+ @since 30.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.math.BigDecimalMath -->
@@ -45366,7 +45366,7 @@
 
  @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
      is not precisely representable as a {@code double}
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="divide" return="java.math.BigInteger"
@@ -46573,7 +46573,7 @@
 
  @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
      is not precisely representable as a {@code double}
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <doc>
@@ -48850,7 +48850,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP">{@code
  Cross-Origin-Embedder-Policy}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY" type="java.lang.String"
@@ -48861,7 +48861,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP-RO">{@code
  Cross-Origin-Embedder-Policy-Report-Only}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="CROSS_ORIGIN_OPENER_POLICY" type="java.lang.String"
@@ -49290,7 +49290,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
  header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_ARCH" type="java.lang.String"
@@ -49301,7 +49301,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-arch">{@code
  Sec-CH-UA-Arch}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_MODEL" type="java.lang.String"
@@ -49312,7 +49312,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
  Sec-CH-UA-Model}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_PLATFORM" type="java.lang.String"
@@ -49323,7 +49323,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform">{@code
  Sec-CH-UA-Platform}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_PLATFORM_VERSION" type="java.lang.String"
@@ -49334,7 +49334,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform-version">{@code
  Sec-CH-UA-Platform-Version}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_FULL_VERSION" type="java.lang.String"
@@ -49345,7 +49345,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-full-version">{@code
  Sec-CH-UA-Full-Version}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_MOBILE" type="java.lang.String"
@@ -49356,7 +49356,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-mobile">{@code
  Sec-CH-UA-Mobile}</a> header field name.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -50780,7 +50780,7 @@
       <doc>
       <![CDATA[Wildcard matching any "font" top-level media type.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="CACHE_MANIFEST_UTF_8" type="com.google.common.net.MediaType"
@@ -51655,7 +51655,7 @@
       <![CDATA[A collection of font outlines as defined by <a href="https://tools.ietf.org/html/rfc8081">RFC
  8081</a>.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="FONT_OTF" type="com.google.common.net.MediaType"
@@ -51666,7 +51666,7 @@
       <![CDATA[<a href="https://en.wikipedia.org/wiki/OpenType">Open Type Font Format</a> (OTF) as defined by
  <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="FONT_SFNT" type="com.google.common.net.MediaType"
@@ -51679,7 +51679,7 @@
  type for SFNT, but {@link #SFNT application/font-sfnt} may be necessary in certain situations
  for compatibility.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="FONT_TTF" type="com.google.common.net.MediaType"
@@ -51690,7 +51690,7 @@
       <![CDATA[<a href="https://en.wikipedia.org/wiki/TrueType">True Type Font Format</a> (TTF) as defined by
  <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="FONT_WOFF" type="com.google.common.net.MediaType"
@@ -51703,7 +51703,7 @@
  type for SFNT, but {@link #WOFF application/font-woff} may be necessary in certain situations
  for compatibility.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <field name="FONT_WOFF2" type="com.google.common.net.MediaType"
@@ -51716,7 +51716,7 @@
  media type for SFNT, but {@link #WOFF2 application/font-woff2} may be necessary in certain
  situations for compatibility.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </field>
     <doc>
@@ -62032,7 +62032,7 @@
  automatic-closing approach described above is safer.
 
  @param <V> the type of the value of this step
- @since NEXT]]>
+ @since 30.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ClosingFuture -->
@@ -67382,38 +67382,6 @@
  @param executor the executor in which the listeners callback methods will be run.]]>
       </doc>
     </method>
-    <method name="addListener"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
-     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
-     consider whether another executor would be more appropriate, as discussed in the docs for
-     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
-     for deletion in October 2020.">
-      <param name="listener" type="com.google.common.util.concurrent.ServiceManager.Listener"/>
-      <doc>
-      <![CDATA[Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The
- listener will not have previous state changes replayed, so it is suggested that listeners are
- added before any of the managed services are {@linkplain Service#startAsync started}.
-
- <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
- across calls to multiple listeners. Specifically, a given listener will have its callbacks
- invoked in the same order as the underlying service enters those states. Additionally, at most
- one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
- may execute concurrently, and listeners may execute in an order different from the one in which
- they were registered.
-
- <p>RuntimeExceptions thrown by a listener will be caught and logged.
-
- @param listener the listener to run when the manager changes state
- @since 15.0
- @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
-     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
-     consider whether another executor would be more appropriate, as discussed in the docs for
-     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
-     for deletion in October 2020.]]>
-      </doc>
-    </method>
     <method name="startAsync" return="com.google.common.util.concurrent.ServiceManager"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -68545,7 +68513,7 @@
       <![CDATA[Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
  uninterruptibly.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="awaitTerminationUninterruptibly"
@@ -68557,7 +68525,7 @@
       <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
  awaitTermination(long, TimeUnit)} uninterruptibly with no timeout.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <method name="awaitTerminationUninterruptibly" return="boolean"
@@ -68571,7 +68539,7 @@
       <![CDATA[Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
  awaitTermination(long, TimeUnit)} uninterruptibly.
 
- @since NEXT]]>
+ @since 30.0]]>
       </doc>
     </method>
     <doc>
