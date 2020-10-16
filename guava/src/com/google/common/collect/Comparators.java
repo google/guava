@@ -203,7 +203,7 @@ public final class Comparators {
    * @param a first value to compare, returned if less than or equal to b.
    * @param b second value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   public static <T extends Comparable<? super T>> T min(T a, T b) {
@@ -223,7 +223,7 @@ public final class Comparators {
    * @param b second value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
    *     comparator.
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   public static <T> T min(@Nullable T a, @Nullable T b, Comparator<T> comparator) {
@@ -241,7 +241,7 @@ public final class Comparators {
    * @param a first value to compare, returned if greater than or equal to b.
    * @param b second value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   public static <T extends Comparable<? super T>> T max(T a, T b) {
@@ -261,7 +261,7 @@ public final class Comparators {
    * @param b second value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
    *     comparator.
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   public static <T> T max(@Nullable T a, @Nullable T b, Comparator<T> comparator) {

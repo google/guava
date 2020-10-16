@@ -186,7 +186,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * automatic-closing approach described above is safer.
  *
  * @param <V> the type of the value of this step
- * @since NEXT
+ * @since 30.0
  */
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @Beta // @Beta for one release.

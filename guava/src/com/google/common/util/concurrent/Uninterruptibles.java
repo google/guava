@@ -478,7 +478,7 @@ public final class Uninterruptibles {
    * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT
+   * @since 30.0
    */
   @GwtIncompatible // concurrency
   @Beta
@@ -490,7 +490,7 @@ public final class Uninterruptibles {
    * Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
    * uninterruptibly.
    *
-   * @since NEXT
+   * @since 30.0
    */
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -519,7 +519,7 @@ public final class Uninterruptibles {
    * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
    * awaitTermination(long, TimeUnit)} uninterruptibly with no timeout.
    *
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   @GwtIncompatible // concurrency
@@ -532,7 +532,7 @@ public final class Uninterruptibles {
    * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
    * awaitTermination(long, TimeUnit)} uninterruptibly.
    *
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   @GwtIncompatible // concurrency
@@ -545,7 +545,7 @@ public final class Uninterruptibles {
    * Invokes {@code executor.}{@link ExecutorService#awaitTermination(long, TimeUnit)
    * awaitTermination(long, TimeUnit)} uninterruptibly.
    *
-   * @since NEXT
+   * @since 30.0
    */
   @Beta
   @GwtIncompatible // concurrency

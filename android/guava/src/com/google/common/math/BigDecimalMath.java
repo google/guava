@@ -22,7 +22,7 @@ import java.math.RoundingMode;
  * A class for arithmetic on {@link BigDecimal} that is not covered by its built-in methods.
  *
  * @author Louis Wasserman
- * @since NEXT
+ * @since 30.0
  */
 @GwtIncompatible
 public class BigDecimalMath {
@@ -47,7 +47,7 @@ public class BigDecimalMath {
    *
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not precisely representable as a {@code double}
-   * @since NEXT
+   * @since 30.0
    */
   public static double roundToDouble(BigDecimal x, RoundingMode mode) {
     return BigDecimalToDoubleRounder.INSTANCE.roundToDouble(x, mode);
