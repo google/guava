@@ -167,6 +167,7 @@ generate_jdiff_xml() {
   echo " Done."
 
   remove_unnecessary_comments "$TEMPDIR/$flavor/Guava_$version.xml"
+  perl -pi -e 's/(?<=errorMessageArgs" type="Object)/.../' "$TEMPDIR/$flavor/Guava_$version.xml"
 }
 
 # Generates a JDiff report.
