@@ -50,6 +50,9 @@ import java.util.Iterator;
  * verify() method, which is called <em>after</em> each sequence and is guaranteed to be called
  * using the latest values obtained from {@link IteratorTester#newTargetIterator()}.
  *
+ * <p>The value you pass to the parameter {@code steps} should be greater than the length of your
+ * iterator, so that this class can check that your iterator behaves correctly when it is exhausted.
+ *
  * <p>For example, to test {@link java.util.Collections#unmodifiableList(java.util.List)
  * Collections.unmodifiableList}'s iterator:
  *
@@ -61,7 +64,7 @@ import java.util.Iterator;
  *         Arrays.asList("a", "b", "c", "d", "e"));
  * IteratorTester<String> iteratorTester =
  *     new IteratorTester<String>(
- *         5,
+ *         6,
  *         IteratorFeature.UNMODIFIABLE,
  *         expectedElements,
  *         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -75,7 +78,7 @@ import java.util.Iterator;
  * }</pre>
  *
  * <p><b>Note</b>: It is necessary to use {@code IteratorTester.KnownOrder} as shown above, rather
- * than {@code KnownOrder} directly, because otherwise the code is not compilable.
+ * than {@code KnownOrder} directly, because otherwise the code cannot be compiled.
  *
  * @author Kevin Bourrillion
  * @author Chris Povirk
