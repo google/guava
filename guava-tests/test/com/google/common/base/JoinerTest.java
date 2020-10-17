@@ -26,11 +26,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
+import java.util.stream.Collectors;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -305,6 +304,13 @@ public class JoinerTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {
     }
+  }
+
+  public void testCollector() {
+    Joiner onChar = Joiner.on(' ');
+    List<String> input = Lists.newArrayList("This","works","as","a","stream","collector");
+    String result = input.stream().collect(onChar);
+    assertEquals("This works as a stream collector",result);
   }
 
   private static class DontStringMeBro implements CharSequence {

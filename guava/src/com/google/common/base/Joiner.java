@@ -19,12 +19,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.IOException;
-import java.util.AbstractList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -63,13 +67,17 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public class Joiner {
-  /** Returns a joiner which automatically places {@code separator} between consecutive elements. */
+public class Joiner implements Collector<Object, List<Object>, String> {
+  /**
+   * Returns a joiner which automatically places {@code separator} between consecutive elements.
+   */
   public static Joiner on(String separator) {
     return new Joiner(separator);
   }
 
-  /** Returns a joiner which automatically places {@code separator} between consecutive elements. */
+  /**
+   * Returns a joiner which automatically places {@code separator} between consecutive elements.
+   */
   public static Joiner on(char separator) {
     return new Joiner(String.valueOf(separator));
   }
@@ -121,7 +129,9 @@ public class Joiner {
     return appendTo(appendable, Arrays.asList(parts));
   }
 
-  /** Appends to {@code appendable} the string representation of each of the remaining arguments. */
+  /**
+   * Appends to {@code appendable} the string representation of each of the remaining arguments.
+   */
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(
       A appendable, @Nullable Object first, @Nullable Object second, Object... rest)
@@ -474,5 +484,33 @@ public class Joiner {
         }
       }
     };
+  }
+
+  @Override
+  public Supplier<List<Object>> supplier() {
+    return ArrayList::new;
+  }
+
+  @Override
+  public BiConsumer<List<Object>, Object> accumulator() {
+    return List::add;
+  }
+
+  @Override
+  public BinaryOperator<List<Object>> combiner() {
+    return (l1, l2) -> {
+      l1.addAll(l2);
+      return l1;
+    };
+  }
+
+  @Override
+  public Function<List<Object>, String> finisher() {
+    return this::join;
+  }
+
+  @Override
+  public Set<Characteristics> characteristics() {
+    return new HashSet<>();
   }
 }
