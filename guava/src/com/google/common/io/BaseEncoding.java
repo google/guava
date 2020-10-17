@@ -627,6 +627,7 @@ public abstract class BaseEncoding {
               }
             }
           }
+          bitBufferLength = 0;
           out.close();
         }
       };
