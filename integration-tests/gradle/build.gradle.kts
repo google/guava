@@ -62,21 +62,29 @@ subprojects {
       //   (for Android projects, the 'android' variant is always chosen)
       // - reduced runtime classpath is used (w/o annotation libraries)
       // - capability conflicts are detected between Google Collections and Listenablefuture
-      if (name.contains("Java6") || name.endsWith("Android")) {
-        if (name.contains("RuntimeClasspath")) {
-          expectedReducedRuntimeClasspathJava6
-        } else if (name.contains("CompileClasspath")) {
-          expectedCompileClasspathJava6
-        } else {
-          error("unexpected classpath type: " + name)
+      if (name.contains("Java6") || (name.endsWith("Android") && !name.contains("Java8Constraint")) ) {
+        when {
+            name.contains("RuntimeClasspath") -> {
+              expectedReducedRuntimeClasspathJava6
+            }
+            name.contains("CompileClasspath") -> {
+              expectedCompileClasspathJava6
+            }
+            else -> {
+              error("unexpected classpath type: $name")
+            }
         }
       } else {
-        if (name.contains("RuntimeClasspath")) {
-          expectedReducedRuntimeClasspathJava8
-        } else if (name.contains("CompileClasspath")) {
-          expectedCompileClasspathJava8
-        } else {
-          error("unexpected classpath type: " + name)
+        when {
+            name.contains("RuntimeClasspath") -> {
+              expectedReducedRuntimeClasspathJava8
+            }
+            name.contains("CompileClasspath") -> {
+              expectedCompileClasspathJava8
+            }
+            else -> {
+              error("unexpected classpath type: $name")
+            }
         }
       }
     }
@@ -85,10 +93,19 @@ subprojects {
   } else {
     guavaVersionJre.replace("jre", "android")
   }
-  val javaVersion = if (name.contains("Java6")) {
-    JavaVersion.VERSION_1_6
-  } else {
-    JavaVersion.VERSION_1_8
+  val javaVersion = when {
+      name.contains("Java8Constraint") -> {
+        JavaVersion.VERSION_1_6
+      }
+      name.contains("Java6Constraint") -> {
+        JavaVersion.VERSION_1_8
+      }
+      name.contains("Java6") -> {
+        JavaVersion.VERSION_1_6
+      }
+      else -> {
+        JavaVersion.VERSION_1_8
+      }
   }
 
   repositories {
@@ -116,6 +133,54 @@ subprojects {
             (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
           }?.apply {
             select(this)
+          }
+        }
+      }
+    }
+
+    if (name.contains("Java6Constraint")) {
+      dependencies {
+        constraints {
+          "api"("com.google.guava:guava") {
+            attributes {
+              attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 6)
+            }
+          }
+        }
+      }
+      configurations.all {
+        resolutionStrategy.capabilitiesResolution {
+          withCapability("com.google.guava:guava") {
+            candidates.find {
+              val variantName = it.javaClass.getDeclaredMethod("getVariantName")
+              (variantName.invoke(it) as String).contains("6")
+            }?.apply {
+              select(this)
+            }
+          }
+        }
+      }
+    }
+
+    if (name.contains("Java8Constraint")) {
+      dependencies {
+        constraints {
+          "api"("com.google.guava:guava") {
+            attributes {
+              attribute(Attribute.of("com.android.build.api.attributes.BuildTypeAttr", String::class.java), "jre")
+            }
+          }
+        }
+      }
+      configurations.all {
+        resolutionStrategy.capabilitiesResolution {
+          withCapability("com.google.guava:guava") {
+            candidates.find {
+              val variantName = it.javaClass.getDeclaredMethod("getVariantName")
+              (variantName.invoke(it) as String).contains("8")
+            }?.apply {
+              select(this)
+            }
           }
         }
       }
