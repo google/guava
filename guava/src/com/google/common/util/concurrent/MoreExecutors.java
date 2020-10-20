@@ -605,7 +605,7 @@ public final class MoreExecutors {
       TrustedListenableFutureTask<@Nullable Void> task =
           TrustedListenableFutureTask.create(command, null);
       ScheduledFuture<? extends @Nullable Object> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<>(task, scheduled);
+      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
     }
 
     @Override
@@ -622,7 +622,7 @@ public final class MoreExecutors {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<? extends @Nullable Object> scheduled =
           delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
-      return new ListenableScheduledTask<>(task, scheduled);
+      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
     }
 
     @Override
@@ -631,7 +631,7 @@ public final class MoreExecutors {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<? extends @Nullable Object> scheduled =
           delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
-      return new ListenableScheduledTask<>(task, scheduled);
+      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
     }
 
     private static final class ListenableScheduledTask<V extends @Nullable Object>

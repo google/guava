@@ -193,8 +193,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 28.2
    */
   @Beta
-  public static ListenableFuture<Void> submit(Runnable runnable, Executor executor) {
-    TrustedListenableFutureTask<Void> task = TrustedListenableFutureTask.create(runnable, null);
+  public static ListenableFuture<@Nullable Void> submit(Runnable runnable, Executor executor) {
+    TrustedListenableFutureTask<@Nullable Void> task =
+        TrustedListenableFutureTask.create(runnable, null);
     executor.execute(task);
     return task;
   }
