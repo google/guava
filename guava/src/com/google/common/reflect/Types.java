@@ -386,19 +386,28 @@ final class Types {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public @Nullable Object invoke(Object proxy, Method method, @Nullable Object @Nullable [] args)
+        throws Throwable {
       String methodName = method.getName();
       Method typeVariableMethod = typeVariableMethods.get(methodName);
       if (typeVariableMethod == null) {
         throw new UnsupportedOperationException(methodName);
       } else {
-        try {
+        if (args == null) {
           /*
-           * Checkers can't know whether it's safe for a reflective method to return null, and the
-           * current Checker Framework stubs forbid it. However, it's safe as long as we're careful to
-           * match the signatures of our TypeVariableImpl to those of java.util.reflect.TypeVariable.
+           * Method.invoke can run succesfully when given a null args argument -- as long as the
+           * method is a no-arg method, which is, thankfully, the only case in which
+           * InvocationHandler.invoke is passed a null args argument.
+           *
+           * However, nullness checkers may well define Method.invoke to *forbid* a null args
+           * argument: That ensures that callers don't pass null by accident through, e.g., a
+           * default-initialized field. Callers who intend to pass no arguments can do so explicitly
+           * by passing an empty array. So we do that here to accommodate more nullness checkers.
            */
-          return uncheckedCastToNonNull(typeVariableMethod.invoke(typeVariableImpl, args));
+          args = NO_ARGS;
+        }
+        try {
+          return typeVariableMethod.invoke(typeVariableImpl, args);
         } catch (InvocationTargetException e) {
           /*
            * requireNonNull should be safe because an InvocationTargetException from reflection
@@ -409,10 +418,7 @@ final class Types {
       }
     }
 
-    @SuppressWarnings("nullness")
-    private static Object uncheckedCastToNonNull(@Nullable Object o) {
-      return o;
-    }
+    private static final Object[] NO_ARGS = new Object[0];
   }
 
   private static final class TypeVariableImpl<D extends GenericDeclaration> {

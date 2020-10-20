@@ -87,8 +87,21 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     InvocationHandler handler =
         new InvocationHandler() {
           @Override
-          public Object invoke(Object obj, final Method method, final Object[] args)
+          public @Nullable Object invoke(
+              Object obj, final Method method, @Nullable Object @Nullable [] argsOrNull)
               throws Throwable {
+            /*
+             * Method.invoke can run succesfully when given a null args argument -- as long as the
+             * method is a no-arg method, which is, thankfully, the only case in which
+             * InvocationHandler.invoke is passed a null args argument.
+             *
+             * However, nullness checkers may well define Method.invoke to *forbid* a null args
+             * argument: That ensures that callers don't pass null by accident through, e.g., a
+             * default-initialized field. Callers who intend to pass no arguments can do so
+             * explicitly by passing an empty array. So we do that here to accommodate more nullness
+             * checkers.
+             */
+            final @Nullable Object[] args = argsOrNull == null ? NO_ARGS : argsOrNull;
             Callable<@Nullable Object> callable =
                 new Callable<@Nullable Object>() {
                   @Override
@@ -100,23 +113,14 @@ public final class SimpleTimeLimiter implements TimeLimiter {
                     }
                   }
                 };
-            /*
-             * Checkers can't know whether it's safe for a reflective method to return null, and the
-             * current Checker Framework stubs forbid it. However, it's safe here because we're
-             * providing an implementation of a method by delegating to an existing implementation.
-             */
-            return uncheckedCastToNonNull(
-                callWithTimeout(
-                    callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method)));
+            return callWithTimeout(
+                callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method));
           }
         };
     return newProxy(interfaceType, handler);
   }
 
-  @SuppressWarnings("nullness")
-  private static Object uncheckedCastToNonNull(@Nullable Object o) {
-    return o;
-  }
+  private static final Object[] NO_ARGS = new Object[0];
 
   // TODO: replace with version in common.reflect if and when it's open-sourced
   private static <T extends @NonNull Object> T newProxy(

@@ -59,8 +59,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * </ul>
    */
   @Override
-  public final Object invoke(Object proxy, Method method, Object @Nullable [] args)
-      throws Throwable {
+  public final @Nullable Object invoke(
+      Object proxy, Method method, @Nullable Object @Nullable [] args) throws Throwable {
     if (args == null) {
       args = NO_ARGS;
     }
@@ -94,8 +94,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * <p>Unlike {@link #invoke}, {@code args} will never be null. When the method has no parameter,
    * an empty array is passed in.
    */
-  protected abstract Object handleInvocation(Object proxy, Method method, Object[] args)
-      throws Throwable;
+  protected abstract @Nullable Object handleInvocation(
+      Object proxy, Method method, @Nullable Object[] args) throws Throwable;
 
   /**
    * By default delegates to {@link Object#equals} so instances are only equal if they are
