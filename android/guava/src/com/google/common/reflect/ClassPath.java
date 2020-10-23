@@ -78,14 +78,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
-  private static final Predicate<ClassInfo> IS_TOP_LEVEL =
-      new Predicate<ClassInfo>() {
-        @Override
-        public boolean apply(ClassInfo info) {
-          return info.className.indexOf('$') == -1;
-        }
-      };
-
   /** Separator for the Class-Path manifest attribute value in jar files. */
   private static final Splitter CLASS_PATH_ATTRIBUTE_SEPARATOR =
       Splitter.on(" ").omitEmptyStrings();
@@ -137,9 +129,21 @@ public final class ClassPath {
     return FluentIterable.from(resources).filter(ClassInfo.class).toSet();
   }
 
-  /** Returns all top level classes loadable from the current class path. */
+  /**
+   * Returns all top level classes loadable from the current class path. Note that "top-level-ness"
+   * is determined heuristically by class name (see {@link ClassInfo#isTopLevel}).
+   */
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
-    return FluentIterable.from(resources).filter(ClassInfo.class).filter(IS_TOP_LEVEL).toSet();
+    return FluentIterable.from(resources)
+        .filter(ClassInfo.class)
+        .filter(
+            new Predicate<ClassInfo>() {
+              @Override
+              public boolean apply(ClassInfo info) {
+                return info.isTopLevel();
+              }
+            })
+        .toSet();
   }
 
   /** Returns all top level classes whose package name is {@code packageName}. */
@@ -325,6 +329,18 @@ public final class ClassPath {
     }
 
     /**
+     * Returns true if the class name "looks to be" top level (not nested), that is, it includes no
+     * '$' in the name, This method may return false for a top-level class that's intentionally
+     * named with the '$' character. If ths is a concern, you could use {@link #load} and then check
+     * on the loaded {@link Class} object instead.
+     *
+     * @since NEXT
+     */
+    public boolean isTopLevel() {
+      return className.indexOf('$') == -1;
+    }
+
+    /**
      * Loads (but doesn't link or initialize) the class.
      *
      * @throws LinkageError when there were errors in loading classes that this class depends on.
@@ -408,7 +424,7 @@ public final class ClassPath {
       } finally {
         try {
           jarFile.close();
-        } catch (IOException ignored) {
+        } catch (IOException ignored) { // similar to try-with-resources, but don't fail scanning
         }
       }
     }
