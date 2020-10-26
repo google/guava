@@ -58022,7 +58022,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns all top level classes loadable from the current class path.]]>
+      <![CDATA[Returns all top level classes loadable from the current class path. Note that "top-level-ness"
+ is determined heuristically by class name (see {@link ClassInfo#isTopLevel}).]]>
       </doc>
     </method>
     <method name="getTopLevelClasses" return="com.google.common.collect.ImmutableSet&lt;com.google.common.reflect.ClassPath.ClassInfo&gt;"
@@ -58100,6 +58101,19 @@
 
  <p>Behaves identically to {@link Class#getName()} but does not require the class to be
  loaded.]]>
+      </doc>
+    </method>
+    <method name="isTopLevel" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the class name "looks to be" top level (not nested), that is, it includes no
+ '$' in the name, This method may return false for a top-level class that's intentionally
+ named with the '$' character. If ths is a concern, you could use {@link #load} and then check
+ on the loaded {@link Class} object instead.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="load" return="java.lang.Class&lt;?&gt;"
