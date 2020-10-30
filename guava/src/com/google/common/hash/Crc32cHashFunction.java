@@ -111,18 +111,17 @@ final class Crc32cHashFunction extends AbstractHashFunction {
       0xbe2da0a5, 0x4c4623a6, 0x5f16d052, 0xad7d5351
     };
 
-    private int crc = 0;
+    private int crc = ~0;
 
     @Override
     public void update(byte b) {
-      crc ^= 0xFFFFFFFF;
       // See Hacker's Delight 2nd Edition, Figure 14-7.
-      crc = ~((crc >>> 8) ^ CRC_TABLE[(crc ^ b) & 0xFF]);
+      crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ b) & 0xFF];
     }
 
     @Override
     public HashCode hash() {
-      return HashCode.fromInt(crc);
+      return HashCode.fromInt(~crc);
     }
   }
 }
