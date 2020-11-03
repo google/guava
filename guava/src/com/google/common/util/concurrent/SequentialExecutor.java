@@ -91,7 +91,7 @@ final class SequentialExecutor implements Executor {
    * Adds a task to the queue and makes sure a worker thread is running.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
+   * execution of tasks will stop until a call to this method is made.
    */
   @Override
   public void execute(final Runnable task) {
