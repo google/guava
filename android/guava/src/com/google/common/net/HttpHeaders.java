@@ -129,6 +129,13 @@ public final class HttpHeaders {
   public static final String MAX_FORWARDS = "Max-Forwards";
   /** The HTTP {@code Origin} header field name. */
   public static final String ORIGIN = "Origin";
+  /**
+   * The HTTP <a href="https://github.com/WICG/origin-isolation">{@code Origin-Isolation}</a> header
+   * field name.
+   *
+   * @since NEXT
+   */
+  public static final String ORIGIN_ISOLATION = "Origin-Isolation";
   /** The HTTP {@code Proxy-Authorization} header field name. */
   public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";
   /** The HTTP {@code Range} header field name. */
