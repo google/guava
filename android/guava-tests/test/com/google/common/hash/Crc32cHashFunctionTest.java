@@ -17,7 +17,6 @@ package com.google.common.hash;
 import static com.google.common.base.Charsets.UTF_8;
 
 import java.util.Arrays;
-import java.util.Random;
 import junit.framework.TestCase;
 
 /**
@@ -27,6 +26,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  */
 public class Crc32cHashFunctionTest extends TestCase {
+
   public void testEmpty() {
     assertCrc(0, new byte[0]);
   }
@@ -112,23 +112,6 @@ public class Crc32cHashFunctionTest extends TestCase {
     assertCrc(0xBFE92A83, "23456789".getBytes(UTF_8));
   }
 
-  public void testAgainstSimplerImplementation() {
-    Random r = new Random(1234567);
-    for (int length = 0; length < 1000; length++) {
-      byte[] bytes = new byte[length];
-      r.nextBytes(bytes);
-      assertCrc(referenceCrc(bytes), bytes);
-    }
-  }
-
-  private static int referenceCrc(byte[] bytes) {
-    int crc = ~0;
-    for (byte b : bytes) {
-      crc = (crc >>> 8) ^ Crc32cHashFunction.Crc32cHasher.BYTE_TABLE[(crc ^ b) & 0xFF];
-    }
-    return ~crc;
-  }
-
   /**
    * Verifies that the crc of an array of byte data matches the expected value.
    *
@@ -141,11 +124,6 @@ public class Crc32cHashFunctionTest extends TestCase {
         String.format("expected: %08x, actual: %08x", expectedCrc, actualCrc),
         expectedCrc,
         actualCrc);
-    int actualCrcHasher = Hashing.crc32c().newHasher().putBytes(data).hash().asInt();
-    assertEquals(
-        String.format("expected: %08x, actual: %08x", expectedCrc, actualCrc),
-        expectedCrc,
-        actualCrcHasher);
   }
 
   // From RFC 3720, Section 12.1, the polynomial generator is 0x11EDC6F41.
@@ -155,7 +133,7 @@ public class Crc32cHashFunctionTest extends TestCase {
   private static final int CRC32C_GENERATOR = 0x1EDC6F41; // 0x11EDC6F41
   private static final int CRC32C_GENERATOR_FLIPPED = Integer.reverse(CRC32C_GENERATOR);
 
-  public void testCrc32cByteTable() {
+  public void testCrc32cLookupTable() {
     // See Hacker's Delight 2nd Edition, Figure 14-7.
     int[] expected = new int[256];
     for (int i = 0; i < expected.length; i++) {
@@ -167,47 +145,9 @@ public class Crc32cHashFunctionTest extends TestCase {
       expected[i] = crc;
     }
 
-    int[] actual = Crc32cHashFunction.Crc32cHasher.BYTE_TABLE;
+    int[] actual = Crc32cHashFunction.Crc32cHasher.CRC_TABLE;
     assertTrue(
         "Expected: \n" + Arrays.toString(expected) + "\nActual:\n" + Arrays.toString(actual),
         Arrays.equals(expected, actual));
-  }
-
-  static int advanceOneBit(int next) {
-    if ((next & 1) != 0) {
-      return (next >>> 1) ^ CRC32C_GENERATOR_FLIPPED;
-    } else {
-      return next >>> 1;
-    }
-  }
-
-  public void testCrc32cStrideTable() {
-    int next = CRC32C_GENERATOR_FLIPPED;
-    for (int i = 0; i < 12; i++) { // for 3 ints = 12 bytes in between each stride window
-      next = (next >>> 8) ^ Crc32cHashFunction.Crc32cHasher.BYTE_TABLE[next & 0xFF];
-    }
-    int[][] expected = new int[4][256];
-    for (int b = 0; b < 4; ++b) {
-      for (int bit = 128; bit != 0; bit >>= 1) {
-        expected[b][bit] = next;
-        next = advanceOneBit(next);
-      }
-    }
-    for (int b = 0; b < 4; ++b) {
-      expected[b][0] = 0;
-      for (int bit = 2; bit < 256; bit <<= 1) {
-        for (int i = bit + 1; i < (bit << 1); i++) {
-          expected[b][i] = expected[b][bit] ^ expected[b][i ^ bit];
-        }
-      }
-    }
-
-    int[][] actual = Crc32cHashFunction.Crc32cHasher.STRIDE_TABLE;
-    assertTrue(
-        "Expected: \n"
-            + Arrays.deepToString(expected)
-            + "\nActual:\n"
-            + Arrays.deepToString(actual),
-        Arrays.deepEquals(expected, actual));
   }
 }
