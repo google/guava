@@ -434,6 +434,8 @@ public final class HttpHeaders {
    * By default, DNS prefetching is "on" for HTTP pages and "off" for HTTPS pages.
    */
   public static final String X_DNS_PREFETCH_CONTROL = "X-DNS-Prefetch-Control";
+  /** The HTTP {@code X-Request-ID} header field name. */
+  public static final String X_REQUEST_ID = "X-Request-ID";
   /**
    * The HTTP <a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing">
    * {@code Ping-From}</a> header field name.
