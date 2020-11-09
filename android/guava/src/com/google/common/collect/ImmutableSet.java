@@ -537,6 +537,19 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.
+    Builder<E> combine(Builder<E> other) {
+      if (hashTable != null) {
+        for (int i = 0; i < other.size; ++i) {
+          add((E) other.contents[i]);
+        }
+      } else {
+        addAll(other.contents, other.size);
+      }
+      return this;
+    }
+
     /**
      * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.
      */
