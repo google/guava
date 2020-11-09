@@ -258,6 +258,24 @@ public final class ClosingFuture<V> {
   }
 
   /**
+   * An operation that computes a {@link ClosingFuture} of a result.
+   *
+   * @param <V> the type of the result
+   * @since NEXT
+   */
+  @FunctionalInterface
+  public interface AsyncClosingCallable<V extends @Nullable Object> {
+    /**
+     * Computes a result, or throws an exception if unable to do so.
+     *
+     * <p>Any objects that are passed to {@link DeferredCloser#eventuallyClose(Closeable, Executor)
+     * closer.eventuallyClose()} will be closed when the {@link ClosingFuture} pipeline is done (but
+     * not before this method completes), even if this method throws or the pipeline is cancelled.
+     */
+    ClosingFuture<V> call(DeferredCloser closer) throws Exception;
+  }
+
+  /**
    * A function from an input to a result.
    *
    * @param <T> the type of the input to the function
@@ -366,7 +384,17 @@ public final class ClosingFuture<V> {
     return new ClosingFuture<>(callable, executor);
   }
 
-  // TODO(dpb, cpovirk): Do we need submitAsync?
+  /**
+   * Starts a {@link ClosingFuture} pipeline by submitting a callable block to an executor.
+   *
+   * @throws java.util.concurrent.RejectedExecutionException if the task cannot be scheduled for
+   *     execution
+   * @since NEXT
+   */
+  public static <V> ClosingFuture<V> submitAsync(
+      AsyncClosingCallable<V> callable, Executor executor) {
+    return new ClosingFuture<>(callable, executor);
+  }
 
   /**
    * Starts a {@link ClosingFuture} pipeline with a {@link ListenableFuture}.
@@ -556,6 +584,32 @@ public final class ClosingFuture<V> {
               @Override
               public V call() throws Exception {
                 return callable.call(closeables.closer);
+              }
+
+              @Override
+              public String toString() {
+                return callable.toString();
+              }
+            });
+    executor.execute(task);
+    this.future = task;
+  }
+
+  private ClosingFuture(final AsyncClosingCallable<V> callable, Executor executor) {
+    checkNotNull(callable);
+    TrustedListenableFutureTask<V> task =
+        TrustedListenableFutureTask.create(
+            new AsyncCallable<V>() {
+              @Override
+              public ListenableFuture<V> call() throws Exception {
+                CloseableList newCloseables = new CloseableList();
+                try {
+                  ClosingFuture<V> closingFuture = callable.call(newCloseables.closer);
+                  closingFuture.becomeSubsumedInto(closeables);
+                  return closingFuture.future;
+                } finally {
+                  closeables.add(newCloseables, directExecutor());
+                }
               }
 
               @Override
