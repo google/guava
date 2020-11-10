@@ -499,6 +499,15 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");
     }
 
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(ImmutableSortedMap.Builder<K, V> other) {
+      ensureCapacity(size + other.size);
+      System.arraycopy(other.keys, 0, this.keys, this.size, other.size);
+      System.arraycopy(other.values, 0, this.values, this.size, other.size);
+      size += other.size;
+      return this;
+    }
+
     /**
      * Returns a newly-created immutable sorted map.
      *

@@ -667,6 +667,31 @@ public class ImmutableSortedMapTest extends TestCase {
       assertMapEquals(map, "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
       assertSame(comparator, map.comparator());
     }
+
+    // TODO(b/172823566): Use mainline testToImmutableSortedMap once CollectorTester is usable.
+    public void testToImmutableSortedMap_java7_combine() {
+      ImmutableSortedMap.Builder<String, Integer> zis =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).put("four", 4);
+      ImmutableSortedMap.Builder<String, Integer> zat =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("two", 2).put("three", 3);
+      ImmutableSortedMap<String, Integer> sortedMap = zis.combine(zat).build();
+      assertMapEquals(sortedMap, "four", 4, "one", 1, "three", 3, "two", 2);
+    }
+
+    // TODO(b/172823566): Use mainline testToImmutableSortedMap once CollectorTester is usable.
+    public void testToImmutableSortedMap_exceptionOnDuplicateKey_java7_combine() {
+      ImmutableSortedMap.Builder<String, Integer> zis =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).put("two", 2);
+      ImmutableSortedMap.Builder<String, Integer> zat =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("two", 22).put("three", 3);
+      try {
+        ImmutableSortedMap.Builder<String, Integer> combined = zis.combine(zat);
+        combined.build();
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // expected
+      }
+    }
   }
 
   public void testNullGet() {

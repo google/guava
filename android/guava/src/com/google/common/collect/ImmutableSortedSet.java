@@ -480,6 +480,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @Override
+    Builder<E> combine(ImmutableSet.Builder<E> builder) {
+      super.combine(builder);
+      return this;
+    }
+
     /**
      * Returns a newly-created {@code ImmutableSortedSet} based on the contents of the {@code
      * Builder} and its comparator.
