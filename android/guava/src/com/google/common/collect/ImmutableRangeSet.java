@@ -747,6 +747,12 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<C> combine(Builder<C> builder) {
+      addAll(builder.ranges);
+      return this;
+    }
+
     /**
      * Returns an {@code ImmutableRangeSet} containing the ranges added to this builder.
      *
