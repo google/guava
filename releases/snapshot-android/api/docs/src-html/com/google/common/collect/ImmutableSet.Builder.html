@@ -545,38 +545,51 @@
 <span class="sourceLineNo">537</span>      return this;<a name="line.537"></a>
 <span class="sourceLineNo">538</span>    }<a name="line.538"></a>
 <span class="sourceLineNo">539</span><a name="line.539"></a>
-<span class="sourceLineNo">540</span>    /**<a name="line.540"></a>
-<span class="sourceLineNo">541</span>     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.<a name="line.541"></a>
-<span class="sourceLineNo">542</span>     */<a name="line.542"></a>
-<span class="sourceLineNo">543</span>    @SuppressWarnings("unchecked")<a name="line.543"></a>
-<span class="sourceLineNo">544</span>    @Override<a name="line.544"></a>
-<span class="sourceLineNo">545</span>    public ImmutableSet&lt;E&gt; build() {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>      switch (size) {<a name="line.546"></a>
-<span class="sourceLineNo">547</span>        case 0:<a name="line.547"></a>
-<span class="sourceLineNo">548</span>          return of();<a name="line.548"></a>
-<span class="sourceLineNo">549</span>        case 1:<a name="line.549"></a>
-<span class="sourceLineNo">550</span>          return (ImmutableSet&lt;E&gt;) of(contents[0]);<a name="line.550"></a>
-<span class="sourceLineNo">551</span>        default:<a name="line.551"></a>
-<span class="sourceLineNo">552</span>          ImmutableSet&lt;E&gt; result;<a name="line.552"></a>
-<span class="sourceLineNo">553</span>          if (hashTable != null &amp;&amp; chooseTableSize(size) == hashTable.length) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>            Object[] uniqueElements =<a name="line.554"></a>
-<span class="sourceLineNo">555</span>                shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;<a name="line.555"></a>
-<span class="sourceLineNo">556</span>            result =<a name="line.556"></a>
-<span class="sourceLineNo">557</span>                new RegularImmutableSet&lt;E&gt;(<a name="line.557"></a>
-<span class="sourceLineNo">558</span>                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);<a name="line.558"></a>
-<span class="sourceLineNo">559</span>          } else {<a name="line.559"></a>
-<span class="sourceLineNo">560</span>            result = construct(size, contents);<a name="line.560"></a>
-<span class="sourceLineNo">561</span>            // construct has the side effect of deduping contents, so we update size<a name="line.561"></a>
-<span class="sourceLineNo">562</span>            // accordingly.<a name="line.562"></a>
-<span class="sourceLineNo">563</span>            size = result.size();<a name="line.563"></a>
-<span class="sourceLineNo">564</span>          }<a name="line.564"></a>
-<span class="sourceLineNo">565</span>          forceCopy = true;<a name="line.565"></a>
-<span class="sourceLineNo">566</span>          hashTable = null;<a name="line.566"></a>
-<span class="sourceLineNo">567</span>          return result;<a name="line.567"></a>
-<span class="sourceLineNo">568</span>      }<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    }<a name="line.569"></a>
-<span class="sourceLineNo">570</span>  }<a name="line.570"></a>
-<span class="sourceLineNo">571</span>}<a name="line.571"></a>
+<span class="sourceLineNo">540</span>    @CanIgnoreReturnValue<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>    Builder&lt;E&gt; combine(Builder&lt;E&gt; other) {<a name="line.542"></a>
+<span class="sourceLineNo">543</span>      if (hashTable != null) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>        for (int i = 0; i &lt; other.size; ++i) {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>          add((E) other.contents[i]);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>        }<a name="line.546"></a>
+<span class="sourceLineNo">547</span>      } else {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>        addAll(other.contents, other.size);<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      }<a name="line.549"></a>
+<span class="sourceLineNo">550</span>      return this;<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    }<a name="line.551"></a>
+<span class="sourceLineNo">552</span><a name="line.552"></a>
+<span class="sourceLineNo">553</span>    /**<a name="line.553"></a>
+<span class="sourceLineNo">554</span>     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>     */<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    @SuppressWarnings("unchecked")<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    @Override<a name="line.557"></a>
+<span class="sourceLineNo">558</span>    public ImmutableSet&lt;E&gt; build() {<a name="line.558"></a>
+<span class="sourceLineNo">559</span>      switch (size) {<a name="line.559"></a>
+<span class="sourceLineNo">560</span>        case 0:<a name="line.560"></a>
+<span class="sourceLineNo">561</span>          return of();<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        case 1:<a name="line.562"></a>
+<span class="sourceLineNo">563</span>          return (ImmutableSet&lt;E&gt;) of(contents[0]);<a name="line.563"></a>
+<span class="sourceLineNo">564</span>        default:<a name="line.564"></a>
+<span class="sourceLineNo">565</span>          ImmutableSet&lt;E&gt; result;<a name="line.565"></a>
+<span class="sourceLineNo">566</span>          if (hashTable != null &amp;&amp; chooseTableSize(size) == hashTable.length) {<a name="line.566"></a>
+<span class="sourceLineNo">567</span>            Object[] uniqueElements =<a name="line.567"></a>
+<span class="sourceLineNo">568</span>                shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;<a name="line.568"></a>
+<span class="sourceLineNo">569</span>            result =<a name="line.569"></a>
+<span class="sourceLineNo">570</span>                new RegularImmutableSet&lt;E&gt;(<a name="line.570"></a>
+<span class="sourceLineNo">571</span>                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);<a name="line.571"></a>
+<span class="sourceLineNo">572</span>          } else {<a name="line.572"></a>
+<span class="sourceLineNo">573</span>            result = construct(size, contents);<a name="line.573"></a>
+<span class="sourceLineNo">574</span>            // construct has the side effect of deduping contents, so we update size<a name="line.574"></a>
+<span class="sourceLineNo">575</span>            // accordingly.<a name="line.575"></a>
+<span class="sourceLineNo">576</span>            size = result.size();<a name="line.576"></a>
+<span class="sourceLineNo">577</span>          }<a name="line.577"></a>
+<span class="sourceLineNo">578</span>          forceCopy = true;<a name="line.578"></a>
+<span class="sourceLineNo">579</span>          hashTable = null;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>          return result;<a name="line.580"></a>
+<span class="sourceLineNo">581</span>      }<a name="line.581"></a>
+<span class="sourceLineNo">582</span>    }<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  }<a name="line.583"></a>
+<span class="sourceLineNo">584</span>}<a name="line.584"></a>
 
 
 

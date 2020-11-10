@@ -595,7 +595,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <h4>newHashSetWithExpectedSize</h4>
 <pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.290">newHashSetWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new hash set using the smallest initial table size that can hold <code>expectedSize</code>
- elements without resizing. Note that this is not what <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true#HashSet-int-" title="class or interface in java.util"><code>HashSet.HashSet(int)</code></a> does, but it
+ elements without resizing. Note that this is not what <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true#HashSet-int-" title="class or interface in java.util"><code>HashSet(int)</code></a> does, but it
  is what most users want and expect it to do.
 
  <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.</div>
@@ -757,7 +757,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
  instead.
 
  <p><b>Note:</b> If <code>elements</code> is a <code>SortedSet</code> with an explicit comparator, this
- method has different behavior than <a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true#TreeSet-java.util.SortedSet-" title="class or interface in java.util"><code>TreeSet.TreeSet(SortedSet)</code></a>, which returns a <code>TreeSet</code> with that comparator.
+ method has different behavior than <a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true#TreeSet-java.util.SortedSet-" title="class or interface in java.util"><code>TreeSet(SortedSet)</code></a>, which returns a <code>TreeSet</code> with that comparator.
 
  <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
  deprecated. Instead, use the <code>TreeSet</code> constructor directly, taking advantage of the new

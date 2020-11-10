@@ -2374,6 +2374,10 @@
 <dd>
 <div class="block">Computes a result <code>Future</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html#call-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-">call(ClosingFuture.DeferredCloser)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingCallable</a></dt>
+<dd>
+<div class="block">Computes a result, or throws an exception if unable to do so.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html#call-com.google.common.util.concurrent.ClosingFuture.DeferredCloser-">call(ClosingFuture.DeferredCloser)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingCallable</a></dt>
 <dd>
 <div class="block">Computes a result, or throws an exception if unable to do so.</div>
@@ -3266,6 +3270,10 @@
 <dt><a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A step in a pipeline of an asynchronous computation.</div>
+</dd>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.AsyncClosingCallable</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="type parameter in ClosingFuture.AsyncClosingCallable">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">An operation that computes a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> of a result.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.AsyncClosingFunction</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">T</a>,<a href="com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">U</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
@@ -11717,7 +11725,7 @@
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Lists.html#newArrayListWithCapacity-int-">newArrayListWithCapacity(int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
 <dd>
 <div class="block">Creates an <code>ArrayList</code> instance backed by an array with the specified initial size;
- simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList.ArrayList(int)</code></a>.</div>
+ simply delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html?is-external=true#ArrayList-int-" title="class or interface in java.util"><code>ArrayList(int)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Lists.html#newArrayListWithExpectedSize-int-">newArrayListWithExpectedSize(int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
 <dd>
@@ -13078,6 +13086,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html#ORIGIN">ORIGIN</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.ReferrerPolicyValues.html" title="class in com.google.common.net">HttpHeaders.ReferrerPolicyValues</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#ORIGIN_ISOLATION">ORIGIN_ISOLATION</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <a href="https://github.com/WICG/origin-isolation"><code>Origin-Isolation</code></a> header
+ field name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#ORIGIN_TRIAL">ORIGIN_TRIAL</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header"><code>Origin-Trial</code></a>
@@ -14531,7 +14544,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/LoadingCache.html#refresh-K-">refresh(K)</a></span> - Method in interface com.google.common.cache.<a href="com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a></dt>
 <dd>
-<div class="block">Loads a new value for key <code>key</code>, possibly asynchronously.</div>
+<div class="block">Loads a new value for <code>key</code>, possibly asynchronously.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#REFRESH">REFRESH</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
@@ -16987,6 +17000,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-T-">submit(Runnable, T)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ClosingFuture.html#submitAsync-com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable-java.util.concurrent.Executor-">submitAsync(ClosingFuture.AsyncClosingCallable&lt;V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a></dt>
+<dd>
+<div class="block">Starts a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline by submitting a callable block to an executor.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ExecutionSequencer.html#submitAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-">submitAsync(AsyncCallable&lt;T&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ExecutionSequencer.html" title="class in com.google.common.util.concurrent">ExecutionSequencer</a></dt>
 <dd>
 <div class="block">Enqueues a task to run when the previous task (if any) completes.</div>
@@ -19530,6 +19547,10 @@ the order they are declared.</div>
 <dd>
 <div class="block">The HTTP <a
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"><code>X-Purpose</code></a> header field name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_REQUEST_ID">X_REQUEST_ID</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <code>X-Request-ID</code> header field name.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_REQUESTED_WITH">X_REQUESTED_WITH</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>

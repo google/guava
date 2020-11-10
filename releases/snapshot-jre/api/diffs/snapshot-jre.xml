@@ -9448,11 +9448,11 @@
       deprecated="not deprecated">
       <param name="key" type="K"/>
       <doc>
-      <![CDATA[Loads a new value for key {@code key}, possibly asynchronously. While the new value is loading
- the previous value (if any) will continue to be returned by {@code get(key)} unless it is
- evicted. If the new value is loaded successfully it will replace the previous value in the
- cache; if an exception is thrown while refreshing the previous value will remain, <i>and the
- exception will be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
+      <![CDATA[Loads a new value for {@code key}, possibly asynchronously. While the new value is loading the
+ previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.
+ If the new value is loaded successfully it will replace the previous value in the cache; if an
+ exception is thrown while refreshing the previous value will remain, <i>and the exception will
+ be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
 
  <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache
  currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is
@@ -42057,10 +42057,10 @@
       <![CDATA[Returns a string containing each byte of {@link #asBytes}, in order, as a two-digit unsigned
  hexadecimal number in lower case.
 
- <p>Note that if the output is considered to be a single hexadecimal number, this hash code's
- bytes are the <i>big-endian</i> representation of that number. This may be surprising since
- everything else in the hashing API uniformly treats multibyte values as little-endian. But this
- format conveniently matches that of utilities such as the UNIX {@code md5sum} command.
+ <p>Note that if the output is considered to be a single hexadecimal number, whether this string
+ is big-endian or little-endian depends on the byte order of {@link #asBytes}. This may be
+ surprising for implementations of {@code HashCode} that represent the number in big-endian
+ since everything else in the hashing API uniformly treats multibyte values as little-endian.
 
  <p>To create a {@code HashCode} from its string representation, see {@link #fromString}.]]>
       </doc>
@@ -50985,6 +50985,17 @@
       <![CDATA[The HTTP {@code Origin} header field name.]]>
       </doc>
     </field>
+    <field name="ORIGIN_ISOLATION" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://github.com/WICG/origin-isolation">{@code Origin-Isolation}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="PROXY_AUTHORIZATION" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -51589,6 +51600,16 @@
  Public-Key-Pins-Report-Only}</a> header field name.
 
  @since 15.0]]>
+      </doc>
+    </field>
+    <field name="X_REQUEST_ID" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP {@code X-Request-ID} header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="X_REQUESTED_WITH" type="java.lang.String"
@@ -64100,6 +64121,20 @@
      execution]]>
       </doc>
     </method>
+    <method name="submitAsync" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable&lt;V&gt;"/>
+      <param name="executor" type="java.util.concurrent.Executor"/>
+      <doc>
+      <![CDATA[Starts a {@link ClosingFuture} pipeline by submitting a callable block to an executor.
+
+ @throws java.util.concurrent.RejectedExecutionException if the task cannot be scheduled for
+     execution
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="from" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -64767,6 +64802,32 @@
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ClosingFuture -->
+  <!-- start interface com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable -->
+  <interface name="ClosingFuture.AsyncClosingCallable"    abstract="true"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="call" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="closer" type="com.google.common.util.concurrent.ClosingFuture.DeferredCloser"/>
+      <exception name="Exception" type="java.lang.Exception"/>
+      <doc>
+      <![CDATA[Computes a result, or throws an exception if unable to do so.
+
+ <p>Any objects that are passed to {@link DeferredCloser#eventuallyClose(Closeable, Executor)
+ closer.eventuallyClose()} will be closed when the {@link ClosingFuture} pipeline is done (but
+ not before this method completes), even if this method throws or the pipeline is cancelled.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[An operation that computes a {@link ClosingFuture} of a result.
+
+ @param <V> the type of the result
+ @since NEXT]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable -->
   <!-- start interface com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction -->
   <interface name="ClosingFuture.AsyncClosingFunction"    abstract="true"
     static="true" final="false" visibility="public"

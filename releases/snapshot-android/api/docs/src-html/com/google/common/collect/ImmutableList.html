@@ -786,16 +786,22 @@
 <span class="sourceLineNo">778</span>      return this;<a name="line.778"></a>
 <span class="sourceLineNo">779</span>    }<a name="line.779"></a>
 <span class="sourceLineNo">780</span><a name="line.780"></a>
-<span class="sourceLineNo">781</span>    /**<a name="line.781"></a>
-<span class="sourceLineNo">782</span>     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder}.<a name="line.782"></a>
-<span class="sourceLineNo">783</span>     */<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    @Override<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    public ImmutableList&lt;E&gt; build() {<a name="line.785"></a>
-<span class="sourceLineNo">786</span>      forceCopy = true;<a name="line.786"></a>
-<span class="sourceLineNo">787</span>      return asImmutableList(contents, size);<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    }<a name="line.788"></a>
-<span class="sourceLineNo">789</span>  }<a name="line.789"></a>
-<span class="sourceLineNo">790</span>}<a name="line.790"></a>
+<span class="sourceLineNo">781</span>    @CanIgnoreReturnValue<a name="line.781"></a>
+<span class="sourceLineNo">782</span>    Builder&lt;E&gt; combine(Builder&lt;E&gt; other) {<a name="line.782"></a>
+<span class="sourceLineNo">783</span>      addAll(other.contents, other.size);<a name="line.783"></a>
+<span class="sourceLineNo">784</span>      return this;<a name="line.784"></a>
+<span class="sourceLineNo">785</span>    }<a name="line.785"></a>
+<span class="sourceLineNo">786</span><a name="line.786"></a>
+<span class="sourceLineNo">787</span>    /**<a name="line.787"></a>
+<span class="sourceLineNo">788</span>     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder}.<a name="line.788"></a>
+<span class="sourceLineNo">789</span>     */<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    @Override<a name="line.790"></a>
+<span class="sourceLineNo">791</span>    public ImmutableList&lt;E&gt; build() {<a name="line.791"></a>
+<span class="sourceLineNo">792</span>      forceCopy = true;<a name="line.792"></a>
+<span class="sourceLineNo">793</span>      return asImmutableList(contents, size);<a name="line.793"></a>
+<span class="sourceLineNo">794</span>    }<a name="line.794"></a>
+<span class="sourceLineNo">795</span>  }<a name="line.795"></a>
+<span class="sourceLineNo">796</span>}<a name="line.796"></a>
 
 
 

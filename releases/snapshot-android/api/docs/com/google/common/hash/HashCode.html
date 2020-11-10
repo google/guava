@@ -460,10 +460,10 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashCo
 <div class="block">Returns a string containing each byte of <a href="../../../../com/google/common/hash/HashCode.html#asBytes--"><code>asBytes()</code></a>, in order, as a two-digit unsigned
  hexadecimal number in lower case.
 
- <p>Note that if the output is considered to be a single hexadecimal number, this hash code's
- bytes are the <i>big-endian</i> representation of that number. This may be surprising since
- everything else in the hashing API uniformly treats multibyte values as little-endian. But this
- format conveniently matches that of utilities such as the UNIX <code>md5sum</code> command.
+ <p>Note that if the output is considered to be a single hexadecimal number, whether this string
+ is big-endian or little-endian depends on the byte order of <a href="../../../../com/google/common/hash/HashCode.html#asBytes--"><code>asBytes()</code></a>. This may be
+ surprising for implementations of <code>HashCode</code> that represent the number in big-endian
+ since everything else in the hashing API uniformly treats multibyte values as little-endian.
 
  <p>To create a <code>HashCode</code> from its string representation, see <a href="../../../../com/google/common/hash/HashCode.html#fromString-java.lang.String-"><code>fromString(java.lang.String)</code></a>.</div>
 <dl>

@@ -410,10 +410,10 @@
 <span class="sourceLineNo">402</span>   * Returns a string containing each byte of {@link #asBytes}, in order, as a two-digit unsigned<a name="line.402"></a>
 <span class="sourceLineNo">403</span>   * hexadecimal number in lower case.<a name="line.403"></a>
 <span class="sourceLineNo">404</span>   *<a name="line.404"></a>
-<span class="sourceLineNo">405</span>   * &lt;p&gt;Note that if the output is considered to be a single hexadecimal number, this hash code's<a name="line.405"></a>
-<span class="sourceLineNo">406</span>   * bytes are the &lt;i&gt;big-endian&lt;/i&gt; representation of that number. This may be surprising since<a name="line.406"></a>
-<span class="sourceLineNo">407</span>   * everything else in the hashing API uniformly treats multibyte values as little-endian. But this<a name="line.407"></a>
-<span class="sourceLineNo">408</span>   * format conveniently matches that of utilities such as the UNIX {@code md5sum} command.<a name="line.408"></a>
+<span class="sourceLineNo">405</span>   * &lt;p&gt;Note that if the output is considered to be a single hexadecimal number, whether this string<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * is big-endian or little-endian depends on the byte order of {@link #asBytes}. This may be<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   * surprising for implementations of {@code HashCode} that represent the number in big-endian<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   * since everything else in the hashing API uniformly treats multibyte values as little-endian.<a name="line.408"></a>
 <span class="sourceLineNo">409</span>   *<a name="line.409"></a>
 <span class="sourceLineNo">410</span>   * &lt;p&gt;To create a {@code HashCode} from its string representation, see {@link #fromString}.<a name="line.410"></a>
 <span class="sourceLineNo">411</span>   */<a name="line.411"></a>

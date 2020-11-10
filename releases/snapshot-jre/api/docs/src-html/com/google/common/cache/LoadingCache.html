@@ -138,11 +138,11 @@
 <span class="sourceLineNo">130</span>  V apply(K key);<a name="line.130"></a>
 <span class="sourceLineNo">131</span><a name="line.131"></a>
 <span class="sourceLineNo">132</span>  /**<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * Loads a new value for key {@code key}, possibly asynchronously. While the new value is loading<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   * the previous value (if any) will continue to be returned by {@code get(key)} unless it is<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   * evicted. If the new value is loaded successfully it will replace the previous value in the<a name="line.135"></a>
-<span class="sourceLineNo">136</span>   * cache; if an exception is thrown while refreshing the previous value will remain, &lt;i&gt;and the<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * exception will be logged (using {@link java.util.logging.Logger}) and swallowed&lt;/i&gt;.<a name="line.137"></a>
+<span class="sourceLineNo">133</span>   * Loads a new value for {@code key}, possibly asynchronously. While the new value is loading the<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * If the new value is loaded successfully it will replace the previous value in the cache; if an<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * exception is thrown while refreshing the previous value will remain, &lt;i&gt;and the exception will<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * be logged (using {@link java.util.logging.Logger}) and swallowed&lt;/i&gt;.<a name="line.137"></a>
 <span class="sourceLineNo">138</span>   *<a name="line.138"></a>
 <span class="sourceLineNo">139</span>   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache<a name="line.139"></a>
 <span class="sourceLineNo">140</span>   * currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is<a name="line.140"></a>

@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":41,"i4":10,"i5":10,"i6":10,"i7":9,"i8":10,"i9":9,"i10":10,"i11":10,"i12":10,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":41,"i4":10,"i5":10,"i6":10,"i7":9,"i8":10,"i9":9,"i10":9,"i11":10,"i12":10,"i13":10,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -50,7 +50,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?com/google/common/util/concurrent/ClosingFuture.html" target="_top">Frames</a></li>
@@ -259,69 +259,75 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingCallable</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="type parameter in ClosingFuture.AsyncClosingCallable">V</a>&gt;</span></code>
+<div class="block">An operation that computes a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> of a result.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">T</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="type parameter in ClosingFuture.AsyncClosingFunction">U</a>&gt;</span></code>
 <div class="block">A function from an input to a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> of a result.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingCallable</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="type parameter in ClosingFuture.ClosingCallable">V</a>&gt;</span></code>
 <div class="block">An operation that computes a result.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="type parameter in ClosingFuture.ClosingFunction">T</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="type parameter in ClosingFuture.ClosingFunction">U</a>&gt;</span></code>
 <div class="block">A function from an input to a result.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></span></code>
 <div class="block">A builder of a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> step that is derived from more than one input step.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="type parameter in ClosingFuture.Combiner2">V1</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="type parameter in ClosingFuture.Combiner2">V2</a>&gt;</span></code>
 <div class="block">A generic <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine two <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V1</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V2</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="type parameter in ClosingFuture.Combiner3">V3</a>&gt;</span></code>
 <div class="block">A generic <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine three
  <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V1</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V2</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V3</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="type parameter in ClosingFuture.Combiner4">V4</a>&gt;</span></code>
 <div class="block">A generic <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine four
  <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V1</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V2</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V3</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V4</a>,<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="type parameter in ClosingFuture.Combiner5">V5</a>&gt;</span></code>
 <div class="block">A generic <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.Combiner</code></a> that lets you use a lambda or method reference to combine five
  <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.DeferredCloser</a></span></code>
 <div class="block">An object that can capture objects to be closed later, when a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is
  done.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Peeker.html" title="class in com.google.common.util.concurrent">ClosingFuture.Peeker</a></span></code>
 <div class="block">An object that can return the value of the <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s that are passed to <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-java.lang.Iterable-"><code>whenAllComplete(Iterable)</code></a> or <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-java.lang.Iterable-"><code>whenAllSucceed(Iterable)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent">ClosingFuture.ValueAndCloser</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a>&gt;</span></code>
 <div class="block">An object that holds the final result of an asynchronous <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> operation and
@@ -329,7 +335,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  closing.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="type parameter in ClosingFuture.ValueAndCloserConsumer">V</a>&gt;</span></code>
 <div class="block">Represents an operation that accepts a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.ValueAndCloser</code></a> for the last step in a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline.</div>
@@ -429,12 +435,19 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i10" class="altColor">
+<td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#submitAsync-com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable-java.util.concurrent.Executor-">submitAsync</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingCallable</a>&lt;V&gt;&nbsp;callable,
+           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
+<div class="block">Starts a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline by submitting a callable block to an executor.</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#toString--">toString</a></span>()</code>
 <div class="block">Returns a string representation of the object.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#transform-com.google.common.util.concurrent.ClosingFuture.ClosingFunction-java.util.concurrent.Executor-">transform</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
@@ -442,7 +455,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  to its value.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#transformAsync-com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction-java.util.concurrent.Executor-">transformAsync</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
@@ -450,20 +463,20 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  that returns a <code>ClosingFuture</code> to its value.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture...-">whenAllComplete</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
                <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;...&nbsp;moreFutures)</code>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete-java.lang.Iterable-">whenAllComplete</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</code>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture...-">whenAllSucceed</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
               <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future2,
@@ -476,7 +489,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  all succeed.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static &lt;V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a>&lt;V1,V2&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
               <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2)</code>
@@ -484,7 +497,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  they all succeed.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static &lt;V1,V2,V3&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a>&lt;V1,V2,V3&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
               <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
@@ -493,7 +506,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  they all succeed.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static &lt;V1,V2,V3,V4&gt;<br><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a>&lt;V1,V2,V3,V4&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
               <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
@@ -503,7 +516,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  they all succeed.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static &lt;V1,V2,V3,V4,V5&gt;<br><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a>&lt;V1,V2,V3,V4,V5&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-com.google.common.util.concurrent.ClosingFuture-">whenAllSucceed</a></span>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
               <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
@@ -514,14 +527,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  they all succeed.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed-java.lang.Iterable-">whenAllSucceed</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</code>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming they
  all succeed.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>static &lt;V,U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;V,U&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html#withoutCloser-com.google.common.util.concurrent.AsyncFunction-">withoutCloser</a></span>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;V,U&gt;&nbsp;function)</code>
 <div class="block">Returns an <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><code>ClosingFuture.AsyncClosingFunction</code></a> that applies an <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> to an input,
@@ -557,7 +570,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.365">submit</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingCallable</a>&lt;V&gt;&nbsp;callable,
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.383">submit</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingCallable</a>&lt;V&gt;&nbsp;callable,
                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Starts a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline by submitting a callable block to an executor.</div>
 <dl>
@@ -567,13 +580,31 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </dl>
 </li>
 </ul>
+<a name="submitAsync-com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable-java.util.concurrent.Executor-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>submitAsync</h4>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.394">submitAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingCallable</a>&lt;V&gt;&nbsp;callable,
+                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
+<div class="block">Starts a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline by submitting a callable block to an executor.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if the task cannot be scheduled for
+     execution</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a name="from-com.google.common.util.concurrent.ListenableFuture-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.378">from</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.406">from</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Starts a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline with a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
 
  <p><code>future</code>'s value will not be closed when the pipeline is done even if <code>V</code>
@@ -588,7 +619,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>eventuallyClosing</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a> &amp; <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.405">eventuallyClosing</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;future,
+public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a> &amp; <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.433">eventuallyClosing</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;future,
                                                                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;closingExecutor)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Creating <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a>s of closeable types is dangerous in general because the
      underlying value may never be closed if the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> is canceled after its operation
@@ -618,7 +649,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllComplete</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.430">whenAllComplete</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.458">whenAllComplete</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -633,7 +664,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllComplete</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.440">whenAllComplete</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.468">whenAllComplete</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
                                                      <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;...&nbsp;moreFutures)</pre>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline.</div>
 <dl>
@@ -649,7 +680,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.452">whenAllSucceed</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.480">whenAllSucceed</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;&nbsp;futures)</pre>
 <div class="block">Starts specifying how to combine <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming they
  all succeed. If any fail, the resulting pipeline will fail.</div>
 <dl>
@@ -665,7 +696,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;&lt;V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a>&lt;V1,V2&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.466">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
+<pre>public static&nbsp;&lt;V1,V2&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner2.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner2</a>&lt;V1,V2&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.494">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
                                                                     <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2)</pre>
 <div class="block">Starts specifying how to combine two <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
  they all succeed. If any fail, the resulting pipeline will fail.
@@ -685,7 +716,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;&lt;V1,V2,V3&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a>&lt;V1,V2,V3&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.481">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
+<pre>public static&nbsp;&lt;V1,V2,V3&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner3.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner3</a>&lt;V1,V2,V3&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.509">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
                                                                           <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
                                                                           <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V3&gt;&nbsp;future3)</pre>
 <div class="block">Starts specifying how to combine three <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s into a single pipeline, assuming
@@ -706,7 +737,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;&lt;V1,V2,V3,V4&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a>&lt;V1,V2,V3,V4&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.496">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
+<pre>public static&nbsp;&lt;V1,V2,V3,V4&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner4.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner4</a>&lt;V1,V2,V3,V4&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.524">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
                                                                                 <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
                                                                                 <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V3&gt;&nbsp;future3,
                                                                                 <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V4&gt;&nbsp;future4)</pre>
@@ -728,7 +759,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;&lt;V1,V2,V3,V4,V5&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a>&lt;V1,V2,V3,V4,V5&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.514">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
+<pre>public static&nbsp;&lt;V1,V2,V3,V4,V5&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner5.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner5</a>&lt;V1,V2,V3,V4,V5&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.542">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V1&gt;&nbsp;future1,
                                                                                       <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V2&gt;&nbsp;future2,
                                                                                       <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V3&gt;&nbsp;future3,
                                                                                       <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V4&gt;&nbsp;future4,
@@ -751,7 +782,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>whenAllSucceed</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.530">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.Combiner.html" title="class in com.google.common.util.concurrent">ClosingFuture.Combiner</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.558">whenAllSucceed</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future1,
                                                     <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future2,
                                                     <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future3,
                                                     <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&nbsp;future4,
@@ -773,7 +804,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>statusFuture</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.581">statusFuture</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.635">statusFuture</a>()</pre>
 <div class="block">Returns a future that finishes when this step does. Calling <code>get()</code> on the returned
  future returns <code>null</code> if the step is successful or throws the same exception that would
  be thrown by calling <code>finishToFuture().get()</code> if this were the last step. Calling <code>cancel()</code> on the returned future has no effect on the <code>ClosingFuture</code> pipeline.
@@ -789,7 +820,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public&nbsp;&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.618">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
+<pre>public&nbsp;&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.672">transform</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
  to its value. The function can use a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.DeferredCloser</code></a> to capture objects to be closed
@@ -831,7 +862,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAsync</h4>
-<pre>public&nbsp;&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.712">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
+<pre>public&nbsp;&lt;U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.766">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,U&gt;&nbsp;function,
                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
  that returns a <code>ClosingFuture</code> to its value. The function can use a <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.DeferredCloser</code></a> to capture objects to be closed when the pipeline is done (other than those
@@ -912,7 +943,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>withoutCloser</h4>
-<pre>public static&nbsp;&lt;V,U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;V,U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.756">withoutCloser</a>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;V,U&gt;&nbsp;function)</pre>
+<pre>public static&nbsp;&lt;V,U&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;V,U&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.810">withoutCloser</a>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;V,U&gt;&nbsp;function)</pre>
 <div class="block">Returns an <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><code>ClosingFuture.AsyncClosingFunction</code></a> that applies an <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> to an input,
  ignoring the DeferredCloser and returning a <code>ClosingFuture</code> derived from the returned
  <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
@@ -945,7 +976,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>catching</h4>
-<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.808">catching</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
+<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.862">catching</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                        <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super X,? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;fallback,
                                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
@@ -995,7 +1026,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>catchingAsync</h4>
-<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.903">catchingAsync</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
+<pre>public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.957">catchingAsync</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                             <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;? super X,? extends <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;fallback,
                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
@@ -1070,7 +1101,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>finishToFuture</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.942">finishToFuture</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.996">finishToFuture</a>()</pre>
 <div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline. When the returned
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> is done, all objects captured for closing during the pipeline's computation will
  be closed.
@@ -1089,7 +1120,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>finishToValueAndCloser</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.988">finishToValueAndCloser</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;consumer,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.1042">finishToValueAndCloser</a>(<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;consumer,
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline. When this step is done,
  <code>receiver</code> will be called with an object that contains the result of the operation. The
@@ -1111,7 +1142,7 @@ public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/
 <li class="blockList">
 <h4>cancel</h4>
 <pre>@CanIgnoreReturnValue
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.1043">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.1097">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block">Attempts to cancel execution of this step. This attempt will fail if the step has already
  completed, has already been cancelled, or could not be cancelled for some other reason. If
  successful, and this step has not started when <code>cancel</code> is called, this step should never
@@ -1137,7 +1168,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2023">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2077">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
@@ -1170,7 +1201,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>finalize</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2029">finalize</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.2083">finalize</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Called by the garbage collector on an object when garbage collection
  determines that there are no more references to the object.
@@ -1253,7 +1284,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../com/google/common/util/concurrent/ClosingFuture.AsyncClosingCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?com/google/common/util/concurrent/ClosingFuture.html" target="_top">Frames</a></li>
