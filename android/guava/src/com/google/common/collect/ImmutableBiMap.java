@@ -240,6 +240,13 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       return this;
     }
 
+    @Override
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(ImmutableMap.Builder<K, V> builder) {
+      super.combine(builder);
+      return this;
+    }
+
     /**
      * Returns a newly-created immutable bimap. The iteration order of the returned bimap is the
      * order in which entries were inserted into the builder, unless {@link #orderEntriesByValue}
