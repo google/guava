@@ -399,7 +399,6 @@ public class ClassPathTest extends TestCase {
     assertThat(locations).isNotEmpty();
     for (ClassPath.LocationInfo location : locations) {
       ImmutableSet<ResourceInfo> resources = location.scanResources();
-      assertThat(resources).isNotEmpty();
       assertThat(location.scanResources()).containsExactlyElementsIn(resources);
     }
   }
@@ -544,7 +543,7 @@ public class ClassPathTest extends TestCase {
   private static File pickAnyJarFile() throws IOException {
     for (ClassPath.LocationInfo location :
         ClassPath.locationsFrom(ClassPathTest.class.getClassLoader())) {
-      if (!location.file().isDirectory()) {
+      if (!location.file().isDirectory() && location.file().exists()) {
         return location.file();
       }
     }
