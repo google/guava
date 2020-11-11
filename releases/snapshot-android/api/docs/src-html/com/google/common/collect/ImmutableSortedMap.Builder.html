@@ -507,413 +507,422 @@
 <span class="sourceLineNo">499</span>      throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");<a name="line.499"></a>
 <span class="sourceLineNo">500</span>    }<a name="line.500"></a>
 <span class="sourceLineNo">501</span><a name="line.501"></a>
-<span class="sourceLineNo">502</span>    /**<a name="line.502"></a>
-<span class="sourceLineNo">503</span>     * Returns a newly-created immutable sorted map.<a name="line.503"></a>
-<span class="sourceLineNo">504</span>     *<a name="line.504"></a>
-<span class="sourceLineNo">505</span>     * @throws IllegalArgumentException if any two keys are equal according to the comparator (which<a name="line.505"></a>
-<span class="sourceLineNo">506</span>     *     might be the keys' natural order)<a name="line.506"></a>
-<span class="sourceLineNo">507</span>     */<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    @Override<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    public ImmutableSortedMap&lt;K, V&gt; build() {<a name="line.509"></a>
-<span class="sourceLineNo">510</span>      switch (size) {<a name="line.510"></a>
-<span class="sourceLineNo">511</span>        case 0:<a name="line.511"></a>
-<span class="sourceLineNo">512</span>          return emptyMap(comparator);<a name="line.512"></a>
-<span class="sourceLineNo">513</span>        case 1:<a name="line.513"></a>
-<span class="sourceLineNo">514</span>          return of(comparator, (K) keys[0], (V) values[0]);<a name="line.514"></a>
-<span class="sourceLineNo">515</span>        default:<a name="line.515"></a>
-<span class="sourceLineNo">516</span>          Object[] sortedKeys = Arrays.copyOf(keys, size);<a name="line.516"></a>
-<span class="sourceLineNo">517</span>          Arrays.sort((K[]) sortedKeys, comparator);<a name="line.517"></a>
-<span class="sourceLineNo">518</span>          Object[] sortedValues = new Object[size];<a name="line.518"></a>
-<span class="sourceLineNo">519</span><a name="line.519"></a>
-<span class="sourceLineNo">520</span>          // We might, somehow, be able to reorder values in-place.  But it doesn't seem like<a name="line.520"></a>
-<span class="sourceLineNo">521</span>          // there's a way around creating the separate sortedKeys array, and if we're allocating<a name="line.521"></a>
-<span class="sourceLineNo">522</span>          // one array of size n, we might as well allocate two -- to say nothing of the allocation<a name="line.522"></a>
-<span class="sourceLineNo">523</span>          // done in Arrays.sort.<a name="line.523"></a>
-<span class="sourceLineNo">524</span>          for (int i = 0; i &lt; size; i++) {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>            if (i &gt; 0 &amp;&amp; comparator.compare((K) sortedKeys[i - 1], (K) sortedKeys[i]) == 0) {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>              throw new IllegalArgumentException(<a name="line.526"></a>
-<span class="sourceLineNo">527</span>                  "keys required to be distinct but compared as equal: "<a name="line.527"></a>
-<span class="sourceLineNo">528</span>                      + sortedKeys[i - 1]<a name="line.528"></a>
-<span class="sourceLineNo">529</span>                      + " and "<a name="line.529"></a>
-<span class="sourceLineNo">530</span>                      + sortedKeys[i]);<a name="line.530"></a>
-<span class="sourceLineNo">531</span>            }<a name="line.531"></a>
-<span class="sourceLineNo">532</span>            int index = Arrays.binarySearch((K[]) sortedKeys, (K) keys[i], comparator);<a name="line.532"></a>
-<span class="sourceLineNo">533</span>            sortedValues[index] = values[i];<a name="line.533"></a>
-<span class="sourceLineNo">534</span>          }<a name="line.534"></a>
-<span class="sourceLineNo">535</span>          return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.535"></a>
-<span class="sourceLineNo">536</span>              new RegularImmutableSortedSet&lt;K&gt;(<a name="line.536"></a>
-<span class="sourceLineNo">537</span>                  ImmutableList.&lt;K&gt;asImmutableList(sortedKeys), comparator),<a name="line.537"></a>
-<span class="sourceLineNo">538</span>              ImmutableList.&lt;V&gt;asImmutableList(sortedValues));<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      }<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    }<a name="line.540"></a>
-<span class="sourceLineNo">541</span>  }<a name="line.541"></a>
-<span class="sourceLineNo">542</span><a name="line.542"></a>
-<span class="sourceLineNo">543</span>  private final transient RegularImmutableSortedSet&lt;K&gt; keySet;<a name="line.543"></a>
-<span class="sourceLineNo">544</span>  private final transient ImmutableList&lt;V&gt; valueList;<a name="line.544"></a>
-<span class="sourceLineNo">545</span>  private transient ImmutableSortedMap&lt;K, V&gt; descendingMap;<a name="line.545"></a>
-<span class="sourceLineNo">546</span><a name="line.546"></a>
-<span class="sourceLineNo">547</span>  ImmutableSortedMap(RegularImmutableSortedSet&lt;K&gt; keySet, ImmutableList&lt;V&gt; valueList) {<a name="line.547"></a>
-<span class="sourceLineNo">548</span>    this(keySet, valueList, null);<a name="line.548"></a>
-<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
-<span class="sourceLineNo">550</span><a name="line.550"></a>
-<span class="sourceLineNo">551</span>  ImmutableSortedMap(<a name="line.551"></a>
-<span class="sourceLineNo">552</span>      RegularImmutableSortedSet&lt;K&gt; keySet,<a name="line.552"></a>
-<span class="sourceLineNo">553</span>      ImmutableList&lt;V&gt; valueList,<a name="line.553"></a>
-<span class="sourceLineNo">554</span>      ImmutableSortedMap&lt;K, V&gt; descendingMap) {<a name="line.554"></a>
-<span class="sourceLineNo">555</span>    this.keySet = keySet;<a name="line.555"></a>
-<span class="sourceLineNo">556</span>    this.valueList = valueList;<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    this.descendingMap = descendingMap;<a name="line.557"></a>
+<span class="sourceLineNo">502</span>    @CanIgnoreReturnValue<a name="line.502"></a>
+<span class="sourceLineNo">503</span>    Builder&lt;K, V&gt; combine(ImmutableSortedMap.Builder&lt;K, V&gt; other) {<a name="line.503"></a>
+<span class="sourceLineNo">504</span>      ensureCapacity(size + other.size);<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      System.arraycopy(other.keys, 0, this.keys, this.size, other.size);<a name="line.505"></a>
+<span class="sourceLineNo">506</span>      System.arraycopy(other.values, 0, this.values, this.size, other.size);<a name="line.506"></a>
+<span class="sourceLineNo">507</span>      size += other.size;<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      return this;<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    }<a name="line.509"></a>
+<span class="sourceLineNo">510</span><a name="line.510"></a>
+<span class="sourceLineNo">511</span>    /**<a name="line.511"></a>
+<span class="sourceLineNo">512</span>     * Returns a newly-created immutable sorted map.<a name="line.512"></a>
+<span class="sourceLineNo">513</span>     *<a name="line.513"></a>
+<span class="sourceLineNo">514</span>     * @throws IllegalArgumentException if any two keys are equal according to the comparator (which<a name="line.514"></a>
+<span class="sourceLineNo">515</span>     *     might be the keys' natural order)<a name="line.515"></a>
+<span class="sourceLineNo">516</span>     */<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    @Override<a name="line.517"></a>
+<span class="sourceLineNo">518</span>    public ImmutableSortedMap&lt;K, V&gt; build() {<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      switch (size) {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>        case 0:<a name="line.520"></a>
+<span class="sourceLineNo">521</span>          return emptyMap(comparator);<a name="line.521"></a>
+<span class="sourceLineNo">522</span>        case 1:<a name="line.522"></a>
+<span class="sourceLineNo">523</span>          return of(comparator, (K) keys[0], (V) values[0]);<a name="line.523"></a>
+<span class="sourceLineNo">524</span>        default:<a name="line.524"></a>
+<span class="sourceLineNo">525</span>          Object[] sortedKeys = Arrays.copyOf(keys, size);<a name="line.525"></a>
+<span class="sourceLineNo">526</span>          Arrays.sort((K[]) sortedKeys, comparator);<a name="line.526"></a>
+<span class="sourceLineNo">527</span>          Object[] sortedValues = new Object[size];<a name="line.527"></a>
+<span class="sourceLineNo">528</span><a name="line.528"></a>
+<span class="sourceLineNo">529</span>          // We might, somehow, be able to reorder values in-place.  But it doesn't seem like<a name="line.529"></a>
+<span class="sourceLineNo">530</span>          // there's a way around creating the separate sortedKeys array, and if we're allocating<a name="line.530"></a>
+<span class="sourceLineNo">531</span>          // one array of size n, we might as well allocate two -- to say nothing of the allocation<a name="line.531"></a>
+<span class="sourceLineNo">532</span>          // done in Arrays.sort.<a name="line.532"></a>
+<span class="sourceLineNo">533</span>          for (int i = 0; i &lt; size; i++) {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>            if (i &gt; 0 &amp;&amp; comparator.compare((K) sortedKeys[i - 1], (K) sortedKeys[i]) == 0) {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>              throw new IllegalArgumentException(<a name="line.535"></a>
+<span class="sourceLineNo">536</span>                  "keys required to be distinct but compared as equal: "<a name="line.536"></a>
+<span class="sourceLineNo">537</span>                      + sortedKeys[i - 1]<a name="line.537"></a>
+<span class="sourceLineNo">538</span>                      + " and "<a name="line.538"></a>
+<span class="sourceLineNo">539</span>                      + sortedKeys[i]);<a name="line.539"></a>
+<span class="sourceLineNo">540</span>            }<a name="line.540"></a>
+<span class="sourceLineNo">541</span>            int index = Arrays.binarySearch((K[]) sortedKeys, (K) keys[i], comparator);<a name="line.541"></a>
+<span class="sourceLineNo">542</span>            sortedValues[index] = values[i];<a name="line.542"></a>
+<span class="sourceLineNo">543</span>          }<a name="line.543"></a>
+<span class="sourceLineNo">544</span>          return new ImmutableSortedMap&lt;K, V&gt;(<a name="line.544"></a>
+<span class="sourceLineNo">545</span>              new RegularImmutableSortedSet&lt;K&gt;(<a name="line.545"></a>
+<span class="sourceLineNo">546</span>                  ImmutableList.&lt;K&gt;asImmutableList(sortedKeys), comparator),<a name="line.546"></a>
+<span class="sourceLineNo">547</span>              ImmutableList.&lt;V&gt;asImmutableList(sortedValues));<a name="line.547"></a>
+<span class="sourceLineNo">548</span>      }<a name="line.548"></a>
+<span class="sourceLineNo">549</span>    }<a name="line.549"></a>
+<span class="sourceLineNo">550</span>  }<a name="line.550"></a>
+<span class="sourceLineNo">551</span><a name="line.551"></a>
+<span class="sourceLineNo">552</span>  private final transient RegularImmutableSortedSet&lt;K&gt; keySet;<a name="line.552"></a>
+<span class="sourceLineNo">553</span>  private final transient ImmutableList&lt;V&gt; valueList;<a name="line.553"></a>
+<span class="sourceLineNo">554</span>  private transient ImmutableSortedMap&lt;K, V&gt; descendingMap;<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>  ImmutableSortedMap(RegularImmutableSortedSet&lt;K&gt; keySet, ImmutableList&lt;V&gt; valueList) {<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    this(keySet, valueList, null);<a name="line.557"></a>
 <span class="sourceLineNo">558</span>  }<a name="line.558"></a>
 <span class="sourceLineNo">559</span><a name="line.559"></a>
-<span class="sourceLineNo">560</span>  @Override<a name="line.560"></a>
-<span class="sourceLineNo">561</span>  public int size() {<a name="line.561"></a>
-<span class="sourceLineNo">562</span>    return valueList.size();<a name="line.562"></a>
-<span class="sourceLineNo">563</span>  }<a name="line.563"></a>
-<span class="sourceLineNo">564</span><a name="line.564"></a>
-<span class="sourceLineNo">565</span>  @Override<a name="line.565"></a>
-<span class="sourceLineNo">566</span>  public V get(@NullableDecl Object key) {<a name="line.566"></a>
-<span class="sourceLineNo">567</span>    int index = keySet.indexOf(key);<a name="line.567"></a>
-<span class="sourceLineNo">568</span>    return (index == -1) ? null : valueList.get(index);<a name="line.568"></a>
-<span class="sourceLineNo">569</span>  }<a name="line.569"></a>
-<span class="sourceLineNo">570</span><a name="line.570"></a>
-<span class="sourceLineNo">571</span>  @Override<a name="line.571"></a>
-<span class="sourceLineNo">572</span>  boolean isPartialView() {<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    return keySet.isPartialView() || valueList.isPartialView();<a name="line.573"></a>
-<span class="sourceLineNo">574</span>  }<a name="line.574"></a>
-<span class="sourceLineNo">575</span><a name="line.575"></a>
-<span class="sourceLineNo">576</span>  /** Returns an immutable set of the mappings in this map, sorted by the key ordering. */<a name="line.576"></a>
-<span class="sourceLineNo">577</span>  @Override<a name="line.577"></a>
-<span class="sourceLineNo">578</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    return super.entrySet();<a name="line.579"></a>
-<span class="sourceLineNo">580</span>  }<a name="line.580"></a>
-<span class="sourceLineNo">581</span><a name="line.581"></a>
-<span class="sourceLineNo">582</span>  @Override<a name="line.582"></a>
-<span class="sourceLineNo">583</span>  ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.583"></a>
-<span class="sourceLineNo">584</span>    class EntrySet extends ImmutableMapEntrySet&lt;K, V&gt; {<a name="line.584"></a>
-<span class="sourceLineNo">585</span>      @Override<a name="line.585"></a>
-<span class="sourceLineNo">586</span>      public UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; iterator() {<a name="line.586"></a>
-<span class="sourceLineNo">587</span>        return asList().iterator();<a name="line.587"></a>
-<span class="sourceLineNo">588</span>      }<a name="line.588"></a>
-<span class="sourceLineNo">589</span><a name="line.589"></a>
-<span class="sourceLineNo">590</span>      @Override<a name="line.590"></a>
-<span class="sourceLineNo">591</span>      ImmutableList&lt;Entry&lt;K, V&gt;&gt; createAsList() {<a name="line.591"></a>
-<span class="sourceLineNo">592</span>        return new ImmutableList&lt;Entry&lt;K, V&gt;&gt;() {<a name="line.592"></a>
-<span class="sourceLineNo">593</span>          @Override<a name="line.593"></a>
-<span class="sourceLineNo">594</span>          public Entry&lt;K, V&gt; get(int index) {<a name="line.594"></a>
-<span class="sourceLineNo">595</span>            return new AbstractMap.SimpleImmutableEntry&lt;&gt;(<a name="line.595"></a>
-<span class="sourceLineNo">596</span>                keySet.asList().get(index), valueList.get(index));<a name="line.596"></a>
-<span class="sourceLineNo">597</span>          }<a name="line.597"></a>
+<span class="sourceLineNo">560</span>  ImmutableSortedMap(<a name="line.560"></a>
+<span class="sourceLineNo">561</span>      RegularImmutableSortedSet&lt;K&gt; keySet,<a name="line.561"></a>
+<span class="sourceLineNo">562</span>      ImmutableList&lt;V&gt; valueList,<a name="line.562"></a>
+<span class="sourceLineNo">563</span>      ImmutableSortedMap&lt;K, V&gt; descendingMap) {<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    this.keySet = keySet;<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    this.valueList = valueList;<a name="line.565"></a>
+<span class="sourceLineNo">566</span>    this.descendingMap = descendingMap;<a name="line.566"></a>
+<span class="sourceLineNo">567</span>  }<a name="line.567"></a>
+<span class="sourceLineNo">568</span><a name="line.568"></a>
+<span class="sourceLineNo">569</span>  @Override<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  public int size() {<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    return valueList.size();<a name="line.571"></a>
+<span class="sourceLineNo">572</span>  }<a name="line.572"></a>
+<span class="sourceLineNo">573</span><a name="line.573"></a>
+<span class="sourceLineNo">574</span>  @Override<a name="line.574"></a>
+<span class="sourceLineNo">575</span>  public V get(@NullableDecl Object key) {<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    int index = keySet.indexOf(key);<a name="line.576"></a>
+<span class="sourceLineNo">577</span>    return (index == -1) ? null : valueList.get(index);<a name="line.577"></a>
+<span class="sourceLineNo">578</span>  }<a name="line.578"></a>
+<span class="sourceLineNo">579</span><a name="line.579"></a>
+<span class="sourceLineNo">580</span>  @Override<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  boolean isPartialView() {<a name="line.581"></a>
+<span class="sourceLineNo">582</span>    return keySet.isPartialView() || valueList.isPartialView();<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  }<a name="line.583"></a>
+<span class="sourceLineNo">584</span><a name="line.584"></a>
+<span class="sourceLineNo">585</span>  /** Returns an immutable set of the mappings in this map, sorted by the key ordering. */<a name="line.585"></a>
+<span class="sourceLineNo">586</span>  @Override<a name="line.586"></a>
+<span class="sourceLineNo">587</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>    return super.entrySet();<a name="line.588"></a>
+<span class="sourceLineNo">589</span>  }<a name="line.589"></a>
+<span class="sourceLineNo">590</span><a name="line.590"></a>
+<span class="sourceLineNo">591</span>  @Override<a name="line.591"></a>
+<span class="sourceLineNo">592</span>  ImmutableSet&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.592"></a>
+<span class="sourceLineNo">593</span>    class EntrySet extends ImmutableMapEntrySet&lt;K, V&gt; {<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      @Override<a name="line.594"></a>
+<span class="sourceLineNo">595</span>      public UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; iterator() {<a name="line.595"></a>
+<span class="sourceLineNo">596</span>        return asList().iterator();<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      }<a name="line.597"></a>
 <span class="sourceLineNo">598</span><a name="line.598"></a>
-<span class="sourceLineNo">599</span>          @Override<a name="line.599"></a>
-<span class="sourceLineNo">600</span>          boolean isPartialView() {<a name="line.600"></a>
-<span class="sourceLineNo">601</span>            return true;<a name="line.601"></a>
-<span class="sourceLineNo">602</span>          }<a name="line.602"></a>
-<span class="sourceLineNo">603</span><a name="line.603"></a>
-<span class="sourceLineNo">604</span>          @Override<a name="line.604"></a>
-<span class="sourceLineNo">605</span>          public int size() {<a name="line.605"></a>
-<span class="sourceLineNo">606</span>            return ImmutableSortedMap.this.size();<a name="line.606"></a>
-<span class="sourceLineNo">607</span>          }<a name="line.607"></a>
-<span class="sourceLineNo">608</span>        };<a name="line.608"></a>
-<span class="sourceLineNo">609</span>      }<a name="line.609"></a>
-<span class="sourceLineNo">610</span><a name="line.610"></a>
-<span class="sourceLineNo">611</span>      @Override<a name="line.611"></a>
-<span class="sourceLineNo">612</span>      ImmutableMap&lt;K, V&gt; map() {<a name="line.612"></a>
-<span class="sourceLineNo">613</span>        return ImmutableSortedMap.this;<a name="line.613"></a>
-<span class="sourceLineNo">614</span>      }<a name="line.614"></a>
-<span class="sourceLineNo">615</span>    }<a name="line.615"></a>
-<span class="sourceLineNo">616</span>    return isEmpty() ? ImmutableSet.&lt;Entry&lt;K, V&gt;&gt;of() : new EntrySet();<a name="line.616"></a>
-<span class="sourceLineNo">617</span>  }<a name="line.617"></a>
-<span class="sourceLineNo">618</span><a name="line.618"></a>
-<span class="sourceLineNo">619</span>  /** Returns an immutable sorted set of the keys in this map. */<a name="line.619"></a>
-<span class="sourceLineNo">620</span>  @Override<a name="line.620"></a>
-<span class="sourceLineNo">621</span>  public ImmutableSortedSet&lt;K&gt; keySet() {<a name="line.621"></a>
-<span class="sourceLineNo">622</span>    return keySet;<a name="line.622"></a>
-<span class="sourceLineNo">623</span>  }<a name="line.623"></a>
-<span class="sourceLineNo">624</span><a name="line.624"></a>
-<span class="sourceLineNo">625</span>  @Override<a name="line.625"></a>
-<span class="sourceLineNo">626</span>  ImmutableSet&lt;K&gt; createKeySet() {<a name="line.626"></a>
-<span class="sourceLineNo">627</span>    throw new AssertionError("should never be called");<a name="line.627"></a>
-<span class="sourceLineNo">628</span>  }<a name="line.628"></a>
-<span class="sourceLineNo">629</span><a name="line.629"></a>
-<span class="sourceLineNo">630</span>  /**<a name="line.630"></a>
-<span class="sourceLineNo">631</span>   * Returns an immutable collection of the values in this map, sorted by the ordering of the<a name="line.631"></a>
-<span class="sourceLineNo">632</span>   * corresponding keys.<a name="line.632"></a>
-<span class="sourceLineNo">633</span>   */<a name="line.633"></a>
+<span class="sourceLineNo">599</span>      @Override<a name="line.599"></a>
+<span class="sourceLineNo">600</span>      ImmutableList&lt;Entry&lt;K, V&gt;&gt; createAsList() {<a name="line.600"></a>
+<span class="sourceLineNo">601</span>        return new ImmutableList&lt;Entry&lt;K, V&gt;&gt;() {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>          @Override<a name="line.602"></a>
+<span class="sourceLineNo">603</span>          public Entry&lt;K, V&gt; get(int index) {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>            return new AbstractMap.SimpleImmutableEntry&lt;&gt;(<a name="line.604"></a>
+<span class="sourceLineNo">605</span>                keySet.asList().get(index), valueList.get(index));<a name="line.605"></a>
+<span class="sourceLineNo">606</span>          }<a name="line.606"></a>
+<span class="sourceLineNo">607</span><a name="line.607"></a>
+<span class="sourceLineNo">608</span>          @Override<a name="line.608"></a>
+<span class="sourceLineNo">609</span>          boolean isPartialView() {<a name="line.609"></a>
+<span class="sourceLineNo">610</span>            return true;<a name="line.610"></a>
+<span class="sourceLineNo">611</span>          }<a name="line.611"></a>
+<span class="sourceLineNo">612</span><a name="line.612"></a>
+<span class="sourceLineNo">613</span>          @Override<a name="line.613"></a>
+<span class="sourceLineNo">614</span>          public int size() {<a name="line.614"></a>
+<span class="sourceLineNo">615</span>            return ImmutableSortedMap.this.size();<a name="line.615"></a>
+<span class="sourceLineNo">616</span>          }<a name="line.616"></a>
+<span class="sourceLineNo">617</span>        };<a name="line.617"></a>
+<span class="sourceLineNo">618</span>      }<a name="line.618"></a>
+<span class="sourceLineNo">619</span><a name="line.619"></a>
+<span class="sourceLineNo">620</span>      @Override<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      ImmutableMap&lt;K, V&gt; map() {<a name="line.621"></a>
+<span class="sourceLineNo">622</span>        return ImmutableSortedMap.this;<a name="line.622"></a>
+<span class="sourceLineNo">623</span>      }<a name="line.623"></a>
+<span class="sourceLineNo">624</span>    }<a name="line.624"></a>
+<span class="sourceLineNo">625</span>    return isEmpty() ? ImmutableSet.&lt;Entry&lt;K, V&gt;&gt;of() : new EntrySet();<a name="line.625"></a>
+<span class="sourceLineNo">626</span>  }<a name="line.626"></a>
+<span class="sourceLineNo">627</span><a name="line.627"></a>
+<span class="sourceLineNo">628</span>  /** Returns an immutable sorted set of the keys in this map. */<a name="line.628"></a>
+<span class="sourceLineNo">629</span>  @Override<a name="line.629"></a>
+<span class="sourceLineNo">630</span>  public ImmutableSortedSet&lt;K&gt; keySet() {<a name="line.630"></a>
+<span class="sourceLineNo">631</span>    return keySet;<a name="line.631"></a>
+<span class="sourceLineNo">632</span>  }<a name="line.632"></a>
+<span class="sourceLineNo">633</span><a name="line.633"></a>
 <span class="sourceLineNo">634</span>  @Override<a name="line.634"></a>
-<span class="sourceLineNo">635</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.635"></a>
-<span class="sourceLineNo">636</span>    return valueList;<a name="line.636"></a>
+<span class="sourceLineNo">635</span>  ImmutableSet&lt;K&gt; createKeySet() {<a name="line.635"></a>
+<span class="sourceLineNo">636</span>    throw new AssertionError("should never be called");<a name="line.636"></a>
 <span class="sourceLineNo">637</span>  }<a name="line.637"></a>
 <span class="sourceLineNo">638</span><a name="line.638"></a>
-<span class="sourceLineNo">639</span>  @Override<a name="line.639"></a>
-<span class="sourceLineNo">640</span>  ImmutableCollection&lt;V&gt; createValues() {<a name="line.640"></a>
-<span class="sourceLineNo">641</span>    throw new AssertionError("should never be called");<a name="line.641"></a>
-<span class="sourceLineNo">642</span>  }<a name="line.642"></a>
-<span class="sourceLineNo">643</span><a name="line.643"></a>
-<span class="sourceLineNo">644</span>  /**<a name="line.644"></a>
-<span class="sourceLineNo">645</span>   * Returns the comparator that orders the keys, which is {@link Ordering#natural()} when the<a name="line.645"></a>
-<span class="sourceLineNo">646</span>   * natural ordering of the keys is used. Note that its behavior is not consistent with {@link<a name="line.646"></a>
-<span class="sourceLineNo">647</span>   * TreeMap#comparator()}, which returns {@code null} to indicate natural ordering.<a name="line.647"></a>
-<span class="sourceLineNo">648</span>   */<a name="line.648"></a>
-<span class="sourceLineNo">649</span>  @Override<a name="line.649"></a>
-<span class="sourceLineNo">650</span>  public Comparator&lt;? super K&gt; comparator() {<a name="line.650"></a>
-<span class="sourceLineNo">651</span>    return keySet().comparator();<a name="line.651"></a>
-<span class="sourceLineNo">652</span>  }<a name="line.652"></a>
-<span class="sourceLineNo">653</span><a name="line.653"></a>
-<span class="sourceLineNo">654</span>  @Override<a name="line.654"></a>
-<span class="sourceLineNo">655</span>  public K firstKey() {<a name="line.655"></a>
-<span class="sourceLineNo">656</span>    return keySet().first();<a name="line.656"></a>
-<span class="sourceLineNo">657</span>  }<a name="line.657"></a>
-<span class="sourceLineNo">658</span><a name="line.658"></a>
-<span class="sourceLineNo">659</span>  @Override<a name="line.659"></a>
-<span class="sourceLineNo">660</span>  public K lastKey() {<a name="line.660"></a>
-<span class="sourceLineNo">661</span>    return keySet().last();<a name="line.661"></a>
-<span class="sourceLineNo">662</span>  }<a name="line.662"></a>
-<span class="sourceLineNo">663</span><a name="line.663"></a>
-<span class="sourceLineNo">664</span>  private ImmutableSortedMap&lt;K, V&gt; getSubMap(int fromIndex, int toIndex) {<a name="line.664"></a>
-<span class="sourceLineNo">665</span>    if (fromIndex == 0 &amp;&amp; toIndex == size()) {<a name="line.665"></a>
-<span class="sourceLineNo">666</span>      return this;<a name="line.666"></a>
-<span class="sourceLineNo">667</span>    } else if (fromIndex == toIndex) {<a name="line.667"></a>
-<span class="sourceLineNo">668</span>      return emptyMap(comparator());<a name="line.668"></a>
-<span class="sourceLineNo">669</span>    } else {<a name="line.669"></a>
-<span class="sourceLineNo">670</span>      return new ImmutableSortedMap&lt;&gt;(<a name="line.670"></a>
-<span class="sourceLineNo">671</span>          keySet.getSubSet(fromIndex, toIndex), valueList.subList(fromIndex, toIndex));<a name="line.671"></a>
-<span class="sourceLineNo">672</span>    }<a name="line.672"></a>
-<span class="sourceLineNo">673</span>  }<a name="line.673"></a>
-<span class="sourceLineNo">674</span><a name="line.674"></a>
-<span class="sourceLineNo">675</span>  /**<a name="line.675"></a>
-<span class="sourceLineNo">676</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less<a name="line.676"></a>
-<span class="sourceLineNo">677</span>   * than {@code toKey}.<a name="line.677"></a>
-<span class="sourceLineNo">678</span>   *<a name="line.678"></a>
-<span class="sourceLineNo">679</span>   * &lt;p&gt;The {@link SortedMap#headMap} documentation states that a submap of a submap throws an<a name="line.679"></a>
-<span class="sourceLineNo">680</span>   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code<a name="line.680"></a>
-<span class="sourceLineNo">681</span>   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.681"></a>
-<span class="sourceLineNo">682</span>   * the original {@code toKey}.<a name="line.682"></a>
-<span class="sourceLineNo">683</span>   */<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  @Override<a name="line.684"></a>
-<span class="sourceLineNo">685</span>  public ImmutableSortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.685"></a>
-<span class="sourceLineNo">686</span>    return headMap(toKey, false);<a name="line.686"></a>
-<span class="sourceLineNo">687</span>  }<a name="line.687"></a>
-<span class="sourceLineNo">688</span><a name="line.688"></a>
-<span class="sourceLineNo">689</span>  /**<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less<a name="line.690"></a>
-<span class="sourceLineNo">691</span>   * than (or equal to, if {@code inclusive}) {@code toKey}.<a name="line.691"></a>
-<span class="sourceLineNo">692</span>   *<a name="line.692"></a>
-<span class="sourceLineNo">693</span>   * &lt;p&gt;The {@link SortedMap#headMap} documentation states that a submap of a submap throws an<a name="line.693"></a>
-<span class="sourceLineNo">694</span>   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code<a name="line.694"></a>
-<span class="sourceLineNo">695</span>   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.695"></a>
-<span class="sourceLineNo">696</span>   * the original {@code toKey}.<a name="line.696"></a>
-<span class="sourceLineNo">697</span>   *<a name="line.697"></a>
-<span class="sourceLineNo">698</span>   * @since 12.0<a name="line.698"></a>
-<span class="sourceLineNo">699</span>   */<a name="line.699"></a>
-<span class="sourceLineNo">700</span>  @Override<a name="line.700"></a>
-<span class="sourceLineNo">701</span>  public ImmutableSortedMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.701"></a>
-<span class="sourceLineNo">702</span>    return getSubMap(0, keySet.headIndex(checkNotNull(toKey), inclusive));<a name="line.702"></a>
-<span class="sourceLineNo">703</span>  }<a name="line.703"></a>
-<span class="sourceLineNo">704</span><a name="line.704"></a>
-<span class="sourceLineNo">705</span>  /**<a name="line.705"></a>
-<span class="sourceLineNo">706</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges<a name="line.706"></a>
-<span class="sourceLineNo">707</span>   * from {@code fromKey}, inclusive, to {@code toKey}, exclusive.<a name="line.707"></a>
-<span class="sourceLineNo">708</span>   *<a name="line.708"></a>
-<span class="sourceLineNo">709</span>   * &lt;p&gt;The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link<a name="line.709"></a>
-<span class="sourceLineNo">710</span>   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.<a name="line.710"></a>
-<span class="sourceLineNo">711</span>   * However, this method doesn't throw an exception in that situation, but instead keeps the<a name="line.711"></a>
-<span class="sourceLineNo">712</span>   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of<a name="line.712"></a>
-<span class="sourceLineNo">713</span>   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   */<a name="line.714"></a>
-<span class="sourceLineNo">715</span>  @Override<a name="line.715"></a>
-<span class="sourceLineNo">716</span>  public ImmutableSortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.716"></a>
-<span class="sourceLineNo">717</span>    return subMap(fromKey, true, toKey, false);<a name="line.717"></a>
-<span class="sourceLineNo">718</span>  }<a name="line.718"></a>
-<span class="sourceLineNo">719</span><a name="line.719"></a>
-<span class="sourceLineNo">720</span>  /**<a name="line.720"></a>
-<span class="sourceLineNo">721</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges<a name="line.721"></a>
-<span class="sourceLineNo">722</span>   * from {@code fromKey} to {@code toKey}, inclusive or exclusive as indicated by the boolean<a name="line.722"></a>
-<span class="sourceLineNo">723</span>   * flags.<a name="line.723"></a>
-<span class="sourceLineNo">724</span>   *<a name="line.724"></a>
-<span class="sourceLineNo">725</span>   * &lt;p&gt;The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link<a name="line.725"></a>
-<span class="sourceLineNo">726</span>   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.<a name="line.726"></a>
-<span class="sourceLineNo">727</span>   * However, this method doesn't throw an exception in that situation, but instead keeps the<a name="line.727"></a>
-<span class="sourceLineNo">728</span>   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of<a name="line.728"></a>
-<span class="sourceLineNo">729</span>   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.<a name="line.729"></a>
-<span class="sourceLineNo">730</span>   *<a name="line.730"></a>
-<span class="sourceLineNo">731</span>   * @since 12.0<a name="line.731"></a>
-<span class="sourceLineNo">732</span>   */<a name="line.732"></a>
-<span class="sourceLineNo">733</span>  @Override<a name="line.733"></a>
-<span class="sourceLineNo">734</span>  public ImmutableSortedMap&lt;K, V&gt; subMap(<a name="line.734"></a>
-<span class="sourceLineNo">735</span>      K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.735"></a>
-<span class="sourceLineNo">736</span>    checkNotNull(fromKey);<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    checkNotNull(toKey);<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    checkArgument(<a name="line.738"></a>
-<span class="sourceLineNo">739</span>        comparator().compare(fromKey, toKey) &lt;= 0,<a name="line.739"></a>
-<span class="sourceLineNo">740</span>        "expected fromKey &lt;= toKey but %s &gt; %s",<a name="line.740"></a>
-<span class="sourceLineNo">741</span>        fromKey,<a name="line.741"></a>
-<span class="sourceLineNo">742</span>        toKey);<a name="line.742"></a>
-<span class="sourceLineNo">743</span>    return headMap(toKey, toInclusive).tailMap(fromKey, fromInclusive);<a name="line.743"></a>
-<span class="sourceLineNo">744</span>  }<a name="line.744"></a>
-<span class="sourceLineNo">745</span><a name="line.745"></a>
-<span class="sourceLineNo">746</span>  /**<a name="line.746"></a>
-<span class="sourceLineNo">747</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are<a name="line.747"></a>
-<span class="sourceLineNo">748</span>   * greater than or equals to {@code fromKey}.<a name="line.748"></a>
-<span class="sourceLineNo">749</span>   *<a name="line.749"></a>
-<span class="sourceLineNo">750</span>   * &lt;p&gt;The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an<a name="line.750"></a>
-<span class="sourceLineNo">751</span>   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code<a name="line.751"></a>
-<span class="sourceLineNo">752</span>   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.752"></a>
-<span class="sourceLineNo">753</span>   * the original {@code fromKey}.<a name="line.753"></a>
-<span class="sourceLineNo">754</span>   */<a name="line.754"></a>
-<span class="sourceLineNo">755</span>  @Override<a name="line.755"></a>
-<span class="sourceLineNo">756</span>  public ImmutableSortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.756"></a>
-<span class="sourceLineNo">757</span>    return tailMap(fromKey, true);<a name="line.757"></a>
-<span class="sourceLineNo">758</span>  }<a name="line.758"></a>
-<span class="sourceLineNo">759</span><a name="line.759"></a>
-<span class="sourceLineNo">760</span>  /**<a name="line.760"></a>
-<span class="sourceLineNo">761</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are<a name="line.761"></a>
-<span class="sourceLineNo">762</span>   * greater than (or equal to, if {@code inclusive}) {@code fromKey}.<a name="line.762"></a>
-<span class="sourceLineNo">763</span>   *<a name="line.763"></a>
-<span class="sourceLineNo">764</span>   * &lt;p&gt;The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an<a name="line.764"></a>
-<span class="sourceLineNo">765</span>   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code<a name="line.765"></a>
-<span class="sourceLineNo">766</span>   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.766"></a>
-<span class="sourceLineNo">767</span>   * the original {@code fromKey}.<a name="line.767"></a>
-<span class="sourceLineNo">768</span>   *<a name="line.768"></a>
-<span class="sourceLineNo">769</span>   * @since 12.0<a name="line.769"></a>
-<span class="sourceLineNo">770</span>   */<a name="line.770"></a>
-<span class="sourceLineNo">771</span>  @Override<a name="line.771"></a>
-<span class="sourceLineNo">772</span>  public ImmutableSortedMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.772"></a>
-<span class="sourceLineNo">773</span>    return getSubMap(keySet.tailIndex(checkNotNull(fromKey), inclusive), size());<a name="line.773"></a>
-<span class="sourceLineNo">774</span>  }<a name="line.774"></a>
-<span class="sourceLineNo">775</span><a name="line.775"></a>
-<span class="sourceLineNo">776</span>  @Override<a name="line.776"></a>
-<span class="sourceLineNo">777</span>  public Entry&lt;K, V&gt; lowerEntry(K key) {<a name="line.777"></a>
-<span class="sourceLineNo">778</span>    return headMap(key, false).lastEntry();<a name="line.778"></a>
-<span class="sourceLineNo">779</span>  }<a name="line.779"></a>
-<span class="sourceLineNo">780</span><a name="line.780"></a>
-<span class="sourceLineNo">781</span>  @Override<a name="line.781"></a>
-<span class="sourceLineNo">782</span>  public K lowerKey(K key) {<a name="line.782"></a>
-<span class="sourceLineNo">783</span>    return keyOrNull(lowerEntry(key));<a name="line.783"></a>
-<span class="sourceLineNo">784</span>  }<a name="line.784"></a>
-<span class="sourceLineNo">785</span><a name="line.785"></a>
-<span class="sourceLineNo">786</span>  @Override<a name="line.786"></a>
-<span class="sourceLineNo">787</span>  public Entry&lt;K, V&gt; floorEntry(K key) {<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    return headMap(key, true).lastEntry();<a name="line.788"></a>
-<span class="sourceLineNo">789</span>  }<a name="line.789"></a>
-<span class="sourceLineNo">790</span><a name="line.790"></a>
-<span class="sourceLineNo">791</span>  @Override<a name="line.791"></a>
-<span class="sourceLineNo">792</span>  public K floorKey(K key) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>    return keyOrNull(floorEntry(key));<a name="line.793"></a>
-<span class="sourceLineNo">794</span>  }<a name="line.794"></a>
-<span class="sourceLineNo">795</span><a name="line.795"></a>
-<span class="sourceLineNo">796</span>  @Override<a name="line.796"></a>
-<span class="sourceLineNo">797</span>  public Entry&lt;K, V&gt; ceilingEntry(K key) {<a name="line.797"></a>
-<span class="sourceLineNo">798</span>    return tailMap(key, true).firstEntry();<a name="line.798"></a>
-<span class="sourceLineNo">799</span>  }<a name="line.799"></a>
-<span class="sourceLineNo">800</span><a name="line.800"></a>
-<span class="sourceLineNo">801</span>  @Override<a name="line.801"></a>
-<span class="sourceLineNo">802</span>  public K ceilingKey(K key) {<a name="line.802"></a>
-<span class="sourceLineNo">803</span>    return keyOrNull(ceilingEntry(key));<a name="line.803"></a>
-<span class="sourceLineNo">804</span>  }<a name="line.804"></a>
-<span class="sourceLineNo">805</span><a name="line.805"></a>
-<span class="sourceLineNo">806</span>  @Override<a name="line.806"></a>
-<span class="sourceLineNo">807</span>  public Entry&lt;K, V&gt; higherEntry(K key) {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>    return tailMap(key, false).firstEntry();<a name="line.808"></a>
-<span class="sourceLineNo">809</span>  }<a name="line.809"></a>
-<span class="sourceLineNo">810</span><a name="line.810"></a>
-<span class="sourceLineNo">811</span>  @Override<a name="line.811"></a>
-<span class="sourceLineNo">812</span>  public K higherKey(K key) {<a name="line.812"></a>
-<span class="sourceLineNo">813</span>    return keyOrNull(higherEntry(key));<a name="line.813"></a>
-<span class="sourceLineNo">814</span>  }<a name="line.814"></a>
-<span class="sourceLineNo">815</span><a name="line.815"></a>
-<span class="sourceLineNo">816</span>  @Override<a name="line.816"></a>
-<span class="sourceLineNo">817</span>  public Entry&lt;K, V&gt; firstEntry() {<a name="line.817"></a>
-<span class="sourceLineNo">818</span>    return isEmpty() ? null : entrySet().asList().get(0);<a name="line.818"></a>
-<span class="sourceLineNo">819</span>  }<a name="line.819"></a>
-<span class="sourceLineNo">820</span><a name="line.820"></a>
-<span class="sourceLineNo">821</span>  @Override<a name="line.821"></a>
-<span class="sourceLineNo">822</span>  public Entry&lt;K, V&gt; lastEntry() {<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    return isEmpty() ? null : entrySet().asList().get(size() - 1);<a name="line.823"></a>
-<span class="sourceLineNo">824</span>  }<a name="line.824"></a>
-<span class="sourceLineNo">825</span><a name="line.825"></a>
-<span class="sourceLineNo">826</span>  /**<a name="line.826"></a>
-<span class="sourceLineNo">827</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.827"></a>
-<span class="sourceLineNo">828</span>   *<a name="line.828"></a>
-<span class="sourceLineNo">829</span>   * @throws UnsupportedOperationException always<a name="line.829"></a>
-<span class="sourceLineNo">830</span>   * @deprecated Unsupported operation.<a name="line.830"></a>
-<span class="sourceLineNo">831</span>   */<a name="line.831"></a>
-<span class="sourceLineNo">832</span>  @CanIgnoreReturnValue<a name="line.832"></a>
-<span class="sourceLineNo">833</span>  @Deprecated<a name="line.833"></a>
-<span class="sourceLineNo">834</span>  @Override<a name="line.834"></a>
-<span class="sourceLineNo">835</span>  public final Entry&lt;K, V&gt; pollFirstEntry() {<a name="line.835"></a>
-<span class="sourceLineNo">836</span>    throw new UnsupportedOperationException();<a name="line.836"></a>
-<span class="sourceLineNo">837</span>  }<a name="line.837"></a>
-<span class="sourceLineNo">838</span><a name="line.838"></a>
-<span class="sourceLineNo">839</span>  /**<a name="line.839"></a>
-<span class="sourceLineNo">840</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.840"></a>
-<span class="sourceLineNo">841</span>   *<a name="line.841"></a>
-<span class="sourceLineNo">842</span>   * @throws UnsupportedOperationException always<a name="line.842"></a>
-<span class="sourceLineNo">843</span>   * @deprecated Unsupported operation.<a name="line.843"></a>
-<span class="sourceLineNo">844</span>   */<a name="line.844"></a>
-<span class="sourceLineNo">845</span>  @CanIgnoreReturnValue<a name="line.845"></a>
-<span class="sourceLineNo">846</span>  @Deprecated<a name="line.846"></a>
-<span class="sourceLineNo">847</span>  @Override<a name="line.847"></a>
-<span class="sourceLineNo">848</span>  public final Entry&lt;K, V&gt; pollLastEntry() {<a name="line.848"></a>
-<span class="sourceLineNo">849</span>    throw new UnsupportedOperationException();<a name="line.849"></a>
-<span class="sourceLineNo">850</span>  }<a name="line.850"></a>
-<span class="sourceLineNo">851</span><a name="line.851"></a>
-<span class="sourceLineNo">852</span>  @Override<a name="line.852"></a>
-<span class="sourceLineNo">853</span>  public ImmutableSortedMap&lt;K, V&gt; descendingMap() {<a name="line.853"></a>
-<span class="sourceLineNo">854</span>    // TODO(kevinb): the descendingMap is never actually cached at all. Either it should be or the<a name="line.854"></a>
-<span class="sourceLineNo">855</span>    // code below simplified.<a name="line.855"></a>
-<span class="sourceLineNo">856</span>    ImmutableSortedMap&lt;K, V&gt; result = descendingMap;<a name="line.856"></a>
-<span class="sourceLineNo">857</span>    if (result == null) {<a name="line.857"></a>
-<span class="sourceLineNo">858</span>      if (isEmpty()) {<a name="line.858"></a>
-<span class="sourceLineNo">859</span>        return result = emptyMap(Ordering.from(comparator()).reverse());<a name="line.859"></a>
-<span class="sourceLineNo">860</span>      } else {<a name="line.860"></a>
-<span class="sourceLineNo">861</span>        return result =<a name="line.861"></a>
-<span class="sourceLineNo">862</span>            new ImmutableSortedMap&lt;&gt;(<a name="line.862"></a>
-<span class="sourceLineNo">863</span>                (RegularImmutableSortedSet&lt;K&gt;) keySet.descendingSet(), valueList.reverse(), this);<a name="line.863"></a>
-<span class="sourceLineNo">864</span>      }<a name="line.864"></a>
-<span class="sourceLineNo">865</span>    }<a name="line.865"></a>
-<span class="sourceLineNo">866</span>    return result;<a name="line.866"></a>
-<span class="sourceLineNo">867</span>  }<a name="line.867"></a>
-<span class="sourceLineNo">868</span><a name="line.868"></a>
-<span class="sourceLineNo">869</span>  @Override<a name="line.869"></a>
-<span class="sourceLineNo">870</span>  public ImmutableSortedSet&lt;K&gt; navigableKeySet() {<a name="line.870"></a>
-<span class="sourceLineNo">871</span>    return keySet;<a name="line.871"></a>
-<span class="sourceLineNo">872</span>  }<a name="line.872"></a>
-<span class="sourceLineNo">873</span><a name="line.873"></a>
-<span class="sourceLineNo">874</span>  @Override<a name="line.874"></a>
-<span class="sourceLineNo">875</span>  public ImmutableSortedSet&lt;K&gt; descendingKeySet() {<a name="line.875"></a>
-<span class="sourceLineNo">876</span>    return keySet.descendingSet();<a name="line.876"></a>
-<span class="sourceLineNo">877</span>  }<a name="line.877"></a>
-<span class="sourceLineNo">878</span><a name="line.878"></a>
-<span class="sourceLineNo">879</span>  /**<a name="line.879"></a>
-<span class="sourceLineNo">880</span>   * Serialized type for all ImmutableSortedMap instances. It captures the logical contents and they<a name="line.880"></a>
-<span class="sourceLineNo">881</span>   * are reconstructed using public factory methods. This ensures that the implementation types<a name="line.881"></a>
-<span class="sourceLineNo">882</span>   * remain as implementation details.<a name="line.882"></a>
-<span class="sourceLineNo">883</span>   */<a name="line.883"></a>
-<span class="sourceLineNo">884</span>  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {<a name="line.884"></a>
-<span class="sourceLineNo">885</span>    private final Comparator&lt;? super K&gt; comparator;<a name="line.885"></a>
-<span class="sourceLineNo">886</span><a name="line.886"></a>
-<span class="sourceLineNo">887</span>    SerializedForm(ImmutableSortedMap&lt;K, V&gt; sortedMap) {<a name="line.887"></a>
-<span class="sourceLineNo">888</span>      super(sortedMap);<a name="line.888"></a>
-<span class="sourceLineNo">889</span>      comparator = sortedMap.comparator();<a name="line.889"></a>
-<span class="sourceLineNo">890</span>    }<a name="line.890"></a>
-<span class="sourceLineNo">891</span><a name="line.891"></a>
-<span class="sourceLineNo">892</span>    @Override<a name="line.892"></a>
-<span class="sourceLineNo">893</span>    Builder&lt;K, V&gt; makeBuilder(int size) {<a name="line.893"></a>
-<span class="sourceLineNo">894</span>      return new Builder&lt;&gt;(comparator);<a name="line.894"></a>
-<span class="sourceLineNo">895</span>    }<a name="line.895"></a>
-<span class="sourceLineNo">896</span><a name="line.896"></a>
-<span class="sourceLineNo">897</span>    private static final long serialVersionUID = 0;<a name="line.897"></a>
-<span class="sourceLineNo">898</span>  }<a name="line.898"></a>
-<span class="sourceLineNo">899</span><a name="line.899"></a>
-<span class="sourceLineNo">900</span>  @Override<a name="line.900"></a>
-<span class="sourceLineNo">901</span>  Object writeReplace() {<a name="line.901"></a>
-<span class="sourceLineNo">902</span>    return new SerializedForm&lt;&gt;(this);<a name="line.902"></a>
-<span class="sourceLineNo">903</span>  }<a name="line.903"></a>
-<span class="sourceLineNo">904</span><a name="line.904"></a>
-<span class="sourceLineNo">905</span>  // This class is never actually serialized directly, but we have to make the<a name="line.905"></a>
-<span class="sourceLineNo">906</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.906"></a>
-<span class="sourceLineNo">907</span>  private static final long serialVersionUID = 0;<a name="line.907"></a>
-<span class="sourceLineNo">908</span>}<a name="line.908"></a>
+<span class="sourceLineNo">639</span>  /**<a name="line.639"></a>
+<span class="sourceLineNo">640</span>   * Returns an immutable collection of the values in this map, sorted by the ordering of the<a name="line.640"></a>
+<span class="sourceLineNo">641</span>   * corresponding keys.<a name="line.641"></a>
+<span class="sourceLineNo">642</span>   */<a name="line.642"></a>
+<span class="sourceLineNo">643</span>  @Override<a name="line.643"></a>
+<span class="sourceLineNo">644</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.644"></a>
+<span class="sourceLineNo">645</span>    return valueList;<a name="line.645"></a>
+<span class="sourceLineNo">646</span>  }<a name="line.646"></a>
+<span class="sourceLineNo">647</span><a name="line.647"></a>
+<span class="sourceLineNo">648</span>  @Override<a name="line.648"></a>
+<span class="sourceLineNo">649</span>  ImmutableCollection&lt;V&gt; createValues() {<a name="line.649"></a>
+<span class="sourceLineNo">650</span>    throw new AssertionError("should never be called");<a name="line.650"></a>
+<span class="sourceLineNo">651</span>  }<a name="line.651"></a>
+<span class="sourceLineNo">652</span><a name="line.652"></a>
+<span class="sourceLineNo">653</span>  /**<a name="line.653"></a>
+<span class="sourceLineNo">654</span>   * Returns the comparator that orders the keys, which is {@link Ordering#natural()} when the<a name="line.654"></a>
+<span class="sourceLineNo">655</span>   * natural ordering of the keys is used. Note that its behavior is not consistent with {@link<a name="line.655"></a>
+<span class="sourceLineNo">656</span>   * TreeMap#comparator()}, which returns {@code null} to indicate natural ordering.<a name="line.656"></a>
+<span class="sourceLineNo">657</span>   */<a name="line.657"></a>
+<span class="sourceLineNo">658</span>  @Override<a name="line.658"></a>
+<span class="sourceLineNo">659</span>  public Comparator&lt;? super K&gt; comparator() {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>    return keySet().comparator();<a name="line.660"></a>
+<span class="sourceLineNo">661</span>  }<a name="line.661"></a>
+<span class="sourceLineNo">662</span><a name="line.662"></a>
+<span class="sourceLineNo">663</span>  @Override<a name="line.663"></a>
+<span class="sourceLineNo">664</span>  public K firstKey() {<a name="line.664"></a>
+<span class="sourceLineNo">665</span>    return keySet().first();<a name="line.665"></a>
+<span class="sourceLineNo">666</span>  }<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>  @Override<a name="line.668"></a>
+<span class="sourceLineNo">669</span>  public K lastKey() {<a name="line.669"></a>
+<span class="sourceLineNo">670</span>    return keySet().last();<a name="line.670"></a>
+<span class="sourceLineNo">671</span>  }<a name="line.671"></a>
+<span class="sourceLineNo">672</span><a name="line.672"></a>
+<span class="sourceLineNo">673</span>  private ImmutableSortedMap&lt;K, V&gt; getSubMap(int fromIndex, int toIndex) {<a name="line.673"></a>
+<span class="sourceLineNo">674</span>    if (fromIndex == 0 &amp;&amp; toIndex == size()) {<a name="line.674"></a>
+<span class="sourceLineNo">675</span>      return this;<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    } else if (fromIndex == toIndex) {<a name="line.676"></a>
+<span class="sourceLineNo">677</span>      return emptyMap(comparator());<a name="line.677"></a>
+<span class="sourceLineNo">678</span>    } else {<a name="line.678"></a>
+<span class="sourceLineNo">679</span>      return new ImmutableSortedMap&lt;&gt;(<a name="line.679"></a>
+<span class="sourceLineNo">680</span>          keySet.getSubSet(fromIndex, toIndex), valueList.subList(fromIndex, toIndex));<a name="line.680"></a>
+<span class="sourceLineNo">681</span>    }<a name="line.681"></a>
+<span class="sourceLineNo">682</span>  }<a name="line.682"></a>
+<span class="sourceLineNo">683</span><a name="line.683"></a>
+<span class="sourceLineNo">684</span>  /**<a name="line.684"></a>
+<span class="sourceLineNo">685</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less<a name="line.685"></a>
+<span class="sourceLineNo">686</span>   * than {@code toKey}.<a name="line.686"></a>
+<span class="sourceLineNo">687</span>   *<a name="line.687"></a>
+<span class="sourceLineNo">688</span>   * &lt;p&gt;The {@link SortedMap#headMap} documentation states that a submap of a submap throws an<a name="line.688"></a>
+<span class="sourceLineNo">689</span>   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code<a name="line.689"></a>
+<span class="sourceLineNo">690</span>   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   * the original {@code toKey}.<a name="line.691"></a>
+<span class="sourceLineNo">692</span>   */<a name="line.692"></a>
+<span class="sourceLineNo">693</span>  @Override<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  public ImmutableSortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.694"></a>
+<span class="sourceLineNo">695</span>    return headMap(toKey, false);<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  }<a name="line.696"></a>
+<span class="sourceLineNo">697</span><a name="line.697"></a>
+<span class="sourceLineNo">698</span>  /**<a name="line.698"></a>
+<span class="sourceLineNo">699</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less<a name="line.699"></a>
+<span class="sourceLineNo">700</span>   * than (or equal to, if {@code inclusive}) {@code toKey}.<a name="line.700"></a>
+<span class="sourceLineNo">701</span>   *<a name="line.701"></a>
+<span class="sourceLineNo">702</span>   * &lt;p&gt;The {@link SortedMap#headMap} documentation states that a submap of a submap throws an<a name="line.702"></a>
+<span class="sourceLineNo">703</span>   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code<a name="line.703"></a>
+<span class="sourceLineNo">704</span>   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.704"></a>
+<span class="sourceLineNo">705</span>   * the original {@code toKey}.<a name="line.705"></a>
+<span class="sourceLineNo">706</span>   *<a name="line.706"></a>
+<span class="sourceLineNo">707</span>   * @since 12.0<a name="line.707"></a>
+<span class="sourceLineNo">708</span>   */<a name="line.708"></a>
+<span class="sourceLineNo">709</span>  @Override<a name="line.709"></a>
+<span class="sourceLineNo">710</span>  public ImmutableSortedMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    return getSubMap(0, keySet.headIndex(checkNotNull(toKey), inclusive));<a name="line.711"></a>
+<span class="sourceLineNo">712</span>  }<a name="line.712"></a>
+<span class="sourceLineNo">713</span><a name="line.713"></a>
+<span class="sourceLineNo">714</span>  /**<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   * from {@code fromKey}, inclusive, to {@code toKey}, exclusive.<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   *<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   * &lt;p&gt;The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link<a name="line.718"></a>
+<span class="sourceLineNo">719</span>   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.<a name="line.719"></a>
+<span class="sourceLineNo">720</span>   * However, this method doesn't throw an exception in that situation, but instead keeps the<a name="line.720"></a>
+<span class="sourceLineNo">721</span>   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of<a name="line.721"></a>
+<span class="sourceLineNo">722</span>   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.<a name="line.722"></a>
+<span class="sourceLineNo">723</span>   */<a name="line.723"></a>
+<span class="sourceLineNo">724</span>  @Override<a name="line.724"></a>
+<span class="sourceLineNo">725</span>  public ImmutableSortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.725"></a>
+<span class="sourceLineNo">726</span>    return subMap(fromKey, true, toKey, false);<a name="line.726"></a>
+<span class="sourceLineNo">727</span>  }<a name="line.727"></a>
+<span class="sourceLineNo">728</span><a name="line.728"></a>
+<span class="sourceLineNo">729</span>  /**<a name="line.729"></a>
+<span class="sourceLineNo">730</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges<a name="line.730"></a>
+<span class="sourceLineNo">731</span>   * from {@code fromKey} to {@code toKey}, inclusive or exclusive as indicated by the boolean<a name="line.731"></a>
+<span class="sourceLineNo">732</span>   * flags.<a name="line.732"></a>
+<span class="sourceLineNo">733</span>   *<a name="line.733"></a>
+<span class="sourceLineNo">734</span>   * &lt;p&gt;The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link<a name="line.734"></a>
+<span class="sourceLineNo">735</span>   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.<a name="line.735"></a>
+<span class="sourceLineNo">736</span>   * However, this method doesn't throw an exception in that situation, but instead keeps the<a name="line.736"></a>
+<span class="sourceLineNo">737</span>   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of<a name="line.737"></a>
+<span class="sourceLineNo">738</span>   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.<a name="line.738"></a>
+<span class="sourceLineNo">739</span>   *<a name="line.739"></a>
+<span class="sourceLineNo">740</span>   * @since 12.0<a name="line.740"></a>
+<span class="sourceLineNo">741</span>   */<a name="line.741"></a>
+<span class="sourceLineNo">742</span>  @Override<a name="line.742"></a>
+<span class="sourceLineNo">743</span>  public ImmutableSortedMap&lt;K, V&gt; subMap(<a name="line.743"></a>
+<span class="sourceLineNo">744</span>      K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.744"></a>
+<span class="sourceLineNo">745</span>    checkNotNull(fromKey);<a name="line.745"></a>
+<span class="sourceLineNo">746</span>    checkNotNull(toKey);<a name="line.746"></a>
+<span class="sourceLineNo">747</span>    checkArgument(<a name="line.747"></a>
+<span class="sourceLineNo">748</span>        comparator().compare(fromKey, toKey) &lt;= 0,<a name="line.748"></a>
+<span class="sourceLineNo">749</span>        "expected fromKey &lt;= toKey but %s &gt; %s",<a name="line.749"></a>
+<span class="sourceLineNo">750</span>        fromKey,<a name="line.750"></a>
+<span class="sourceLineNo">751</span>        toKey);<a name="line.751"></a>
+<span class="sourceLineNo">752</span>    return headMap(toKey, toInclusive).tailMap(fromKey, fromInclusive);<a name="line.752"></a>
+<span class="sourceLineNo">753</span>  }<a name="line.753"></a>
+<span class="sourceLineNo">754</span><a name="line.754"></a>
+<span class="sourceLineNo">755</span>  /**<a name="line.755"></a>
+<span class="sourceLineNo">756</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are<a name="line.756"></a>
+<span class="sourceLineNo">757</span>   * greater than or equals to {@code fromKey}.<a name="line.757"></a>
+<span class="sourceLineNo">758</span>   *<a name="line.758"></a>
+<span class="sourceLineNo">759</span>   * &lt;p&gt;The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an<a name="line.759"></a>
+<span class="sourceLineNo">760</span>   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code<a name="line.760"></a>
+<span class="sourceLineNo">761</span>   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.761"></a>
+<span class="sourceLineNo">762</span>   * the original {@code fromKey}.<a name="line.762"></a>
+<span class="sourceLineNo">763</span>   */<a name="line.763"></a>
+<span class="sourceLineNo">764</span>  @Override<a name="line.764"></a>
+<span class="sourceLineNo">765</span>  public ImmutableSortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.765"></a>
+<span class="sourceLineNo">766</span>    return tailMap(fromKey, true);<a name="line.766"></a>
+<span class="sourceLineNo">767</span>  }<a name="line.767"></a>
+<span class="sourceLineNo">768</span><a name="line.768"></a>
+<span class="sourceLineNo">769</span>  /**<a name="line.769"></a>
+<span class="sourceLineNo">770</span>   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are<a name="line.770"></a>
+<span class="sourceLineNo">771</span>   * greater than (or equal to, if {@code inclusive}) {@code fromKey}.<a name="line.771"></a>
+<span class="sourceLineNo">772</span>   *<a name="line.772"></a>
+<span class="sourceLineNo">773</span>   * &lt;p&gt;The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an<a name="line.773"></a>
+<span class="sourceLineNo">774</span>   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code<a name="line.774"></a>
+<span class="sourceLineNo">775</span>   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps<a name="line.775"></a>
+<span class="sourceLineNo">776</span>   * the original {@code fromKey}.<a name="line.776"></a>
+<span class="sourceLineNo">777</span>   *<a name="line.777"></a>
+<span class="sourceLineNo">778</span>   * @since 12.0<a name="line.778"></a>
+<span class="sourceLineNo">779</span>   */<a name="line.779"></a>
+<span class="sourceLineNo">780</span>  @Override<a name="line.780"></a>
+<span class="sourceLineNo">781</span>  public ImmutableSortedMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.781"></a>
+<span class="sourceLineNo">782</span>    return getSubMap(keySet.tailIndex(checkNotNull(fromKey), inclusive), size());<a name="line.782"></a>
+<span class="sourceLineNo">783</span>  }<a name="line.783"></a>
+<span class="sourceLineNo">784</span><a name="line.784"></a>
+<span class="sourceLineNo">785</span>  @Override<a name="line.785"></a>
+<span class="sourceLineNo">786</span>  public Entry&lt;K, V&gt; lowerEntry(K key) {<a name="line.786"></a>
+<span class="sourceLineNo">787</span>    return headMap(key, false).lastEntry();<a name="line.787"></a>
+<span class="sourceLineNo">788</span>  }<a name="line.788"></a>
+<span class="sourceLineNo">789</span><a name="line.789"></a>
+<span class="sourceLineNo">790</span>  @Override<a name="line.790"></a>
+<span class="sourceLineNo">791</span>  public K lowerKey(K key) {<a name="line.791"></a>
+<span class="sourceLineNo">792</span>    return keyOrNull(lowerEntry(key));<a name="line.792"></a>
+<span class="sourceLineNo">793</span>  }<a name="line.793"></a>
+<span class="sourceLineNo">794</span><a name="line.794"></a>
+<span class="sourceLineNo">795</span>  @Override<a name="line.795"></a>
+<span class="sourceLineNo">796</span>  public Entry&lt;K, V&gt; floorEntry(K key) {<a name="line.796"></a>
+<span class="sourceLineNo">797</span>    return headMap(key, true).lastEntry();<a name="line.797"></a>
+<span class="sourceLineNo">798</span>  }<a name="line.798"></a>
+<span class="sourceLineNo">799</span><a name="line.799"></a>
+<span class="sourceLineNo">800</span>  @Override<a name="line.800"></a>
+<span class="sourceLineNo">801</span>  public K floorKey(K key) {<a name="line.801"></a>
+<span class="sourceLineNo">802</span>    return keyOrNull(floorEntry(key));<a name="line.802"></a>
+<span class="sourceLineNo">803</span>  }<a name="line.803"></a>
+<span class="sourceLineNo">804</span><a name="line.804"></a>
+<span class="sourceLineNo">805</span>  @Override<a name="line.805"></a>
+<span class="sourceLineNo">806</span>  public Entry&lt;K, V&gt; ceilingEntry(K key) {<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    return tailMap(key, true).firstEntry();<a name="line.807"></a>
+<span class="sourceLineNo">808</span>  }<a name="line.808"></a>
+<span class="sourceLineNo">809</span><a name="line.809"></a>
+<span class="sourceLineNo">810</span>  @Override<a name="line.810"></a>
+<span class="sourceLineNo">811</span>  public K ceilingKey(K key) {<a name="line.811"></a>
+<span class="sourceLineNo">812</span>    return keyOrNull(ceilingEntry(key));<a name="line.812"></a>
+<span class="sourceLineNo">813</span>  }<a name="line.813"></a>
+<span class="sourceLineNo">814</span><a name="line.814"></a>
+<span class="sourceLineNo">815</span>  @Override<a name="line.815"></a>
+<span class="sourceLineNo">816</span>  public Entry&lt;K, V&gt; higherEntry(K key) {<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    return tailMap(key, false).firstEntry();<a name="line.817"></a>
+<span class="sourceLineNo">818</span>  }<a name="line.818"></a>
+<span class="sourceLineNo">819</span><a name="line.819"></a>
+<span class="sourceLineNo">820</span>  @Override<a name="line.820"></a>
+<span class="sourceLineNo">821</span>  public K higherKey(K key) {<a name="line.821"></a>
+<span class="sourceLineNo">822</span>    return keyOrNull(higherEntry(key));<a name="line.822"></a>
+<span class="sourceLineNo">823</span>  }<a name="line.823"></a>
+<span class="sourceLineNo">824</span><a name="line.824"></a>
+<span class="sourceLineNo">825</span>  @Override<a name="line.825"></a>
+<span class="sourceLineNo">826</span>  public Entry&lt;K, V&gt; firstEntry() {<a name="line.826"></a>
+<span class="sourceLineNo">827</span>    return isEmpty() ? null : entrySet().asList().get(0);<a name="line.827"></a>
+<span class="sourceLineNo">828</span>  }<a name="line.828"></a>
+<span class="sourceLineNo">829</span><a name="line.829"></a>
+<span class="sourceLineNo">830</span>  @Override<a name="line.830"></a>
+<span class="sourceLineNo">831</span>  public Entry&lt;K, V&gt; lastEntry() {<a name="line.831"></a>
+<span class="sourceLineNo">832</span>    return isEmpty() ? null : entrySet().asList().get(size() - 1);<a name="line.832"></a>
+<span class="sourceLineNo">833</span>  }<a name="line.833"></a>
+<span class="sourceLineNo">834</span><a name="line.834"></a>
+<span class="sourceLineNo">835</span>  /**<a name="line.835"></a>
+<span class="sourceLineNo">836</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.836"></a>
+<span class="sourceLineNo">837</span>   *<a name="line.837"></a>
+<span class="sourceLineNo">838</span>   * @throws UnsupportedOperationException always<a name="line.838"></a>
+<span class="sourceLineNo">839</span>   * @deprecated Unsupported operation.<a name="line.839"></a>
+<span class="sourceLineNo">840</span>   */<a name="line.840"></a>
+<span class="sourceLineNo">841</span>  @CanIgnoreReturnValue<a name="line.841"></a>
+<span class="sourceLineNo">842</span>  @Deprecated<a name="line.842"></a>
+<span class="sourceLineNo">843</span>  @Override<a name="line.843"></a>
+<span class="sourceLineNo">844</span>  public final Entry&lt;K, V&gt; pollFirstEntry() {<a name="line.844"></a>
+<span class="sourceLineNo">845</span>    throw new UnsupportedOperationException();<a name="line.845"></a>
+<span class="sourceLineNo">846</span>  }<a name="line.846"></a>
+<span class="sourceLineNo">847</span><a name="line.847"></a>
+<span class="sourceLineNo">848</span>  /**<a name="line.848"></a>
+<span class="sourceLineNo">849</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.849"></a>
+<span class="sourceLineNo">850</span>   *<a name="line.850"></a>
+<span class="sourceLineNo">851</span>   * @throws UnsupportedOperationException always<a name="line.851"></a>
+<span class="sourceLineNo">852</span>   * @deprecated Unsupported operation.<a name="line.852"></a>
+<span class="sourceLineNo">853</span>   */<a name="line.853"></a>
+<span class="sourceLineNo">854</span>  @CanIgnoreReturnValue<a name="line.854"></a>
+<span class="sourceLineNo">855</span>  @Deprecated<a name="line.855"></a>
+<span class="sourceLineNo">856</span>  @Override<a name="line.856"></a>
+<span class="sourceLineNo">857</span>  public final Entry&lt;K, V&gt; pollLastEntry() {<a name="line.857"></a>
+<span class="sourceLineNo">858</span>    throw new UnsupportedOperationException();<a name="line.858"></a>
+<span class="sourceLineNo">859</span>  }<a name="line.859"></a>
+<span class="sourceLineNo">860</span><a name="line.860"></a>
+<span class="sourceLineNo">861</span>  @Override<a name="line.861"></a>
+<span class="sourceLineNo">862</span>  public ImmutableSortedMap&lt;K, V&gt; descendingMap() {<a name="line.862"></a>
+<span class="sourceLineNo">863</span>    // TODO(kevinb): the descendingMap is never actually cached at all. Either it should be or the<a name="line.863"></a>
+<span class="sourceLineNo">864</span>    // code below simplified.<a name="line.864"></a>
+<span class="sourceLineNo">865</span>    ImmutableSortedMap&lt;K, V&gt; result = descendingMap;<a name="line.865"></a>
+<span class="sourceLineNo">866</span>    if (result == null) {<a name="line.866"></a>
+<span class="sourceLineNo">867</span>      if (isEmpty()) {<a name="line.867"></a>
+<span class="sourceLineNo">868</span>        return result = emptyMap(Ordering.from(comparator()).reverse());<a name="line.868"></a>
+<span class="sourceLineNo">869</span>      } else {<a name="line.869"></a>
+<span class="sourceLineNo">870</span>        return result =<a name="line.870"></a>
+<span class="sourceLineNo">871</span>            new ImmutableSortedMap&lt;&gt;(<a name="line.871"></a>
+<span class="sourceLineNo">872</span>                (RegularImmutableSortedSet&lt;K&gt;) keySet.descendingSet(), valueList.reverse(), this);<a name="line.872"></a>
+<span class="sourceLineNo">873</span>      }<a name="line.873"></a>
+<span class="sourceLineNo">874</span>    }<a name="line.874"></a>
+<span class="sourceLineNo">875</span>    return result;<a name="line.875"></a>
+<span class="sourceLineNo">876</span>  }<a name="line.876"></a>
+<span class="sourceLineNo">877</span><a name="line.877"></a>
+<span class="sourceLineNo">878</span>  @Override<a name="line.878"></a>
+<span class="sourceLineNo">879</span>  public ImmutableSortedSet&lt;K&gt; navigableKeySet() {<a name="line.879"></a>
+<span class="sourceLineNo">880</span>    return keySet;<a name="line.880"></a>
+<span class="sourceLineNo">881</span>  }<a name="line.881"></a>
+<span class="sourceLineNo">882</span><a name="line.882"></a>
+<span class="sourceLineNo">883</span>  @Override<a name="line.883"></a>
+<span class="sourceLineNo">884</span>  public ImmutableSortedSet&lt;K&gt; descendingKeySet() {<a name="line.884"></a>
+<span class="sourceLineNo">885</span>    return keySet.descendingSet();<a name="line.885"></a>
+<span class="sourceLineNo">886</span>  }<a name="line.886"></a>
+<span class="sourceLineNo">887</span><a name="line.887"></a>
+<span class="sourceLineNo">888</span>  /**<a name="line.888"></a>
+<span class="sourceLineNo">889</span>   * Serialized type for all ImmutableSortedMap instances. It captures the logical contents and they<a name="line.889"></a>
+<span class="sourceLineNo">890</span>   * are reconstructed using public factory methods. This ensures that the implementation types<a name="line.890"></a>
+<span class="sourceLineNo">891</span>   * remain as implementation details.<a name="line.891"></a>
+<span class="sourceLineNo">892</span>   */<a name="line.892"></a>
+<span class="sourceLineNo">893</span>  private static class SerializedForm&lt;K, V&gt; extends ImmutableMap.SerializedForm&lt;K, V&gt; {<a name="line.893"></a>
+<span class="sourceLineNo">894</span>    private final Comparator&lt;? super K&gt; comparator;<a name="line.894"></a>
+<span class="sourceLineNo">895</span><a name="line.895"></a>
+<span class="sourceLineNo">896</span>    SerializedForm(ImmutableSortedMap&lt;K, V&gt; sortedMap) {<a name="line.896"></a>
+<span class="sourceLineNo">897</span>      super(sortedMap);<a name="line.897"></a>
+<span class="sourceLineNo">898</span>      comparator = sortedMap.comparator();<a name="line.898"></a>
+<span class="sourceLineNo">899</span>    }<a name="line.899"></a>
+<span class="sourceLineNo">900</span><a name="line.900"></a>
+<span class="sourceLineNo">901</span>    @Override<a name="line.901"></a>
+<span class="sourceLineNo">902</span>    Builder&lt;K, V&gt; makeBuilder(int size) {<a name="line.902"></a>
+<span class="sourceLineNo">903</span>      return new Builder&lt;&gt;(comparator);<a name="line.903"></a>
+<span class="sourceLineNo">904</span>    }<a name="line.904"></a>
+<span class="sourceLineNo">905</span><a name="line.905"></a>
+<span class="sourceLineNo">906</span>    private static final long serialVersionUID = 0;<a name="line.906"></a>
+<span class="sourceLineNo">907</span>  }<a name="line.907"></a>
+<span class="sourceLineNo">908</span><a name="line.908"></a>
+<span class="sourceLineNo">909</span>  @Override<a name="line.909"></a>
+<span class="sourceLineNo">910</span>  Object writeReplace() {<a name="line.910"></a>
+<span class="sourceLineNo">911</span>    return new SerializedForm&lt;&gt;(this);<a name="line.911"></a>
+<span class="sourceLineNo">912</span>  }<a name="line.912"></a>
+<span class="sourceLineNo">913</span><a name="line.913"></a>
+<span class="sourceLineNo">914</span>  // This class is never actually serialized directly, but we have to make the<a name="line.914"></a>
+<span class="sourceLineNo">915</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.915"></a>
+<span class="sourceLineNo">916</span>  private static final long serialVersionUID = 0;<a name="line.916"></a>
+<span class="sourceLineNo">917</span>}<a name="line.917"></a>
 
 
 
