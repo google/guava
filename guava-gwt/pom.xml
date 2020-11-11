@@ -11,7 +11,7 @@
   <name>Guava GWT compatible libs</name>
   <description>
     Guava is a suite of core and expanded libraries that include
-    utility classes, google's collections, io classes, and much
+    utility classes, Google's collections, I/O classes, and
     much more.
 
     This project includes GWT-friendly sources.
