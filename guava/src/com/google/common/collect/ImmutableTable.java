@@ -333,6 +333,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<R, C, V> combine(Builder<R, C, V> other) {
       this.cells.addAll(other.cells);
       return this;
