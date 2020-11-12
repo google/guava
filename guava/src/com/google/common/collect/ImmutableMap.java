@@ -37,7 +37,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.Spliterator;
@@ -97,12 +96,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction,
       BinaryOperator<V> mergeFunction) {
-    checkNotNull(keyFunction);
-    checkNotNull(valueFunction);
-    checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
-        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
-        ImmutableMap::copyOf);
+    return CollectCollectors.toImmutableMap(keyFunction, valueFunction, mergeFunction);
   }
 
   /**
