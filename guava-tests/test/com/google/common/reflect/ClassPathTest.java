@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.common.reflect;
 
 import static com.google.common.base.Charsets.US_ASCII;
@@ -49,10 +48,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.Permission;
 import java.security.PermissionCollection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
@@ -78,7 +74,7 @@ public class ClassPathTest extends TestCase {
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
-    assertThat(ClassPath.Scanner.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
+    assertThat(ClassPath.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
         .isEmpty();
   }
 
@@ -87,7 +83,7 @@ public class ClassPathTest extends TestCase {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
-    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+    assertThat(ClassPath.getClassPathEntries(classloader))
         .containsExactly(new File("/a"), classloader, new File("/b"), classloader);
   }
 
@@ -97,7 +93,7 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
-    assertThat(ClassPath.Scanner.getClassPathEntries(child))
+    assertThat(ClassPath.getClassPathEntries(child))
         .containsExactly(new File("/a"), parent, new File("/b"), child)
         .inOrder();
   }
@@ -107,20 +103,19 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url}, parent) {};
-    assertThat(ClassPath.Scanner.getClassPathEntries(child))
-        .containsExactly(new File("/a"), parent);
+    assertThat(ClassPath.getClassPathEntries(child)).containsExactly(new File("/a"), parent);
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_noParent() {
-    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {})).isEmpty();
+    assertThat(ClassPath.getClassPathEntries(new ClassLoader(null) {})).isEmpty();
   }
 
   @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
-    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+    assertThat(ClassPath.getClassPathEntries(new ClassLoader(parent) {}))
         .containsExactly(new File("/a"), parent);
   }
 
@@ -130,7 +125,7 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader parent = new URLClassLoader(new URL[] {url2}, grandParent);
-    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+    assertThat(ClassPath.getClassPathEntries(new ClassLoader(parent) {}))
         .containsExactly(new File("/a"), grandParent, new File("/b"), parent);
   }
 
@@ -139,7 +134,7 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);
     ClassLoader parent = new ClassLoader(grandParent) {};
-    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}))
+    assertThat(ClassPath.getClassPathEntries(new ClassLoader(parent) {}))
         .containsExactly(new File("/a"), grandParent);
   }
 
@@ -148,7 +143,7 @@ public class ClassPathTest extends TestCase {
   public void testClassPathEntries_URLClassLoader_pathWithSpace() throws Exception {
     URL url = new URL("file:///c:/Documents and Settings/");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
-    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+    assertThat(ClassPath.getClassPathEntries(classloader))
         .containsExactly(new File("/c:/Documents and Settings/"), classloader);
   }
 
@@ -157,7 +152,7 @@ public class ClassPathTest extends TestCase {
   public void testClassPathEntries_URLClassLoader_pathWithEscapedSpace() throws Exception {
     URL url = new URL("file:///c:/Documents%20and%20Settings/");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url}, null);
-    assertThat(ClassPath.Scanner.getClassPathEntries(classloader))
+    assertThat(ClassPath.getClassPathEntries(classloader))
         .containsExactly(new File("/c:/Documents and Settings/"), classloader);
   }
 
@@ -192,9 +187,10 @@ public class ClassPathTest extends TestCase {
     File jarFile = File.createTempFile("with_circular_class_path", ".jar");
     try {
       writeSelfReferencingJarFile(jarFile, "test.txt");
-      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-      scanner.scan(jarFile, ClassPathTest.class.getClassLoader());
-      assertThat(scanner.getResources()).hasSize(1);
+      assertThat(
+              new ClassPath.LocationInfo(jarFile, ClassPathTest.class.getClassLoader())
+                  .scanResources())
+          .hasSize(1);
     } finally {
       jarFile.delete();
     }
@@ -220,17 +216,13 @@ public class ClassPathTest extends TestCase {
 
       createSymbolicLink(left.resolve("sibling"), right);
       createSymbolicLink(right.resolve("sibling"), left);
-
-      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-      scanner.scan(root.toFile(), loader);
-
       assertEquals(
           ImmutableSet.of(
               new ResourceInfo(FILE, "left/some.txt", loader),
               new ResourceInfo(FILE, "left/sibling/another.txt", loader),
               new ResourceInfo(FILE, "right/another.txt", loader),
               new ResourceInfo(FILE, "right/sibling/some.txt", loader)),
-          scanner.getResources());
+          new ClassPath.LocationInfo(root.toFile(), loader).scanResources());
     } finally {
       deleteRecursivelyOrLog(root);
     }
@@ -249,12 +241,9 @@ public class ClassPathTest extends TestCase {
       createFile(root.resolve("some.txt"));
       java.nio.file.Path child = createDirectory(root.resolve("child"));
       createSymbolicLink(child.resolve("grandchild"), root);
-
-      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-      scanner.scan(root.toFile(), loader);
-
       assertEquals(
-          ImmutableSet.of(new ResourceInfo(FILE, "some.txt", loader)), scanner.getResources());
+          ImmutableSet.of(new ResourceInfo(FILE, "some.txt", loader)),
+          new ClassPath.LocationInfo(root.toFile(), loader).scanResources());
     } finally {
       deleteRecursivelyOrLog(root);
     }
@@ -262,70 +251,65 @@ public class ClassPathTest extends TestCase {
 
   public void testScanFromFile_fileNotExists() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
-    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
-    scanner.scan(new File("no/such/file/anywhere"), classLoader);
-    assertThat(scanner.getResources()).isEmpty();
+    assertThat(
+            new ClassPath.LocationInfo(new File("no/such/file/anywhere"), classLoader)
+                .scanResources())
+        .isEmpty();
   }
 
   public void testScanFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
     File notJar = File.createTempFile("not_a_jar", "txt");
-    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
     try {
-      scanner.scan(notJar, classLoader);
+      assertThat(new ClassPath.LocationInfo(notJar, classLoader).scanResources()).isEmpty();
     } finally {
       notJar.delete();
     }
-    assertThat(scanner.getResources()).isEmpty();
   }
 
   public void testGetClassPathEntry() throws MalformedURLException, URISyntaxException {
     assertEquals(
         new File("/usr/test/dep.jar").toURI(),
-        ClassPath.Scanner.getClassPathEntry(
-                new File("/home/build/outer.jar"), "file:/usr/test/dep.jar")
+        ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "file:/usr/test/dep.jar")
             .toURI());
     assertEquals(
         new File("/home/build/a.jar").toURI(),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "a.jar").toURI());
+        ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "a.jar").toURI());
     assertEquals(
         new File("/home/build/x/y/z").toURI(),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z").toURI());
+        ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z").toURI());
     assertEquals(
         new File("/home/build/x/y/z.jar").toURI(),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar")
-            .toURI());
+        ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar").toURI());
     assertEquals(
         "/home/build/x y.jar",
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x y.jar")
-            .getFile());
+        ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "x y.jar").getFile());
   }
 
   public void testGetClassPathFromManifest_nullManifest() {
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(new File("some.jar"), null)).isEmpty();
+    assertThat(ClassPath.getClassPathFromManifest(new File("some.jar"), null)).isEmpty();
   }
 
   public void testGetClassPathFromManifest_noClassPath() throws IOException {
     File jarFile = new File("base.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest(""))).isEmpty();
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest(""))).isEmpty();
   }
 
   public void testGetClassPathFromManifest_emptyClassPath() throws IOException {
     File jarFile = new File("base.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifestClasspath("")))
-        .isEmpty();
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifestClasspath(""))).isEmpty();
   }
 
   public void testGetClassPathFromManifest_badClassPath() throws IOException {
     File jarFile = new File("base.jar");
     Manifest manifest = manifestClasspath("nosuchscheme:an_invalid^path");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).isEmpty();
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest)).isEmpty();
   }
 
   public void testGetClassPathFromManifest_pathWithStrangeCharacter() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:the^file.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/the^file.jar"));
   }
 
@@ -333,7 +317,7 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/with/relative/dir"));
   }
 
@@ -341,7 +325,7 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/with/relative.jar"));
   }
 
@@ -349,28 +333,28 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/current.jar"));
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("/with/absolute/dir"));
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("/with/absolute.jar"));
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(
             fullpath("/with/absolute.jar"),
             fullpath("base/relative.jar"),
@@ -381,14 +365,14 @@ public class ClassPathTest extends TestCase {
   public void testGetClassPathFromManifest_leadingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/relative.jar"));
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
         .containsExactly(fullpath("base/relative.jar"));
   }
 
@@ -435,7 +419,7 @@ public class ClassPathTest extends TestCase {
                 "relative/path/to/class/root",
                 "/absolute/path/to/class/root"));
     try {
-      ImmutableList<URL> urls = ClassPath.Scanner.parseJavaClassPath();
+      ImmutableList<URL> urls = ClassPath.parseJavaClassPath();
 
       assertThat(urls.get(0).getProtocol()).isEqualTo("file");
       assertThat(urls.get(0).getAuthority()).isNull();
@@ -468,10 +452,38 @@ public class ClassPathTest extends TestCase {
         .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));
   }
 
-  public void testResourceScanner() throws IOException {
-    ResourceScanner scanner = new ResourceScanner();
-    scanner.scan(ClassLoader.getSystemClassLoader());
-    assertThat(scanner.resources).contains("com/google/common/reflect/ClassPathTest.class");
+  public void testLocationsFrom_idempotentScan() throws IOException {
+    ImmutableSet<ClassPath.LocationInfo> locations =
+        ClassPath.locationsFrom(getClass().getClassLoader());
+    assertThat(locations).isNotEmpty();
+    for (ClassPath.LocationInfo location : locations) {
+      ImmutableSet<ResourceInfo> resources = location.scanResources();
+      assertThat(location.scanResources()).containsExactlyElementsIn(resources);
+    }
+  }
+
+  public void testLocationsFrom_idempotentLocations() {
+    ImmutableSet<ClassPath.LocationInfo> locations =
+        ClassPath.locationsFrom(getClass().getClassLoader());
+    assertThat(ClassPath.locationsFrom(getClass().getClassLoader()))
+        .containsExactlyElementsIn(locations);
+  }
+
+  public void testLocationEquals() {
+    ClassLoader child = getClass().getClassLoader();
+    ClassLoader parent = child.getParent();
+    new EqualsTester()
+        .addEqualityGroup(
+            new ClassPath.LocationInfo(new File("foo.jar"), child),
+            new ClassPath.LocationInfo(new File("foo.jar"), child))
+        .addEqualityGroup(new ClassPath.LocationInfo(new File("foo.jar"), parent))
+        .addEqualityGroup(new ClassPath.LocationInfo(new File("foo"), child))
+        .testEquals();
+  }
+
+  public void testScanAllResources() throws IOException {
+    assertThat(scanResourceNames(ClassLoader.getSystemClassLoader()))
+        .contains("com/google/common/reflect/ClassPathTest.class");
   }
 
   public void testExistsThrowsSecurityException() throws IOException, URISyntaxException {
@@ -488,7 +500,7 @@ public class ClassPathTest extends TestCase {
     // In Java 9, Logger may read the TZ database. Only disallow reading the class path URLs.
     final PermissionCollection readClassPathFiles =
         new FilePermission("", "read").newPermissionCollection();
-    for (URL url : ClassPath.Scanner.parseJavaClassPath()) {
+    for (URL url : ClassPath.parseJavaClassPath()) {
       if (url.getProtocol().equalsIgnoreCase("file")) {
         file = new File(url.toURI());
         readClassPathFiles.add(new FilePermission(file.getAbsolutePath(), "read"));
@@ -580,47 +592,21 @@ public class ClassPathTest extends TestCase {
     return new File(new File(path).toURI());
   }
 
-  private static class ResourceScanner extends ClassPath.Scanner {
-    final Set<String> resources = new HashSet<>();
-
-    @Override
-    protected void scanResource(ResourceInfo resource) throws IOException {
-      resources.add(resource.getResourceName());
-    }
-  }
-
   private static URL makeJarUrlWithName(String name) throws IOException {
     File fullPath = new File(Files.createTempDir(), name);
-    File jarFile = JarFileFinder.pickAnyJarFile();
+    File jarFile = pickAnyJarFile();
     Files.copy(jarFile, fullPath);
     return fullPath.toURI().toURL();
   }
 
-  private static final class JarFileFinder extends ClassPath.Scanner {
-
-    private File found;
-
-    static File pickAnyJarFile() throws IOException {
-      JarFileFinder finder = new JarFileFinder();
-      try {
-        finder.scan(JarFileFinder.class.getClassLoader());
-        throw new IllegalStateException("No jar file found!");
-      } catch (StopScanningException expected) {
-        return finder.found;
+  private static File pickAnyJarFile() throws IOException {
+    for (ClassPath.LocationInfo location :
+        ClassPath.locationsFrom(ClassPathTest.class.getClassLoader())) {
+      if (!location.file().isDirectory() && location.file().exists()) {
+        return location.file();
       }
     }
-
-    @Override
-    void scanJarFile(ClassLoader classloader, JarFile file) throws IOException {
-      this.found = new File(file.getName());
-      throw new StopScanningException();
-    }
-
-    @Override
-    protected void scanResource(ResourceInfo resource) {}
-
-    // Special exception just to terminate the scanning when we get any jar file to use.
-    private static final class StopScanningException extends RuntimeException {}
+    throw new AssertionError("Failed to find a jar file");
   }
 
   @AndroidIncompatible // Path (for symlink creation)
@@ -630,5 +616,15 @@ public class ClassPathTest extends TestCase {
     } catch (IOException e) {
       log.log(WARNING, "Failure cleaning up test directory", e);
     }
+  }
+
+  private static ImmutableSet<String> scanResourceNames(ClassLoader loader) throws IOException {
+    ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+    for (ClassPath.LocationInfo location : ClassPath.locationsFrom(loader)) {
+      for (ResourceInfo resource : location.scanResources()) {
+        builder.add(resource.getResourceName());
+      }
+    }
+    return builder.build();
   }
 }

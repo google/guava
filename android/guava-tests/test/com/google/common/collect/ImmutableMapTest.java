@@ -652,6 +652,29 @@ public class ImmutableMapTest extends TestCase {
       assertSame(copy, ImmutableMap.copyOf(copy));
     }
 
+    // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+    public void testToImmutableMap_java7_combine() {
+      ImmutableMap.Builder<String, Integer> zis =
+          ImmutableMap.<String, Integer>builder().put("one", 1);
+      ImmutableMap.Builder<String, Integer> zat =
+          ImmutableMap.<String, Integer>builder().put("two", 2).put("three", 3);
+      assertMapEquals(zis.combine(zat).build(), "one", 1, "two", 2, "three", 3);
+    }
+
+    // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+    public void testToImmutableMap_exceptionOnDuplicateKey_java7_combine() {
+      ImmutableMap.Builder<String, Integer> zis =
+          ImmutableMap.<String, Integer>builder().put("one", 1).put("two", 2);
+      ImmutableMap.Builder<String, Integer> zat =
+          ImmutableMap.<String, Integer>builder().put("two", 22).put("three", 3);
+      try {
+        zis.combine(zat).build();
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // expected
+      }
+    }
+
     public static void hashtableTestHelper(ImmutableList<Integer> sizes) {
       for (int size : sizes) {
         Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(size);

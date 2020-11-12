@@ -129,6 +129,13 @@ public final class HttpHeaders {
   public static final String MAX_FORWARDS = "Max-Forwards";
   /** The HTTP {@code Origin} header field name. */
   public static final String ORIGIN = "Origin";
+  /**
+   * The HTTP <a href="https://github.com/WICG/origin-isolation">{@code Origin-Isolation}</a> header
+   * field name.
+   *
+   * @since NEXT
+   */
+  public static final String ORIGIN_ISOLATION = "Origin-Isolation";
   /** The HTTP {@code Proxy-Authorization} header field name. */
   public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";
   /** The HTTP {@code Range} header field name. */
@@ -411,6 +418,12 @@ public final class HttpHeaders {
    * @since 15.0
    */
   @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
+  /**
+   * The HTTP {@code X-Request-ID} header field name.
+   *
+   * @since NEXT
+   */
+  public static final String X_REQUEST_ID = "X-Request-ID";
   /** The HTTP {@code X-Requested-With} header field name. */
   public static final String X_REQUESTED_WITH = "X-Requested-With";
   /** The HTTP {@code X-User-IP} header field name. */

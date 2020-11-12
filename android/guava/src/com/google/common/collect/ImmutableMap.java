@@ -315,6 +315,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> other) {
+      checkNotNull(other);
+      ensureCapacity(this.size + other.size);
+      System.arraycopy(
+          other.alternatingKeysAndValues,
+          0,
+          this.alternatingKeysAndValues,
+          this.size * 2,
+          other.size * 2);
+      this.size += other.size;
+      return this;
+    }
+
     /*
      * TODO(kevinb): Should build() and the ImmutableBiMap & ImmutableSortedMap
      * versions throw an IllegalStateException instead?

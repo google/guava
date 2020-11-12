@@ -778,6 +778,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<E> combine(Builder<E> other) {
+      addAll(other.contents, other.size);
+      return this;
+    }
+
     /**
      * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder}.
      */

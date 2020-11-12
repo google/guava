@@ -38,6 +38,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.Reflection;
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.StandardSubjectBuilder;
+import com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable;
 import com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction;
 import com.google.common.util.concurrent.ClosingFuture.ClosingCallable;
 import com.google.common.util.concurrent.ClosingFuture.ClosingFunction;
@@ -256,6 +257,76 @@ public abstract class ClosingFutureTest extends TestCase {
             new ClosingCallable<Object>() {
               @Override
               public Object call(DeferredCloser closer) throws Exception {
+                closer.eventuallyClose(closeable1, closingExecutor);
+                closer.eventuallyClose(closeable2, closingExecutor);
+                throw exception;
+              }
+            },
+            executor);
+    assertFinallyFailsWithException(closingFuture);
+    waitUntilClosed(closingFuture);
+    assertClosed(closeable1, closeable2);
+  }
+
+  public void testSubmitAsync() throws Exception {
+    ClosingFuture<TestCloseable> closingFuture =
+        ClosingFuture.submitAsync(
+            new AsyncClosingCallable<TestCloseable>() {
+              @Override
+              public ClosingFuture<TestCloseable> call(DeferredCloser closer) {
+                closer.eventuallyClose(closeable1, closingExecutor);
+                return ClosingFuture.submit(
+                    new ClosingCallable<TestCloseable>() {
+                      @Override
+                      public TestCloseable call(DeferredCloser deferredCloser) throws Exception {
+                        return closeable2;
+                      }
+                    },
+                    directExecutor());
+              }
+            },
+            executor);
+    assertThat(getFinalValue(closingFuture)).isSameInstanceAs(closeable2);
+    waitUntilClosed(closingFuture);
+    assertClosed(closeable1);
+    assertStillOpen(closeable2);
+  }
+
+  public void testSubmitAsync_cancelledPipeline() throws Exception {
+    ClosingFuture<TestCloseable> closingFuture =
+        ClosingFuture.submitAsync(
+            waiter.waitFor(
+                new AsyncClosingCallable<TestCloseable>() {
+                  @Override
+                  public ClosingFuture<TestCloseable> call(DeferredCloser closer) throws Exception {
+                    awaitUninterruptibly(futureCancelled);
+                    closer.eventuallyClose(closeable1, closingExecutor);
+                    closer.eventuallyClose(closeable2, closingExecutor);
+                    return ClosingFuture.submit(
+                        new ClosingCallable<TestCloseable>() {
+                          @Override
+                          public TestCloseable call(DeferredCloser deferredCloser)
+                              throws Exception {
+                            deferredCloser.eventuallyClose(closeable3, closingExecutor);
+                            return closeable3;
+                          }
+                        },
+                        directExecutor());
+                  }
+                }),
+            executor);
+    waiter.awaitStarted();
+    cancelFinalStepAndWait(closingFuture);
+    waiter.awaitReturned();
+    assertClosed(closeable1, closeable2, closeable3);
+  }
+
+  public void testSubmitAsync_throws() throws Exception {
+    ClosingFuture<Object> closingFuture =
+        ClosingFuture.submitAsync(
+            new AsyncClosingCallable<Object>() {
+              @Override
+              public ClosingFuture<Object> call(DeferredCloser closer) throws Exception {
                 closer.eventuallyClose(closeable1, closingExecutor);
                 closer.eventuallyClose(closeable2, closingExecutor);
                 throw exception;
@@ -1835,6 +1906,10 @@ public abstract class ClosingFutureTest extends TestCase {
 
     <V> ClosingCallable<V> waitFor(ClosingCallable<V> closingCallable) {
       return waitFor(closingCallable, ClosingCallable.class);
+    }
+
+    <V> AsyncClosingCallable<V> waitFor(AsyncClosingCallable<V> asyncClosingCallable) {
+      return waitFor(asyncClosingCallable, AsyncClosingCallable.class);
     }
 
     <T, U> ClosingFunction<T, U> waitFor(ClosingFunction<T, U> closingFunction) {

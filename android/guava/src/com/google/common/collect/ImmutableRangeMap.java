@@ -114,6 +114,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> builder) {
+      entries.addAll(builder.entries);
+      return this;
+    }
+
     /**
      * Returns an {@code ImmutableRangeMap} containing the associations previously added to this
      * builder.

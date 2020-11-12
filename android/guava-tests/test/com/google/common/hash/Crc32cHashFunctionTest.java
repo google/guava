@@ -27,11 +27,20 @@ import junit.framework.TestCase;
  */
 public class Crc32cHashFunctionTest extends TestCase {
 
+  public void testEmpty() {
+    assertCrc(0, new byte[0]);
+  }
+
   public void testZeros() {
     // Test 32 byte array of 0x00.
     byte[] zeros = new byte[32];
-    Arrays.fill(zeros, (byte) 0x00);
     assertCrc(0x8a9136aa, zeros);
+  }
+
+  public void testZeros100() {
+    // Test 100 byte array of 0x00.
+    byte[] zeros = new byte[100];
+    assertCrc(0x07cb9ff6, zeros);
   }
 
   public void testFull() {
@@ -39,6 +48,13 @@ public class Crc32cHashFunctionTest extends TestCase {
     byte[] fulls = new byte[32];
     Arrays.fill(fulls, (byte) 0xFF);
     assertCrc(0x62a8ab43, fulls);
+  }
+
+  public void testFull100() {
+    // Test 100 byte array of 0xFF.
+    byte[] fulls = new byte[100];
+    Arrays.fill(fulls, (byte) 0xFF);
+    assertCrc(0xbc753add, fulls);
   }
 
   public void testAscending() {
@@ -57,6 +73,15 @@ public class Crc32cHashFunctionTest extends TestCase {
       descending[i] = (byte) (31 - i);
     }
     assertCrc(0x113fdb5c, descending);
+  }
+
+  public void testDescending100() {
+    // Test 100 byte arrays of descending.
+    byte[] descending = new byte[100];
+    for (int i = 0; i < 100; i++) {
+      descending[i] = (byte) (99 - i);
+    }
+    assertCrc(0xd022db97, descending);
   }
 
   public void testScsiReadCommand() {
@@ -95,7 +120,10 @@ public class Crc32cHashFunctionTest extends TestCase {
    */
   private static void assertCrc(int expectedCrc, byte[] data) {
     int actualCrc = Hashing.crc32c().hashBytes(data).asInt();
-    assertEquals(expectedCrc, actualCrc);
+    assertEquals(
+        String.format("expected: %08x, actual: %08x", expectedCrc, actualCrc),
+        expectedCrc,
+        actualCrc);
   }
 
   // From RFC 3720, Section 12.1, the polynomial generator is 0x11EDC6F41.

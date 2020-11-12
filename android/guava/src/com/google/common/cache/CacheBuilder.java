@@ -478,8 +478,8 @@ public final class CacheBuilder<K, V> {
         this.maximumWeight);
     checkState(
         this.maximumSize == UNSET_INT, "maximum size was already set to %s", this.maximumSize);
-    this.maximumWeight = maximumWeight;
     checkArgument(maximumWeight >= 0, "maximum weight must not be negative");
+    this.maximumWeight = maximumWeight;
     return this;
   }
 

@@ -459,6 +459,14 @@ public class ImmutableListTest extends TestCase {
       } catch (NullPointerException expected) {
       }
     }
+
+    // TODO(b/172823566): Use mainline testToImmutableList once CollectorTester is usable to java7.
+    public void testToImmutableList_java7_combine() {
+      ImmutableList.Builder<String> zis = ImmutableList.<String>builder().add("a", "b");
+      ImmutableList.Builder<String> zat = ImmutableList.<String>builder().add("c", "d");
+      ImmutableList<String> list = zis.combine(zat).build();
+      assertEquals(asList("a", "b", "c", "d"), list);
+    }
   }
 
   @GwtIncompatible // reflection
