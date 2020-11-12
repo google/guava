@@ -21,35 +21,72 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectCollectors {
-  static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
-    checkNotNull(keyFunction);
-    checkNotNull(valueFunction);
-    return Collector.of(
-        ImmutableBiMap.Builder<K, V>::new,
-        (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
-        ImmutableBiMap.Builder::combine,
-        ImmutableBiMap.Builder::build,
-        new Collector.Characteristics[0]);
-  }
 
   private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =
       Collector.of(
-          ImmutableList::<Object>builder,
+          ImmutableList::builder,
           ImmutableList.Builder::add,
           ImmutableList.Builder::combine,
           ImmutableList.Builder::build);
 
+  private static final Collector<Object, ?, ImmutableSet<Object>> TO_IMMUTABLE_SET =
+      Collector.of(
+          ImmutableSet::builder,
+          ImmutableSet.Builder::add,
+          ImmutableSet.Builder::combine,
+          ImmutableSet.Builder::build);
+
+  @GwtIncompatible
+  private static final Collector<Range<Comparable<?>>, ?, ImmutableRangeSet<Comparable<?>>>
+      TO_IMMUTABLE_RANGE_SET =
+          Collector.of(
+              ImmutableRangeSet::builder,
+              ImmutableRangeSet.Builder::add,
+              ImmutableRangeSet.Builder::combine,
+              ImmutableRangeSet.Builder::build);
+
+  // Lists
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
   static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
     return (Collector) TO_IMMUTABLE_LIST;
   }
+
+  // Sets
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    return (Collector) TO_IMMUTABLE_SET;
+  }
+
+  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+      Comparator<? super E> comparator) {
+    checkNotNull(comparator);
+    return Collector.of(
+        () -> new ImmutableSortedSet.Builder<E>(comparator),
+        ImmutableSortedSet.Builder::add,
+        ImmutableSortedSet.Builder::combine,
+        ImmutableSortedSet.Builder::build);
+  }
+
+  @GwtIncompatible
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  static <E extends Comparable<? super E>>
+      Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
+    return (Collector) TO_IMMUTABLE_RANGE_SET;
+  }
+
+  // Maps
 
   static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
       Function<? super T, ? extends K> keyFunction,
@@ -63,15 +100,16 @@ final class CollectCollectors {
         ImmutableMap.Builder::build);
   }
 
-  private static final Collector<Object, ?, ImmutableSet<Object>> TO_IMMUTABLE_SET =
-      Collector.of(
-          ImmutableSet::<Object>builder,
-          ImmutableSet.Builder::add,
-          ImmutableSet.Builder::combine,
-          ImmutableSet.Builder::build);
-
-  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
-    return (Collector) TO_IMMUTABLE_SET;
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        ImmutableMap::copyOf);
   }
 
   static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -93,29 +131,32 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
-  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
-      Comparator<? super E> comparator) {
+  static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+      Comparator<? super K> comparator,
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
     checkNotNull(comparator);
-    return Collector.of(
-        () -> new ImmutableSortedSet.Builder<E>(comparator),
-        ImmutableSortedSet.Builder::add,
-        ImmutableSortedSet.Builder::combine,
-        ImmutableSortedSet.Builder::build);
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(
+            keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
+        ImmutableSortedMap::copyOfSorted);
   }
 
-  @GwtIncompatible
-  private static final Collector<Range<Comparable>, ?, ImmutableRangeSet<Comparable>>
-      TO_IMMUTABLE_RANGE_SET =
-          Collector.of(
-              ImmutableRangeSet::<Comparable>builder,
-              ImmutableRangeSet.Builder::add,
-              ImmutableRangeSet.Builder::combine,
-              ImmutableRangeSet.Builder::build);
-
-  @GwtIncompatible
-  static <E extends Comparable<? super E>>
-      Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
-    return (Collector) TO_IMMUTABLE_RANGE_SET;
+  static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collector.of(
+        ImmutableBiMap.Builder<K, V>::new,
+        (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
+        ImmutableBiMap.Builder::combine,
+        ImmutableBiMap.Builder::build,
+        new Collector.Characteristics[0]);
   }
 
   @GwtIncompatible
