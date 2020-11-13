@@ -76,16 +76,7 @@ public final class Multisets {
       java.util.function.Function<? super T, E> elementFunction,
       java.util.function.ToIntFunction<? super T> countFunction,
       java.util.function.Supplier<M> multisetSupplier) {
-    checkNotNull(elementFunction);
-    checkNotNull(countFunction);
-    checkNotNull(multisetSupplier);
-    return Collector.of(
-        multisetSupplier,
-        (ms, t) -> ms.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
-        (ms1, ms2) -> {
-          ms1.addAll(ms2);
-          return ms1;
-        });
+    return CollectCollectors.toMultiset(elementFunction, countFunction, multisetSupplier);
   }
 
   /**
