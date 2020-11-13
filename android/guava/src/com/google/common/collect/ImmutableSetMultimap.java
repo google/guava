@@ -213,6 +213,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @Override
+    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
+      super.combine(other);
+      return this;
+    }
+
     /**
      * {@inheritDoc}
      *
