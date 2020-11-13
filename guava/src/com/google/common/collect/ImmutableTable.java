@@ -20,11 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Tables.AbstractCell;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +30,6 @@ import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collector;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -64,15 +61,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       Function<? super T, ? extends R> rowFunction,
       Function<? super T, ? extends C> columnFunction,
       Function<? super T, ? extends V> valueFunction) {
-    checkNotNull(rowFunction, "rowFunction");
-    checkNotNull(columnFunction, "columnFunction");
-    checkNotNull(valueFunction, "valueFunction");
-    return Collector.of(
-        (Supplier<Builder<R, C, V>>) Builder::new,
-        (builder, t) ->
-            builder.put(rowFunction.apply(t), columnFunction.apply(t), valueFunction.apply(t)),
-        Builder::combine,
-        Builder::build);
+    return TableCollectors.toImmutableTable(rowFunction, columnFunction, valueFunction);
   }
 
   /**
@@ -91,88 +80,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       Function<? super T, ? extends C> columnFunction,
       Function<? super T, ? extends V> valueFunction,
       BinaryOperator<V> mergeFunction) {
-
-    checkNotNull(rowFunction, "rowFunction");
-    checkNotNull(columnFunction, "columnFunction");
-    checkNotNull(valueFunction, "valueFunction");
-    checkNotNull(mergeFunction, "mergeFunction");
-
-    /*
-     * No mutable Table exactly matches the insertion order behavior of ImmutableTable.Builder, but
-     * the Builder can't efficiently support merging of duplicate values.  Getting around this
-     * requires some work.
-     */
-
-    return Collector.of(
-        () -> new CollectorState<R, C, V>()
-        /* GWT isn't currently playing nicely with constructor references? */ ,
-        (state, input) ->
-            state.put(
-                rowFunction.apply(input),
-                columnFunction.apply(input),
-                valueFunction.apply(input),
-                mergeFunction),
-        (s1, s2) -> s1.combine(s2, mergeFunction),
-        state -> state.toTable());
-  }
-
-  private static final class CollectorState<R, C, V> {
-    final List<MutableCell<R, C, V>> insertionOrder = new ArrayList<>();
-    final Table<R, C, MutableCell<R, C, V>> table = HashBasedTable.create();
-
-    void put(R row, C column, V value, BinaryOperator<V> merger) {
-      MutableCell<R, C, V> oldCell = table.get(row, column);
-      if (oldCell == null) {
-        MutableCell<R, C, V> cell = new MutableCell<>(row, column, value);
-        insertionOrder.add(cell);
-        table.put(row, column, cell);
-      } else {
-        oldCell.merge(value, merger);
-      }
-    }
-
-    CollectorState<R, C, V> combine(CollectorState<R, C, V> other, BinaryOperator<V> merger) {
-      for (MutableCell<R, C, V> cell : other.insertionOrder) {
-        put(cell.getRowKey(), cell.getColumnKey(), cell.getValue(), merger);
-      }
-      return this;
-    }
-
-    ImmutableTable<R, C, V> toTable() {
-      return copyOf(insertionOrder);
-    }
-  }
-
-  private static final class MutableCell<R, C, V> extends AbstractCell<R, C, V> {
-    private final R row;
-    private final C column;
-    private V value;
-
-    MutableCell(R row, C column, V value) {
-      this.row = checkNotNull(row, "row");
-      this.column = checkNotNull(column, "column");
-      this.value = checkNotNull(value, "value");
-    }
-
-    @Override
-    public R getRowKey() {
-      return row;
-    }
-
-    @Override
-    public C getColumnKey() {
-      return column;
-    }
-
-    @Override
-    public V getValue() {
-      return value;
-    }
-
-    void merge(V value, BinaryOperator<V> mergeFunction) {
-      checkNotNull(value, "value");
-      this.value = checkNotNull(mergeFunction.apply(this.value, value), "mergeFunction.apply");
-    }
+    return TableCollectors.toImmutableTable(
+        rowFunction, columnFunction, valueFunction, mergeFunction);
   }
 
   /** Returns an empty immutable table. */
@@ -210,7 +119,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     }
   }
 
-  private static <R, C, V> ImmutableTable<R, C, V> copyOf(
+  static <R, C, V> ImmutableTable<R, C, V> copyOf(
       Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
     ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
     for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
