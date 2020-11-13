@@ -18,8 +18,11 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Preconditions;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -29,6 +32,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -206,5 +210,94 @@ final class CollectCollectors {
         (builder, input) -> builder.put(keyFunction.apply(input), valueFunction.apply(input)),
         ImmutableRangeMap.Builder::combine,
         ImmutableRangeMap.Builder::build);
+  }
+
+  // Multimaps
+
+  static <T, K, V> Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction, "keyFunction");
+    checkNotNull(valueFunction, "valueFunction");
+    return Collector.of(
+        ImmutableListMultimap::<K, V>builder,
+        (builder, t) -> builder.put(keyFunction.apply(t), valueFunction.apply(t)),
+        ImmutableListMultimap.Builder::combine,
+        ImmutableListMultimap.Builder::build);
+  }
+
+  static <T, K, V> Collector<T, ?, ImmutableListMultimap<K, V>> flatteningToImmutableListMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valuesFunction);
+    return Collectors.collectingAndThen(
+        flatteningToMultimap(
+            input -> checkNotNull(keyFunction.apply(input)),
+            input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),
+            MultimapBuilder.linkedHashKeys().arrayListValues()::<K, V>build),
+        ImmutableListMultimap::copyOf);
+  }
+
+  static <T, K, V> Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction, "keyFunction");
+    checkNotNull(valueFunction, "valueFunction");
+    return Collector.of(
+        ImmutableSetMultimap::<K, V>builder,
+        (builder, t) -> builder.put(keyFunction.apply(t), valueFunction.apply(t)),
+        ImmutableSetMultimap.Builder::combine,
+        ImmutableSetMultimap.Builder::build);
+  }
+
+  static <T, K, V> Collector<T, ?, ImmutableSetMultimap<K, V>> flatteningToImmutableSetMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valuesFunction);
+    return Collectors.collectingAndThen(
+        flatteningToMultimap(
+            input -> checkNotNull(keyFunction.apply(input)),
+            input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),
+            MultimapBuilder.linkedHashKeys().linkedHashSetValues()::<K, V>build),
+        ImmutableSetMultimap::copyOf);
+  }
+
+  static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> toMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      Supplier<M> multimapSupplier) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(multimapSupplier);
+    return Collector.of(
+        multimapSupplier,
+        (multimap, input) -> multimap.put(keyFunction.apply(input), valueFunction.apply(input)),
+        (multimap1, multimap2) -> {
+          multimap1.putAll(multimap2);
+          return multimap1;
+        });
+  }
+
+  @Beta
+  static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> flatteningToMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends Stream<? extends V>> valueFunction,
+      Supplier<M> multimapSupplier) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(multimapSupplier);
+    return Collector.of(
+        multimapSupplier,
+        (multimap, input) -> {
+          K key = keyFunction.apply(input);
+          Collection<V> valuesForKey = multimap.get(key);
+          valueFunction.apply(input).forEachOrdered(valuesForKey::add);
+        },
+        (multimap1, multimap2) -> {
+          multimap1.putAll(multimap2);
+          return multimap1;
+        });
   }
 }
