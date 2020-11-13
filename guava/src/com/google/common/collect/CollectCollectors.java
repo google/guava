@@ -25,6 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -84,6 +86,39 @@ final class CollectCollectors {
   static <E extends Comparable<? super E>>
       Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {
     return (Collector) TO_IMMUTABLE_RANGE_SET;
+  }
+
+  // Multisets
+
+  static <T, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        LinkedHashMultiset::create,
+        (multiset, t) ->
+            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> ImmutableMultiset.copyFromEntries(multiset.entrySet()));
+  }
+
+  static <T, E, M extends Multiset<E>> Collector<T, ?, M> toMultiset(
+      Function<? super T, E> elementFunction,
+      ToIntFunction<? super T> countFunction,
+      Supplier<M> multisetSupplier) {
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    checkNotNull(multisetSupplier);
+    return Collector.of(
+        multisetSupplier,
+        (ms, t) -> ms.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
+        (ms1, ms2) -> {
+          ms1.addAll(ms2);
+          return ms1;
+        });
   }
 
   // Maps
