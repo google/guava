@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 
 /** Unit tests for {@link TableCollectors}. */
 @GwtCompatible(emulated = true)
-public class TableCollectorsTest extends TestCase {
+public class TableCollectorsTest {
 
   public static final class ToImmutableTableTest extends TestCase {
     public void testToImmutableTable() {
@@ -277,4 +277,6 @@ public class TableCollectorsTest extends TestCase {
     Equivalence<C> equivalence = Equivalence.equals().<E>pairwise().onResultOf(arg);
     return equivalence::equivalent;
   }
+
+  private TableCollectorsTest() {}
 }
