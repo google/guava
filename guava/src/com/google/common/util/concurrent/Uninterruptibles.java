@@ -344,11 +344,15 @@ public final class Uninterruptibles {
   public static <E> E pollUninterruptibly(BlockingQueue<E> queue, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
       while (true) {
         try {
-          return queue.poll(timeout, unit);
+          return queue.poll(remainingNanos, NANOSECONDS);
         } catch (InterruptedException e) {
           interrupted = true;
+          remainingNanos = end - System.nanoTime();
         }
       }
     } finally {
@@ -363,11 +367,15 @@ public final class Uninterruptibles {
   public static <E> boolean offerUninterruptibly(BlockingQueue<E> queue, E element, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
       while (true) {
         try {
-          return queue.offer(element, timeout, unit);
+          return queue.offer(element, remainingNanos, NANOSECONDS);
         } catch (InterruptedException e) {
           interrupted = true;
+          remainingNanos = end - System.nanoTime();
         }
       }
     } finally {
