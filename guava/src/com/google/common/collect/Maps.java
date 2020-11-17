@@ -171,37 +171,6 @@ public final class Maps {
     return ImmutableEnumMap.asImmutable(enumMap);
   }
 
-  private static class Accumulator<K extends Enum<K>, V> {
-    private final BinaryOperator<V> mergeFunction;
-    private EnumMap<K, V> map = null;
-
-    Accumulator(BinaryOperator<V> mergeFunction) {
-      this.mergeFunction = mergeFunction;
-    }
-
-    void put(K key, V value) {
-      if (map == null) {
-        map = new EnumMap<>(key.getDeclaringClass());
-      }
-      map.merge(key, value, mergeFunction);
-    }
-
-    Accumulator<K, V> combine(Accumulator<K, V> other) {
-      if (this.map == null) {
-        return other;
-      } else if (other.map == null) {
-        return this;
-      } else {
-        other.map.forEach(this::put);
-        return this;
-      }
-    }
-
-    ImmutableMap<K, V> toImmutableMap() {
-      return (map == null) ? ImmutableMap.<K, V>of() : ImmutableEnumMap.asImmutable(map);
-    }
-  }
-
   /**
    * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
    * and values are the result of applying the provided mapping functions to the input elements. The
@@ -219,22 +188,7 @@ public final class Maps {
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
       java.util.function.Function<? super T, ? extends K> keyFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction) {
-    checkNotNull(keyFunction);
-    checkNotNull(valueFunction);
-    return Collector.of(
-        () ->
-            new Accumulator<K, V>(
-                (v1, v2) -> {
-                  throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
-                }),
-        (accum, t) -> {
-          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
-          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
-          accum.put(key, newValue);
-        },
-        Accumulator::combine,
-        Accumulator::toImmutableMap,
-        Collector.Characteristics.UNORDERED);
+    return CollectCollectors.toImmutableEnumMap(keyFunction, valueFunction);
   }
 
   /**
@@ -252,19 +206,7 @@ public final class Maps {
       java.util.function.Function<? super T, ? extends K> keyFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction,
       BinaryOperator<V> mergeFunction) {
-    checkNotNull(keyFunction);
-    checkNotNull(valueFunction);
-    checkNotNull(mergeFunction);
-    // not UNORDERED because we don't know if mergeFunction is commutative
-    return Collector.of(
-        () -> new Accumulator<K, V>(mergeFunction),
-        (accum, t) -> {
-          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
-          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
-          accum.put(key, newValue);
-        },
-        Accumulator::combine,
-        Accumulator::toImmutableMap);
+    return CollectCollectors.toImmutableEnumMap(keyFunction, valueFunction, mergeFunction);
   }
 
   /**
