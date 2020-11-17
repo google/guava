@@ -366,23 +366,22 @@ generate_snapshot_javadoc_shortlinks() {
   if [[ "$RELEASE" != "snapshot" ]]; then
     return
   fi
-    for F in $(find releases/snapshot/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
-      SHORT=$(basename $F .html)
+  for F in $(find releases/snapshot/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
+    SHORT=$(basename $F .html)
 
-      # Lowercases the 2nd sub-folder's name
-      SHORT_LOWER=$(echo $SHORT | tr A-Z a-z)
-      mkdir -p javadocshortcuts/{$SHORT,$SHORT_LOWER} && (
-        echo ---
-        echo "title: $SHORT"
-        echo "permalink: /$SHORT/"
-        echo "redirect_to: https://guava.dev/$F"
-        echo "---"
-      ) | tee javadocshortcuts/{$SHORT,$SHORT_LOWER}/index.md >/dev/null
+    # Lowercases the 2nd sub-folder's name
+    SHORT_LOWER=$(echo $SHORT | tr A-Z a-z)
+    mkdir -p javadocshortcuts/{$SHORT,$SHORT_LOWER} && (
+      echo ---
+      echo "title: $SHORT"
+      echo "permalink: /$SHORT/"
+      echo "redirect_to: https://guava.dev/$F"
+      echo "---"
+    ) | tee javadocshortcuts/{$SHORT,$SHORT_LOWER}/index.md >/dev/null
 
-      # Sets the permalink value to lowercase for the 2nd sub-folder.
-      perl -pi -e '$_ = lc $_ if /^permalink/' javadocshortcuts/$SHORT_LOWER/index.md
-    done
-  fi
+    # Sets the permalink value to lowercase for the 2nd sub-folder.
+    perl -pi -e '$_ = lc $_ if /^permalink/' javadocshortcuts/$SHORT_LOWER/index.md
+  done
 }
 
 # Main function actually run the process.
