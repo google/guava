@@ -24,6 +24,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import java.util.function.BinaryOperator;
@@ -33,6 +35,7 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -83,6 +86,48 @@ final class CollectCollectors {
         ImmutableSortedSet.Builder::add,
         ImmutableSortedSet.Builder::combine,
         ImmutableSortedSet.Builder::build);
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
+    return (Collector) EnumSetAccumulator.TO_IMMUTABLE_ENUM_SET;
+  }
+
+  private static final class EnumSetAccumulator<E extends Enum<E>> {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
+        (Collector)
+            Collector.<Enum, EnumSetAccumulator, ImmutableSet<?>>of(
+                EnumSetAccumulator::new,
+                EnumSetAccumulator::add,
+                EnumSetAccumulator::combine,
+                EnumSetAccumulator::toImmutableSet,
+                Collector.Characteristics.UNORDERED);
+
+    private @Nullable EnumSet<E> set;
+
+    void add(E e) {
+      if (set == null) {
+        set = EnumSet.of(e);
+      } else {
+        set.add(e);
+      }
+    }
+
+    EnumSetAccumulator<E> combine(EnumSetAccumulator<E> other) {
+      if (this.set == null) {
+        return other;
+      } else if (other.set == null) {
+        return this;
+      } else {
+        this.set.addAll(other.set);
+        return this;
+      }
+    }
+
+    ImmutableSet<E> toImmutableSet() {
+      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
+    }
   }
 
   @GwtIncompatible
@@ -196,6 +241,77 @@ final class CollectCollectors {
         ImmutableBiMap.Builder::combine,
         ImmutableBiMap.Builder::build,
         new Collector.Characteristics[0]);
+  }
+
+  static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    return Collector.of(
+        () ->
+            new EnumMapAccumulator<K, V>(
+                (v1, v2) -> {
+                  throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
+                }),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        EnumMapAccumulator::combine,
+        EnumMapAccumulator::toImmutableMap,
+        Collector.Characteristics.UNORDERED);
+  }
+
+  static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    // not UNORDERED because we don't know if mergeFunction is commutative
+    return Collector.of(
+        () -> new EnumMapAccumulator<K, V>(mergeFunction),
+        (accum, t) -> {
+          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          accum.put(key, newValue);
+        },
+        EnumMapAccumulator::combine,
+        EnumMapAccumulator::toImmutableMap);
+  }
+
+  private static class EnumMapAccumulator<K extends Enum<K>, V> {
+    private final BinaryOperator<V> mergeFunction;
+    private EnumMap<K, V> map = null;
+
+    EnumMapAccumulator(BinaryOperator<V> mergeFunction) {
+      this.mergeFunction = mergeFunction;
+    }
+
+    void put(K key, V value) {
+      if (map == null) {
+        map = new EnumMap<>(key.getDeclaringClass());
+      }
+      map.merge(key, value, mergeFunction);
+    }
+
+    EnumMapAccumulator<K, V> combine(EnumMapAccumulator<K, V> other) {
+      if (this.map == null) {
+        return other;
+      } else if (other.map == null) {
+        return this;
+      } else {
+        other.map.forEach(this::put);
+        return this;
+      }
+    }
+
+    ImmutableMap<K, V> toImmutableMap() {
+      return (map == null) ? ImmutableMap.<K, V>of() : ImmutableEnumMap.asImmutable(map);
+    }
   }
 
   @GwtIncompatible
