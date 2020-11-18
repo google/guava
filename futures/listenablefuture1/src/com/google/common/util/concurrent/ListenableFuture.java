@@ -41,7 +41,7 @@ import java.util.concurrent.RejectedExecutionException;
  * frameworks include:
  *
  * <ul>
- *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
+ *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
@@ -114,20 +114,10 @@ public interface ListenableFuture<V> extends Future<V> {
    * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and
    * logged.
    *
-   * <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
-   * {@link MoreExecutors#directExecutor}. Otherwise, avoid it. Heavyweight {@code directExecutor}
-   * listeners can cause problems, and these problems can be difficult to reproduce because they
-   * depend on timing. For example:
-   *
-   * <ul>
-   *   <li>The listener may be executed by the caller of {@code addListener}. That caller may be a
-   *       UI thread or other latency-sensitive thread. This can harm UI responsiveness.
-   *   <li>The listener may be executed by the thread that completes this {@code Future}. That
-   *       thread may be an internal system thread such as an RPC network thread. Blocking that
-   *       thread may stall progress of the whole system. It may even cause a deadlock.
-   *   <li>The listener may delay other listeners, even listeners that are not themselves {@code
-   *       directExecutor} listeners.
-   * </ul>
+   * <p>Note: If your listener is lightweight -- and will not cause stack overflow by completing
+   * more futures or adding more {@code directExecutor()} listeners inline -- consider {@link
+   * MoreExecutors#directExecutor}. Otherwise, avoid it: See the warnings on the docs for {@code
+   * directExecutor}.
    *
    * <p>This is the most general listener interface. For common operations performed using
    * listeners, see {@link Futures}. For a simplified but general listener interface, see {@link

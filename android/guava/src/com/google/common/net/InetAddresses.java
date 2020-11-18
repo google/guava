@@ -19,9 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
@@ -32,7 +31,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -102,8 +100,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
-  private static final Splitter IPV4_SPLITTER = Splitter.on('.').limit(IPV4_PART_COUNT);
-  private static final Splitter IPV6_SPLITTER = Splitter.on(':').limit(IPV6_PART_COUNT + 2);
+  private static final char IPV4_DELIMITER = '.';
+  private static final char IPV6_DELIMITER = ':';
+  private static final CharMatcher IPV4_DELIMITER_MATCHER = CharMatcher.is(IPV4_DELIMITER);
+  private static final CharMatcher IPV6_DELIMITER_MATCHER = CharMatcher.is(IPV6_DELIMITER);
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
 
@@ -197,6 +197,9 @@ public final class InetAddresses {
       }
       return textToNumericFormatV6(ipString);
     } else if (hasDot) {
+      if (percentIndex != -1) {
+        return null; // Scope IDs are not supported for IPV4
+      }
       return textToNumericFormatV4(ipString);
     }
     return null;
@@ -204,76 +207,94 @@ public final class InetAddresses {
 
   @NullableDecl
   private static byte[] textToNumericFormatV4(String ipString) {
-    byte[] bytes = new byte[IPV4_PART_COUNT];
-    int i = 0;
-    try {
-      for (String octet : IPV4_SPLITTER.split(ipString)) {
-        bytes[i++] = parseOctet(octet);
-      }
-    } catch (NumberFormatException ex) {
-      return null;
+    if (IPV4_DELIMITER_MATCHER.countIn(ipString) + 1 != IPV4_PART_COUNT) {
+      return null; // Wrong number of parts
     }
 
-    return i == IPV4_PART_COUNT ? bytes : null;
+    byte[] bytes = new byte[IPV4_PART_COUNT];
+    int start = 0;
+    // Iterate through the parts of the ip string.
+    // Invariant: start is always the beginning of an octet.
+    for (int i = 0; i < IPV4_PART_COUNT; i++) {
+      int end = ipString.indexOf(IPV4_DELIMITER, start);
+      if (end == -1) {
+        end = ipString.length();
+      }
+      try {
+        bytes[i] = parseOctet(ipString, start, end);
+      } catch (NumberFormatException ex) {
+        return null;
+      }
+      start = end + 1;
+    }
+
+    return bytes;
   }
 
   @NullableDecl
   private static byte[] textToNumericFormatV6(String ipString) {
-    // An address can have [2..8] colons, and N colons make N+1 parts.
-    List<String> parts = IPV6_SPLITTER.splitToList(ipString);
-    if (parts.size() < 3 || parts.size() > IPV6_PART_COUNT + 1) {
+    // An address can have [2..8] colons.
+    int delimiterCount = IPV6_DELIMITER_MATCHER.countIn(ipString);
+    if (delimiterCount < 2 || delimiterCount > IPV6_PART_COUNT) {
       return null;
     }
-
-    // Disregarding the endpoints, find "::" with nothing in between.
-    // This indicates that a run of zeroes has been skipped.
-    int skipIndex = -1;
-    for (int i = 1; i < parts.size() - 1; i++) {
-      if (parts.get(i).length() == 0) {
-        if (skipIndex >= 0) {
+    int partsSkipped = IPV6_PART_COUNT - (delimiterCount + 1); // estimate; may be modified later
+    boolean hasSkip = false;
+    // Scan for the appearance of ::, to mark a skip-format IPV6 string and adjust the partsSkipped
+    // estimate.
+    for (int i = 0; i < ipString.length() - 1; i++) {
+      if (ipString.charAt(i) == IPV6_DELIMITER && ipString.charAt(i + 1) == IPV6_DELIMITER) {
+        if (hasSkip) {
           return null; // Can't have more than one ::
         }
-        skipIndex = i;
+        hasSkip = true;
+        partsSkipped++; // :: means we skipped an extra part in between the two delimiters.
+        if (i == 0) {
+          partsSkipped++; // Begins with ::, so we skipped the part preceding the first :
+        }
+        if (i == ipString.length() - 2) {
+          partsSkipped++; // Ends with ::, so we skipped the part after the last :
+        }
       }
     }
-
-    int partsHi; // Number of parts to copy from above/before the "::"
-    int partsLo; // Number of parts to copy from below/after the "::"
-    if (skipIndex >= 0) {
-      // If we found a "::", then check if it also covers the endpoints.
-      partsHi = skipIndex;
-      partsLo = parts.size() - skipIndex - 1;
-      if (parts.get(0).length() == 0 && --partsHi != 0) {
-        return null; // ^: requires ^::
-      }
-      if (Iterables.getLast(parts).length() == 0 && --partsLo != 0) {
-        return null; // :$ requires ::$
-      }
-    } else {
-      // Otherwise, allocate the entire address to partsHi. The endpoints
-      // could still be empty, but parseHextet() will check for that.
-      partsHi = parts.size();
-      partsLo = 0;
+    if (ipString.charAt(0) == IPV6_DELIMITER && ipString.charAt(1) != IPV6_DELIMITER) {
+      return null; // ^: requires ^::
+    }
+    if (ipString.charAt(ipString.length() - 1) == IPV6_DELIMITER
+        && ipString.charAt(ipString.length() - 2) != IPV6_DELIMITER) {
+      return null; // :$ requires ::$
+    }
+    if (hasSkip && partsSkipped <= 0) {
+      return null; // :: must expand to at least one '0'
+    }
+    if (!hasSkip && delimiterCount + 1 != IPV6_PART_COUNT) {
+      return null; // Incorrect number of parts
     }
 
-    // If we found a ::, then we must have skipped at least one part.
-    // Otherwise, we must have exactly the right number of parts.
-    int partsSkipped = IPV6_PART_COUNT - (partsHi + partsLo);
-    if (!(skipIndex >= 0 ? partsSkipped >= 1 : partsSkipped == 0)) {
-      return null;
-    }
-
-    // Now parse the hextets into a byte array.
     ByteBuffer rawBytes = ByteBuffer.allocate(2 * IPV6_PART_COUNT);
     try {
-      for (int i = 0; i < partsHi; i++) {
-        rawBytes.putShort(parseHextet(parts.get(i)));
+      // Iterate through the parts of the ip string.
+      // Invariant: start is always the beginning of a hextet, or the second ':' of the skip
+      // sequence "::"
+      int start = 0;
+      if (ipString.charAt(0) == IPV6_DELIMITER) {
+        start = 1;
       }
-      for (int i = 0; i < partsSkipped; i++) {
-        rawBytes.putShort((short) 0);
-      }
-      for (int i = partsLo; i > 0; i--) {
-        rawBytes.putShort(parseHextet(parts.get(parts.size() - i)));
+      while (start < ipString.length()) {
+        int end = ipString.indexOf(IPV6_DELIMITER, start);
+        if (end == -1) {
+          end = ipString.length();
+        }
+        if (ipString.charAt(start) == IPV6_DELIMITER) {
+          // expand zeroes
+          for (int i = 0; i < partsSkipped; i++) {
+            rawBytes.putShort((short) 0);
+          }
+
+        } else {
+          rawBytes.putShort(parseHextet(ipString, start, end));
+        }
+        start = end + 1;
       }
     } catch (NumberFormatException ex) {
       return null;
@@ -295,22 +316,44 @@ public final class InetAddresses {
     return initialPart + penultimate + ":" + ultimate;
   }
 
-  private static byte parseOctet(String ipPart) {
-    // Note: we already verified that this string contains only hex digits.
-    int octet = Integer.parseInt(ipPart);
+  private static byte parseOctet(String ipString, int start, int end) {
+    // Note: we already verified that this string contains only hex digits, but the string may still
+    // contain non-decimal characters.
+    int length = end - start;
+    if (length <= 0 || length > 3) {
+      throw new NumberFormatException();
+    }
     // Disallow leading zeroes, because no clear standard exists on
     // whether these should be interpreted as decimal or octal.
-    if (octet > 255 || (ipPart.startsWith("0") && ipPart.length() > 1)) {
+    if (length > 1 && ipString.charAt(start) == '0') {
+      throw new NumberFormatException();
+    }
+    int octet = 0;
+    for (int i = start; i < end; i++) {
+      octet *= 10;
+      int digit = Character.digit(ipString.charAt(i), 10);
+      if (digit < 0) {
+        throw new NumberFormatException();
+      }
+      octet += digit;
+    }
+    if (octet > 255) {
       throw new NumberFormatException();
     }
     return (byte) octet;
   }
 
-  private static short parseHextet(String ipPart) {
+  // Parse a hextet out of the ipString from start (inclusive) to end (exclusive)
+  private static short parseHextet(String ipString, int start, int end) {
     // Note: we already verified that this string contains only hex digits.
-    int hextet = Integer.parseInt(ipPart, 16);
-    if (hextet > 0xffff) {
+    int length = end - start;
+    if (length <= 0 || length > 4) {
       throw new NumberFormatException();
+    }
+    int hextet = 0;
+    for (int i = start; i < end; i++) {
+      hextet = hextet << 4;
+      hextet |= Character.digit(ipString.charAt(i), 16);
     }
     return (short) hextet;
   }

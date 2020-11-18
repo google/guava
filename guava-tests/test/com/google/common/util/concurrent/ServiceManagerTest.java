@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -171,7 +172,7 @@ public class ServiceManagerTest extends TestCase {
     Service b = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
     assertFalse(manager.isHealthy());
     manager.startAsync().awaitHealthy();
@@ -195,7 +196,7 @@ public class ServiceManagerTest extends TestCase {
     Service e = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b, c, d, e));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b, c, d, e);
     try {
       manager.startAsync().awaitHealthy();
@@ -219,7 +220,7 @@ public class ServiceManagerTest extends TestCase {
     Service b = new FailRunService();
     ServiceManager manager = new ServiceManager(asList(a, b));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
     try {
       manager.startAsync().awaitHealthy();
@@ -242,7 +243,7 @@ public class ServiceManagerTest extends TestCase {
     Service c = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b, c));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
 
     manager.startAsync().awaitHealthy();
     assertTrue(listener.healthyCalled);
@@ -292,7 +293,7 @@ public class ServiceManagerTest extends TestCase {
     Service a = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     try {
       manager.startAsync().awaitHealthy();
       fail();
@@ -309,7 +310,7 @@ public class ServiceManagerTest extends TestCase {
     Service a = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     try {
       manager.startAsync().awaitHealthy();
       fail();
@@ -334,7 +335,8 @@ public class ServiceManagerTest extends TestCase {
           public void failure(Service service) {
             manager.stopAsync();
           }
-        });
+        },
+        directExecutor());
     manager.startAsync();
     manager.awaitStopped(10, TimeUnit.MILLISECONDS);
   }
@@ -408,7 +410,7 @@ public class ServiceManagerTest extends TestCase {
     logger.addHandler(logHandler);
     ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     manager.startAsync().awaitHealthy();
     assertTrue(manager.isHealthy());
     assertTrue(listener.healthyCalled);
@@ -476,7 +478,8 @@ public class ServiceManagerTest extends TestCase {
             // block until after the service manager is shutdown
             Uninterruptibles.awaitUninterruptibly(failLeave);
           }
-        });
+        },
+        directExecutor());
     manager.startAsync();
     afterStarted.countDown();
     // We do not call awaitHealthy because, due to races, that method may throw an exception.  But

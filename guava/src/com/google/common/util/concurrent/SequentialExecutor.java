@@ -91,7 +91,7 @@ final class SequentialExecutor implements Executor {
    * Adds a task to the queue and makes sure a worker thread is running.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
+   * execution of tasks will stop until a call to this method is made.
    */
   @Override
   public void execute(final Runnable task) {
@@ -119,6 +119,11 @@ final class SequentialExecutor implements Executor {
             @Override
             public void run() {
               task.run();
+            }
+
+            @Override
+            public String toString() {
+              return task.toString();
             }
           };
       queue.add(submittedTask);
@@ -165,6 +170,8 @@ final class SequentialExecutor implements Executor {
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
   private final class QueueWorker implements Runnable {
+    Runnable task;
+
     @Override
     public void run() {
       try {
@@ -196,7 +203,6 @@ final class SequentialExecutor implements Executor {
       boolean hasSetRunning = false;
       try {
         while (true) {
-          Runnable task;
           synchronized (queue) {
             // Choose whether this thread will run or not after acquiring the lock on the first
             // iteration
@@ -227,6 +233,8 @@ final class SequentialExecutor implements Executor {
             task.run();
           } catch (RuntimeException e) {
             log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
+          } finally {
+            task = null;
           }
         }
       } finally {
@@ -237,6 +245,16 @@ final class SequentialExecutor implements Executor {
           Thread.currentThread().interrupt();
         }
       }
+    }
+
+    @SuppressWarnings("GuardedBy")
+    @Override
+    public String toString() {
+      Runnable currentlyRunning = task;
+      if (currentlyRunning != null) {
+        return "SequentialExecutorWorker{running=" + currentlyRunning + "}";
+      }
+      return "SequentialExecutorWorker{state=" + workerRunningState + "}";
     }
   }
 

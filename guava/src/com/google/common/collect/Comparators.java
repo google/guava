@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
@@ -189,5 +190,81 @@ public final class Comparators {
   public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.comparing(o -> o.orElse(null), Comparator.nullsLast(valueComparator));
+  }
+
+  /**
+   * Returns the minimum of the two values. If the values compare as 0, the first is returned.
+   *
+   * <p>The recommended solution for finding the {@code minimum} of some values depends on the type
+   * of your data and the number of elements you have. Read more in the Guava User Guide article on
+   * <a href="https://github.com/google/guava/wiki/CollectionUtilitiesExplained#comparators">{@code
+   * Comparators}</a>.
+   *
+   * @param a first value to compare, returned if less than or equal to b.
+   * @param b second value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
+   * @since 30.0
+   */
+  @Beta
+  public static <T extends Comparable<? super T>> T min(T a, T b) {
+    return (a.compareTo(b) <= 0) ? a : b;
+  }
+
+  /**
+   * Returns the minimum of the two values, according to the given comparator. If the values compare
+   * as equal, the first is returned.
+   *
+   * <p>The recommended solution for finding the {@code minimum} of some values depends on the type
+   * of your data and the number of elements you have. Read more in the Guava User Guide article on
+   * <a href="https://github.com/google/guava/wiki/CollectionUtilitiesExplained#comparators">{@code
+   * Comparators}</a>.
+   *
+   * @param a first value to compare, returned if less than or equal to b
+   * @param b second value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
+   *     comparator.
+   * @since 30.0
+   */
+  @Beta
+  public static <T> T min(@Nullable T a, @Nullable T b, Comparator<T> comparator) {
+    return (comparator.compare(a, b) <= 0) ? a : b;
+  }
+
+  /**
+   * Returns the maximum of the two values. If the values compare as 0, the first is returned.
+   *
+   * <p>The recommended solution for finding the {@code maximum} of some values depends on the type
+   * of your data and the number of elements you have. Read more in the Guava User Guide article on
+   * <a href="https://github.com/google/guava/wiki/CollectionUtilitiesExplained#comparators">{@code
+   * Comparators}</a>.
+   *
+   * @param a first value to compare, returned if greater than or equal to b.
+   * @param b second value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
+   * @since 30.0
+   */
+  @Beta
+  public static <T extends Comparable<? super T>> T max(T a, T b) {
+    return (a.compareTo(b) >= 0) ? a : b;
+  }
+
+  /**
+   * Returns the maximum of the two values, according to the given comparator. If the values compare
+   * as equal, the first is returned.
+   *
+   * <p>The recommended solution for finding the {@code maximum} of some values depends on the type
+   * of your data and the number of elements you have. Read more in the Guava User Guide article on
+   * <a href="https://github.com/google/guava/wiki/CollectionUtilitiesExplained#comparators">{@code
+   * Comparators}</a>.
+   *
+   * @param a first value to compare, returned if greater than or equal to b.
+   * @param b second value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
+   *     comparator.
+   * @since 30.0
+   */
+  @Beta
+  public static <T> T max(@Nullable T a, @Nullable T b, Comparator<T> comparator) {
+    return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

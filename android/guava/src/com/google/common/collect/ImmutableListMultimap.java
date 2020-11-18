@@ -213,6 +213,13 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    @Override
+    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
+      super.combine(other);
+      return this;
+    }
+
     /** Returns a newly-created immutable list multimap. */
     @Override
     public ImmutableListMultimap<K, V> build() {

@@ -31,7 +31,6 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
@@ -251,34 +250,6 @@ public final class ServiceManager implements ServiceManagerBridge {
    */
   public void addListener(Listener listener, Executor executor) {
     state.addListener(listener, executor);
-  }
-
-  /**
-   * Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The
-   * listener will not have previous state changes replayed, so it is suggested that listeners are
-   * added before any of the managed services are {@linkplain Service#startAsync started}.
-   *
-   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
-   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
-   * invoked in the same order as the underlying service enters those states. Additionally, at most
-   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
-   * may execute concurrently, and listeners may execute in an order different from the one in which
-   * they were registered.
-   *
-   * <p>RuntimeExceptions thrown by a listener will be caught and logged.
-   *
-   * @param listener the listener to run when the manager changes state
-   * @since 15.0
-   * @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
-   *     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
-   *     consider whether another executor would be more appropriate, as discussed in the docs for
-   *     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
-   *     for deletion in October 2020.
-   */
-  @Beta
-  @Deprecated
-  public void addListener(Listener listener) {
-    state.addListener(listener, directExecutor());
   }
 
   /**

@@ -256,7 +256,7 @@ public class ImmutableRangeMapTest extends TestCase {
     SerializableTester.reserializeAndAssert(nonEmptyRangeMap);
   }
 
-  public void testToImmutableRangeSet() {
+  public void testToImmutableRangeMap() {
     Range<Integer> rangeOne = Range.closedOpen(1, 5);
     Range<Integer> rangeTwo = Range.openClosed(6, 7);
     ImmutableRangeMap<Integer, Integer> rangeMap =

@@ -262,7 +262,7 @@ public final class ImmutableIntArray implements Serializable {
     private void ensureRoomFor(int numberToAdd) {
       int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
-        this.array = Arrays.copyOf(array, expandedCapacity(array.length, newCount));
+        array = Arrays.copyOf(array, expandedCapacity(array.length, newCount));
       }
     }
 

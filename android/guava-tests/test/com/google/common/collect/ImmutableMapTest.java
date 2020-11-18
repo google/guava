@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.testing.SerializableTester.reserialize;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -45,12 +46,15 @@ import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValues
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -648,6 +652,29 @@ public class ImmutableMapTest extends TestCase {
       assertSame(copy, ImmutableMap.copyOf(copy));
     }
 
+    // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+    public void testToImmutableMap_java7_combine() {
+      ImmutableMap.Builder<String, Integer> zis =
+          ImmutableMap.<String, Integer>builder().put("one", 1);
+      ImmutableMap.Builder<String, Integer> zat =
+          ImmutableMap.<String, Integer>builder().put("two", 2).put("three", 3);
+      assertMapEquals(zis.combine(zat).build(), "one", 1, "two", 2, "three", 3);
+    }
+
+    // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+    public void testToImmutableMap_exceptionOnDuplicateKey_java7_combine() {
+      ImmutableMap.Builder<String, Integer> zis =
+          ImmutableMap.<String, Integer>builder().put("one", 1).put("two", 2);
+      ImmutableMap.Builder<String, Integer> zat =
+          ImmutableMap.<String, Integer>builder().put("two", 22).put("three", 3);
+      try {
+        zis.combine(zat).build();
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // expected
+      }
+    }
+
     public static void hashtableTestHelper(ImmutableList<Integer> sizes) {
       for (int size : sizes) {
         Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(size);
@@ -766,6 +793,58 @@ public class ImmutableMapTest extends TestCase {
     Collection<Integer> reserializedValues = reserialize(map.values());
     assertEquals(Lists.newArrayList(map.values()), Lists.newArrayList(reserializedValues));
     assertTrue(reserializedValues instanceof ImmutableCollection);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testKeySetIsSerializable_regularImmutableMap() {
+    class NonSerializableClass {}
+
+    Map<String, NonSerializableClass> map =
+        RegularImmutableMap.create(1, new Object[] {"one", new NonSerializableClass()});
+    Set<String> set = map.keySet();
+
+    LenientSerializableTester.reserializeAndAssertLenient(set);
+  }
+
+  @GwtIncompatible // SerializableTester
+  public void testValuesCollectionIsSerializable_regularImmutableMap() {
+    class NonSerializableClass {}
+
+    Map<NonSerializableClass, String> map =
+        RegularImmutableMap.create(1, new Object[] {new NonSerializableClass(), "value"});
+    Collection<String> collection = map.values();
+
+    LenientSerializableTester.reserializeAndAssertElementsEqual(collection);
+  }
+
+  // TODO: Re-enable this test after moving to new serialization format in ImmutableMap.
+  @GwtIncompatible // SerializableTester
+  @SuppressWarnings("unchecked")
+  public void ignore_testSerializationNoDuplication_regularImmutableMap() throws Exception {
+    // Tests that searializing a map, its keySet, and values only writes the underlying data once.
+
+    Object[] entries = new Object[2000];
+    for (int i = 0; i < entries.length; i++) {
+      entries[i] = i;
+    }
+
+    ImmutableMap<Integer, Integer> map = RegularImmutableMap.create(entries.length / 2, entries);
+    Set<Integer> keySet = map.keySet();
+    Collection<Integer> values = map.values();
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(bytes);
+    oos.writeObject(map);
+    oos.flush();
+
+    int mapSize = bytes.size();
+    oos.writeObject(keySet);
+    oos.writeObject(values);
+    oos.close();
+
+    int finalSize = bytes.size();
+
+    assertThat(finalSize - mapSize).isLessThan(100);
   }
 
   public void testEquals() {

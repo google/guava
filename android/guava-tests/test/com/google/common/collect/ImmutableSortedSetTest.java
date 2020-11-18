@@ -708,6 +708,30 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(STRING_LENGTH, set.comparator());
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableSortedSet once CollectorTester is usable.
+  public void testToImmutableSortedSet_java7() {
+    // Note that a Collector should generally enforce consistent comparator between builders
+    ImmutableSortedSet.Builder<String> zis =
+        ImmutableSortedSet.<String>naturalOrder().add("c", "b", "c");
+    ImmutableSortedSet.Builder<String> zat =
+        ImmutableSortedSet.<String>naturalOrder().add("a", "b", "d", "c");
+    ImmutableSortedSet<String> sortedSet = zis.combine(zat).build();
+    assertThat(sortedSet).containsExactly("a", "b", "c", "d").inOrder();
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableSortedSet_customComparator once CollectorTester
+  //  is usable to java7.
+  public void testToImmutableSortedSet_customComparator_java7() {
+    // Note that a Collector should generally enforce consistent comparator between builders.
+    // So no tests for non-matching comparator shenanigans.
+    ImmutableSortedSet.Builder<String> zis =
+        ImmutableSortedSet.<String>orderedBy(STRING_LENGTH).add("ccc", "bb", "ccc");
+    ImmutableSortedSet.Builder<String> zat =
+        ImmutableSortedSet.<String>orderedBy(STRING_LENGTH).add("a", "bb", "dddd", "ccc");
+    ImmutableSortedSet<String> sortedSet = zis.combine(zat).build();
+    assertThat(sortedSet).containsExactly("a", "bb", "ccc", "dddd").inOrder();
+  }
+
   public void testEquals_bothDefaultOrdering() {
     SortedSet<String> set = of("a", "b", "c");
     assertEquals(set, Sets.newTreeSet(asList("a", "b", "c")));

@@ -22,7 +22,6 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
-import com.google.common.annotations.Beta;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
@@ -67,7 +66,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     this.sortedDelegate = delegate;
   }
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,
@@ -75,7 +73,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return CollectCollectors.toImmutableSortedMap(comparator, keyFunction, valueFunction);
   }
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,

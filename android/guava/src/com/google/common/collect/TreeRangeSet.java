@@ -896,7 +896,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
           "Cannot add range %s to subRangeSet(%s)",
           rangeToAdd,
           restriction);
-      super.add(rangeToAdd);
+      TreeRangeSet.this.add(rangeToAdd);
     }
 
     @Override

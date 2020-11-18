@@ -77,7 +77,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     }
   }
 
-  private static <R, C, V> ImmutableTable<R, C, V> copyOf(
+  static <R, C, V> ImmutableTable<R, C, V> copyOf(
       Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
     ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
     for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
@@ -197,6 +197,12 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
         put(cell);
       }
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<R, C, V> combine(Builder<R, C, V> other) {
+      this.cells.addAll(other.cells);
       return this;
     }
 

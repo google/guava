@@ -351,10 +351,15 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testToString() {
-    Executor delegate =
+    final Runnable[] currentTask = new Runnable[1];
+    final Executor delegate =
         new Executor() {
           @Override
-          public void execute(Runnable task) {}
+          public void execute(Runnable task) {
+            currentTask[0] = task;
+            task.run();
+            currentTask[0] = null;
+          }
 
           @Override
           public String toString() {
@@ -365,5 +370,19 @@ public class SequentialExecutorTest extends TestCase {
     Executor sequential2 = newSequentialExecutor(delegate);
     assertThat(sequential1.toString()).contains("theDelegate");
     assertThat(sequential1.toString()).isNotEqualTo(sequential2.toString());
+    final String[] whileRunningToString = new String[1];
+    sequential1.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            whileRunningToString[0] = "" + currentTask[0];
+          }
+
+          @Override
+          public String toString() {
+            return "my runnable's toString";
+          }
+        });
+    assertThat(whileRunningToString[0]).contains("my runnable's toString");
   }
 }

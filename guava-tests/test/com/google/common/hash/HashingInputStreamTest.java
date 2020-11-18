@@ -35,7 +35,6 @@ public class HashingInputStreamTest extends TestCase {
   private static final byte[] testBytes = new byte[] {'y', 'a', 'm', 's'};
   private ByteArrayInputStream buffer;
 
-  // go/do-not-mock-common-types-lsc
   @SuppressWarnings("DoNotMock")
   @Override
   protected void setUp() throws Exception {

@@ -329,11 +329,6 @@ public final class Collections2 {
     return new StringBuilder((int) Math.min(size * 8L, Ints.MAX_POWER_OF_TWO));
   }
 
-  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T> Collection<T> cast(Iterable<T> iterable) {
-    return (Collection<T>) iterable;
-  }
-
   /**
    * Returns a {@link Collection} of all the permutations of the specified {@link Iterable}.
    *

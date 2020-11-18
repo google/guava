@@ -137,42 +137,6 @@ public final class Sets {
     }
   }
 
-  private static final class Accumulator<E extends Enum<E>> {
-    static final Collector<Enum<?>, ?, ImmutableSet<? extends Enum<?>>> TO_IMMUTABLE_ENUM_SET =
-        (Collector)
-            Collector.<Enum, Accumulator, ImmutableSet<?>>of(
-                Accumulator::new,
-                Accumulator::add,
-                Accumulator::combine,
-                Accumulator::toImmutableSet,
-                Collector.Characteristics.UNORDERED);
-
-    private @Nullable EnumSet<E> set;
-
-    void add(E e) {
-      if (set == null) {
-        set = EnumSet.of(e);
-      } else {
-        set.add(e);
-      }
-    }
-
-    Accumulator<E> combine(Accumulator<E> other) {
-      if (this.set == null) {
-        return other;
-      } else if (other.set == null) {
-        return this;
-      } else {
-        this.set.addAll(other.set);
-        return this;
-      }
-    }
-
-    ImmutableSet<E> toImmutableSet() {
-      return (set == null) ? ImmutableSet.<E>of() : ImmutableEnumSet.asImmutable(set);
-    }
-  }
-
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code ImmutableSet}
    * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
@@ -181,7 +145,7 @@ public final class Sets {
    * @since 21.0
    */
   public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
-    return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
+    return CollectCollectors.toImmutableEnumSet();
   }
 
   /**
@@ -253,7 +217,7 @@ public final class Sets {
    */
   public static <E> HashSet<E> newHashSet(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
-        ? new HashSet<E>(Collections2.cast(elements))
+        ? new HashSet<E>((Collection<? extends E>) elements)
         : newHashSet(elements.iterator());
   }
 
@@ -358,7 +322,7 @@ public final class Sets {
    */
   public static <E> LinkedHashSet<E> newLinkedHashSet(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedHashSet<E>(Collections2.cast(elements));
+      return new LinkedHashSet<E>((Collection<? extends E>) elements);
     }
     LinkedHashSet<E> set = newLinkedHashSet();
     Iterables.addAll(set, elements);
@@ -486,7 +450,7 @@ public final class Sets {
     // quadratic cost of adding them to the COWAS directly.
     Collection<? extends E> elementsCollection =
         (elements instanceof Collection)
-            ? Collections2.cast(elements)
+            ? (Collection<? extends E>) elements
             : Lists.newArrayList(elements);
     return new CopyOnWriteArraySet<E>(elementsCollection);
   }

@@ -63,6 +63,7 @@ public class InetAddressesTest extends TestCase {
             "42.42.42.42.",
             "42.42.42.42...",
             ".42.42.42.42",
+            ".42.42.42",
             "...42.42.42.42",
             "42.42.42.-0",
             "42.42.42.+0",
@@ -74,6 +75,7 @@ public class InetAddressesTest extends TestCase {
             "12345.67899.-54321.-98765",
             "257.0.0.0",
             "42.42.42.-42",
+            "42.42.42.ab",
             "3ffe::1.net",
             "3ffe::1::1",
             "1::2::3::4:5",
@@ -83,6 +85,7 @@ public class InetAddressesTest extends TestCase {
             "FEDC:9878",
             "+1.+2.+3.4",
             "1.2.3.4e0",
+            "6:5:4:3:2:1:0", // too few parts
             "::7:6:5:4:3:2:1:0", // too many parts
             "7:6:5:4:3:2:1:0::", // too many parts
             "9:8:7:6:5:4:3::2:1", // too many parts

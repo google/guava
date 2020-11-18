@@ -289,6 +289,18 @@ public class EventBusTest extends TestCase {
     assertEquals(1, calls.get());
   }
 
+  public void testPrimitiveSubscribeFails() {
+    class SubscribesToPrimitive {
+      @Subscribe
+      public void toInt(int i) {}
+    }
+    try {
+      bus.register(new SubscribesToPrimitive());
+      fail("should have thrown");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   /** Records thrown exception information. */
   private static final class RecordingSubscriberExceptionHandler
       implements SubscriberExceptionHandler {

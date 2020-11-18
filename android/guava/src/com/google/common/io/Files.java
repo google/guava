@@ -24,9 +24,9 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.TreeTraverser;
 import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
 import com.google.common.hash.HashCode;
@@ -398,6 +398,11 @@ public final class Files {
    * be exploited to create security vulnerabilities, especially when executable files are to be
    * written into the directory.
    *
+   * <p>Depending on the environmment that this code is run in, the system temporary directory (and
+   * thus the directory this method creates) may be more visible that a program would like - files
+   * written to this directory may be read or overwritten by hostile programs running on the same
+   * machine.
+   *
    * <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
    * and that it will not be called thousands of times per second.
    *
@@ -406,8 +411,15 @@ public final class Files {
    *
    * @return the newly-created directory
    * @throws IllegalStateException if the directory could not be created
+   * @deprecated For Android users, see the <a
+   *     href="https://developer.android.com/training/data-storage" target="_blank">Data and File
+   *     Storage overview</a> to select an appropriate temporary directory (perhaps {@code
+   *     context.getCacheDir()}). For developers on Java 7 or later, use {@link
+   *     java.nio.file.Files#createTempDirectory}, transforming it to a {@link File} using {@link
+   *     java.nio.file.Path#toFile() toFile()} if needed.
    */
   @Beta
+  @Deprecated
   public static File createTempDir() {
     File baseDir = new File(System.getProperty("java.io.tmpdir"));
     @SuppressWarnings("GoodTime") // reading system time without TimeSource
@@ -813,36 +825,6 @@ public final class Files {
   }
 
   /**
-   * Returns a {@link TreeTraverser} instance for {@link File} trees.
-   *
-   * <p><b>Warning:</b> {@code File} provides no support for symbolic links, and as such there is no
-   * way to ensure that a symbolic link to a directory is not followed when traversing the tree. In
-   * this case, iterables created by this traverser could contain files that are outside of the
-   * given directory or even be infinite if there is a symbolic link loop.
-   *
-   * @since 15.0
-   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-   *     {@link #fileTraverser()} instead with the same semantics as this method.
-   */
-  @Deprecated
-  static TreeTraverser<File> fileTreeTraverser() {
-    return FILE_TREE_TRAVERSER;
-  }
-
-  private static final TreeTraverser<File> FILE_TREE_TRAVERSER =
-      new TreeTraverser<File>() {
-        @Override
-        public Iterable<File> children(File file) {
-          return fileTreeChildren(file);
-        }
-
-        @Override
-        public String toString() {
-          return "Files.fileTreeTraverser()";
-        }
-      };
-
-  /**
    * Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
    * starts from a {@link File} and will return all files and directories it encounters.
    *
@@ -873,21 +855,17 @@ public final class Files {
       new SuccessorsFunction<File>() {
         @Override
         public Iterable<File> successors(File file) {
-          return fileTreeChildren(file);
+          // check isDirectory() just because it may be faster than listFiles() on a non-directory
+          if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+              return Collections.unmodifiableList(Arrays.asList(files));
+            }
+          }
+
+          return ImmutableList.of();
         }
       };
-
-  private static Iterable<File> fileTreeChildren(File file) {
-    // check isDirectory() just because it may be faster than listFiles() on a non-directory
-    if (file.isDirectory()) {
-      File[] files = file.listFiles();
-      if (files != null) {
-        return Collections.unmodifiableList(Arrays.asList(files));
-      }
-    }
-
-    return Collections.emptyList();
-  }
 
   /**
    * Returns a predicate that returns the result of {@link File#isDirectory} on input files.

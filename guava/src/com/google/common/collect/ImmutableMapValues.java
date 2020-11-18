@@ -100,13 +100,9 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     map.forEach((k, v) -> action.accept(v));
   }
 
+  // No longer used for new writes, but kept so that old data can still be read.
   @GwtIncompatible // serialization
-  @Override
-  Object writeReplace() {
-    return new SerializedForm<V>(map);
-  }
-
-  @GwtIncompatible // serialization
+  @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 

@@ -145,7 +145,7 @@ public final class MediaType {
   /**
    * Wildcard matching any "font" top-level media type.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType ANY_FONT_TYPE = createConstant(FONT_TYPE, WILDCARD);
 
@@ -709,7 +709,7 @@ public final class MediaType {
    * A collection of font outlines as defined by <a href="https://tools.ietf.org/html/rfc8081">RFC
    * 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_COLLECTION = createConstant(FONT_TYPE, "collection");
 
@@ -717,7 +717,7 @@ public final class MediaType {
    * <a href="https://en.wikipedia.org/wiki/OpenType">Open Type Font Format</a> (OTF) as defined by
    * <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_OTF = createConstant(FONT_TYPE, "otf");
 
@@ -727,7 +727,7 @@ public final class MediaType {
    * type for SFNT, but {@link #SFNT application/font-sfnt} may be necessary in certain situations
    * for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_SFNT = createConstant(FONT_TYPE, "sfnt");
 
@@ -735,7 +735,7 @@ public final class MediaType {
    * <a href="https://en.wikipedia.org/wiki/TrueType">True Type Font Format</a> (TTF) as defined by
    * <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_TTF = createConstant(FONT_TYPE, "ttf");
 
@@ -745,7 +745,7 @@ public final class MediaType {
    * type for SFNT, but {@link #WOFF application/font-woff} may be necessary in certain situations
    * for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_WOFF = createConstant(FONT_TYPE, "woff");
 
@@ -755,7 +755,7 @@ public final class MediaType {
    * media type for SFNT, but {@link #WOFF2 application/font-woff2} may be necessary in certain
    * situations for compatibility.
    *
-   * @since NEXT
+   * @since 30.0
    */
   public static final MediaType FONT_WOFF2 = createConstant(FONT_TYPE, "woff2");
 

@@ -16,6 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.Integer.toHexString;
+import static java.lang.System.identityHashCode;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
@@ -429,7 +431,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
           node.setNext(oldHead);
           if (ATOMIC_HELPER.casWaiters(this, oldHead, node)) {
             while (true) {
-              LockSupport.parkNanos(this, remainingNanos);
+              OverflowAvoidingLockSupport.parkNanos(this, remainingNanos);
               // Check interruption first, if we woke up due to interruption we need to honor that.
               if (Thread.interrupted()) {
                 removeWaiter(node);
@@ -595,6 +597,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * #wasInterrupted} as necessary. This ensures that the work is done even if the future is
    * cancelled without a call to {@code cancel}, such as by calling {@code
    * setFuture(cancelledFuture)}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    */
   @CanIgnoreReturnValue
   @Override
@@ -615,7 +620,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       while (true) {
         if (ATOMIC_HELPER.casValue(abstractFuture, localValue, valueToSet)) {
           rValue = true;
-          // We call interuptTask before calling complete(), which is consistent with
+          // We call interruptTask before calling complete(), which is consistent with
           // FutureTask
           if (mayInterruptIfRunning) {
             abstractFuture.interruptTask();
@@ -728,6 +733,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
+   *
    * @param value the value to be used as the result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
@@ -749,6 +757,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * {@code Future} may have previously been set asynchronously, in which case its result may not be
    * known yet. That result, though not yet known, cannot be overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param throwable the exception to be used as the failed result
    * @return true if the attempt was accepted, completing the {@code Future}
@@ -783,6 +794,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * it will never trigger interruption behavior. In particular, it will not cause this future to
    * invoke the {@link #interruptTask} method, and the {@link #wasInterrupted} method will not
    * return {@code true}.
+   *
+   * <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
+   * acquire other locks, risking deadlocks.
    *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
@@ -1069,7 +1083,14 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   // TODO(user): move parts into a default method on ListenableFuture?
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder().append(super.toString()).append("[status=");
+    // TODO(cpovirk): Presize to something plausible?
+    StringBuilder builder = new StringBuilder();
+    if (getClass().getName().startsWith("com.google.common.util.concurrent.")) {
+      builder.append(getClass().getSimpleName());
+    } else {
+      builder.append(getClass().getName());
+    }
+    builder.append('@').append(toHexString(identityHashCode(this))).append("[status=");
     if (isCancelled()) {
       builder.append("CANCELLED");
     } else if (isDone()) {
@@ -1135,7 +1156,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     try {
       V value = getUninterruptibly(this);
       builder.append("SUCCESS, result=[");
-      appendUserObject(builder, value);
+      appendResultObject(builder, value);
       builder.append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
@@ -1143,6 +1164,24 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       builder.append("CANCELLED"); // shouldn't be reachable
     } catch (RuntimeException e) {
       builder.append("UNKNOWN, cause=[").append(e.getClass()).append(" thrown from get()]");
+    }
+  }
+
+  /**
+   * Any object can be the result of a Future, and not every object has a reasonable toString()
+   * implementation. Using a reconstruction of the default Object.toString() prevents OOMs and stack
+   * overflows, and helps avoid sensitive data inadvertently ending up in exception messages.
+   */
+  private void appendResultObject(StringBuilder builder, Object o) {
+    if (o == null) {
+      builder.append("null");
+    } else if (o == this) {
+      builder.append("this future");
+    } else {
+      builder
+          .append(o.getClass().getName())
+          .append("@")
+          .append(Integer.toHexString(System.identityHashCode(o)));
     }
   }
 
