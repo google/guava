@@ -360,13 +360,13 @@ update_config_yml() {
 
 # Generates Javadoc shortlinks for the current snapshot release.
 generate_snapshot_javadoc_shortlinks() {
-  # Creates 2 sub-folders for each non-nested class inside javadocshortcuts.
-  # This ensures that each class documentation is accessible using  https://guava.dev/ClassName
-  # or https://guava.dev/classname.
   if [[ "$RELEASE" != "snapshot" ]]; then
     return
   fi
-  for F in $(find releases/snapshot/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
+  # Creates 2 sub-folders for each non-nested class inside javadocshortcuts.
+  # This ensures that each class documentation is accessible using  https://guava.dev/ClassName
+  # or https://guava.dev/classname.
+  for F in $(find releases/snapshot-jre/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
     SHORT=$(basename $F .html)
 
     # Lowercases the 2nd sub-folder's name
@@ -376,11 +376,11 @@ generate_snapshot_javadoc_shortlinks() {
       echo "title: $SHORT"
       echo "permalink: /$SHORT/"
       echo "redirect_to: https://guava.dev/$F"
-      echo "---"
+      echo ---
     ) | tee javadocshortcuts/{$SHORT,$SHORT_LOWER}/index.md >/dev/null
 
-    # Sets the permalink value to lowercase for the 2nd sub-folder.
-    perl -pi -e '$_ = lc $_ if /^permalink/' javadocshortcuts/$SHORT_LOWER/index.md
+    # Lowercases the permalink value inside the 2nd sub-folder's index.md
+    perl -pi -e 's/^permalink.*/\L$&/' javadocshortcuts/$SHORT_LOWER/index.md
   done
 }
 
