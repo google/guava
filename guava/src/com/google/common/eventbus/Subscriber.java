@@ -95,8 +95,9 @@ class Subscriber {
     } catch (IllegalAccessException e) {
       throw new Error("Method became inaccessible: " + event, e);
     } catch (InvocationTargetException e) {
-      if (e.getCause() instanceof Error) {
-        throw (Error) e.getCause();
+      Throwable cause = e.getCause();
+      if (cause instanceof Error) {
+        throw (Error) cause;
       }
       throw e;
     }

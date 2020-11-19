@@ -79,7 +79,12 @@ class MapIteratorCache<K extends @NonNull Object, V extends @NonNull Object> {
 
   public @Nullable V get(@Nullable Object key) {
     V value = getIfCached(key);
-    return (value != null) ? value : getWithoutCaching(key);
+    // TODO(cpovirk): Why does our prototype checker (but not CF) reject a ternary?
+    if (value == null) {
+      return getWithoutCaching(key);
+    } else {
+      return value;
+    }
   }
 
   public final @Nullable V getWithoutCaching(@Nullable Object key) {

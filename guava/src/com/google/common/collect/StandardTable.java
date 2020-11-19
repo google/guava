@@ -562,7 +562,12 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
 
               @Override
               public V getValue() {
-                return entry.getValue().get(columnKey);
+                /*
+                 * The cast is safe because of the containsKey check above. (Well, it's possible for
+                 * the map to change between that call and this one. But if that happens, the
+                 * behavior is undefined because of the concurrent mutation.)
+                 */
+                return uncheckedCastNullableVToV(entry.getValue().get(columnKey));
               }
 
               @Override

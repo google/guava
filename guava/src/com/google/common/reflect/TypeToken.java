@@ -933,7 +933,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
       if (!fromClass.isArray()) {
         return false;
       }
-      return of(fromClass.getComponentType()).isSubtypeOf(supertype.getGenericComponentType());
+      // requireNonNull is safe because of the isArray() check.
+      return of(requireNonNull(fromClass.getComponentType())).isSubtypeOf(supertype.getGenericComponentType());
     } else if (runtimeType instanceof GenericArrayType) {
       GenericArrayType fromArrayType = (GenericArrayType) runtimeType;
       return of(fromArrayType.getGenericComponentType())
@@ -949,7 +950,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
       if (!thisClass.isArray()) {
         return thisClass.isAssignableFrom(Object[].class);
       }
-      return of(subtype.getGenericComponentType()).isSubtypeOf(thisClass.getComponentType());
+      // requireNonNull is safe because of the isArray() check.
+      return of(subtype.getGenericComponentType()).isSubtypeOf(requireNonNull(thisClass.getComponentType()));
     } else if (runtimeType instanceof GenericArrayType) {
       return of(subtype.getGenericComponentType())
           .isSubtypeOf(((GenericArrayType) runtimeType).getGenericComponentType());
@@ -1172,7 +1174,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
       Type arrayOfGenericType =
           Types.newArrayType(
               // If we are passed with int[].class, don't turn it to GenericArrayType
-              toGenericType(cls.getComponentType()).runtimeType);
+              // requireNonNull is safe because of the isArray() check.
+              toGenericType(requireNonNull(cls.getComponentType())).runtimeType);
       @SuppressWarnings("unchecked") // array is covariant
       TypeToken<? extends T> result = (TypeToken<? extends T>) of(arrayOfGenericType);
       return result;

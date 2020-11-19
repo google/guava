@@ -166,6 +166,11 @@ class ConfigurableValueGraph<N extends @NonNull Object, V extends @NonNull Objec
       N nodeU, N nodeV, @Nullable V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
-    return value == null ? defaultValue : value;
+    // TODO(cpovirk): Why does our prototype checker (but not CF) reject a ternary?
+    if (value == null) {
+      return defaultValue;
+    } else {
+      return value;
+    }
   }
 }

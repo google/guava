@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -444,12 +445,12 @@ public abstract class ImmutableSet<E extends @NonNull Object> extends ImmutableC
   }
 
   /** Builds a new open-addressed hash table from the first n objects in elements. */
-  @SuppressWarnings("dereference.of.nullable") // arrays
   static @Nullable Object[] rebuildHashTable(int newTableSize, @Nullable Object[] elements, int n) {
     @Nullable Object[] hashTable = new @Nullable Object[newTableSize];
     int mask = hashTable.length - 1;
     for (int i = 0; i < n; i++) {
-      Object e = elements[i];
+      // requireNonNull is safe because we ensure that the first n elements have been populated.
+      Object e = requireNonNull(elements[i]);
       int j0 = Hashing.smear(e.hashCode());
       for (int j = j0; ; j++) {
         int index = j & mask;

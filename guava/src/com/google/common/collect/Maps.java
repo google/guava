@@ -235,8 +235,9 @@ public final class Maps {
                   throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
                 }),
         (accum, t) -> {
-          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
-          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          // TODO(cpovirk): Why does our prototype checker (but not stock CF) need <K> and <V>?
+          K key = Preconditions.<K>checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = Preconditions.<V>checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
           accum.put(key, newValue);
         },
         Accumulator::combine,
@@ -267,8 +268,9 @@ public final class Maps {
     return Collector.of(
         () -> new Accumulator<K, V>(mergeFunction),
         (accum, t) -> {
-          K key = checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
-          V newValue = checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
+          // TODO(cpovirk): Why does our prototype checker (but not stock CF) need <K> and <V>?
+          K key = Preconditions.<K>checkNotNull(keyFunction.apply(t), "Null key for input %s", t);
+          V newValue = Preconditions.<V>checkNotNull(valueFunction.apply(t), "Null value for input %s", t);
           accum.put(key, newValue);
         },
         Accumulator::combine,
@@ -2853,7 +2855,8 @@ public final class Maps {
 
     @Override
     public boolean containsKey(@Nullable Object key) {
-      return unfiltered.containsKey(key) && apply(key, unfiltered.get(key));
+      // The cast is safe because of the containsKey check.
+      return unfiltered.containsKey(key) && apply(key, uncheckedCastNullableVToV(unfiltered.get(key)));
     }
 
     @Override
@@ -4417,12 +4420,13 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V extends @Nullable Object>
       NavigableMap<K, V> subMap(NavigableMap<K, V> map, Range<K> range) {
-    if (map.comparator() != null
-        && map.comparator() != Ordering.natural()
+    Comparator<? super K> comparator = map.comparator();
+    if (comparator != null
+        && comparator != Ordering.natural()
         && range.hasLowerBound()
         && range.hasUpperBound()) {
       checkArgument(
-          map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+          comparator.compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "map is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
