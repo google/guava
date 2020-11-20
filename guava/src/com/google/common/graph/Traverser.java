@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -603,7 +604,8 @@ public abstract class Traverser<N extends @NonNull Object> {
       @Override
       public N next() {
         Iterator<? extends N> iterator = stack.getLast(); // throws NoSuchElementException if empty
-        N result = checkNotNull(iterator.next());
+        // TODO(cpovirk): Why does our prototype checker (but not stock CF) need <N>?
+        N result = Preconditions.<N>checkNotNull(iterator.next());
         if (!iterator.hasNext()) {
           stack.removeLast();
         }

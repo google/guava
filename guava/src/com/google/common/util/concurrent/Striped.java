@@ -41,6 +41,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A striped {@code Lock/Semaphore/ReadWriteLock}. This offers the underlying lock striping similar
@@ -436,7 +437,7 @@ public abstract class Striped<L extends @NonNull Object> {
    */
   @VisibleForTesting
   static class SmallLazyStriped<L extends @NonNull Object> extends PowerOfTwoStriped<L> {
-    final AtomicReferenceArray<ArrayReference<? extends L>> locks;
+    final AtomicReferenceArray<@Nullable ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
     final ReferenceQueue<L> queue = new ReferenceQueue<L>();

@@ -424,7 +424,11 @@ public abstract class ImmutableBiMap<K extends @NonNull Object, V extends @NonNu
    * bimap and its inverse in sync during serialization, the way AbstractBiMap does.
    */
   private static class SerializedForm extends ImmutableMap.SerializedForm {
-    SerializedForm(ImmutableBiMap<?, ?> bimap) {
+    /*
+     * The explicit "extends Object" works around
+     * https://github.com/typetools/checker-framework/issues/3013
+     */
+    SerializedForm(ImmutableBiMap<? extends Object, ? extends Object> bimap) {
       super(bimap);
     }
 

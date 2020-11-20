@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * An implementation-specific parameter class suitable for initializing {@link
@@ -73,8 +74,8 @@ public final class ArrayBasedEscaperMap {
     }
     char max = Collections.max(map.keySet());
     char[][] replacements = new char[max + 1][];
-    for (char c : map.keySet()) {
-      replacements[c] = map.get(c).toCharArray();
+    for (Entry<Character, String> entry : map.entrySet()) {
+      replacements[entry.getKey()] = entry.getValue().toCharArray();
     }
     return replacements;
   }

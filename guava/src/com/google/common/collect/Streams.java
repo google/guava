@@ -758,7 +758,6 @@ public final class Streams {
     @Override
     public @Nullable S trySplit() {
       @SuppressWarnings("unchecked")
-      @Nullable
       F split = (@Nullable F) fromSpliterator.trySplit();
       if (split == null) {
         return null;

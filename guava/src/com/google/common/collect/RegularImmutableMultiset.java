@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -55,7 +56,8 @@ class RegularImmutableMultiset<E extends @NonNull Object> extends ImmutableMulti
     int hashCode = 0;
     long size = 0;
     for (Entry<? extends E> entry : entries) {
-      E element = checkNotNull(entry.getElement());
+      // TODO(cpovirk): Why does our prototype checker (but not stock CF) need <E>?
+      E element = Preconditions.<E>checkNotNull(entry.getElement());
       int count = entry.getCount();
       int hash = element.hashCode();
       int bucket = Hashing.smear(hash) & mask;

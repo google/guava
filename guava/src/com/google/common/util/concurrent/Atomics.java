@@ -35,8 +35,8 @@ public final class Atomics {
    *
    * @return a new {@code AtomicReference} with no initial value
    */
-  public static <V extends @NonNull Object> AtomicReference<V> newReference() {
-    return new AtomicReference<V>();
+  public static <V extends @NonNull Object> AtomicReference<@Nullable V> newReference() {
+    return new AtomicReference<>();
   }
 
   /**
@@ -45,9 +45,8 @@ public final class Atomics {
    * @param initialValue the initial value
    * @return a new {@code AtomicReference} with the given initial value
    */
-  public static <V extends @NonNull Object> AtomicReference<V> newReference(
-      @Nullable V initialValue) {
-    return new AtomicReference<V>(initialValue);
+  public static <V extends @Nullable Object> AtomicReference<V> newReference(V initialValue) {
+    return new AtomicReference<>(initialValue);
   }
 
   /**
@@ -56,8 +55,8 @@ public final class Atomics {
    * @param length the length of the array
    * @return a new {@code AtomicReferenceArray} with the given length
    */
-  public static <E extends @NonNull Object> AtomicReferenceArray<E> newReferenceArray(int length) {
-    return new AtomicReferenceArray<E>(length);
+  public static <E extends @NonNull Object> AtomicReferenceArray<@Nullable E> newReferenceArray(int length) {
+    return new AtomicReferenceArray<>(length);
   }
 
   /**
@@ -67,8 +66,7 @@ public final class Atomics {
    * @param array the array to copy elements from
    * @return a new {@code AtomicReferenceArray} copied from the given array
    */
-  public static <E extends @NonNull Object> AtomicReferenceArray<E> newReferenceArray(
-      @Nullable E[] array) {
-    return new AtomicReferenceArray<E>(array);
+  public static <E extends @Nullable Object> AtomicReferenceArray<E> newReferenceArray(E[] array) {
+    return new AtomicReferenceArray<>(array);
   }
 }

@@ -176,7 +176,7 @@ final class Types {
 
   static @Nullable Type getComponentType(Type type) {
     checkNotNull(type);
-    final AtomicReference<Type> result = new AtomicReference<>();
+    final AtomicReference<@Nullable Type> result = new AtomicReference<>();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {
@@ -578,7 +578,8 @@ final class Types {
         if (type instanceof Class) {
           Class<?> cls = (Class<?>) type;
           if (cls.isArray()) {
-            return new GenericArrayTypeImpl(cls.getComponentType());
+            // requireNonNull is safe because of the isArray() check.
+            return new GenericArrayTypeImpl(requireNonNull(cls.getComponentType()));
           }
         }
         return type;

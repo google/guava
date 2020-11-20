@@ -696,26 +696,27 @@ public abstract class ImmutableSortedSet<E extends @NonNull Object>
   @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E lower(E e) {
-    return Iterators.getNext(headSet(e, false).descendingIterator(), null);
+    // TODO(cpovirk): Why does our prototype checker (but not stock CF) need <@Nullable E>?
+    return Iterators.<@Nullable E>getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   public @Nullable E floor(E e) {
-    return Iterators.getNext(headSet(e, true).descendingIterator(), null);
+    return Iterators.<@Nullable E>getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /** @since 12.0 */
   @Override
   public @Nullable E ceiling(E e) {
-    return Iterables.getFirst(tailSet(e, true), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, true), null);
   }
 
   /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E higher(E e) {
-    return Iterables.getFirst(tailSet(e, false), null);
+    return Iterables.<@Nullable E>getFirst(tailSet(e, false), null);
   }
 
   @Override
