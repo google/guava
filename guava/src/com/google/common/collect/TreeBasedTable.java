@@ -32,8 +32,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -68,12 +67,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-public class TreeBasedTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends StandardRowSortedTable<R, C, V> {
+public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
-  private static class Factory<C, V> implements Supplier<TreeMap<C, V>>, Serializable {
+  private static class Factory<C extends @Nullable Object, V extends @Nullable Object>
+      implements Supplier<TreeMap<C, V>>, Serializable {
     final Comparator<? super C> comparator;
 
     Factory(Comparator<? super C> comparator) {
@@ -96,8 +94,7 @@ public class TreeBasedTable<
    * instead of {@code R extends Comparable<? super R>}, and the same for {@code C}. That's
    * necessary to support classes defined without generics.
    */
-  public static <R extends Comparable, C extends Comparable, V extends @NonNull Object>
-      TreeBasedTable<R, C, V> create() {
+  public static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V> create() {
     return new TreeBasedTable<>(Ordering.natural(), Ordering.natural());
   }
 
@@ -107,9 +104,8 @@ public class TreeBasedTable<
    * @param rowComparator the comparator that orders the row keys
    * @param columnComparator the comparator that orders the column keys
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      TreeBasedTable<R, C, V> create(
-          Comparator<? super R> rowComparator, Comparator<? super C> columnComparator) {
+  public static <R, C, V> TreeBasedTable<R, C, V> create(
+      Comparator<? super R> rowComparator, Comparator<? super C> columnComparator) {
     checkNotNull(rowComparator);
     checkNotNull(columnComparator);
     return new TreeBasedTable<>(rowComparator, columnComparator);
@@ -119,8 +115,7 @@ public class TreeBasedTable<
    * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code
    * TreeBasedTable}.
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
+  public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
         new TreeBasedTable<>(table.rowComparator(), table.columnComparator());
     result.putAll(table);

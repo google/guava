@@ -21,11 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering for a pre-existing comparator. */
 @GwtCompatible(serializable = true)
-final class ComparatorOrdering<T> extends Ordering<T>
+final class ComparatorOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Comparator<T> comparator;
 
@@ -44,8 +44,7 @@ final class ComparatorOrdering<T> extends Ordering<T>
       return true;
     }
     if (object instanceof ComparatorOrdering) {
-      ComparatorOrdering<?> that =
-          (ComparatorOrdering<?>) object;
+      ComparatorOrdering<?> that = (ComparatorOrdering<?>) object;
       return this.comparator.equals(that.comparator);
     }
     return false;

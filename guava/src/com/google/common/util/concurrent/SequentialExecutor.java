@@ -23,7 +23,6 @@ import static java.lang.System.identityHashCode;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -63,11 +62,9 @@ final class SequentialExecutor implements Executor {
   /** Underlying executor that all submitted Runnable objects are run on. */
   private final Executor executor;
 
-  @GuardedBy("queue")
   private final Deque<Runnable> queue = new ArrayDeque<>();
 
   /** see {@link WorkerRunningState} */
-  @GuardedBy("queue")
   private WorkerRunningState workerRunningState = IDLE;
 
   /**
@@ -77,7 +74,6 @@ final class SequentialExecutor implements Executor {
    * it would observe the QUEUING state and set it to QUEUED, and the worker would never be
    * scheduled again for future submissions.
    */
-  @GuardedBy("queue")
   private long workerRunCount = 0;
 
   private final QueueWorker worker = new QueueWorker();

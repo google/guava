@@ -35,8 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
@@ -51,8 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    implements Network<N, E> {
+public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public Graph<N> asGraph() {
@@ -290,8 +288,7 @@ public abstract class AbstractNetwork<N extends @NonNull Object, E extends @NonN
         + edgeIncidentNodesMap(this);
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object>
-      Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {
+  private static <N, E> Map<E, EndpointPair<N>> edgeIncidentNodesMap(final Network<N, E> network) {
     Function<E, EndpointPair<N>> edgeToIncidentNodesFn =
         new Function<E, EndpointPair<N>>() {
           @Override

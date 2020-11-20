@@ -30,8 +30,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Collection} whose contents will never change, and which offers a few additional
@@ -162,8 +161,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
-public abstract class ImmutableCollection<E extends @NonNull Object> extends AbstractCollection<E>
-    implements Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
   /*
    * We expect SIZED (and SUBSIZED, if applicable) to be added by the spliterator factory methods.
    * These are properties of the collection as a whole; SIZED and SUBSIZED are more properties of
@@ -186,15 +184,15 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public final Object[] toArray() {
     return toArray(EMPTY_ARRAY);
   }
 
   @CanIgnoreReturnValue
   @Override
-@SuppressWarnings("nullness")
-  public final <T> T[] toArray(T[] other) {
+  @SuppressWarnings("nullness")
+  public final <T extends @Nullable Object> T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
 
@@ -375,7 +373,7 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
    *
    * @since 10.0
    */
-  public abstract static class Builder<E extends @NonNull Object> {
+  public abstract static class Builder<E> {
     static final int DEFAULT_INITIAL_CAPACITY = 4;
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {

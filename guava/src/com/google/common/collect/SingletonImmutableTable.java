@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * An implementation of {@link ImmutableTable} that holds a single cell.
@@ -28,9 +27,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Gregory Kick
  */
 @GwtCompatible
-class SingletonImmutableTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableTable<R, C, V> {
+class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   final R singleRowKey;
   final C singleColumnKey;
   final V singleValue;

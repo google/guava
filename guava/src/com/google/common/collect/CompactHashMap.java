@@ -47,7 +47,7 @@ import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactHashMap is an implementation of a Map. All optional operations (put and remove) are
@@ -77,7 +77,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @SuppressWarnings("nullness") // too much effort for the payoff
-class CompactHashMap<K, V>
+class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements Serializable {
   /*
    * TODO: Make this a drop-in replacement for j.u. versions, actually drop them in, and test the
@@ -88,7 +88,7 @@ class CompactHashMap<K, V>
    */
 
   /** Creates an empty {@code CompactHashMap} instance. */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       CompactHashMap<K, V> create() {
     return new CompactHashMap<>();
   }
@@ -102,7 +102,7 @@ class CompactHashMap<K, V>
    *     elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       CompactHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactHashMap<>(expectedSize);
   }
@@ -554,7 +554,7 @@ class CompactHashMap<K, V>
     return indexBeforeRemove - 1;
   }
 
-  private abstract class Itr<T> implements Iterator<T> {
+  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     int expectedMetadata = metadata;
     int currentIndex = firstEntryIndex();
     int indexToRemove = -1;
@@ -631,7 +631,7 @@ class CompactHashMap<K, V>
     }
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       if (needsAllocArrays()) {
         return new Object[0];
@@ -643,8 +643,8 @@ class CompactHashMap<K, V>
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       if (needsAllocArrays()) {
         if (a.length > 0) {
           a[0] = null;
@@ -762,8 +762,7 @@ class CompactHashMap<K, V>
       if (delegate != null) {
         return delegate.entrySet().contains(o);
       } else if (o instanceof Entry) {
-        Entry<?, ?> entry =
-            (Entry<?, ?>) o;
+        Entry<?, ?> entry = (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
         return index != -1 && Objects.equal(values[index], entry.getValue());
       }
@@ -776,8 +775,7 @@ class CompactHashMap<K, V>
       if (delegate != null) {
         return delegate.entrySet().remove(o);
       } else if (o instanceof Entry) {
-        Entry<?, ?> entry =
-            (Entry<?, ?>) o;
+        Entry<?, ?> entry = (Entry<?, ?>) o;
         if (needsAllocArrays()) {
           return false;
         }
@@ -869,7 +867,7 @@ class CompactHashMap<K, V>
   }
 
   @SuppressWarnings("nullness")
-  private static <V> V unsafeNull() {
+  private static <V extends @Nullable Object> V unsafeNull() {
     return null;
   }
 
@@ -946,7 +944,7 @@ class CompactHashMap<K, V>
     }
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       if (needsAllocArrays()) {
         return new Object[0];
@@ -958,8 +956,8 @@ class CompactHashMap<K, V>
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       if (needsAllocArrays()) {
         if (a.length > 0) {
           a[0] = null;

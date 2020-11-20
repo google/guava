@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A queue which forwards all its method calls to another queue. Subclasses should override one or
@@ -45,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
+public abstract class ForwardingQueue<E extends @Nullable Object> extends ForwardingCollection<E>
     implements Queue<E> {
 
   /** Constructor for use by subclasses. */

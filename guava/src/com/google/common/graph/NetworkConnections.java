@@ -18,8 +18,7 @@ package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and incident edges
@@ -29,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-interface NetworkConnections<N extends @NonNull Object, E extends @NonNull Object> {
+interface NetworkConnections<N, E> {
 
   Set<N> adjacentNodes();
 

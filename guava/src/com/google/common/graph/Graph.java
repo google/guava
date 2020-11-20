@@ -19,8 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Collection;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An interface for <a
@@ -102,7 +101,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public interface Graph<N extends @NonNull Object> extends BaseGraph<N> {
+public interface Graph<N> extends BaseGraph<N> {
   //
   // Graph-level accessors
   //

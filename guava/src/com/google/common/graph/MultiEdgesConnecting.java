@@ -24,7 +24,7 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
@@ -35,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
-abstract class MultiEdgesConnecting<E> extends AbstractSet<E> {
+abstract class MultiEdgesConnecting<E extends @Nullable Object> extends AbstractSet<E> {
 
   private final Map<E, ?> outEdgeToNode;
   private final Object targetNode;

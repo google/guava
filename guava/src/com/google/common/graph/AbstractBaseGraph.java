@@ -30,8 +30,7 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -42,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-abstract class AbstractBaseGraph<N extends @NonNull Object> implements BaseGraph<N> {
+abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
   /**
    * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. This

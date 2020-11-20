@@ -19,8 +19,7 @@ package com.google.common.graph;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by
@@ -28,8 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author James Sexton
  */
-class MapRetrievalCache<K extends @NonNull Object, V extends @NonNull Object>
-    extends MapIteratorCache<K, V> {
+class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // See the note about volatile in the superclass.
   private transient volatile @Nullable CacheEntry<K, V> cacheEntry1;
   private transient volatile @Nullable CacheEntry<K, V> cacheEntry2;
@@ -99,7 +97,7 @@ class MapRetrievalCache<K extends @NonNull Object, V extends @NonNull Object>
     cacheEntry1 = entry;
   }
 
-  private static final class CacheEntry<K, V> {
+  private static final class CacheEntry<K extends @Nullable Object, V extends @Nullable Object> {
     final K key;
     final V value;
 

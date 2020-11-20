@@ -25,8 +25,7 @@ import static com.google.common.graph.Graphs.checkPositive;
 import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Standard implementation of {@link MutableValueGraph} that supports both directed and undirected
@@ -41,8 +40,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class StandardMutableValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends StandardValueGraph<N, V> implements MutableValueGraph<N, V> {
+final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
+    implements MutableValueGraph<N, V> {
 
   private final ElementOrder<N> incidentEdgeOrder;
 

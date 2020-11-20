@@ -21,7 +21,7 @@ import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection which forwards all its method calls to another collection. Subclasses should
@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingCollection<E> extends ForwardingObject
+public abstract class ForwardingCollection<E extends @Nullable Object> extends ForwardingObject
     implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -117,15 +117,15 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
   }
 
   @Override
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public Object[] toArray() {
     return delegate().toArray();
   }
 
   @CanIgnoreReturnValue
   @Override
-@SuppressWarnings("nullness")
-  public <T> T[] toArray(T[] array) {
+  @SuppressWarnings("nullness")
+  public <T extends @Nullable Object> T[] toArray(T[] array) {
     return delegate().toArray(array);
   }
 
@@ -254,7 +254,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    *
    * @since 7.0
    */
-  protected <T> T[] standardToArray(T[] array) {
+  protected <T extends @Nullable Object> T[] standardToArray(T[] array) {
     return ObjectArrays.toArrayImpl(this, array);
   }
 }

@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its
@@ -38,8 +38,7 @@ public interface ListeningScheduledExecutorService
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<?> schedule(
-      Runnable command, long delay, TimeUnit unit);
+  ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
 
   /**
    * Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.
@@ -52,7 +51,7 @@ public interface ListeningScheduledExecutorService
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  <V> ListenableScheduledFuture<V> schedule(
+  <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, long delay, TimeUnit unit);
 
   /**
@@ -60,7 +59,8 @@ public interface ListeningScheduledExecutorService
    *
    * @since 29.0
    */
-  default <V> ListenableScheduledFuture<V> schedule(Callable<V> callable, Duration delay) {
+  default <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+      Callable<V> callable, Duration delay) {
     return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
   }
 

@@ -19,8 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An interface for <a
@@ -103,8 +102,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public interface Network<N extends @NonNull Object, E extends @NonNull Object>
-    extends SuccessorsFunction<N>, PredecessorsFunction<N> {
+public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
   //

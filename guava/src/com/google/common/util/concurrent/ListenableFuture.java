@@ -17,7 +17,7 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
@@ -105,7 +105,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * change internally only? Alternatively, maybe we should just create a stub file? That might be
  * harder for external users, though.
  */
-public interface ListenableFuture<V> extends Future<V> {
+public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
    * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()

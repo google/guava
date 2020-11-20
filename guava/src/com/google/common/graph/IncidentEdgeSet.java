@@ -18,14 +18,13 @@ package com.google.common.graph;
 
 import java.util.AbstractSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract base class for an incident edges set that allows different implementations of {@link
  * AbstractSet#iterator()}.
  */
-abstract class IncidentEdgeSet<N extends @NonNull Object> extends AbstractSet<EndpointPair<N>> {
+abstract class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
   protected final N node;
   protected final BaseGraph<N> graph;
 

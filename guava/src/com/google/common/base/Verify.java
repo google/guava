@@ -18,8 +18,7 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static convenience methods that serve the same purpose as Java language <a
@@ -475,7 +474,7 @@ public final class Verify {
    */
   @CanIgnoreReturnValue
   // TODO(cpovirk): Users are likely to want the parameter type to be `@Nullable T`.
-  public static <T extends @NonNull Object> T verifyNotNull(T reference) {
+  public static <T> T verifyNotNull(T reference) {
     return verifyNotNull(reference, "expected a non-null reference");
   }
 
@@ -495,7 +494,7 @@ public final class Verify {
    * @see Preconditions#checkNotNull Preconditions.checkNotNull()
    */
   @CanIgnoreReturnValue
-  public static <T extends @NonNull Object> T verifyNotNull(
+  public static <T> T verifyNotNull(
       T reference,
       @Nullable String errorMessageTemplate,
       @Nullable Object @Nullable ... errorMessageArgs) {

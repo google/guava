@@ -51,7 +51,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
 import java.time.Duration;
@@ -456,14 +455,11 @@ public final class ServiceManager implements ServiceManagerBridge {
   private static final class ServiceManagerState {
     final Monitor monitor = new Monitor();
 
-    @GuardedBy("monitor")
     final SetMultimap<State, Service> servicesByState =
         MultimapBuilder.enumKeys(State.class).linkedHashSetValues().build();
 
-    @GuardedBy("monitor")
     final Multiset<State> states = servicesByState.keys();
 
-    @GuardedBy("monitor")
     final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
 
     /**
@@ -479,10 +475,8 @@ public final class ServiceManager implements ServiceManagerBridge {
      * to any service performing a transition, then we can fail in the ServiceManager constructor
      * rather than in a Service.Listener callback.
      */
-    @GuardedBy("monitor")
     boolean ready;
 
-    @GuardedBy("monitor")
     boolean transitioned;
 
     final int numberOfServices;
@@ -500,7 +494,6 @@ public final class ServiceManager implements ServiceManagerBridge {
       }
 
       @Override
-      @GuardedBy("ServiceManagerState.this.monitor")
       public boolean isSatisfied() {
         // All services have started or some service has terminated/failed.
         return states.count(RUNNING) == numberOfServices
@@ -520,7 +513,6 @@ public final class ServiceManager implements ServiceManagerBridge {
       }
 
       @Override
-      @GuardedBy("ServiceManagerState.this.monitor")
       public boolean isSatisfied() {
         return states.count(TERMINATED) + states.count(FAILED) == numberOfServices;
       }
@@ -773,7 +765,6 @@ public final class ServiceManager implements ServiceManagerBridge {
       listeners.dispatch();
     }
 
-    @GuardedBy("monitor")
     void checkHealthy() {
       if (states.count(RUNNING) != numberOfServices) {
         IllegalStateException exception =

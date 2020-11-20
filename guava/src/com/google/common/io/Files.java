@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with {@linkplain File files}.
@@ -574,7 +574,7 @@ public final class Files {
   @Beta
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(
+  public static <T extends @Nullable Object> T readLines(
       File file, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(file, charset).readLines(callback);
   }
@@ -594,7 +594,7 @@ public final class Files {
   @Beta
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readBytes(File file, ByteProcessor<T> processor)
+  public static <T extends @Nullable Object> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
     return asByteSource(file).read(processor);
   }

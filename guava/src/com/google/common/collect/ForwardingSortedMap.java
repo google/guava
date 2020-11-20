@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted map which forwards all its method calls to another sorted map. Subclasses should
@@ -51,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedMap<K, V>
+public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 

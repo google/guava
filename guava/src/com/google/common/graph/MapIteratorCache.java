@@ -25,8 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
@@ -42,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author James Sexton
  */
-class MapIteratorCache<K extends @NonNull Object, V extends @NonNull Object> {
+class MapIteratorCache<K, V> {
   private final Map<K, V> backingMap;
 
   /*

@@ -26,8 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Table} whose iteration ordering across row keys is sorted by their
@@ -47,9 +46,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-class StandardRowSortedTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends StandardTable<R, C, V> implements RowSortedTable<R, C, V> {
+class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
+    implements RowSortedTable<R, C, V> {
   /*
    * TODO(jlevy): Consider adding headTable, tailTable, and subTable methods,
    * which return a Table view with rows keys in a given range. Create a

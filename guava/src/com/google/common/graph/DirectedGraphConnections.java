@@ -40,8 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for directed graphs.
@@ -51,8 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNull Object>
-    implements GraphConnections<N, V> {
+final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   /**
    * A wrapper class to indicate a node is both a predecessor and successor while still providing
    * the successor value.
@@ -71,14 +69,14 @@ final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNu
    * <p>There can be two types of connections (predecessor and successor), which is represented by
    * the two implementations.
    */
-  private abstract static class NodeConnection<N extends @NonNull Object> {
+  private abstract static class NodeConnection<N> {
     final N node;
 
     NodeConnection(N node) {
       this.node = checkNotNull(node);
     }
 
-    static final class Pred<N extends @NonNull Object> extends NodeConnection<N> {
+    static final class Pred<N> extends NodeConnection<N> {
       Pred(N node) {
         super(node);
       }
@@ -99,7 +97,7 @@ final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNu
       }
     }
 
-    static final class Succ<N extends @NonNull Object> extends NodeConnection<N> {
+    static final class Succ<N> extends NodeConnection<N> {
       Succ(N node) {
         super(node);
       }
@@ -154,8 +152,7 @@ final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNu
             && successorCount <= adjacentNodeValues.size());
   }
 
-  static <N extends @NonNull Object, V extends @NonNull Object> DirectedGraphConnections<N, V> of(
-      ElementOrder<N> incidentEdgeOrder) {
+  static <N, V> DirectedGraphConnections<N, V> of(ElementOrder<N> incidentEdgeOrder) {
     // We store predecessors and successors in the same map, so double the initial capacity.
     int initialCapacity = INNER_CAPACITY * 2;
 
@@ -178,11 +175,8 @@ final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNu
         /* successorCount = */ 0);
   }
 
-  static <N extends @NonNull Object, V extends @NonNull Object>
-      DirectedGraphConnections<N, V> ofImmutable(
-          N thisNode,
-          Iterable<EndpointPair<N>> incidentEdges,
-          Function<N, V> successorNodeToValueFn) {
+  static <N, V> DirectedGraphConnections<N, V> ofImmutable(
+      N thisNode, Iterable<EndpointPair<N>> incidentEdges, Function<N, V> successorNodeToValueFn) {
     checkNotNull(thisNode);
     checkNotNull(successorNodeToValueFn);
 

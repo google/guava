@@ -33,7 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.DoubleConsumer;
 import java.util.stream.DoubleStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code double} values, with an API resembling {@link List}.
@@ -427,7 +427,7 @@ public final class ImmutableDoubleArray implements Serializable {
   }
 
   /** Returns a new, mutable copy of this array's values, as a primitive {@code double[]}. */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public double[] toArray() {
     return Arrays.copyOfRange(array, start, end);
   }

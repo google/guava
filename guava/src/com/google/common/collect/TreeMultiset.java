@@ -36,8 +36,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multiset which maintains the ordering of its elements, according to either their natural order
@@ -58,7 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
+public final class TreeMultiset<E extends @Nullable Object> extends AbstractSortedMultiset<E>
     implements Serializable {
 
   /**
@@ -89,7 +88,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
    *     indicates that the elements' <i>natural ordering</i> should be used.
    */
   @SuppressWarnings("unchecked")
-  public static <E> TreeMultiset<E> create(
+  public static <E extends @Nullable Object> TreeMultiset<E> create(
       @Nullable Comparator<? super E> comparator) {
     return (comparator == null)
         ? new TreeMultiset<E>((Comparator) Ordering.natural())
@@ -251,7 +250,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
   }
 
   @SuppressWarnings({"unchecked", "nullness"})
-  private static <E> E uncheckedCastNullableObjectToE(
+  private static <E extends @Nullable Object> E uncheckedCastNullableObjectToE(
       @Nullable Object value) {
     /*
      * We can't use requireNonNull because `value` might be null. Specifically, it can be null
@@ -573,7 +572,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
         header);
   }
 
-  private static final class Reference<T extends @NonNull Object> {
+  private static final class Reference<T> {
     private @Nullable T value;
 
     public @Nullable T get() {
@@ -592,7 +591,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     }
   }
 
-  private static final class AvlNode<E> {
+  private static final class AvlNode<E extends @Nullable Object> {
     private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
@@ -1025,12 +1024,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     }
   }
 
-  private static <T> void successor(AvlNode<T> a, AvlNode<T> b) {
+  private static <T extends @Nullable Object> void successor(AvlNode<T> a, AvlNode<T> b) {
     a.succ = b;
     b.pred = a;
   }
 
-  private static <T> void successor(
+  private static <T extends @Nullable Object> void successor(
       AvlNode<T> a, AvlNode<T> b, AvlNode<T> c) {
     successor(a, b);
     successor(b, c);
@@ -1043,7 +1042,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
    */
 
   @SuppressWarnings("nullness")
-  private static <E> E unsafeNull() {
+  private static <E extends @Nullable Object> E unsafeNull() {
     return null;
   }
 

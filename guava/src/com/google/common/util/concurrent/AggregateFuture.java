@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A future whose value is derived from a collection of input futures.
@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <OutputT> the type of the output (i.e. this) future
  */
 @GwtCompatible
-abstract class AggregateFuture<InputT, OutputT>
+abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
     extends AggregateFutureState<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 

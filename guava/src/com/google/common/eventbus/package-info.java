@@ -251,7 +251,9 @@
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
+@NullAware
 package com.google.common.eventbus;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullAware;

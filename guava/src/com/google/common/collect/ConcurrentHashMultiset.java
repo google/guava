@@ -42,8 +42,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
@@ -58,8 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtIncompatible
-public final class ConcurrentHashMultiset<E extends @NonNull Object> extends AbstractMultiset<E>
-    implements Serializable {
+public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
   /*
    * The ConcurrentHashMultiset's atomic operations are implemented primarily in terms of
@@ -85,7 +83,7 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
    * Creates a new, empty {@code ConcurrentHashMultiset} using the default initial capacity, load
    * factor, and concurrency settings.
    */
-  public static <E extends @NonNull Object> ConcurrentHashMultiset<E> create() {
+  public static <E> ConcurrentHashMultiset<E> create() {
     // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)
     // ConcurrentMap implementors. One possibility is to extract most of this class into
     // an AbstractConcurrentMapMultiset.
@@ -100,8 +98,7 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
    *
    * @param elements the elements that the multiset should contain
    */
-  public static <E extends @NonNull Object> ConcurrentHashMultiset<E> create(
-      Iterable<? extends E> elements) {
+  public static <E> ConcurrentHashMultiset<E> create(Iterable<? extends E> elements) {
     ConcurrentHashMultiset<E> multiset = ConcurrentHashMultiset.create();
     Iterables.addAll(multiset, elements);
     return multiset;
@@ -122,8 +119,7 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
    * @since 20.0
    */
   @Beta
-  public static <E extends @NonNull Object> ConcurrentHashMultiset<E> create(
-      ConcurrentMap<E, AtomicInteger> countMap) {
+  public static <E> ConcurrentHashMultiset<E> create(ConcurrentMap<E, AtomicInteger> countMap) {
     return new ConcurrentHashMultiset<E>(countMap);
   }
 
@@ -168,14 +164,14 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
    */
 
   @Override
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public Object[] toArray() {
     return snapshot().toArray();
   }
 
   @Override
-@SuppressWarnings("nullness")
-  public <T> T[] toArray(T[] array) {
+  @SuppressWarnings("nullness")
+  public <T extends @Nullable Object> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
 
@@ -578,14 +574,14 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
      */
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return snapshot().toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] array) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }
 

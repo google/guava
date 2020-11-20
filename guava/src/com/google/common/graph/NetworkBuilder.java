@@ -21,7 +21,6 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A builder for constructing instances of {@link MutableNetwork} or {@link ImmutableNetwork} with
@@ -68,8 +67,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @since 20.0
  */
 @Beta
-public final class NetworkBuilder<N extends @NonNull Object, E extends @NonNull Object>
-    extends AbstractGraphBuilder<N> {
+public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   boolean allowsParallelEdges = false;
   ElementOrder<? super E> edgeOrder = ElementOrder.insertion();
   Optional<Integer> expectedEdgeCount = Optional.absent();
@@ -97,8 +95,7 @@ public final class NetworkBuilder<N extends @NonNull Object, E extends @NonNull 
    * such as {@link Network#isDirected()}. Other properties, such as {@link
    * #expectedNodeCount(int)}, are not set in the new builder.
    */
-  public static <N extends @NonNull Object, E extends @NonNull Object> NetworkBuilder<N, E> from(
-      Network<N, E> network) {
+  public static <N, E> NetworkBuilder<N, E> from(Network<N, E> network) {
     return new NetworkBuilder<N, E>(network.isDirected())
         .allowsParallelEdges(network.allowsParallelEdges())
         .allowsSelfLoops(network.allowsSelfLoops())

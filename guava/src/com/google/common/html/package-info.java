@@ -20,7 +20,9 @@
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
+@NullAware
 package com.google.common.html;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullAware;

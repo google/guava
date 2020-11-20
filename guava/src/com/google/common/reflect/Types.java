@@ -45,7 +45,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities for working with {@link Type}.
@@ -129,7 +129,7 @@ final class Types {
     static final ClassOwnership JVM_BEHAVIOR = detectJvmBehavior();
 
     private static ClassOwnership detectJvmBehavior() {
-      class LocalClass<T> {}
+      class LocalClass<T extends @Nullable Object> {}
       Class<?> subclass = new LocalClass<String>() {}.getClass();
       // requireNonNull is safe because we're examining a type that's known to have a superclass.
       ParameterizedType parameterizedType =
@@ -702,7 +702,7 @@ final class Types {
    * however, it's fine for the synthetic TypeVariable to be unequal to any native TypeVariable
    * anyway.
    */
-  static final class NativeTypeVariableEquals<X> {
+  static final class NativeTypeVariableEquals<X extends @Nullable Object> {
     static final boolean NATIVE_TYPE_VARIABLE_ONLY =
         !NativeTypeVariableEquals.class.getTypeParameters()[0].equals(
             newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));

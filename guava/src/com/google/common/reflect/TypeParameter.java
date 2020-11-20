@@ -19,8 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.annotations.Beta;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
@@ -44,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * on TypeToken.where.) So, in the interest of failing fast and encouraging the user to switch to a
  * non-null bound if possible, let's require a non-null bound here.
  */
-public abstract class TypeParameter<T extends @NonNull Object> extends TypeCapture<T> {
+public abstract class TypeParameter<T> extends TypeCapture<T> {
 
   final TypeVariable<?> typeVariable;
 

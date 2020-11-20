@@ -20,8 +20,7 @@ import com.google.common.annotations.Beta;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An interface for <a
@@ -109,8 +108,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public interface ValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends BaseGraph<N> {
+public interface ValueGraph<N, V> extends BaseGraph<N> {
   //
   // ValueGraph-level accessors
   //

@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Multiset implementation specialized for enum elements, supporting all single-element operations
@@ -207,7 +207,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     distinctElements = 0;
   }
 
-  abstract class Itr<T> implements Iterator<T> {
+  abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     int index = 0;
     int toRemove = -1;
 

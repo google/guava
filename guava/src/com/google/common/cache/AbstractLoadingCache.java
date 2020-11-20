@@ -21,7 +21,6 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
@@ -39,8 +38,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @since 11.0
  */
 @GwtIncompatible
-public abstract class AbstractLoadingCache<K extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractCache<K, V> implements LoadingCache<K, V> {
+public abstract class AbstractLoadingCache<K, V> extends AbstractCache<K, V>
+    implements LoadingCache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected AbstractLoadingCache() {}

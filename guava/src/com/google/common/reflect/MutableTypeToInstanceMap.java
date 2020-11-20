@@ -27,8 +27,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.
@@ -37,7 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 13.0
  */
 @Beta
-public final class MutableTypeToInstanceMap<B extends @NonNull Object>
+public final class MutableTypeToInstanceMap<B>
     extends ForwardingMap<TypeToken<? extends B>, @Nullable B> implements TypeToInstanceMap<B> {
 
   private final Map<TypeToken<? extends B>, @Nullable B> backingMap = Maps.newHashMap();
@@ -109,12 +108,14 @@ public final class MutableTypeToInstanceMap<B extends @NonNull Object>
     return (T) backingMap.get(type);
   }
 
-  private static final class UnmodifiableEntry<K, V>
+  private static final class UnmodifiableEntry<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMapEntry<K, V> {
 
     private final Entry<K, V> delegate;
 
-    static <K, V> Set<Entry<K, V>> transformEntries(final Set<Entry<K, V>> entries) {
+    static <K extends @Nullable Object, V extends @Nullable Object>
+        Set<Entry<K, V>> transformEntries(final Set<Entry<K, V>> entries) {
       return new ForwardingSet<Map.Entry<K, V>>() {
         @Override
         protected Set<Entry<K, V>> delegate() {
@@ -127,21 +128,21 @@ public final class MutableTypeToInstanceMap<B extends @NonNull Object>
         }
 
         @Override
-@SuppressWarnings("nullness")
+        @SuppressWarnings("nullness")
         public Object[] toArray() {
           return standardToArray();
         }
 
         @Override
-@SuppressWarnings("nullness")
-        public <T> T[] toArray(T[] array) {
+        @SuppressWarnings("nullness")
+        public <T extends @Nullable Object> T[] toArray(T[] array) {
           return standardToArray(array);
         }
       };
     }
 
-    private static <K, V> Iterator<Entry<K, V>> transformEntries(
-        Iterator<Entry<K, V>> entries) {
+    private static <K extends @Nullable Object, V extends @Nullable Object>
+        Iterator<Entry<K, V>> transformEntries(Iterator<Entry<K, V>> entries) {
       return Iterators.transform(
           entries,
           new Function<Entry<K, V>, Entry<K, V>>() {

@@ -43,8 +43,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link Table} implementation backed by a map that associates row keys with column key / value
@@ -66,8 +65,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractTable<R, C, V> implements Serializable {
+class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
   @GwtTransient final Map<R, Map<C, V>> backingMap;
   @GwtTransient final Supplier<? extends Map<C, V>> factory;
 
@@ -206,7 +204,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
    * clear()} clears all table mappings.
    */
   @WeakOuter
-  private abstract class TableSet<T> extends ImprovedAbstractSet<T> {
+  private abstract class TableSet<T extends @Nullable Object> extends ImprovedAbstractSet<T> {
     @Override
     public boolean isEmpty() {
       return backingMap.isEmpty();
@@ -522,8 +520,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object o) {
         if (o instanceof Entry) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) o;
+          Entry<?, ?> entry = (Entry<?, ?>) o;
           return containsMapping(entry.getKey(), columnKey, entry.getValue());
         }
         return false;
@@ -532,8 +529,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) obj;
+          Entry<?, ?> entry = (Entry<?, ?>) obj;
           return removeMapping(entry.getKey(), columnKey, entry.getValue());
         }
         return false;
@@ -833,8 +829,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) obj;
+          Entry<?, ?> entry = (Entry<?, ?>) obj;
           return entry.getKey() != null
               && entry.getValue() instanceof Map
               && Collections2.safeContains(backingMap.entrySet(), entry);
@@ -845,8 +840,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) obj;
+          Entry<?, ?> entry = (Entry<?, ?>) obj;
           return entry.getKey() != null
               && entry.getValue() instanceof Map
               && backingMap.entrySet().remove(entry);
@@ -922,8 +916,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) obj;
+          Entry<?, ?> entry = (Entry<?, ?>) obj;
           if (containsColumn(entry.getKey())) {
             // requireNonNull is safe because of the containsColumn check.
             return requireNonNull(get(entry.getKey())).equals(entry.getValue());
@@ -935,8 +928,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (contains(obj)) {
-          Entry<?, ?> entry =
-              (Entry<?, ?>) obj;
+          Entry<?, ?> entry = (Entry<?, ?>) obj;
           // requireNonNull is safe because of the contains check.
           removeColumn(requireNonNull(entry).getKey());
           return true;
@@ -1020,7 +1012,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
   }
 
   @SuppressWarnings("nullness")
-  private static <V> V uncheckedCastNullableVToV(@Nullable V value) {
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V value) {
     /*
      * We can't use requireNonNull because `value` might be null. Specifically, it can be null
      * because the table might contain a null value to be returned to the user. This is in contrast

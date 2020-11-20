@@ -16,7 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.
@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @Beta
-public interface Funnel<T> extends Serializable {
+public interface Funnel<T extends @Nullable Object> extends Serializable {
 
   /**
    * Sends a stream of data from the {@code from} object into the sink {@code into}. There is no

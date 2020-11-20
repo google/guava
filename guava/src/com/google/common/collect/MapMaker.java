@@ -30,8 +30,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped
@@ -277,7 +276,7 @@ public final class MapMaker {
    *
    * @return a serializable concurrent map having the requested features
    */
-  public <K extends @NonNull Object, V extends @NonNull Object> ConcurrentMap<K, V> makeMap() {
+  public <K, V> ConcurrentMap<K, V> makeMap() {
     if (!useCustomMap) {
       return new ConcurrentHashMap<>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }

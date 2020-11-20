@@ -32,8 +32,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
@@ -231,7 +230,7 @@ public final class Uninterruptibles {
    * @throws CancellationException if the computation was cancelled
    */
   @CanIgnoreReturnValue
-  public static <V> V getUninterruptibly(Future<V> future)
+  public static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;
     try {
@@ -271,7 +270,7 @@ public final class Uninterruptibles {
   @CanIgnoreReturnValue
   @GwtIncompatible // java.time.Duration
   @Beta
-  public static <V> V getUninterruptibly(
+  public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, Duration timeout) throws ExecutionException, TimeoutException {
     return getUninterruptibly(future, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -297,7 +296,7 @@ public final class Uninterruptibles {
   @CanIgnoreReturnValue
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  public static <V> V getUninterruptibly(
+  public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, long timeout, TimeUnit unit) throws ExecutionException, TimeoutException {
     boolean interrupted = false;
     try {
@@ -322,7 +321,7 @@ public final class Uninterruptibles {
 
   /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
   @GwtIncompatible // concurrency
-  public static <E extends @NonNull Object> E takeUninterruptibly(BlockingQueue<E> queue) {
+  public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
     boolean interrupted = false;
     try {
       while (true) {
@@ -348,8 +347,7 @@ public final class Uninterruptibles {
    *     being added to the given queue
    */
   @GwtIncompatible // concurrency
-  public static <E extends @NonNull Object> void putUninterruptibly(
-      BlockingQueue<E> queue, E element) {
+  public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
     boolean interrupted = false;
     try {
       while (true) {

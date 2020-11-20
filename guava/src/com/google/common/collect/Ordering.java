@@ -38,8 +38,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -145,7 +144,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class Ordering<T> implements Comparator<T> {
+public abstract class Ordering<T extends @Nullable Object> implements Comparator<T> {
   // Natural order
 
   /**
@@ -179,7 +178,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     wraps that comparator
    */
   @GwtCompatible(serializable = true)
-  public static <T> Ordering<T> from(Comparator<T> comparator) {
+  public static <T extends @Nullable Object> Ordering<T> from(Comparator<T> comparator) {
     return (comparator instanceof Ordering)
         ? (Ordering<T>) comparator
         : new ComparatorOrdering<T>(comparator);
@@ -192,7 +191,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   @Deprecated
-  public static <T> Ordering<T> from(Ordering<T> ordering) {
+  public static <T extends @Nullable Object> Ordering<T> from(Ordering<T> ordering) {
     return checkNotNull(ordering);
   }
 
@@ -217,7 +216,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   // TODO(kevinb): provide replacement
   @GwtCompatible(serializable = true)
-  public static <T extends @NonNull Object> Ordering<T> explicit(List<T> valuesInOrder) {
+  public static <T> Ordering<T> explicit(List<T> valuesInOrder) {
     return new ExplicitOrdering<T>(valuesInOrder);
   }
 
@@ -243,8 +242,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   // TODO(kevinb): provide replacement
   @GwtCompatible(serializable = true)
-  public static <T extends @NonNull Object> Ordering<T> explicit(
-      T leastValue, T... remainingValuesInOrder) {
+  public static <T> Ordering<T> explicit(T leastValue, T... remainingValuesInOrder) {
     return explicit(Lists.asList(leastValue, remainingValuesInOrder));
   }
 
@@ -447,7 +445,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * can omit the comparator if it is the natural order).
    */
   @GwtCompatible(serializable = true)
-  public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
+  public <F extends @Nullable Object> Ordering<F> onResultOf(Function<F, ? extends T> function) {
     return new ByFunctionOrdering<>(function, this);
   }
 
@@ -493,7 +491,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @param comparators the comparators to try in order
    */
   @GwtCompatible(serializable = true)
-  public static <T> Ordering<T> compound(
+  public static <T extends @Nullable Object> Ordering<T> compound(
       Iterable<? extends Comparator<? super T>> comparators) {
     return new CompoundOrdering<T>(comparators);
   }

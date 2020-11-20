@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code Multimap} that cannot hold duplicate key-value pairs. Adding a key-value pair that's
@@ -49,7 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface SetMultimap<K, V>
+public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends Multimap<K, V> {
   /**
    * {@inheritDoc}

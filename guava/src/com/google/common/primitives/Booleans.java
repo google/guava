@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code boolean} primitives, that are not already found in
@@ -340,7 +340,7 @@ public final class Booleans {
    *     to primitives
    * @throws NullPointerException if {@code collection} or any of its elements is null
    */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public static boolean[] toArray(Collection<Boolean> collection) {
     if (collection instanceof BooleanArrayAsList) {
       return ((BooleanArrayAsList) collection).toBooleanArray();

@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A class to allow {@link Graph} implementations to be backed by a {@link BaseGraph}. This is not
@@ -25,7 +24,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  *
  * @author James Sexton
  */
-abstract class ForwardingGraph<N extends @NonNull Object> extends AbstractGraph<N> {
+abstract class ForwardingGraph<N> extends AbstractGraph<N> {
 
   protected abstract BaseGraph<N> delegate();
 

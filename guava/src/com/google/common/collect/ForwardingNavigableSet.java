@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
@@ -50,7 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableSet<E>
+public abstract class ForwardingNavigableSet<E extends @Nullable Object>
     extends ForwardingSortedSet<E> implements NavigableSet<E> {
 
   /** Constructor for use by subclasses. */

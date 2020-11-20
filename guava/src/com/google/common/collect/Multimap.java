@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that maps keys to values, similar to {@link Map}, but in which each key may be
@@ -159,7 +159,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multimap<K, V> {
+public interface Multimap<K extends @Nullable Object, V extends @Nullable Object> {
   // Query Operations
 
   /**

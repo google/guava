@@ -13,7 +13,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic

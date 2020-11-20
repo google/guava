@@ -16,8 +16,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.cache.LocalCache.ValueReference;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An entry in a reference map.
@@ -40,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * </ul>
  */
 @GwtIncompatible
-interface ReferenceEntry<K extends @NonNull Object, V extends @NonNull Object> {
+interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
   @Nullable
   ValueReference<K, V> getValueReference();

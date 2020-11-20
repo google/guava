@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSortedSetMultimap<K, V>
+abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -53,7 +53,7 @@ abstract class AbstractSortedSetMultimap<K, V>
   }
 
   @Override
-  <E> SortedSet<E> unmodifiableCollectionSubclass(
+  <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     if (collection instanceof NavigableSet) {
       return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);

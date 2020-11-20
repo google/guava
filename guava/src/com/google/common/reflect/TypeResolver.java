@@ -35,8 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -268,7 +267,7 @@ public final class TypeResolver {
         resolvedOwner, (Class<?>) resolvedRawType, resolvedArgs);
   }
 
-  private static <T extends @NonNull Object> T expectArgument(Class<T> type, Object arg) {
+  private static <T> T expectArgument(Class<T> type, Object arg) {
     try {
       return type.cast(arg);
     } catch (ClassCastException e) {

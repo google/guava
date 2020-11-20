@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of the {@code equals}, {@code hashCode}, and {@code toString} methods of {@code
@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractMapEntry<K, V>
+abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
     implements Entry<K, V> {
 
   @Override
@@ -45,8 +45,7 @@ abstract class AbstractMapEntry<K, V>
   @Override
   public boolean equals(@Nullable Object object) {
     if (object instanceof Entry) {
-      Entry<?, ?> that =
-          (Entry<?, ?>) object;
+      Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
           && Objects.equal(this.getValue(), that.getValue());
     }

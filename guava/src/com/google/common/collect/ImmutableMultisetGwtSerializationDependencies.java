@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A dummy superclass to support GWT serialization of the element type of an {@link
@@ -38,5 +37,4 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * and make types non-final.
  */
 @GwtCompatible(emulated = true)
-abstract class ImmutableMultisetGwtSerializationDependencies<E extends @NonNull Object>
-    extends ImmutableCollection<E> {}
+abstract class ImmutableMultisetGwtSerializationDependencies<E> extends ImmutableCollection<E> {}

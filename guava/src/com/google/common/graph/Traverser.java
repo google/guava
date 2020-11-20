@@ -31,8 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
@@ -64,7 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 23.1
  */
 @Beta
-public abstract class Traverser<N extends @NonNull Object> {
+public abstract class Traverser<N> {
 
   /**
    * Creates a new traverser for the given general {@code graph}.
@@ -90,7 +89,7 @@ public abstract class Traverser<N extends @NonNull Object> {
    *
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
-  public static <N extends @NonNull Object> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
+  public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
     checkNotNull(graph);
     return new GraphTraverser<>(graph);
   }
@@ -168,7 +167,7 @@ public abstract class Traverser<N extends @NonNull Object> {
    * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
    *     one path between any two nodes
    */
-  public static <N extends @NonNull Object> Traverser<N> forTree(SuccessorsFunction<N> tree) {
+  public static <N> Traverser<N> forTree(SuccessorsFunction<N> tree) {
     checkNotNull(tree);
     if (tree instanceof BaseGraph) {
       checkArgument(((BaseGraph<?>) tree).isDirected(), "Undirected graphs can never be trees.");
@@ -317,7 +316,7 @@ public abstract class Traverser<N extends @NonNull Object> {
   // Avoid subclasses outside of this class
   private Traverser() {}
 
-  private static final class GraphTraverser<N extends @NonNull Object> extends Traverser<N> {
+  private static final class GraphTraverser<N> extends Traverser<N> {
     private final SuccessorsFunction<N> graph;
 
     GraphTraverser(SuccessorsFunction<N> graph) {
@@ -484,7 +483,7 @@ public abstract class Traverser<N extends @NonNull Object> {
     }
   }
 
-  private static final class TreeTraverser<N extends @NonNull Object> extends Traverser<N> {
+  private static final class TreeTraverser<N> extends Traverser<N> {
     private final SuccessorsFunction<N> tree;
 
     TreeTraverser(SuccessorsFunction<N> tree) {

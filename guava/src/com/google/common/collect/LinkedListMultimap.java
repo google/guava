@@ -41,7 +41,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@code ListMultimap} that supports deterministic iteration order for both
@@ -96,7 +96,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class LinkedListMultimap<K, V>
+public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In
@@ -105,7 +105,7 @@ public class LinkedListMultimap<K, V>
    * ValueForKeyIterator} in constant time.
    */
 
-  private static final class Node<K, V>
+  private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<K, V> {
     final K key;
     V value;
@@ -137,7 +137,7 @@ public class LinkedListMultimap<K, V>
     }
   }
 
-  private static class KeyList<K, V> {
+  private static class KeyList<K extends @Nullable Object, V extends @Nullable Object> {
     Node<K, V> head;
     Node<K, V> tail;
     int count;
@@ -164,7 +164,7 @@ public class LinkedListMultimap<K, V>
   private transient int modCount;
 
   /** Creates a new, empty {@code LinkedListMultimap} with the default initial capacity. */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedListMultimap<K, V> create() {
     return new LinkedListMultimap<>();
   }
@@ -176,7 +176,7 @@ public class LinkedListMultimap<K, V>
    * @param expectedKeys the expected number of distinct keys
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedListMultimap<K, V> create(int expectedKeys) {
     return new LinkedListMultimap<>(expectedKeys);
   }
@@ -188,7 +188,7 @@ public class LinkedListMultimap<K, V>
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedListMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     return new LinkedListMultimap<>(multimap);
   }

@@ -36,7 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractBiMap<K, V>
+abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
   private transient Map<K, V> delegate;
@@ -152,7 +152,7 @@ abstract class AbstractBiMap<K, V>
   }
 
   @SuppressWarnings("nullness")
-  private static <V> V uncheckedCastNullableVToV(@Nullable V oldValue) {
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V oldValue) {
     /*
      * We can't use requireNonNull because `oldValue` might be null. Specifically, it can be null
      * because the map might contain a null value to be returned to the user. This is in contrast to
@@ -299,14 +299,14 @@ abstract class AbstractBiMap<K, V>
     }
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return standardToArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] array) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
@@ -404,8 +404,7 @@ abstract class AbstractBiMap<K, V>
 
       // safe because esDelegate.contains(object).
       requireNonNull(object);
-      Entry<?, ?> entry =
-          (Entry<?, ?>) object;
+      Entry<?, ?> entry = (Entry<?, ?>) object;
       inverse.delegate.remove(entry.getValue());
       /*
        * Remove the mapping in inverse before removing from esDelegate because
@@ -424,14 +423,14 @@ abstract class AbstractBiMap<K, V>
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return standardToArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] array) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
@@ -457,7 +456,7 @@ abstract class AbstractBiMap<K, V>
   }
 
   /** The inverse of any other {@code AbstractBiMap} subclass. */
-  static class Inverse<K, V>
+  static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractBiMap<K, V> {
     Inverse(Map<K, V> backward, AbstractBiMap<V, K> forward) {
       super(backward, forward);

@@ -37,8 +37,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods that involve a {@code Table}.
@@ -66,10 +65,10 @@ public final class Tables {
    */
   @Beta
   public static <
-          T,
-          R,
-          C,
-          V,
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
@@ -101,10 +100,10 @@ public final class Tables {
    * @since 21.0
    */
   public static <
-          T,
-          R,
-          C,
-          V,
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
           I extends Table<R, C, V>>
       Collector<T, ?, I> toTable(
           java.util.function.Function<? super T, ? extends R> rowFunction,
@@ -135,7 +134,7 @@ public final class Tables {
   }
 
   private static <
-          R, C, V>
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       void merge(Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
     /*
      * This check can fail: As the docs of the 5-arg toTable method say, the method will throw if
@@ -173,13 +172,13 @@ public final class Tables {
    * @param columnKey the column key to be associated with the returned cell
    * @param value the value to be associated with the returned cell
    */
-  public static <R, C, V>
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Cell<R, C, V> immutableCell(R rowKey, C columnKey, V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<
-          R, C, V>
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCell<R, C, V> implements Serializable {
     private final R rowKey;
     private final C columnKey;
@@ -210,7 +209,7 @@ public final class Tables {
   }
 
   abstract static class AbstractCell<
-          R, C, V>
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       implements Cell<R, C, V> {
     // needed for serialization
     AbstractCell() {}
@@ -221,13 +220,7 @@ public final class Tables {
         return true;
       }
       if (obj instanceof Cell) {
-        Cell<?, ?, ?>
-            other =
-                (Cell<
-                        ?,
-                        ?,
-                        ?>)
-                    obj;
+        Cell<?, ?, ?> other = (Cell<?, ?, ?>) obj;
         return Objects.equal(getRowKey(), other.getRowKey())
             && Objects.equal(getColumnKey(), other.getColumnKey())
             && Objects.equal(getValue(), other.getValue());
@@ -258,7 +251,7 @@ public final class Tables {
    * columnKeySet().iterator()} doesn't. With a transposed {@link HashBasedTable}, it's the other
    * way around.
    */
-  public static <R, C, V>
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Table<C, R, V> transpose(Table<R, C, V> table) {
     return (table instanceof TransposeTable)
         ? ((TransposeTable<R, C, V>) table).original
@@ -266,7 +259,7 @@ public final class Tables {
   }
 
   private static class TransposeTable<
-          C, R, V>
+          C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object>
       extends AbstractTable<C, R, V> {
     final Table<R, C, V> original;
 
@@ -420,9 +413,8 @@ public final class Tables {
    * @since 10.0
    */
   @Beta
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      Table<R, C, V> newCustomTable(
-          Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
+  public static <R, C, V> Table<R, C, V> newCustomTable(
+      Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
     checkArgument(backingMap.isEmpty());
     checkNotNull(factory);
     // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?
@@ -452,20 +444,20 @@ public final class Tables {
    */
   @Beta
   public static <
-          R,
-          C,
-          V1,
-          V2>
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V1 extends @Nullable Object,
+          V2 extends @Nullable Object>
       Table<R, C, V2> transformValues(
           Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
     return new TransformedTable<>(fromTable, function);
   }
 
   private static class TransformedTable<
-          R,
-          C,
-          V1,
-          V2>
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V1 extends @Nullable Object,
+          V2 extends @Nullable Object>
       extends AbstractTable<R, C, V2> {
     final Table<R, C, V1> fromTable;
     final Function<? super V1, V2> function;
@@ -491,7 +483,7 @@ public final class Tables {
     }
 
     @SuppressWarnings("nullness")
-    private static <V> V uncheckedCastNullableVToV(@Nullable V value) {
+    private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V value) {
       /*
        * We can't use requireNonNull because `value` might be null. Specifically, it can be null
        * because the table might contain a null value to be returned to the user. This is in
@@ -610,13 +602,13 @@ public final class Tables {
    *
    * @since 11.0
    */
-  public static <R, C, V>
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Table<R, C, V> unmodifiableTable(Table<? extends R, ? extends C, ? extends V> table) {
     return new UnmodifiableTable<>(table);
   }
 
   private static class UnmodifiableTable<
-          R, C, V>
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingTable<R, C, V> implements Serializable {
     final Table<? extends R, ? extends C, ? extends V> delegate;
 
@@ -708,7 +700,7 @@ public final class Tables {
    * @since 11.0
    */
   @Beta
-  public static <R, C, V>
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       RowSortedTable<R, C, V> unmodifiableRowSortedTable(
           RowSortedTable<R, ? extends C, ? extends V> table) {
     /*
@@ -720,7 +712,7 @@ public final class Tables {
   }
 
   static final class UnmodifiableRowSortedMap<
-          R, C, V>
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableTable<R, C, V> implements RowSortedTable<R, C, V> {
 
     public UnmodifiableRowSortedMap(RowSortedTable<R, ? extends C, ? extends V> delegate) {
@@ -747,7 +739,7 @@ public final class Tables {
   }
 
   @SuppressWarnings("unchecked")
-  private static <K, V>
+  private static <K extends @Nullable Object, V extends @Nullable Object>
       Function<Map<K, V>, Map<K, V>> unmodifiableWrapper() {
     return (Function) UNMODIFIABLE_WRAPPER;
   }
@@ -789,25 +781,16 @@ public final class Tables {
    * @return a synchronized view of the specified table
    * @since 22.0
    */
-  public static <R, C, V>
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(
-      Table<?, ?, ?>
-          table,
-      @Nullable Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {
-      Table<?, ?, ?>
-          that =
-              (Table<
-                      ?,
-                      ?,
-                      ?>)
-                  obj;
+      Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
       return table.cellSet().equals(that.cellSet());
     } else {
       return false;

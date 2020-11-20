@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Configurable implementation of {@link Network} that supports the options supplied by {@link
@@ -49,8 +48,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-class ConfigurableNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    extends AbstractNetwork<N, E> {
+class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;

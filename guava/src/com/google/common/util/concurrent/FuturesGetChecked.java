@@ -36,14 +36,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @GwtIncompatible
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
   }
@@ -51,7 +50,7 @@ final class FuturesGetChecked {
   /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
-  static <V, X extends Exception> V getChecked(
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       GetCheckedTypeValidator validator, Future<V> future, Class<X> exceptionClass) throws X {
     validator.validateClass(exceptionClass);
     try {
@@ -68,7 +67,7 @@ final class FuturesGetChecked {
 
   /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     // TODO(cpovirk): benchmark a version of this method that accepts a GetCheckedTypeValidator
     bestGetCheckedTypeValidator().validateClass(exceptionClass);
@@ -264,8 +263,7 @@ final class FuturesGetChecked {
               })
           .reverse();
 
-  private static <X extends @NonNull Object> @Nullable X newFromConstructor(
-      Constructor<X> constructor, Throwable cause) {
+  private static <X> @Nullable X newFromConstructor(Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
     Object[] params = new Object[paramTypes.length];
     for (int i = 0; i < paramTypes.length; i++) {

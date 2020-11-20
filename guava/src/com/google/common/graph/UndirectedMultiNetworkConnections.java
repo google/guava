@@ -30,8 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks with parallel edges.
@@ -40,21 +39,19 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class UndirectedMultiNetworkConnections<N extends @NonNull Object, E extends @NonNull Object>
+final class UndirectedMultiNetworkConnections<N, E>
     extends AbstractUndirectedNetworkConnections<N, E> {
 
   private UndirectedMultiNetworkConnections(Map<E, N> incidentEdges) {
     super(incidentEdges);
   }
 
-  static <N extends @NonNull Object, E extends @NonNull Object>
-      UndirectedMultiNetworkConnections<N, E> of() {
+  static <N, E> UndirectedMultiNetworkConnections<N, E> of() {
     return new UndirectedMultiNetworkConnections<>(
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
-  static <N extends @NonNull Object, E extends @NonNull Object>
-      UndirectedMultiNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
+  static <N, E> UndirectedMultiNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
     return new UndirectedMultiNetworkConnections<>(ImmutableMap.copyOf(incidentEdges));
   }
 
@@ -118,8 +115,7 @@ final class UndirectedMultiNetworkConnections<N extends @NonNull Object, E exten
     }
   }
 
-  private static <T extends @NonNull Object> @Nullable T getReference(
-      @Nullable Reference<T> reference) {
+  private static <T> @Nullable T getReference(@Nullable Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

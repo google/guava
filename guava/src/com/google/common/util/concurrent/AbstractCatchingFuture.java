@@ -26,18 +26,14 @@ import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 abstract class AbstractCatchingFuture<
-        V,
-        X extends Throwable,
-        F extends @NonNull Object,
-        T>
+        V extends @Nullable Object, X extends Throwable, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<V> implements Runnable {
-  static <V, X extends Throwable> ListenableFuture<V> create(
+  static <V extends @Nullable Object, X extends Throwable> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       Function<? super X, ? extends V> fallback,
@@ -47,7 +43,7 @@ abstract class AbstractCatchingFuture<
     return future;
   }
 
-  static <X extends Throwable, V> ListenableFuture<V> create(
+  static <X extends Throwable, V extends @Nullable Object> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
       AsyncFunction<? super X, ? extends V> fallback,
@@ -77,7 +73,9 @@ abstract class AbstractCatchingFuture<
     ListenableFuture<? extends V> localInputFuture = inputFuture;
     Class<X> localExceptionType = exceptionType;
     F localFallback = fallback;
-    if (localInputFuture == null || localExceptionType == null || localFallback == null
+    if (localInputFuture == null
+        || localExceptionType == null
+        || localFallback == null
         // This check, unlike all the others, is a volatile read
         || isCancelled()) {
       return;
@@ -185,7 +183,7 @@ abstract class AbstractCatchingFuture<
    * An {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction} and {@link
    * #setFuture(ListenableFuture)}.
    */
-  private static final class AsyncCatchingFuture<V, X extends Throwable>
+  private static final class AsyncCatchingFuture<V extends @Nullable Object, X extends Throwable>
       extends AbstractCatchingFuture<
           V, X, AsyncFunction<? super X, ? extends V>, ListenableFuture<? extends V>> {
     AsyncCatchingFuture(
@@ -217,7 +215,7 @@ abstract class AbstractCatchingFuture<
    * An {@link AbstractCatchingFuture} that delegates to a {@link Function} and {@link
    * #set(Object)}.
    */
-  private static final class CatchingFuture<V, X extends Throwable>
+  private static final class CatchingFuture<V extends @Nullable Object, X extends Throwable>
       extends AbstractCatchingFuture<V, X, Function<? super X, ? extends V>, V> {
     CatchingFuture(
         ListenableFuture<? extends V> input,
@@ -238,7 +236,7 @@ abstract class AbstractCatchingFuture<
   }
 
   @SuppressWarnings("nullness")
-  private static <V> V uncheckedCastNullableVToV(@Nullable V result) {
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V result) {
     /*
      * We can't use requireNonNull because `result` might be null. Specifically, it can be null
      * because the future might produce a null value to be returned to the user. This is in contrast

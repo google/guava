@@ -26,7 +26,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Configurable implementation of {@link MutableNetwork} that supports both directed and undirected
@@ -41,8 +40,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class ConfigurableMutableNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    extends ConfigurableNetwork<N, E> implements MutableNetwork<N, E> {
+final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
+    implements MutableNetwork<N, E> {
 
   /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder) {

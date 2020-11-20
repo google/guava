@@ -29,7 +29,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -53,7 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class TopKSelector<T> {
+final class TopKSelector<T extends @Nullable Object> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
@@ -72,7 +72,7 @@ final class TopKSelector<T> {
    *
    * @throws IllegalArgumentException if {@code k < 0} or {@code k > Integer.MAX_VALUE / 2}
    */
-  public static <T> TopKSelector<T> least(
+  public static <T extends @Nullable Object> TopKSelector<T> least(
       int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(comparator, k);
   }
@@ -94,7 +94,7 @@ final class TopKSelector<T> {
    *
    * @throws IllegalArgumentException if {@code k < 0} or {@code k > Integer.MAX_VALUE / 2}
    */
-  public static <T> TopKSelector<T> greatest(
+  public static <T extends @Nullable Object> TopKSelector<T> greatest(
       int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(Ordering.from(comparator).reverse(), k);
   }

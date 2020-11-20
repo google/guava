@@ -22,11 +22,12 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)
-abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
+abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable Object>
+    extends AggregateFuture<V, C> {
   /*
    * We access this field racily but safely. For discussion of a similar situation, see the comments
    * on the fields of TimeoutFuture. This field is slightly different than the fields discussed
@@ -78,7 +79,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
   abstract C combine(List<@Nullable Present<V>> values);
 
   /** Used for {@link Futures#allAsList} and {@link Futures#successfulAsList}. */
-  static final class ListFuture<V>
+  static final class ListFuture<V extends @Nullable Object>
       extends CollectionFuture<V, List<@Nullable V>> {
     ListFuture(
         ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
@@ -98,7 +99,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
   }
 
   /** The result of a successful {@code Future}. */
-  private static final class Present<V> {
+  private static final class Present<V extends @Nullable Object> {
     V value;
 
     Present(V value) {

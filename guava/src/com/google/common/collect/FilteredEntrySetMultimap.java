@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(SetMultimap, Predicate)}.
@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredEntrySetMultimap<K, V>
+final class FilteredEntrySetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends FilteredEntryMultimap<K, V> implements FilteredSetMultimap<K, V> {
 
   FilteredEntrySetMultimap(SetMultimap<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {

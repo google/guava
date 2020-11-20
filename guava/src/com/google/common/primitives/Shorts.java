@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -524,7 +524,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Short>} before 12.0)
    */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public static short[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof ShortArrayAsList) {
       return ((ShortArrayAsList) collection).toShortArray();

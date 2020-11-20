@@ -18,8 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,
@@ -31,8 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public interface MutableValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends ValueGraph<N, V> {
+public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
 
   /**
    * Adds {@code node} if it is not already present.

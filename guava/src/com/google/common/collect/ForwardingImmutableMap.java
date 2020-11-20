@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Unused stub class, unreferenced under Java and manually emulated under GWT.
@@ -25,6 +24,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-abstract class ForwardingImmutableMap<K extends @NonNull Object, V extends @NonNull Object> {
+abstract class ForwardingImmutableMap<K, V> {
   private ForwardingImmutableMap() {}
 }

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A collection of common removal listeners.
@@ -38,9 +37,8 @@ public final class RemovalListeners {
    * @param listener the backing listener
    * @param executor the executor with which removal notifications are asynchronously executed
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      RemovalListener<K, V> asynchronous(
-          final RemovalListener<K, V> listener, final Executor executor) {
+  public static <K, V> RemovalListener<K, V> asynchronous(
+      final RemovalListener<K, V> listener, final Executor executor) {
     checkNotNull(listener);
     checkNotNull(executor);
     return new RemovalListener<K, V>() {

@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Implementation of {@link ImmutableList} with exactly one element.
@@ -31,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class SingletonImmutableList<E extends @NonNull Object> extends ImmutableList<E> {
+final class SingletonImmutableList<E> extends ImmutableList<E> {
 
   final transient E element;
 

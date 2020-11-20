@@ -22,8 +22,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -31,13 +30,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class CartesianList<E extends @NonNull Object> extends AbstractList<List<E>>
-    implements RandomAccess {
+final class CartesianList<E> extends AbstractList<List<E>> implements RandomAccess {
 
   private final transient ImmutableList<List<E>> axes;
   private final transient int[] axesSizeProduct;
 
-  static <E extends @NonNull Object> List<List<E>> create(List<? extends List<? extends E>> lists) {
+  static <E> List<List<E>> create(List<? extends List<? extends E>> lists) {
     ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<>(lists.size());
     for (List<? extends E> list : lists) {
       List<E> copy = ImmutableList.copyOf(list);

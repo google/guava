@@ -23,7 +23,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -47,8 +46,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The concurrent hash map implementation built by {@link MapMaker}.
@@ -71,8 +69,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
   "nullness", // too much effort for the payoff
 })
 class MapMakerInternalMap<
-        K extends @NonNull Object,
-        V extends @NonNull Object,
+        K,
+        V,
         E extends MapMakerInternalMap.InternalEntry<K, V, E>,
         S extends MapMakerInternalMap.Segment<K, V, E, S>>
     extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
@@ -198,8 +196,8 @@ class MapMakerInternalMap<
   }
 
   /** Returns a fresh {@link MapMakerInternalMap} as specified by the given {@code builder}. */
-  static <K extends @NonNull Object, V extends @NonNull Object>
-      MapMakerInternalMap<K, V, ? extends InternalEntry<K, V, ?>, ?> create(MapMaker builder) {
+  static <K, V> MapMakerInternalMap<K, V, ? extends InternalEntry<K, V, ?>, ?> create(
+      MapMaker builder) {
     if (builder.getKeyStrength() == Strength.STRONG
         && builder.getValueStrength() == Strength.STRONG) {
       return new MapMakerInternalMap<>(builder, StrongKeyStrongValueEntry.Helper.<K, V>instance());
@@ -228,7 +226,7 @@ class MapMakerInternalMap<
    * <p>This method is intended to only be used by the internal implementation of {@link Interners},
    * since a map of dummy values is the exact use case there.
    */
-  static <K extends @NonNull Object>
+  static <K>
       MapMakerInternalMap<K, Dummy, ? extends InternalEntry<K, Dummy, ?>, ?> createWithDummyValues(
           MapMaker builder) {
     if (builder.getKeyStrength() == Strength.STRONG
@@ -282,10 +280,7 @@ class MapMakerInternalMap<
    * @param <S> the type of the {@link Segment} entry implementation
    */
   interface InternalEntryHelper<
-      K extends @NonNull Object,
-      V extends @NonNull Object,
-      E extends InternalEntry<K, V, E>,
-      S extends Segment<K, V, E, S>> {
+      K, V, E extends InternalEntry<K, V, E>, S extends Segment<K, V, E, S>> {
     /** The strength of the key type in each entry. */
     Strength keyStrength();
 
@@ -322,8 +317,7 @@ class MapMakerInternalMap<
    *
    * <p>Invalid: - Collected: key/value was partially collected, but not yet cleaned up
    */
-  interface InternalEntry<
-      K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>> {
+  interface InternalEntry<K, V, E extends InternalEntry<K, V, E>> {
     /** Gets the next entry in the chain. */
     E getNext();
 
@@ -343,8 +337,7 @@ class MapMakerInternalMap<
    */
 
   /** Base class for {@link InternalEntry} implementations for strong keys. */
-  abstract static class AbstractStrongKeyEntry<
-          K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
+  abstract static class AbstractStrongKeyEntry<K, V, E extends InternalEntry<K, V, E>>
       implements InternalEntry<K, V, E> {
     final K key;
     final int hash;
@@ -373,14 +366,11 @@ class MapMakerInternalMap<
   }
 
   /** Marker interface for {@link InternalEntry} implementations for strong values. */
-  interface StrongValueEntry<
-          K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
+  interface StrongValueEntry<K, V, E extends InternalEntry<K, V, E>>
       extends InternalEntry<K, V, E> {}
 
   /** Marker interface for {@link InternalEntry} implementations for weak values. */
-  interface WeakValueEntry<
-          K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
-      extends InternalEntry<K, V, E> {
+  interface WeakValueEntry<K, V, E extends InternalEntry<K, V, E>> extends InternalEntry<K, V, E> {
     /** Gets the weak value reference held by entry. */
     WeakValueReference<K, V, E> getValueReference();
 
@@ -392,13 +382,13 @@ class MapMakerInternalMap<
   }
 
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
-  static <K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
+  static <K, V, E extends InternalEntry<K, V, E>>
       WeakValueReference<K, V, E> unsetWeakValueReference() {
     return (WeakValueReference<K, V, E>) UNSET_WEAK_VALUE_REFERENCE;
   }
 
   /** Concrete implementation of {@link InternalEntry} for strong keys and strong values. */
-  static final class StrongKeyStrongValueEntry<K extends @NonNull Object, V extends @NonNull Object>
+  static final class StrongKeyStrongValueEntry<K, V>
       extends AbstractStrongKeyEntry<K, V, StrongKeyStrongValueEntry<K, V>>
       implements StrongValueEntry<K, V, StrongKeyStrongValueEntry<K, V>> {
     private volatile @Nullable V value = null;
@@ -424,13 +414,13 @@ class MapMakerInternalMap<
     }
 
     /** Concrete implementation of {@link InternalEntryHelper} for strong keys and strong values. */
-    static final class Helper<K extends @NonNull Object, V extends @NonNull Object>
+    static final class Helper<K, V>
         implements InternalEntryHelper<
             K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>> {
       private static final Helper<?, ?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K extends @NonNull Object, V extends @NonNull Object> Helper<K, V> instance() {
+      static <K, V> Helper<K, V> instance() {
         return (Helper<K, V>) INSTANCE;
       }
 
@@ -482,7 +472,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for strong keys and weak values. */
-  static final class StrongKeyWeakValueEntry<K extends @NonNull Object, V extends @NonNull Object>
+  static final class StrongKeyWeakValueEntry<K, V>
       extends AbstractStrongKeyEntry<K, V, StrongKeyWeakValueEntry<K, V>>
       implements WeakValueEntry<K, V, StrongKeyWeakValueEntry<K, V>> {
     private volatile WeakValueReference<K, V, StrongKeyWeakValueEntry<K, V>> valueReference =
@@ -521,13 +511,13 @@ class MapMakerInternalMap<
     }
 
     /** Concrete implementation of {@link InternalEntryHelper} for strong keys and weak values. */
-    static final class Helper<K extends @NonNull Object, V extends @NonNull Object>
+    static final class Helper<K, V>
         implements InternalEntryHelper<
             K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>> {
       private static final Helper<?, ?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K, V> Helper<K, V> instance() {
+      static <K extends @Nullable Object, V extends @Nullable Object> Helper<K, V> instance() {
         return (Helper<K, V>) INSTANCE;
       }
 
@@ -579,7 +569,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for strong keys and {@link Dummy} values. */
-  static final class StrongKeyDummyValueEntry<K extends @NonNull Object>
+  static final class StrongKeyDummyValueEntry<K>
       extends AbstractStrongKeyEntry<K, Dummy, StrongKeyDummyValueEntry<K>>
       implements StrongValueEntry<K, Dummy, StrongKeyDummyValueEntry<K>> {
     StrongKeyDummyValueEntry(K key, int hash, @Nullable StrongKeyDummyValueEntry<K> next) {
@@ -601,13 +591,13 @@ class MapMakerInternalMap<
      * Concrete implementation of {@link InternalEntryHelper} for strong keys and {@link Dummy}
      * values.
      */
-    static final class Helper<K extends @NonNull Object>
+    static final class Helper<K>
         implements InternalEntryHelper<
             K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>> {
       private static final Helper<?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K> Helper<K> instance() {
+      static <K extends @Nullable Object> Helper<K> instance() {
         return (Helper<K>) INSTANCE;
       }
 
@@ -654,8 +644,7 @@ class MapMakerInternalMap<
   }
 
   /** Base class for {@link InternalEntry} implementations for weak keys. */
-  abstract static class AbstractWeakKeyEntry<
-          K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
+  abstract static class AbstractWeakKeyEntry<K, V, E extends InternalEntry<K, V, E>>
       extends WeakReference<K> implements InternalEntry<K, V, E> {
     final int hash;
     final @Nullable E next;
@@ -683,7 +672,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for weak keys and {@link Dummy} values. */
-  static final class WeakKeyDummyValueEntry<K extends @NonNull Object>
+  static final class WeakKeyDummyValueEntry<K>
       extends AbstractWeakKeyEntry<K, Dummy, WeakKeyDummyValueEntry<K>>
       implements StrongValueEntry<K, Dummy, WeakKeyDummyValueEntry<K>> {
     WeakKeyDummyValueEntry(
@@ -707,13 +696,13 @@ class MapMakerInternalMap<
      * Concrete implementation of {@link InternalEntryHelper} for weak keys and {@link Dummy}
      * values.
      */
-    static final class Helper<K extends @NonNull Object>
+    static final class Helper<K>
         implements InternalEntryHelper<
             K, Dummy, WeakKeyDummyValueEntry<K>, WeakKeyDummyValueSegment<K>> {
       private static final Helper<?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K> Helper<K> instance() {
+      static <K extends @Nullable Object> Helper<K> instance() {
         return (Helper<K>) INSTANCE;
       }
 
@@ -763,7 +752,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for weak keys and strong values. */
-  static final class WeakKeyStrongValueEntry<K extends @NonNull Object, V extends @NonNull Object>
+  static final class WeakKeyStrongValueEntry<K, V>
       extends AbstractWeakKeyEntry<K, V, WeakKeyStrongValueEntry<K, V>>
       implements StrongValueEntry<K, V, WeakKeyStrongValueEntry<K, V>> {
     private volatile @Nullable V value = null;
@@ -791,13 +780,13 @@ class MapMakerInternalMap<
     }
 
     /** Concrete implementation of {@link InternalEntryHelper} for weak keys and strong values. */
-    static final class Helper<K extends @NonNull Object, V extends @NonNull Object>
+    static final class Helper<K, V>
         implements InternalEntryHelper<
             K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>> {
       private static final Helper<?, ?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K, V> Helper<K, V> instance() {
+      static <K extends @Nullable Object, V extends @Nullable Object> Helper<K, V> instance() {
         return (Helper<K, V>) INSTANCE;
       }
 
@@ -850,7 +839,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for weak keys and weak values. */
-  static final class WeakKeyWeakValueEntry<K extends @NonNull Object, V extends @NonNull Object>
+  static final class WeakKeyWeakValueEntry<K, V>
       extends AbstractWeakKeyEntry<K, V, WeakKeyWeakValueEntry<K, V>>
       implements WeakValueEntry<K, V, WeakKeyWeakValueEntry<K, V>> {
     private volatile WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> valueReference =
@@ -893,13 +882,13 @@ class MapMakerInternalMap<
     }
 
     /** Concrete implementation of {@link InternalEntryHelper} for weak keys and weak values. */
-    static final class Helper<K extends @NonNull Object, V extends @NonNull Object>
+    static final class Helper<K, V>
         implements InternalEntryHelper<
             K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> {
       private static final Helper<?, ?> INSTANCE = new Helper<>();
 
       @SuppressWarnings("unchecked")
-      static <K, V> Helper<K, V> instance() {
+      static <K extends @Nullable Object, V extends @Nullable Object> Helper<K, V> instance() {
         return (Helper<K, V>) INSTANCE;
       }
 
@@ -954,8 +943,7 @@ class MapMakerInternalMap<
   }
 
   /** A weakly referenced value that also has a reference to its containing entry. */
-  interface WeakValueReference<
-      K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>> {
+  interface WeakValueReference<K, V, E extends InternalEntry<K, V, E>> {
     /**
      * Returns the current value being referenced, or {@code null} if there is none (e.g. because
      * either it got collected, or {@link #clear} was called, or it wasn't set in the first place).
@@ -1034,8 +1022,7 @@ class MapMakerInternalMap<
       };
 
   /** Concrete implementation of {@link WeakValueReference}. */
-  static final class WeakValueReferenceImpl<
-          K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
+  static final class WeakValueReferenceImpl<K, V, E extends InternalEntry<K, V, E>>
       extends WeakReference<V> implements WeakValueReference<K, V, E> {
     @Weak final E entry;
 
@@ -1149,10 +1136,7 @@ class MapMakerInternalMap<
    */
   @SuppressWarnings("serial") // This class is never serialized.
   abstract static class Segment<
-          K extends @NonNull Object,
-          V extends @NonNull Object,
-          E extends InternalEntry<K, V, E>,
-          S extends Segment<K, V, E, S>>
+          K, V, E extends InternalEntry<K, V, E>, S extends Segment<K, V, E, S>>
       extends ReentrantLock {
 
     /*
@@ -1232,7 +1216,6 @@ class MapMakerInternalMap<
     abstract S self();
 
     /** Drains the reference queues used by this segment, if any. */
-    @GuardedBy("this")
     void maybeDrainReferenceQueues() {}
 
     /** Clears the reference queues used by this segment, if any. */
@@ -1360,7 +1343,6 @@ class MapMakerInternalMap<
       }
     }
 
-    @GuardedBy("this")
     void drainKeyReferenceQueue(ReferenceQueue<K> keyReferenceQueue) {
       Reference<? extends K> ref;
       int i = 0;
@@ -1374,7 +1356,6 @@ class MapMakerInternalMap<
       }
     }
 
-    @GuardedBy("this")
     void drainValueReferenceQueue(ReferenceQueue<V> valueReferenceQueue) {
       Reference<? extends V> ref;
       int i = 0;
@@ -1388,7 +1369,7 @@ class MapMakerInternalMap<
       }
     }
 
-    <T> void clearReferenceQueue(ReferenceQueue<T> referenceQueue) {
+    <T extends @Nullable Object> void clearReferenceQueue(ReferenceQueue<T> referenceQueue) {
       while (referenceQueue.poll() != null) {}
     }
 
@@ -1544,7 +1525,6 @@ class MapMakerInternalMap<
     }
 
     /** Expands the table if possible. */
-    @GuardedBy("this")
     void expand() {
       AtomicReferenceArray<E> oldTable = table;
       int oldCapacity = oldTable.length();
@@ -1813,7 +1793,6 @@ class MapMakerInternalMap<
      * @param entry the entry being removed from the table
      * @return the new first entry for the table
      */
-    @GuardedBy("this")
     E removeFromChain(E first, E entry) {
       int newCount = count;
       E newFirst = entry.getNext();
@@ -1923,7 +1902,6 @@ class MapMakerInternalMap<
       }
     }
 
-    @GuardedBy("this")
     boolean removeEntryForTesting(E entry) {
       int hash = entry.getHash();
       int newCount = this.count - 1;
@@ -1949,8 +1927,7 @@ class MapMakerInternalMap<
      * Returns {@code true} if the value has been partially collected, meaning that the value is
      * null.
      */
-    static <K extends @NonNull Object, V extends @NonNull Object, E extends InternalEntry<K, V, E>>
-        boolean isCollected(E entry) {
+    static <K, V, E extends InternalEntry<K, V, E>> boolean isCollected(E entry) {
       return entry.getValue() == null;
     }
 
@@ -1988,7 +1965,6 @@ class MapMakerInternalMap<
      * Performs routine cleanup prior to executing a write. This should be called every time a write
      * thread acquires the segment lock, immediately after acquiring the lock.
      */
-    @GuardedBy("this")
     void preWriteCleanup() {
       runLockedCleanup();
     }
@@ -2010,8 +1986,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for strong keys and strong values. */
-  static final class StrongKeyStrongValueSegment<
-          K extends @NonNull Object, V extends @NonNull Object>
+  static final class StrongKeyStrongValueSegment<K, V>
       extends Segment<K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>> {
     StrongKeyStrongValueSegment(
         MapMakerInternalMap<
@@ -2035,7 +2010,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for strong keys and weak values. */
-  static final class StrongKeyWeakValueSegment<K extends @NonNull Object, V extends @NonNull Object>
+  static final class StrongKeyWeakValueSegment<K, V>
       extends Segment<K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>> {
     private final ReferenceQueue<V> queueForValues = new ReferenceQueue<V>();
 
@@ -2100,7 +2075,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for strong keys and {@link Dummy} values. */
-  static final class StrongKeyDummyValueSegment<K extends @NonNull Object>
+  static final class StrongKeyDummyValueSegment<K>
       extends Segment<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>> {
     StrongKeyDummyValueSegment(
         MapMakerInternalMap<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>>
@@ -2123,7 +2098,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for weak keys and strong values. */
-  static final class WeakKeyStrongValueSegment<K extends @NonNull Object, V extends @NonNull Object>
+  static final class WeakKeyStrongValueSegment<K, V>
       extends Segment<K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<K>();
 
@@ -2163,7 +2138,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for weak keys and weak values. */
-  static final class WeakKeyWeakValueSegment<K extends @NonNull Object, V extends @NonNull Object>
+  static final class WeakKeyWeakValueSegment<K, V>
       extends Segment<K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<K>();
     private final ReferenceQueue<V> queueForValues = new ReferenceQueue<V>();
@@ -2234,7 +2209,7 @@ class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for weak keys and {@link Dummy} values. */
-  static final class WeakKeyDummyValueSegment<K extends @NonNull Object>
+  static final class WeakKeyDummyValueSegment<K>
       extends Segment<K, Dummy, WeakKeyDummyValueEntry<K>, WeakKeyDummyValueSegment<K>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<K>();
 
@@ -2516,7 +2491,7 @@ class MapMakerInternalMap<
 
   // Iterator Support
 
-  abstract class HashIterator<T> implements Iterator<T> {
+  abstract class HashIterator<T extends @Nullable Object> implements Iterator<T> {
 
     int nextSegmentIndex;
     int nextTableIndex;
@@ -2669,8 +2644,7 @@ class MapMakerInternalMap<
     public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
-        Entry<?, ?> that =
-            (Entry<?, ?>) object;
+        Entry<?, ?> that = (Entry<?, ?>) object;
         return key.equals(that.getKey()) && value.equals(that.getValue());
       }
       return false;
@@ -2764,14 +2738,14 @@ class MapMakerInternalMap<
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       return toArrayList(this).toArray(a);
     }
   }
@@ -2789,8 +2763,7 @@ class MapMakerInternalMap<
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<?, ?> e =
-          (Entry<?, ?>) o;
+      Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
       if (key == null) {
         return false;
@@ -2805,8 +2778,7 @@ class MapMakerInternalMap<
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<?, ?> e =
-          (Entry<?, ?>) o;
+      Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
       return key != null && MapMakerInternalMap.this.remove(key, e.getValue());
     }
@@ -2827,24 +2799,24 @@ class MapMakerInternalMap<
     }
   }
 
-  private abstract static class SafeToArraySet<E> extends AbstractSet<E> {
+  private abstract static class SafeToArraySet<E extends @Nullable Object> extends AbstractSet<E> {
     // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] a) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       return toArrayList(this).toArray(a);
     }
   }
 
-  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+  private static <E extends @Nullable Object> ArrayList<E> toArrayList(Collection<E> c) {
     // Avoid calling ArrayList(Collection), which may call back into toArray.
     ArrayList<E> result = new ArrayList<>(c.size());
     Iterators.addAll(result, c.iterator());
@@ -2869,9 +2841,8 @@ class MapMakerInternalMap<
    * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
    * circular dependency is present, so the proxy must be able to behave as the map itself.
    */
-  abstract static class AbstractSerializationProxy<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends ForwardingConcurrentMap<K, V> implements Serializable {
+  abstract static class AbstractSerializationProxy<K, V> extends ForwardingConcurrentMap<K, V>
+      implements Serializable {
     private static final long serialVersionUID = 3;
 
     final Strength keyStrength;
@@ -2939,9 +2910,7 @@ class MapMakerInternalMap<
    * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
    * circular dependency is present, so the proxy must be able to behave as the map itself.
    */
-  private static final class SerializationProxy<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends AbstractSerializationProxy<K, V> {
+  private static final class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
     private static final long serialVersionUID = 3;
 
     SerializationProxy(

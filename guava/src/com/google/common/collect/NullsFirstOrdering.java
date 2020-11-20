@@ -18,11 +18,11 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that treats {@code null} as less than all other values. */
 @GwtCompatible(serializable = true)
-final class NullsFirstOrdering<T> extends Ordering<@Nullable T>
+final class NullsFirstOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
     implements Serializable {
   final Ordering<? super T> ordering;
 
@@ -68,8 +68,7 @@ final class NullsFirstOrdering<T> extends Ordering<@Nullable T>
       return true;
     }
     if (object instanceof NullsFirstOrdering) {
-      NullsFirstOrdering<?> that =
-          (NullsFirstOrdering<?>) object;
+      NullsFirstOrdering<?> that = (NullsFirstOrdering<?>) object;
       return this.ordering.equals(that.ordering);
     }
     return false;

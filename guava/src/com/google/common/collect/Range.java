@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
@@ -678,7 +678,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  private static <T> SortedSet<T> cast(Iterable<T> iterable) {
+  private static <T extends @Nullable Object> SortedSet<T> cast(Iterable<T> iterable) {
     return (SortedSet<T>) iterable;
   }
 

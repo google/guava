@@ -34,8 +34,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -54,8 +53,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableMultiset<E extends @NonNull Object>
-    extends ImmutableMultisetGwtSerializationDependencies<E> implements Multiset<E> {
+public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
+    implements Multiset<E> {
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
@@ -64,8 +63,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @since 21.0
    */
-  public static <E extends @NonNull Object>
-      Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     return toImmutableMultiset(Function.identity(), e -> 1);
   }
 
@@ -80,7 +78,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @since 22.0
    */
-  public static <T, E extends @NonNull Object>
+  public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,
           ToIntFunction<? super T> countFunction) {
@@ -99,7 +97,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
 
   /** Returns the empty immutable multiset. */
   @SuppressWarnings("unchecked") // all supported methods are covariant
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of() {
+  public static <E> ImmutableMultiset<E> of() {
     return (ImmutableMultiset<E>) RegularImmutableMultiset.EMPTY;
   }
 
@@ -110,7 +108,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") // generic array created but never written
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(E element) {
+  public static <E> ImmutableMultiset<E> of(E element) {
     return copyFromElements(element);
   }
 
@@ -121,7 +119,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(E e1, E e2) {
+  public static <E> ImmutableMultiset<E> of(E e1, E e2) {
     return copyFromElements(e1, e2);
   }
 
@@ -133,7 +131,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(E e1, E e2, E e3) {
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
     return copyFromElements(e1, e2, e3);
   }
 
@@ -145,7 +143,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
     return copyFromElements(e1, e2, e3, e4);
   }
 
@@ -157,7 +155,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
     return copyFromElements(e1, e2, e3, e4, e5);
   }
 
@@ -169,8 +167,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
-  public static <E extends @NonNull Object> ImmutableMultiset<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     return new Builder<E>().add(e1).add(e2).add(e3).add(e4).add(e5).add(e6).add(others).build();
   }
 
@@ -181,7 +178,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * @throws NullPointerException if any of {@code elements} is null
    * @since 6.0
    */
-  public static <E extends @NonNull Object> ImmutableMultiset<E> copyOf(E[] elements) {
+  public static <E> ImmutableMultiset<E> copyOf(E[] elements) {
     return copyFromElements(elements);
   }
 
@@ -191,8 +188,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E extends @NonNull Object> ImmutableMultiset<E> copyOf(
-      Iterable<? extends E> elements) {
+  public static <E> ImmutableMultiset<E> copyOf(Iterable<? extends E> elements) {
     if (elements instanceof ImmutableMultiset) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableMultiset<E> result = (ImmutableMultiset<E>) elements;
@@ -215,20 +211,19 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E extends @NonNull Object> ImmutableMultiset<E> copyOf(
-      Iterator<? extends E> elements) {
+  public static <E> ImmutableMultiset<E> copyOf(Iterator<? extends E> elements) {
     Multiset<E> multiset = LinkedHashMultiset.create();
     Iterators.addAll(multiset, elements);
     return copyFromEntries(multiset.entrySet());
   }
 
-  private static <E extends @NonNull Object> ImmutableMultiset<E> copyFromElements(E... elements) {
+  private static <E> ImmutableMultiset<E> copyFromElements(E... elements) {
     Multiset<E> multiset = LinkedHashMultiset.create();
     Collections.addAll(multiset, elements);
     return copyFromEntries(multiset.entrySet());
   }
 
-  static <E extends @NonNull Object> ImmutableMultiset<E> copyFromEntries(
+  static <E> ImmutableMultiset<E> copyFromEntries(
       Collection<? extends Entry<? extends E>> entries) {
     if (entries.isEmpty()) {
       return of();
@@ -421,7 +416,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
   }
 
   @GwtIncompatible
-  static class EntrySetSerializedForm<E extends @NonNull Object> implements Serializable {
+  static class EntrySetSerializedForm<E> implements Serializable {
     final ImmutableMultiset<E> multiset;
 
     EntrySetSerializedForm(ImmutableMultiset<E> multiset) {
@@ -443,7 +438,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
    * Builder} constructor.
    */
-  public static <E extends @NonNull Object> Builder<E> builder() {
+  public static <E> Builder<E> builder() {
     return new Builder<E>();
   }
 
@@ -466,7 +461,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @since 2.0
    */
-  public static class Builder<E extends @NonNull Object> extends ImmutableCollection.Builder<E> {
+  public static class Builder<E> extends ImmutableCollection.Builder<E> {
     final Multiset<E> contents;
 
     /**
@@ -593,7 +588,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
     }
   }
 
-  static final class ElementSet<E extends @NonNull Object> extends ImmutableSet.Indexed<E> {
+  static final class ElementSet<E> extends ImmutableSet.Indexed<E> {
     private final List<Entry<E>> entries;
     // TODO(cpovirk): @Weak?
     private final Multiset<E> delegate;
@@ -632,12 +627,12 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
      * "extends @NonNull Object" works around
      * https://github.com/typetools/checker-framework/issues/3013
      */
-    SerializedForm(Multiset<? extends @NonNull Object> multiset) {
+    SerializedForm(Multiset<? extends Object> multiset) {
       int distinct = multiset.entrySet().size();
       elements = new Object[distinct];
       counts = new int[distinct];
       int i = 0;
-      for (Entry<? extends @NonNull Object> entry : multiset.entrySet()) {
+      for (Entry<? extends Object> entry : multiset.entrySet()) {
         elements[i] = entry.getElement();
         counts[i] = entry.getCount();
         i++;

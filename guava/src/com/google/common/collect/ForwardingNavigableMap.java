@@ -28,7 +28,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
@@ -57,7 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableMap<K, V>
+public abstract class ForwardingNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
   /** Constructor for use by subclasses. */

@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utilities necessary for working with libraries that supply plain {@link Future} instances. Note
@@ -50,7 +50,7 @@ public final class JdkFutureAdapters {
    * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
    * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
    */
-  public static <V> ListenableFuture<V> listenInPoolThread(
+  public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
       Future<V> future) {
     if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
@@ -78,7 +78,7 @@ public final class JdkFutureAdapters {
    *
    * @since 12.0
    */
-  public static <V> ListenableFuture<V> listenInPoolThread(
+  public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
       Future<V> future, Executor executor) {
     checkNotNull(executor);
     if (future instanceof ListenableFuture) {
@@ -96,7 +96,7 @@ public final class JdkFutureAdapters {
    * <p>If the delegate future is interrupted or throws an unexpected unchecked exception, the
    * listeners will not be invoked.
    */
-  private static class ListenableFutureAdapter<V>
+  private static class ListenableFutureAdapter<V extends @Nullable Object>
       extends ForwardingFuture<V> implements ListenableFuture<V> {
 
     private static final ThreadFactory threadFactory =

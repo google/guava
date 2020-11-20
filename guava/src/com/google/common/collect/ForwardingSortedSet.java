@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -52,7 +52,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
+public abstract class ForwardingSortedSet<E extends @Nullable Object> extends ForwardingSet<E>
     implements SortedSet<E> {
 
   /** Constructor for use by subclasses. */

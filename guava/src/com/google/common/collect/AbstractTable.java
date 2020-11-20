@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal, implementation-agnostic implementation of the {@link Table} interface.
@@ -34,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 abstract class AbstractTable<
-        R, C, V>
+        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     implements Table<R, C, V> {
 
   @Override
@@ -130,13 +130,7 @@ abstract class AbstractTable<
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Cell) {
-        Cell<?, ?, ?>
-            cell =
-                (Cell<
-                        ?,
-                        ?,
-                        ?>)
-                    o;
+        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeContains(
@@ -148,13 +142,7 @@ abstract class AbstractTable<
     @Override
     public boolean remove(@Nullable Object o) {
       if (o instanceof Cell) {
-        Cell<?, ?, ?>
-            cell =
-                (Cell<
-                        ?,
-                        ?,
-                        ?>)
-                    o;
+        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeRemove(

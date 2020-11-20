@@ -25,7 +25,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation for {@link FilteredMultimap#values()}.
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredMultimapValues<K, V>
+final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractCollection<V> {
   @Weak private final FilteredMultimap<K, V> multimap;
 

@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -58,13 +57,10 @@ public final class FileBackedOutputStream extends OutputStream {
   private final ByteSource source;
   private final @Nullable File parentDirectory;
 
-  @GuardedBy("this")
   private OutputStream out;
 
-  @GuardedBy("this")
   private @Nullable MemoryOutput memory;
 
-  @GuardedBy("this")
   private @Nullable File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
@@ -218,7 +214,6 @@ public final class FileBackedOutputStream extends OutputStream {
    * Checks if writing {@code len} bytes would go over threshold, and switches to file buffering if
    * so.
    */
-  @GuardedBy("this")
   private void update(int len) throws IOException {
     if (memory != null && (memory.getCount() + len > fileThreshold)) {
       File temp = File.createTempFile("FileBackedOutputStream", null, parentDirectory);

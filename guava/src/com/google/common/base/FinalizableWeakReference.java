@@ -17,8 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Weak reference with a {@code finalizeReferent()} method which a background thread invokes after
@@ -29,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtIncompatible
-public abstract class FinalizableWeakReference<T extends @NonNull Object> extends WeakReference<T>
+public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable weak reference.

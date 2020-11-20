@@ -18,8 +18,7 @@ package com.google.common.graph;
 
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to allow {@link Network} implementations to be backed by a provided delegate. This is not
@@ -28,8 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
-abstract class ForwardingNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    extends AbstractNetwork<N, E> {
+abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 
   protected abstract Network<N, E> delegate();
 

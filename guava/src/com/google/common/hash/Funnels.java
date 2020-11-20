@@ -19,7 +19,7 @@ import com.google.common.base.Preconditions;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Funnels for common types. All implementations are serializable.
@@ -164,12 +164,12 @@ public final class Funnels {
    *
    * @since 15.0
    */
-  public static <E> Funnel<Iterable<? extends E>> sequentialFunnel(
+  public static <E extends @Nullable Object> Funnel<Iterable<? extends E>> sequentialFunnel(
       Funnel<E> elementFunnel) {
     return new SequentialFunnel<E>(elementFunnel);
   }
 
-  private static class SequentialFunnel<E>
+  private static class SequentialFunnel<E extends @Nullable Object>
       implements Funnel<Iterable<? extends E>>, Serializable {
     private final Funnel<E> elementFunnel;
 
@@ -192,8 +192,7 @@ public final class Funnels {
     @Override
     public boolean equals(@Nullable Object o) {
       if (o instanceof SequentialFunnel) {
-        SequentialFunnel<?> funnel =
-            (SequentialFunnel<?>) o;
+        SequentialFunnel<?> funnel = (SequentialFunnel<?>) o;
         return elementFunnel.equals(funnel.elementFunnel);
       }
       return false;

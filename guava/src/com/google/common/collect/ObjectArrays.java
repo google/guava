@@ -24,8 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to object arrays.
@@ -46,7 +45,7 @@ public final class ObjectArrays {
    */
   @GwtIncompatible // Array.newInstance(Class, int)
   @SuppressWarnings("unchecked")
-  public static <T extends @NonNull Object> T[] newArray(Class<T> type, int length) {
+  public static <T> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);
   }
 
@@ -56,7 +55,7 @@ public final class ObjectArrays {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  public static <T> T[] newArray(T[] reference, int length) {
+  public static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
     return Platform.newArray(reference, length);
   }
 
@@ -68,7 +67,7 @@ public final class ObjectArrays {
    * @param type the component type of the returned array
    */
   @GwtIncompatible // Array.newInstance(Class, int)
-  public static <T extends @NonNull Object> T[] concat(T[] first, T[] second, Class<T> type) {
+  public static <T> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
     System.arraycopy(first, 0, result, 0, first.length);
     System.arraycopy(second, 0, result, first.length, second.length);
@@ -83,7 +82,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
-  public static <T> T[] concat(T element, T[] array) {
+  public static <T extends @Nullable Object> T[] concat(T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -99,7 +98,7 @@ public final class ObjectArrays {
    *     array}, plus {@code element} occupying the last position.
    */
   @SuppressWarnings("assignment.type.incompatible") // arrays
-  public static <T> T[] concat(T[] array, T element) {
+  public static <T extends @Nullable Object> T[] concat(T[] array, T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
@@ -127,8 +126,7 @@ public final class ObjectArrays {
    *     the runtime type of every element in the specified collection
    */
   @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"}) // arrays
-  static <T> T[] toArrayImpl(
-      Collection<?> c, T[] array) {
+  static <T extends @Nullable Object> T[] toArrayImpl(Collection<?> c, T[] array) {
     int size = c.size();
     if (array.length < size) {
       array = newArray(array, size);
@@ -152,7 +150,7 @@ public final class ObjectArrays {
    * <i>only</i> if the caller knows that the collection does not contain any null elements.
    */
   @SuppressWarnings("assignment.type.incompatible") // arrays
-  static <T> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
+  static <T extends @Nullable Object> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
     checkPositionIndexes(offset, offset + len, src.length);
     if (dst.length < len) {
       dst = newArray(dst, len);

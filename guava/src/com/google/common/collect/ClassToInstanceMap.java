@@ -19,8 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
@@ -42,8 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface ClassToInstanceMap<B extends @NonNull Object>
-    extends Map<Class<? extends B>, @Nullable B> {
+public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, @Nullable B> {
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no entry for this class
    * is present. This will only return a value that was bound to this specific class, not a value

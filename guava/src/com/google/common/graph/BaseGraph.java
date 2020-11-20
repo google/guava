@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A non-public interface for the methods shared between {@link Graph} and {@link ValueGraph}.
@@ -25,8 +24,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface BaseGraph<N extends @NonNull Object>
-    extends SuccessorsFunction<N>, PredecessorsFunction<N> {
+interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Graph-level accessors
   //

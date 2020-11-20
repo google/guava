@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted set multimap which forwards all its method calls to another sorted set multimap.
@@ -35,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 public abstract class ForwardingSortedSetMultimap<
-        K, V>
+        K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingSetMultimap<K, V> implements SortedSetMultimap<K, V> {
 
   /** Constructor for use by subclasses. */

@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list which forwards all its method calls to another list. Subclasses should override one or
@@ -51,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingList<E> extends ForwardingCollection<E>
+public abstract class ForwardingList<E extends @Nullable Object> extends ForwardingCollection<E>
     implements List<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 

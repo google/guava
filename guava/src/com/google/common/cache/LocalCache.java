@@ -49,7 +49,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -85,8 +84,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The concurrent hash map implementation built by {@link CacheBuilder}.
@@ -103,8 +101,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
   "nullness", // too much effort for the payoff
 })
 @GwtCompatible(emulated = true)
-class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends AbstractMap<K, V>
-    implements ConcurrentMap<K, V> {
+class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -385,7 +382,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
 
     STRONG {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ValueReference<K, V> referenceValue(
+      <K, V> ValueReference<K, V> referenceValue(
           Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
         return (weight == 1)
             ? new StrongValueReference<K, V>(value)
@@ -399,7 +396,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     SOFT {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ValueReference<K, V> referenceValue(
+      <K, V> ValueReference<K, V> referenceValue(
           Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
         return (weight == 1)
             ? new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry)
@@ -414,7 +411,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     WEAK {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ValueReference<K, V> referenceValue(
+      <K, V> ValueReference<K, V> referenceValue(
           Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
         return (weight == 1)
             ? new WeakValueReference<K, V>(segment.valueReferenceQueue, value, entry)
@@ -429,9 +426,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     };
 
     /** Creates a reference for the given value according to this value strength. */
-    abstract <K extends @NonNull Object, V extends @NonNull Object>
-        ValueReference<K, V> referenceValue(
-            Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight);
+    abstract <K, V> ValueReference<K, V> referenceValue(
+        Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight);
 
     /**
      * Returns the default equivalence strategy used to compare and hash keys or values referenced
@@ -445,20 +441,20 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   enum EntryFactory {
     STRONG {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new StrongEntry<>(key, hash, next);
       }
     },
     STRONG_ACCESS {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new StrongAccessEntry<>(key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyAccessEntry(original, newEntry);
@@ -467,13 +463,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     STRONG_WRITE {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new StrongWriteEntry<>(key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyWriteEntry(original, newEntry);
@@ -482,13 +478,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     STRONG_ACCESS_WRITE {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new StrongAccessWriteEntry<>(key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyAccessEntry(original, newEntry);
@@ -498,20 +494,20 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     WEAK {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new WeakEntry<>(segment.keyReferenceQueue, key, hash, next);
       }
     },
     WEAK_ACCESS {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new WeakAccessEntry<>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyAccessEntry(original, newEntry);
@@ -520,13 +516,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     WEAK_WRITE {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new WeakWriteEntry<>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyWriteEntry(original, newEntry);
@@ -535,13 +531,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     },
     WEAK_ACCESS_WRITE {
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+      <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
         return new WeakAccessWriteEntry<>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
-      <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+      <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
         copyAccessEntry(original, newEntry);
@@ -585,7 +581,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * @param hash of the key
      * @param next entry in the same bucket
      */
-    abstract <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> newEntry(
+    abstract <K, V> ReferenceEntry<K, V> newEntry(
         Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next);
 
     /**
@@ -595,14 +591,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * @param newNext entry in the same bucket
      */
     // Guarded By Segment.this
-    <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> copyEntry(
+    <K, V> ReferenceEntry<K, V> copyEntry(
         Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
       return newEntry(segment, original.getKey(), original.getHash(), newNext);
     }
 
     // Guarded By Segment.this
-    <K extends @NonNull Object, V extends @NonNull Object> void copyAccessEntry(
-        ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyAccessEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectAccessOrder, nullifyAccessOrder.
       newEntry.setAccessTime(original.getAccessTime());
@@ -614,8 +609,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     // Guarded By Segment.this
-    <K extends @NonNull Object, V extends @NonNull Object> void copyWriteEntry(
-        ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyWriteEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectWriteOrder, nullifyWriteOrder.
       newEntry.setWriteTime(original.getWriteTime());
@@ -628,7 +622,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** A reference to a value. */
-  interface ValueReference<K extends @NonNull Object, V extends @NonNull Object> {
+  interface ValueReference<K, V> {
     /** Returns the value. Does not block or throw exceptions. */
     @Nullable
     V get();
@@ -730,7 +724,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
 
   /** Singleton placeholder that indicates a value is being loaded. */
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
-  static <K extends @NonNull Object, V extends @NonNull Object> ValueReference<K, V> unset() {
+  static <K, V> ValueReference<K, V> unset() {
     return (ValueReference<K, V>) UNSET;
   }
 
@@ -809,8 +803,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     public void setPreviousInWriteQueue(ReferenceEntry<Object, Object> previous) {}
   }
 
-  abstract static class AbstractReferenceEntry<K extends @NonNull Object, V extends @NonNull Object>
-      implements ReferenceEntry<K, V> {
+  abstract static class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
     @Override
     public @Nullable ValueReference<K, V> getValueReference() {
       throw new UnsupportedOperationException();
@@ -898,7 +891,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
-  static <K extends @NonNull Object, V extends @NonNull Object> ReferenceEntry<K, V> nullEntry() {
+  static <K, V> ReferenceEntry<K, V> nullEntry() {
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
 
@@ -932,7 +925,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
 
   /** Queue that discards all elements. */
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
-  static <E> Queue<E> discardingQueue() {
+  static <E extends @Nullable Object> Queue<E> discardingQueue() {
     return (Queue) DISCARDING_QUEUE;
   }
 
@@ -945,8 +938,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    */
 
   /** Used for strongly-referenced keys. */
-  static class StrongEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends AbstractReferenceEntry<K, V> {
+  static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
     final K key;
 
     StrongEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
@@ -987,8 +979,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class StrongAccessEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends StrongEntry<K, V> {
+  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1034,8 +1025,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class StrongWriteEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends StrongEntry<K, V> {
+  static final class StrongWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1081,8 +1071,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class StrongAccessWriteEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends StrongEntry<K, V> {
+  static final class StrongAccessWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1169,8 +1158,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** Used for weakly-referenced keys. */
-  static class WeakEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakReference<K> implements ReferenceEntry<K, V> {
+  static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
     WeakEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, queue);
       this.hash = hash;
@@ -1278,8 +1266,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class WeakAccessEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakEntry<K, V> {
+  static final class WeakAccessEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
@@ -1325,8 +1312,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class WeakWriteEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakEntry<K, V> {
+  static final class WeakWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakWriteEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
@@ -1372,8 +1358,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static final class WeakAccessWriteEntry<K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakEntry<K, V> {
+  static final class WeakAccessWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1461,8 +1446,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a weak value. */
-  static class WeakValueReference<K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakReference<V> implements ValueReference<K, V> {
+  static class WeakValueReference<K, V> extends WeakReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     WeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1506,8 +1490,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a soft value. */
-  static class SoftValueReference<K extends @NonNull Object, V extends @NonNull Object>
-      extends SoftReference<V> implements ValueReference<K, V> {
+  static class SoftValueReference<K, V> extends SoftReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1551,8 +1534,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a strong value. */
-  static class StrongValueReference<K extends @NonNull Object, V extends @NonNull Object>
-      implements ValueReference<K, V> {
+  static class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -1600,9 +1582,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a weak value. */
-  static final class WeightedWeakValueReference<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends WeakValueReference<K, V> {
+  static final class WeightedWeakValueReference<K, V> extends WeakValueReference<K, V> {
     final int weight;
 
     WeightedWeakValueReference(
@@ -1624,9 +1604,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a soft value. */
-  static final class WeightedSoftValueReference<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends SoftValueReference<K, V> {
+  static final class WeightedSoftValueReference<K, V> extends SoftValueReference<K, V> {
     final int weight;
 
     WeightedSoftValueReference(
@@ -1648,9 +1626,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   }
 
   /** References a strong value. */
-  static final class WeightedStrongValueReference<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends StrongValueReference<K, V> {
+  static final class WeightedStrongValueReference<K, V> extends StrongValueReference<K, V> {
     final int weight;
 
     WeightedStrongValueReference(V referent, int weight) {
@@ -1799,30 +1775,26 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
   // queues
 
   // Guarded By Segment.this
-  static <K extends @NonNull Object, V extends @NonNull Object> void connectAccessOrder(
-      ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+  static <K, V> void connectAccessOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
     previous.setNextInAccessQueue(next);
     next.setPreviousInAccessQueue(previous);
   }
 
   // Guarded By Segment.this
-  static <K extends @NonNull Object, V extends @NonNull Object> void nullifyAccessOrder(
-      ReferenceEntry<K, V> nulled) {
+  static <K, V> void nullifyAccessOrder(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
     nulled.setNextInAccessQueue(nullEntry);
     nulled.setPreviousInAccessQueue(nullEntry);
   }
 
   // Guarded By Segment.this
-  static <K extends @NonNull Object, V extends @NonNull Object> void connectWriteOrder(
-      ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+  static <K, V> void connectWriteOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
     previous.setNextInWriteQueue(next);
     next.setPreviousInWriteQueue(previous);
   }
 
   // Guarded By Segment.this
-  static <K extends @NonNull Object, V extends @NonNull Object> void nullifyWriteOrder(
-      ReferenceEntry<K, V> nulled) {
+  static <K, V> void nullifyWriteOrder(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
     nulled.setNextInWriteQueue(nullEntry);
     nulled.setPreviousInWriteQueue(nullEntry);
@@ -1856,7 +1828,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    * opportunistically, just to simplify some locking and avoid separate construction.
    */
   @SuppressWarnings("serial") // This class is never serialized.
-  static class Segment<K extends @NonNull Object, V extends @NonNull Object> extends ReentrantLock {
+  static class Segment<K, V> extends ReentrantLock {
 
     /*
      * TODO(fry): Consider copying variables (like evictsBySize) from outer class into this class.
@@ -1897,7 +1869,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     volatile int count;
 
     /** The weight of the live elements in this segment's region. */
-    @GuardedBy("this")
     long totalWeight;
 
     /**
@@ -1949,14 +1920,12 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * A queue of elements currently in the map, ordered by write time. Elements are added to the
      * tail of the queue on write.
      */
-    @GuardedBy("this")
     final Queue<ReferenceEntry<K, V>> writeQueue;
 
     /**
      * A queue of elements currently in the map, ordered by access time. Elements are added to the
      * tail of the queue on access (note that writes count as accesses).
      */
-    @GuardedBy("this")
     final Queue<ReferenceEntry<K, V>> accessQueue;
 
     /** Accumulates cache statistics. */
@@ -2005,7 +1974,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       this.table = newTable;
     }
 
-    @GuardedBy("this")
     ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       return map.entryFactory.newEntry(this, checkNotNull(key), hash, next);
     }
@@ -2014,7 +1982,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * Copies {@code original} into a new entry chained to {@code newNext}. Returns the new entry,
      * or {@code null} if {@code original} was already garbage collected.
      */
-    @GuardedBy("this")
     @Nullable
     ReferenceEntry<K, V> copyEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
       if (original.getKey() == null) {
@@ -2035,7 +2002,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     /** Sets a new value of an entry. Adds newly created entries at the end of the access queue. */
-    @GuardedBy("this")
     void setValue(ReferenceEntry<K, V> entry, K key, V value, long now) {
       ValueReference<K, V> previous = entry.getValueReference();
       int weight = map.weigher.weigh(key, value);
@@ -2472,7 +2438,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * Drain the key and value reference queues, cleaning up internal entries containing garbage
      * collected keys or values.
      */
-    @GuardedBy("this")
     void drainReferenceQueues() {
       if (map.usesKeyReferences()) {
         drainKeyReferenceQueue();
@@ -2482,7 +2447,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       }
     }
 
-    @GuardedBy("this")
     void drainKeyReferenceQueue() {
       Reference<? extends K> ref;
       int i = 0;
@@ -2496,7 +2460,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       }
     }
 
-    @GuardedBy("this")
     void drainValueReferenceQueue() {
       Reference<? extends V> ref;
       int i = 0;
@@ -2551,7 +2514,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * <p>Note: this method should only be called under lock, as it directly manipulates the
      * eviction queues. Unlocked reads should use {@link #recordRead}.
      */
-    @GuardedBy("this")
     void recordLockedRead(ReferenceEntry<K, V> entry, long now) {
       if (map.recordsAccess()) {
         entry.setAccessTime(now);
@@ -2563,7 +2525,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * Updates eviction metadata that {@code entry} was just written. This currently amounts to
      * adding {@code entry} to relevant eviction lists.
      */
-    @GuardedBy("this")
     void recordWrite(ReferenceEntry<K, V> entry, int weight, long now) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
@@ -2585,7 +2546,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      * lists (accounting for the fact that they could have been removed from the map since being
      * added to the recency queue).
      */
-    @GuardedBy("this")
     void drainRecencyQueue() {
       ReferenceEntry<K, V> e;
       while ((e = recencyQueue.poll()) != null) {
@@ -2613,7 +2573,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       }
     }
 
-    @GuardedBy("this")
     void expireEntries(long now) {
       drainRecencyQueue();
 
@@ -2632,7 +2591,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
 
     // eviction
 
-    @GuardedBy("this")
     void enqueueNotification(
         @Nullable K key, int hash, @Nullable V value, int weight, RemovalCause cause) {
       totalWeight -= weight;
@@ -2651,7 +2609,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      *
      * @param newest the most recently added entry
      */
-    @GuardedBy("this")
     void evictEntries(ReferenceEntry<K, V> newest) {
       if (!map.evictsBySize()) {
         return;
@@ -2676,7 +2633,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     // TODO(fry): instead implement this with an eviction head
-    @GuardedBy("this")
+
     ReferenceEntry<K, V> getNextEvictable() {
       for (ReferenceEntry<K, V> e : accessQueue) {
         int weight = e.getValueReference().getWeight();
@@ -2875,7 +2832,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     /** Expands the table if possible. */
-    @GuardedBy("this")
     void expand() {
       AtomicReferenceArray<ReferenceEntry<K, V>> oldTable = table;
       int oldCapacity = oldTable.length();
@@ -3251,7 +3207,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       }
     }
 
-    @GuardedBy("this")
     @Nullable
     ReferenceEntry<K, V> removeValueFromChain(
         ReferenceEntry<K, V> first,
@@ -3273,7 +3228,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       }
     }
 
-    @GuardedBy("this")
     @Nullable
     ReferenceEntry<K, V> removeEntryFromChain(
         ReferenceEntry<K, V> first, ReferenceEntry<K, V> entry) {
@@ -3292,7 +3246,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       return newFirst;
     }
 
-    @GuardedBy("this")
     void removeCollectedEntry(ReferenceEntry<K, V> entry) {
       enqueueNotification(
           entry.getKey(),
@@ -3417,7 +3370,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     @VisibleForTesting
-    @GuardedBy("this")
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       int newCount = this.count - 1;
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3462,7 +3414,6 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
      *
      * <p>Post-condition: expireEntries has been run.
      */
-    @GuardedBy("this")
     void preWriteCleanup(long now) {
       runLockedCleanup(now);
     }
@@ -3498,8 +3449,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static class LoadingValueReference<K extends @NonNull Object, V extends @NonNull Object>
-      implements ValueReference<K, V> {
+  static class LoadingValueReference<K, V> implements ValueReference<K, V> {
     volatile ValueReference<K, V> oldValue;
 
     // TODO(fry): rename get, then extend AbstractFuture instead of containing SettableFuture
@@ -3650,8 +3600,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    * the queue as part of copyWriteEntry, and (2) the contains method is highly optimized for the
    * current model.
    */
-  static final class WriteQueue<K extends @NonNull Object, V extends @NonNull Object>
-      extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class WriteQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head =
         new AbstractReferenceEntry<K, V>() {
 
@@ -3790,8 +3739,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    * the queue as part of copyWriteEntry, and (2) the contains method is highly optimized for the
    * current model.
    */
-  static final class AccessQueue<K extends @NonNull Object, V extends @NonNull Object>
-      extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class AccessQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head =
         new AbstractReferenceEntry<K, V>() {
 
@@ -4010,7 +3958,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     return get(key, defaultLoader);
   }
 
-  ImmutableMap<K, V> getAllPresent(Iterable<? extends @NonNull Object> keys) {
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys) {
     int hits = 0;
     int misses = 0;
 
@@ -4309,7 +4257,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  void invalidateAll(Iterable<? extends @NonNull Object> keys) {
+  void invalidateAll(Iterable<? extends Object> keys) {
     // TODO(fry): batch by segment
     for (Object key : keys) {
       remove(key);
@@ -4346,7 +4294,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
 
   // Iterator Support
 
-  abstract class HashIterator<T> implements Iterator<T> {
+  abstract class HashIterator<T extends @Nullable Object> implements Iterator<T> {
 
     int nextSegmentIndex;
     int nextTableIndex;
@@ -4498,8 +4446,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
-        Entry<?, ?> that =
-            (Entry<?, ?>) object;
+        Entry<?, ?> that = (Entry<?, ?>) object;
         return key.equals(that.getKey()) && value.equals(that.getValue());
       }
       return false;
@@ -4532,7 +4479,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  abstract class AbstractCacheSet<T> extends AbstractSet<T> {
+  abstract class AbstractCacheSet<T extends @Nullable Object> extends AbstractSet<T> {
     @Weak final ConcurrentMap<?, ?> map;
 
     AbstractCacheSet(ConcurrentMap<?, ?> map) {
@@ -4558,19 +4505,19 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <E> E[] toArray(E[] a) {
+    @SuppressWarnings("nullness")
+    public <E extends @Nullable Object> E[] toArray(E[] a) {
       return toArrayList(this).toArray(a);
     }
   }
 
-  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+  private static <E extends @Nullable Object> ArrayList<E> toArrayList(Collection<E> c) {
     // Avoid calling ArrayList(Collection), which may call back into toArray.
     ArrayList<E> result = new ArrayList<E>(c.size());
     Iterators.addAll(result, c.iterator());
@@ -4660,14 +4607,14 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <E> E[] toArray(E[] a) {
+    @SuppressWarnings("nullness")
+    public <E extends @Nullable Object> E[] toArray(E[] a) {
       return toArrayList(this).toArray(a);
     }
   }
@@ -4695,8 +4642,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<?, ?> e =
-          (Entry<?, ?>) o;
+      Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
       if (key == null) {
         return false;
@@ -4711,8 +4657,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<?, ?> e =
-          (Entry<?, ?>) o;
+      Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
       return key != null && LocalCache.this.remove(key, e.getValue());
     }
@@ -4728,8 +4673,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
    * the proxy must be able to behave as the cache itself.
    */
-  static class ManualSerializationProxy<K extends @NonNull Object, V extends @NonNull Object>
-      extends ForwardingCache<K, V> implements Serializable {
+  static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
+      implements Serializable {
     private static final long serialVersionUID = 1;
 
     final Strength keyStrength;
@@ -4846,8 +4791,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
    * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
    * the proxy must be able to behave as the cache itself.
    */
-  static final class LoadingSerializationProxy<K extends @NonNull Object, V extends @NonNull Object>
-      extends ManualSerializationProxy<K, V> implements LoadingCache<K, V>, Serializable {
+  static final class LoadingSerializationProxy<K, V> extends ManualSerializationProxy<K, V>
+      implements LoadingCache<K, V>, Serializable {
     private static final long serialVersionUID = 1;
 
     transient @Nullable LoadingCache<K, V> autoDelegate;
@@ -4892,8 +4837,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static class LocalManualCache<K extends @NonNull Object, V extends @NonNull Object>
-      implements Cache<K, V>, Serializable {
+  static class LocalManualCache<K, V> implements Cache<K, V>, Serializable {
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
@@ -4925,7 +4869,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     @Override
-    public ImmutableMap<K, V> getAllPresent(Iterable<? extends @NonNull Object> keys) {
+    public ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys) {
       return localCache.getAllPresent(keys);
     }
 
@@ -4946,7 +4890,7 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
 
     @Override
-    public void invalidateAll(Iterable<? extends @NonNull Object> keys) {
+    public void invalidateAll(Iterable<? extends Object> keys) {
       localCache.invalidateAll(keys);
     }
 
@@ -4989,8 +4933,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     }
   }
 
-  static class LocalLoadingCache<K extends @NonNull Object, V extends @NonNull Object>
-      extends LocalManualCache<K, V> implements LoadingCache<K, V> {
+  static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
+      implements LoadingCache<K, V> {
 
     LocalLoadingCache(
         CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {

@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and
@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class DescendingMultiset<E> extends ForwardingMultiset<E>
+abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
@@ -142,14 +142,14 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E>
   }
 
   @Override
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public Object[] toArray() {
     return standardToArray();
   }
 
   @Override
-@SuppressWarnings("nullness")
-  public <T> T[] toArray(T[] array) {
+  @SuppressWarnings("nullness")
+  public <T extends @Nullable Object> T[] toArray(T[] array) {
     return standardToArray(array);
   }
 

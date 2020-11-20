@@ -23,8 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
@@ -34,8 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class SingletonImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableBiMap<K, V> {
+final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   final transient K singleKey;
   final transient V singleValue;

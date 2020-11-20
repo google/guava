@@ -18,8 +18,7 @@ package com.google.common.graph;
 
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to allow {@link ValueGraph} implementations to be backed by a provided delegate. This is
@@ -28,8 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
-abstract class ForwardingValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractValueGraph<N, V> {
+abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   protected abstract ValueGraph<N, V> delegate();
 

@@ -31,8 +31,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
@@ -57,8 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0
  */
 @Beta
-public abstract class Invokable<T extends @NonNull Object, R extends @NonNull Object>
-    extends Element implements GenericDeclaration {
+public abstract class Invokable<T, R> extends Element implements GenericDeclaration {
 
   <M extends AccessibleObject & Member> Invokable(M member) {
     super(member);
@@ -70,7 +68,7 @@ public abstract class Invokable<T extends @NonNull Object, R extends @NonNull Ob
   }
 
   /** Returns {@link Invokable} of {@code constructor}. */
-  public static <T extends @NonNull Object> Invokable<T, T> from(Constructor<T> constructor) {
+  public static <T> Invokable<T, T> from(Constructor<T> constructor) {
     return new ConstructorInvokable<T>(constructor);
   }
 
@@ -195,7 +193,7 @@ public abstract class Invokable<T extends @NonNull Object, R extends @NonNull Ob
 
   public abstract AnnotatedType getAnnotatedReturnType();
 
-  static class MethodInvokable<T extends @NonNull Object> extends Invokable<T, Object> {
+  static class MethodInvokable<T> extends Invokable<T, Object> {
 
     final Method method;
 
@@ -265,7 +263,7 @@ public abstract class Invokable<T extends @NonNull Object, R extends @NonNull Ob
     }
   }
 
-  static class ConstructorInvokable<T extends @NonNull Object> extends Invokable<T, T> {
+  static class ConstructorInvokable<T> extends Invokable<T, T> {
 
     final Constructor<?> constructor;
 

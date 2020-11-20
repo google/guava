@@ -25,18 +25,14 @@ import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
 abstract class AbstractTransformFuture<
-        I,
-        O,
-        F extends @NonNull Object,
-        T>
+        I extends @Nullable Object, O extends @Nullable Object, F, T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<O> implements Runnable {
-  static <I, O> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -46,7 +42,7 @@ abstract class AbstractTransformFuture<
     return output;
   }
 
-  static <I, O> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input, Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
     TransformFuture<I, O> output = new TransformFuture<>(input, function);
@@ -207,7 +203,7 @@ abstract class AbstractTransformFuture<
    * #setFuture(ListenableFuture)}.
    */
   private static final class AsyncTransformFuture<
-          I, O>
+          I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<
           I, O, AsyncFunction<? super I, ? extends O>, ListenableFuture<? extends O>> {
     AsyncTransformFuture(
@@ -237,7 +233,7 @@ abstract class AbstractTransformFuture<
    * An {@link AbstractTransformFuture} that delegates to a {@link Function} and {@link
    * #set(Object)}.
    */
-  private static final class TransformFuture<I, O>
+  private static final class TransformFuture<I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<I, O, Function<? super I, ? extends O>, O> {
     TransformFuture(
         ListenableFuture<? extends I> inputFuture, Function<? super I, ? extends O> function) {

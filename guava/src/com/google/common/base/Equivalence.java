@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A strategy for determining whether two instances are considered equivalent, and for computing
@@ -35,8 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *     source-compatible</a> since 4.0)
  */
 @GwtCompatible
-public abstract class Equivalence<T extends @NonNull Object>
-    implements BiPredicate<@Nullable T, @Nullable T> {
+public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullable T> {
   /** Constructor for use by subclasses. */
   protected Equivalence() {}
 
@@ -150,8 +148,7 @@ public abstract class Equivalence<T extends @NonNull Object>
    * @since 10.0
    */
   // TODO(cpovirk): Function<? super F, ...> to accept a Function<@Nullable F, ...>?
-  public final <F extends @NonNull Object> Equivalence<F> onResultOf(
-      Function<F, ? extends @Nullable T> function) {
+  public final <F> Equivalence<F> onResultOf(Function<F, ? extends @Nullable T> function) {
     return new FunctionalEquivalence<>(function, this);
   }
 
@@ -189,7 +186,7 @@ public abstract class Equivalence<T extends @NonNull Object>
    *
    * @since 10.0
    */
-  public static final class Wrapper<T> implements Serializable {
+  public static final class Wrapper<T extends @Nullable Object> implements Serializable {
     /*
      * The right type for this is something like Equivalence<? super
      * T-but-projected-to-not-be-nullable>. But it's not clear that we'll support that. The simplest
@@ -225,8 +222,7 @@ public abstract class Equivalence<T extends @NonNull Object>
         return true;
       }
       if (obj instanceof Wrapper) {
-        Wrapper<?> that =
-            (Wrapper<?>) obj; // note: not necessarily a Wrapper<T>
+        Wrapper<?> that = (Wrapper<?>) obj; // note: not necessarily a Wrapper<T>
 
         if (this.equivalence.equals(that.equivalence)) {
           /*
@@ -285,7 +281,7 @@ public abstract class Equivalence<T extends @NonNull Object>
     return new EquivalentToPredicate<T>(this, target);
   }
 
-  private static final class EquivalentToPredicate<T extends @NonNull Object>
+  private static final class EquivalentToPredicate<T>
       implements Predicate<@Nullable T>, Serializable {
 
     private final Equivalence<T> equivalence;

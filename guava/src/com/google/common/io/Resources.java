@@ -28,7 +28,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with resources in the classpath. Note that even though these
@@ -121,7 +121,7 @@ public final class Resources {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(
+  public static <T extends @Nullable Object> T readLines(
       URL url, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(url, charset).readLines(callback);
   }

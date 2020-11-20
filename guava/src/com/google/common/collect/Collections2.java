@@ -38,8 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -85,7 +84,7 @@ public final class Collections2 {
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
-  public static <E> Collection<E> filter(
+  public static <E extends @Nullable Object> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
@@ -100,8 +99,7 @@ public final class Collections2 {
    * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeContains(
-      Collection<?> collection, @Nullable Object object) {
+  static boolean safeContains(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -114,8 +112,7 @@ public final class Collections2 {
    * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeRemove(
-      Collection<?> collection, @Nullable Object object) {
+  static boolean safeRemove(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -124,7 +121,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E> extends AbstractCollection<E> {
+  static class FilteredCollection<E extends @Nullable Object> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -231,15 +228,15 @@ public final class Collections2 {
     }
 
     @Override
-@SuppressWarnings("nullness")
+    @SuppressWarnings("nullness")
     public Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return Lists.newArrayList(iterator()).toArray();
     }
 
     @Override
-@SuppressWarnings("nullness")
-    public <T> T[] toArray(T[] array) {
+    @SuppressWarnings("nullness")
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
       return Lists.newArrayList(iterator()).toArray(array);
     }
   }
@@ -263,12 +260,12 @@ public final class Collections2 {
    *
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.
    */
-  public static <F, T> Collection<T> transform(
+  public static <F extends @Nullable Object, T extends @Nullable Object> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {
     return new TransformedCollection<>(fromCollection, function);
   }
 
-  static class TransformedCollection<F, T>
+  static class TransformedCollection<F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractCollection<T> {
     final Collection<F> fromCollection;
     final Function<? super F, ? extends T> function;
@@ -327,8 +324,7 @@ public final class Collections2 {
    * @param self a collection which might contain all elements in {@code c}
    * @param c a collection whose elements might be contained by {@code self}
    */
-  static boolean containsAllImpl(
-      Collection<?> self, Collection<?> c) {
+  static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
     for (Object o : c) {
       if (!self.contains(o)) {
         return false;
@@ -362,7 +358,7 @@ public final class Collections2 {
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T> Collection<T> cast(Iterable<T> iterable) {
+  static <T extends @Nullable Object> Collection<T> cast(Iterable<T> iterable) {
     return (Collection<T>) iterable;
   }
 
@@ -441,13 +437,12 @@ public final class Collections2 {
    * @since 12.0
    */
   @Beta
-  public static <E extends @NonNull Object> Collection<List<E>> orderedPermutations(
+  public static <E> Collection<List<E>> orderedPermutations(
       Iterable<E> elements, Comparator<? super E> comparator) {
     return new OrderedPermutationCollection<E>(elements, comparator);
   }
 
-  private static final class OrderedPermutationCollection<E extends @NonNull Object>
-      extends AbstractCollection<List<E>> {
+  private static final class OrderedPermutationCollection<E> extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
     final Comparator<? super E> comparator;
     final int size;
@@ -467,7 +462,7 @@ public final class Collections2 {
      *       increased by a factor of (n choose r).
      * </ul>
      */
-    private static <E extends @NonNull Object> int calculateSize(
+    private static <E> int calculateSize(
         List<E> sortedInputList, Comparator<? super E> comparator) {
       int permutations = 1;
       int n = 1;
@@ -518,8 +513,7 @@ public final class Collections2 {
     }
   }
 
-  private static final class OrderedPermutationIterator<E extends @NonNull Object>
-      extends AbstractIterator<List<E>> {
+  private static final class OrderedPermutationIterator<E> extends AbstractIterator<List<E>> {
     @Nullable List<E> nextPermutation;
     final Comparator<? super E> comparator;
 
@@ -604,13 +598,11 @@ public final class Collections2 {
    * @since 12.0
    */
   @Beta
-  public static <E extends @NonNull Object> Collection<List<E>> permutations(
-      Collection<E> elements) {
+  public static <E> Collection<List<E>> permutations(Collection<E> elements) {
     return new PermutationCollection<E>(ImmutableList.copyOf(elements));
   }
 
-  private static final class PermutationCollection<E extends @NonNull Object>
-      extends AbstractCollection<List<E>> {
+  private static final class PermutationCollection<E> extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
 
     PermutationCollection(ImmutableList<E> input) {
@@ -647,8 +639,7 @@ public final class Collections2 {
     }
   }
 
-  private static class PermutationIterator<E extends @NonNull Object>
-      extends AbstractIterator<List<E>> {
+  private static class PermutationIterator<E> extends AbstractIterator<List<E>> {
     final List<E> list;
     final int[] c;
     final int[] o;
@@ -712,8 +703,7 @@ public final class Collections2 {
   }
 
   /** Returns {@code true} if the second list is a permutation of the first. */
-  private static boolean isPermutation(
-      List<?> first, List<?> second) {
+  private static boolean isPermutation(List<?> first, List<?> second) {
     if (first.size() != second.size()) {
       return false;
     }

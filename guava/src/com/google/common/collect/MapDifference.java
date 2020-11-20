@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An object representing the differences between two maps.
@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface MapDifference<K, V> {
+public interface MapDifference<K extends @Nullable Object, V extends @Nullable Object> {
   /**
    * Returns {@code true} if there are no differences between the two maps; that is, if the maps are
    * equal.
@@ -84,7 +84,7 @@ public interface MapDifference<K, V> {
    *
    * @since 2.0
    */
-  interface ValueDifference<V> {
+  interface ValueDifference<V extends @Nullable Object> {
     /** Returns the value from the left map (possibly null). */
     V leftValue();
 

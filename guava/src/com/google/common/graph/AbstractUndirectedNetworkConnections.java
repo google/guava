@@ -23,8 +23,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for undirected networks.
@@ -33,9 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractUndirectedNetworkConnections<
-        N extends @NonNull Object, E extends @NonNull Object>
-    implements NetworkConnections<N, E> {
+abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /** Keys are edges incident to the origin node, values are the node at the other end. */
   protected final Map<E, N> incidentEdgeMap;
 

@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ListIterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list iterator that does not support {@link #remove}, {@link #add}, or {@link #set}.
@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class UnmodifiableListIterator<E>
+public abstract class UnmodifiableListIterator<E extends @Nullable Object>
     extends UnmodifiableIterator<E> implements ListIterator<E> {
   /** Constructor for use by subclasses. */
   protected UnmodifiableListIterator() {}

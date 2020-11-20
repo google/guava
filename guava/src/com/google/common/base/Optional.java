@@ -21,8 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of
@@ -81,14 +80,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible(serializable = true)
-public abstract class Optional<T extends @NonNull Object> implements Serializable {
+public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.empty}.
    */
-  public static <T extends @NonNull Object> Optional<T> absent() {
+  public static <T> Optional<T> absent() {
     return Absent.withType();
   }
 
@@ -100,7 +99,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    *
    * @throws NullPointerException if {@code reference} is null
    */
-  public static <T extends @NonNull Object> Optional<T> of(T reference) {
+  public static <T> Optional<T> of(T reference) {
     return new Present<T>(checkNotNull(reference));
   }
 
@@ -111,8 +110,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.ofNullable}.
    */
-  public static <T extends @NonNull Object> Optional<T> fromNullable(
-      @Nullable T nullableReference) {
+  public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
     return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
   }
 
@@ -122,7 +120,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    *
    * @since 21.0
    */
-  public static <T extends @NonNull Object> @Nullable Optional<T> fromJavaUtil(
+  public static <T> @Nullable Optional<T> fromJavaUtil(
       java.util.@Nullable Optional<T> javaUtilOptional) {
     return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
   }
@@ -140,7 +138,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    *
    * @since 21.0
    */
-  public static <T extends @NonNull Object> java.util.@Nullable Optional<T> toJavaUtil(
+  public static <T> java.util.@Nullable Optional<T> toJavaUtil(
       @Nullable Optional<T> googleOptional) {
     return googleOptional == null ? null : googleOptional.toJavaUtil();
   }
@@ -286,8 +284,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    * @throws NullPointerException if the function returns {@code null}
    * @since 12.0
    */
-  public abstract <V extends @NonNull Object> Optional<V> transform(
-      Function<? super T, V> function);
+  public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the
@@ -331,7 +328,7 @@ public abstract class Optional<T extends @NonNull Object> implements Serializabl
    * @since 11.0 (generics widened in 13.0)
    */
   @Beta
-  public static <T extends @NonNull Object> Iterable<T> presentInstances(
+  public static <T> Iterable<T> presentInstances(
       final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);
     return new Iterable<T>() {

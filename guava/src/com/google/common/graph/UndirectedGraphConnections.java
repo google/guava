@@ -29,8 +29,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for undirected graphs.
@@ -39,16 +38,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class UndirectedGraphConnections<N extends @NonNull Object, V extends @NonNull Object>
-    implements GraphConnections<N, V> {
+final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   private final Map<N, V> adjacentNodeValues;
 
   private UndirectedGraphConnections(Map<N, V> adjacentNodeValues) {
     this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
   }
 
-  static <N extends @NonNull Object, V extends @NonNull Object> UndirectedGraphConnections<N, V> of(
-      ElementOrder<N> incidentEdgeOrder) {
+  static <N, V> UndirectedGraphConnections<N, V> of(ElementOrder<N> incidentEdgeOrder) {
     switch (incidentEdgeOrder.type()) {
       case UNORDERED:
         return new UndirectedGraphConnections<>(
@@ -61,8 +58,7 @@ final class UndirectedGraphConnections<N extends @NonNull Object, V extends @Non
     }
   }
 
-  static <N extends @NonNull Object, V extends @NonNull Object>
-      UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
+  static <N, V> UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
     return new UndirectedGraphConnections<>(ImmutableMap.copyOf(adjacentNodeValues));
   }
 

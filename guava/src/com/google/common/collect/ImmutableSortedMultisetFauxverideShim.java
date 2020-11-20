@@ -18,8 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack {@link
@@ -39,8 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
-    extends ImmutableMultiset<E> {
+abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
   /**
    * Not supported. Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset} instead. This
    * method exists only to hide {@link ImmutableMultiset#toImmutableMultiset} from consumers of
@@ -51,8 +49,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    * @since 21.0
    */
   @Deprecated
-  public static <E extends @NonNull Object>
-      Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     throw new UnsupportedOperationException();
   }
 
@@ -66,7 +63,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    * @since 22.0
    */
   @Deprecated
-  public static <T, E extends @NonNull Object>
+  public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,
           ToIntFunction<? super T> countFunction) {
@@ -82,7 +79,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset.Builder<E> builder() {
+  public static <E> ImmutableSortedMultiset.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
 
@@ -96,7 +93,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     ImmutableSortedMultiset#of(Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(E element) {
+  public static <E> ImmutableSortedMultiset<E> of(E element) {
     throw new UnsupportedOperationException();
   }
 
@@ -110,7 +107,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     ImmutableSortedMultiset#of(Comparable, Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(E e1, E e2) {
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2) {
     throw new UnsupportedOperationException();
   }
 
@@ -124,7 +121,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
     throw new UnsupportedOperationException();
   }
 
@@ -138,7 +135,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4) {
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4) {
     throw new UnsupportedOperationException();
   }
 
@@ -153,8 +150,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(
-      E e1, E e2, E e3, E e4, E e5) {
+  public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
     throw new UnsupportedOperationException();
   }
 
@@ -169,7 +165,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     Comparable, Comparable...)} . </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> of(
+  public static <E> ImmutableSortedMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
     throw new UnsupportedOperationException();
   }
@@ -184,7 +180,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    *     ImmutableSortedMultiset#copyOf(Comparable[])}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedMultiset<E> copyOf(E[] elements) {
+  public static <E> ImmutableSortedMultiset<E> copyOf(E[] elements) {
     throw new UnsupportedOperationException();
   }
 

@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation detail for the internal structure of {@link Range} instances. Represents a unique

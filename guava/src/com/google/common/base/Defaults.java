@@ -17,8 +17,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides default values for all Java types, as defined by the JLS.
@@ -39,7 +38,7 @@ public final class Defaults {
    * {@code void}, {@code null} is returned.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends @NonNull Object> @Nullable T defaultValue(Class<T> type) {
+  public static <T> @Nullable T defaultValue(Class<T> type) {
     checkNotNull(type);
     if (type == boolean.class) {
       return (T) Boolean.FALSE;

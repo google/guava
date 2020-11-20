@@ -28,8 +28,7 @@ import com.google.common.collect.Ordering;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to represent the order of elements in a data structure that supports different options for
@@ -47,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @Immutable
-public final class ElementOrder<T extends @NonNull Object> {
+public final class ElementOrder<T> {
   private final Type type;
 
   @SuppressWarnings("Immutable") // Hopefully the comparator provided is immutable!
@@ -78,7 +77,7 @@ public final class ElementOrder<T extends @NonNull Object> {
   }
 
   /** Returns an instance which specifies that no ordering is guaranteed. */
-  public static <S extends @NonNull Object> ElementOrder<S> unordered() {
+  public static <S> ElementOrder<S> unordered() {
     return new ElementOrder<S>(Type.UNORDERED, null);
   }
 
@@ -118,12 +117,12 @@ public final class ElementOrder<T extends @NonNull Object> {
    *
    * @since 29.0
    */
-  public static <S extends @NonNull Object> ElementOrder<S> stable() {
+  public static <S> ElementOrder<S> stable() {
     return new ElementOrder<S>(Type.STABLE, null);
   }
 
   /** Returns an instance which specifies that insertion ordering is guaranteed. */
-  public static <S extends @NonNull Object> ElementOrder<S> insertion() {
+  public static <S> ElementOrder<S> insertion() {
     return new ElementOrder<S>(Type.INSERTION, null);
   }
 
@@ -138,7 +137,7 @@ public final class ElementOrder<T extends @NonNull Object> {
    * Returns an instance which specifies that the ordering of the elements is guaranteed to be
    * determined by {@code comparator}.
    */
-  public static <S extends @NonNull Object> ElementOrder<S> sorted(Comparator<S> comparator) {
+  public static <S> ElementOrder<S> sorted(Comparator<S> comparator) {
     return new ElementOrder<S>(Type.SORTED, checkNotNull(comparator));
   }
 
@@ -187,7 +186,7 @@ public final class ElementOrder<T extends @NonNull Object> {
   }
 
   /** Returns an empty mutable map whose keys will respect this {@link ElementOrder}. */
-  <K extends T, V> Map<K, V> createMap(int expectedSize) {
+  <K extends T, V extends @Nullable Object> Map<K, V> createMap(int expectedSize) {
     switch (type) {
       case UNORDERED:
         return Maps.newHashMapWithExpectedSize(expectedSize);

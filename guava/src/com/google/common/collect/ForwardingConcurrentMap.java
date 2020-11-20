@@ -19,8 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A concurrent map which forwards all its method calls to another concurrent map. Subclasses should
@@ -38,8 +37,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingConcurrentMap<K extends @NonNull Object, V extends @NonNull Object>
-    extends ForwardingMap<K, V> implements ConcurrentMap<K, V> {
+public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
+    implements ConcurrentMap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingConcurrentMap() {}

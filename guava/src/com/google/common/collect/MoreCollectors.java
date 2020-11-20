@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
@@ -57,7 +56,7 @@ public final class MoreCollectors {
    * which is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends @NonNull Object> Collector<T, ?, Optional<T>> toOptional() {
+  public static <T> Collector<T, ?, Optional<T>> toOptional() {
     return (Collector) TO_OPTIONAL;
   }
 
@@ -80,7 +79,7 @@ public final class MoreCollectors {
    * more elements, and a {@code NoSuchElementException} if the stream is empty.
    */
   @SuppressWarnings("unchecked")
-  public static <T> Collector<T, ?, T> onlyElement() {
+  public static <T extends @Nullable Object> Collector<T, ?, T> onlyElement() {
     return (Collector) ONLY_ELEMENT;
   }
 

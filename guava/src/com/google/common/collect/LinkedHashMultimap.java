@@ -41,7 +41,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Multimap} that does not allow duplicate key-value entries and that
@@ -79,11 +79,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class LinkedHashMultimap<K, V>
+public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
 
   /** Creates a new, empty {@code LinkedHashMultimap} with the default initial capacities. */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMultimap<K, V> create() {
     return new LinkedHashMultimap<>(DEFAULT_KEY_CAPACITY, DEFAULT_VALUE_SET_CAPACITY);
   }
@@ -97,7 +97,7 @@ public final class LinkedHashMultimap<K, V>
    * @throws IllegalArgumentException if {@code expectedKeys} or {@code expectedValuesPerKey} is
    *     negative
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
     return new LinkedHashMultimap<>(
         Maps.capacity(expectedKeys), Maps.capacity(expectedValuesPerKey));
@@ -111,14 +111,14 @@ public final class LinkedHashMultimap<K, V>
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     LinkedHashMultimap<K, V> result = create(multimap.keySet().size(), DEFAULT_VALUE_SET_CAPACITY);
     result.putAll(multimap);
     return result;
   }
 
-  private interface ValueSetLink<K, V> {
+  private interface ValueSetLink<K extends @Nullable Object, V extends @Nullable Object> {
     ValueSetLink<K, V> getPredecessorInValueSet();
 
     ValueSetLink<K, V> getSuccessorInValueSet();
@@ -128,24 +128,24 @@ public final class LinkedHashMultimap<K, V>
     void setSuccessorInValueSet(ValueSetLink<K, V> entry);
   }
 
-  private static <K, V> void succeedsInValueSet(
+  private static <K extends @Nullable Object, V extends @Nullable Object> void succeedsInValueSet(
       ValueSetLink<K, V> pred, ValueSetLink<K, V> succ) {
     pred.setSuccessorInValueSet(succ);
     succ.setPredecessorInValueSet(pred);
   }
 
-  private static <K, V> void succeedsInMultimap(
+  private static <K extends @Nullable Object, V extends @Nullable Object> void succeedsInMultimap(
       ValueEntry<K, V> pred, ValueEntry<K, V> succ) {
     pred.setSuccessorInMultimap(succ);
     succ.setPredecessorInMultimap(pred);
   }
 
-  private static <K, V> void deleteFromValueSet(
+  private static <K extends @Nullable Object, V extends @Nullable Object> void deleteFromValueSet(
       ValueSetLink<K, V> entry) {
     succeedsInValueSet(entry.getPredecessorInValueSet(), entry.getSuccessorInValueSet());
   }
 
-  private static <K, V> void deleteFromMultimap(
+  private static <K extends @Nullable Object, V extends @Nullable Object> void deleteFromMultimap(
       ValueEntry<K, V> entry) {
     succeedsInMultimap(entry.getPredecessorInMultimap(), entry.getSuccessorInMultimap());
   }
@@ -157,7 +157,7 @@ public final class LinkedHashMultimap<K, V>
    * whole.
    */
   @VisibleForTesting
-  static final class ValueEntry<K, V>
+  static final class ValueEntry<K extends @Nullable Object, V extends @Nullable Object>
       extends ImmutableEntry<K, V> implements ValueSetLink<K, V> {
     final int smearedValueHash;
 
@@ -633,7 +633,7 @@ public final class LinkedHashMultimap<K, V>
   }
 
   @SuppressWarnings("nullness")
-  private static <T> T unsafeNull() {
+  private static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }
 

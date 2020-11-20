@@ -18,8 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * List returned by {@code ImmutableSortedSet.asList()} when the set isn't empty.
@@ -29,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
-final class ImmutableSortedAsList<E extends @NonNull Object> extends RegularImmutableAsList<E>
+final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
   ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
     super(backingSet, backingList);

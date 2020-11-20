@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A functional interface for <a
@@ -79,7 +78,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @since 23.0
  */
 @Beta
-public interface PredecessorsFunction<N extends @NonNull Object> {
+public interface PredecessorsFunction<N> {
 
   /**
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing

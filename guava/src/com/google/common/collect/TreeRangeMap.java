@@ -39,8 +39,7 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
@@ -53,12 +52,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible // NavigableMap
-public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
-    implements RangeMap<K, V> {
+public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, V> {
 
   private final NavigableMap<Cut<K>, RangeMapEntry<K, V>> entriesByLowerBound;
 
-  public static <K extends Comparable, V> TreeRangeMap<K, V> create() {
+  public static <K extends Comparable, V extends @Nullable Object> TreeRangeMap<K, V> create() {
     return new TreeRangeMap<>();
   }
 
@@ -66,7 +64,7 @@ public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
     this.entriesByLowerBound = Maps.newTreeMap();
   }
 
-  private static final class RangeMapEntry<K extends Comparable, V extends @NonNull Object>
+  private static final class RangeMapEntry<K extends Comparable, V>
       extends AbstractMapEntry<Range<K>, V> {
     private final Range<K> range;
     private final V value;
@@ -156,7 +154,7 @@ public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
   }
 
   /** Returns the range that spans the given range and entry, if the entry can be coalesced. */
-  private static <K extends Comparable, V extends @NonNull Object> Range<K> coalesce(
+  private static <K extends Comparable, V> Range<K> coalesce(
       Range<K> range, V value, @Nullable Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
     if (entry != null
         && entry.getValue().getKey().isConnected(range)

@@ -43,7 +43,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents a multimap as a map
@@ -84,7 +84,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class AbstractMapBasedMultimap<K, V>
+abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements Serializable {
   /*
    * Here's an outline of the overall design.
@@ -261,7 +261,7 @@ abstract class AbstractMapBasedMultimap<K, V>
     return unmodifiableCollectionSubclass(output);
   }
 
-  <E> Collection<E> unmodifiableCollectionSubclass(
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     return Collections.unmodifiableCollection(collection);
   }
@@ -578,7 +578,7 @@ abstract class AbstractMapBasedMultimap<K, V>
     }
   }
 
-  private static <E> Iterator<E> iteratorOrListIterator(
+  private static <E extends @Nullable Object> Iterator<E> iteratorOrListIterator(
       Collection<E> collection) {
     return (collection instanceof List)
         ? ((List<E>) collection).listIterator()
@@ -1122,7 +1122,7 @@ abstract class AbstractMapBasedMultimap<K, V>
     }
   }
 
-  private abstract class Itr<T> implements Iterator<T> {
+  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
     @Nullable K key;
     @Nullable Collection<V> collection;
@@ -1169,7 +1169,7 @@ abstract class AbstractMapBasedMultimap<K, V>
   }
 
   @SuppressWarnings("nullness")
-  private static <K> K uncheckedCastNullableKToK(@Nullable K key) {
+  private static <K extends @Nullable Object> K uncheckedCastNullableKToK(@Nullable K key) {
     /*
      * We can't use requireNonNull because `key` might be null. Specifically, it can be null because
      * the multimap might contain a null key to be returned to the user. This is in contrast to the
@@ -1417,8 +1417,7 @@ abstract class AbstractMapBasedMultimap<K, V>
           return false;
         }
         // requireNonNull is safe because of the contains check.
-        Entry<?, ?> entry =
-            requireNonNull((Entry<?, ?>) o);
+        Entry<?, ?> entry = requireNonNull((Entry<?, ?>) o);
         removeValuesForKey(entry.getKey());
         return true;
       }

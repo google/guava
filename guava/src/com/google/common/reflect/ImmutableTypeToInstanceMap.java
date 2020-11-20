@@ -21,8 +21,7 @@ import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A type-to-instance map backed by an {@link ImmutableMap}. See also {@link
@@ -32,16 +31,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 13.0
  */
 @Beta
-public final class ImmutableTypeToInstanceMap<B extends @NonNull Object>
+public final class ImmutableTypeToInstanceMap<B>
     extends ForwardingMap<TypeToken<? extends B>, @Nullable B> implements TypeToInstanceMap<B> {
 
   /** Returns an empty type to instance map. */
-  public static <B extends @NonNull Object> ImmutableTypeToInstanceMap<B> of() {
+  public static <B> ImmutableTypeToInstanceMap<B> of() {
     return new ImmutableTypeToInstanceMap<B>(ImmutableMap.<TypeToken<? extends B>, B>of());
   }
 
   /** Returns a new builder. */
-  public static <B extends @NonNull Object> Builder<B> builder() {
+  public static <B> Builder<B> builder() {
     return new Builder<B>();
   }
 
@@ -62,7 +61,7 @@ public final class ImmutableTypeToInstanceMap<B extends @NonNull Object>
    * @since 13.0
    */
   @Beta
-  public static final class Builder<B extends @NonNull Object> {
+  public static final class Builder<B> {
     private final ImmutableMap.Builder<TypeToken<? extends B>, B> mapBuilder =
         ImmutableMap.builder();
 

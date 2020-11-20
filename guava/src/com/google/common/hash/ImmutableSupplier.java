@@ -16,10 +16,11 @@ package com.google.common.hash;
 
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.Immutable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Explicitly named subinterface of {@link Supplier} that can be marked {@literal @}{@link
  * Immutable}.
  */
 @Immutable
-interface ImmutableSupplier<T> extends Supplier<T> {}
+interface ImmutableSupplier<T extends @Nullable Object> extends Supplier<T> {}

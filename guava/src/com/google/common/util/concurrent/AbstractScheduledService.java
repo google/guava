@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.time.Duration;
 import java.util.concurrent.Callable;
@@ -37,7 +36,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in
@@ -514,7 +513,6 @@ public abstract class AbstractScheduledService implements Service {
       private final ReentrantLock lock = new ReentrantLock();
 
       /** The future that represents the next execution of this task. */
-      @GuardedBy("lock")
       private @Nullable Future<@Nullable Void> currentFuture;
 
       ReschedulableCallable(

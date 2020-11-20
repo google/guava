@@ -24,7 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Futures#withTimeout}.
@@ -34,8 +34,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
-final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
-  static <V> ListenableFuture<V> create(
+final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
+  static <V extends @Nullable Object> ListenableFuture<V> create(
       ListenableFuture<V> delegate,
       long time,
       TimeUnit unit,
@@ -79,7 +79,7 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   }
 
   /** A runnable that is called when the delegate or the timer completes. */
-  private static final class Fire<V> implements Runnable {
+  private static final class Fire<V extends @Nullable Object> implements Runnable {
     @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {

@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map which forwards all its method calls to another map. Subclasses should override one or more
@@ -55,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMap<K, V>
+public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Map<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 

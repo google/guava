@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -66,7 +66,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
+public abstract class AbstractFuture<V extends @Nullable Object> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, || instead of &&, ||
 
@@ -90,13 +90,13 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * of this interface must also be an AbstractFuture and must not override or expose for overriding
    * any of the public methods of ListenableFuture.
    */
-  interface Trusted<V> extends ListenableFuture<V> {}
+  interface Trusted<V extends @Nullable Object> extends ListenableFuture<V> {}
 
   /**
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-  abstract static class TrustedFuture<V> extends AbstractFuture<V>
+  abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
       implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
@@ -331,7 +331,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   /** A special value that encodes the 'setFuture' state. */
-  private static final class SetFuture<V> implements Runnable {
+  private static final class SetFuture<V extends @Nullable Object> implements Runnable {
     final AbstractFuture<V> owner;
     final ListenableFuture<? extends V> future;
 
@@ -588,7 +588,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   @SuppressWarnings("nullness")
-  private static <V> V unsafeNullV() {
+  private static <V extends @Nullable Object> V unsafeNullV() {
     return null;
   }
 
@@ -645,8 +645,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
           if (localValue instanceof SetFuture) {
             // propagate cancellation to the future set in setfuture, this is racy, and we don't
             // care if we are successful or not.
-            ListenableFuture<?> futureToPropagateTo =
-                ((SetFuture) localValue).future;
+            ListenableFuture<?> futureToPropagateTo = ((SetFuture) localValue).future;
             if (futureToPropagateTo instanceof Trusted) {
               // If the future is a TrustedFuture then we specifically avoid calling cancel()
               // this has 2 benefits
@@ -655,8 +654,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
               //    chain
               // We can only do this for TrustedFuture, because TrustedFuture.cancel is final and
               // does nothing but delegate to this method.
-              AbstractFuture<?> trusted =
-                  (AbstractFuture<?>) futureToPropagateTo;
+              AbstractFuture<?> trusted = (AbstractFuture<?>) futureToPropagateTo;
               localValue = trusted.value;
               if (localValue == null || localValue instanceof SetFuture) {
                 abstractFuture = trusted;
@@ -945,7 +943,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an
    * internal dependency on other /util/concurrent classes.
    */
-  private static <V> V getUninterruptibly(Future<V> future)
+  private static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;
     try {
@@ -986,8 +984,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
         next = next.next;
         Runnable task = curr.task;
         if (task instanceof SetFuture) {
-          SetFuture<?> setFuture =
-              (SetFuture<?>) task;
+          SetFuture<?> setFuture = (SetFuture<?>) task;
           // We unwind setFuture specifically to avoid StackOverflowErrors in the case of long
           // chains of SetFutures
           // Handling this special case is important because there is no way to pass an executor to
@@ -1234,19 +1231,14 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
 
     /** Performs a CAS operation on the {@link #waiters} field. */
     abstract boolean casWaiters(
-        AbstractFuture<?> future,
-        @Nullable Waiter expect,
-        @Nullable Waiter update);
+        AbstractFuture<?> future, @Nullable Waiter expect, @Nullable Waiter update);
 
     /** Performs a CAS operation on the {@link #listeners} field. */
     abstract boolean casListeners(
-        AbstractFuture<?> future,
-        @Nullable Listener expect,
-        Listener update);
+        AbstractFuture<?> future, @Nullable Listener expect, Listener update);
 
     /** Performs a CAS operation on the {@link #value} field. */
-    abstract boolean casValue(
-        AbstractFuture<?> future, @Nullable Object expect, Object update);
+    abstract boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update);
   }
 
   /**
@@ -1321,26 +1313,19 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
 
     /** Performs a CAS operation on the {@link #waiters} field. */
     @Override
-    boolean casWaiters(
-        AbstractFuture<?> future,
-        @Nullable Waiter expect,
-        @Nullable Waiter update) {
+    boolean casWaiters(AbstractFuture<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
       return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #listeners} field. */
     @Override
-    boolean casListeners(
-        AbstractFuture<?> future,
-        @Nullable Listener expect,
-        Listener update) {
+    boolean casListeners(AbstractFuture<?> future, @Nullable Listener expect, Listener update) {
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
     @Override
-    boolean casValue(
-        AbstractFuture<?> future, @Nullable Object expect, Object update) {
+    boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update) {
       return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
   }
@@ -1378,24 +1363,17 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
 
     @Override
-    boolean casWaiters(
-        AbstractFuture<?> future,
-        @Nullable Waiter expect,
-        @Nullable Waiter update) {
+    boolean casWaiters(AbstractFuture<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
       return waitersUpdater.compareAndSet(future, expect, update);
     }
 
     @Override
-    boolean casListeners(
-        AbstractFuture<?> future,
-        @Nullable Listener expect,
-        Listener update) {
+    boolean casListeners(AbstractFuture<?> future, @Nullable Listener expect, Listener update) {
       return listenersUpdater.compareAndSet(future, expect, update);
     }
 
     @Override
-    boolean casValue(
-        AbstractFuture<?> future, @Nullable Object expect, Object update) {
+    boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
     }
   }
@@ -1418,10 +1396,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
 
     @Override
-    boolean casWaiters(
-        AbstractFuture<?> future,
-        @Nullable Waiter expect,
-        @Nullable Waiter update) {
+    boolean casWaiters(AbstractFuture<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
       synchronized (future) {
         if (future.waiters == expect) {
           future.waiters = update;
@@ -1432,10 +1407,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
 
     @Override
-    boolean casListeners(
-        AbstractFuture<?> future,
-        @Nullable Listener expect,
-        Listener update) {
+    boolean casListeners(AbstractFuture<?> future, @Nullable Listener expect, Listener update) {
       synchronized (future) {
         if (future.listeners == expect) {
           future.listeners = update;
@@ -1446,8 +1418,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
 
     @Override
-    boolean casValue(
-        AbstractFuture<?> future, @Nullable Object expect, Object update) {
+    boolean casValue(AbstractFuture<?> future, @Nullable Object expect, Object update) {
       synchronized (future) {
         if (future.value == expect) {
           future.value = update;

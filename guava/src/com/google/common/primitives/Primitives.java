@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Contains static utility methods pertaining to primitive types and their corresponding wrapper
@@ -113,7 +112,7 @@ public final class Primitives {
    *     wrap(String.class) == String.class
    * </pre>
    */
-  public static <T extends @NonNull Object> Class<T> wrap(Class<T> type) {
+  public static <T> Class<T> wrap(Class<T> type) {
     checkNotNull(type);
 
     // cast is safe: long.class and Long.class are both of type Class<Long>
@@ -132,7 +131,7 @@ public final class Primitives {
    *     unwrap(String.class) == String.class
    * </pre>
    */
-  public static <T extends @NonNull Object> Class<T> unwrap(Class<T> type) {
+  public static <T> Class<T> unwrap(Class<T> type) {
     checkNotNull(type);
 
     // cast is safe: long.class and Long.class are both of type Class<Long>

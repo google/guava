@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -30,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class RegularImmutableSet<E extends @NonNull Object> extends ImmutableSet<E> {
+final class RegularImmutableSet<E> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<>(new Object[0], 0, null, 0);
 

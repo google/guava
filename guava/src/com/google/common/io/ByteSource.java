@@ -40,7 +40,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
@@ -303,7 +303,7 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public <T> T read(ByteProcessor<T> processor) throws IOException {
+  public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
     Closer closer = Closer.create();
@@ -607,7 +607,7 @@ public abstract class ByteSource {
 
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
-    public <T> T read(ByteProcessor<T> processor) throws IOException {
+    public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();
     }

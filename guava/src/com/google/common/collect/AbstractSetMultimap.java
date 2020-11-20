@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link SetMultimap} interface. It's a wrapper around {@link
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSetMultimap<K, V>
+abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapBasedMultimap<K, V> implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -53,7 +53,7 @@ abstract class AbstractSetMultimap<K, V>
   }
 
   @Override
-  <E> Collection<E> unmodifiableCollectionSubclass(
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     return Collections.unmodifiableSet((Set<E>) collection);
   }

@@ -36,8 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
@@ -80,9 +79,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public final class ArrayTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractTable<R, C, @Nullable V> implements Serializable {
+public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
+    implements Serializable {
 
   /**
    * Creates an {@code ArrayTable} filled with {@code null}.
@@ -93,8 +91,8 @@ public final class ArrayTable<
    * @throws IllegalArgumentException if {@code rowKeys} or {@code columnKeys} contains duplicates
    *     or if exactly one of {@code rowKeys} or {@code columnKeys} is empty.
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ArrayTable<R, C, V> create(Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
+  public static <R, C, V> ArrayTable<R, C, V> create(
+      Iterable<? extends R> rowKeys, Iterable<? extends C> columnKeys) {
     return new ArrayTable<>(rowKeys, columnKeys);
   }
 
@@ -122,8 +120,7 @@ public final class ArrayTable<
    *
    * @throws NullPointerException if {@code table} has a null key
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ArrayTable<R, C, V> create(Table<R, C, ? extends @Nullable V> table) {
+  public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, ? extends @Nullable V> table) {
     return (table instanceof ArrayTable)
         ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)
         : new ArrayTable<R, C, V>(table);
@@ -178,7 +175,7 @@ public final class ArrayTable<
     }
   }
 
-  private abstract static class ArrayMap<K extends @NonNull Object, V>
+  private abstract static class ArrayMap<K, V extends @Nullable Object>
       extends IteratorBasedAbstractMap<K, V> {
     private final ImmutableMap<K, Integer> keyIndex;
 
@@ -352,7 +349,7 @@ public final class ArrayTable<
    * @param valueClass class of values stored in the returned array
    */
   @GwtIncompatible // reflection
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public @Nullable V[][] toArray(Class<V> valueClass) {
     @SuppressWarnings("unchecked") // TODO: safe?
     @Nullable

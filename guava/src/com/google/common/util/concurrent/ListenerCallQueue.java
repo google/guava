@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Queues;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A list of listeners for implementing a concurrency friendly observable object.
@@ -54,7 +53,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
 @GwtIncompatible
-final class ListenerCallQueue<L extends @NonNull Object> {
+final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());
 
@@ -63,7 +62,7 @@ final class ListenerCallQueue<L extends @NonNull Object> {
       Collections.synchronizedList(new ArrayList<PerListenerQueue<L>>());
 
   /** Method reference-compatible listener event. */
-  interface Event<L> {
+  interface Event<L extends @Nullable Object> {
     /** Call a method on the listener. */
     void call(L listener);
   }
@@ -129,17 +128,14 @@ final class ListenerCallQueue<L extends @NonNull Object> {
    * <p>This class is very similar to {@link SequentialExecutor} with the exception that events can
    * be added without necessarily executing immediately.
    */
-  private static final class PerListenerQueue<L extends @NonNull Object> implements Runnable {
+  private static final class PerListenerQueue<L> implements Runnable {
     final L listener;
     final Executor executor;
 
-    @GuardedBy("this")
     final Queue<ListenerCallQueue.Event<L>> waitQueue = Queues.newArrayDeque();
 
-    @GuardedBy("this")
     final Queue<Object> labelQueue = Queues.newArrayDeque();
 
-    @GuardedBy("this")
     boolean isThreadScheduled;
 
     PerListenerQueue(L listener, Executor executor) {

@@ -32,8 +32,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
@@ -53,8 +52,7 @@ public final class Queues {
    * policy.
    */
   @GwtIncompatible // ArrayBlockingQueue
-  public static <E extends @NonNull Object> ArrayBlockingQueue<E> newArrayBlockingQueue(
-      int capacity) {
+  public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
     return new ArrayBlockingQueue<E>(capacity);
   }
 
@@ -65,7 +63,7 @@ public final class Queues {
    *
    * @since 12.0
    */
-  public static <E extends @NonNull Object> ArrayDeque<E> newArrayDeque() {
+  public static <E> ArrayDeque<E> newArrayDeque() {
     return new ArrayDeque<E>();
   }
 
@@ -75,8 +73,7 @@ public final class Queues {
    *
    * @since 12.0
    */
-  public static <E extends @NonNull Object> ArrayDeque<E> newArrayDeque(
-      Iterable<? extends E> elements) {
+  public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new ArrayDeque<E>(Collections2.cast(elements));
     }
@@ -89,7 +86,7 @@ public final class Queues {
 
   /** Creates an empty {@code ConcurrentLinkedQueue}. */
   @GwtIncompatible // ConcurrentLinkedQueue
-  public static <E extends @NonNull Object> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
+  public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
     return new ConcurrentLinkedQueue<E>();
   }
 
@@ -98,7 +95,7 @@ public final class Queues {
    * the order they are returned by the iterable's iterator.
    */
   @GwtIncompatible // ConcurrentLinkedQueue
-  public static <E extends @NonNull Object> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
+  public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new ConcurrentLinkedQueue<E>(Collections2.cast(elements));
@@ -116,7 +113,7 @@ public final class Queues {
    * @since 12.0
    */
   @GwtIncompatible // LinkedBlockingDeque
-  public static <E extends @NonNull Object> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
     return new LinkedBlockingDeque<E>();
   }
 
@@ -127,8 +124,7 @@ public final class Queues {
    * @since 12.0
    */
   @GwtIncompatible // LinkedBlockingDeque
-  public static <E extends @NonNull Object> LinkedBlockingDeque<E> newLinkedBlockingDeque(
-      int capacity) {
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
     return new LinkedBlockingDeque<E>(capacity);
   }
 
@@ -140,8 +136,7 @@ public final class Queues {
    * @since 12.0
    */
   @GwtIncompatible // LinkedBlockingDeque
-  public static <E extends @NonNull Object> LinkedBlockingDeque<E> newLinkedBlockingDeque(
-      Iterable<? extends E> elements) {
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new LinkedBlockingDeque<E>(Collections2.cast(elements));
     }
@@ -154,7 +149,7 @@ public final class Queues {
 
   /** Creates an empty {@code LinkedBlockingQueue} with a capacity of {@link Integer#MAX_VALUE}. */
   @GwtIncompatible // LinkedBlockingQueue
-  public static <E extends @NonNull Object> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
+  public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
     return new LinkedBlockingQueue<E>();
   }
 
@@ -164,8 +159,7 @@ public final class Queues {
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    */
   @GwtIncompatible // LinkedBlockingQueue
-  public static <E extends @NonNull Object> LinkedBlockingQueue<E> newLinkedBlockingQueue(
-      int capacity) {
+  public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(int capacity) {
     return new LinkedBlockingQueue<E>(capacity);
   }
 
@@ -178,8 +172,7 @@ public final class Queues {
    * @return a new {@code LinkedBlockingQueue} containing those elements
    */
   @GwtIncompatible // LinkedBlockingQueue
-  public static <E extends @NonNull Object> LinkedBlockingQueue<E> newLinkedBlockingQueue(
-      Iterable<? extends E> elements) {
+  public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new LinkedBlockingQueue<E>(Collections2.cast(elements));
     }
@@ -256,7 +249,7 @@ public final class Queues {
 
   /** Creates an empty {@code SynchronousQueue} with nonfair access policy. */
   @GwtIncompatible // SynchronousQueue
-  public static <E extends @NonNull Object> SynchronousQueue<E> newSynchronousQueue() {
+  public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<E>();
   }
 
@@ -275,7 +268,7 @@ public final class Queues {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // BlockingQueue
-  public static <E extends @NonNull Object> int drain(
+  public static <E> int drain(
       BlockingQueue<E> q, Collection<? super E> buffer, int numElements, java.time.Duration timeout)
       throws InterruptedException {
     // TODO(b/126049426): Consider using saturateToNanos(timeout) instead.
@@ -298,7 +291,7 @@ public final class Queues {
   @CanIgnoreReturnValue
   @GwtIncompatible // BlockingQueue
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  public static <E extends @NonNull Object> int drain(
+  public static <E> int drain(
       BlockingQueue<E> q,
       Collection<? super E> buffer,
       int numElements,
@@ -345,7 +338,7 @@ public final class Queues {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // BlockingQueue
-  public static <E extends @NonNull Object> int drainUninterruptibly(
+  public static <E> int drainUninterruptibly(
       BlockingQueue<E> q,
       Collection<? super E> buffer,
       int numElements,
@@ -374,7 +367,7 @@ public final class Queues {
     "GoodTime", // should accept a java.time.Duration
     "argument.type.incompatible", // https://github.com/typetools/checker-framework/issues/1727
   })
-  public static <E extends @NonNull Object> int drainUninterruptibly(
+  public static <E> int drainUninterruptibly(
       BlockingQueue<E> q,
       Collection<? super E> buffer,
       int numElements,
@@ -443,7 +436,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
-  public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
+  public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
 
@@ -476,7 +469,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
-  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
+  public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }
 }

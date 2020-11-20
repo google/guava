@@ -24,8 +24,7 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
@@ -40,8 +39,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractBaseGraph<N> implements ValueGraph<N, V> {
+public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
+    implements ValueGraph<N, V> {
 
   @Override
   public Graph<N> asGraph() {
@@ -151,8 +150,7 @@ public abstract class AbstractValueGraph<N extends @NonNull Object, V extends @N
         + edgeValueMap(this);
   }
 
-  private static <N extends @NonNull Object, V extends @NonNull Object>
-      Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
+  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
     Function<EndpointPair<N>, V> edgeToValueFn =
         new Function<EndpointPair<N>, V>() {
           @Override

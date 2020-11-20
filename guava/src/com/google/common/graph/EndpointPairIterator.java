@@ -24,16 +24,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A class to facilitate the set returned by {@link Graph#edges()}.
  *
  * @author James Sexton
  */
-abstract class EndpointPairIterator<N extends @NonNull Object>
-    extends AbstractIterator<EndpointPair<N>> {
+abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
   private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;
 
@@ -41,7 +39,7 @@ abstract class EndpointPairIterator<N extends @NonNull Object>
       null; // null is safe as an initial value because graphs don't allow null nodes
   protected Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
-  static <N extends @NonNull Object> EndpointPairIterator<N> of(BaseGraph<N> graph) {
+  static <N> EndpointPairIterator<N> of(BaseGraph<N> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
   }
 
@@ -68,7 +66,7 @@ abstract class EndpointPairIterator<N extends @NonNull Object>
    * If the graph is directed, each ordered [source, target] pair will be visited once if there is
    * an edge connecting them.
    */
-  private static final class Directed<N extends @NonNull Object> extends EndpointPairIterator<N> {
+  private static final class Directed<N> extends EndpointPairIterator<N> {
     private Directed(BaseGraph<N> graph) {
       super(graph);
     }
@@ -113,7 +111,7 @@ abstract class EndpointPairIterator<N extends @NonNull Object>
    * Visited Nodes = {N1, N2, N3, N4}
    * </pre>
    */
-  private static final class Undirected<N extends @NonNull Object> extends EndpointPairIterator<N> {
+  private static final class Undirected<N> extends EndpointPairIterator<N> {
     // It's a little weird that we add `null` to this, but it makes for slightly simpler code.
     private @Nullable Set<@Nullable N> visitedNodes;
 

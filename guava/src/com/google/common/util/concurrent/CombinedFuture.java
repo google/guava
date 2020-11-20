@@ -26,11 +26,11 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
-final class CombinedFuture<V>
+final class CombinedFuture<V extends @Nullable Object>
     extends AggregateFuture<@Nullable Object, V> {
   private @Nullable CombinedFutureInterruptibleTask<?> task;
 
@@ -89,7 +89,7 @@ final class CombinedFuture<V>
   }
 
   @WeakOuter
-  private abstract class CombinedFutureInterruptibleTask<T>
+  private abstract class CombinedFutureInterruptibleTask<T extends @Nullable Object>
       extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
     boolean thrownByExecute = true;

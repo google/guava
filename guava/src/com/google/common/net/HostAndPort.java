@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable representation of a host and port.

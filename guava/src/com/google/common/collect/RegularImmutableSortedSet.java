@@ -28,8 +28,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -40,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings({"serial", "rawtypes"})
-final class RegularImmutableSortedSet<E extends @NonNull Object> extends ImmutableSortedSet<E> {
+final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
 

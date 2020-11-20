@@ -19,8 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with exactly one element.
@@ -30,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class SingletonImmutableSet<E extends @NonNull Object> extends ImmutableSet<E> {
+final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;
   // This is transient because it will be recalculated on the first

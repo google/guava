@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}
@@ -38,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Chris Povirk
  */
 @GwtIncompatible
-abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> extends ImmutableSet<E> {
+abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   /**
    * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead. This method exists
    * only to hide {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
@@ -48,7 +47,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    * @since 21.0
    */
   @Deprecated
-  public static <E extends @NonNull Object> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     throw new UnsupportedOperationException();
   }
 
@@ -61,7 +60,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet.Builder<E> builder() {
+  public static <E> ImmutableSortedSet.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
 
@@ -73,8 +72,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    * @deprecated Not supported by ImmutableSortedSet.
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet.Builder<E> builderWithExpectedSize(
-      int expectedSize) {
+  public static <E> ImmutableSortedSet.Builder<E> builderWithExpectedSize(int expectedSize) {
     throw new UnsupportedOperationException();
   }
 
@@ -88,7 +86,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#of(Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(E element) {
+  public static <E> ImmutableSortedSet<E> of(E element) {
     throw new UnsupportedOperationException();
   }
 
@@ -102,7 +100,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#of(Comparable, Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(E e1, E e2) {
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2) {
     throw new UnsupportedOperationException();
   }
 
@@ -116,7 +114,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#of(Comparable, Comparable, Comparable)}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(E e1, E e2, E e3) {
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3) {
     throw new UnsupportedOperationException();
   }
 
@@ -130,7 +128,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4) {
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4) {
     throw new UnsupportedOperationException();
   }
 
@@ -144,7 +142,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
     throw new UnsupportedOperationException();
   }
 
@@ -159,8 +157,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     Comparable, Comparable...)}. </b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+  public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
     throw new UnsupportedOperationException();
   }
 
@@ -174,7 +171,7 @@ abstract class ImmutableSortedSetFauxverideShim<E extends @NonNull Object> exten
    *     ImmutableSortedSet#copyOf(Comparable[])}.</b>
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet<E> copyOf(E[] elements) {
+  public static <E> ImmutableSortedSet<E> copyOf(E[] elements) {
     throw new UnsupportedOperationException();
   }
 

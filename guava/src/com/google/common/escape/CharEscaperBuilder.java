@@ -22,7 +22,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to
@@ -109,7 +109,7 @@ public final class CharEscaperBuilder {
    *
    * @return a "sparse" array that holds the replacement mappings.
    */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
     for (Entry<Character, String> entry : map.entrySet()) {

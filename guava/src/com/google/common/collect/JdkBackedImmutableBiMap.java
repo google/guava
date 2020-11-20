@@ -21,19 +21,16 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
  * protecting against hash flooding.
  */
 @GwtCompatible(emulated = true)
-final class JdkBackedImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableBiMap<K, V> {
+final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @VisibleForTesting
-  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> create(
-      int n, Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableBiMap<K, V> create(int n, Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);
     Map<V, K> backwardDelegate = Maps.newHashMapWithExpectedSize(n);
     for (int i = 0; i < n; i++) {

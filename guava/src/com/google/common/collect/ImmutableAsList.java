@@ -21,8 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * List returned by {@link ImmutableCollection#asList} that delegates {@code contains} checks to the
@@ -33,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
-abstract class ImmutableAsList<E extends @NonNull Object> extends ImmutableList<E> {
+abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
 
   @Override

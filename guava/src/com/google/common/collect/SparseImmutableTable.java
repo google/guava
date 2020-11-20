@@ -21,14 +21,11 @@ import com.google.errorprone.annotations.Immutable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /** A {@code RegularImmutableTable} optimized for sparse data. */
 @GwtCompatible
 @Immutable(containerOf = {"R", "C", "V"})
-final class SparseImmutableTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends RegularImmutableTable<R, C, V> {
+final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   static final ImmutableTable<Object, Object, Object> EMPTY =
       new SparseImmutableTable<>(
           ImmutableList.<Cell<Object, Object, Object>>of(), ImmutableSet.of(), ImmutableSet.of());

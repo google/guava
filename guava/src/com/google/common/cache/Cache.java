@@ -23,8 +23,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -38,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-public interface Cache<K extends @NonNull Object, V extends @NonNull Object> {
+public interface Cache<K, V> {
 
   /**
    * Returns the value associated with {@code key} in this cache, or {@code null} if there is no
@@ -103,7 +102,7 @@ public interface Cache<K extends @NonNull Object, V extends @NonNull Object> {
    *
    * @since 11.0
    */
-  ImmutableMap<K, V> getAllPresent(Iterable<? extends @NonNull Object> keys);
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys);
 
   /**
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
@@ -134,7 +133,7 @@ public interface Cache<K extends @NonNull Object, V extends @NonNull Object> {
    *
    * @since 11.0
    */
-  void invalidateAll(Iterable<? extends @NonNull Object> keys);
+  void invalidateAll(Iterable<? extends Object> keys);
 
   /** Discards all entries in the cache. */
   void invalidateAll();

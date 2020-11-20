@@ -23,14 +23,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
 // TODO(cpovirk): Make this final (but that may break Mockito spy calls).
-class ImmediateFuture<V> implements ListenableFuture<V> {
-  static final ListenableFuture<?> NULL =
-      new ImmediateFuture<@Nullable Object>(null);
+class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
+  static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
 
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
@@ -89,13 +88,13 @@ class ImmediateFuture<V> implements ListenableFuture<V> {
     return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
   }
 
-  static final class ImmediateFailedFuture<V> extends TrustedFuture<V> {
+  static final class ImmediateFailedFuture<V extends @Nullable Object> extends TrustedFuture<V> {
     ImmediateFailedFuture(Throwable thrown) {
       setException(thrown);
     }
   }
 
-  static final class ImmediateCancelledFuture<V> extends TrustedFuture<V> {
+  static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
     ImmediateCancelledFuture() {
       cancel(false);
     }

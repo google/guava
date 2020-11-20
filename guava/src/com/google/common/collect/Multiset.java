@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate
@@ -82,7 +82,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multiset<E> extends Collection<E> {
+public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -265,7 +265,7 @@ public interface Multiset<E> extends Collection<E> {
    *
    * @since 2.0
    */
-  interface Entry<E> {
+  interface Entry<E extends @Nullable Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls to this method

@@ -33,7 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -422,7 +422,7 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public int[] toArray() {
     return Arrays.copyOfRange(array, start, end);
   }

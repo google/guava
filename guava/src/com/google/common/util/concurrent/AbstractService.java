@@ -31,13 +31,12 @@ import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}
@@ -369,7 +368,6 @@ public abstract class AbstractService implements Service {
   }
 
   /** Checks that the current state is equal to the expected state. */
-  @GuardedBy("monitor")
   private void checkCurrentState(State expected) {
     State actual = state();
     if (actual != expected) {

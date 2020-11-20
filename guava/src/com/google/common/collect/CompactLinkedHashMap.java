@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -51,12 +51,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @SuppressWarnings("nullness") // too much effort for the payoff
-class CompactLinkedHashMap<K, V>
+class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
   /** Creates an empty {@code CompactLinkedHashMap} instance. */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
@@ -70,7 +70,7 @@ class CompactLinkedHashMap<K, V>
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V>
+  public static <K extends @Nullable Object, V extends @Nullable Object>
       CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactLinkedHashMap<>(expectedSize);
   }
@@ -234,14 +234,14 @@ class CompactLinkedHashMap<K, V>
     @WeakOuter
     class KeySetImpl extends KeySetView {
       @Override
-@SuppressWarnings("nullness")
+      @SuppressWarnings("nullness")
       public Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
-@SuppressWarnings("nullness")
-      public <T> T[] toArray(T[] a) {
+      @SuppressWarnings("nullness")
+      public <T extends @Nullable Object> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }
 
@@ -258,14 +258,14 @@ class CompactLinkedHashMap<K, V>
     @WeakOuter
     class ValuesImpl extends ValuesView {
       @Override
-@SuppressWarnings("nullness")
+      @SuppressWarnings("nullness")
       public Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
-@SuppressWarnings("nullness")
-      public <T> T[] toArray(T[] a) {
+      @SuppressWarnings("nullness")
+      public <T extends @Nullable Object> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }
 

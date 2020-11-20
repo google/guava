@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses should override one or
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 public abstract class ForwardingTable<
-        R, C, V>
+        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Table<R, C, V> {
   /** Constructor for use by subclasses. */
   protected ForwardingTable() {}

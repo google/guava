@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(Multimap, Predicate)}.
@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredEntryMultimap<K, V>
+class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
   final Predicate<? super Entry<K, V>> predicate;
@@ -84,7 +84,7 @@ class FilteredEntryMultimap<K, V>
     }
   }
 
-  static <E> Collection<E> filterCollection(
+  static <E extends @Nullable Object> Collection<E> filterCollection(
       Collection<E> collection, Predicate<? super E> predicate) {
     if (collection instanceof Set) {
       return Sets.filter((Set<E>) collection, predicate);

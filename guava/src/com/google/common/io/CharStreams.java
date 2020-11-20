@@ -28,7 +28,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides utility methods for working with character streams.
@@ -215,7 +215,7 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(
+  public static <T extends @Nullable Object> T readLines(
       Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
     checkNotNull(processor);

@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * File name filter that only accepts files matching a regular expression. This class is thread-safe

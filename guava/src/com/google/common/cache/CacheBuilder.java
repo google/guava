@@ -38,8 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
@@ -151,7 +150,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
-public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Object> {
+public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
 

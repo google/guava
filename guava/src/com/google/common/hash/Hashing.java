@@ -28,7 +28,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 import javax.crypto.spec.SecretKeySpec;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related

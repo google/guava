@@ -33,8 +33,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Table} whose contents will never change, with many other important properties detailed
@@ -47,9 +46,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible
-public abstract class ImmutableTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends AbstractTable<R, C, V> implements Serializable {
+public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
+    implements Serializable {
 
   /**
    * Returns a {@code Collector} that accumulates elements into an {@code ImmutableTable}. Each
@@ -61,11 +59,7 @@ public abstract class ImmutableTable<
    *
    * @since 21.0
    */
-  public static <
-          T,
-          R extends @NonNull Object,
-          C extends @NonNull Object,
-          V extends @NonNull Object>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -92,11 +86,7 @@ public abstract class ImmutableTable<
    *
    * @since 21.0
    */
-  public static <
-          T,
-          R extends @NonNull Object,
-          C extends @NonNull Object,
-          V extends @NonNull Object>
+  public static <T extends @Nullable Object, R, C, V>
       Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
           Function<? super T, ? extends R> rowFunction,
           Function<? super T, ? extends C> columnFunction,
@@ -127,8 +117,7 @@ public abstract class ImmutableTable<
         state -> state.toTable());
   }
 
-  private static final class CollectorState<
-      R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object> {
+  private static final class CollectorState<R, C, V> {
     final List<MutableCell<R, C, V>> insertionOrder = new ArrayList<>();
     final Table<R, C, MutableCell<R, C, V>> table = HashBasedTable.create();
 
@@ -155,9 +144,7 @@ public abstract class ImmutableTable<
     }
   }
 
-  private static final class MutableCell<
-          R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      extends AbstractCell<R, C, V> {
+  private static final class MutableCell<R, C, V> extends AbstractCell<R, C, V> {
     private final R row;
     private final C column;
     private V value;
@@ -191,14 +178,12 @@ public abstract class ImmutableTable<
 
   /** Returns an empty immutable table. */
   @SuppressWarnings("unchecked")
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ImmutableTable<R, C, V> of() {
+  public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) SparseImmutableTable.EMPTY;
   }
 
   /** Returns an immutable table containing a single cell. */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ImmutableTable<R, C, V> of(R rowKey, C columnKey, V value) {
+  public static <R, C, V> ImmutableTable<R, C, V> of(R rowKey, C columnKey, V value) {
     return new SingletonImmutableTable<>(rowKey, columnKey, value);
   }
 
@@ -215,8 +200,8 @@ public abstract class ImmutableTable<
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
    * undocumented and subject to change.
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ImmutableTable<R, C, V> copyOf(Table<? extends R, ? extends C, ? extends V> table) {
+  public static <R, C, V> ImmutableTable<R, C, V> copyOf(
+      Table<? extends R, ? extends C, ? extends V> table) {
     if (table instanceof ImmutableTable) {
       @SuppressWarnings("unchecked")
       ImmutableTable<R, C, V> parameterizedTable = (ImmutableTable<R, C, V>) table;
@@ -226,9 +211,8 @@ public abstract class ImmutableTable<
     }
   }
 
-  private static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      ImmutableTable<R, C, V> copyOf(
-          Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
+  private static <R, C, V> ImmutableTable<R, C, V> copyOf(
+      Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
     ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
     for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
       builder.put(cell);
@@ -240,8 +224,7 @@ public abstract class ImmutableTable<
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
    * Builder#Builder() ImmutableTable.Builder()} constructor.
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      Builder<R, C, V> builder() {
+  public static <R, C, V> Builder<R, C, V> builder() {
     return new Builder<>();
   }
 
@@ -249,8 +232,7 @@ public abstract class ImmutableTable<
    * Verifies that {@code rowKey}, {@code columnKey} and {@code value} are non-null, and returns a
    * new entry with those values.
    */
-  static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      Cell<R, C, V> cellOf(R rowKey, C columnKey, V value) {
+  static <R, C, V> Cell<R, C, V> cellOf(R rowKey, C columnKey, V value) {
     return Tables.immutableCell(
         checkNotNull(rowKey, "rowKey"),
         checkNotNull(columnKey, "columnKey"),
@@ -283,8 +265,7 @@ public abstract class ImmutableTable<
    *
    * @since 11.0
    */
-  public static final class Builder<
-      R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object> {
+  public static final class Builder<R, C, V> {
     private final List<Cell<R, C, V>> cells = Lists.newArrayList();
     @Nullable private Comparator<? super R> rowComparator;
     @Nullable private Comparator<? super C> columnComparator;

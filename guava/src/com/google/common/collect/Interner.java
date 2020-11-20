@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Provides equivalent behavior to {@link String#intern} for other immutable types. Common
@@ -30,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @Beta
 @GwtIncompatible
-public interface Interner<E extends @NonNull Object> {
+public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of instances that are
    * equal to each other. If two {@linkplain Object#equals equal} inputs are given to this method,

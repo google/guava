@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An executor service which forwards all its method calls to another executor service. Subclasses
@@ -51,26 +51,26 @@ public abstract class ForwardingExecutorService extends ForwardingObject
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(
+  public <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks) throws InterruptedException {
     return delegate().invokeAll(tasks);
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(
+  public <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException {
     return delegate().invokeAll(tasks, timeout, unit);
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+  public <T extends @Nullable Object> T invokeAny(Collection<? extends Callable<T>> tasks)
       throws InterruptedException, ExecutionException {
     return delegate().invokeAny(tasks);
   }
 
   @Override
-  public <T> T invokeAny(
+  public <T extends @Nullable Object> T invokeAny(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate().invokeAny(tasks, timeout, unit);
@@ -102,7 +102,7 @@ public abstract class ForwardingExecutorService extends ForwardingObject
   }
 
   @Override
-  public <T> Future<T> submit(Callable<T> task) {
+  public <T extends @Nullable Object> Future<T> submit(Callable<T> task) {
     return delegate().submit(task);
   }
 
@@ -112,7 +112,7 @@ public abstract class ForwardingExecutorService extends ForwardingObject
   }
 
   @Override
-  public <T> Future<T> submit(Runnable task, T result) {
+  public <T extends @Nullable Object> Future<T> submit(Runnable task, T result) {
     return delegate().submit(task, result);
   }
 }

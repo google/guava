@@ -28,7 +28,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable value object capturing some basic statistics about a collection of paired double

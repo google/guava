@@ -20,11 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering which sorts iterables by comparing corresponding elements pairwise. */
 @GwtCompatible(serializable = true)
-final class LexicographicalOrdering<T> extends Ordering<Iterable<T>>
+final class LexicographicalOrdering<T extends @Nullable Object> extends Ordering<Iterable<T>>
     implements Serializable {
   final Comparator<? super T> elementOrder;
 
@@ -57,8 +57,7 @@ final class LexicographicalOrdering<T> extends Ordering<Iterable<T>>
       return true;
     }
     if (object instanceof LexicographicalOrdering) {
-      LexicographicalOrdering<?> that =
-          (LexicographicalOrdering<?>) object;
+      LexicographicalOrdering<?> that = (LexicographicalOrdering<?>) object;
       return this.elementOrder.equals(that.elementOrder);
     }
     return false;

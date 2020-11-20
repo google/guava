@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of the {@link ListMultimap} interface. It's a wrapper around {@link
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-abstract class AbstractListMultimap<K, V>
+abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -53,7 +53,7 @@ abstract class AbstractListMultimap<K, V>
   }
 
   @Override
-  <E> Collection<E> unmodifiableCollectionSubclass(
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     return Collections.unmodifiableList((List<E>) collection);
   }

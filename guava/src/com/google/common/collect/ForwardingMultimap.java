@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multimap which forwards all its method calls to another multimap. Subclasses should override
@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultimap<K, V>
+public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */

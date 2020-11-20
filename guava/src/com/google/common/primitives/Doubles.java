@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not already found in
@@ -475,7 +475,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Double>} before 12.0)
    */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public static double[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof DoubleArrayAsList) {
       return ((DoubleArrayAsList) collection).toDoubleArray();

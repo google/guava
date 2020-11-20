@@ -25,7 +25,6 @@ import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
@@ -47,8 +46,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 @Beta
 @Immutable(containerOf = {"N", "E"})
 @SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
-public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    extends StandardNetwork<N, E> {
+public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
     super(
@@ -56,8 +54,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
   }
 
   /** Returns an immutable copy of {@code network}. */
-  public static <N extends @NonNull Object, E extends @NonNull Object>
-      ImmutableNetwork<N, E> copyOf(Network<N, E> network) {
+  public static <N, E> ImmutableNetwork<N, E> copyOf(Network<N, E> network) {
     return (network instanceof ImmutableNetwork)
         ? (ImmutableNetwork<N, E>) network
         : new ImmutableNetwork<N, E>(network);
@@ -69,8 +66,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
    * @deprecated no need to use this
    */
   @Deprecated
-  public static <N extends @NonNull Object, E extends @NonNull Object>
-      ImmutableNetwork<N, E> copyOf(ImmutableNetwork<N, E> network) {
+  public static <N, E> ImmutableNetwork<N, E> copyOf(ImmutableNetwork<N, E> network) {
     return checkNotNull(network);
   }
 
@@ -79,8 +75,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     return new ImmutableGraph<N>(super.asGraph()); // safe because the view is effectively immutable
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object>
-      Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {
+  private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the network's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
@@ -91,8 +86,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     return nodeConnections.build();
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object>
-      Map<E, N> getEdgeToReferenceNode(Network<N, E> network) {
+  private static <N, E> Map<E, N> getEdgeToReferenceNode(Network<N, E> network) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the network's edges do, so ImmutableSortedMap is unnecessary even if the
     // input edges are sorted.
@@ -103,8 +97,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     return edgeToReferenceNode.build();
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object>
-      NetworkConnections<N, E> connectionsOf(Network<N, E> network, N node) {
+  private static <N, E> NetworkConnections<N, E> connectionsOf(Network<N, E> network, N node) {
     if (network.isDirected()) {
       Map<E, N> inEdgeMap = Maps.asMap(network.inEdges(node), sourceNodeFn(network));
       Map<E, N> outEdgeMap = Maps.asMap(network.outEdges(node), targetNodeFn(network));
@@ -121,8 +114,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     }
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object> Function<E, N> sourceNodeFn(
-      final Network<N, E> network) {
+  private static <N, E> Function<E, N> sourceNodeFn(final Network<N, E> network) {
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
@@ -131,8 +123,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     };
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object> Function<E, N> targetNodeFn(
-      final Network<N, E> network) {
+  private static <N, E> Function<E, N> targetNodeFn(final Network<N, E> network) {
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
@@ -141,8 +132,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
     };
   }
 
-  private static <N extends @NonNull Object, E extends @NonNull Object>
-      Function<E, N> adjacentNodeFn(final Network<N, E> network, final N node) {
+  private static <N, E> Function<E, N> adjacentNodeFn(final Network<N, E> network, final N node) {
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
@@ -174,7 +164,7 @@ public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNul
    *
    * @since 28.0
    */
-  public static class Builder<N extends @NonNull Object, E extends @NonNull Object> {
+  public static class Builder<N, E> {
 
     private final MutableNetwork<N, E> mutableNetwork;
 

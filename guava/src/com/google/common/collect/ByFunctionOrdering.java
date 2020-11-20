@@ -22,14 +22,14 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An ordering that orders elements by applying an order to the result of a function on those
  * elements.
  */
 @GwtCompatible(serializable = true)
-final class ByFunctionOrdering<F, T>
+final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
     extends Ordering<F> implements Serializable {
   final Function<F, ? extends T> function;
   final Ordering<T> ordering;
@@ -50,8 +50,7 @@ final class ByFunctionOrdering<F, T>
       return true;
     }
     if (object instanceof ByFunctionOrdering) {
-      ByFunctionOrdering<?, ?> that =
-          (ByFunctionOrdering<?, ?>) object;
+      ByFunctionOrdering<?, ?> that = (ByFunctionOrdering<?, ?>) object;
       return this.function.equals(that.function) && this.ordering.equals(that.ordering);
     }
     return false;

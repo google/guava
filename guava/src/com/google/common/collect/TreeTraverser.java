@@ -26,7 +26,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -75,7 +74,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 @Deprecated
 @Beta
 @GwtCompatible
-public abstract class TreeTraverser<T extends @NonNull Object> {
+public abstract class TreeTraverser<T> {
 
   /**
    * Returns a tree traverser that uses the given function to navigate from a node to its children.
@@ -88,7 +87,7 @@ public abstract class TreeTraverser<T extends @NonNull Object> {
    *     lambda, these methods have exactly the same signature.
    */
   @Deprecated
-  public static <T extends @NonNull Object> TreeTraverser<T> using(
+  public static <T> TreeTraverser<T> using(
       final Function<T, ? extends Iterable<T>> nodeToChildrenFunction) {
     checkNotNull(nodeToChildrenFunction);
     return new TreeTraverser<T>() {
@@ -204,7 +203,7 @@ public abstract class TreeTraverser<T extends @NonNull Object> {
     return new PostOrderIterator(root);
   }
 
-  private static final class PostOrderNode<T extends @NonNull Object> {
+  private static final class PostOrderNode<T> {
     final T root;
     final Iterator<T> childIterator;
 

@@ -22,6 +22,8 @@
  * @author Craig Berry
  */
 @ParametersAreNonnullByDefault
+@NullAware
 package com.google.common.net;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullAware;

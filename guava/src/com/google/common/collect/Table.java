@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection that associates an ordered pair of keys, called a row key and a column key, with a
@@ -54,7 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 public interface Table<
-    R, C, V> {
+    R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
 
   // Accessors
@@ -253,7 +253,7 @@ public interface Table<
    * @since 7.0
    */
   interface Cell<
-      R, C, V> {
+      R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
     /** Returns the row key of this cell. */
     R getRowKey();
 

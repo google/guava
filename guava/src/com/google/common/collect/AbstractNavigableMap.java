@@ -24,7 +24,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-abstract class AbstractNavigableMap<K, V>
+abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
     extends IteratorBasedAbstractMap<K, V> implements NavigableMap<K, V> {
 
   @Override

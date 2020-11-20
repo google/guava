@@ -23,8 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -38,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
-public interface RangeMap<K extends Comparable, V extends @NonNull Object> {
+public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no such value.
    *

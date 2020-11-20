@@ -31,8 +31,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Bimap with zero or more mappings.
@@ -41,8 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-class RegularImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableBiMap<K, V> {
+class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @SuppressWarnings({"unchecked", "nullness"})
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<>(
@@ -56,13 +54,11 @@ class RegularImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object
   private final transient int mask;
   private final transient int hashCode;
 
-  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> fromEntries(
-      Entry<K, V>... entries) {
+  static <K, V> ImmutableBiMap<K, V> fromEntries(Entry<K, V>... entries) {
     return fromEntryArray(entries.length, entries);
   }
 
-  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> fromEntryArray(
-      int n, Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableBiMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
@@ -292,8 +288,7 @@ class RegularImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object
     }
   }
 
-  private static class InverseSerializedForm<K extends @NonNull Object, V extends @NonNull Object>
-      implements Serializable {
+  private static class InverseSerializedForm<K, V> implements Serializable {
     private final ImmutableBiMap<K, V> forward;
 
     InverseSerializedForm(ImmutableBiMap<K, V> forward) {

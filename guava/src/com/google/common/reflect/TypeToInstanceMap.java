@@ -17,8 +17,7 @@ package com.google.common.reflect;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map, each entry of which maps a {@link TypeToken} to an instance of that type. In addition to
@@ -40,8 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 13.0
  */
 @Beta
-public interface TypeToInstanceMap<B extends @NonNull Object>
-    extends Map<TypeToken<? extends B>, @Nullable B> {
+public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, @Nullable B> {
 
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no entry for this class

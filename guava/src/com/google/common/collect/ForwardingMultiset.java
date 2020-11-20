@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A multiset which forwards all its method calls to another multiset. Subclasses should override
@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
+public abstract class ForwardingMultiset<E extends @Nullable Object> extends ForwardingCollection<E>
     implements Multiset<E> {
 
   /** Constructor for use by subclasses. */

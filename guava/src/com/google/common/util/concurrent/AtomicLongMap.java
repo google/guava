@@ -29,8 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongUnaryOperator;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -56,7 +55,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible
-public final class AtomicLongMap<K extends @NonNull Object> implements Serializable {
+public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, Long> map;
 
   private AtomicLongMap(ConcurrentHashMap<K, Long> map) {
@@ -64,13 +63,12 @@ public final class AtomicLongMap<K extends @NonNull Object> implements Serializa
   }
 
   /** Creates an {@code AtomicLongMap}. */
-  public static <K extends @NonNull Object> AtomicLongMap<K> create() {
+  public static <K> AtomicLongMap<K> create() {
     return new AtomicLongMap<K>(new ConcurrentHashMap<>());
   }
 
   /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */
-  public static <K extends @NonNull Object> AtomicLongMap<K> create(
-      Map<? extends K, ? extends Long> m) {
+  public static <K> AtomicLongMap<K> create(Map<? extends K, ? extends Long> m) {
     AtomicLongMap<K> result = create();
     result.putAll(m);
     return result;

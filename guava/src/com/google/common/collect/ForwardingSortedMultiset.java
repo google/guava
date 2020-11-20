@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses
@@ -45,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public abstract class ForwardingSortedMultiset<E>
+public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
     extends ForwardingMultiset<E> implements SortedMultiset<E> {
   /** Constructor for use by subclasses. */
   protected ForwardingSortedMultiset() {}

@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not already found in
@@ -202,7 +202,7 @@ public final class Bytes {
    * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Byte>} before 12.0)
    */
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public static byte[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof ByteArrayAsList) {
       return ((ByteArrayAsList) collection).toByteArray();

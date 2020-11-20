@@ -34,8 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
@@ -71,7 +70,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T extends @NonNull Object> T newProxy(
+  public <T> T newProxy(
       final T target,
       Class<T> interfaceType,
       final long timeoutDuration,
@@ -123,15 +122,14 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   private static final Object[] NO_ARGS = new Object[0];
 
   // TODO: replace with version in common.reflect if and when it's open-sourced
-  private static <T extends @NonNull Object> T newProxy(
-      Class<T> interfaceType, InvocationHandler handler) {
+  private static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
     Object object =
         Proxy.newProxyInstance(
             interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
     return interfaceType.cast(object);
   }
 
-  private <T> T callWithTimeout(
+  private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
     checkNotNull(callable);
@@ -161,7 +159,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callWithTimeout(
+  public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
     checkNotNull(callable);
@@ -183,7 +181,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callUninterruptiblyWithTimeout(
+  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {
     checkNotNull(callable);

@@ -31,8 +31,7 @@ import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for directed networks.
@@ -41,9 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractDirectedNetworkConnections<
-        N extends @NonNull Object, E extends @NonNull Object>
-    implements NetworkConnections<N, E> {
+abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /** Keys are edges incoming to the origin node, values are the source node. */
   protected final Map<E, N> inEdgeMap;
 

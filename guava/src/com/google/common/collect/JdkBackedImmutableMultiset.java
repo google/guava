@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -30,13 +29,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class JdkBackedImmutableMultiset<E extends @NonNull Object> extends ImmutableMultiset<E> {
+final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final Map<E, Integer> delegateMap;
   private final ImmutableList<Entry<E>> entries;
   private final long size;
 
-  static <E extends @NonNull Object> ImmutableMultiset<E> create(
-      Collection<? extends Entry<? extends E>> entries) {
+  static <E> ImmutableMultiset<E> create(Collection<? extends Entry<? extends E>> entries) {
     @SuppressWarnings("unchecked")
     Entry<E>[] entriesArray = entries.toArray(new Entry[0]);
     Map<E, Integer> delegateMap = Maps.newHashMapWithExpectedSize(entriesArray.length);

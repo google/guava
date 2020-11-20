@@ -21,15 +21,12 @@ import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** A {@code RegularImmutableTable} optimized for dense data. */
 @GwtCompatible
 @Immutable(containerOf = {"R", "C", "V"})
-final class DenseImmutableTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends RegularImmutableTable<R, C, V> {
+final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   private final ImmutableMap<R, Integer> rowKeyToIndex;
   private final ImmutableMap<C, Integer> columnKeyToIndex;
   private final ImmutableMap<R, ImmutableMap<C, V>> rowMap;
@@ -88,9 +85,7 @@ final class DenseImmutableTable<
   }
 
   /** An immutable map implementation backed by an indexed nullable array. */
-  private abstract static class ImmutableArrayMap<
-          K extends @NonNull Object, V extends @NonNull Object>
-      extends IteratorBasedImmutableMap<K, V> {
+  private abstract static class ImmutableArrayMap<K, V> extends IteratorBasedImmutableMap<K, V> {
     private final int size;
 
     ImmutableArrayMap(int size) {

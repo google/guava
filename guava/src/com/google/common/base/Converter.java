@@ -22,8 +22,7 @@ import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -113,8 +112,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 16.0
  */
 @GwtCompatible
-public abstract class Converter<A extends @NonNull Object, B extends @NonNull Object>
-    implements Function<@Nullable A, @Nullable B> {
+public abstract class Converter<A, B> implements Function<@Nullable A, @Nullable B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
@@ -255,8 +253,8 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
     return (result == null) ? reverse = new ReverseConverter<>(this) : result;
   }
 
-  private static final class ReverseConverter<A extends @NonNull Object, B extends @NonNull Object>
-      extends Converter<B, A> implements Serializable {
+  private static final class ReverseConverter<A, B> extends Converter<B, A>
+      implements Serializable {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
@@ -326,19 +324,17 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
    * <p>The returned converter is serializable if {@code this} converter and {@code secondConverter}
    * are.
    */
-  public final <C extends @NonNull Object> Converter<A, C> andThen(
-      Converter<B, C> secondConverter) {
+  public final <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
     return doAndThen(secondConverter);
   }
 
   /** Package-private non-final implementation of andThen() so only we can override it. */
-  <C extends @NonNull Object> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
+  <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
     return new ConverterComposition<>(this, checkNotNull(secondConverter));
   }
 
-  private static final class ConverterComposition<
-          A extends @NonNull Object, B extends @NonNull Object, C extends @NonNull Object>
-      extends Converter<A, C> implements Serializable {
+  private static final class ConverterComposition<A, B, C> extends Converter<A, C>
+      implements Serializable {
     final Converter<A, B> first;
     final Converter<B, C> second;
 
@@ -440,15 +436,14 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
    *
    * @since 17.0
    */
-  public static <A extends @NonNull Object, B extends @NonNull Object> Converter<A, B> from(
+  public static <A, B> Converter<A, B> from(
       Function<? super A, ? extends B> forwardFunction,
       Function<? super B, ? extends A> backwardFunction) {
     return new FunctionBasedConverter<>(forwardFunction, backwardFunction);
   }
 
-  private static final class FunctionBasedConverter<
-          A extends @NonNull Object, B extends @NonNull Object>
-      extends Converter<A, B> implements Serializable {
+  private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
+      implements Serializable {
     private final Function<? super A, ? extends B> forwardFunction;
     private final Function<? super B, ? extends A> backwardFunction;
 
@@ -492,7 +487,7 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
 
   /** Returns a serializable converter that always converts or reverses an object to itself. */
   @SuppressWarnings("unchecked") // implementation is "fully variant"
-  public static <T extends @NonNull Object> Converter<T, T> identity() {
+  public static <T> Converter<T, T> identity() {
     return (IdentityConverter<T>) IdentityConverter.INSTANCE;
   }
 
@@ -500,8 +495,7 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
    * A converter that always converts or reverses an object to itself. Note that T is now a
    * "pass-through type".
    */
-  private static final class IdentityConverter<T extends @NonNull Object> extends Converter<T, T>
-      implements Serializable {
+  private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
     static final IdentityConverter<?> INSTANCE = new IdentityConverter<Object>();
 
     @Override
@@ -520,7 +514,7 @@ public abstract class Converter<A extends @NonNull Object, B extends @NonNull Ob
     }
 
     @Override
-    <S extends @NonNull Object> Converter<T, S> doAndThen(Converter<T, S> otherConverter) {
+    <S> Converter<T, S> doAndThen(Converter<T, S> otherConverter) {
       return checkNotNull(otherConverter, "otherConverter");
     }
 

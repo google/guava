@@ -27,7 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@code BiMap} backed by an {@code EnumMap} instance for keys-to-values, and a {@code HashMap}
@@ -41,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class EnumHashBiMap<K extends Enum<K>, V>
+public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;
 
@@ -50,7 +50,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
    *
    * @param keyType the key type
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
       Class<K> keyType) {
     return new EnumHashBiMap<>(keyType);
   }
@@ -65,7 +65,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
    * @throws IllegalArgumentException if map is not an {@code EnumBiMap} or an {@code EnumHashBiMap}
    *     instance and contains no mappings
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
       Map<K, ? extends V> map) {
     EnumHashBiMap<K, V> bimap = create(EnumBiMap.inferKeyType(map));
     bimap.putAll(map);

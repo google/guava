@@ -16,7 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @FunctionalInterface
 @GwtCompatible
-public interface Predicate<T> extends java.util.function.Predicate<T> {
+public interface Predicate<T extends @Nullable Object> extends java.util.function.Predicate<T> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
    * class documentation above). This method is <i>generally expected</i>, but not absolutely

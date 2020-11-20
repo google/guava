@@ -23,7 +23,6 @@ import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
@@ -48,11 +47,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-public class HashBasedTable<
-        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-    extends StandardTable<R, C, V> {
-  private static class Factory<C extends @NonNull Object, V extends @NonNull Object>
-      implements Supplier<Map<C, V>>, Serializable {
+public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
+  private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final int expectedSize;
 
     Factory(int expectedSize) {
@@ -68,8 +64,7 @@ public class HashBasedTable<
   }
 
   /** Creates an empty {@code HashBasedTable}. */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      HashBasedTable<R, C, V> create() {
+  public static <R, C, V> HashBasedTable<R, C, V> create() {
     return new HashBasedTable<>(new LinkedHashMap<R, Map<C, V>>(), new Factory<C, V>(0));
   }
 
@@ -81,8 +76,8 @@ public class HashBasedTable<
    * @throws IllegalArgumentException if {@code expectedRows} or {@code expectedCellsPerRow} is
    *     negative
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      HashBasedTable<R, C, V> create(int expectedRows, int expectedCellsPerRow) {
+  public static <R, C, V> HashBasedTable<R, C, V> create(
+      int expectedRows, int expectedCellsPerRow) {
     checkNonnegative(expectedCellsPerRow, "expectedCellsPerRow");
     Map<R, Map<C, V>> backingMap = Maps.newLinkedHashMapWithExpectedSize(expectedRows);
     return new HashBasedTable<>(backingMap, new Factory<C, V>(expectedCellsPerRow));
@@ -95,8 +90,8 @@ public class HashBasedTable<
    * @throws NullPointerException if any of the row keys, column keys, or values in {@code table} is
    *     null
    */
-  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
-      HashBasedTable<R, C, V> create(Table<? extends R, ? extends C, ? extends V> table) {
+  public static <R, C, V> HashBasedTable<R, C, V> create(
+      Table<? extends R, ? extends C, ? extends V> table) {
     HashBasedTable<R, C, V> result = create();
     result.putAll(table);
     return result;

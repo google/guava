@@ -21,11 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /** An ordering that uses the reverse of a given order. */
 @GwtCompatible(serializable = true)
-final class ReverseOrdering<T> extends Ordering<T>
+final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Ordering<? super T> forwardOrder;
 
@@ -97,8 +97,7 @@ final class ReverseOrdering<T> extends Ordering<T>
       return true;
     }
     if (object instanceof ReverseOrdering) {
-      ReverseOrdering<?> that =
-          (ReverseOrdering<?>) object;
+      ReverseOrdering<?> that = (ReverseOrdering<?>) object;
       return this.forwardOrder.equals(that.forwardOrder);
     }
     return false;

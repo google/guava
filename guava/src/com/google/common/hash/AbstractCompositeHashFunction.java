@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An abstract composition of multiple hash functions. {@linkplain #newHasher()} delegates to the
@@ -178,7 +178,7 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
       }
 
       @Override
-      public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
+      public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
         for (Hasher hasher : hashers) {
           hasher.putObject(instance, funnel);
         }

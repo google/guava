@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -61,7 +61,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
 @GwtCompatible
-public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
+public abstract class AbstractIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */
@@ -132,7 +132,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
   }
 
   @SuppressWarnings("nullness")
-  private static <T> T unsafeNull() {
+  private static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }
 
@@ -189,7 +189,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
   }
 
   @SuppressWarnings("nullness")
-  private static <T> T uncheckedCastNullableTToT(@Nullable T next) {
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T next) {
     /*
      * We can't use requireNonNull because `next` might be null. Specifically, it can be null
      * because the iterator might contain a null element to be returned to the user. This is in

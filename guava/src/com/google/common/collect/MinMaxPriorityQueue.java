@@ -42,8 +42,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A double-ended priority queue, which provides constant-time access to both its least element and
@@ -100,7 +99,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible
-public final class MinMaxPriorityQueue<E extends @NonNull Object> extends AbstractQueue<E> {
+public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
    * Creates a new min-max priority queue with default settings: natural order, no maximum size, no
@@ -124,7 +123,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
    * that use {@code comparator} to determine the least and greatest elements.
    */
   // TODO(cpovirk): Permit Comparator<@Nullable ...> with Comparator<@PolyNull B> <? super B>?
-  public static <B extends @NonNull Object> Builder<B> orderedBy(Comparator<B> comparator) {
+  public static <B> Builder<B> orderedBy(Comparator<B> comparator) {
     return new Builder<B>(comparator);
   }
 
@@ -157,7 +156,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
    * @since 8.0
    */
   @Beta
-  public static final class Builder<B extends @NonNull Object> {
+  public static final class Builder<B> {
     /*
      * TODO(kevinb): when the dust settles, see if we still need this or can
      * just default to DEFAULT_CAPACITY.
@@ -458,7 +457,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
   }
 
   // Returned from removeAt() to iterator.remove()
-  static class MoveDesc<E> {
+  static class MoveDesc<E extends @Nullable Object> {
     final E toTrickle;
     final E replaced;
 
@@ -901,7 +900,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
   }
 
   @Override
-@SuppressWarnings("nullness")
+  @SuppressWarnings("nullness")
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);

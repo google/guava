@@ -17,8 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal implementation of {@link ImmutableSortedSet#descendingSet()}.
@@ -26,7 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-final class DescendingImmutableSortedSet<E extends @NonNull Object> extends ImmutableSortedSet<E> {
+final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   private final ImmutableSortedSet<E> forward;
 
   DescendingImmutableSortedSet(ImmutableSortedSet<E> forward) {

@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeletal implementation of {@code RangeSet}.

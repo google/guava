@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
@@ -258,7 +257,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @deprecated Use {@link #create}.
    */
   @Deprecated
-  public static <E extends @NonNull Object> ImmutableSortedSet.Builder<E> builder() {
+  public static <E> ImmutableSortedSet.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
 }

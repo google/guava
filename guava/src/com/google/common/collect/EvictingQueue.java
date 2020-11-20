@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -46,8 +45,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @Beta
 @GwtCompatible
-public final class EvictingQueue<E extends @NonNull Object> extends ForwardingQueue<E>
-    implements Serializable {
+public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
 
@@ -65,7 +63,7 @@ public final class EvictingQueue<E extends @NonNull Object> extends ForwardingQu
    * <p>When {@code maxSize} is zero, elements will be evicted immediately after being added to the
    * queue.
    */
-  public static <E extends @NonNull Object> EvictingQueue<E> create(int maxSize) {
+  public static <E> EvictingQueue<E> create(int maxSize) {
     return new EvictingQueue<E>(maxSize);
   }
 

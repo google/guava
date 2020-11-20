@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E>
+abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
   @GwtTransient final Comparator<? super E> comparator;
 

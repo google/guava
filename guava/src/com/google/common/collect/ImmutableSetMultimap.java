@@ -40,8 +40,7 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link SetMultimap} whose contents will never change, with many other important properties
@@ -54,8 +53,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableMultimap<K, V> implements SetMultimap<K, V> {
+public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
+    implements SetMultimap<K, V> {
   /**
    * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSetMultimap}
    * whose keys and values are the result of applying the provided mapping functions to the input
@@ -84,7 +83,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @since 21.0
    */
-  public static <T, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -137,7 +136,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @since 21.0
    */
-  public static <T, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSetMultimap<K, V>> flatteningToImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
@@ -154,14 +153,12 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
   /** Returns the empty multimap. */
   // Casting is safe because the multimap will never hold any elements.
   @SuppressWarnings("unchecked")
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of() {
+  public static <K, V> ImmutableSetMultimap<K, V> of() {
     return (ImmutableSetMultimap<K, V>) EmptyImmutableSetMultimap.INSTANCE;
   }
 
   /** Returns an immutable multimap containing a single entry. */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of(K k1, V v1) {
+  public static <K, V> ImmutableSetMultimap<K, V> of(K k1, V v1) {
     ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
     builder.put(k1, v1);
     return builder.build();
@@ -171,8 +168,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of
    * an entry (according to {@link Object#equals}) after the first are ignored.
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2) {
+  public static <K, V> ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2) {
     ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
@@ -183,8 +179,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of
    * an entry (according to {@link Object#equals}) after the first are ignored.
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+  public static <K, V> ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
     ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
@@ -196,8 +191,8 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of
    * an entry (according to {@link Object#equals}) after the first are ignored.
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+  public static <K, V> ImmutableSetMultimap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
     ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
@@ -210,8 +205,8 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of
    * an entry (according to {@link Object#equals}) after the first are ignored.
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+  public static <K, V> ImmutableSetMultimap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
     ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
@@ -224,7 +219,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
   // looking for of() with > 5 entries? Use the builder instead.
 
   /** Returns a new {@link Builder}. */
-  public static <K extends @NonNull Object, V extends @NonNull Object> Builder<K, V> builder() {
+  public static <K, V> Builder<K, V> builder() {
     return new Builder<>();
   }
 
@@ -247,8 +242,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @since 2.0
    */
-  public static final class Builder<K extends @NonNull Object, V extends @NonNull Object>
-      extends ImmutableMultimap.Builder<K, V> {
+  public static final class Builder<K, V> extends ImmutableMultimap.Builder<K, V> {
     /**
      * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
      * ImmutableSetMultimap#builder}.
@@ -378,15 +372,14 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @throws NullPointerException if any key or value in {@code multimap} is null
    */
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> copyOf(Multimap<? extends K, ? extends V> multimap) {
+  public static <K, V> ImmutableSetMultimap<K, V> copyOf(
+      Multimap<? extends K, ? extends V> multimap) {
     return copyOf(multimap, null);
   }
 
-  private static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> copyOf(
-          Multimap<? extends K, ? extends V> multimap,
-          @Nullable Comparator<? super V> valueComparator) {
+  private static <K, V> ImmutableSetMultimap<K, V> copyOf(
+      Multimap<? extends K, ? extends V> multimap,
+      @Nullable Comparator<? super V> valueComparator) {
     checkNotNull(multimap); // eager for GWT
     if (multimap.isEmpty() && valueComparator == null) {
       return of();
@@ -413,18 +406,15 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    * @since 19.0
    */
   @Beta
-  public static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> copyOf(
-          Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+  public static <K, V> ImmutableSetMultimap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     return new Builder<K, V>().putAll(entries).build();
   }
 
   /** Creates an ImmutableSetMultimap from an asMap.entrySet. */
-  static <K extends @NonNull Object, V extends @NonNull Object>
-      ImmutableSetMultimap<K, V> fromMapEntries(
-          Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>>
-              mapEntries,
-          @Nullable Comparator<? super V> valueComparator) {
+  static <K, V> ImmutableSetMultimap<K, V> fromMapEntries(
+      Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
+      @Nullable Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }
@@ -536,8 +526,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
     return result == null ? (entries = new EntrySet<>(this)) : result;
   }
 
-  private static final class EntrySet<K extends @NonNull Object, V extends @NonNull Object>
-      extends ImmutableSet<Entry<K, V>> {
+  private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     @Weak private final transient ImmutableSetMultimap<K, V> multimap;
 
     EntrySet(ImmutableSetMultimap<K, V> multimap) {
@@ -547,8 +536,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
     @Override
     public boolean contains(@Nullable Object object) {
       if (object instanceof Entry) {
-        Entry<?, ?> entry =
-            (Entry<?, ?>) object;
+        Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
       }
       return false;
@@ -570,21 +558,20 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
     }
   }
 
-  private static <V extends @NonNull Object> ImmutableSet<V> valueSet(
+  private static <V> ImmutableSet<V> valueSet(
       @Nullable Comparator<? super V> valueComparator, Collection<? extends V> values) {
     return (valueComparator == null)
         ? ImmutableSet.copyOf(values)
         : ImmutableSortedSet.copyOf(valueComparator, values);
   }
 
-  private static <V extends @NonNull Object> ImmutableSet<V> emptySet(
-      @Nullable Comparator<? super V> valueComparator) {
+  private static <V> ImmutableSet<V> emptySet(@Nullable Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? ImmutableSet.<V>of()
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
-  private static <V extends @NonNull Object> ImmutableSet.Builder<V> valuesBuilder(
+  private static <V> ImmutableSet.Builder<V> valuesBuilder(
       @Nullable Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? new ImmutableSet.Builder<V>()

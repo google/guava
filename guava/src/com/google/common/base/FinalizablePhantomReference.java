@@ -17,8 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Phantom reference with a {@code finalizeReferent()} method which a background thread invokes
@@ -31,8 +30,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtIncompatible
-public abstract class FinalizablePhantomReference<T extends @NonNull Object>
-    extends PhantomReference<T> implements FinalizableReference {
+public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
+    implements FinalizableReference {
   /**
    * Constructs a new finalizable phantom reference.
    *

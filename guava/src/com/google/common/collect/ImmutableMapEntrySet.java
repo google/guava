@@ -22,8 +22,7 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.
@@ -32,10 +31,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-abstract class ImmutableMapEntrySet<K extends @NonNull Object, V extends @NonNull Object>
-    extends ImmutableSet<Entry<K, V>> {
-  static final class RegularEntrySet<K extends @NonNull Object, V extends @NonNull Object>
-      extends ImmutableMapEntrySet<K, V> {
+abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
+  static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     private final transient ImmutableMap<K, V> map;
     private final transient ImmutableList<Entry<K, V>> entries;
 
@@ -92,8 +89,7 @@ abstract class ImmutableMapEntrySet<K extends @NonNull Object, V extends @NonNul
   @Override
   public boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
-      Entry<?, ?> entry =
-          (Entry<?, ?>) object;
+      Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());
       return value != null && value.equals(entry.getValue());
     }
@@ -123,8 +119,7 @@ abstract class ImmutableMapEntrySet<K extends @NonNull Object, V extends @NonNul
   }
 
   @GwtIncompatible // serialization
-  private static class EntrySetSerializedForm<K extends @NonNull Object, V extends @NonNull Object>
-      implements Serializable {
+  private static class EntrySetSerializedForm<K, V> implements Serializable {
     final ImmutableMap<K, V> map;
 
     EntrySetSerializedForm(ImmutableMap<K, V> map) {

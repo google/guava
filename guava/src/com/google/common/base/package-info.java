@@ -56,7 +56,9 @@
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault
+@NullAware
 package com.google.common.base;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.jspecify.annotations.NullAware;

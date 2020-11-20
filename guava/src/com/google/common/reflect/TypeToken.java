@@ -47,8 +47,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Type} with generics.
@@ -100,8 +99,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
-public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T>
-    implements Serializable {
+public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
 
   private final Type runtimeType;
 
@@ -168,7 +166,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
   }
 
   /** Returns an instance of type token that wraps {@code type}. */
-  public static <T extends @NonNull Object> TypeToken<T> of(Class<T> type) {
+  public static <T> TypeToken<T> of(Class<T> type) {
     return new SimpleTypeToken<T>(type);
   }
 
@@ -232,8 +230,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
    * `new TypeParameter<@Nullable T>() {}` and have it act as a plain `TypeParameter<T>`, but
    * hopefully no one would do that, anyway. See also the comment on TypeParameter itself.
    */
-  public final <X extends @NonNull Object> TypeToken<T> where(
-      TypeParameter<X> typeParam, TypeToken<X> typeArg) {
+  public final <X> TypeToken<T> where(TypeParameter<X> typeParam, TypeToken<X> typeArg) {
     TypeResolver resolver =
         new TypeResolver()
             .where(
@@ -265,8 +262,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
    * TODO(cpovirk): Is there any way for us to support TypeParameter instances for type parameters
    * that have nullable bounds? See discussion on the other overload of this method.
    */
-  public final <X extends @NonNull Object> TypeToken<T> where(
-      TypeParameter<X> typeParam, Class<X> typeArg) {
+  public final <X> TypeToken<T> where(TypeParameter<X> typeParam, Class<X> typeArg) {
     return where(typeParam, of(typeArg));
   }
 
@@ -934,7 +930,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
         return false;
       }
       // requireNonNull is safe because of the isArray() check.
-      return of(requireNonNull(fromClass.getComponentType())).isSubtypeOf(supertype.getGenericComponentType());
+      return of(requireNonNull(fromClass.getComponentType()))
+          .isSubtypeOf(supertype.getGenericComponentType());
     } else if (runtimeType instanceof GenericArrayType) {
       GenericArrayType fromArrayType = (GenericArrayType) runtimeType;
       return of(fromArrayType.getGenericComponentType())
@@ -951,7 +948,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
         return thisClass.isAssignableFrom(Object[].class);
       }
       // requireNonNull is safe because of the isArray() check.
-      return of(subtype.getGenericComponentType()).isSubtypeOf(requireNonNull(thisClass.getComponentType()));
+      return of(subtype.getGenericComponentType())
+          .isSubtypeOf(requireNonNull(thisClass.getComponentType()));
     } else if (runtimeType instanceof GenericArrayType) {
       return of(subtype.getGenericComponentType())
           .isSubtypeOf(((GenericArrayType) runtimeType).getGenericComponentType());
@@ -1169,7 +1167,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
    * returned.
    */
   @VisibleForTesting
-  static <T extends @NonNull Object> TypeToken<? extends T> toGenericType(Class<T> cls) {
+  static <T> TypeToken<? extends T> toGenericType(Class<T> cls) {
     if (cls.isArray()) {
       Type arrayOfGenericType =
           Types.newArrayType(
@@ -1311,7 +1309,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
     return Types.JavaVersion.JAVA7.newArrayType(componentType);
   }
 
-  private static final class SimpleTypeToken<T extends @NonNull Object> extends TypeToken<T> {
+  private static final class SimpleTypeToken<T> extends TypeToken<T> {
 
     SimpleTypeToken(Type type) {
       super(type);
@@ -1325,7 +1323,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
    *
    * @param <K> The type "kind". Either a TypeToken, or Class.
    */
-  private abstract static class TypeCollector<K extends @NonNull Object> {
+  private abstract static class TypeCollector<K> {
 
     static final TypeCollector<TypeToken<?>> FOR_GENERIC_TYPE =
         new TypeCollector<TypeToken<?>>() {
@@ -1425,9 +1423,8 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
       return aboveMe + 1;
     }
 
-    private static <K extends @NonNull Object, V extends @NonNull Object>
-        ImmutableList<K> sortKeysByValue(
-            final Map<K, V> map, final Comparator<? super V> valueComparator) {
+    private static <K, V> ImmutableList<K> sortKeysByValue(
+        final Map<K, V> map, final Comparator<? super V> valueComparator) {
       Ordering<K> keyOrdering =
           new Ordering<K>() {
             @Override
@@ -1446,8 +1443,7 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
 
     abstract @Nullable K getSuperclass(K type);
 
-    private static class ForwardingTypeCollector<K extends @NonNull Object>
-        extends TypeCollector<K> {
+    private static class ForwardingTypeCollector<K> extends TypeCollector<K> {
 
       private final TypeCollector<K> delegate;
 

@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -34,7 +34,7 @@ public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(final T value) {
+  public static <T extends @Nullable Object> Callable<T> returning(final T value) {
     return new Callable<T>() {
       @Override
       public T call() {
@@ -53,7 +53,7 @@ public final class Callables {
    */
   @Beta
   @GwtIncompatible
-  public static <T> AsyncCallable<T> asAsyncCallable(
+  public static <T extends @Nullable Object> AsyncCallable<T> asAsyncCallable(
       final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
@@ -74,7 +74,7 @@ public final class Callables {
    *     for each invocation of the wrapped callable.
    */
   @GwtIncompatible // threads
-  static <T> Callable<T> threadRenaming(
+  static <T extends @Nullable Object> Callable<T> threadRenaming(
       final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
