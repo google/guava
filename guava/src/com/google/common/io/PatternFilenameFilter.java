@@ -56,7 +56,19 @@ public final class PatternFilenameFilter implements FilenameFilter {
   }
 
   @Override
-  public boolean accept(@Nullable File dir, String fileName) {
+  /*
+   * Our implementation works fine with a null `dir`. However, there's nothing in the documentation
+   * of the supertype that suggests that implementations are expected to tolerate null. That said, I
+   * see calls in Google code that pass a null `dir` to a FilenameFilter.... So let's declare the
+   * parameter as non-nullable (since passing null to a FilenameFilter is unsafe in general), but if
+   * someone still manages to pass null, let's continue to have the method work.
+   *
+   * (PatternFilenameFilter is of course one of those classes that shouldn't be a publicly visible
+   * class to begin with but rather something returned from a static factory method whose declared
+   * return type is plain FilenameFilter. If we made such a change, then the annotation we choose
+   * here would have no significance to end users.)
+   */
+  public boolean accept(File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }
