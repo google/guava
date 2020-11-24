@@ -60,6 +60,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * ImmutableMultiset}. Elements iterate in order by the <i>first</i> appearance of that element in
    * encounter order.
    *
+   *
    * @since 21.0
    */
   public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
@@ -74,6 +75,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * <p>If the mapped elements contain duplicates (according to {@link Object#equals}), the first
    * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of
    * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.
+   *
    *
    * @since 22.0
    */
