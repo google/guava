@@ -72,6 +72,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * <p>If the elements contain duplicates (according to the comparator), only the first duplicate
    * in encounter order will appear in the result.
    *
+   *
    * @since 21.0
    */
   public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(

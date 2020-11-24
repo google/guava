@@ -142,6 +142,7 @@ public final class Sets {
    * with an implementation specialized for enums. Unlike {@link ImmutableSet#toImmutableSet}, the
    * resulting set will iterate over elements in their enum definition order, not encounter order.
    *
+   *
    * @since 21.0
    */
   public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {

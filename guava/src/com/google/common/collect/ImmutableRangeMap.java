@@ -53,6 +53,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
    *
+   *
    * @since 23.1
    */
   public static <T, K extends Comparable<? super K>, V>
