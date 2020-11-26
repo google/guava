@@ -3861,8 +3861,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return value;
   }
 
-  // Only becomes available in Java 8 when it's on the interface.
-  // @Override
+  @SuppressWarnings("MissingOverride") // Supermethod will not exist if we build with --release 7.
   @NullableDecl
   public V getOrDefault(@NullableDecl Object key, @NullableDecl V defaultValue) {
     V result = get(key);
