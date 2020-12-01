@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -107,7 +108,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return result;
   }
 
-  private transient @Nullable Collection<Entry<K, V>> entries;
+  @LazyInit private transient @Nullable Collection<Entry<K, V>> entries;
 
   @Override
   public Collection<Entry<K, V>> entries() {
@@ -155,7 +156,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
         entryIterator(), size(), (this instanceof SetMultimap) ? Spliterator.DISTINCT : 0);
   }
 
-  private transient @Nullable Set<K> keySet;
+  @LazyInit private transient @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -165,7 +166,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   abstract Set<K> createKeySet();
 
-  private transient @Nullable Multiset<K> keys;
+  @LazyInit private transient @Nullable Multiset<K> keys;
 
   @Override
   public Multiset<K> keys() {
@@ -175,7 +176,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   abstract Multiset<K> createKeys();
 
-  private transient @Nullable Collection<V> values;
+  @LazyInit private transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -221,7 +222,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return Spliterators.spliterator(valueIterator(), size(), 0);
   }
 
-  private transient @Nullable Map<K, Collection<V>> asMap;
+  @LazyInit private transient @Nullable Map<K, Collection<V>> asMap;
 
   @Override
   public Map<K, Collection<V>> asMap() {
