@@ -27,7 +27,7 @@ import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -88,11 +88,11 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     final int keyHash;
     final int valueHash;
 
-    @Weak @Nullable BiEntry<K, V> nextInKToVBucket;
-    @Weak @Nullable BiEntry<K, V> nextInVToKBucket;
+    @Nullable BiEntry<K, V> nextInKToVBucket;
+    @Nullable BiEntry<K, V> nextInVToKBucket;
 
-    @Weak @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
-    @Weak @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
 
     BiEntry(K key, int keyHash, V value, int valueHash) {
       super(key, value);
@@ -105,8 +105,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
-  @Weak private transient @Nullable BiEntry<K, V> firstInKeyInsertionOrder;
-  @Weak private transient @Nullable BiEntry<K, V> lastInKeyInsertionOrder;
+  private transient @Nullable BiEntry<K, V> firstInKeyInsertionOrder;
+  private transient @Nullable BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
   private transient int mask;
   private transient int modCount;
@@ -453,6 +453,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return new KeySet();
   }
 
+  @WeakOuter
   private final class KeySet extends Maps.KeySet<K, V> {
     KeySet() {
       super(HashBiMap.this);
@@ -624,6 +625,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       return new InverseKeySet();
     }
 
+    @WeakOuter
     private final class InverseKeySet extends Maps.KeySet<V, K> {
       InverseKeySet() {
         super(Inverse.this);
