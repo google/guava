@@ -5850,7 +5850,26 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the current value for this system property by delegating to {@link
- System#getProperty(String)}.]]>
+ System#getProperty(String)}.
+
+ <p>The value returned by this method is non-null except in rare circumstances:
+
+ <ul>
+   <li>{@link #JAVA_EXT_DIRS} was deprecated in Java 8 and removed in Java 9. We have not
+       confirmed whether it is available under older versions.
+   <li>{@link #JAVA_COMPILER}, while still listed as required as of Java 15, is typically not
+       available even under older version.
+   <li>Any property may be cleared through APIs like {@link System#clearProperty}.
+   <li>Unusual environments like GWT may have their own special handling of system properties.
+ </ul>
+
+ <p>Note that {@code StandardSystemProperty} does not provide constants for more recently added
+ properties, including:
+
+ <ul>
+   <li>{@code java.vendor.version} (added in Java 11, listed as optional as of Java 13)
+   <li>{@code jdk.module.*} (added in Java 9, optional)
+ </ul>]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"

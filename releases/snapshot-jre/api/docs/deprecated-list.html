@@ -76,6 +76,7 @@
 <li><a href="#class">Deprecated Classes</a></li>
 <li><a href="#exception">Deprecated Exceptions</a></li>
 <li><a href="#method">Deprecated Methods</a></li>
+<li><a href="#enum.constant">Deprecated Enum Constants</a></li>
 </ul>
 </div>
 <div class="contentContainer"><a name="class">
@@ -935,6 +936,29 @@
 <td class="colOne"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes-java.lang.String-">com.google.common.io.LittleEndianDataOutputStream.writeBytes(String)</a>
 <div class="block"><span class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF-java.lang.String-"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars-java.lang.String-"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</span></div>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<a name="enum.constant">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<table class="deprecatedSummary" border="0" cellpadding="3" cellspacing="0" summary="Deprecated Enum Constants table, listing deprecated enum constants, and an explanation">
+<caption><span>Deprecated Enum Constants</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Enum Constant and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colOne"><a href="com/google/common/base/StandardSystemProperty.html#JAVA_EXT_DIRS">com.google.common.base.StandardSystemProperty.JAVA_EXT_DIRS</a>
+<div class="block"><span class="deprecationComment">This property was <a
+     href="https://openjdk.java.net/jeps/220#Removed:-The-extension-mechanism">deprecated</a> in
+     Java 8 and removed in Java 9. We do not plan to remove this API from Guava, but if you are
+     using it, it is probably not doing what you want.</span></div>
 </td>
 </tr>
 </tbody>
