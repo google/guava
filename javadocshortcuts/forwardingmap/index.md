@@ -1,5 +1,5 @@
 ---
-title: forwardingmap
+title: ForwardingMap
 permalink: /forwardingmap/
 redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/collect/ForwardingMap.html
 ---

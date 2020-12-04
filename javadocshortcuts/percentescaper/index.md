@@ -1,5 +1,5 @@
 ---
-title: percentescaper
+title: PercentEscaper
 permalink: /percentescaper/
 redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/net/PercentEscaper.html
 ---

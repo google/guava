@@ -1,5 +1,5 @@
 ---
-title: sortedmapdifference
+title: SortedMapDifference
 permalink: /sortedmapdifference/
 redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/collect/SortedMapDifference.html
 ---

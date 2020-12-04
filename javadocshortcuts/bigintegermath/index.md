@@ -1,5 +1,5 @@
 ---
-title: bigintegermath
+title: BigIntegerMath
 permalink: /bigintegermath/
 redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/math/BigIntegerMath.html
 ---

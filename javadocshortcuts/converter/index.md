@@ -1,5 +1,5 @@
 ---
-title: converter
+title: Converter
 permalink: /converter/
 redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/base/Converter.html
 ---
