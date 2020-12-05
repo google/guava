@@ -2188,7 +2188,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     V compute(K key, int hash, BiFunction<? super K, ? super V, ? extends V> function) {
       ReferenceEntry<K, V> e;
       ValueReference<K, V> valueReference = null;
-      LoadingValueReference<K, V> loadingValueReference = null;
+      ComputingValueReference<K, V> loadingValueReference = null;
       boolean createNewEntry = true;
       V newValue;
 
@@ -2229,7 +2229,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
         // note valueReference can be an existing value or even itself another loading value if
         // the value for the key is already being computed.
-        loadingValueReference = new LoadingValueReference<>(valueReference);
+        loadingValueReference = new ComputingValueReference<>(valueReference);
 
         if (e == null) {
           createNewEntry = true;
@@ -2255,6 +2255,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
             throw new AssertionError("impossible; Futures.immediateFuture can't throw");
           }
         } else if (createNewEntry) {
+          removeLoadingValue(key, hash, loadingValueReference);
+          return null;
+        } else if (valueReference.isLoading()) {
           removeLoadingValue(key, hash, loadingValueReference);
           return null;
         } else {
@@ -3465,6 +3468,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  static class ComputingValueReference<K, V> extends LoadingValueReference<K, V> {
+    public ComputingValueReference() {
+      super();
+    }
+    public ComputingValueReference(ValueReference<K, V> oldValue) {
+      super(oldValue);
+    }
+    @Override public boolean isLoading() {
+      return false;
+    }
+  }
+
   static class LoadingValueReference<K, V> implements ValueReference<K, V> {
     volatile ValueReference<K, V> oldValue;
 
@@ -3927,7 +3942,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
-      sum += Math.max(0, segments[i].count); // see https://github.com/google/guava/issues/2108
+      sum += segments[i].count;
     }
     return sum;
   }
