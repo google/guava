@@ -977,14 +977,10 @@ public final class CacheBuilder<K, V> {
   private void checkWeightWithWeigher() {
     if (weigher == null) {
       checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");
-    } else {
-      if (strictParsing) {
-        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
-      } else {
-        if (maximumWeight == UNSET_INT) {
-          logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");
-        }
-      }
+    } else if (strictParsing) {
+      checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
+    } else if (maximumWeight == UNSET_INT) {
+      logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");
     }
   }
 
