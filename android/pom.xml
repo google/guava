@@ -118,6 +118,16 @@
           <configuration>
             <source>1.7</source>
             <target>1.7</target>
+            <compilerArgs>
+              <!--
+                   Make includes/excludes fully work:
+                   https://issues.apache.org/jira/browse/MCOMPILER-174
+
+                   (Compare what guava-gwt has to do for maven-javadoc-plugin.)
+              -->
+              <arg>-sourcepath</arg>
+              <arg>doesnotexist</arg>
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
