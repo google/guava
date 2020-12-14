@@ -264,7 +264,7 @@ public final class ClosingFuture<V> {
    * An operation that computes a {@link ClosingFuture} of a result.
    *
    * @param <V> the type of the result
-   * @since NEXT
+   * @since 30.1
    */
   public interface AsyncClosingCallable<V extends Object> {
     /**
@@ -389,7 +389,7 @@ public final class ClosingFuture<V> {
    *
    * @throws java.util.concurrent.RejectedExecutionException if the task cannot be scheduled for
    *     execution
-   * @since NEXT
+   * @since 30.1
    */
   public static <V> ClosingFuture<V> submitAsync(
       AsyncClosingCallable<V> callable, Executor executor) {

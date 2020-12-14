@@ -343,7 +343,7 @@ public final class ClassPath {
      * named with the '$' character. If this is a concern, you could use {@link #load} and then
      * check on the loaded {@link Class} object instead.
      *
-     * @since NEXT
+     * @since 30.1
      */
     public boolean isTopLevel() {
       return className.indexOf('$') == -1;
