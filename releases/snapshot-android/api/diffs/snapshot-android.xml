@@ -48596,7 +48596,7 @@
       <![CDATA[The HTTP <a href="https://github.com/WICG/origin-isolation">{@code Origin-Isolation}</a> header
  field name.
 
- @since NEXT]]>
+ @since 30.1]]>
       </doc>
     </field>
     <field name="PROXY_AUTHORIZATION" type="java.lang.String"
@@ -49212,7 +49212,7 @@
       <doc>
       <![CDATA[The HTTP {@code X-Request-ID} header field name.
 
- @since NEXT]]>
+ @since 30.1]]>
       </doc>
     </field>
     <field name="X_REQUESTED_WITH" type="java.lang.String"
@@ -58153,7 +58153,7 @@
  named with the '$' character. If this is a concern, you could use {@link #load} and then
  check on the loaded {@link Class} object instead.
 
- @since NEXT]]>
+ @since 30.1]]>
       </doc>
     </method>
     <method name="load" return="java.lang.Class&lt;?&gt;"
@@ -61434,7 +61434,7 @@
 
  @throws java.util.concurrent.RejectedExecutionException if the task cannot be scheduled for
      execution
- @since NEXT]]>
+ @since 30.1]]>
       </doc>
     </method>
     <method name="from" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
@@ -62126,7 +62126,7 @@
     <![CDATA[An operation that computes a {@link ClosingFuture} of a result.
 
  @param <V> the type of the result
- @since NEXT]]>
+ @since 30.1]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable -->
