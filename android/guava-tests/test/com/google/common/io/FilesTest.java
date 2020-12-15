@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.io.Files.touch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;

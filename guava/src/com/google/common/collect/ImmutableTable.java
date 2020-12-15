@@ -55,7 +55,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, or value functions return null on any input.
    *
-   *
    * @since 21.0
    */
   public static <T, R, C, V> Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
@@ -73,7 +72,6 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * <p>The returned {@code Collector} will throw a {@code NullPointerException} at collection time
    * if the row, column, value, or merging functions return null on any input.
-   *
    *
    * @since 21.0
    */

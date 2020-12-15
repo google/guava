@@ -380,6 +380,7 @@ public final class ValueGraphTest {
         .inOrder();
   }
 
+
   @Test
   public void concurrentIteration() throws Exception {
     graph = ValueGraphBuilder.directed().build();

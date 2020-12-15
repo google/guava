@@ -70,7 +70,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
    *
-   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -88,7 +87,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * <p>If the mapped keys contain duplicates (according to the comparator), the the values are
    * merged using the specified merging function. Entries will appear in the encounter order of the
    * first occurrence of the key.
-   *
    *
    * @since 21.0
    */

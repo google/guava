@@ -132,6 +132,7 @@ public class FluentFutureTest extends TestCase {
     assertThat(f.get()).isEqualTo(2);
   }
 
+
   @GwtIncompatible // withTimeout
   public void testWithTimeout() throws Exception {
     ScheduledExecutorService executor = newScheduledThreadPool(1);

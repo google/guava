@@ -3375,10 +3375,12 @@ public class FuturesTest extends TestCase {
         : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }
 
+
   @GwtIncompatible // threads
   public void testAllAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.allMerger);
   }
+
 
   @GwtIncompatible // threads
   public void testSuccessfulAsList_extensive() throws InterruptedException {

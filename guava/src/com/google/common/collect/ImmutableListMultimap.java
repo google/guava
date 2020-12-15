@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -74,7 +75,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .build();
    * }</pre>
    *
-   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
@@ -111,7 +111,6 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .build();
    * }
    * }</pre>
-   *
    *
    * @since 21.0
    */

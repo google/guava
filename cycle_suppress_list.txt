@@ -1,4 +1,4 @@
-# TODO(user,user): Resolve cycles
+# TODO(user): Resolve cycles
 
 NAMESPACE com.google.common.collect.testing
 NAMESPACE com.google.common.collect.testing.google

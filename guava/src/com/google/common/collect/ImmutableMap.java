@@ -74,7 +74,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
    *
-   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
@@ -90,7 +89,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
    * values are merged using the specified merging function. Entries will appear in the encounter
    * order of the first occurrence of the key.
-   *
    *
    * @since 21.0
    */

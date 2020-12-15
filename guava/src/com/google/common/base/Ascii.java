@@ -542,7 +542,6 @@ public final class Ascii {
    *   <li>it is safe to use non-ASCII characters in the truncation indicator
    * </ul>
    *
-   *
    * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code
    *     truncationIndicator}
    * @since 16.0

@@ -30,7 +30,6 @@ import com.google.common.escape.Escapers;
  * non-ASCII characters to their numeric entity replacements. These XML escapers provide the minimal
  * level of escaping to ensure that the output can be safely included in a Unicode XML document.
  *
- *
  * <p>For details on the behavior of the escapers in this class, see sections <a
  * href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a
  * href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.

@@ -649,7 +649,7 @@ public class MoreFilesTest extends TestCase {
    */
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         executor.submit(
             new Runnable() {

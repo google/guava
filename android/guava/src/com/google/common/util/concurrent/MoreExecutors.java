@@ -411,7 +411,6 @@ public final class MoreExecutors {
    * <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
    * {@link ExecutorService} subinterface necessitates significant performance overhead.
    *
-   *
    * @since 18.0
    */
   public static Executor directExecutor() {
@@ -666,7 +665,8 @@ public final class MoreExecutors {
    * implementations.
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  @GwtIncompatible static <T> T invokeAnyImpl(
+  @GwtIncompatible
+  static <T> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
@@ -858,7 +858,6 @@ public final class MoreExecutors {
    * right before each task is run. The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
    *
-   *
    * @param executor The executor to decorate
    * @param nameSupplier The source of names for each task
    */
@@ -881,7 +880,6 @@ public final class MoreExecutors {
    * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
    * right before each task is run. The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
-   *
    *
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
@@ -911,7 +909,6 @@ public final class MoreExecutors {
    * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
    * right before each task is run. The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
-   *
    *
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task

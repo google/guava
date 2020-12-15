@@ -274,6 +274,7 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(1, numCalls.get());
   }
 
+
   public void testTaskThrowsError() throws Exception {
     class MyError extends Error {}
     final CyclicBarrier barrier = new CyclicBarrier(2);
@@ -311,6 +312,7 @@ public class SequentialExecutorTest extends TestCase {
       service.shutdown();
     }
   }
+
 
   public void testRejectedExecutionThrownWithMultipleCalls() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);

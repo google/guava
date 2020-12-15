@@ -65,7 +65,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
    * ImmutableList}, in encounter order.
    *
-   *
    * @since 21.0
    */
   public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {

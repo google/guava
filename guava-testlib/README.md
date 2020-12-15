@@ -48,4 +48,3 @@ ensure that you do not use any `@Beta` APIs!**
 <!-- References -->
 
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
-

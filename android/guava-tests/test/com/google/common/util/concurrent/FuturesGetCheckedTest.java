@@ -353,6 +353,7 @@ public class FuturesGetCheckedTest extends TestCase {
 
   public static final class WillBeUnloadedException extends Exception {}
 
+
   public void testGetChecked_classUnloading() throws Exception {
     WeakReference<?> classUsedByGetChecked = doTestClassUnloading();
     GcFinalization.awaitClear(classUsedByGetChecked);

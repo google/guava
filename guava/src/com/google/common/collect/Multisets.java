@@ -70,7 +70,6 @@ public final class Multisets {
    * <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
    * {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
    *
-   *
    * @since 22.0
    */
   public static <T, E, M extends Multiset<E>> Collector<T, ?, M> toMultiset(

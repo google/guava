@@ -183,7 +183,6 @@ public final class Maps {
    * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
    * IllegalStateException}.)
    *
-   *
    * @since 21.0
    */
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
@@ -200,7 +199,6 @@ public final class Maps {
    *
    * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
    * function.
-   *
    *
    * @since 21.0
    */

@@ -1115,7 +1115,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * IllegalArgumentException here, in part to keep its recommendation simple: Static methods
      * should throw IllegalStateException only when they use static state.
      *
-     *
      * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same
      * exception as Futures.getDone(fluentFuture).
      */

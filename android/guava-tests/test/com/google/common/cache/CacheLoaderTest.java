@@ -79,7 +79,7 @@ public class CacheLoaderTest extends TestCase {
     assertEquals(0, loadAllCount.get());
 
     baseLoader.load(new Object());
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = baseLoader.reload(new Object(), new Object());
     baseLoader.loadAll(ImmutableList.of(new Object()));
     assertEquals(1, loadCount.get());
@@ -90,7 +90,7 @@ public class CacheLoaderTest extends TestCase {
     CacheLoader<Object, Object> asyncReloader = CacheLoader.asyncReloading(baseLoader, executor);
 
     asyncReloader.load(new Object());
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 = asyncReloader.reload(new Object(), new Object());
     asyncReloader.loadAll(ImmutableList.of(new Object()));
     assertEquals(2, loadCount.get());

@@ -47,6 +47,7 @@ import junit.framework.TestCase;
  * @author Eamonn McManus
  */
 
+
 public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase {
 
   /*

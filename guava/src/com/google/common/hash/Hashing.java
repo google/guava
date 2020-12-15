@@ -234,7 +234,6 @@ public final class Hashing {
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * MD5 (128 hash bits) hash function and the given secret key.
    *
-   *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
@@ -248,7 +247,6 @@ public final class Hashing {
    * MD5 (128 hash bits) hash function and a {@link SecretKeySpec} created from the given byte array
    * and the MD5 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -259,7 +257,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-1 (160 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -274,7 +271,6 @@ public final class Hashing {
    * SHA-1 (160 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-1 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -285,7 +281,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-256 (256 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -300,7 +295,6 @@ public final class Hashing {
    * SHA-256 (256 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-256 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -311,7 +305,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-512 (512 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -325,7 +318,6 @@ public final class Hashing {
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-512 (512 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-512 algorithm.
-   *
    *
    * @param key the key material of the secret key
    * @since 20.0
@@ -457,7 +449,6 @@ public final class Hashing {
    *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
    *
-   *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
@@ -491,7 +482,6 @@ public final class Hashing {
    *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}
    *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
-   *
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.

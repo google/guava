@@ -41,7 +41,6 @@ final class Platform {
             + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
             + " can identify which type by looking at the class name in the attached stack trace.",
         new Throwable());
-
   }
 
   private Platform() {}

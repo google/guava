@@ -271,6 +271,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     return expected;
   }
 
+
   public void testSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -309,6 +310,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+
   public void testSubRangeSetOfComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -323,6 +325,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
 
   public void testComplementOfSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {

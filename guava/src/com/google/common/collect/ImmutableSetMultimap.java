@@ -79,7 +79,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .build();
    * }</pre>
    *
-   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
@@ -125,7 +124,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .build();
    * }
    * }</pre>
-   *
    *
    * @since 21.0
    */

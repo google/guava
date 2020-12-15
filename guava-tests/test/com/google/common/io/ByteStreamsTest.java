@@ -51,6 +51,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
+
   public void testCopyFileChannel() throws IOException {
     final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
     ByteArrayOutputStream out = new ByteArrayOutputStream();
