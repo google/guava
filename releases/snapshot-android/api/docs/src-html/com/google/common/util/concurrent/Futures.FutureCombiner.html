@@ -1090,185 +1090,184 @@
 <span class="sourceLineNo">1082</span>     * IllegalArgumentException here, in part to keep its recommendation simple: Static methods<a name="line.1082"></a>
 <span class="sourceLineNo">1083</span>     * should throw IllegalStateException only when they use static state.<a name="line.1083"></a>
 <span class="sourceLineNo">1084</span>     *<a name="line.1084"></a>
-<span class="sourceLineNo">1085</span>     *<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>     * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same<a name="line.1086"></a>
-<span class="sourceLineNo">1087</span>     * exception as Futures.getDone(fluentFuture).<a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>     */<a name="line.1088"></a>
-<span class="sourceLineNo">1089</span>    checkState(future.isDone(), "Future was expected to be done: %s", future);<a name="line.1089"></a>
-<span class="sourceLineNo">1090</span>    return getUninterruptibly(future);<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>  }<a name="line.1091"></a>
-<span class="sourceLineNo">1092</span><a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>  /**<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span>   * Returns the result of {@link Future#get()}, converting most exceptions to a new instance of the<a name="line.1094"></a>
-<span class="sourceLineNo">1095</span>   * given checked exception type. This reduces boilerplate for a common use of {@code Future} in<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>   * which it is unnecessary to programmatically distinguish between exception types or to extract<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>   * other information from the exception instance.<a name="line.1097"></a>
-<span class="sourceLineNo">1098</span>   *<a name="line.1098"></a>
-<span class="sourceLineNo">1099</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1099"></a>
-<span class="sourceLineNo">1100</span>   *<a name="line.1100"></a>
-<span class="sourceLineNo">1101</span>   * &lt;ul&gt;<a name="line.1101"></a>
-<span class="sourceLineNo">1102</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause<a name="line.1102"></a>
-<span class="sourceLineNo">1103</span>   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code<a name="line.1103"></a>
-<span class="sourceLineNo">1104</span>   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.<a name="line.1104"></a>
-<span class="sourceLineNo">1105</span>   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the<a name="line.1105"></a>
-<span class="sourceLineNo">1106</span>   *       interrupt).<a name="line.1106"></a>
-<span class="sourceLineNo">1107</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link<a name="line.1107"></a>
-<span class="sourceLineNo">1108</span>   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such<a name="line.1108"></a>
-<span class="sourceLineNo">1109</span>   *       exceptions).<a name="line.1109"></a>
-<span class="sourceLineNo">1110</span>   * &lt;/ul&gt;<a name="line.1110"></a>
-<span class="sourceLineNo">1111</span>   *<a name="line.1111"></a>
-<span class="sourceLineNo">1112</span>   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked<a name="line.1112"></a>
-<span class="sourceLineNo">1113</span>   * exception, every unchecked exception as an unchecked exception, and every error as an error. In<a name="line.1113"></a>
-<span class="sourceLineNo">1114</span>   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the<a name="line.1114"></a>
-<span class="sourceLineNo">1115</span>   * new stack trace matches that of the current thread.<a name="line.1115"></a>
-<span class="sourceLineNo">1116</span>   *<a name="line.1116"></a>
-<span class="sourceLineNo">1117</span>   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor<a name="line.1117"></a>
-<span class="sourceLineNo">1118</span>   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}<a name="line.1118"></a>
-<span class="sourceLineNo">1119</span>   * (preferring constructors with at least one {@code String}) and calling the constructor via<a name="line.1119"></a>
-<span class="sourceLineNo">1120</span>   * reflection. If the exception did not already have a cause, one is set by calling {@link<a name="line.1120"></a>
-<span class="sourceLineNo">1121</span>   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code<a name="line.1121"></a>
-<span class="sourceLineNo">1122</span>   * IllegalArgumentException} is thrown.<a name="line.1122"></a>
-<span class="sourceLineNo">1123</span>   *<a name="line.1123"></a>
-<span class="sourceLineNo">1124</span>   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}<a name="line.1124"></a>
-<span class="sourceLineNo">1125</span>   *     whose cause is not itself a checked exception<a name="line.1125"></a>
-<span class="sourceLineNo">1126</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a<a name="line.1126"></a>
-<span class="sourceLineNo">1127</span>   *     {@code RuntimeException} as its cause<a name="line.1127"></a>
-<span class="sourceLineNo">1128</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1128"></a>
-<span class="sourceLineNo">1129</span>   *     Error} as its cause<a name="line.1129"></a>
-<span class="sourceLineNo">1130</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1130"></a>
-<span class="sourceLineNo">1131</span>   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or<a name="line.1131"></a>
-<span class="sourceLineNo">1132</span>   *     does not have a suitable constructor<a name="line.1132"></a>
-<span class="sourceLineNo">1133</span>   * @since 19.0 (in 10.0 as {@code get})<a name="line.1133"></a>
-<span class="sourceLineNo">1134</span>   */<a name="line.1134"></a>
-<span class="sourceLineNo">1135</span>  @Beta<a name="line.1135"></a>
-<span class="sourceLineNo">1136</span>  @CanIgnoreReturnValue<a name="line.1136"></a>
-<span class="sourceLineNo">1137</span>  @GwtIncompatible // reflection<a name="line.1137"></a>
-<span class="sourceLineNo">1138</span>  public static &lt;V, X extends Exception&gt; V getChecked(Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass)<a name="line.1138"></a>
-<span class="sourceLineNo">1139</span>      throws X {<a name="line.1139"></a>
-<span class="sourceLineNo">1140</span>    return FuturesGetChecked.getChecked(future, exceptionClass);<a name="line.1140"></a>
-<span class="sourceLineNo">1141</span>  }<a name="line.1141"></a>
-<span class="sourceLineNo">1142</span><a name="line.1142"></a>
-<span class="sourceLineNo">1143</span>  /**<a name="line.1143"></a>
-<span class="sourceLineNo">1144</span>   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most exceptions to a new<a name="line.1144"></a>
-<span class="sourceLineNo">1145</span>   * instance of the given checked exception type. This reduces boilerplate for a common use of<a name="line.1145"></a>
-<span class="sourceLineNo">1146</span>   * {@code Future} in which it is unnecessary to programmatically distinguish between exception<a name="line.1146"></a>
-<span class="sourceLineNo">1147</span>   * types or to extract other information from the exception instance.<a name="line.1147"></a>
-<span class="sourceLineNo">1148</span>   *<a name="line.1148"></a>
-<span class="sourceLineNo">1149</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1149"></a>
-<span class="sourceLineNo">1150</span>   *<a name="line.1150"></a>
-<span class="sourceLineNo">1151</span>   * &lt;ul&gt;<a name="line.1151"></a>
-<span class="sourceLineNo">1152</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause<a name="line.1152"></a>
-<span class="sourceLineNo">1153</span>   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code<a name="line.1153"></a>
-<span class="sourceLineNo">1154</span>   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.<a name="line.1154"></a>
-<span class="sourceLineNo">1155</span>   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the<a name="line.1155"></a>
-<span class="sourceLineNo">1156</span>   *       interrupt).<a name="line.1156"></a>
-<span class="sourceLineNo">1157</span>   *   &lt;li&gt;Any {@link TimeoutException} is wrapped in an {@code X}.<a name="line.1157"></a>
-<span class="sourceLineNo">1158</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link<a name="line.1158"></a>
-<span class="sourceLineNo">1159</span>   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such<a name="line.1159"></a>
-<span class="sourceLineNo">1160</span>   *       exceptions).<a name="line.1160"></a>
-<span class="sourceLineNo">1161</span>   * &lt;/ul&gt;<a name="line.1161"></a>
-<span class="sourceLineNo">1162</span>   *<a name="line.1162"></a>
-<span class="sourceLineNo">1163</span>   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked<a name="line.1163"></a>
-<span class="sourceLineNo">1164</span>   * exception, every unchecked exception as an unchecked exception, and every error as an error. In<a name="line.1164"></a>
-<span class="sourceLineNo">1165</span>   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the<a name="line.1165"></a>
-<span class="sourceLineNo">1166</span>   * new stack trace matches that of the current thread.<a name="line.1166"></a>
-<span class="sourceLineNo">1167</span>   *<a name="line.1167"></a>
-<span class="sourceLineNo">1168</span>   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor<a name="line.1168"></a>
-<span class="sourceLineNo">1169</span>   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}<a name="line.1169"></a>
-<span class="sourceLineNo">1170</span>   * (preferring constructors with at least one {@code String}) and calling the constructor via<a name="line.1170"></a>
-<span class="sourceLineNo">1171</span>   * reflection. If the exception did not already have a cause, one is set by calling {@link<a name="line.1171"></a>
-<span class="sourceLineNo">1172</span>   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code<a name="line.1172"></a>
-<span class="sourceLineNo">1173</span>   * IllegalArgumentException} is thrown.<a name="line.1173"></a>
-<span class="sourceLineNo">1174</span>   *<a name="line.1174"></a>
-<span class="sourceLineNo">1175</span>   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}<a name="line.1175"></a>
-<span class="sourceLineNo">1176</span>   *     whose cause is not itself a checked exception<a name="line.1176"></a>
-<span class="sourceLineNo">1177</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a<a name="line.1177"></a>
-<span class="sourceLineNo">1178</span>   *     {@code RuntimeException} as its cause<a name="line.1178"></a>
-<span class="sourceLineNo">1179</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1179"></a>
-<span class="sourceLineNo">1180</span>   *     Error} as its cause<a name="line.1180"></a>
-<span class="sourceLineNo">1181</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1181"></a>
-<span class="sourceLineNo">1182</span>   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or<a name="line.1182"></a>
-<span class="sourceLineNo">1183</span>   *     does not have a suitable constructor<a name="line.1183"></a>
-<span class="sourceLineNo">1184</span>   * @since 19.0 (in 10.0 as {@code get} and with different parameter order)<a name="line.1184"></a>
-<span class="sourceLineNo">1185</span>   */<a name="line.1185"></a>
-<span class="sourceLineNo">1186</span>  @Beta<a name="line.1186"></a>
-<span class="sourceLineNo">1187</span>  @CanIgnoreReturnValue<a name="line.1187"></a>
-<span class="sourceLineNo">1188</span>  @GwtIncompatible // reflection<a name="line.1188"></a>
-<span class="sourceLineNo">1189</span>  @SuppressWarnings("GoodTime") // should accept a java.time.Duration<a name="line.1189"></a>
-<span class="sourceLineNo">1190</span>  public static &lt;V, X extends Exception&gt; V getChecked(<a name="line.1190"></a>
-<span class="sourceLineNo">1191</span>      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, long timeout, TimeUnit unit) throws X {<a name="line.1191"></a>
-<span class="sourceLineNo">1192</span>    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);<a name="line.1192"></a>
-<span class="sourceLineNo">1193</span>  }<a name="line.1193"></a>
-<span class="sourceLineNo">1194</span><a name="line.1194"></a>
-<span class="sourceLineNo">1195</span>  /**<a name="line.1195"></a>
-<span class="sourceLineNo">1196</span>   * Returns the result of calling {@link Future#get()} uninterruptibly on a task known not to throw<a name="line.1196"></a>
-<span class="sourceLineNo">1197</span>   * a checked exception. This makes {@code Future} more suitable for lightweight, fast-running<a name="line.1197"></a>
-<span class="sourceLineNo">1198</span>   * tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior<a name="line.1198"></a>
-<span class="sourceLineNo">1199</span>   * similar to that of {@code ForkJoinTask.join}.<a name="line.1199"></a>
-<span class="sourceLineNo">1200</span>   *<a name="line.1200"></a>
-<span class="sourceLineNo">1201</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1201"></a>
-<span class="sourceLineNo">1202</span>   *<a name="line.1202"></a>
-<span class="sourceLineNo">1203</span>   * &lt;ul&gt;<a name="line.1203"></a>
-<span class="sourceLineNo">1204</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@link<a name="line.1204"></a>
-<span class="sourceLineNo">1205</span>   *       UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link<a name="line.1205"></a>
-<span class="sourceLineNo">1206</span>   *       ExecutionError} (if the cause is an {@code Error}).<a name="line.1206"></a>
-<span class="sourceLineNo">1207</span>   *   &lt;li&gt;Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is<a name="line.1207"></a>
-<span class="sourceLineNo">1208</span>   *       restored before {@code getUnchecked} returns.<a name="line.1208"></a>
-<span class="sourceLineNo">1209</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched. So is any other {@link<a name="line.1209"></a>
-<span class="sourceLineNo">1210</span>   *       RuntimeException} ({@code get} implementations are discouraged from throwing such<a name="line.1210"></a>
-<span class="sourceLineNo">1211</span>   *       exceptions).<a name="line.1211"></a>
-<span class="sourceLineNo">1212</span>   * &lt;/ul&gt;<a name="line.1212"></a>
-<span class="sourceLineNo">1213</span>   *<a name="line.1213"></a>
-<span class="sourceLineNo">1214</span>   * &lt;p&gt;The overall principle is to eliminate all checked exceptions: to loop to avoid {@code<a name="line.1214"></a>
-<span class="sourceLineNo">1215</span>   * InterruptedException}, to pass through {@code CancellationException}, and to wrap any exception<a name="line.1215"></a>
-<span class="sourceLineNo">1216</span>   * from the underlying computation in an {@code UncheckedExecutionException} or {@code<a name="line.1216"></a>
-<span class="sourceLineNo">1217</span>   * ExecutionError}.<a name="line.1217"></a>
-<span class="sourceLineNo">1218</span>   *<a name="line.1218"></a>
-<span class="sourceLineNo">1219</span>   * &lt;p&gt;For an uninterruptible {@code get} that preserves other exceptions, see {@link<a name="line.1219"></a>
-<span class="sourceLineNo">1220</span>   * Uninterruptibles#getUninterruptibly(Future)}.<a name="line.1220"></a>
-<span class="sourceLineNo">1221</span>   *<a name="line.1221"></a>
-<span class="sourceLineNo">1222</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an<a name="line.1222"></a>
-<span class="sourceLineNo">1223</span>   *     {@code Exception} as its cause<a name="line.1223"></a>
-<span class="sourceLineNo">1224</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1224"></a>
-<span class="sourceLineNo">1225</span>   *     Error} as its cause<a name="line.1225"></a>
-<span class="sourceLineNo">1226</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1226"></a>
-<span class="sourceLineNo">1227</span>   * @since 10.0<a name="line.1227"></a>
-<span class="sourceLineNo">1228</span>   */<a name="line.1228"></a>
-<span class="sourceLineNo">1229</span>  @CanIgnoreReturnValue<a name="line.1229"></a>
-<span class="sourceLineNo">1230</span>  public static &lt;V&gt; V getUnchecked(Future&lt;V&gt; future) {<a name="line.1230"></a>
-<span class="sourceLineNo">1231</span>    checkNotNull(future);<a name="line.1231"></a>
-<span class="sourceLineNo">1232</span>    try {<a name="line.1232"></a>
-<span class="sourceLineNo">1233</span>      return getUninterruptibly(future);<a name="line.1233"></a>
-<span class="sourceLineNo">1234</span>    } catch (ExecutionException e) {<a name="line.1234"></a>
-<span class="sourceLineNo">1235</span>      wrapAndThrowUnchecked(e.getCause());<a name="line.1235"></a>
-<span class="sourceLineNo">1236</span>      throw new AssertionError();<a name="line.1236"></a>
-<span class="sourceLineNo">1237</span>    }<a name="line.1237"></a>
-<span class="sourceLineNo">1238</span>  }<a name="line.1238"></a>
-<span class="sourceLineNo">1239</span><a name="line.1239"></a>
-<span class="sourceLineNo">1240</span>  private static void wrapAndThrowUnchecked(Throwable cause) {<a name="line.1240"></a>
-<span class="sourceLineNo">1241</span>    if (cause instanceof Error) {<a name="line.1241"></a>
-<span class="sourceLineNo">1242</span>      throw new ExecutionError((Error) cause);<a name="line.1242"></a>
-<span class="sourceLineNo">1243</span>    }<a name="line.1243"></a>
-<span class="sourceLineNo">1244</span>    /*<a name="line.1244"></a>
-<span class="sourceLineNo">1245</span>     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such<a name="line.1245"></a>
-<span class="sourceLineNo">1246</span>     * classes, I believe that most users intended to extend Exception, so we'll treat it like an<a name="line.1246"></a>
-<span class="sourceLineNo">1247</span>     * Exception.)<a name="line.1247"></a>
-<span class="sourceLineNo">1248</span>     */<a name="line.1248"></a>
-<span class="sourceLineNo">1249</span>    throw new UncheckedExecutionException(cause);<a name="line.1249"></a>
-<span class="sourceLineNo">1250</span>  }<a name="line.1250"></a>
-<span class="sourceLineNo">1251</span><a name="line.1251"></a>
-<span class="sourceLineNo">1252</span>  /*<a name="line.1252"></a>
-<span class="sourceLineNo">1253</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1253"></a>
-<span class="sourceLineNo">1254</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1254"></a>
-<span class="sourceLineNo">1255</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1255"></a>
-<span class="sourceLineNo">1256</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1256"></a>
-<span class="sourceLineNo">1257</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1257"></a>
-<span class="sourceLineNo">1258</span>   * try-catch block.<a name="line.1258"></a>
-<span class="sourceLineNo">1259</span>   *<a name="line.1259"></a>
-<span class="sourceLineNo">1260</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1260"></a>
-<span class="sourceLineNo">1261</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1261"></a>
-<span class="sourceLineNo">1262</span>   */<a name="line.1262"></a>
-<span class="sourceLineNo">1263</span>}<a name="line.1263"></a>
+<span class="sourceLineNo">1085</span>     * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same<a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>     * exception as Futures.getDone(fluentFuture).<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>     */<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span>    checkState(future.isDone(), "Future was expected to be done: %s", future);<a name="line.1088"></a>
+<span class="sourceLineNo">1089</span>    return getUninterruptibly(future);<a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>  }<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span><a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>  /**<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>   * Returns the result of {@link Future#get()}, converting most exceptions to a new instance of the<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>   * given checked exception type. This reduces boilerplate for a common use of {@code Future} in<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>   * which it is unnecessary to programmatically distinguish between exception types or to extract<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>   * other information from the exception instance.<a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>   *<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>   *<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>   * &lt;ul&gt;<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause<a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>   *       interrupt).<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link<a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>   *       exceptions).<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>   * &lt;/ul&gt;<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>   *<a name="line.1110"></a>
+<span class="sourceLineNo">1111</span>   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked<a name="line.1111"></a>
+<span class="sourceLineNo">1112</span>   * exception, every unchecked exception as an unchecked exception, and every error as an error. In<a name="line.1112"></a>
+<span class="sourceLineNo">1113</span>   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the<a name="line.1113"></a>
+<span class="sourceLineNo">1114</span>   * new stack trace matches that of the current thread.<a name="line.1114"></a>
+<span class="sourceLineNo">1115</span>   *<a name="line.1115"></a>
+<span class="sourceLineNo">1116</span>   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor<a name="line.1116"></a>
+<span class="sourceLineNo">1117</span>   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}<a name="line.1117"></a>
+<span class="sourceLineNo">1118</span>   * (preferring constructors with at least one {@code String}) and calling the constructor via<a name="line.1118"></a>
+<span class="sourceLineNo">1119</span>   * reflection. If the exception did not already have a cause, one is set by calling {@link<a name="line.1119"></a>
+<span class="sourceLineNo">1120</span>   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code<a name="line.1120"></a>
+<span class="sourceLineNo">1121</span>   * IllegalArgumentException} is thrown.<a name="line.1121"></a>
+<span class="sourceLineNo">1122</span>   *<a name="line.1122"></a>
+<span class="sourceLineNo">1123</span>   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}<a name="line.1123"></a>
+<span class="sourceLineNo">1124</span>   *     whose cause is not itself a checked exception<a name="line.1124"></a>
+<span class="sourceLineNo">1125</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a<a name="line.1125"></a>
+<span class="sourceLineNo">1126</span>   *     {@code RuntimeException} as its cause<a name="line.1126"></a>
+<span class="sourceLineNo">1127</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1127"></a>
+<span class="sourceLineNo">1128</span>   *     Error} as its cause<a name="line.1128"></a>
+<span class="sourceLineNo">1129</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1129"></a>
+<span class="sourceLineNo">1130</span>   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or<a name="line.1130"></a>
+<span class="sourceLineNo">1131</span>   *     does not have a suitable constructor<a name="line.1131"></a>
+<span class="sourceLineNo">1132</span>   * @since 19.0 (in 10.0 as {@code get})<a name="line.1132"></a>
+<span class="sourceLineNo">1133</span>   */<a name="line.1133"></a>
+<span class="sourceLineNo">1134</span>  @Beta<a name="line.1134"></a>
+<span class="sourceLineNo">1135</span>  @CanIgnoreReturnValue<a name="line.1135"></a>
+<span class="sourceLineNo">1136</span>  @GwtIncompatible // reflection<a name="line.1136"></a>
+<span class="sourceLineNo">1137</span>  public static &lt;V, X extends Exception&gt; V getChecked(Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass)<a name="line.1137"></a>
+<span class="sourceLineNo">1138</span>      throws X {<a name="line.1138"></a>
+<span class="sourceLineNo">1139</span>    return FuturesGetChecked.getChecked(future, exceptionClass);<a name="line.1139"></a>
+<span class="sourceLineNo">1140</span>  }<a name="line.1140"></a>
+<span class="sourceLineNo">1141</span><a name="line.1141"></a>
+<span class="sourceLineNo">1142</span>  /**<a name="line.1142"></a>
+<span class="sourceLineNo">1143</span>   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most exceptions to a new<a name="line.1143"></a>
+<span class="sourceLineNo">1144</span>   * instance of the given checked exception type. This reduces boilerplate for a common use of<a name="line.1144"></a>
+<span class="sourceLineNo">1145</span>   * {@code Future} in which it is unnecessary to programmatically distinguish between exception<a name="line.1145"></a>
+<span class="sourceLineNo">1146</span>   * types or to extract other information from the exception instance.<a name="line.1146"></a>
+<span class="sourceLineNo">1147</span>   *<a name="line.1147"></a>
+<span class="sourceLineNo">1148</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1148"></a>
+<span class="sourceLineNo">1149</span>   *<a name="line.1149"></a>
+<span class="sourceLineNo">1150</span>   * &lt;ul&gt;<a name="line.1150"></a>
+<span class="sourceLineNo">1151</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@code X} if the cause<a name="line.1151"></a>
+<span class="sourceLineNo">1152</span>   *       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code<a name="line.1152"></a>
+<span class="sourceLineNo">1153</span>   *       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.<a name="line.1153"></a>
+<span class="sourceLineNo">1154</span>   *   &lt;li&gt;Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the<a name="line.1154"></a>
+<span class="sourceLineNo">1155</span>   *       interrupt).<a name="line.1155"></a>
+<span class="sourceLineNo">1156</span>   *   &lt;li&gt;Any {@link TimeoutException} is wrapped in an {@code X}.<a name="line.1156"></a>
+<span class="sourceLineNo">1157</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched, as is any other {@link<a name="line.1157"></a>
+<span class="sourceLineNo">1158</span>   *       RuntimeException} (though {@code get} implementations are discouraged from throwing such<a name="line.1158"></a>
+<span class="sourceLineNo">1159</span>   *       exceptions).<a name="line.1159"></a>
+<span class="sourceLineNo">1160</span>   * &lt;/ul&gt;<a name="line.1160"></a>
+<span class="sourceLineNo">1161</span>   *<a name="line.1161"></a>
+<span class="sourceLineNo">1162</span>   * &lt;p&gt;The overall principle is to continue to treat every checked exception as a checked<a name="line.1162"></a>
+<span class="sourceLineNo">1163</span>   * exception, every unchecked exception as an unchecked exception, and every error as an error. In<a name="line.1163"></a>
+<span class="sourceLineNo">1164</span>   * addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the<a name="line.1164"></a>
+<span class="sourceLineNo">1165</span>   * new stack trace matches that of the current thread.<a name="line.1165"></a>
+<span class="sourceLineNo">1166</span>   *<a name="line.1166"></a>
+<span class="sourceLineNo">1167</span>   * &lt;p&gt;Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor<a name="line.1167"></a>
+<span class="sourceLineNo">1168</span>   * that accepts zero or more arguments, all of type {@code String} or {@code Throwable}<a name="line.1168"></a>
+<span class="sourceLineNo">1169</span>   * (preferring constructors with at least one {@code String}) and calling the constructor via<a name="line.1169"></a>
+<span class="sourceLineNo">1170</span>   * reflection. If the exception did not already have a cause, one is set by calling {@link<a name="line.1170"></a>
+<span class="sourceLineNo">1171</span>   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code<a name="line.1171"></a>
+<span class="sourceLineNo">1172</span>   * IllegalArgumentException} is thrown.<a name="line.1172"></a>
+<span class="sourceLineNo">1173</span>   *<a name="line.1173"></a>
+<span class="sourceLineNo">1174</span>   * @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}<a name="line.1174"></a>
+<span class="sourceLineNo">1175</span>   *     whose cause is not itself a checked exception<a name="line.1175"></a>
+<span class="sourceLineNo">1176</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a<a name="line.1176"></a>
+<span class="sourceLineNo">1177</span>   *     {@code RuntimeException} as its cause<a name="line.1177"></a>
+<span class="sourceLineNo">1178</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1178"></a>
+<span class="sourceLineNo">1179</span>   *     Error} as its cause<a name="line.1179"></a>
+<span class="sourceLineNo">1180</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1180"></a>
+<span class="sourceLineNo">1181</span>   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or<a name="line.1181"></a>
+<span class="sourceLineNo">1182</span>   *     does not have a suitable constructor<a name="line.1182"></a>
+<span class="sourceLineNo">1183</span>   * @since 19.0 (in 10.0 as {@code get} and with different parameter order)<a name="line.1183"></a>
+<span class="sourceLineNo">1184</span>   */<a name="line.1184"></a>
+<span class="sourceLineNo">1185</span>  @Beta<a name="line.1185"></a>
+<span class="sourceLineNo">1186</span>  @CanIgnoreReturnValue<a name="line.1186"></a>
+<span class="sourceLineNo">1187</span>  @GwtIncompatible // reflection<a name="line.1187"></a>
+<span class="sourceLineNo">1188</span>  @SuppressWarnings("GoodTime") // should accept a java.time.Duration<a name="line.1188"></a>
+<span class="sourceLineNo">1189</span>  public static &lt;V, X extends Exception&gt; V getChecked(<a name="line.1189"></a>
+<span class="sourceLineNo">1190</span>      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, long timeout, TimeUnit unit) throws X {<a name="line.1190"></a>
+<span class="sourceLineNo">1191</span>    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);<a name="line.1191"></a>
+<span class="sourceLineNo">1192</span>  }<a name="line.1192"></a>
+<span class="sourceLineNo">1193</span><a name="line.1193"></a>
+<span class="sourceLineNo">1194</span>  /**<a name="line.1194"></a>
+<span class="sourceLineNo">1195</span>   * Returns the result of calling {@link Future#get()} uninterruptibly on a task known not to throw<a name="line.1195"></a>
+<span class="sourceLineNo">1196</span>   * a checked exception. This makes {@code Future} more suitable for lightweight, fast-running<a name="line.1196"></a>
+<span class="sourceLineNo">1197</span>   * tasks that, barring bugs in the code, will not fail. This gives it exception-handling behavior<a name="line.1197"></a>
+<span class="sourceLineNo">1198</span>   * similar to that of {@code ForkJoinTask.join}.<a name="line.1198"></a>
+<span class="sourceLineNo">1199</span>   *<a name="line.1199"></a>
+<span class="sourceLineNo">1200</span>   * &lt;p&gt;Exceptions from {@code Future.get} are treated as follows:<a name="line.1200"></a>
+<span class="sourceLineNo">1201</span>   *<a name="line.1201"></a>
+<span class="sourceLineNo">1202</span>   * &lt;ul&gt;<a name="line.1202"></a>
+<span class="sourceLineNo">1203</span>   *   &lt;li&gt;Any {@link ExecutionException} has its &lt;i&gt;cause&lt;/i&gt; wrapped in an {@link<a name="line.1203"></a>
+<span class="sourceLineNo">1204</span>   *       UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link<a name="line.1204"></a>
+<span class="sourceLineNo">1205</span>   *       ExecutionError} (if the cause is an {@code Error}).<a name="line.1205"></a>
+<span class="sourceLineNo">1206</span>   *   &lt;li&gt;Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is<a name="line.1206"></a>
+<span class="sourceLineNo">1207</span>   *       restored before {@code getUnchecked} returns.<a name="line.1207"></a>
+<span class="sourceLineNo">1208</span>   *   &lt;li&gt;Any {@link CancellationException} is propagated untouched. So is any other {@link<a name="line.1208"></a>
+<span class="sourceLineNo">1209</span>   *       RuntimeException} ({@code get} implementations are discouraged from throwing such<a name="line.1209"></a>
+<span class="sourceLineNo">1210</span>   *       exceptions).<a name="line.1210"></a>
+<span class="sourceLineNo">1211</span>   * &lt;/ul&gt;<a name="line.1211"></a>
+<span class="sourceLineNo">1212</span>   *<a name="line.1212"></a>
+<span class="sourceLineNo">1213</span>   * &lt;p&gt;The overall principle is to eliminate all checked exceptions: to loop to avoid {@code<a name="line.1213"></a>
+<span class="sourceLineNo">1214</span>   * InterruptedException}, to pass through {@code CancellationException}, and to wrap any exception<a name="line.1214"></a>
+<span class="sourceLineNo">1215</span>   * from the underlying computation in an {@code UncheckedExecutionException} or {@code<a name="line.1215"></a>
+<span class="sourceLineNo">1216</span>   * ExecutionError}.<a name="line.1216"></a>
+<span class="sourceLineNo">1217</span>   *<a name="line.1217"></a>
+<span class="sourceLineNo">1218</span>   * &lt;p&gt;For an uninterruptible {@code get} that preserves other exceptions, see {@link<a name="line.1218"></a>
+<span class="sourceLineNo">1219</span>   * Uninterruptibles#getUninterruptibly(Future)}.<a name="line.1219"></a>
+<span class="sourceLineNo">1220</span>   *<a name="line.1220"></a>
+<span class="sourceLineNo">1221</span>   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an<a name="line.1221"></a>
+<span class="sourceLineNo">1222</span>   *     {@code Exception} as its cause<a name="line.1222"></a>
+<span class="sourceLineNo">1223</span>   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code<a name="line.1223"></a>
+<span class="sourceLineNo">1224</span>   *     Error} as its cause<a name="line.1224"></a>
+<span class="sourceLineNo">1225</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1225"></a>
+<span class="sourceLineNo">1226</span>   * @since 10.0<a name="line.1226"></a>
+<span class="sourceLineNo">1227</span>   */<a name="line.1227"></a>
+<span class="sourceLineNo">1228</span>  @CanIgnoreReturnValue<a name="line.1228"></a>
+<span class="sourceLineNo">1229</span>  public static &lt;V&gt; V getUnchecked(Future&lt;V&gt; future) {<a name="line.1229"></a>
+<span class="sourceLineNo">1230</span>    checkNotNull(future);<a name="line.1230"></a>
+<span class="sourceLineNo">1231</span>    try {<a name="line.1231"></a>
+<span class="sourceLineNo">1232</span>      return getUninterruptibly(future);<a name="line.1232"></a>
+<span class="sourceLineNo">1233</span>    } catch (ExecutionException e) {<a name="line.1233"></a>
+<span class="sourceLineNo">1234</span>      wrapAndThrowUnchecked(e.getCause());<a name="line.1234"></a>
+<span class="sourceLineNo">1235</span>      throw new AssertionError();<a name="line.1235"></a>
+<span class="sourceLineNo">1236</span>    }<a name="line.1236"></a>
+<span class="sourceLineNo">1237</span>  }<a name="line.1237"></a>
+<span class="sourceLineNo">1238</span><a name="line.1238"></a>
+<span class="sourceLineNo">1239</span>  private static void wrapAndThrowUnchecked(Throwable cause) {<a name="line.1239"></a>
+<span class="sourceLineNo">1240</span>    if (cause instanceof Error) {<a name="line.1240"></a>
+<span class="sourceLineNo">1241</span>      throw new ExecutionError((Error) cause);<a name="line.1241"></a>
+<span class="sourceLineNo">1242</span>    }<a name="line.1242"></a>
+<span class="sourceLineNo">1243</span>    /*<a name="line.1243"></a>
+<span class="sourceLineNo">1244</span>     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such<a name="line.1244"></a>
+<span class="sourceLineNo">1245</span>     * classes, I believe that most users intended to extend Exception, so we'll treat it like an<a name="line.1245"></a>
+<span class="sourceLineNo">1246</span>     * Exception.)<a name="line.1246"></a>
+<span class="sourceLineNo">1247</span>     */<a name="line.1247"></a>
+<span class="sourceLineNo">1248</span>    throw new UncheckedExecutionException(cause);<a name="line.1248"></a>
+<span class="sourceLineNo">1249</span>  }<a name="line.1249"></a>
+<span class="sourceLineNo">1250</span><a name="line.1250"></a>
+<span class="sourceLineNo">1251</span>  /*<a name="line.1251"></a>
+<span class="sourceLineNo">1252</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1252"></a>
+<span class="sourceLineNo">1253</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1253"></a>
+<span class="sourceLineNo">1254</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1254"></a>
+<span class="sourceLineNo">1255</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1255"></a>
+<span class="sourceLineNo">1256</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1256"></a>
+<span class="sourceLineNo">1257</span>   * try-catch block.<a name="line.1257"></a>
+<span class="sourceLineNo">1258</span>   *<a name="line.1258"></a>
+<span class="sourceLineNo">1259</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1259"></a>
+<span class="sourceLineNo">1260</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1260"></a>
+<span class="sourceLineNo">1261</span>   */<a name="line.1261"></a>
+<span class="sourceLineNo">1262</span>}<a name="line.1262"></a>
 
 
 

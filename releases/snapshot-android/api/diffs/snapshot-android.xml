@@ -25,7 +25,6 @@
  work during upgrades. However it is generally inadvisable for <i>libraries</i> (which get
  included on users' CLASSPATHs, outside the library developers' control) to do so.
 
-
  @author Kevin Bourrillion]]>
     </doc>
   </class>
@@ -68,7 +67,6 @@
  to return a value with a GWT serializable type.
 
  <p>Note that a {@code GwtCompatible} type may have some {@link GwtIncompatible} methods.
-
 
  @author Charles Fry
  @author Hayward Chan]]>
@@ -243,7 +241,6 @@
    <li>the appropriate truncation indicator may be locale-dependent
    <li>it is safe to use non-ASCII characters in the truncation indicator
  </ul>
-
 
  @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code
      truncationIndicator}
@@ -1749,7 +1746,6 @@
  <i>missing</i> information and the other is not. The {@link #convert} method handles this null
  behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  guaranteed to never be passed {@code null}, and must never return {@code null}.
-
 
  <h3>Common ways to use</h3>
 
@@ -8340,7 +8336,6 @@
    <li>notification of evicted (or otherwise removed) entries
    <li>accumulation of cache access statistics
  </ul>
-
 
  <p>These features are all optional; caches can be created using all or none of them. By default
  cache instances created by {@code CacheBuilder} will not perform any type of eviction.
@@ -40817,7 +40812,6 @@
       <![CDATA[Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  MD5 (128 hash bits) hash function and the given secret key.
 
-
  @param key the secret key
  @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
  @since 20.0]]>
@@ -40833,7 +40827,6 @@
  MD5 (128 hash bits) hash function and a {@link SecretKeySpec} created from the given byte array
  and the MD5 algorithm.
 
-
  @param key the key material of the secret key
  @since 20.0]]>
       </doc>
@@ -40846,7 +40839,6 @@
       <doc>
       <![CDATA[Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-1 (160 hash bits) hash function and the given secret key.
-
 
  @param key the secret key
  @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -40863,7 +40855,6 @@
  SHA-1 (160 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
  array and the SHA-1 algorithm.
 
-
  @param key the key material of the secret key
  @since 20.0]]>
       </doc>
@@ -40876,7 +40867,6 @@
       <doc>
       <![CDATA[Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-256 (256 hash bits) hash function and the given secret key.
-
 
  @param key the secret key
  @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -40893,7 +40883,6 @@
  SHA-256 (256 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
  array and the SHA-256 algorithm.
 
-
  @param key the key material of the secret key
  @since 20.0]]>
       </doc>
@@ -40906,7 +40895,6 @@
       <doc>
       <![CDATA[Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and the given secret key.
-
 
  @param key the secret key
  @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -40922,7 +40910,6 @@
       <![CDATA[Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
  array and the SHA-512 algorithm.
-
 
  @param key the key material of the secret key
  @since 20.0]]>
@@ -41033,7 +41020,6 @@
        traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
  </ul>
 
-
  <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
  consistent hashing</a> for more information.]]>
       </doc>
@@ -41070,7 +41056,6 @@
        assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}
        traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
  </ul>
-
 
  <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
  consistent hashing</a> for more information.]]>
@@ -49563,7 +49548,6 @@
    <li><a href="http://www.ietf.org/rfc/rfc5988.txt">RFC 5988</a>
  </ul>
 
-
  @author Kurt Alfred Kluever
  @since 11.0]]>
     </doc>
@@ -50231,7 +50215,6 @@
    <li>Parts other than the final part may start with a digit, as mandated by <a
        href="https://tools.ietf.org/html/rfc1123#section-2">RFC 1123</a>.
  </ul>
-
 
  @param domain A domain name (not IP address)
  @throws IllegalArgumentException if {@code domain} is not syntactically valid according to
@@ -51969,7 +51952,6 @@
  <p>If the resulting URLs are inserted into an HTML or XML document, they will require additional
  escaping with {@link com.google.common.html.HtmlEscapers} or {@link
  com.google.common.xml.XmlEscapers}.
-
 
  @author David Beaumont
  @author Chris Povirk
@@ -66707,7 +66689,6 @@
  <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
  {@link ExecutorService} subinterface necessitates significant performance overhead.
 
-
  @since 18.0]]>
       </doc>
     </method>
@@ -68715,7 +68696,6 @@
  outside the ASCII character range. Unlike HTML escaping the XML escapers will not escape
  non-ASCII characters to their numeric entity replacements. These XML escapers provide the minimal
  level of escaping to ensure that the output can be safely included in a Unicode XML document.
-
 
  <p>For details on the behavior of the escapers in this class, see sections <a
  href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a

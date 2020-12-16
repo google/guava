@@ -550,97 +550,96 @@
 <span class="sourceLineNo">542</span>   *   &lt;li&gt;it is safe to use non-ASCII characters in the truncation indicator<a name="line.542"></a>
 <span class="sourceLineNo">543</span>   * &lt;/ul&gt;<a name="line.543"></a>
 <span class="sourceLineNo">544</span>   *<a name="line.544"></a>
-<span class="sourceLineNo">545</span>   *<a name="line.545"></a>
-<span class="sourceLineNo">546</span>   * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code<a name="line.546"></a>
-<span class="sourceLineNo">547</span>   *     truncationIndicator}<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * @since 16.0<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   */<a name="line.549"></a>
-<span class="sourceLineNo">550</span>  public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {<a name="line.550"></a>
-<span class="sourceLineNo">551</span>    checkNotNull(seq);<a name="line.551"></a>
-<span class="sourceLineNo">552</span><a name="line.552"></a>
-<span class="sourceLineNo">553</span>    // length to truncate the sequence to, not including the truncation indicator<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    int truncationLength = maxLength - truncationIndicator.length();<a name="line.554"></a>
-<span class="sourceLineNo">555</span><a name="line.555"></a>
-<span class="sourceLineNo">556</span>    // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    // meaning that a string will be truncated to just the truncation indicator itself<a name="line.557"></a>
-<span class="sourceLineNo">558</span>    checkArgument(<a name="line.558"></a>
-<span class="sourceLineNo">559</span>        truncationLength &gt;= 0,<a name="line.559"></a>
-<span class="sourceLineNo">560</span>        "maxLength (%s) must be &gt;= length of the truncation indicator (%s)",<a name="line.560"></a>
-<span class="sourceLineNo">561</span>        maxLength,<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        truncationIndicator.length());<a name="line.562"></a>
-<span class="sourceLineNo">563</span><a name="line.563"></a>
-<span class="sourceLineNo">564</span>    if (seq.length() &lt;= maxLength) {<a name="line.564"></a>
-<span class="sourceLineNo">565</span>      String string = seq.toString();<a name="line.565"></a>
-<span class="sourceLineNo">566</span>      if (string.length() &lt;= maxLength) {<a name="line.566"></a>
-<span class="sourceLineNo">567</span>        return string;<a name="line.567"></a>
-<span class="sourceLineNo">568</span>      }<a name="line.568"></a>
-<span class="sourceLineNo">569</span>      // if the length of the toString() result was &gt; maxLength for some reason, truncate that<a name="line.569"></a>
-<span class="sourceLineNo">570</span>      seq = string;<a name="line.570"></a>
-<span class="sourceLineNo">571</span>    }<a name="line.571"></a>
-<span class="sourceLineNo">572</span><a name="line.572"></a>
-<span class="sourceLineNo">573</span>    return new StringBuilder(maxLength)<a name="line.573"></a>
-<span class="sourceLineNo">574</span>        .append(seq, 0, truncationLength)<a name="line.574"></a>
-<span class="sourceLineNo">575</span>        .append(truncationIndicator)<a name="line.575"></a>
-<span class="sourceLineNo">576</span>        .toString();<a name="line.576"></a>
-<span class="sourceLineNo">577</span>  }<a name="line.577"></a>
-<span class="sourceLineNo">578</span><a name="line.578"></a>
-<span class="sourceLineNo">579</span>  /**<a name="line.579"></a>
-<span class="sourceLineNo">580</span>   * Indicates whether the contents of the given character sequences {@code s1} and {@code s2} are<a name="line.580"></a>
-<span class="sourceLineNo">581</span>   * equal, ignoring the case of any ASCII alphabetic characters between {@code 'a'} and {@code 'z'}<a name="line.581"></a>
-<span class="sourceLineNo">582</span>   * or {@code 'A'} and {@code 'Z'} inclusive.<a name="line.582"></a>
-<span class="sourceLineNo">583</span>   *<a name="line.583"></a>
-<span class="sourceLineNo">584</span>   * &lt;p&gt;This method is significantly faster than {@link String#equalsIgnoreCase} and should be used<a name="line.584"></a>
-<span class="sourceLineNo">585</span>   * in preference if at least one of the parameters is known to contain only ASCII characters.<a name="line.585"></a>
-<span class="sourceLineNo">586</span>   *<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * &lt;p&gt;Note however that this method does not always behave identically to expressions such as:<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   *<a name="line.588"></a>
-<span class="sourceLineNo">589</span>   * &lt;ul&gt;<a name="line.589"></a>
-<span class="sourceLineNo">590</span>   *   &lt;li&gt;{@code string.toUpperCase().equals("UPPER CASE ASCII")}<a name="line.590"></a>
-<span class="sourceLineNo">591</span>   *   &lt;li&gt;{@code string.toLowerCase().equals("lower case ascii")}<a name="line.591"></a>
-<span class="sourceLineNo">592</span>   * &lt;/ul&gt;<a name="line.592"></a>
-<span class="sourceLineNo">593</span>   *<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * &lt;p&gt;due to case-folding of some non-ASCII characters (which does not occur in {@link<a name="line.594"></a>
-<span class="sourceLineNo">595</span>   * String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used, the author<a name="line.595"></a>
-<span class="sourceLineNo">596</span>   * probably wanted the behavior provided by this method rather than the subtle and sometimes<a name="line.596"></a>
-<span class="sourceLineNo">597</span>   * surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   *<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   * @since 16.0<a name="line.599"></a>
-<span class="sourceLineNo">600</span>   */<a name="line.600"></a>
-<span class="sourceLineNo">601</span>  public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {<a name="line.601"></a>
-<span class="sourceLineNo">602</span>    // Calling length() is the null pointer check (so do it before we can exit early).<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    int length = s1.length();<a name="line.603"></a>
-<span class="sourceLineNo">604</span>    if (s1 == s2) {<a name="line.604"></a>
-<span class="sourceLineNo">605</span>      return true;<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    }<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    if (length != s2.length()) {<a name="line.607"></a>
-<span class="sourceLineNo">608</span>      return false;<a name="line.608"></a>
-<span class="sourceLineNo">609</span>    }<a name="line.609"></a>
-<span class="sourceLineNo">610</span>    for (int i = 0; i &lt; length; i++) {<a name="line.610"></a>
-<span class="sourceLineNo">611</span>      char c1 = s1.charAt(i);<a name="line.611"></a>
-<span class="sourceLineNo">612</span>      char c2 = s2.charAt(i);<a name="line.612"></a>
-<span class="sourceLineNo">613</span>      if (c1 == c2) {<a name="line.613"></a>
-<span class="sourceLineNo">614</span>        continue;<a name="line.614"></a>
-<span class="sourceLineNo">615</span>      }<a name="line.615"></a>
-<span class="sourceLineNo">616</span>      int alphaIndex = getAlphaIndex(c1);<a name="line.616"></a>
-<span class="sourceLineNo">617</span>      // This was also benchmarked using '&amp;' to avoid branching (but always evaluate the rhs),<a name="line.617"></a>
-<span class="sourceLineNo">618</span>      // however this showed no obvious improvement.<a name="line.618"></a>
-<span class="sourceLineNo">619</span>      if (alphaIndex &lt; 26 &amp;&amp; alphaIndex == getAlphaIndex(c2)) {<a name="line.619"></a>
-<span class="sourceLineNo">620</span>        continue;<a name="line.620"></a>
-<span class="sourceLineNo">621</span>      }<a name="line.621"></a>
-<span class="sourceLineNo">622</span>      return false;<a name="line.622"></a>
-<span class="sourceLineNo">623</span>    }<a name="line.623"></a>
-<span class="sourceLineNo">624</span>    return true;<a name="line.624"></a>
-<span class="sourceLineNo">625</span>  }<a name="line.625"></a>
-<span class="sourceLineNo">626</span><a name="line.626"></a>
-<span class="sourceLineNo">627</span>  /**<a name="line.627"></a>
-<span class="sourceLineNo">628</span>   * Returns the non-negative index value of the alpha character {@code c}, regardless of case. Ie,<a name="line.628"></a>
-<span class="sourceLineNo">629</span>   * 'a'/'A' returns 0 and 'z'/'Z' returns 25. Non-alpha characters return a value of 26 or greater.<a name="line.629"></a>
-<span class="sourceLineNo">630</span>   */<a name="line.630"></a>
-<span class="sourceLineNo">631</span>  private static int getAlphaIndex(char c) {<a name="line.631"></a>
-<span class="sourceLineNo">632</span>    // Fold upper-case ASCII to lower-case and make zero-indexed and unsigned (by casting to char).<a name="line.632"></a>
-<span class="sourceLineNo">633</span>    return (char) ((c | CASE_MASK) - 'a');<a name="line.633"></a>
-<span class="sourceLineNo">634</span>  }<a name="line.634"></a>
-<span class="sourceLineNo">635</span>}<a name="line.635"></a>
+<span class="sourceLineNo">545</span>   * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   *     truncationIndicator}<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * @since 16.0<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   */<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    checkNotNull(seq);<a name="line.550"></a>
+<span class="sourceLineNo">551</span><a name="line.551"></a>
+<span class="sourceLineNo">552</span>    // length to truncate the sequence to, not including the truncation indicator<a name="line.552"></a>
+<span class="sourceLineNo">553</span>    int truncationLength = maxLength - truncationIndicator.length();<a name="line.553"></a>
+<span class="sourceLineNo">554</span><a name="line.554"></a>
+<span class="sourceLineNo">555</span>    // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    // meaning that a string will be truncated to just the truncation indicator itself<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    checkArgument(<a name="line.557"></a>
+<span class="sourceLineNo">558</span>        truncationLength &gt;= 0,<a name="line.558"></a>
+<span class="sourceLineNo">559</span>        "maxLength (%s) must be &gt;= length of the truncation indicator (%s)",<a name="line.559"></a>
+<span class="sourceLineNo">560</span>        maxLength,<a name="line.560"></a>
+<span class="sourceLineNo">561</span>        truncationIndicator.length());<a name="line.561"></a>
+<span class="sourceLineNo">562</span><a name="line.562"></a>
+<span class="sourceLineNo">563</span>    if (seq.length() &lt;= maxLength) {<a name="line.563"></a>
+<span class="sourceLineNo">564</span>      String string = seq.toString();<a name="line.564"></a>
+<span class="sourceLineNo">565</span>      if (string.length() &lt;= maxLength) {<a name="line.565"></a>
+<span class="sourceLineNo">566</span>        return string;<a name="line.566"></a>
+<span class="sourceLineNo">567</span>      }<a name="line.567"></a>
+<span class="sourceLineNo">568</span>      // if the length of the toString() result was &gt; maxLength for some reason, truncate that<a name="line.568"></a>
+<span class="sourceLineNo">569</span>      seq = string;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>    }<a name="line.570"></a>
+<span class="sourceLineNo">571</span><a name="line.571"></a>
+<span class="sourceLineNo">572</span>    return new StringBuilder(maxLength)<a name="line.572"></a>
+<span class="sourceLineNo">573</span>        .append(seq, 0, truncationLength)<a name="line.573"></a>
+<span class="sourceLineNo">574</span>        .append(truncationIndicator)<a name="line.574"></a>
+<span class="sourceLineNo">575</span>        .toString();<a name="line.575"></a>
+<span class="sourceLineNo">576</span>  }<a name="line.576"></a>
+<span class="sourceLineNo">577</span><a name="line.577"></a>
+<span class="sourceLineNo">578</span>  /**<a name="line.578"></a>
+<span class="sourceLineNo">579</span>   * Indicates whether the contents of the given character sequences {@code s1} and {@code s2} are<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * equal, ignoring the case of any ASCII alphabetic characters between {@code 'a'} and {@code 'z'}<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * or {@code 'A'} and {@code 'Z'} inclusive.<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   *<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   * &lt;p&gt;This method is significantly faster than {@link String#equalsIgnoreCase} and should be used<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * in preference if at least one of the parameters is known to contain only ASCII characters.<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   *<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * &lt;p&gt;Note however that this method does not always behave identically to expressions such as:<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   *<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   * &lt;ul&gt;<a name="line.588"></a>
+<span class="sourceLineNo">589</span>   *   &lt;li&gt;{@code string.toUpperCase().equals("UPPER CASE ASCII")}<a name="line.589"></a>
+<span class="sourceLineNo">590</span>   *   &lt;li&gt;{@code string.toLowerCase().equals("lower case ascii")}<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * &lt;/ul&gt;<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   *<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * &lt;p&gt;due to case-folding of some non-ASCII characters (which does not occur in {@link<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used, the author<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   * probably wanted the behavior provided by this method rather than the subtle and sometimes<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   * surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   *<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   * @since 16.0<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   */<a name="line.599"></a>
+<span class="sourceLineNo">600</span>  public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {<a name="line.600"></a>
+<span class="sourceLineNo">601</span>    // Calling length() is the null pointer check (so do it before we can exit early).<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    int length = s1.length();<a name="line.602"></a>
+<span class="sourceLineNo">603</span>    if (s1 == s2) {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>      return true;<a name="line.604"></a>
+<span class="sourceLineNo">605</span>    }<a name="line.605"></a>
+<span class="sourceLineNo">606</span>    if (length != s2.length()) {<a name="line.606"></a>
+<span class="sourceLineNo">607</span>      return false;<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    }<a name="line.608"></a>
+<span class="sourceLineNo">609</span>    for (int i = 0; i &lt; length; i++) {<a name="line.609"></a>
+<span class="sourceLineNo">610</span>      char c1 = s1.charAt(i);<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      char c2 = s2.charAt(i);<a name="line.611"></a>
+<span class="sourceLineNo">612</span>      if (c1 == c2) {<a name="line.612"></a>
+<span class="sourceLineNo">613</span>        continue;<a name="line.613"></a>
+<span class="sourceLineNo">614</span>      }<a name="line.614"></a>
+<span class="sourceLineNo">615</span>      int alphaIndex = getAlphaIndex(c1);<a name="line.615"></a>
+<span class="sourceLineNo">616</span>      // This was also benchmarked using '&amp;' to avoid branching (but always evaluate the rhs),<a name="line.616"></a>
+<span class="sourceLineNo">617</span>      // however this showed no obvious improvement.<a name="line.617"></a>
+<span class="sourceLineNo">618</span>      if (alphaIndex &lt; 26 &amp;&amp; alphaIndex == getAlphaIndex(c2)) {<a name="line.618"></a>
+<span class="sourceLineNo">619</span>        continue;<a name="line.619"></a>
+<span class="sourceLineNo">620</span>      }<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      return false;<a name="line.621"></a>
+<span class="sourceLineNo">622</span>    }<a name="line.622"></a>
+<span class="sourceLineNo">623</span>    return true;<a name="line.623"></a>
+<span class="sourceLineNo">624</span>  }<a name="line.624"></a>
+<span class="sourceLineNo">625</span><a name="line.625"></a>
+<span class="sourceLineNo">626</span>  /**<a name="line.626"></a>
+<span class="sourceLineNo">627</span>   * Returns the non-negative index value of the alpha character {@code c}, regardless of case. Ie,<a name="line.627"></a>
+<span class="sourceLineNo">628</span>   * 'a'/'A' returns 0 and 'z'/'Z' returns 25. Non-alpha characters return a value of 26 or greater.<a name="line.628"></a>
+<span class="sourceLineNo">629</span>   */<a name="line.629"></a>
+<span class="sourceLineNo">630</span>  private static int getAlphaIndex(char c) {<a name="line.630"></a>
+<span class="sourceLineNo">631</span>    // Fold upper-case ASCII to lower-case and make zero-indexed and unsigned (by casting to char).<a name="line.631"></a>
+<span class="sourceLineNo">632</span>    return (char) ((c | CASE_MASK) - 'a');<a name="line.632"></a>
+<span class="sourceLineNo">633</span>  }<a name="line.633"></a>
+<span class="sourceLineNo">634</span>}<a name="line.634"></a>
 
 
 
