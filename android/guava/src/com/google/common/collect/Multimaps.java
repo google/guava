@@ -29,6 +29,7 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -539,11 +540,11 @@ public final class Multimaps {
   private static class UnmodifiableMultimap<K, V> extends ForwardingMultimap<K, V>
       implements Serializable {
     final Multimap<K, V> delegate;
-    @NullableDecl transient Collection<Entry<K, V>> entries;
-    @NullableDecl transient Multiset<K> keys;
-    @NullableDecl transient Set<K> keySet;
-    @NullableDecl transient Collection<V> values;
-    @NullableDecl transient Map<K, Collection<V>> map;
+    @LazyInit @NullableDecl transient Collection<Entry<K, V>> entries;
+    @LazyInit @NullableDecl transient Multiset<K> keys;
+    @LazyInit @NullableDecl transient Set<K> keySet;
+    @LazyInit @NullableDecl transient Collection<V> values;
+    @LazyInit @NullableDecl transient Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(final Multimap<K, V> delegate) {
       this.delegate = checkNotNull(delegate);

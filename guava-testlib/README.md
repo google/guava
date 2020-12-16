@@ -13,7 +13,7 @@ To add a dependency on Guava testlib using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-testlib</artifactId>
-  <version>30.0-jre</version>
+  <version>30.1-jre</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -22,7 +22,7 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  test 'com.google.guava:guava-testlib:30.0-jre'
+  test 'com.google.guava:guava-testlib:30.1-jre'
 }
 ```
 

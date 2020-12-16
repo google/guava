@@ -88,7 +88,13 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     final int keyHash;
     final int valueHash;
 
-    @Weak @Nullable BiEntry<K, V> nextInKToVBucket;
+    // All BiEntry instances are strongly reachable from owning HashBiMap through
+    // "HashBiMap.hashTableKToV" and "BiEntry.nextInKToVBucket" references.
+    // Under that assumption, the remaining references can be safely marked as @Weak.
+    // Using @Weak is necessary to avoid retain-cycles between BiEntry instances on iOS,
+    // which would cause memory leaks when non-empty HashBiMap with cyclic BiEntry
+    // instances is deallocated.
+    @Nullable BiEntry<K, V> nextInKToVBucket;
     @Weak @Nullable BiEntry<K, V> nextInVToKBucket;
 
     @Weak @Nullable BiEntry<K, V> nextInKeyInsertionOrder;

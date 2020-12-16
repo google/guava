@@ -70,6 +70,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
    * throws an {@code IllegalStateException}.)
    *
+   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -88,6 +89,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * merged using the specified merging function. Entries will appear in the encounter order of the
    * first occurrence of the key.
    *
+   *
    * @since 21.0
    */
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
@@ -95,14 +97,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction,
       BinaryOperator<V> mergeFunction) {
-    checkNotNull(comparator);
-    checkNotNull(keyFunction);
-    checkNotNull(valueFunction);
-    checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
-        Collectors.toMap(
-            keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
-        ImmutableSortedMap::copyOfSorted);
+    return CollectCollectors.toImmutableSortedMap(
+        comparator, keyFunction, valueFunction, mergeFunction);
   }
 
   /*

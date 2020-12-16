@@ -441,7 +441,7 @@ public class BigIntegerMathTest extends TestCase {
   @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testDivNonZeroExact() {
-    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
+    boolean isAndroid = System.getProperty("java.runtime.name").contains("Android");
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
         if (isAndroid && p.equals(BAD_FOR_ANDROID_P) && q.equals(BAD_FOR_ANDROID_Q)) {

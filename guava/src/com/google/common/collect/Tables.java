@@ -60,6 +60,7 @@ public final class Tables {
    * <p>If multiple input elements map to the same row and column, an {@code IllegalStateException}
    * is thrown when the collection operation is performed.
    *
+   *
    * @since 21.0
    */
   @Beta
@@ -82,6 +83,7 @@ public final class Tables {
    * BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
    * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
    * returned from {@code mergeFunction} as removals of that row/column pair.
+   *
    *
    * @since 21.0
    */

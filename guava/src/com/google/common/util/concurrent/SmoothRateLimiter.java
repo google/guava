@@ -26,10 +26,10 @@ abstract class SmoothRateLimiter extends RateLimiter {
   /*
    * How is the RateLimiter designed, and why?
    *
-   * The primary feature of a RateLimiter is its "stable rate", the maximum rate that is should
-   * allow at normal conditions. This is enforced by "throttling" incoming requests as needed, i.e.
-   * compute, for an incoming request, the appropriate throttle time, and make the calling thread
-   * wait as much.
+   * The primary feature of a RateLimiter is its "stable rate", the maximum rate that it should
+   * allow in normal conditions. This is enforced by "throttling" incoming requests as needed. For
+   * example, we could compute the appropriate throttle time for an incoming request, and make the
+   * calling thread wait for that time.
    *
    * The simplest way to maintain a rate of QPS is to keep the timestamp of the last granted
    * request, and ensure that (1/QPS) seconds have elapsed since then. For example, for a rate of

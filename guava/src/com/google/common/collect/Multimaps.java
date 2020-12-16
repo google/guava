@@ -29,6 +29,7 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -102,6 +103,7 @@ public final class Multimaps {
    * }
    * }</pre>
    *
+   *
    * @since 21.0
    */
   public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> toMultimap(
@@ -141,6 +143,7 @@ public final class Multimaps {
    *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
    * }
    * }</pre>
+   *
    *
    * @since 21.0
    */
@@ -624,11 +627,11 @@ public final class Multimaps {
   private static class UnmodifiableMultimap<K, V> extends ForwardingMultimap<K, V>
       implements Serializable {
     final Multimap<K, V> delegate;
-    transient @Nullable Collection<Entry<K, V>> entries;
-    transient @Nullable Multiset<K> keys;
-    transient @Nullable Set<K> keySet;
-    transient @Nullable Collection<V> values;
-    transient @Nullable Map<K, Collection<V>> map;
+    @LazyInit transient @Nullable Collection<Entry<K, V>> entries;
+    @LazyInit transient @Nullable Multiset<K> keys;
+    @LazyInit transient @Nullable Set<K> keySet;
+    @LazyInit transient @Nullable Collection<V> values;
+    @LazyInit transient @Nullable Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(final Multimap<K, V> delegate) {
       this.delegate = checkNotNull(delegate);
