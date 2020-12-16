@@ -1,4 +1,3 @@
-OK: com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable Interface
 MISSING @SINCE TAG: com.google.common.base.Preconditions Method checkNotNull(T)
 MISSING @SINCE TAG: com.google.common.base.Preconditions Method checkNotNull(T, Object)
 OK: com.google.common.base.Preconditions Method checkNotNull(T, String, Object)
@@ -24,7 +23,6 @@ OK: com.google.common.base.Preconditions Method checkNotNull(T, String, long, Ob
 OK: com.google.common.base.Preconditions Method checkNotNull(T, String, long, char)
 OK: com.google.common.base.Preconditions Method checkNotNull(T, String, long, int)
 OK: com.google.common.base.Preconditions Method checkNotNull(T, String, long, long)
-OK: com.google.common.reflect.ClassPath.ClassInfo Method isTopLevel()
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E extends T)
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E extends T, E extends T, E[])
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method min(E extends T, E extends T)
@@ -33,6 +31,3 @@ NO DOC BLOCK: com.google.common.reflect.MutableTypeToInstanceMap Method putInsta
 NO DOC BLOCK: com.google.common.reflect.MutableTypeToInstanceMap Method putInstance(java.lang.Class<T>, T extends B)
 MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstance(com.google.common.reflect.TypeToken<T>, T extends B)
 MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstance(java.lang.Class<T>, T extends B)
-OK: com.google.common.util.concurrent.ClosingFuture Method submitAsync(com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable<V>, java.util.concurrent.Executor)
-OK: com.google.common.net.HttpHeaders Field ORIGIN_ISOLATION
-OK: com.google.common.net.HttpHeaders Field X_REQUEST_ID

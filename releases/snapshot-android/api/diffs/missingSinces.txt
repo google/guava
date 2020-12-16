@@ -1,5 +1,0 @@
-OK: com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable Interface
-OK: com.google.common.reflect.ClassPath.ClassInfo Method isTopLevel()
-OK: com.google.common.util.concurrent.ClosingFuture Method submitAsync(com.google.common.util.concurrent.ClosingFuture.AsyncClosingCallable<V>, java.util.concurrent.Executor)
-OK: com.google.common.net.HttpHeaders Field ORIGIN_ISOLATION
-OK: com.google.common.net.HttpHeaders Field X_REQUEST_ID
