@@ -14,10 +14,26 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.0</truth.version>
+    <truth.version>1.1</truth.version>
+    <!--
+      Upgrading to 1.19 breaks things: Animal Sniffer reports a problem with the
+      use of ClassValue in FuturesGetChecked, even though we've added a
+      suppression annotation.
+
+      The problem might be
+      https://github.com/mojohaus/animal-sniffer/issues/131.
+
+      We could probably work around this with a different suppression strategy,
+      perhaps (untested):
+
+      <ignores><ignore>com.google.common.util.concurrent.FuturesGetChecked$GetCheckedTypeValidatorHolder$ClassValueValidator</ignore></ignores>
+
+      But upgrading doesn't really buy us much, as far as I know. (1.19 does
+      check test code in addition to prod code, but I don't think we care.)
+    -->
     <animal.sniffer.version>1.18</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <issueManagement>
@@ -267,7 +283,7 @@
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.3.4</version>
+        <version>2.4.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
@@ -277,19 +293,19 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13</version>
+        <version>4.13.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
-        <version>3.0</version>
+        <version>4.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.19.0</version>
+        <version>3.6.28</version>
         <scope>test</scope>
       </dependency>
       <dependency>
