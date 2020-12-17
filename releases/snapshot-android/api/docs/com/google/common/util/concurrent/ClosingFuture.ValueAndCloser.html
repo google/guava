@@ -117,7 +117,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.326">ClosingFuture.ValueAndCloser</a>&lt;V&gt;
+<pre>public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line.327">ClosingFuture.ValueAndCloser</a>&lt;V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">An object that holds the final result of an asynchronous <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> operation and
  allows the user to close all the closeable objects that were captured during it for later
@@ -189,7 +189,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>get</h4>
 <pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#line.345">get</a>()
+public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#line.346">get</a>()
                     throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Returns the final value of the associated <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>, or throws an exception as
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get--" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> would.
@@ -209,7 +209,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ClosingFut
 <ul class="blockListLast">
 <li class="blockList">
 <h4>closeAsync</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#line.359">closeAsync</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#line.360">closeAsync</a>()</pre>
 <div class="block">Starts closing all closeable objects captured during the <a href="../../../../../com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>'s asynchronous
  operation on the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a>s specified by calls to <code>DeferredCloser#eventuallyClose(Closeable, Executor)</code>.
 
