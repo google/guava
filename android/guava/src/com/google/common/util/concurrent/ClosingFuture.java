@@ -137,8 +137,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <h4>Automatically closing</h4>
  *
  * You can extract a {@link Future} that represents the result of the last step in the pipeline by
- * calling {@link #finishToFuture()}. When that final {@link Future} is done, all objects captured
- * by all steps in the pipeline will be closed.
+ * calling {@link #finishToFuture()}. All objects the pipeline has captured for closing will begin
+ * to be closed asynchronously <b>after</b> the returned {@code Future} is done: the future
+ * completes before closing starts, rather than once it has finished.
  *
  * <pre>{@code
  * FluentFuture<UserName> userName =
@@ -983,9 +984,14 @@ public final class ClosingFuture<V> {
   }
 
   /**
-   * Marks this step as the last step in the {@code ClosingFuture} pipeline. When the returned
-   * {@link Future} is done, all objects captured for closing during the pipeline's computation will
-   * be closed.
+   * Marks this step as the last step in the {@code ClosingFuture} pipeline.
+   *
+   * <p>The returned {@link Future} is completed when the pipeline's computation completes, or when
+   * the pipeline is cancelled.
+   *
+   * <p>All objects the pipeline has captured for closing will begin to be closed asynchronously
+   * <b>after</b> the returned {@code Future} is done: the future completes before closing starts,
+   * rather than once it has finished.
    *
    * <p>After calling this method, you may not call {@link
    * #finishToValueAndCloser(ValueAndCloserConsumer, Executor)}, this method, or any other
