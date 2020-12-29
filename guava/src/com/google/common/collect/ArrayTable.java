@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.emptyMap;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -596,7 +597,11 @@ public final class ArrayTable<
   public Map<R, @Nullable V> column(C columnKey) {
     checkNotNull(columnKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
-    return (columnIndex == null) ? Collections.<R, @Nullable V>emptyMap() : new Column(columnIndex);
+    if (columnIndex == null) {
+      return emptyMap();
+    } else {
+      return new Column(columnIndex);
+    }
   }
 
   private class Column extends ArrayMap<R, @Nullable V> {
@@ -686,7 +691,12 @@ public final class ArrayTable<
   public Map<C, @Nullable V> row(R rowKey) {
     checkNotNull(rowKey);
     Integer rowIndex = rowKeyToIndex.get(rowKey);
-    return (rowIndex == null) ? Collections.<C, @Nullable V>emptyMap() : new Row(rowIndex);
+    // Avoid ternary operator to appease our prototype nullness checker.
+    if (rowIndex == null) {
+      return emptyMap();
+    } else {
+      return new Row(rowIndex);
+    }
   }
 
   private class Row extends ArrayMap<C, @Nullable V> {
