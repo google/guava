@@ -904,7 +904,7 @@
 <span class="sourceLineNo">896</span>  public static OptionalInt findLast(IntStream stream) {<a name="line.896"></a>
 <span class="sourceLineNo">897</span>    // findLast(Stream) does some allocation, so we might as well box some more<a name="line.897"></a>
 <span class="sourceLineNo">898</span>    java.util.Optional&lt;Integer&gt; boxedLast = findLast(stream.boxed());<a name="line.898"></a>
-<span class="sourceLineNo">899</span>    return boxedLast.isPresent() ? OptionalInt.of(boxedLast.get()) : OptionalInt.empty();<a name="line.899"></a>
+<span class="sourceLineNo">899</span>    return boxedLast.map(OptionalInt::of).orElseGet(OptionalInt::empty);<a name="line.899"></a>
 <span class="sourceLineNo">900</span>  }<a name="line.900"></a>
 <span class="sourceLineNo">901</span><a name="line.901"></a>
 <span class="sourceLineNo">902</span>  /**<a name="line.902"></a>
@@ -923,7 +923,7 @@
 <span class="sourceLineNo">915</span>  public static OptionalLong findLast(LongStream stream) {<a name="line.915"></a>
 <span class="sourceLineNo">916</span>    // findLast(Stream) does some allocation, so we might as well box some more<a name="line.916"></a>
 <span class="sourceLineNo">917</span>    java.util.Optional&lt;Long&gt; boxedLast = findLast(stream.boxed());<a name="line.917"></a>
-<span class="sourceLineNo">918</span>    return boxedLast.isPresent() ? OptionalLong.of(boxedLast.get()) : OptionalLong.empty();<a name="line.918"></a>
+<span class="sourceLineNo">918</span>    return boxedLast.map(OptionalLong::of).orElseGet(OptionalLong::empty);<a name="line.918"></a>
 <span class="sourceLineNo">919</span>  }<a name="line.919"></a>
 <span class="sourceLineNo">920</span><a name="line.920"></a>
 <span class="sourceLineNo">921</span>  /**<a name="line.921"></a>
@@ -942,7 +942,7 @@
 <span class="sourceLineNo">934</span>  public static OptionalDouble findLast(DoubleStream stream) {<a name="line.934"></a>
 <span class="sourceLineNo">935</span>    // findLast(Stream) does some allocation, so we might as well box some more<a name="line.935"></a>
 <span class="sourceLineNo">936</span>    java.util.Optional&lt;Double&gt; boxedLast = findLast(stream.boxed());<a name="line.936"></a>
-<span class="sourceLineNo">937</span>    return boxedLast.isPresent() ? OptionalDouble.of(boxedLast.get()) : OptionalDouble.empty();<a name="line.937"></a>
+<span class="sourceLineNo">937</span>    return boxedLast.map(OptionalDouble::of).orElseGet(OptionalDouble::empty);<a name="line.937"></a>
 <span class="sourceLineNo">938</span>  }<a name="line.938"></a>
 <span class="sourceLineNo">939</span><a name="line.939"></a>
 <span class="sourceLineNo">940</span>  private Streams() {}<a name="line.940"></a>
