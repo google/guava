@@ -141,6 +141,31 @@ public class StringsTest extends TestCase {
     }
   }
 
+  public void testReverse_string() {
+    assertEquals("", Strings.reverse(""));
+    assertEquals("cba", Strings.reverse("abc"));
+
+    // Valid surrogate pair
+    assertEquals("\uD8AB\uDCABcba", Strings.reverse("abc\uD8AB\uDCAB"));
+    // Invalid surrogate pair
+    assertEquals("\uD8AB\uD8ABcba", Strings.reverse("abc\uD8AB\uD8AB"));
+    // Orphan high surrogate
+    assertEquals("\uD8ABcba", Strings.reverse("abc\uD8AB"));
+  }
+
+  public void testReverse_charSequence() {
+    assertEquals("cba", Strings.reverse(new StringBuilder("abc")));
+  }
+
+  // TODO: could remove if we got NPT working in GWT somehow
+  public void testReverse_null() {
+    try {
+      Strings.reverse(null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
   public void testCommonPrefix() {
     assertEquals("", Strings.commonPrefix("", ""));
     assertEquals("", Strings.commonPrefix("abc", ""));

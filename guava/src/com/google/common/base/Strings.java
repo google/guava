@@ -167,6 +167,18 @@ public final class Strings {
   }
 
   /**
+   * Returns a {@link String} which is the reversed version of {@code seq}. See the javadoc on
+   * {@code java.lang.AbstractStringBuilder.reverse()} for implementation details.
+   *
+   * @param seq The CharSequence to be reversed
+   * @return The reversed version of {@code seq}
+   * @since 31.0
+   */
+  public static String reverse(CharSequence seq) {
+    return new StringBuilder(seq).reverse().toString();
+  }
+
+  /**
    * Returns the longest string {@code prefix} such that {@code a.toString().startsWith(prefix) &&
    * b.toString().startsWith(prefix)}, taking care not to split surrogate pairs. If {@code a} and
    * {@code b} have no common prefix, returns the empty string.
