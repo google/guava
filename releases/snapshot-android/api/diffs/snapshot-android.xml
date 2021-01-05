@@ -20694,8 +20694,8 @@
       deprecated="not deprecated">
       <param name="entries" type="java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K, ? extends V&gt;&gt;"/>
       <doc>
-      <![CDATA[Returns an immutable map containing the given entries, with keys sorted by the provided
- comparator.
+      <![CDATA[Returns an immutable map containing the given entries, with keys sorted by their natural
+ ordering.
 
  <p>This method is not type-safe, as it may be called on a map with keys that are not mutually
  comparable.
