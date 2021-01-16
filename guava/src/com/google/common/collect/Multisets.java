@@ -363,9 +363,8 @@ public final class Multisets {
       checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
-      } else {
-        return contains(element) ? unfiltered.remove(element, occurrences) : 0;
       }
+      return contains(element) ? unfiltered.remove(element, occurrences) : 0;
     }
   }
 
@@ -884,9 +883,8 @@ public final class Multisets {
       return addAllImpl(self, cast(elements));
     } else if (elements.isEmpty()) {
       return false;
-    } else {
-      return Iterators.addAll(self, elements.iterator());
     }
+    return Iterators.addAll(self, elements.iterator());
   }
 
   /** A specialization of {@code addAllImpl} for when {@code elements} is itself a Multiset. */
@@ -943,9 +941,8 @@ public final class Multisets {
     if (self.count(element) == oldCount) {
       self.setCount(element, newCount);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   static <E> Iterator<E> elementIterator(Iterator<Entry<E>> entryIterator) {
