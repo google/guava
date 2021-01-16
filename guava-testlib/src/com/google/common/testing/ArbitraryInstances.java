@@ -175,6 +175,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtIncompatible
 public final class ArbitraryInstances {
 
+  private static Pattern pattern =  Pattern.compile(".");
+
   private static final Ordering<Field> BY_FIELD_NAME =
       new Ordering<Field>() {
         @Override
@@ -189,7 +191,7 @@ public final class ArbitraryInstances {
    * http://goo.gl/5VQFmC
    */
   private static MatchResult newMatchResult() {
-    Matcher matcher = Pattern.compile(".").matcher("X");
+    Matcher matcher = pattern.matcher("X");
     matcher.find();
     return matcher.toMatchResult();
   }

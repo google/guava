@@ -191,13 +191,16 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   /*
    * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
    */
+  @Override
   @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.
   abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
+  @Override
   @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.
   abstract ContiguousSet<C> subSetImpl(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);
 
+  @Override
   @SuppressWarnings("MissingOverride") // Supermethod does not exist under GWT.
   abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
