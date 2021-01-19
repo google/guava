@@ -125,7 +125,7 @@ abstract class Striped64 extends Number {
    * class, we use a suboptimal int[] representation to avoid introducing a new type that can impede
    * class-unloading when ThreadLocals are not removed.
    */
-  static final ThreadLocal<int[]> threadHashCode = new ThreadLocal<>();
+  static final ThreadLocal<int @Nullable []> threadHashCode = new ThreadLocal<>();
 
   /** Generator of new random hash codes */
   static final Random rng = new Random();
