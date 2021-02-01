@@ -151,6 +151,20 @@ public class UnsignedIntegerTest extends TestCase {
       }
     }
   }
+  
+  
+  public void testOr() {
+    for (int a : TEST_INTS) {
+      for (int b : TEST_INTS) {
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
+        int expected =
+                aUnsigned.bigIntegerValue().or(bUnsigned.bigIntegerValue()).intValue();
+        UnsignedInteger unsignedSub = aUnsigned.or(bUnsigned);
+        assertEquals(expected, unsignedSub.intValue());
+      }
+    }
+  }
 
   public void testXor() {
     for (int a : TEST_INTS) {
@@ -158,7 +172,7 @@ public class UnsignedIntegerTest extends TestCase {
         UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
         UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         int expected =
-                force32(aUnsigned.bigIntegerValue().xor(bUnsigned.bigIntegerValue()).intValue());
+                aUnsigned.bigIntegerValue().xor(bUnsigned.bigIntegerValue()).intValue();
         UnsignedInteger unsignedSub = aUnsigned.xor(bUnsigned);
         assertEquals(expected, unsignedSub.intValue());
       }
@@ -185,19 +199,6 @@ public class UnsignedIntegerTest extends TestCase {
         int expected =
             force32(aUnsigned.bigIntegerValue().subtract(bUnsigned.bigIntegerValue()).intValue());
         UnsignedInteger unsignedSub = aUnsigned.minus(bUnsigned);
-        assertEquals(expected, unsignedSub.intValue());
-      }
-    }
-  }
-
-  public void testOr() {
-    for (int a : TEST_INTS) {
-      for (int b : TEST_INTS) {
-        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
-        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
-        int expected =
-                force32(aUnsigned.bigIntegerValue().or(bUnsigned.bigIntegerValue()).intValue());
-        UnsignedInteger unsignedSub = aUnsigned.or(bUnsigned);
         assertEquals(expected, unsignedSub.intValue());
       }
     }
