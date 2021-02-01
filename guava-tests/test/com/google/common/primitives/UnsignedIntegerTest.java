@@ -165,6 +165,19 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  public void testOr() {
+    for (int a : TEST_INTS) {
+      for (int b : TEST_INTS) {
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
+        int expected =
+                force32(aUnsigned.bigIntegerValue().or(bUnsigned.bigIntegerValue()).intValue());
+        UnsignedInteger unsignedSub = aUnsigned.or(bUnsigned);
+        assertEquals(expected, unsignedSub.intValue());
+      }
+    }
+  }
+
   @GwtIncompatible // multiply
   public void testTimes() {
     for (int a : TEST_INTS) {

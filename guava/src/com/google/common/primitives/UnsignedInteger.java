@@ -169,6 +169,13 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
+   * Returns the result of bitwise logical or operation with{@code val}.
+   */
+  public UnsignedInteger or(UnsignedInteger val) {
+    return fromIntBits(this.value | checkNotNull(val).value);
+  }
+
+  /**
    * Returns the value of this {@code UnsignedInteger} as an {@code int}. This is an inverse
    * operation to {@link #fromIntBits}.
    *
