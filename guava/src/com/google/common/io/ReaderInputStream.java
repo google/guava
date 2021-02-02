@@ -185,6 +185,26 @@ final class ReaderInputStream extends InputStream {
     }
   }
 
+  @Override
+  public int available() throws IOException {
+    if (byteBuffer.hasRemaining()) {
+      // if we have remaining chars in the buffer, their count
+      return byteBuffer.remaining();
+    } else if (charBuffer.hasRemaining()) {
+      // if not, try to make quick progress by encoding available
+      // chars that have been read from the users reader
+      encoder.encode(charBuffer, byteBuffer, endOfInput);
+      return available();
+    } else if (reader.ready() && !endOfInput) {
+      // if none of the above was true, check if
+      // the reader is ready, and try to make progress on it
+      endOfInput = reader.read(charBuffer) < 0;
+      return available();
+    }
+
+    return 0;
+  }
+
   /** Returns a new CharBuffer identical to buf, except twice the capacity. */
   private static CharBuffer grow(CharBuffer buf) {
     char[] copy = Arrays.copyOf(buf.array(), buf.capacity() * 2);
