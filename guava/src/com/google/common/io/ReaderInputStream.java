@@ -188,7 +188,7 @@ final class ReaderInputStream extends InputStream {
   @Override
   public int available() throws IOException {
     if (byteBuffer.hasRemaining()) {
-      // if we have remaining chars in the buffer, their count
+      // if we have remaining chars in the buffer, return their count
       return byteBuffer.remaining();
     } else if (charBuffer.hasRemaining()) {
       // if not, try to make quick progress by encoding available
