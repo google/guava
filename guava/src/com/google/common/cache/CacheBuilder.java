@@ -260,6 +260,7 @@ public final class CacheBuilder<K, V> {
    * <p>Note that while this return type is {@code CacheBuilder<Object, Object>}, type parameters on
    * the {@link #build} methods allow you to create a cache of any key and value type desired.
    */
+  @CheckReturnValue
   public static CacheBuilder<Object, Object> newBuilder() {
     return new CacheBuilder<>();
   }
@@ -270,6 +271,7 @@ public final class CacheBuilder<K, V> {
    * @since 12.0
    */
   @GwtIncompatible // To be supported
+  @CheckReturnValue
   public static CacheBuilder<Object, Object> from(CacheBuilderSpec spec) {
     return spec.toCacheBuilder().lenientParsing();
   }
@@ -282,6 +284,7 @@ public final class CacheBuilder<K, V> {
    * @since 12.0
    */
   @GwtIncompatible // To be supported
+  @CheckReturnValue
   public static CacheBuilder<Object, Object> from(String spec) {
     return from(CacheBuilderSpec.parse(spec));
   }
@@ -945,6 +948,7 @@ public final class CacheBuilder<K, V> {
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    */
+  @CheckReturnValue
   public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(
       CacheLoader<? super K1, V1> loader) {
     checkWeightWithWeigher();
@@ -963,6 +967,7 @@ public final class CacheBuilder<K, V> {
    * @return a cache having the requested features
    * @since 11.0
    */
+  @CheckReturnValue
   public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
     checkWeightWithWeigher();
     checkNonLoadingCache();

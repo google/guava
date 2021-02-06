@@ -285,6 +285,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToLive_small() {
     CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS).build(identityLoader());
     // well, it didn't blow up.
@@ -310,6 +311,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToIdle_small() {
     CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS).build(identityLoader());
     // well, it didn't blow up.
@@ -326,6 +328,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToIdleAndToLive() {
     CacheBuilder.newBuilder()
         .expireAfterWrite(1, NANOSECONDS)

@@ -23,6 +23,7 @@ import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
+import com.google.errorprone.annotations.CheckReturnValue;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -135,6 +136,7 @@ public abstract class CacheLoader<K, V> {
    * @param function the function to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by passing each key to {@code function}
    */
+  @CheckReturnValue
   public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
     return new FunctionToCacheLoader<>(function);
   }
@@ -148,6 +150,7 @@ public abstract class CacheLoader<K, V> {
    * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the
    *     key
    */
+  @CheckReturnValue
   public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
     return new SupplierToCacheLoader<V>(supplier);
   }
@@ -177,6 +180,7 @@ public abstract class CacheLoader<K, V> {
    *
    * @since 17.0
    */
+  @CheckReturnValue
   @GwtIncompatible // Executor + Futures
   public static <K, V> CacheLoader<K, V> asyncReloading(
       final CacheLoader<K, V> loader, final Executor executor) {
