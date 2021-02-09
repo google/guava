@@ -1147,8 +1147,8 @@ public final class Iterators {
     @Override
     public E peek() {
       if (!hasPeeked) {
+        if( iterator.hasNext() ) hasPeeked = true;
         peekedElement = iterator.next();
-        hasPeeked = true;
       }
       return peekedElement;
     }
