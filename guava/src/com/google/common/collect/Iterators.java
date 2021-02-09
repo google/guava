@@ -1362,7 +1362,7 @@ public final class Iterators {
       if (hasNext()) {
         toRemove = iterator;
         return iterator.next();
-      } else {hasPeeked
+      } else {
         throw new NoSuchElementException();
       }
     }
