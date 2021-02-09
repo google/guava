@@ -1148,7 +1148,7 @@ public final class Iterators {
     public E peek() {
       if (!hasPeeked) {
         peekedElement = iterator.next();
-        hasPeeked = true;
+        if( iterators.hasNext() ) hasPeeked = true;
       }
       return peekedElement;
     }
@@ -1362,7 +1362,7 @@ public final class Iterators {
       if (hasNext()) {
         toRemove = iterator;
         return iterator.next();
-      } else {
+      } else {hasPeeked
         throw new NoSuchElementException();
       }
     }
