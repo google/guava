@@ -54,6 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Mick Killianey
  */
+@SuppressWarnings("CheckReturnValue")
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
