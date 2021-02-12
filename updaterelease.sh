@@ -346,6 +346,8 @@ commit_changes() {
 update_config_yml() {
   # The release being updated currently may not be the latest release.
   version="$(latest_release)"
+  # Remove the -jre suffix if present
+  version=${version/-jre/}
 
   "$SED" -i'' -re "s/latest_release:[ ]+.+/latest_release: $version/g" _config.yml
 
