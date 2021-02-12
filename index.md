@@ -23,7 +23,7 @@ Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or Java 7 or by any library that wants to be compatible with
 either of those. These flavors are specified in the Maven version field as
-either `28.0-jre` or `28.0-android`. For more about depending on
+either `{{ site.latest_release }}-jre` or `{{ site.latest_release }}-android`. For more about depending on
 Guava, see [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -32,9 +32,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>28.0-jre</version>
+  <version>{{ site.latest_release }}-jre</version>
   <!-- or, for Android: -->
-  <version>28.0-android</version>
+  <version>{{ site.latest_release }}-android</version>
 </dependency>
 ```
 
@@ -42,9 +42,9 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  compile 'com.google.guava:guava:28.0-jre'
+  compile 'com.google.guava:guava:{{ site.latest_release }}-jre'
   // or, for Android:
-  api 'com.google.guava:guava:28.0-android'
+  api 'com.google.guava:guava:{{ site.latest_release }}-android'
 }
 ```
 
