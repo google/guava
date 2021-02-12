@@ -1,1 +1,1 @@
-The Guava GitHub page: `http://google.github.io/guava`
+The Guava GitHub page: `https://guava.dev/`
