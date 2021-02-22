@@ -15,7 +15,6 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.CharStreams.createBuffer;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -40,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class LineReader {
   private final Readable readable;
   private final @Nullable Reader reader;
-  private final CharBuffer cbuf = createBuffer();
+  private final CharBuffer cbuf = CharBuffer.allocate(0x800);
   private final char[] buf = cbuf.array();
 
   private final Queue<String> lines = new LinkedList<>();
