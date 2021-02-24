@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Collections;
@@ -208,7 +209,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void put(Range<K> range, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void put(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -220,7 +222,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void putCoalescing(Range<K> range, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putCoalescing(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -232,7 +235,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void putAll(RangeMap<K, V> rangeMap) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putAll(RangeMap<K, V> rangeMap) {
     throw new UnsupportedOperationException();
   }
 
@@ -244,7 +248,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void clear() {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void clear() {
     throw new UnsupportedOperationException();
   }
 
@@ -256,7 +261,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void remove(Range<K> range) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void remove(Range<K> range) {
     throw new UnsupportedOperationException();
   }
 

@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -306,6 +307,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
@@ -321,6 +323,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }

@@ -320,6 +320,7 @@ public class ImmutableSortedMapTest extends TestCase {
       assertMapEquals(map, "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
+    @SuppressWarnings("DoNotCall")
     public void testBuilder_orderEntriesByValueFails() {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       try {

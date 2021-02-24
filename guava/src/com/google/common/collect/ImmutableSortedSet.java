@@ -23,6 +23,7 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -730,6 +731,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final E pollFirst() {
     throw new UnsupportedOperationException();
   }
@@ -745,6 +747,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final E pollLast() {
     throw new UnsupportedOperationException();
   }

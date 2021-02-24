@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.ListIterator;
 
 /**
@@ -39,6 +40,7 @@ public abstract class UnmodifiableListIterator<E> extends UnmodifiableIterator<E
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final void add(E e) {
     throw new UnsupportedOperationException();
   }
@@ -51,6 +53,7 @@ public abstract class UnmodifiableListIterator<E> extends UnmodifiableIterator<E
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final void set(E e) {
     throw new UnsupportedOperationException();
   }

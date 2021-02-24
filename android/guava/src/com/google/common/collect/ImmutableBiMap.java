@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -346,7 +347,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public V forcePut(K key, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
