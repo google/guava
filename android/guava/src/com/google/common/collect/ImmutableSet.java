@@ -318,7 +318,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
-    } else if (object instanceof ImmutableSet
+    }
+    if (object instanceof ImmutableSet
         && isHashCodeFast()
         && ((ImmutableSet<?>) object).isHashCodeFast()
         && hashCode() != object.hashCode()) {
