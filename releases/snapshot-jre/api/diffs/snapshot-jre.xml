@@ -16862,7 +16862,7 @@
     </method>
     <method name="forcePut" return="V"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="value" type="V"/>
@@ -18359,7 +18359,7 @@
     </method>
     <method name="removeAll" return="com.google.common.collect.ImmutableList&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="java.lang.Object"/>
       <doc>
@@ -18371,7 +18371,7 @@
     </method>
     <method name="replaceValues" return="com.google.common.collect.ImmutableList&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
@@ -20052,7 +20052,7 @@
     </method>
     <method name="put"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
       <param name="value" type="V"/>
@@ -20065,7 +20065,7 @@
     </method>
     <method name="putCoalescing"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
       <param name="value" type="V"/>
@@ -20078,7 +20078,7 @@
     </method>
     <method name="putAll"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
       <doc>
@@ -20090,7 +20090,7 @@
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
@@ -20101,7 +20101,7 @@
     </method>
     <method name="remove"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
       <doc>
@@ -20113,7 +20113,7 @@
     </method>
     <method name="merge"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
       <param name="value" type="V"/>
@@ -21091,7 +21091,7 @@
     </method>
     <method name="removeAll" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="java.lang.Object"/>
       <doc>
@@ -21103,7 +21103,7 @@
     </method>
     <method name="replaceValues" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
@@ -21859,7 +21859,7 @@
     </method>
     <method name="orderEntriesByValue" return="com.google.common.collect.ImmutableSortedMap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported by ImmutableSortedMap.Builder.">
       <param name="valueComparator" type="java.util.Comparator&lt;? super V&gt;"/>
       <doc>
