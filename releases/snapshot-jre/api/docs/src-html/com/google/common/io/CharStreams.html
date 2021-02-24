@@ -85,19 +85,19 @@
 <span class="sourceLineNo">077</span>      } else {<a name="line.77"></a>
 <span class="sourceLineNo">078</span>        return copyReaderToWriter((Reader) from, asWriter(to));<a name="line.78"></a>
 <span class="sourceLineNo">079</span>      }<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    } else {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>      checkNotNull(from);<a name="line.81"></a>
-<span class="sourceLineNo">082</span>      checkNotNull(to);<a name="line.82"></a>
-<span class="sourceLineNo">083</span>      long total = 0;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>      CharBuffer buf = createBuffer();<a name="line.84"></a>
-<span class="sourceLineNo">085</span>      while (from.read(buf) != -1) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>        Java8Compatibility.flip(buf);<a name="line.86"></a>
-<span class="sourceLineNo">087</span>        to.append(buf);<a name="line.87"></a>
-<span class="sourceLineNo">088</span>        total += buf.remaining();<a name="line.88"></a>
-<span class="sourceLineNo">089</span>        Java8Compatibility.clear(buf);<a name="line.89"></a>
-<span class="sourceLineNo">090</span>      }<a name="line.90"></a>
-<span class="sourceLineNo">091</span>      return total;<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    }<a name="line.92"></a>
+<span class="sourceLineNo">080</span>    }<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>    checkNotNull(from);<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    checkNotNull(to);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    long total = 0;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    CharBuffer buf = createBuffer();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    while (from.read(buf) != -1) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      Java8Compatibility.flip(buf);<a name="line.87"></a>
+<span class="sourceLineNo">088</span>      to.append(buf);<a name="line.88"></a>
+<span class="sourceLineNo">089</span>      total += buf.remaining();<a name="line.89"></a>
+<span class="sourceLineNo">090</span>      Java8Compatibility.clear(buf);<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    }<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    return total;<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  }<a name="line.93"></a>
 <span class="sourceLineNo">094</span><a name="line.94"></a>
 <span class="sourceLineNo">095</span>  // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able<a name="line.95"></a>
