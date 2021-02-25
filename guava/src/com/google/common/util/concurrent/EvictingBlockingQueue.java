@@ -121,5 +121,26 @@ public final class EvictingBlockingQueue<E> extends ForwardingBlockingQueue<E> i
 	    	return true;
 	    }
 	}
+	
+	@Override
+	public boolean remove(Object o) {
+		synchronized(lock) {
+			return this.delegate.remove(o);
+		}
+	}
+	
+	@Override
+	public E remove() {
+		synchronized(lock) {
+			return this.delegate.remove();
+		}
+	}
+	
+	@Override
+	public E poll() {
+		synchronized(lock) {
+			return this.delegate.poll();
+		}
+	}
 
 }
