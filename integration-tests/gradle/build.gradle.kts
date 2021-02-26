@@ -28,12 +28,15 @@ val extraLegacyDependencies = setOf(
 )
 
 buildscript {
+  val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.0-alpha08"
   repositories {
     google()
-    jcenter()
+    mavenCentral()
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:3.6.3")
+    classpath("com.android.tools.build:gradle:$agpVersion") {
+      exclude(group = "org.jetbrains.trove4j") // Might not be available on Maven Central and not needed for this test
+    }
   }
 }
 
@@ -43,6 +46,13 @@ subprojects {
   } else {
     apply(plugin = "com.android.application")
     the<com.android.build.gradle.AppExtension>().compileSdkVersion(30)
+    // === TODO Remove this when https://issuetracker.google.com/issues/179488433 is fixed in AGP 7.0.0
+    configurations.whenObjectAdded {
+      if (name in listOf("releaseRuntimeClasspath", "debugRuntimeClasspath", "releaseCompileClasspath", "debugCompileClasspath")) {
+        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String::class.java), "android")
+      }
+    }
+    // ===
   }
 
   val expectedClasspath =
@@ -143,7 +153,8 @@ subprojects {
         constraints {
           "api"("com.google.guava:guava") {
             attributes {
-              attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 6)
+              // if the Gradle version is 7+, you can use TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE
+              attribute(Attribute.of("org.gradle.jvm.environment", String::class.java), "android")
             }
           }
         }
@@ -167,7 +178,8 @@ subprojects {
         constraints {
           "api"("com.google.guava:guava") {
             attributes {
-              attribute(Attribute.of("com.android.build.api.attributes.BuildTypeAttr", String::class.java), "jre")
+              // if the Gradle version is 7+, you can use TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE
+              attribute(Attribute.of("org.gradle.jvm.environment", String::class.java), "standard-jvm")
             }
           }
         }
