@@ -1,29 +1,29 @@
 rootProject.name = "guava-integration-test"
 
-include("jreJava8CompileClasspathJava")
+include("standardJvmJava8CompileClasspathJava")
 include("androidJava8CompileClasspathJava")
-include("jreJava8RuntimeClasspathJava")
+include("standardJvmJava8RuntimeClasspathJava")
 include("androidJava8RuntimeClasspathJava")
 
-include("jreJava6CompileClasspathJava")
+include("standardJvmJava6CompileClasspathJava")
 include("androidJava6CompileClasspathJava")
-include("jreJava6RuntimeClasspathJava")
+include("standardJvmJava6RuntimeClasspathJava")
 include("androidJava6RuntimeClasspathJava")
 
-include("jreJava8CompileClasspathAndroid")
+include("standardJvmJava8CompileClasspathAndroid")
 include("androidJava8CompileClasspathAndroid")
-include("jreJava8RuntimeClasspathAndroid")
+include("standardJvmJava8RuntimeClasspathAndroid")
 include("androidJava8RuntimeClasspathAndroid")
 
-include("jreJava6CompileClasspathAndroid")
+include("standardJvmJava6CompileClasspathAndroid")
 include("androidJava6CompileClasspathAndroid")
-include("jreJava6RuntimeClasspathAndroid")
+include("standardJvmJava6RuntimeClasspathAndroid")
 include("androidJava6RuntimeClasspathAndroid")
 
 // Enforce 'android' variant in Java projects via constraint
-include("jreJava6ConstraintCompileClasspathJava")
-include("androidJava6ConstraintCompileClasspathJava")
+include("standardJvmAndroidConstraintCompileClasspathJava")
+include("androidAndroidConstraintCompileClasspathJava")
 
 // Enforce 'jre' variant in Android projects via constraint
-include("jreJava8ConstraintCompileClasspathAndroid")
-include("androidJava8ConstraintCompileClasspathAndroid")
+include("standardJvmJreConstraintCompileClasspathAndroid")
+include("androidJreConstraintCompileClasspathAndroid")

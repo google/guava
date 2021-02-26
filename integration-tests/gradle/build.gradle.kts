@@ -72,7 +72,7 @@ subprojects {
       //   (for Android projects, the 'android' variant is always chosen)
       // - reduced runtime classpath is used (w/o annotation libraries)
       // - capability conflicts are detected between Google Collections and Listenablefuture
-      if (name.contains("Java6") || (name.endsWith("Android") && !name.contains("Java8Constraint")) ) {
+      if (name.contains("Java6") || (name.contains("Android") && !name.contains("JreConstraint")) ) {
         when {
             name.contains("RuntimeClasspath") -> {
               expectedReducedRuntimeClasspathJava6
@@ -98,16 +98,16 @@ subprojects {
         }
       }
     }
-  val guavaVersion = if (name.startsWith("jre")) {
-    guavaVersionJre
-  } else {
+  val guavaVersion = if (name.startsWith("android")) {
     guavaVersionJre.replace("jre", "android")
+  } else {
+    guavaVersionJre
   }
   val javaVersion = when {
-      name.contains("Java8Constraint") -> {
+      name.contains("JreConstraint") -> {
         JavaVersion.VERSION_1_6
       }
-      name.contains("Java6Constraint") -> {
+      name.contains("AndroidConstraint") -> {
         JavaVersion.VERSION_1_8
       }
       name.contains("Java6") -> {
@@ -148,7 +148,7 @@ subprojects {
       }
     }
 
-    if (name.contains("Java6Constraint")) {
+    if (name.contains("AndroidConstraint")) {
       dependencies {
         constraints {
           "api"("com.google.guava:guava") {
@@ -173,7 +173,7 @@ subprojects {
       }
     }
 
-    if (name.contains("Java8Constraint")) {
+    if (name.contains("JreConstraint")) {
       dependencies {
         constraints {
           "api"("com.google.guava:guava") {
