@@ -232,7 +232,7 @@ final class FuturesGetChecked {
     @SuppressWarnings({"unchecked", "rawtypes"})
     List<Constructor<X>> constructors = (List) Arrays.asList(exceptionClass.getConstructors());
     for (Constructor<X> constructor : preferringStrings(constructors)) {
-      @Nullable X instance = newFromConstructor(constructor, cause);
+      X instance = newFromConstructor(constructor, cause);
       if (instance != null) {
         if (instance.getCause() == null) {
           instance.initCause(cause);

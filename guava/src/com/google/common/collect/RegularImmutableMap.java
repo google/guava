@@ -98,7 +98,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
+      ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry =
           (existing == null)
