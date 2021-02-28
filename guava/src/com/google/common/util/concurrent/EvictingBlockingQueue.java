@@ -21,10 +21,8 @@ import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
-
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -47,7 +45,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @author Noam Greenshtain
  * 
  */
-@GwtCompatible
+@GwtIncompatible
 public final class EvictingBlockingQueue<E> extends ForwardingBlockingQueue<E> implements Serializable {
 
 	private static final long serialVersionUID = -4305601088881265868L;

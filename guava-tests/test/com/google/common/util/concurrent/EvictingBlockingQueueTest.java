@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import java.util.AbstractList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
@@ -32,7 +31,7 @@ import junit.framework.TestCase;
  *
  * @author Noam Greenshtain
  */
-@GwtCompatible(emulated = true)
+//@GwtCompatible(emulated = true)
 public class EvictingBlockingQueueTest extends TestCase {
 	public void testCreateWithNegativeSize() throws Exception {
 		try {
