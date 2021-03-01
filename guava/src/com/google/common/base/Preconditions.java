@@ -1326,7 +1326,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkElementIndex(int index, int size, @Nullable String desc) {
+  public static int checkElementIndex(int index, int size, String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));
@@ -1334,7 +1334,7 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badElementIndex(int index, int size, @Nullable String desc) {
+  private static String badElementIndex(int index, int size, String desc) {
     if (index < 0) {
       return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
@@ -1371,7 +1371,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkPositionIndex(int index, int size, @Nullable String desc) {
+  public static int checkPositionIndex(int index, int size, String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {
       throw new IndexOutOfBoundsException(badPositionIndex(index, size, desc));
@@ -1379,7 +1379,7 @@ public final class Preconditions {
     return index;
   }
 
-  private static String badPositionIndex(int index, int size, @Nullable String desc) {
+  private static String badPositionIndex(int index, int size, String desc) {
     if (index < 0) {
       return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
