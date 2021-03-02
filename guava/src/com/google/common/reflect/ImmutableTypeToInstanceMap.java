@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.Map;
 
 /**
@@ -119,6 +120,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public <T extends B> T putInstance(TypeToken<T> type, T value) {
     throw new UnsupportedOperationException();
   }
@@ -132,6 +134,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
@@ -145,6 +148,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException();
   }
@@ -157,6 +161,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
     throw new UnsupportedOperationException();
   }
