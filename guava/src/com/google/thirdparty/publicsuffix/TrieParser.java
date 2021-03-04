@@ -19,6 +19,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.ArrayDeque;
 
 /** Parser for a map of reversed domain names stored as a serialized radix tree. */
 @GwtCompatible
@@ -34,7 +35,7 @@ final class TrieParser {
     int encodedLen = encoded.length();
     int idx = 0;
     while (idx < encodedLen) {
-      idx += doParseTrieToBuilder(Lists.<CharSequence>newLinkedList(), encoded, idx, builder);
+      idx += doParseTrieToBuilder(new ArrayDeque<CharSequence>(), encoded, idx, builder);
     }
     return builder.build();
   }
@@ -50,7 +51,7 @@ final class TrieParser {
    * @return The number of characters consumed from {@code encoded}.
    */
   private static int doParseTrieToBuilder(
-      List<CharSequence> stack,
+      ArrayDeque<CharSequence> stack,
       CharSequence encoded,
       int start,
       ImmutableMap.Builder<String, PublicSuffixType> builder) {
@@ -67,7 +68,7 @@ final class TrieParser {
       }
     }
 
-    stack.add(0, reverse(encoded.subSequence(start, idx)));
+    stack.push(reverse(encoded.subSequence(start, idx)));
 
     if (c == '!' || c == '?' || c == ':' || c == ',') {
       // '!' represents an interior node that represents a REGISTRY entry in the map.
@@ -92,7 +93,7 @@ final class TrieParser {
         }
       }
     }
-    stack.remove(0);
+    stack.pop();
     return idx - start;
   }
 
