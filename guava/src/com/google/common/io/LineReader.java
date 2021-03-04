@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -43,7 +43,7 @@ public final class LineReader {
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 
-  private final Queue<String> lines = new LinkedList<>();
+  private final Queue<String> lines = new ArrayDeque<>();
   private final LineBuffer lineBuf =
       new LineBuffer() {
         @Override
