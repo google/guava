@@ -423,7 +423,8 @@ public abstract class RateLimiter {
   }
 
   public Duration durationToNextPermit() {
-    return Duration.of(queryEarliestAvailable(stopwatch.readMicros()), ChronoUnit.MICROS);
+    long nowMicros = stopwatch.readMicros();
+    return Duration.of(max(queryEarliestAvailable(nowMicros) - nowMicros, 0), ChronoUnit.MICROS);
   }
 
   public boolean canAcquire() {
