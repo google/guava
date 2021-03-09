@@ -15,9 +15,11 @@
 package com.google.common.base;
 
 import static com.google.common.base.Strings.lenientFormat;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -1487,5 +1489,22 @@ public final class Preconditions {
     }
     // end < start
     return lenientFormat("end index (%s) must not be less than start index (%s)", end, start);
+  }
+
+  static {
+    try {
+      Java8Usage.performCheck();
+    } catch (Throwable underlying) {
+      Exception toLog =
+          new Exception(
+              "Guava will drop support for Java 7 in 2021. Please let us know if this will cause"
+                  + " you problems: https://github.com/google/guava/issues/5269",
+              underlying);
+      Logger.getLogger(Preconditions.class.getName())
+          .log(
+              WARNING,
+              "Java 7 compatibility warning: See https://github.com/google/guava/issues/5269",
+              toLog);
+    }
   }
 }
