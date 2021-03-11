@@ -18,10 +18,10 @@ package com.google.common.cache;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -36,7 +36,7 @@ import junit.framework.TestCase;
 public class CacheLoaderTest extends TestCase {
 
   private static class QueuingExecutor implements Executor {
-    private LinkedList<Runnable> tasks = Lists.newLinkedList();
+    private final Deque<Runnable> tasks = Queues.newArrayDeque();
 
     @Override
     public void execute(Runnable task) {
