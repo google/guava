@@ -222,11 +222,12 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
     }
   }
 
-  private static void log(Throwable throwable) {
+  private void log(Throwable throwable) {
     String message =
         (throwable instanceof Error)
             ? "Input Future failed with Error"
-            : "Got more than one input Future failure. Logging failures after the first";
+            : "An additional input failed after the first. Logging it after adding the first"
+                + " failure as a suppressed exception.";
     logger.log(SEVERE, message, throwable);
   }
 
