@@ -23,9 +23,9 @@
  */
 @ParametersAreNonnullByDefault
 @CheckReturnValue
-@NullAware
+@NullMarked
 package com.google.common.math;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.nullness.NullAware;
+import org.jspecify.nullness.NullMarked;

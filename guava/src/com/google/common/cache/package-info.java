@@ -30,8 +30,8 @@
  * @author Charles Fry
  */
 @ParametersAreNonnullByDefault
-@NullAware
+@NullMarked
 package com.google.common.cache;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.nullness.NullAware;
+import org.jspecify.nullness.NullMarked;
