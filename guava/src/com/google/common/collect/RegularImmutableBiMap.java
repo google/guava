@@ -31,7 +31,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Bimap with zero or more mappings.

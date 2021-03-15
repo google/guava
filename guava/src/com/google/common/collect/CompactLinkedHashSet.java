@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that

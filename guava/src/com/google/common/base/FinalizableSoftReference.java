@@ -17,7 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Soft reference with a {@code finalizeReferent()} method which a background thread invokes after

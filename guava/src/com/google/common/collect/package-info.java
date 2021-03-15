@@ -218,4 +218,4 @@ package com.google.common.collect;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.NullAware;
+import org.jspecify.nullness.NullAware;

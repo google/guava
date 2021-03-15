@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible

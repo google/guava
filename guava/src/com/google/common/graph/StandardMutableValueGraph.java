@@ -25,7 +25,7 @@ import static com.google.common.graph.Graphs.checkPositive;
 import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Standard implementation of {@link MutableValueGraph} that supports both directed and undirected

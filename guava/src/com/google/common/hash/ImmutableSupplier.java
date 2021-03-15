@@ -16,7 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.Immutable;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Explicitly named subinterface of {@link Supplier} that can be marked {@literal @}{@link

@@ -22,7 +22,7 @@ import static com.google.common.collect.RegularImmutableMap.makeImmutable;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation of ImmutableMap backed by a JDK HashMap, which has smartness protecting against

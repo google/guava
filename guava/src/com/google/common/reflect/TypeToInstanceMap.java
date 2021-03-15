@@ -17,7 +17,7 @@ package com.google.common.reflect;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A map, each entry of which maps a {@link TypeToken} to an instance of that type. In addition to

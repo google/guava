@@ -16,7 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import java.io.Serializable;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.

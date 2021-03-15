@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)

@@ -23,7 +23,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link

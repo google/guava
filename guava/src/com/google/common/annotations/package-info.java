@@ -19,4 +19,4 @@
 @NullAware
 package com.google.common.annotations;
 
-import org.jspecify.annotations.NullAware;
+import org.jspecify.nullness.NullAware;

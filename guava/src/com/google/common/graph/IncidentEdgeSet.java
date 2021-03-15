@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import java.util.AbstractSet;
 import java.util.Set;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Abstract base class for an incident edges set that allows different implementations of {@link

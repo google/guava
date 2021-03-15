@@ -34,7 +34,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.stream.Collector;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test

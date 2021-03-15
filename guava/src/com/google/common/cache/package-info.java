@@ -34,4 +34,4 @@
 package com.google.common.cache;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.NullAware;
+import org.jspecify.nullness.NullAware;

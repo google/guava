@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Skeleton implementation of {@link HashFunction} in terms of {@link #newHasher()}.

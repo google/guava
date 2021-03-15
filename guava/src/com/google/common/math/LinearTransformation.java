@@ -21,7 +21,7 @@ import static java.lang.Double.NaN;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * The representation of a linear transformation between real numbers {@code x} and {@code y}.

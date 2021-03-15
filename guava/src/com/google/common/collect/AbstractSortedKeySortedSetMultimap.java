@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Basic implementation of a {@link SortedSetMultimap} with a sorted key set.

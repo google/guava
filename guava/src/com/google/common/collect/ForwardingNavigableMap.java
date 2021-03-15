@@ -28,7 +28,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.function.BiFunction;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should

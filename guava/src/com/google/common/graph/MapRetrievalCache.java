@@ -19,7 +19,7 @@ package com.google.common.graph;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Map;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by

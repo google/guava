@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 // TODO(cpovirk): Does using @Nullable pose problems for class unloading?
 

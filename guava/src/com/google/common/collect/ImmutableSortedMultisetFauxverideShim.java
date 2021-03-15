@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack {@link

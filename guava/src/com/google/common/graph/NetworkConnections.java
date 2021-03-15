@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and incident edges

@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An interface for <a

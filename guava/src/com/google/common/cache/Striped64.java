@@ -13,7 +13,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic

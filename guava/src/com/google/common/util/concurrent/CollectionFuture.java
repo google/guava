@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)

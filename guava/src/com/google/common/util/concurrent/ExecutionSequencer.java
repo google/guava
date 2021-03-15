@@ -27,7 +27,7 @@ import com.google.common.annotations.Beta;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Serializes execution of a set of operations. This class guarantees that a submitted callable will

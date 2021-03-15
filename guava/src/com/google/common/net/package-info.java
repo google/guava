@@ -26,4 +26,4 @@
 package com.google.common.net;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.jspecify.annotations.NullAware;
+import org.jspecify.nullness.NullAware;
