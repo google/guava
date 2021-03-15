@@ -13,6 +13,7 @@
   <inherits name="com.google.common.xml.Xml" />
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixPatterns" />
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixType" />
+  <inherits name="org.checkerframework.checker.nullness.qual.Qual" />
 
   <!-- com.google.common.testing.Testing is located in
        GuavaTests under guava-gwt/test -->

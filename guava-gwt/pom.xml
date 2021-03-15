@@ -107,6 +107,11 @@
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <classifier>sources</classifier>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -129,6 +134,8 @@
             <!-- 2. Don't include the source in the jar (since that would let users depend on it from GWT client code, which is compiled from source). -->
             <exclude>**/ForceGuavaCompilation*</exclude>
             <exclude>**/DummyJavadocClass*</exclude>
+            <!-- (unrelated interruption: Also don't include our fabricated CF GWT module descriptor. -->
+            <exclude>**/Qual.gwt.xml</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -139,6 +146,8 @@
             <!-- 3. Don't include it in the source jar (since it's really more of a "test" than it is production code). -->
             <exclude>**/ForceGuavaCompilation*</exclude>
             <exclude>**/DummyJavadocClass*</exclude>
+            <!-- (unrelated interruption: Also don't include our fabricated CF GWT module descriptor. I don't think anyone should be using our *sources* jar, anyway, at least not as an input to GWT compilation, but it seems safest to exclude here, just as we do for maven-jar-plugin, to be safe. -->
+            <exclude>**/Qual.gwt.xml</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -299,6 +308,12 @@
                     <include name="**/InternalFutureFailureAccess.java" />
                   </fileset>
                 </copy>
+                <!-- We fabricate a GWT module to cover the CF annotations. Then we inherit it in ForceGuavaCompilation.gwt.xml. -->
+                <echo file="${project.build.directory}/guava-gwt-sources/org/checkerframework/checker/nullness/qual/Qual.gwt.xml">
+                  &lt;module&gt;&lt;source path="" /&gt;&lt;/module&gt;
+                </echo>
+                <!-- TODO(cpovirk): DO NOT RELEASE in this state: I suspect that downstream users of guava-gwt will see their compilation fail from the "missing" CF annotations (whether because those sources are missing entirely or because they're present but without a module descriptor). -->
+                <!-- In contrast to what we do with our *own* sources (i.e., those from guava, guava-testlib, and guava-tests), we *don't* copy the CF annotations to guava-gwt-sources (and so we don't need to unpack them ourselves at all). If we did, they would end up in our generated jar. And we don't need to, anyway: The GWT plugin picks them up automatically because of the <classifier>source</classifier> dependency above. -->
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
