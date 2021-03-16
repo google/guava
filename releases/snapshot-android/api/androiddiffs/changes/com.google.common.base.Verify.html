@@ -113,6 +113,14 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Verify.h
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Verify.verify_removed(boolean, String, Object...)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/base/Verify.html#verify(boolean, String, Object...)" target="_top"><tt>verify</tt></A>(<code>boolean,</nobr> String<nobr>,</nobr> Object...<nobr><nobr></code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+ custom message otherwise.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.base.Verify.verify_removed(boolean, String, char)"></A>
   <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/base/Verify.html#verify(boolean, String, char)" target="_top"><tt>verify</tt></A>(<code>boolean,</nobr> String<nobr>,</nobr> char<nobr><nobr></code>)</nobr>
   </TD>
@@ -187,14 +195,6 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Verify.h
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.base.Verify.verify_removed(boolean, String, int, long)"></A>
   <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/base/Verify.html#verify(boolean, String, int, long)" target="_top"><tt>verify</tt></A>(<code>boolean,</nobr> String<nobr>,</nobr> int<nobr>,</nobr> long<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
- custom message otherwise.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.Verify.verify_removed(boolean, String, java.lang.Object[])"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/base/Verify.html#verify(boolean, String, java.lang.Object[])" target="_top"><tt>verify</tt></A>(<code>boolean,</nobr> String<nobr>,</nobr> Object[]<nobr><nobr></code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.</TD>
@@ -445,7 +445,7 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Verify.h
   <nobr><code>T</code>&nbsp;<A HREF="../../docs/com/google/common/base/Verify.html#verifyNotNull(T, java.lang.String, java.lang.Object[])" target="_top"><tt>verifyNotNull</tt></A>(<code>T,</nobr> String<nobr>,</nobr> Object[]<nobr><nobr></code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in signature from (<code>T, String, java.lang.Object[]</code>) to (<code>T, java.lang.String, java.lang.Object[]</code>).<br>
+Change in signature from (<code>T, String, Object...</code>) to (<code>T, String, Object[]</code>).<br>
   </TD>
   <TD VALIGN="TOP">Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a custom
  message otherwise.</TD>

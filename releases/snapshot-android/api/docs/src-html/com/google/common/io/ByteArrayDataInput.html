@@ -1,105 +1,106 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
-<span class="sourceLineNo">006</span> *<a name="line.6"></a>
-<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> */<a name="line.13"></a>
-<span class="sourceLineNo">014</span><a name="line.14"></a>
-<span class="sourceLineNo">015</span>package com.google.common.io;<a name="line.15"></a>
-<span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.io.DataInput;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.io.IOException;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * An extension of {@code DataInput} for reading from in-memory byte arrays; its methods offer<a name="line.23"></a>
-<span class="sourceLineNo">024</span> * identical functionality but do not throw {@link IOException}.<a name="line.24"></a>
-<span class="sourceLineNo">025</span> *<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The caller is responsible for not attempting to read past the end of the<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * array. If any method encounters the end of the array prematurely, it throws {@link<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * IllegalStateException} to signify &lt;i&gt;programmer error&lt;/i&gt;. This behavior is a technical violation<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * of the supertype's contract, which specifies a checked exception.<a name="line.29"></a>
-<span class="sourceLineNo">030</span> *<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * @author Kevin Bourrillion<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * @since 1.0<a name="line.32"></a>
-<span class="sourceLineNo">033</span> */<a name="line.33"></a>
-<span class="sourceLineNo">034</span>@GwtIncompatible<a name="line.34"></a>
-<span class="sourceLineNo">035</span>public interface ByteArrayDataInput extends DataInput {<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  @Override<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  void readFully(byte b[]);<a name="line.37"></a>
-<span class="sourceLineNo">038</span><a name="line.38"></a>
-<span class="sourceLineNo">039</span>  @Override<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  void readFully(byte b[], int off, int len);<a name="line.40"></a>
-<span class="sourceLineNo">041</span><a name="line.41"></a>
-<span class="sourceLineNo">042</span>  // not guaranteed to skip n bytes so result should NOT be ignored<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  // use ByteStreams.skipFully or one of the read methods instead<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  @Override<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  int skipBytes(int n);<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  @CanIgnoreReturnValue // to skip a byte<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  @Override<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  boolean readBoolean();<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  @CanIgnoreReturnValue // to skip a byte<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  @Override<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  byte readByte();<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>  @CanIgnoreReturnValue // to skip a byte<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @Override<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  int readUnsignedByte();<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  @Override<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  short readShort();<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  @Override<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  int readUnsignedShort();<a name="line.65"></a>
-<span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  @Override<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  char readChar();<a name="line.69"></a>
-<span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  @Override<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  int readInt();<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  @Override<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  long readLong();<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  @Override<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  float readFloat();<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  @CanIgnoreReturnValue // to skip some bytes<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  @Override<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  double readDouble();<a name="line.85"></a>
-<span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>  @CanIgnoreReturnValue // to skip a line<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  String readLine();<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>  @CanIgnoreReturnValue // to skip a field<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @Override<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  String readUTF();<a name="line.93"></a>
-<span class="sourceLineNo">094</span>}<a name="line.94"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2009 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.io;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.io.DataInput;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.io.IOException;</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">/**</a>
+<span class="sourceLineNo">023</span><a id="line.23"> * An extension of {@code DataInput} for reading from in-memory byte arrays; its methods offer</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * identical functionality but do not throw {@link IOException}.</a>
+<span class="sourceLineNo">025</span><a id="line.25"> *</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The caller is responsible for not attempting to read past the end of the</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * array. If any method encounters the end of the array prematurely, it throws {@link</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * IllegalStateException} to signify &lt;i&gt;programmer error&lt;/i&gt;. This behavior is a technical violation</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * of the supertype's contract, which specifies a checked exception.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @since 1.0</a>
+<span class="sourceLineNo">033</span><a id="line.33"> */</a>
+<span class="sourceLineNo">034</span><a id="line.34">@GwtIncompatible</a>
+<span class="sourceLineNo">035</span><a id="line.35">public interface ByteArrayDataInput extends DataInput {</a>
+<span class="sourceLineNo">036</span><a id="line.36">  @Override</a>
+<span class="sourceLineNo">037</span><a id="line.37">  void readFully(byte b[]);</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">  @Override</a>
+<span class="sourceLineNo">040</span><a id="line.40">  void readFully(byte b[], int off, int len);</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">  // not guaranteed to skip n bytes so result should NOT be ignored</a>
+<span class="sourceLineNo">043</span><a id="line.43">  // use ByteStreams.skipFully or one of the read methods instead</a>
+<span class="sourceLineNo">044</span><a id="line.44">  @Override</a>
+<span class="sourceLineNo">045</span><a id="line.45">  int skipBytes(int n);</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">  @CanIgnoreReturnValue // to skip a byte</a>
+<span class="sourceLineNo">048</span><a id="line.48">  @Override</a>
+<span class="sourceLineNo">049</span><a id="line.49">  boolean readBoolean();</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  @CanIgnoreReturnValue // to skip a byte</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
+<span class="sourceLineNo">053</span><a id="line.53">  byte readByte();</a>
+<span class="sourceLineNo">054</span><a id="line.54"></a>
+<span class="sourceLineNo">055</span><a id="line.55">  @CanIgnoreReturnValue // to skip a byte</a>
+<span class="sourceLineNo">056</span><a id="line.56">  @Override</a>
+<span class="sourceLineNo">057</span><a id="line.57">  int readUnsignedByte();</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">060</span><a id="line.60">  @Override</a>
+<span class="sourceLineNo">061</span><a id="line.61">  short readShort();</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Override</a>
+<span class="sourceLineNo">065</span><a id="line.65">  int readUnsignedShort();</a>
+<span class="sourceLineNo">066</span><a id="line.66"></a>
+<span class="sourceLineNo">067</span><a id="line.67">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">068</span><a id="line.68">  @Override</a>
+<span class="sourceLineNo">069</span><a id="line.69">  char readChar();</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @Override</a>
+<span class="sourceLineNo">073</span><a id="line.73">  int readInt();</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
+<span class="sourceLineNo">077</span><a id="line.77">  long readLong();</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">080</span><a id="line.80">  @Override</a>
+<span class="sourceLineNo">081</span><a id="line.81">  float readFloat();</a>
+<span class="sourceLineNo">082</span><a id="line.82"></a>
+<span class="sourceLineNo">083</span><a id="line.83">  @CanIgnoreReturnValue // to skip some bytes</a>
+<span class="sourceLineNo">084</span><a id="line.84">  @Override</a>
+<span class="sourceLineNo">085</span><a id="line.85">  double readDouble();</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">  @CanIgnoreReturnValue // to skip a line</a>
+<span class="sourceLineNo">088</span><a id="line.88">  @Override</a>
+<span class="sourceLineNo">089</span><a id="line.89">  String readLine();</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">  @CanIgnoreReturnValue // to skip a field</a>
+<span class="sourceLineNo">092</span><a id="line.92">  @Override</a>
+<span class="sourceLineNo">093</span><a id="line.93">  String readUTF();</a>
+<span class="sourceLineNo">094</span><a id="line.94">}</a>
 
 
 
@@ -162,5 +163,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>
