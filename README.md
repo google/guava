@@ -1,7 +1,7 @@
 # Guava: Google Core Libraries for Java
 
 [![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
-[![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
+[![Build Status](https://github.com/google/guava/workflows/CI/badge.svg?branch=master)](https://github.com/google/guava/actions)
 
 Guava is a set of core Java libraries from Google that includes new collection types
 (such as multimap and multiset), immutable collections, a graph library, and
