@@ -72,7 +72,7 @@ final class Platform {
    * Returns the string if it is not empty; an null string otherwise.
    *
    * @param string the string to test and possibly return
-   * @return {@code string} itself if it is not empty; {@code null} otherwise
+   * @return {@code string} if it is not empty; {@code null} otherwise
    */
   static String emptyToNull(@Nullable String string) {
     return stringIsNullOrEmpty(string) ? null : string;
