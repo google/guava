@@ -111,10 +111,10 @@ flavor.
 5.  Our classes are not designed to protect against a malicious caller. You
     should not use them for communication between trusted and untrusted code.
 
-6.  For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8
-    on Linux. Some features, especially in `com.google.common.io`, may not work
-    correctly in other environments. For the Android flavor, our unit tests run
-    on API level 15 (Ice Cream Sandwich).
+6.  For the mainline flavor, we test the libraries using only OpenJDK 8 and
+    OpenJDK 11 on Linux. Some features, especially in `com.google.common.io`,
+    may not work correctly in other environments. For the Android flavor, our
+    unit tests also run on API level 15 (Ice Cream Sandwich).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
