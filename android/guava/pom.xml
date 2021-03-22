@@ -90,42 +90,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <!--
-                 The execution named default-compile happens first, regardless
-                 of the order of the executions in the source file. So, because
-                 Java8Usage is a dependency of the main sources, we need to call
-                 its compilation "default-compile," even though it's the special
-                 case.
-            -->
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/Java8Usage.java</include>
-              </includes>
-              <!-- -source 8 -target 8 is a no-op in the mainline but matters in the backport. -->
-              <source>8</source>
-              <target>8</target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>main-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>**/Java8Usage.java</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
