@@ -32,4 +32,5 @@
 
 
 <inherits name="com.google.gwt.core.Core" />
+
 </module>
