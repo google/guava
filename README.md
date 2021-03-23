@@ -101,8 +101,10 @@ flavor.
     plans to start removing things again, but officially, we're leaving our
     options open in case of surprises (like, say, a serious security problem).
 
-3.  Guava has one dependency that is needed at runtime:
-    `com.google.guava:failureaccess:1.0.1`
+3.  Guava has one dependency that is needed for linkage at runtime:
+    `com.google.guava:failureaccess:1.0.1`. It also has
+    [some annotation-only dependencies][guava-deps], which we discuss in more
+    detail at that link.
 
 4.  Serialized forms of ALL objects are subject to change unless noted
     otherwise. Do not persist these and assume they can be read by a future
@@ -125,3 +127,4 @@ flavor.
 
 [using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
+[guava-deps]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-about-guavas-own-dependencies
