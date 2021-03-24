@@ -6264,7 +6264,7 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.function.Supplier&lt;T&gt;"/>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
