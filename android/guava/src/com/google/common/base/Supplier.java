@@ -46,6 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public interface Supplier<T extends @Nullable Object> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or may not be a new
@@ -54,5 +55,6 @@ public interface Supplier<T extends @Nullable Object> {
    * @return an instance of the appropriate type
    */
   @CanIgnoreReturnValue
+  @ParametricNullness
   T get();
 }

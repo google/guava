@@ -38,6 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @FunctionalInterface
+@ElementTypesAreNonnullByDefault
 public interface Supplier<T extends @Nullable Object> extends java.util.function.Supplier<T> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or may not be a new
