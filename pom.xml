@@ -15,6 +15,7 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.1</truth.version>
+    <checker-framework.version>3.8.0</checker-framework.version>
     <!--
       Upgrading to 1.19 breaks things: Animal Sniffer reports a problem with the
       use of ClassValue in FuturesGetChecked, even though we've added a
@@ -274,7 +275,13 @@
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
-        <version>3.8.0</version>
+        <version>${checker-framework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>${checker-framework.version}</version>
+        <classifier>sources</classifier>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
