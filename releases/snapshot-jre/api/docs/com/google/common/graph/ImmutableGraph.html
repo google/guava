@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":41,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":41,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -245,11 +245,6 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>protected com.google.common.graph.BaseGraph&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delegate()">delegate</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i6" class="altColor">
 <td class="colFirst"><code>protected long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeCount()">edgeCount</a></span>()</code></th>
 <td class="colLast">
@@ -257,14 +252,14 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  implementation.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edges()">edges</a></span>()</code></th>
 <td class="colLast">
 <div class="block">An implementation of <code>BaseGraph.edges()</code> defined in terms of <a href="#nodes()"><code>nodes()</code></a> and <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
@@ -272,7 +267,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  any, specified by <code>endpoints</code>).</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(N,N)">hasEdgeConnecting</a></span>&#8203;(N&nbsp;nodeU,
                  N&nbsp;nodeV)</code></th>
@@ -280,7 +275,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdgeOrder()">incidentEdgeOrder</a></span>()</code></th>
 <td class="colLast">
@@ -288,14 +283,14 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  <a href="Graph.html#edges()"><code>Graph.edges()</code></a>, <a href="Graph.html#adjacentNodes(N)"><code>Graph.adjacentNodes(Object)</code></a>, <a href="Graph.html#predecessors(N)"><code>Graph.predecessors(Object)</code></a>, <a href="Graph.html#successors(N)"><code>Graph.successors(Object)</code></a> and <a href="Graph.html#incidentEdges(N)"><code>Graph.incidentEdges(Object)</code></a>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inDegree(N)">inDegree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -303,33 +298,33 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  in a directed graph.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDirected()">isDirected</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if the edges in this graph are directed.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeOrder()">nodeOrder</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the order of iteration for the elements of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodes()">nodes</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outDegree(N)">outDegree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -337,7 +332,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  in a directed graph.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -345,7 +340,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -353,7 +348,7 @@ extends <a href="AbstractGraph.html" title="class in com.google.common.graph">Ab
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
@@ -437,15 +432,6 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in 
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Graph.html#incidentEdgeOrder()">incidentEdgeOrder</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</code></dd>
 </dl>
-</li>
-</ul>
-<a id="delegate()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;com.google.common.graph.BaseGraph&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.102">delegate</a>()</pre>
 </li>
 </ul>
 <a id="nodes()">

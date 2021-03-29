@@ -38917,11 +38917,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="delegate" return="com.google.common.graph.BaseGraph&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
-    </method>
     <doc>
     <![CDATA[A {@link Graph} whose elements and structural relationships will never change. Instances of this
  class may be obtained with {@link #copyOf(Graph)}.
