@@ -41,15 +41,14 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /** Keys are edges incoming to the origin node, values are the source node. */
-  protected final Map<E, N> inEdgeMap;
+  final Map<E, N> inEdgeMap;
 
   /** Keys are edges outgoing from the origin node, values are the target node. */
-  protected final Map<E, N> outEdgeMap;
+  final Map<E, N> outEdgeMap;
 
   private int selfLoopCount;
 
-  protected AbstractDirectedNetworkConnections(
-      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+  AbstractDirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
     this.inEdgeMap = checkNotNull(inEdgeMap);
     this.outEdgeMap = checkNotNull(outEdgeMap);
     this.selfLoopCount = checkNonNegative(selfLoopCount);

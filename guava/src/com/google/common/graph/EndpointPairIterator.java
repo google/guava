@@ -33,8 +33,8 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
   private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;
 
-  protected N node = null; // null is safe as an initial value because graphs don't allow null nodes
-  protected Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
+  N node = null; // null is safe as an initial value because graphs don't allow null nodes
+  Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
   static <N> EndpointPairIterator<N> of(BaseGraph<N> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
@@ -49,7 +49,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node
    * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.
    */
-  protected final boolean advance() {
+  final boolean advance() {
     checkState(!successorIterator.hasNext());
     if (!nodeIterator.hasNext()) {
       return false;

@@ -25,8 +25,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * AbstractSet#iterator()}.
  */
 abstract class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
-  protected final N node;
-  protected final BaseGraph<N> graph;
+  final N node;
+  final BaseGraph<N> graph;
 
   IncidentEdgeSet(BaseGraph<N> graph, N node) {
     this.graph = graph;

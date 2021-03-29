@@ -49,10 +49,10 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
     return value;
   }
 
-  // Internal methods ('protected' is still package-visible, but treat as only subclass-visible)
+  // Internal methods (package-visible, but treat as only subclass-visible)
 
   @Override
-  protected V getIfCached(@NullableDecl Object key) {
+  V getIfCached(@NullableDecl Object key) {
     V value = super.getIfCached(key);
     if (value != null) {
       return value;
@@ -78,7 +78,7 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   }
 
   @Override
-  protected void clearCache() {
+  void clearCache() {
     super.clearCache();
     cacheEntry1 = null;
     cacheEntry2 = null;
