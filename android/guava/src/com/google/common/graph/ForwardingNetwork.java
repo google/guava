@@ -27,7 +27,7 @@ import java.util.Set;
  */
 abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 
-  protected abstract Network<N, E> delegate();
+  abstract Network<N, E> delegate();
 
   @Override
   public Set<N> nodes() {

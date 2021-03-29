@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
-  protected abstract ValueGraph<N, V> delegate();
+  abstract ValueGraph<N, V> delegate();
 
   @Override
   public Set<N> nodes() {

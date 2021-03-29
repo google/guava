@@ -265,7 +265,7 @@ public final class Graphs {
     }
 
     @Override
-    protected Graph<N> delegate() {
+    Graph<N> delegate() {
       return graph;
     }
 
@@ -327,7 +327,7 @@ public final class Graphs {
     }
 
     @Override
-    protected ValueGraph<N, V> delegate() {
+    ValueGraph<N, V> delegate() {
       return graph;
     }
 
@@ -382,7 +382,7 @@ public final class Graphs {
     }
 
     @Override
-    protected Network<N, E> delegate() {
+    Network<N, E> delegate() {
       return network;
     }
 

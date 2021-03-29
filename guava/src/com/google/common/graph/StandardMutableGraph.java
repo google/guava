@@ -37,7 +37,7 @@ final class StandardMutableGraph<N> extends ForwardingGraph<N> implements Mutabl
   }
 
   @Override
-  protected BaseGraph<N> delegate() {
+  BaseGraph<N> delegate() {
     return backingValueGraph;
   }
 
