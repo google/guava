@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":41,"i6":9,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":41,"i4":9,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -89,13 +89,13 @@ loadScripts(document, 'script');</script>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -193,34 +193,6 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 </li>
 </ul>
 </section>
-<!-- =========== FIELD SUMMARY =========== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Field</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected long</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeCount">edgeCount</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>protected com.google.common.graph.MapIteratorCache&lt;N,&#8203;com.google.common.graph.GraphConnections&lt;N,&#8203;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeConnections">nodeConnections</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
-</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -257,16 +229,6 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>protected com.google.common.graph.GraphConnections&lt;N,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkedConnections(N)">checkedConnections</a></span>&#8203;(N&nbsp;node)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsNode(N)">containsNode</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> N&nbsp;node)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;N,&#8203;V&gt;<br><a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(com.google.common.graph.ImmutableValueGraph)">copyOf</a></span>&#8203;(<a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</code></th>
 <td class="colLast">
@@ -275,33 +237,33 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 </div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static &lt;N,&#8203;V&gt;<br><a href="ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(com.google.common.graph.ValueGraph)">copyOf</a></span>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#degree(N)">degree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>protected long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeCount()">edgeCount</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of edges in this graph; used to calculate the size of <a href="#edges()"><code>edges()</code></a>.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edges()">edges</a></span>()</code></th>
 <td class="colLast">
 <div class="block">An implementation of <code>BaseGraph.edges()</code> defined in terms of <a href="#nodes()"><code>nodes()</code></a> and <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeValueOrDefault(com.google.common.graph.EndpointPair,V)">edgeValueOrDefault</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints,
                   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V&nbsp;defaultValue)</code></th>
@@ -310,7 +272,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> V</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeValueOrDefault(N,N,V)">edgeValueOrDefault</a></span>&#8203;(N&nbsp;nodeU,
                   N&nbsp;nodeV,
@@ -320,14 +282,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  otherwise, returns <code>defaultValue</code>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
-<td class="colFirst"><code>protected V</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeValueOrDefault_internal(N,N,V)">edgeValueOrDefault_internal</a></span>&#8203;(N&nbsp;nodeU,
-                           N&nbsp;nodeV,
-                           V&nbsp;defaultValue)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i13" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)">hasEdgeConnecting</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
@@ -335,7 +290,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  any, specified by <code>endpoints</code>).</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting(N,N)">hasEdgeConnecting</a></span>&#8203;(N&nbsp;nodeU,
                  N&nbsp;nodeV)</code></th>
@@ -343,13 +298,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
-<td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdgeConnecting_internal(N,N)">hasEdgeConnecting_internal</a></span>&#8203;(N&nbsp;nodeU,
-                          N&nbsp;nodeV)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i16" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdgeOrder()">incidentEdgeOrder</a></span>()</code></th>
 <td class="colLast">
@@ -357,50 +306,50 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  <a href="ValueGraph.html#edges()"><code>ValueGraph.edges()</code></a>, <a href="ValueGraph.html#adjacentNodes(N)"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="ValueGraph.html#predecessors(N)"><code>ValueGraph.predecessors(Object)</code></a>, <a href="ValueGraph.html#successors(N)"><code>ValueGraph.successors(Object)</code></a> and <a href="ValueGraph.html#incidentEdges(N)"><code>ValueGraph.incidentEdges(Object)</code></a>.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inDegree(N)">inDegree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDirected()">isDirected</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if the edges in this graph are directed.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)">isOrderingCompatible</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeOrder()">nodeOrder</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the order of iteration for the elements of <a href="ValueGraph.html#nodes()"><code>ValueGraph.nodes()</code></a>.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodes()">nodes</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="ValueGraph.html#nodeOrder()"><code>ValueGraph.nodeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outDegree(N)">outDegree</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -408,7 +357,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -416,7 +365,7 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#validateEndpoints(com.google.common.graph.EndpointPair)">validateEndpoints</a></span>&#8203;(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></th>
 <td class="colLast">
@@ -455,34 +404,6 @@ extends <a href="AbstractValueGraph.html" title="class in com.google.common.grap
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a id="nodeConnections">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>nodeConnections</h4>
-<pre>protected final&nbsp;com.google.common.graph.MapIteratorCache&lt;N,&#8203;com.google.common.graph.GraphConnections&lt;N,&#8203;V&gt;&gt; nodeConnections</pre>
-</li>
-</ul>
-<a id="edgeCount">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>edgeCount</h4>
-<pre>protected&nbsp;long edgeCount</pre>
-</li>
-</ul>
-</li>
-</ul>
-</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -755,53 +676,6 @@ public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" ti
  number of edges as the graph is updated, and override this method for better performance.</div>
 </li>
 </ul>
-<a id="checkedConnections(java.lang.Object)">
-<!--   -->
-</a><a id="checkedConnections(N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>checkedConnections</h4>
-<pre class="methodSignature">protected final&nbsp;com.google.common.graph.GraphConnections&lt;N,&#8203;V&gt;&nbsp;checkedConnections&#8203;(N&nbsp;node)</pre>
-</li>
-</ul>
-<a id="containsNode(java.lang.Object)">
-<!--   -->
-</a><a id="containsNode(N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>containsNode</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;containsNode&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> N&nbsp;node)</pre>
-</li>
-</ul>
-<a id="hasEdgeConnecting_internal(java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="hasEdgeConnecting_internal(N,N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hasEdgeConnecting_internal</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;hasEdgeConnecting_internal&#8203;(N&nbsp;nodeU,
-                                                   N&nbsp;nodeV)</pre>
-</li>
-</ul>
-<a id="edgeValueOrDefault_internal(java.lang.Object,java.lang.Object,java.lang.Object)">
-<!--   -->
-</a><a id="edgeValueOrDefault_internal(N,N,V)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>edgeValueOrDefault_internal</h4>
-<pre class="methodSignature">protected final&nbsp;V&nbsp;edgeValueOrDefault_internal&#8203;(N&nbsp;nodeU,
-                                              N&nbsp;nodeV,
-                                              V&nbsp;defaultValue)</pre>
-</li>
-</ul>
 <a id="edges()">
 <!--   -->
 </a>
@@ -918,13 +792,13 @@ public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ImmutableValueGraph.html" ti
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":41,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":41,"i5":9,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -89,13 +89,13 @@ loadScripts(document, 'script');</script>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -193,34 +193,6 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 </li>
 </ul>
 </section>
-<!-- =========== FIELD SUMMARY =========== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Field</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected com.google.common.graph.MapIteratorCache&lt;E,&#8203;N&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeToReferenceNode">edgeToReferenceNode</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>protected com.google.common.graph.MapIteratorCache&lt;N,&#8203;com.google.common.graph.NetworkConnections&lt;N,&#8203;E&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeConnections">nodeConnections</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
-</section>
 <!-- ========== METHOD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -264,26 +236,6 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>protected com.google.common.graph.NetworkConnections&lt;N,&#8203;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkedConnections(N)">checkedConnections</a></span>&#8203;(N&nbsp;node)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>protected N</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkedReferenceNode(E)">checkedReferenceNode</a></span>&#8203;(E&nbsp;edge)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsEdge(E)">containsEdge</a></span>&#8203;(E&nbsp;edge)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsNode(N)">containsNode</a></span>&#8203;(N&nbsp;node)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;N,&#8203;E&gt;<br><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,&#8203;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(com.google.common.graph.ImmutableNetwork)">copyOf</a></span>&#8203;(<a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,&#8203;E&gt;&nbsp;network)</code></th>
 <td class="colLast">
@@ -292,28 +244,28 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 </div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;N,&#8203;E&gt;<br><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,&#8203;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(com.google.common.graph.Network)">copyOf</a></span>&#8203;(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,&#8203;E&gt;&nbsp;network)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable copy of <code>network</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgeOrder()">edgeOrder</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the order of iteration for the elements of <a href="Network.html#edges()"><code>Network.edges()</code></a>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edges()">edges</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns all edges in this network, in the order specified by <a href="Network.html#edgeOrder()"><code>Network.edgeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#edgesConnecting(N,N)">edgesConnecting</a></span>&#8203;(N&nbsp;nodeU,
                N&nbsp;nodeV)</code></th>
@@ -321,7 +273,7 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentEdges(N)">incidentEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -329,14 +281,14 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
  <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#incidentNodes(E)">incidentNodes</a></span>&#8203;(E&nbsp;edge)</code></th>
 <td class="colLast">
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#inEdges(N)">inEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -344,28 +296,28 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
  to end at <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isDirected()">isDirected</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if the edges in this network are directed.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeOrder()">nodeOrder</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the order of iteration for the elements of <a href="Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodes()">nodes</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns all nodes in this network, in the order specified by <a href="Network.html#nodeOrder()"><code>Network.nodeOrder()</code></a>.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#outEdges(N)">outEdges</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -373,7 +325,7 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
  starting from <code>node</code>.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -381,7 +333,7 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#successors(N)">successors</a></span>&#8203;(N&nbsp;node)</code></th>
 <td class="colLast">
@@ -413,34 +365,6 @@ extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<section role="region">
-<ul class="blockList">
-<li class="blockList"><a id="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a id="nodeConnections">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>nodeConnections</h4>
-<pre>protected final&nbsp;com.google.common.graph.MapIteratorCache&lt;N,&#8203;com.google.common.graph.NetworkConnections&lt;N,&#8203;E&gt;&gt; nodeConnections</pre>
-</li>
-</ul>
-<a id="edgeToReferenceNode">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>edgeToReferenceNode</h4>
-<pre>protected final&nbsp;com.google.common.graph.MapIteratorCache&lt;E,&#8203;N&gt; edgeToReferenceNode</pre>
-</li>
-</ul>
-</li>
-</ul>
-</section>
 <!-- ============ METHOD DETAIL ========== -->
 <section role="region">
 <ul class="blockList">
@@ -701,7 +625,7 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 </a><a id="successors(N)">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>successors</h4>
 <pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;N&gt;&nbsp;successors&#8203;(N&nbsp;node)</pre>
@@ -713,52 +637,6 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 
  <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
  edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.</div>
-</li>
-</ul>
-<a id="checkedConnections(java.lang.Object)">
-<!--   -->
-</a><a id="checkedConnections(N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>checkedConnections</h4>
-<pre class="methodSignature">protected final&nbsp;com.google.common.graph.NetworkConnections&lt;N,&#8203;E&gt;&nbsp;checkedConnections&#8203;(N&nbsp;node)</pre>
-</li>
-</ul>
-<a id="checkedReferenceNode(java.lang.Object)">
-<!--   -->
-</a><a id="checkedReferenceNode(E)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>checkedReferenceNode</h4>
-<pre class="methodSignature">protected final&nbsp;N&nbsp;checkedReferenceNode&#8203;(E&nbsp;edge)</pre>
-</li>
-</ul>
-<a id="containsNode(java.lang.Object)">
-<!--   -->
-</a><a id="containsNode(N)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>containsNode</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;containsNode&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-                                     N&nbsp;node)</pre>
-</li>
-</ul>
-<a id="containsEdge(java.lang.Object)">
-<!--   -->
-</a><a id="containsEdge(E)">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>containsEdge</h4>
-<pre class="methodSignature">protected final&nbsp;boolean&nbsp;containsEdge&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-                                     E&nbsp;edge)</pre>
 </li>
 </ul>
 </li>
@@ -814,13 +692,13 @@ public static&nbsp;&lt;N,&#8203;E&gt;&nbsp;<a href="ImmutableNetwork.html" title
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
