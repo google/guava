@@ -474,7 +474,8 @@ public final class NullPointerTester {
   }
 
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
-      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
+      ImmutableSet.of(
+          "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
 
   static boolean isNullable(AnnotatedElement e) {
     for (Annotation annotation : e.getAnnotations()) {
