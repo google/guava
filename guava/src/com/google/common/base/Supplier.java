@@ -48,5 +48,6 @@ public interface Supplier<T extends @Nullable Object> extends java.util.function
    */
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   T get();
 }
