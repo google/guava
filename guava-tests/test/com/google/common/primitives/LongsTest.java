@@ -547,6 +547,34 @@ public class LongsTest extends TestCase {
         Longs.tryParse(BigInteger.valueOf(MIN_VALUE).multiply(BigInteger.TEN).toString()));
     assertNull(Longs.tryParse("\u0662\u06f3"));
   }
+  
+  public void testTryParseCharSequence() {
+	tryParseSequenceAndAssertEquals(0L, "0");
+	tryParseSequenceAndAssertEquals(0L, "-0");
+	tryParseSequenceAndAssertEquals(1L, "1");
+	tryParseSequenceAndAssertEquals(-1L, "-1");
+	tryParseSequenceAndAssertEquals(8900L, "8900");
+	tryParseSequenceAndAssertEquals(-8900L, "-8900");
+	tryParseSequenceAndAssertEquals(MAX_VALUE, new StringBuilder(Long.toString(MAX_VALUE)));
+	tryParseSequenceAndAssertEquals(MIN_VALUE, new StringBuilder(Long.toString(MIN_VALUE)));
+	assertNull(Longs.tryParse(new StringBuilder("")));
+	assertNull(Longs.tryParse(new StringBuilder("-")));
+	assertNull(Longs.tryParse(new StringBuilder("+1")));
+	assertNull(Longs.tryParse(new StringBuilder("999999999999999999999999")));
+	assertNull(
+	    "Max long + 1",
+	    Longs.tryParse(new StringBuilder(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString())));
+	assertNull(
+	    "Max long * 10",
+	    Longs.tryParse(new StringBuilder(BigInteger.valueOf(MAX_VALUE).multiply(BigInteger.TEN).toString())));
+	assertNull(
+	    "Min long - 1",
+	    Longs.tryParse(new StringBuilder(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString())));
+	assertNull(
+	    "Min long * 10",
+	    Longs.tryParse(new StringBuilder(BigInteger.valueOf(MIN_VALUE).multiply(BigInteger.TEN).toString())));
+	assertNull(Longs.tryParse("\u0662\u06f3"));
+  }
 
   /**
    * Applies {@link Longs#tryParse(String)} to the given string and asserts that the result is as
@@ -555,6 +583,10 @@ public class LongsTest extends TestCase {
   private static void tryParseAndAssertEquals(Long expected, String value) {
     assertEquals(expected, Longs.tryParse(value));
   }
+  
+  private static void tryParseSequenceAndAssertEquals(Long expected, CharSequence value) {
+	    assertEquals(expected, Longs.tryParse(value));
+	  }
 
   public void testTryParse_radix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {

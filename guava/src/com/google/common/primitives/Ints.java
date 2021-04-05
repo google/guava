@@ -716,6 +716,17 @@ public final class Ints extends IntsMethodsForWeb {
   public static @Nullable Integer tryParse(String string) {
     return tryParse(string, 10);
   }
+  
+  /**
+   * Overloading method of tryParse(String) to support all implemented classes of CharSequence.
+   * @param string the string representation of an integer value
+   * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
+   *     a length of zero or cannot be parsed as an integer value
+   * @throws NullPointerException if {@code string} is {@code null}
+   */
+  public static @Nullable Integer tryParse(CharSequence sec) {
+    return tryParse(sec, 10);
+  }
 
   /**
    * Parses the specified string as a signed integer value using the specified radix. The ASCII
@@ -740,6 +751,25 @@ public final class Ints extends IntsMethodsForWeb {
   @Beta
   public static @Nullable Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
+    if (result == null || result.longValue() != result.intValue()) {
+      return null;
+    } else {
+      return result.intValue();
+    }
+  }
+  
+  /**
+   * Overloading method of tryParse(String, int) to support all implemented classes of CharSequence.
+   * @param string the string representation of an integer value
+   * @param radix the radix to use when parsing
+   * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if
+   *     {@code string} has a length of zero or cannot be parsed as an integer value
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
+   */
+  public static @Nullable Integer tryParse(CharSequence sec, int radix) {
+    Long result = Longs.tryParse(sec, radix);
     if (result == null || result.longValue() != result.intValue()) {
       return null;
     } else {

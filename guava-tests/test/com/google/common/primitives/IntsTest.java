@@ -529,6 +529,28 @@ public class IntsTest extends TestCase {
     assertNull("Min long", Ints.tryParse(Long.toString(Long.MIN_VALUE)));
     assertNull(Ints.tryParse("\u0662\u06f3"));
   }
+  
+  public void testTryParseSequence() {
+	tryParseSequqnceAndAssertEquals(0, "0");
+	tryParseSequqnceAndAssertEquals(0, "-0");
+	tryParseSequqnceAndAssertEquals(1, "1");
+	tryParseSequqnceAndAssertEquals(-1, "-1");
+	tryParseSequqnceAndAssertEquals(8900, "8900");
+	tryParseSequqnceAndAssertEquals(-8900, "-8900");
+	tryParseSequqnceAndAssertEquals(GREATEST, Integer.toString(GREATEST));
+	tryParseSequqnceAndAssertEquals(LEAST, Integer.toString(LEAST));
+	assertNull(Ints.tryParse(new StringBuilder("")));
+	assertNull(Ints.tryParse(new StringBuilder("-")));
+	assertNull(Ints.tryParse(new StringBuilder("+1")));
+	assertNull(Ints.tryParse(new StringBuilder("9999999999999999")));
+	assertNull("Max integer + 1", Ints.tryParse(new StringBuilder(Long.toString(((long) GREATEST) + 1))));
+	assertNull("Max integer * 10", Ints.tryParse(new StringBuilder(Long.toString(((long) GREATEST) * 10))));
+	assertNull("Min integer - 1", Ints.tryParse(new StringBuilder(Long.toString(((long) LEAST) - 1))));
+	assertNull("Min integer * 10", Ints.tryParse(new StringBuilder(Long.toString(((long) LEAST) * 10))));
+	assertNull("Max long", Ints.tryParse(new StringBuilder(Long.toString(Long.MAX_VALUE))));
+	assertNull("Min long", Ints.tryParse(new StringBuilder(Long.toString(Long.MIN_VALUE))));
+	assertNull(Ints.tryParse(new StringBuilder("\u0662\u06f3")));
+  }
 
   /**
    * Applies {@link Ints#tryParse(String)} to the given string and asserts that the result is as
@@ -537,6 +559,10 @@ public class IntsTest extends TestCase {
   private static void tryParseAndAssertEquals(Integer expected, String value) {
     assertEquals(expected, Ints.tryParse(value));
   }
+  
+  private static void tryParseSequqnceAndAssertEquals(Integer expected, CharSequence sec) {
+	    assertEquals(expected, Ints.tryParse(sec));
+	  }
 
   public void testTryParse_radix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {

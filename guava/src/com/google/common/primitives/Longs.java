@@ -366,6 +366,17 @@ public final class Longs {
   public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
+  
+  /**
+   * Overloading method of tryParse(String) to support all implemented classes of CharSequence.
+   * @param string the string representation of a long value
+   * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
+   *     length of zero or cannot be parsed as a long value
+   * @throws NullPointerException if {@code string} is {@code null}
+   */
+  public static @Nullable Long tryParse(CharSequence sec) {
+    return tryParse(sec, 10);
+  }
 
   /**
    * Parses the specified string as a signed long value using the specified radix. The ASCII
@@ -428,6 +439,54 @@ public final class Longs {
     } else {
       return -accum;
     }
+  }
+  
+  /**
+   * Overloading method of tryParse(String, int) to support all implemented classes of CharSequence.
+   * @param string the string representation of an long value
+   * @param radix the radix to use when parsing
+   * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
+   *     {@code string} has a length of zero or cannot be parsed as a long value
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
+   */
+  public static @Nullable Long tryParse(CharSequence sec, int radix) {
+	  if(checkNotNull(sec).length()==0) {
+		  return null;
+	  }
+	  if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+	      throw new IllegalArgumentException(
+	          "radix must be between MIN_RADIX and MAX_RADIX but was " + radix);
+	  }
+	  boolean negative = sec.charAt(0) == '-';
+	  int index = negative ? 1 : 0;
+	  if(negative && sec.length() == index) {
+		  return null;
+	  }
+	  long cap = Long.MIN_VALUE / radix;
+	  int digit = AsciiDigits.digit(sec.charAt(index++));
+	  if (digit < 0 || digit >= radix) {
+	       return null;
+	  }
+	  long result = -digit;
+	  while(index < sec.length()) {
+		  digit = AsciiDigits.digit(sec.charAt(index++));
+	      if (digit < 0 || digit >= radix || result < cap) {
+	          return null;
+	      }
+	      result *= radix;
+	      if(result < Long.MIN_VALUE + digit) {
+	    	  return null;
+	      }
+	      result -= digit;	  
+	  }
+	  if(negative) {
+		  return result;
+	  } else if(result == Long.MIN_VALUE) {
+		  return null;
+	  }
+	  return -result;
   }
 
   private static final class LongConverter extends Converter<String, Long> implements Serializable {
