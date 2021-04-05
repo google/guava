@@ -369,7 +369,7 @@ public final class Longs {
   
   /**
    * Overloading method of tryParse(String) to support all implemented classes of CharSequence.
-   * @param string the string representation of a long value
+   * @param sec the string representation of a long value
    * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
    *     length of zero or cannot be parsed as a long value
    * @throws NullPointerException if {@code string} is {@code null}
@@ -443,7 +443,7 @@ public final class Longs {
   
   /**
    * Overloading method of tryParse(String, int) to support all implemented classes of CharSequence.
-   * @param string the string representation of an long value
+   * @param sec the string representation of an long value
    * @param radix the radix to use when parsing
    * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as a long value
