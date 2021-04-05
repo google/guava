@@ -48,9 +48,9 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
 
-  protected final MapIteratorCache<N, GraphConnections<N, V>> nodeConnections;
+  final MapIteratorCache<N, GraphConnections<N, V>> nodeConnections;
 
-  protected long edgeCount; // must be updated when edges are added or removed
+  long edgeCount; // must be updated when edges are added or removed
 
   /** Constructs a graph with the properties specified in {@code builder}. */
   StandardValueGraph(AbstractGraphBuilder<? super N> builder) {
@@ -155,7 +155,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return edgeCount;
   }
 
-  protected final GraphConnections<N, V> checkedConnections(N node) {
+  final GraphConnections<N, V> checkedConnections(N node) {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
@@ -164,16 +164,16 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  protected final boolean containsNode(@Nullable N node) {
+  final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected final boolean hasEdgeConnecting_internal(N nodeU, N nodeV) {
+  final boolean hasEdgeConnecting_internal(N nodeU, N nodeV) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     return (connectionsU != null) && connectionsU.successors().contains(nodeV);
   }
 
-  protected final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
+  final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
     return value == null ? defaultValue : value;

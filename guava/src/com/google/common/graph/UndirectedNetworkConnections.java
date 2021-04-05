@@ -34,7 +34,7 @@ import java.util.Set;
  */
 final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetworkConnections<N, E> {
 
-  protected UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
+  UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
     super(incidentEdgeMap);
   }
 

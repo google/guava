@@ -55,11 +55,11 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   private final ElementOrder<N> nodeOrder;
   private final ElementOrder<E> edgeOrder;
 
-  protected final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
+  final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
 
   // We could make this a Map<E, EndpointPair<N>>. It would make incidentNodes(edge) slightly
   // faster, but also make Networks consume 5 to 20+% (increasing with average degree) more memory.
-  protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
+  final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
   /** Constructs a graph with the properties specified in {@code builder}. */
   StandardNetwork(NetworkBuilder<? super N, ? super E> builder) {
@@ -174,7 +174,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     return checkedConnections(node).successors();
   }
 
-  protected final NetworkConnections<N, E> checkedConnections(N node) {
+  final NetworkConnections<N, E> checkedConnections(N node) {
     NetworkConnections<N, E> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
@@ -183,7 +183,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     return connections;
   }
 
-  protected final N checkedReferenceNode(E edge) {
+  final N checkedReferenceNode(E edge) {
     N referenceNode = edgeToReferenceNode.get(edge);
     if (referenceNode == null) {
       checkNotNull(edge);
@@ -192,11 +192,11 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     return referenceNode;
   }
 
-  protected final boolean containsNode(@Nullable N node) {
+  final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected final boolean containsEdge(@Nullable E edge) {
+  final boolean containsEdge(@Nullable E edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

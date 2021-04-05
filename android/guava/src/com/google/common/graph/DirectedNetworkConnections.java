@@ -34,8 +34,7 @@ import java.util.Set;
  */
 final class DirectedNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
-  protected DirectedNetworkConnections(
-      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+  DirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
     super(inEdgeMap, outEdgeMap, selfLoopCount);
   }
 

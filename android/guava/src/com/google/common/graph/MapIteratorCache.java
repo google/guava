@@ -122,9 +122,9 @@ class MapIteratorCache<K, V> {
     };
   }
 
-  // Internal methods ('protected' is still package-visible, but treat as only subclass-visible)
+  // Internal methods (package-visible, but treat as only subclass-visible)
 
-  protected V getIfCached(@NullableDecl Object key) {
+  V getIfCached(@NullableDecl Object key) {
     Entry<K, V> entry = cacheEntry; // store local reference for thread-safety
 
     // Check cache. We use == on purpose because it's cheaper and a cache miss is ok.
@@ -134,7 +134,7 @@ class MapIteratorCache<K, V> {
     return null;
   }
 
-  protected void clearCache() {
+  void clearCache() {
     cacheEntry = null;
   }
 }
