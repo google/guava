@@ -16,16 +16,18 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Iterables;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 
 /**
  * A thread-safe implementation of the EvictingQueue data structure. It holds an
@@ -47,8 +49,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  */
 @GwtIncompatible
 public final class EvictingBlockingQueue<E> extends ForwardingBlockingQueue<E> implements Serializable {
-
-	private static final long serialVersionUID = -4305601088881265868L;
 
 	private final BlockingQueue<E> delegate;
 
