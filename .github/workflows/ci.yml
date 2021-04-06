@@ -19,6 +19,11 @@ jobs:
     env:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:
+      # Cancel any previous runs for the same branch that are still running.
+      - name: 'Cancel previous runs'
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@v2
       - name: 'Cache local Maven repository'
@@ -29,9 +34,10 @@ jobs:
           restore-keys: |
             maven-
       - name: 'Set up JDK ${{ matrix.java }}'
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java }}
+          distribution: 'zulu'
       - name: 'Install'
         shell: bash
         run: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
@@ -60,9 +66,10 @@ jobs:
           restore-keys: |
             maven-
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'zulu'
           server-id: sonatype-nexus-snapshots
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
@@ -88,9 +95,10 @@ jobs:
           restore-keys: |
             maven-
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'zulu'
       - name: 'Generate latest docs'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
