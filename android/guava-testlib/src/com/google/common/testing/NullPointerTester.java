@@ -52,7 +52,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
- * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@lcode
+ * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@code
  * CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
