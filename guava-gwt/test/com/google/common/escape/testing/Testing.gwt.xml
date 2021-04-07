@@ -25,5 +25,6 @@
 <inherits name="com.google.gwt.junit.JUnit" />
 <inherits name="com.google.common.annotations.Annotations" />
 <inherits name="com.google.common.escape.Escape" />
+
 <inherits name="com.google.gwt.core.Core" />
 </module>

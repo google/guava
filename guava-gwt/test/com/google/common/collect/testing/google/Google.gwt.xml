@@ -29,8 +29,8 @@
 <inherits name="com.google.common.collect.testing.Testing" />
 <inherits name="com.google.common.primitives.Primitives" />
 <inherits name="com.google.common.testing.Testing" />
-<inherits name="com.google.gwt.core.Core" />
 
+<inherits name="com.google.gwt.core.Core" />
 
 
 
