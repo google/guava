@@ -21,7 +21,8 @@ import static java.util.logging.Level.WARNING;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.
@@ -30,6 +31,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 3.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Strings {
   private Strings() {}
 
@@ -39,7 +41,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  public static String nullToEmpty(@NullableDecl String string) {
+  public static String nullToEmpty(@CheckForNull String string) {
     return Platform.nullToEmpty(string);
   }
 
@@ -49,8 +51,8 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
-  @NullableDecl
-  public static String emptyToNull(@NullableDecl String string) {
+  @CheckForNull
+  public static String emptyToNull(@CheckForNull String string) {
     return Platform.emptyToNull(string);
   }
 
@@ -65,7 +67,7 @@ public final class Strings {
    * @param string a string reference to check
    * @return {@code true} if the string is null or is the empty string
    */
-  public static boolean isNullOrEmpty(@NullableDecl String string) {
+  public static boolean isNullOrEmpty(@CheckForNull String string) {
     return Platform.stringIsNullOrEmpty(string);
   }
 
@@ -257,7 +259,8 @@ public final class Strings {
    * @since 25.1
    */
   // TODO(diamondm) consider using Arrays.toString() for array parameters
-  public static String lenientFormat(@NullableDecl String template, @NullableDecl Object... args) {
+  public static String lenientFormat(
+      @CheckForNull String template, @CheckForNull @Nullable Object... args) {
     template = String.valueOf(template); // null -> "null"
 
     if (args == null) {
@@ -297,7 +300,7 @@ public final class Strings {
     return builder.toString();
   }
 
-  private static String lenientToString(@NullableDecl Object o) {
+  private static String lenientToString(@CheckForNull Object o) {
     if (o == null) {
       return "null";
     }
