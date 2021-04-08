@@ -5136,7 +5136,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="input" type="T"/>
+      <param name="input" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
@@ -5157,7 +5157,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Indicates whether another object is equal to this predicate.
 
@@ -5173,7 +5173,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="input" type="T"/>
+      <param name="input" type="T extends java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a

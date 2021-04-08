@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.base</a></div>
-<h2 title="Interface Predicate" class="title">Interface Predicate&lt;T&gt;</h2>
+<h2 title="Interface Predicate" class="title">Interface Predicate&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -128,7 +128,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.47">Predicate</a>&lt;T&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/base/Predicate.html#line.48">Predicate</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Determines a true or false value for a given input; a pre-Java-8 version of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Predicate</code></a>.
 
  <p>The <a href="Predicates.html" title="class in com.google.common.base"><code>Predicates</code></a> class provides common predicates and related utilities.
@@ -215,8 +215,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Predicate.
 <li class="blockList">
 <h4>apply</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.64">apply</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-              <a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.66">apply</a>&#8203;(<a href="Predicate.html" title="type parameter in Predicate">T</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
  class documentation above). This method is <i>generally expected</i>, but not absolutely
  required, to have the following properties:
@@ -239,7 +238,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.77">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Predicate.html#line.79">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this predicate.
 

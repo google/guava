@@ -1202,11 +1202,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#apply(T)">apply(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
-<dd>
-<div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
- class documentation above).</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Range.html#apply(C)">apply(C)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1270,6 +1265,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided to satisfy the <code>Function</code> interface; use <a href="com/google/common/cache/LoadingCache.html#get(K)"><code>LoadingCache.get(K)</code></a> or <a href="com/google/common/cache/LoadingCache.html#getUnchecked(K)"><code>LoadingCache.getUnchecked(K)</code></a> instead.</div>
 </div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#apply(T)">apply(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
+<dd>
+<div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
+ class documentation above).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#apply(T)">apply(T)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
@@ -6351,10 +6351,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equal</a> to each other or both are absent.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
-<dd>
-<div class="block">Indicates whether another object is equal to this predicate.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheBuilderSpec.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/CacheStats.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a></dt>
@@ -6512,6 +6508,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/TypeToken.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
 <dd>
 <div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
+<dd>
+<div class="block">Indicates whether another object is equal to this predicate.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingTable.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingTable.html" title="class in com.google.common.collect">ForwardingTable</a></dt>
 <dd>&nbsp;</dd>
@@ -14301,7 +14301,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A functional interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data.</div>
 </dd>
-<dt><a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><span class="typeNameLink">Predicate</span></a>&lt;<a href="com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&gt; - Interface in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
+<dt><a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><span class="typeNameLink">Predicate</span></a>&lt;<a href="com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
 <div class="block">Legacy version of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Predicate</code></a>.</div>
 </dd>
@@ -18315,8 +18315,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A service in this state has completed execution normally.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#test(T)">test(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#test(T,T)">test(T, T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -18324,6 +18322,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      instead.</div>
 </div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#test(T)">test(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#TEXT_JAVASCRIPT_UTF_8">TEXT_JAVASCRIPT_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
 <div class="block"><a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares <a href="com/google/common/net/MediaType.html#JAVASCRIPT_UTF_8"><code>application/javascript</code></a> to be the correct media type for JavaScript, but this
