@@ -358,7 +358,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>absent</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.92">absent</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.93">absent</a>()</pre>
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is equivalent to Java 8's
@@ -373,7 +373,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.104">of</a>&#8203;(T&nbsp;reference)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.105">of</a>&#8203;(T&nbsp;reference)</pre>
 <div class="block">Returns an <code>Optional</code> instance containing the given non-null reference. To have <code>
  null</code> treated as <a href="#absent()"><code>absent()</code></a>, use <a href="#fromNullable(T)"><code>fromNullable(T)</code></a> instead.
 
@@ -392,7 +392,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>fromNullable</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.115">fromNullable</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.116">fromNullable</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                            T&nbsp;nullableReference)</pre>
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.
@@ -407,7 +407,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>isPresent</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.126">isPresent</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.127">isPresent</a>()</pre>
 <div class="block">Returns <code>true</code> if this holder contains a (non-null) instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> no differences.</div>
@@ -419,7 +419,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.140">get</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.141">get</a>()</pre>
 <div class="block">Returns the contained instance, which must be present. If the instance might be absent, use
  <a href="#or(T)"><code>or(Object)</code></a> or <a href="#orNull()"><code>orNull()</code></a> instead.
 
@@ -440,7 +440,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.178">or</a>&#8203;(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.179">or</a>&#8203;(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the contained instance if it is present; <code>defaultValue</code> otherwise. If no default
  value should be required because the instance is known to be present, use <a href="#get()"><code>get()</code></a>
  instead. For a default value of <code>null</code>, use <a href="#orNull()"><code>orNull()</code></a>.
@@ -483,7 +483,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.187">or</a>&#8203;(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.188">or</a>&#8203;(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
@@ -498,7 +498,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>or</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.199">or</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
+public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.200">or</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
 <div class="block">Returns the contained instance if it is present; <code>supplier.get()</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
@@ -517,8 +517,8 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>orNull</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.209">orNull</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.210">orNull</a>()</pre>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="#get()"><code>get()</code></a> instead.
 
@@ -532,7 +532,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.235">asSet</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.236">asSet</a>()</pre>
 <div class="block">Returns an immutable singleton <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> whose only element is the contained instance if it
  is present; an empty immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> otherwise.
 
@@ -564,7 +564,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.248">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public abstract&nbsp;&lt;V&gt;&nbsp;<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.249">transform</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,&#8203;V&gt;&nbsp;function)</pre>
 <div class="block">If the instance is present, it is transformed with the given <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="#absent()"><code>absent()</code></a> is returned.
 
@@ -585,7 +585,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.257">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.258">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equal</a> to each other or both are absent.
@@ -612,7 +612,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.266">hashCode</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.267">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
@@ -634,7 +634,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.275">toString</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.276">toString</a>()</pre>
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
@@ -654,7 +654,7 @@ public abstract&nbsp;<a href="Optional.html" title="type parameter in Optional">
 <li class="blockList">
 <h4>presentInstances</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.291">presentInstances</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.292">presentInstances</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="#absent()"><code>absent()</code></a>. Iterators are unmodifiable and are
  evaluated lazily.
