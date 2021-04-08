@@ -31,7 +31,7 @@
 <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixType" />
 
 
-<inherits name="com.google.gwt.core.Core" />
 
+<inherits name="com.google.gwt.core.Core" />
 
 </module>

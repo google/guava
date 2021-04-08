@@ -26,5 +26,6 @@
 <inherits name="com.google.common.base.Base" />
 <inherits name="com.google.common.escape.Escape" />
 
+
 <inherits name="com.google.gwt.core.Core" />
 </module>
