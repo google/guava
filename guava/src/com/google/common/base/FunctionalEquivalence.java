@@ -33,10 +33,11 @@ final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serial
 
   private static final long serialVersionUID = 0;
 
-  private final Function<F, ? extends T> function;
+  private final Function<? super F, ? extends T> function;
   private final Equivalence<T> resultEquivalence;
 
-  FunctionalEquivalence(Function<F, ? extends T> function, Equivalence<T> resultEquivalence) {
+  FunctionalEquivalence(
+      Function<? super F, ? extends T> function, Equivalence<T> resultEquivalence) {
     this.function = checkNotNull(function);
     this.resultEquivalence = checkNotNull(resultEquivalence);
   }

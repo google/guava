@@ -153,12 +153,7 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    *
    * @since 10.0
    */
-  /*
-   * We could consider changing the parameter type to Function<? super F, ...>. That would let this
-   * method accept a Function<@Nullable F, ...>. But this might not be worth the trouble, given that
-   * most Function types are inferred from lambdas or method reference nowadays.
-   */
-  public final <F> Equivalence<F> onResultOf(Function<F, ? extends @Nullable T> function) {
+  public final <F> Equivalence<F> onResultOf(Function<? super F, ? extends @Nullable T> function) {
     return new FunctionalEquivalence<>(function, this);
   }
 
