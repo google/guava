@@ -578,309 +578,311 @@
 <span class="sourceLineNo">569</span><a id="line.569">   * Returns this list instance.</a>
 <span class="sourceLineNo">570</span><a id="line.570">   *</a>
 <span class="sourceLineNo">571</span><a id="line.571">   * @since 2.0</a>
-<span class="sourceLineNo">572</span><a id="line.572">   */</a>
-<span class="sourceLineNo">573</span><a id="line.573">  @Override</a>
-<span class="sourceLineNo">574</span><a id="line.574">  public final ImmutableList&lt;E&gt; asList() {</a>
-<span class="sourceLineNo">575</span><a id="line.575">    return this;</a>
-<span class="sourceLineNo">576</span><a id="line.576">  }</a>
-<span class="sourceLineNo">577</span><a id="line.577"></a>
-<span class="sourceLineNo">578</span><a id="line.578">  @Override</a>
-<span class="sourceLineNo">579</span><a id="line.579">  public Spliterator&lt;E&gt; spliterator() {</a>
-<span class="sourceLineNo">580</span><a id="line.580">    return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);</a>
-<span class="sourceLineNo">581</span><a id="line.581">  }</a>
-<span class="sourceLineNo">582</span><a id="line.582"></a>
-<span class="sourceLineNo">583</span><a id="line.583">  @Override</a>
-<span class="sourceLineNo">584</span><a id="line.584">  int copyIntoArray(Object[] dst, int offset) {</a>
-<span class="sourceLineNo">585</span><a id="line.585">    // this loop is faster for RandomAccess instances, which ImmutableLists are</a>
-<span class="sourceLineNo">586</span><a id="line.586">    int size = size();</a>
-<span class="sourceLineNo">587</span><a id="line.587">    for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">588</span><a id="line.588">      dst[offset + i] = get(i);</a>
-<span class="sourceLineNo">589</span><a id="line.589">    }</a>
-<span class="sourceLineNo">590</span><a id="line.590">    return offset + size;</a>
-<span class="sourceLineNo">591</span><a id="line.591">  }</a>
-<span class="sourceLineNo">592</span><a id="line.592"></a>
-<span class="sourceLineNo">593</span><a id="line.593">  /**</a>
-<span class="sourceLineNo">594</span><a id="line.594">   * Returns a view of this immutable list in reverse order. For example, {@code ImmutableList.of(1,</a>
-<span class="sourceLineNo">595</span><a id="line.595">   * 2, 3).reverse()} is equivalent to {@code ImmutableList.of(3, 2, 1)}.</a>
-<span class="sourceLineNo">596</span><a id="line.596">   *</a>
-<span class="sourceLineNo">597</span><a id="line.597">   * @return a view of this immutable list in reverse order</a>
-<span class="sourceLineNo">598</span><a id="line.598">   * @since 7.0</a>
-<span class="sourceLineNo">599</span><a id="line.599">   */</a>
-<span class="sourceLineNo">600</span><a id="line.600">  public ImmutableList&lt;E&gt; reverse() {</a>
-<span class="sourceLineNo">601</span><a id="line.601">    return (size() &lt;= 1) ? this : new ReverseImmutableList&lt;E&gt;(this);</a>
-<span class="sourceLineNo">602</span><a id="line.602">  }</a>
-<span class="sourceLineNo">603</span><a id="line.603"></a>
-<span class="sourceLineNo">604</span><a id="line.604">  private static class ReverseImmutableList&lt;E&gt; extends ImmutableList&lt;E&gt; {</a>
-<span class="sourceLineNo">605</span><a id="line.605">    private final transient ImmutableList&lt;E&gt; forwardList;</a>
-<span class="sourceLineNo">606</span><a id="line.606"></a>
-<span class="sourceLineNo">607</span><a id="line.607">    ReverseImmutableList(ImmutableList&lt;E&gt; backingList) {</a>
-<span class="sourceLineNo">608</span><a id="line.608">      this.forwardList = backingList;</a>
-<span class="sourceLineNo">609</span><a id="line.609">    }</a>
-<span class="sourceLineNo">610</span><a id="line.610"></a>
-<span class="sourceLineNo">611</span><a id="line.611">    private int reverseIndex(int index) {</a>
-<span class="sourceLineNo">612</span><a id="line.612">      return (size() - 1) - index;</a>
-<span class="sourceLineNo">613</span><a id="line.613">    }</a>
-<span class="sourceLineNo">614</span><a id="line.614"></a>
-<span class="sourceLineNo">615</span><a id="line.615">    private int reversePosition(int index) {</a>
-<span class="sourceLineNo">616</span><a id="line.616">      return size() - index;</a>
-<span class="sourceLineNo">617</span><a id="line.617">    }</a>
-<span class="sourceLineNo">618</span><a id="line.618"></a>
-<span class="sourceLineNo">619</span><a id="line.619">    @Override</a>
-<span class="sourceLineNo">620</span><a id="line.620">    public ImmutableList&lt;E&gt; reverse() {</a>
-<span class="sourceLineNo">621</span><a id="line.621">      return forwardList;</a>
-<span class="sourceLineNo">622</span><a id="line.622">    }</a>
-<span class="sourceLineNo">623</span><a id="line.623"></a>
-<span class="sourceLineNo">624</span><a id="line.624">    @Override</a>
-<span class="sourceLineNo">625</span><a id="line.625">    public boolean contains(@Nullable Object object) {</a>
-<span class="sourceLineNo">626</span><a id="line.626">      return forwardList.contains(object);</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628"></a>
-<span class="sourceLineNo">629</span><a id="line.629">    @Override</a>
-<span class="sourceLineNo">630</span><a id="line.630">    public int indexOf(@Nullable Object object) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      int index = forwardList.lastIndexOf(object);</a>
-<span class="sourceLineNo">632</span><a id="line.632">      return (index &gt;= 0) ? reverseIndex(index) : -1;</a>
-<span class="sourceLineNo">633</span><a id="line.633">    }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">    @Override</a>
-<span class="sourceLineNo">636</span><a id="line.636">    public int lastIndexOf(@Nullable Object object) {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      int index = forwardList.indexOf(object);</a>
-<span class="sourceLineNo">638</span><a id="line.638">      return (index &gt;= 0) ? reverseIndex(index) : -1;</a>
-<span class="sourceLineNo">639</span><a id="line.639">    }</a>
-<span class="sourceLineNo">640</span><a id="line.640"></a>
-<span class="sourceLineNo">641</span><a id="line.641">    @Override</a>
-<span class="sourceLineNo">642</span><a id="line.642">    public ImmutableList&lt;E&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">643</span><a id="line.643">      checkPositionIndexes(fromIndex, toIndex, size());</a>
-<span class="sourceLineNo">644</span><a id="line.644">      return forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)).reverse();</a>
-<span class="sourceLineNo">645</span><a id="line.645">    }</a>
-<span class="sourceLineNo">646</span><a id="line.646"></a>
-<span class="sourceLineNo">647</span><a id="line.647">    @Override</a>
-<span class="sourceLineNo">648</span><a id="line.648">    public E get(int index) {</a>
-<span class="sourceLineNo">649</span><a id="line.649">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">650</span><a id="line.650">      return forwardList.get(reverseIndex(index));</a>
-<span class="sourceLineNo">651</span><a id="line.651">    }</a>
-<span class="sourceLineNo">652</span><a id="line.652"></a>
-<span class="sourceLineNo">653</span><a id="line.653">    @Override</a>
-<span class="sourceLineNo">654</span><a id="line.654">    public int size() {</a>
-<span class="sourceLineNo">655</span><a id="line.655">      return forwardList.size();</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657"></a>
-<span class="sourceLineNo">658</span><a id="line.658">    @Override</a>
-<span class="sourceLineNo">659</span><a id="line.659">    boolean isPartialView() {</a>
-<span class="sourceLineNo">660</span><a id="line.660">      return forwardList.isPartialView();</a>
-<span class="sourceLineNo">661</span><a id="line.661">    }</a>
-<span class="sourceLineNo">662</span><a id="line.662">  }</a>
-<span class="sourceLineNo">663</span><a id="line.663"></a>
-<span class="sourceLineNo">664</span><a id="line.664">  @Override</a>
-<span class="sourceLineNo">665</span><a id="line.665">  public boolean equals(@Nullable Object obj) {</a>
-<span class="sourceLineNo">666</span><a id="line.666">    return Lists.equalsImpl(this, obj);</a>
-<span class="sourceLineNo">667</span><a id="line.667">  }</a>
-<span class="sourceLineNo">668</span><a id="line.668"></a>
-<span class="sourceLineNo">669</span><a id="line.669">  @Override</a>
-<span class="sourceLineNo">670</span><a id="line.670">  public int hashCode() {</a>
-<span class="sourceLineNo">671</span><a id="line.671">    int hashCode = 1;</a>
-<span class="sourceLineNo">672</span><a id="line.672">    int n = size();</a>
-<span class="sourceLineNo">673</span><a id="line.673">    for (int i = 0; i &lt; n; i++) {</a>
-<span class="sourceLineNo">674</span><a id="line.674">      hashCode = 31 * hashCode + get(i).hashCode();</a>
-<span class="sourceLineNo">675</span><a id="line.675"></a>
-<span class="sourceLineNo">676</span><a id="line.676">      hashCode = ~~hashCode;</a>
-<span class="sourceLineNo">677</span><a id="line.677">      // needed to deal with GWT integer overflow</a>
-<span class="sourceLineNo">678</span><a id="line.678">    }</a>
-<span class="sourceLineNo">679</span><a id="line.679">    return hashCode;</a>
-<span class="sourceLineNo">680</span><a id="line.680">  }</a>
-<span class="sourceLineNo">681</span><a id="line.681"></a>
-<span class="sourceLineNo">682</span><a id="line.682">  /*</a>
-<span class="sourceLineNo">683</span><a id="line.683">   * Serializes ImmutableLists as their logical contents. This ensures that</a>
-<span class="sourceLineNo">684</span><a id="line.684">   * implementation types do not leak into the serialized representation.</a>
-<span class="sourceLineNo">685</span><a id="line.685">   */</a>
-<span class="sourceLineNo">686</span><a id="line.686">  static class SerializedForm implements Serializable {</a>
-<span class="sourceLineNo">687</span><a id="line.687">    final Object[] elements;</a>
-<span class="sourceLineNo">688</span><a id="line.688"></a>
-<span class="sourceLineNo">689</span><a id="line.689">    SerializedForm(Object[] elements) {</a>
-<span class="sourceLineNo">690</span><a id="line.690">      this.elements = elements;</a>
-<span class="sourceLineNo">691</span><a id="line.691">    }</a>
-<span class="sourceLineNo">692</span><a id="line.692"></a>
-<span class="sourceLineNo">693</span><a id="line.693">    Object readResolve() {</a>
-<span class="sourceLineNo">694</span><a id="line.694">      return copyOf(elements);</a>
-<span class="sourceLineNo">695</span><a id="line.695">    }</a>
-<span class="sourceLineNo">696</span><a id="line.696"></a>
-<span class="sourceLineNo">697</span><a id="line.697">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">698</span><a id="line.698">  }</a>
-<span class="sourceLineNo">699</span><a id="line.699"></a>
-<span class="sourceLineNo">700</span><a id="line.700">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
-<span class="sourceLineNo">701</span><a id="line.701">    throw new InvalidObjectException("Use SerializedForm");</a>
-<span class="sourceLineNo">702</span><a id="line.702">  }</a>
-<span class="sourceLineNo">703</span><a id="line.703"></a>
-<span class="sourceLineNo">704</span><a id="line.704">  @Override</a>
-<span class="sourceLineNo">705</span><a id="line.705">  Object writeReplace() {</a>
-<span class="sourceLineNo">706</span><a id="line.706">    return new SerializedForm(toArray());</a>
-<span class="sourceLineNo">707</span><a id="line.707">  }</a>
-<span class="sourceLineNo">708</span><a id="line.708"></a>
-<span class="sourceLineNo">709</span><a id="line.709">  /**</a>
-<span class="sourceLineNo">710</span><a id="line.710">   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * Builder} constructor.</a>
-<span class="sourceLineNo">712</span><a id="line.712">   */</a>
-<span class="sourceLineNo">713</span><a id="line.713">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
-<span class="sourceLineNo">714</span><a id="line.714">    return new Builder&lt;E&gt;();</a>
-<span class="sourceLineNo">715</span><a id="line.715">  }</a>
-<span class="sourceLineNo">716</span><a id="line.716"></a>
-<span class="sourceLineNo">717</span><a id="line.717">  /**</a>
-<span class="sourceLineNo">718</span><a id="line.718">   * Returns a new builder, expecting the specified number of elements to be added.</a>
-<span class="sourceLineNo">719</span><a id="line.719">   *</a>
-<span class="sourceLineNo">720</span><a id="line.720">   * &lt;p&gt;If {@code expectedSize} is exactly the number of elements added to the builder before {@link</a>
-<span class="sourceLineNo">721</span><a id="line.721">   * Builder#build} is called, the builder is likely to perform better than an unsized {@link</a>
-<span class="sourceLineNo">722</span><a id="line.722">   * #builder()} would have.</a>
-<span class="sourceLineNo">723</span><a id="line.723">   *</a>
-<span class="sourceLineNo">724</span><a id="line.724">   * &lt;p&gt;It is not specified if any performance benefits apply if {@code expectedSize} is close to,</a>
-<span class="sourceLineNo">725</span><a id="line.725">   * but not exactly, the number of elements added to the builder.</a>
-<span class="sourceLineNo">726</span><a id="line.726">   *</a>
-<span class="sourceLineNo">727</span><a id="line.727">   * @since 23.1</a>
-<span class="sourceLineNo">728</span><a id="line.728">   */</a>
-<span class="sourceLineNo">729</span><a id="line.729">  @Beta</a>
-<span class="sourceLineNo">730</span><a id="line.730">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
-<span class="sourceLineNo">731</span><a id="line.731">    checkNonnegative(expectedSize, "expectedSize");</a>
-<span class="sourceLineNo">732</span><a id="line.732">    return new ImmutableList.Builder&lt;E&gt;(expectedSize);</a>
-<span class="sourceLineNo">733</span><a id="line.733">  }</a>
-<span class="sourceLineNo">734</span><a id="line.734"></a>
-<span class="sourceLineNo">735</span><a id="line.735">  /**</a>
-<span class="sourceLineNo">736</span><a id="line.736">   * A builder for creating immutable list instances, especially {@code public static final} lists</a>
-<span class="sourceLineNo">737</span><a id="line.737">   * ("constant lists"). Example:</a>
-<span class="sourceLineNo">738</span><a id="line.738">   *</a>
-<span class="sourceLineNo">739</span><a id="line.739">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">740</span><a id="line.740">   * public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS</a>
-<span class="sourceLineNo">741</span><a id="line.741">   *     = new ImmutableList.Builder&lt;Color&gt;()</a>
-<span class="sourceLineNo">742</span><a id="line.742">   *         .addAll(WEBSAFE_COLORS)</a>
-<span class="sourceLineNo">743</span><a id="line.743">   *         .add(new Color(0, 191, 255))</a>
-<span class="sourceLineNo">744</span><a id="line.744">   *         .build();</a>
-<span class="sourceLineNo">745</span><a id="line.745">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">746</span><a id="line.746">   *</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * &lt;p&gt;Elements appear in the resulting list in the same order they were added to the builder.</a>
+<span class="sourceLineNo">572</span><a id="line.572">   * @deprecated There is no reason to use this; it always returns {@code this}.</a>
+<span class="sourceLineNo">573</span><a id="line.573">   */</a>
+<span class="sourceLineNo">574</span><a id="line.574">  @Deprecated</a>
+<span class="sourceLineNo">575</span><a id="line.575">  @Override</a>
+<span class="sourceLineNo">576</span><a id="line.576">  public final ImmutableList&lt;E&gt; asList() {</a>
+<span class="sourceLineNo">577</span><a id="line.577">    return this;</a>
+<span class="sourceLineNo">578</span><a id="line.578">  }</a>
+<span class="sourceLineNo">579</span><a id="line.579"></a>
+<span class="sourceLineNo">580</span><a id="line.580">  @Override</a>
+<span class="sourceLineNo">581</span><a id="line.581">  public Spliterator&lt;E&gt; spliterator() {</a>
+<span class="sourceLineNo">582</span><a id="line.582">    return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);</a>
+<span class="sourceLineNo">583</span><a id="line.583">  }</a>
+<span class="sourceLineNo">584</span><a id="line.584"></a>
+<span class="sourceLineNo">585</span><a id="line.585">  @Override</a>
+<span class="sourceLineNo">586</span><a id="line.586">  int copyIntoArray(Object[] dst, int offset) {</a>
+<span class="sourceLineNo">587</span><a id="line.587">    // this loop is faster for RandomAccess instances, which ImmutableLists are</a>
+<span class="sourceLineNo">588</span><a id="line.588">    int size = size();</a>
+<span class="sourceLineNo">589</span><a id="line.589">    for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">590</span><a id="line.590">      dst[offset + i] = get(i);</a>
+<span class="sourceLineNo">591</span><a id="line.591">    }</a>
+<span class="sourceLineNo">592</span><a id="line.592">    return offset + size;</a>
+<span class="sourceLineNo">593</span><a id="line.593">  }</a>
+<span class="sourceLineNo">594</span><a id="line.594"></a>
+<span class="sourceLineNo">595</span><a id="line.595">  /**</a>
+<span class="sourceLineNo">596</span><a id="line.596">   * Returns a view of this immutable list in reverse order. For example, {@code ImmutableList.of(1,</a>
+<span class="sourceLineNo">597</span><a id="line.597">   * 2, 3).reverse()} is equivalent to {@code ImmutableList.of(3, 2, 1)}.</a>
+<span class="sourceLineNo">598</span><a id="line.598">   *</a>
+<span class="sourceLineNo">599</span><a id="line.599">   * @return a view of this immutable list in reverse order</a>
+<span class="sourceLineNo">600</span><a id="line.600">   * @since 7.0</a>
+<span class="sourceLineNo">601</span><a id="line.601">   */</a>
+<span class="sourceLineNo">602</span><a id="line.602">  public ImmutableList&lt;E&gt; reverse() {</a>
+<span class="sourceLineNo">603</span><a id="line.603">    return (size() &lt;= 1) ? this : new ReverseImmutableList&lt;E&gt;(this);</a>
+<span class="sourceLineNo">604</span><a id="line.604">  }</a>
+<span class="sourceLineNo">605</span><a id="line.605"></a>
+<span class="sourceLineNo">606</span><a id="line.606">  private static class ReverseImmutableList&lt;E&gt; extends ImmutableList&lt;E&gt; {</a>
+<span class="sourceLineNo">607</span><a id="line.607">    private final transient ImmutableList&lt;E&gt; forwardList;</a>
+<span class="sourceLineNo">608</span><a id="line.608"></a>
+<span class="sourceLineNo">609</span><a id="line.609">    ReverseImmutableList(ImmutableList&lt;E&gt; backingList) {</a>
+<span class="sourceLineNo">610</span><a id="line.610">      this.forwardList = backingList;</a>
+<span class="sourceLineNo">611</span><a id="line.611">    }</a>
+<span class="sourceLineNo">612</span><a id="line.612"></a>
+<span class="sourceLineNo">613</span><a id="line.613">    private int reverseIndex(int index) {</a>
+<span class="sourceLineNo">614</span><a id="line.614">      return (size() - 1) - index;</a>
+<span class="sourceLineNo">615</span><a id="line.615">    }</a>
+<span class="sourceLineNo">616</span><a id="line.616"></a>
+<span class="sourceLineNo">617</span><a id="line.617">    private int reversePosition(int index) {</a>
+<span class="sourceLineNo">618</span><a id="line.618">      return size() - index;</a>
+<span class="sourceLineNo">619</span><a id="line.619">    }</a>
+<span class="sourceLineNo">620</span><a id="line.620"></a>
+<span class="sourceLineNo">621</span><a id="line.621">    @Override</a>
+<span class="sourceLineNo">622</span><a id="line.622">    public ImmutableList&lt;E&gt; reverse() {</a>
+<span class="sourceLineNo">623</span><a id="line.623">      return forwardList;</a>
+<span class="sourceLineNo">624</span><a id="line.624">    }</a>
+<span class="sourceLineNo">625</span><a id="line.625"></a>
+<span class="sourceLineNo">626</span><a id="line.626">    @Override</a>
+<span class="sourceLineNo">627</span><a id="line.627">    public boolean contains(@Nullable Object object) {</a>
+<span class="sourceLineNo">628</span><a id="line.628">      return forwardList.contains(object);</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630"></a>
+<span class="sourceLineNo">631</span><a id="line.631">    @Override</a>
+<span class="sourceLineNo">632</span><a id="line.632">    public int indexOf(@Nullable Object object) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">      int index = forwardList.lastIndexOf(object);</a>
+<span class="sourceLineNo">634</span><a id="line.634">      return (index &gt;= 0) ? reverseIndex(index) : -1;</a>
+<span class="sourceLineNo">635</span><a id="line.635">    }</a>
+<span class="sourceLineNo">636</span><a id="line.636"></a>
+<span class="sourceLineNo">637</span><a id="line.637">    @Override</a>
+<span class="sourceLineNo">638</span><a id="line.638">    public int lastIndexOf(@Nullable Object object) {</a>
+<span class="sourceLineNo">639</span><a id="line.639">      int index = forwardList.indexOf(object);</a>
+<span class="sourceLineNo">640</span><a id="line.640">      return (index &gt;= 0) ? reverseIndex(index) : -1;</a>
+<span class="sourceLineNo">641</span><a id="line.641">    }</a>
+<span class="sourceLineNo">642</span><a id="line.642"></a>
+<span class="sourceLineNo">643</span><a id="line.643">    @Override</a>
+<span class="sourceLineNo">644</span><a id="line.644">    public ImmutableList&lt;E&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">      checkPositionIndexes(fromIndex, toIndex, size());</a>
+<span class="sourceLineNo">646</span><a id="line.646">      return forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)).reverse();</a>
+<span class="sourceLineNo">647</span><a id="line.647">    }</a>
+<span class="sourceLineNo">648</span><a id="line.648"></a>
+<span class="sourceLineNo">649</span><a id="line.649">    @Override</a>
+<span class="sourceLineNo">650</span><a id="line.650">    public E get(int index) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">652</span><a id="line.652">      return forwardList.get(reverseIndex(index));</a>
+<span class="sourceLineNo">653</span><a id="line.653">    }</a>
+<span class="sourceLineNo">654</span><a id="line.654"></a>
+<span class="sourceLineNo">655</span><a id="line.655">    @Override</a>
+<span class="sourceLineNo">656</span><a id="line.656">    public int size() {</a>
+<span class="sourceLineNo">657</span><a id="line.657">      return forwardList.size();</a>
+<span class="sourceLineNo">658</span><a id="line.658">    }</a>
+<span class="sourceLineNo">659</span><a id="line.659"></a>
+<span class="sourceLineNo">660</span><a id="line.660">    @Override</a>
+<span class="sourceLineNo">661</span><a id="line.661">    boolean isPartialView() {</a>
+<span class="sourceLineNo">662</span><a id="line.662">      return forwardList.isPartialView();</a>
+<span class="sourceLineNo">663</span><a id="line.663">    }</a>
+<span class="sourceLineNo">664</span><a id="line.664">  }</a>
+<span class="sourceLineNo">665</span><a id="line.665"></a>
+<span class="sourceLineNo">666</span><a id="line.666">  @Override</a>
+<span class="sourceLineNo">667</span><a id="line.667">  public boolean equals(@Nullable Object obj) {</a>
+<span class="sourceLineNo">668</span><a id="line.668">    return Lists.equalsImpl(this, obj);</a>
+<span class="sourceLineNo">669</span><a id="line.669">  }</a>
+<span class="sourceLineNo">670</span><a id="line.670"></a>
+<span class="sourceLineNo">671</span><a id="line.671">  @Override</a>
+<span class="sourceLineNo">672</span><a id="line.672">  public int hashCode() {</a>
+<span class="sourceLineNo">673</span><a id="line.673">    int hashCode = 1;</a>
+<span class="sourceLineNo">674</span><a id="line.674">    int n = size();</a>
+<span class="sourceLineNo">675</span><a id="line.675">    for (int i = 0; i &lt; n; i++) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      hashCode = 31 * hashCode + get(i).hashCode();</a>
+<span class="sourceLineNo">677</span><a id="line.677"></a>
+<span class="sourceLineNo">678</span><a id="line.678">      hashCode = ~~hashCode;</a>
+<span class="sourceLineNo">679</span><a id="line.679">      // needed to deal with GWT integer overflow</a>
+<span class="sourceLineNo">680</span><a id="line.680">    }</a>
+<span class="sourceLineNo">681</span><a id="line.681">    return hashCode;</a>
+<span class="sourceLineNo">682</span><a id="line.682">  }</a>
+<span class="sourceLineNo">683</span><a id="line.683"></a>
+<span class="sourceLineNo">684</span><a id="line.684">  /*</a>
+<span class="sourceLineNo">685</span><a id="line.685">   * Serializes ImmutableLists as their logical contents. This ensures that</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * implementation types do not leak into the serialized representation.</a>
+<span class="sourceLineNo">687</span><a id="line.687">   */</a>
+<span class="sourceLineNo">688</span><a id="line.688">  static class SerializedForm implements Serializable {</a>
+<span class="sourceLineNo">689</span><a id="line.689">    final Object[] elements;</a>
+<span class="sourceLineNo">690</span><a id="line.690"></a>
+<span class="sourceLineNo">691</span><a id="line.691">    SerializedForm(Object[] elements) {</a>
+<span class="sourceLineNo">692</span><a id="line.692">      this.elements = elements;</a>
+<span class="sourceLineNo">693</span><a id="line.693">    }</a>
+<span class="sourceLineNo">694</span><a id="line.694"></a>
+<span class="sourceLineNo">695</span><a id="line.695">    Object readResolve() {</a>
+<span class="sourceLineNo">696</span><a id="line.696">      return copyOf(elements);</a>
+<span class="sourceLineNo">697</span><a id="line.697">    }</a>
+<span class="sourceLineNo">698</span><a id="line.698"></a>
+<span class="sourceLineNo">699</span><a id="line.699">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">700</span><a id="line.700">  }</a>
+<span class="sourceLineNo">701</span><a id="line.701"></a>
+<span class="sourceLineNo">702</span><a id="line.702">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">703</span><a id="line.703">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">704</span><a id="line.704">  }</a>
+<span class="sourceLineNo">705</span><a id="line.705"></a>
+<span class="sourceLineNo">706</span><a id="line.706">  @Override</a>
+<span class="sourceLineNo">707</span><a id="line.707">  Object writeReplace() {</a>
+<span class="sourceLineNo">708</span><a id="line.708">    return new SerializedForm(toArray());</a>
+<span class="sourceLineNo">709</span><a id="line.709">  }</a>
+<span class="sourceLineNo">710</span><a id="line.710"></a>
+<span class="sourceLineNo">711</span><a id="line.711">  /**</a>
+<span class="sourceLineNo">712</span><a id="line.712">   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link</a>
+<span class="sourceLineNo">713</span><a id="line.713">   * Builder} constructor.</a>
+<span class="sourceLineNo">714</span><a id="line.714">   */</a>
+<span class="sourceLineNo">715</span><a id="line.715">  public static &lt;E&gt; Builder&lt;E&gt; builder() {</a>
+<span class="sourceLineNo">716</span><a id="line.716">    return new Builder&lt;E&gt;();</a>
+<span class="sourceLineNo">717</span><a id="line.717">  }</a>
+<span class="sourceLineNo">718</span><a id="line.718"></a>
+<span class="sourceLineNo">719</span><a id="line.719">  /**</a>
+<span class="sourceLineNo">720</span><a id="line.720">   * Returns a new builder, expecting the specified number of elements to be added.</a>
+<span class="sourceLineNo">721</span><a id="line.721">   *</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * &lt;p&gt;If {@code expectedSize} is exactly the number of elements added to the builder before {@link</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * Builder#build} is called, the builder is likely to perform better than an unsized {@link</a>
+<span class="sourceLineNo">724</span><a id="line.724">   * #builder()} would have.</a>
+<span class="sourceLineNo">725</span><a id="line.725">   *</a>
+<span class="sourceLineNo">726</span><a id="line.726">   * &lt;p&gt;It is not specified if any performance benefits apply if {@code expectedSize} is close to,</a>
+<span class="sourceLineNo">727</span><a id="line.727">   * but not exactly, the number of elements added to the builder.</a>
+<span class="sourceLineNo">728</span><a id="line.728">   *</a>
+<span class="sourceLineNo">729</span><a id="line.729">   * @since 23.1</a>
+<span class="sourceLineNo">730</span><a id="line.730">   */</a>
+<span class="sourceLineNo">731</span><a id="line.731">  @Beta</a>
+<span class="sourceLineNo">732</span><a id="line.732">  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {</a>
+<span class="sourceLineNo">733</span><a id="line.733">    checkNonnegative(expectedSize, "expectedSize");</a>
+<span class="sourceLineNo">734</span><a id="line.734">    return new ImmutableList.Builder&lt;E&gt;(expectedSize);</a>
+<span class="sourceLineNo">735</span><a id="line.735">  }</a>
+<span class="sourceLineNo">736</span><a id="line.736"></a>
+<span class="sourceLineNo">737</span><a id="line.737">  /**</a>
+<span class="sourceLineNo">738</span><a id="line.738">   * A builder for creating immutable list instances, especially {@code public static final} lists</a>
+<span class="sourceLineNo">739</span><a id="line.739">   * ("constant lists"). Example:</a>
+<span class="sourceLineNo">740</span><a id="line.740">   *</a>
+<span class="sourceLineNo">741</span><a id="line.741">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">742</span><a id="line.742">   * public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS</a>
+<span class="sourceLineNo">743</span><a id="line.743">   *     = new ImmutableList.Builder&lt;Color&gt;()</a>
+<span class="sourceLineNo">744</span><a id="line.744">   *         .addAll(WEBSAFE_COLORS)</a>
+<span class="sourceLineNo">745</span><a id="line.745">   *         .add(new Color(0, 191, 255))</a>
+<span class="sourceLineNo">746</span><a id="line.746">   *         .build();</a>
+<span class="sourceLineNo">747</span><a id="line.747">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">748</span><a id="line.748">   *</a>
-<span class="sourceLineNo">749</span><a id="line.749">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</a>
-<span class="sourceLineNo">750</span><a id="line.750">   * multiple lists in series. Each new list contains all the elements of the ones created before</a>
-<span class="sourceLineNo">751</span><a id="line.751">   * it.</a>
-<span class="sourceLineNo">752</span><a id="line.752">   *</a>
-<span class="sourceLineNo">753</span><a id="line.753">   * @since 2.0</a>
-<span class="sourceLineNo">754</span><a id="line.754">   */</a>
-<span class="sourceLineNo">755</span><a id="line.755">  public static final class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {</a>
-<span class="sourceLineNo">756</span><a id="line.756">    @VisibleForTesting Object[] contents;</a>
-<span class="sourceLineNo">757</span><a id="line.757">    private int size;</a>
-<span class="sourceLineNo">758</span><a id="line.758">    private boolean forceCopy;</a>
-<span class="sourceLineNo">759</span><a id="line.759"></a>
-<span class="sourceLineNo">760</span><a id="line.760">    /**</a>
-<span class="sourceLineNo">761</span><a id="line.761">     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link</a>
-<span class="sourceLineNo">762</span><a id="line.762">     * ImmutableList#builder}.</a>
-<span class="sourceLineNo">763</span><a id="line.763">     */</a>
-<span class="sourceLineNo">764</span><a id="line.764">    public Builder() {</a>
-<span class="sourceLineNo">765</span><a id="line.765">      this(DEFAULT_INITIAL_CAPACITY);</a>
-<span class="sourceLineNo">766</span><a id="line.766">    }</a>
-<span class="sourceLineNo">767</span><a id="line.767"></a>
-<span class="sourceLineNo">768</span><a id="line.768">    Builder(int capacity) {</a>
-<span class="sourceLineNo">769</span><a id="line.769">      this.contents = new Object[capacity];</a>
-<span class="sourceLineNo">770</span><a id="line.770">      this.size = 0;</a>
-<span class="sourceLineNo">771</span><a id="line.771">    }</a>
-<span class="sourceLineNo">772</span><a id="line.772"></a>
-<span class="sourceLineNo">773</span><a id="line.773">    private void getReadyToExpandTo(int minCapacity) {</a>
-<span class="sourceLineNo">774</span><a id="line.774">      if (contents.length &lt; minCapacity) {</a>
-<span class="sourceLineNo">775</span><a id="line.775">        this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));</a>
-<span class="sourceLineNo">776</span><a id="line.776">        forceCopy = false;</a>
-<span class="sourceLineNo">777</span><a id="line.777">      } else if (forceCopy) {</a>
-<span class="sourceLineNo">778</span><a id="line.778">        contents = Arrays.copyOf(contents, contents.length);</a>
-<span class="sourceLineNo">779</span><a id="line.779">        forceCopy = false;</a>
-<span class="sourceLineNo">780</span><a id="line.780">      }</a>
-<span class="sourceLineNo">781</span><a id="line.781">    }</a>
-<span class="sourceLineNo">782</span><a id="line.782"></a>
-<span class="sourceLineNo">783</span><a id="line.783">    /**</a>
-<span class="sourceLineNo">784</span><a id="line.784">     * Adds {@code element} to the {@code ImmutableList}.</a>
-<span class="sourceLineNo">785</span><a id="line.785">     *</a>
-<span class="sourceLineNo">786</span><a id="line.786">     * @param element the element to add</a>
-<span class="sourceLineNo">787</span><a id="line.787">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">788</span><a id="line.788">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">789</span><a id="line.789">     */</a>
-<span class="sourceLineNo">790</span><a id="line.790">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">791</span><a id="line.791">    @Override</a>
-<span class="sourceLineNo">792</span><a id="line.792">    public Builder&lt;E&gt; add(E element) {</a>
-<span class="sourceLineNo">793</span><a id="line.793">      checkNotNull(element);</a>
-<span class="sourceLineNo">794</span><a id="line.794">      getReadyToExpandTo(size + 1);</a>
-<span class="sourceLineNo">795</span><a id="line.795">      contents[size++] = element;</a>
-<span class="sourceLineNo">796</span><a id="line.796">      return this;</a>
-<span class="sourceLineNo">797</span><a id="line.797">    }</a>
-<span class="sourceLineNo">798</span><a id="line.798"></a>
-<span class="sourceLineNo">799</span><a id="line.799">    /**</a>
-<span class="sourceLineNo">800</span><a id="line.800">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
-<span class="sourceLineNo">801</span><a id="line.801">     *</a>
-<span class="sourceLineNo">802</span><a id="line.802">     * @param elements the {@code Iterable} to add to the {@code ImmutableList}</a>
-<span class="sourceLineNo">803</span><a id="line.803">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">804</span><a id="line.804">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">805</span><a id="line.805">     */</a>
-<span class="sourceLineNo">806</span><a id="line.806">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">807</span><a id="line.807">    @Override</a>
-<span class="sourceLineNo">808</span><a id="line.808">    public Builder&lt;E&gt; add(E... elements) {</a>
-<span class="sourceLineNo">809</span><a id="line.809">      checkElementsNotNull(elements);</a>
-<span class="sourceLineNo">810</span><a id="line.810">      add(elements, elements.length);</a>
-<span class="sourceLineNo">811</span><a id="line.811">      return this;</a>
-<span class="sourceLineNo">812</span><a id="line.812">    }</a>
-<span class="sourceLineNo">813</span><a id="line.813"></a>
-<span class="sourceLineNo">814</span><a id="line.814">    private void add(Object[] elements, int n) {</a>
-<span class="sourceLineNo">815</span><a id="line.815">      getReadyToExpandTo(size + n);</a>
-<span class="sourceLineNo">816</span><a id="line.816">      System.arraycopy(elements, 0, contents, size, n);</a>
-<span class="sourceLineNo">817</span><a id="line.817">      size += n;</a>
-<span class="sourceLineNo">818</span><a id="line.818">    }</a>
-<span class="sourceLineNo">819</span><a id="line.819"></a>
-<span class="sourceLineNo">820</span><a id="line.820">    /**</a>
-<span class="sourceLineNo">821</span><a id="line.821">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
-<span class="sourceLineNo">822</span><a id="line.822">     *</a>
-<span class="sourceLineNo">823</span><a id="line.823">     * @param elements the {@code Iterable} to add to the {@code ImmutableList}</a>
-<span class="sourceLineNo">824</span><a id="line.824">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">825</span><a id="line.825">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">826</span><a id="line.826">     */</a>
-<span class="sourceLineNo">827</span><a id="line.827">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">828</span><a id="line.828">    @Override</a>
-<span class="sourceLineNo">829</span><a id="line.829">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">830</span><a id="line.830">      checkNotNull(elements);</a>
-<span class="sourceLineNo">831</span><a id="line.831">      if (elements instanceof Collection) {</a>
-<span class="sourceLineNo">832</span><a id="line.832">        Collection&lt;?&gt; collection = (Collection&lt;?&gt;) elements;</a>
-<span class="sourceLineNo">833</span><a id="line.833">        getReadyToExpandTo(size + collection.size());</a>
-<span class="sourceLineNo">834</span><a id="line.834">        if (collection instanceof ImmutableCollection) {</a>
-<span class="sourceLineNo">835</span><a id="line.835">          ImmutableCollection&lt;?&gt; immutableCollection = (ImmutableCollection&lt;?&gt;) collection;</a>
-<span class="sourceLineNo">836</span><a id="line.836">          size = immutableCollection.copyIntoArray(contents, size);</a>
-<span class="sourceLineNo">837</span><a id="line.837">          return this;</a>
-<span class="sourceLineNo">838</span><a id="line.838">        }</a>
-<span class="sourceLineNo">839</span><a id="line.839">      }</a>
-<span class="sourceLineNo">840</span><a id="line.840">      super.addAll(elements);</a>
-<span class="sourceLineNo">841</span><a id="line.841">      return this;</a>
-<span class="sourceLineNo">842</span><a id="line.842">    }</a>
-<span class="sourceLineNo">843</span><a id="line.843"></a>
-<span class="sourceLineNo">844</span><a id="line.844">    /**</a>
-<span class="sourceLineNo">845</span><a id="line.845">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
-<span class="sourceLineNo">846</span><a id="line.846">     *</a>
-<span class="sourceLineNo">847</span><a id="line.847">     * @param elements the {@code Iterator} to add to the {@code ImmutableList}</a>
-<span class="sourceLineNo">848</span><a id="line.848">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">849</span><a id="line.849">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">850</span><a id="line.850">     */</a>
-<span class="sourceLineNo">851</span><a id="line.851">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">852</span><a id="line.852">    @Override</a>
-<span class="sourceLineNo">853</span><a id="line.853">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">854</span><a id="line.854">      super.addAll(elements);</a>
-<span class="sourceLineNo">855</span><a id="line.855">      return this;</a>
-<span class="sourceLineNo">856</span><a id="line.856">    }</a>
-<span class="sourceLineNo">857</span><a id="line.857"></a>
-<span class="sourceLineNo">858</span><a id="line.858">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">859</span><a id="line.859">    Builder&lt;E&gt; combine(Builder&lt;E&gt; builder) {</a>
-<span class="sourceLineNo">860</span><a id="line.860">      checkNotNull(builder);</a>
-<span class="sourceLineNo">861</span><a id="line.861">      add(builder.contents, builder.size);</a>
-<span class="sourceLineNo">862</span><a id="line.862">      return this;</a>
-<span class="sourceLineNo">863</span><a id="line.863">    }</a>
-<span class="sourceLineNo">864</span><a id="line.864"></a>
-<span class="sourceLineNo">865</span><a id="line.865">    /**</a>
-<span class="sourceLineNo">866</span><a id="line.866">     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder}.</a>
-<span class="sourceLineNo">867</span><a id="line.867">     */</a>
-<span class="sourceLineNo">868</span><a id="line.868">    @Override</a>
-<span class="sourceLineNo">869</span><a id="line.869">    public ImmutableList&lt;E&gt; build() {</a>
-<span class="sourceLineNo">870</span><a id="line.870">      forceCopy = true;</a>
-<span class="sourceLineNo">871</span><a id="line.871">      return asImmutableList(contents, size);</a>
-<span class="sourceLineNo">872</span><a id="line.872">    }</a>
-<span class="sourceLineNo">873</span><a id="line.873">  }</a>
-<span class="sourceLineNo">874</span><a id="line.874">}</a>
+<span class="sourceLineNo">749</span><a id="line.749">   * &lt;p&gt;Elements appear in the resulting list in the same order they were added to the builder.</a>
+<span class="sourceLineNo">750</span><a id="line.750">   *</a>
+<span class="sourceLineNo">751</span><a id="line.751">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</a>
+<span class="sourceLineNo">752</span><a id="line.752">   * multiple lists in series. Each new list contains all the elements of the ones created before</a>
+<span class="sourceLineNo">753</span><a id="line.753">   * it.</a>
+<span class="sourceLineNo">754</span><a id="line.754">   *</a>
+<span class="sourceLineNo">755</span><a id="line.755">   * @since 2.0</a>
+<span class="sourceLineNo">756</span><a id="line.756">   */</a>
+<span class="sourceLineNo">757</span><a id="line.757">  public static final class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {</a>
+<span class="sourceLineNo">758</span><a id="line.758">    @VisibleForTesting Object[] contents;</a>
+<span class="sourceLineNo">759</span><a id="line.759">    private int size;</a>
+<span class="sourceLineNo">760</span><a id="line.760">    private boolean forceCopy;</a>
+<span class="sourceLineNo">761</span><a id="line.761"></a>
+<span class="sourceLineNo">762</span><a id="line.762">    /**</a>
+<span class="sourceLineNo">763</span><a id="line.763">     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link</a>
+<span class="sourceLineNo">764</span><a id="line.764">     * ImmutableList#builder}.</a>
+<span class="sourceLineNo">765</span><a id="line.765">     */</a>
+<span class="sourceLineNo">766</span><a id="line.766">    public Builder() {</a>
+<span class="sourceLineNo">767</span><a id="line.767">      this(DEFAULT_INITIAL_CAPACITY);</a>
+<span class="sourceLineNo">768</span><a id="line.768">    }</a>
+<span class="sourceLineNo">769</span><a id="line.769"></a>
+<span class="sourceLineNo">770</span><a id="line.770">    Builder(int capacity) {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      this.contents = new Object[capacity];</a>
+<span class="sourceLineNo">772</span><a id="line.772">      this.size = 0;</a>
+<span class="sourceLineNo">773</span><a id="line.773">    }</a>
+<span class="sourceLineNo">774</span><a id="line.774"></a>
+<span class="sourceLineNo">775</span><a id="line.775">    private void getReadyToExpandTo(int minCapacity) {</a>
+<span class="sourceLineNo">776</span><a id="line.776">      if (contents.length &lt; minCapacity) {</a>
+<span class="sourceLineNo">777</span><a id="line.777">        this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));</a>
+<span class="sourceLineNo">778</span><a id="line.778">        forceCopy = false;</a>
+<span class="sourceLineNo">779</span><a id="line.779">      } else if (forceCopy) {</a>
+<span class="sourceLineNo">780</span><a id="line.780">        contents = Arrays.copyOf(contents, contents.length);</a>
+<span class="sourceLineNo">781</span><a id="line.781">        forceCopy = false;</a>
+<span class="sourceLineNo">782</span><a id="line.782">      }</a>
+<span class="sourceLineNo">783</span><a id="line.783">    }</a>
+<span class="sourceLineNo">784</span><a id="line.784"></a>
+<span class="sourceLineNo">785</span><a id="line.785">    /**</a>
+<span class="sourceLineNo">786</span><a id="line.786">     * Adds {@code element} to the {@code ImmutableList}.</a>
+<span class="sourceLineNo">787</span><a id="line.787">     *</a>
+<span class="sourceLineNo">788</span><a id="line.788">     * @param element the element to add</a>
+<span class="sourceLineNo">789</span><a id="line.789">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">790</span><a id="line.790">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">791</span><a id="line.791">     */</a>
+<span class="sourceLineNo">792</span><a id="line.792">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">793</span><a id="line.793">    @Override</a>
+<span class="sourceLineNo">794</span><a id="line.794">    public Builder&lt;E&gt; add(E element) {</a>
+<span class="sourceLineNo">795</span><a id="line.795">      checkNotNull(element);</a>
+<span class="sourceLineNo">796</span><a id="line.796">      getReadyToExpandTo(size + 1);</a>
+<span class="sourceLineNo">797</span><a id="line.797">      contents[size++] = element;</a>
+<span class="sourceLineNo">798</span><a id="line.798">      return this;</a>
+<span class="sourceLineNo">799</span><a id="line.799">    }</a>
+<span class="sourceLineNo">800</span><a id="line.800"></a>
+<span class="sourceLineNo">801</span><a id="line.801">    /**</a>
+<span class="sourceLineNo">802</span><a id="line.802">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
+<span class="sourceLineNo">803</span><a id="line.803">     *</a>
+<span class="sourceLineNo">804</span><a id="line.804">     * @param elements the {@code Iterable} to add to the {@code ImmutableList}</a>
+<span class="sourceLineNo">805</span><a id="line.805">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">806</span><a id="line.806">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">807</span><a id="line.807">     */</a>
+<span class="sourceLineNo">808</span><a id="line.808">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">809</span><a id="line.809">    @Override</a>
+<span class="sourceLineNo">810</span><a id="line.810">    public Builder&lt;E&gt; add(E... elements) {</a>
+<span class="sourceLineNo">811</span><a id="line.811">      checkElementsNotNull(elements);</a>
+<span class="sourceLineNo">812</span><a id="line.812">      add(elements, elements.length);</a>
+<span class="sourceLineNo">813</span><a id="line.813">      return this;</a>
+<span class="sourceLineNo">814</span><a id="line.814">    }</a>
+<span class="sourceLineNo">815</span><a id="line.815"></a>
+<span class="sourceLineNo">816</span><a id="line.816">    private void add(Object[] elements, int n) {</a>
+<span class="sourceLineNo">817</span><a id="line.817">      getReadyToExpandTo(size + n);</a>
+<span class="sourceLineNo">818</span><a id="line.818">      System.arraycopy(elements, 0, contents, size, n);</a>
+<span class="sourceLineNo">819</span><a id="line.819">      size += n;</a>
+<span class="sourceLineNo">820</span><a id="line.820">    }</a>
+<span class="sourceLineNo">821</span><a id="line.821"></a>
+<span class="sourceLineNo">822</span><a id="line.822">    /**</a>
+<span class="sourceLineNo">823</span><a id="line.823">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
+<span class="sourceLineNo">824</span><a id="line.824">     *</a>
+<span class="sourceLineNo">825</span><a id="line.825">     * @param elements the {@code Iterable} to add to the {@code ImmutableList}</a>
+<span class="sourceLineNo">826</span><a id="line.826">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">827</span><a id="line.827">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">828</span><a id="line.828">     */</a>
+<span class="sourceLineNo">829</span><a id="line.829">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">830</span><a id="line.830">    @Override</a>
+<span class="sourceLineNo">831</span><a id="line.831">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">832</span><a id="line.832">      checkNotNull(elements);</a>
+<span class="sourceLineNo">833</span><a id="line.833">      if (elements instanceof Collection) {</a>
+<span class="sourceLineNo">834</span><a id="line.834">        Collection&lt;?&gt; collection = (Collection&lt;?&gt;) elements;</a>
+<span class="sourceLineNo">835</span><a id="line.835">        getReadyToExpandTo(size + collection.size());</a>
+<span class="sourceLineNo">836</span><a id="line.836">        if (collection instanceof ImmutableCollection) {</a>
+<span class="sourceLineNo">837</span><a id="line.837">          ImmutableCollection&lt;?&gt; immutableCollection = (ImmutableCollection&lt;?&gt;) collection;</a>
+<span class="sourceLineNo">838</span><a id="line.838">          size = immutableCollection.copyIntoArray(contents, size);</a>
+<span class="sourceLineNo">839</span><a id="line.839">          return this;</a>
+<span class="sourceLineNo">840</span><a id="line.840">        }</a>
+<span class="sourceLineNo">841</span><a id="line.841">      }</a>
+<span class="sourceLineNo">842</span><a id="line.842">      super.addAll(elements);</a>
+<span class="sourceLineNo">843</span><a id="line.843">      return this;</a>
+<span class="sourceLineNo">844</span><a id="line.844">    }</a>
+<span class="sourceLineNo">845</span><a id="line.845"></a>
+<span class="sourceLineNo">846</span><a id="line.846">    /**</a>
+<span class="sourceLineNo">847</span><a id="line.847">     * Adds each element of {@code elements} to the {@code ImmutableList}.</a>
+<span class="sourceLineNo">848</span><a id="line.848">     *</a>
+<span class="sourceLineNo">849</span><a id="line.849">     * @param elements the {@code Iterator} to add to the {@code ImmutableList}</a>
+<span class="sourceLineNo">850</span><a id="line.850">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">851</span><a id="line.851">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">852</span><a id="line.852">     */</a>
+<span class="sourceLineNo">853</span><a id="line.853">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">854</span><a id="line.854">    @Override</a>
+<span class="sourceLineNo">855</span><a id="line.855">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">856</span><a id="line.856">      super.addAll(elements);</a>
+<span class="sourceLineNo">857</span><a id="line.857">      return this;</a>
+<span class="sourceLineNo">858</span><a id="line.858">    }</a>
+<span class="sourceLineNo">859</span><a id="line.859"></a>
+<span class="sourceLineNo">860</span><a id="line.860">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">861</span><a id="line.861">    Builder&lt;E&gt; combine(Builder&lt;E&gt; builder) {</a>
+<span class="sourceLineNo">862</span><a id="line.862">      checkNotNull(builder);</a>
+<span class="sourceLineNo">863</span><a id="line.863">      add(builder.contents, builder.size);</a>
+<span class="sourceLineNo">864</span><a id="line.864">      return this;</a>
+<span class="sourceLineNo">865</span><a id="line.865">    }</a>
+<span class="sourceLineNo">866</span><a id="line.866"></a>
+<span class="sourceLineNo">867</span><a id="line.867">    /**</a>
+<span class="sourceLineNo">868</span><a id="line.868">     * Returns a newly-created {@code ImmutableList} based on the contents of the {@code Builder}.</a>
+<span class="sourceLineNo">869</span><a id="line.869">     */</a>
+<span class="sourceLineNo">870</span><a id="line.870">    @Override</a>
+<span class="sourceLineNo">871</span><a id="line.871">    public ImmutableList&lt;E&gt; build() {</a>
+<span class="sourceLineNo">872</span><a id="line.872">      forceCopy = true;</a>
+<span class="sourceLineNo">873</span><a id="line.873">      return asImmutableList(contents, size);</a>
+<span class="sourceLineNo">874</span><a id="line.874">    }</a>
+<span class="sourceLineNo">875</span><a id="line.875">  }</a>
+<span class="sourceLineNo">876</span><a id="line.876">}</a>
 
 
 

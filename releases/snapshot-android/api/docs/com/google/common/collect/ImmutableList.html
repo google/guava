@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":42,"i1":42,"i2":10,"i3":9,"i4":9,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":42,"i31":10,"i32":42,"i33":9,"i34":9,"i35":10};
+var data = {"i0":42,"i1":42,"i2":42,"i3":9,"i4":9,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":42,"i31":10,"i32":42,"i33":9,"i34":9,"i35":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -234,7 +234,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <td class="colFirst"><code><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asList()">asList</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns this list instance.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">There is no reason to use this; it always returns <code>this</code>.</div>
+</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -1409,7 +1411,11 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.540">asList</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.541">asList</a>()</pre>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">There is no reason to use this; it always returns <code>this</code>.</div>
+</div>
 <div class="block">Returns this list instance.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -1425,7 +1431,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.562">reverse</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.564">reverse</a>()</pre>
 <div class="block">Returns a view of this immutable list in reverse order. For example, <code>ImmutableList.of(1,
  2, 3).reverse()</code> is equivalent to <code>ImmutableList.of(3, 2, 1)</code>.</div>
 <dl>
@@ -1442,7 +1448,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.626">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.628">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -1507,7 +1513,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.631">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.633">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -1558,7 +1564,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.675">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.677">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="ImmutableList.Builder.html" title="class in com.google.common.collect"><code>ImmutableList.Builder</code></a> constructor.</div>
 </li>
 </ul>
@@ -1569,7 +1575,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.691">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.Builder.html" title="class in com.google.common.collect">ImmutableList.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.693">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new builder, expecting the specified number of elements to be added.
 
  <p>If <code>expectedSize</code> is exactly the number of elements added to the builder before <a href="ImmutableList.Builder.html#build()"><code>ImmutableList.Builder.build()</code></a> is called, the builder is likely to perform better than an unsized <a href="#builder()"><code>builder()</code></a> would have.

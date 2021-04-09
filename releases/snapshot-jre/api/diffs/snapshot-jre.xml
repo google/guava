@@ -17964,11 +17964,12 @@
     <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="There is no reason to use this; it always returns {@code this}.">
       <doc>
       <![CDATA[Returns this list instance.
 
- @since 2.0]]>
+ @since 2.0
+ @deprecated There is no reason to use this; it always returns {@code this}.]]>
       </doc>
     </method>
     <method name="spliterator" return="java.util.Spliterator&lt;E&gt;"
