@@ -1,0 +1,3 @@
+MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable, java.lang.Class<X>)
+MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable, java.lang.Class<X1>, java.lang.Class<X2>)
+MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable)

@@ -5840,7 +5840,7 @@
       <![CDATA[Returns the key used to lookup this system property.]]>
       </doc>
     </method>
-    <method name="value" return="String"
+    <method name="value" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -6078,7 +6078,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="String"/>
+      <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Returns the given string if it is non-null; the empty string otherwise.
 
@@ -6086,11 +6086,11 @@
  @return {@code string} itself if it is non-null; {@code ""} if it is null]]>
       </doc>
     </method>
-    <method name="emptyToNull" return="String"
+    <method name="emptyToNull" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="String"/>
+      <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Returns the given string if it is nonempty; {@code null} otherwise.
 
@@ -6102,7 +6102,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="String"/>
+      <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Returns {@code true} if the given string is null or is the empty string.
 
@@ -6216,8 +6216,8 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="template" type="String"/>
-      <param name="args" type="Object"/>
+      <param name="template" type="java.lang.String"/>
+      <param name="args" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
  the corresponding argument value from {@code args}; or, if the placeholder and argument counts
@@ -6445,7 +6445,7 @@
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
      null}.">
-      <param name="throwable" type="Throwable"/>
+      <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
@@ -6498,7 +6498,7 @@
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
      null}.">
-      <param name="throwable" type="Throwable"/>
+      <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
  RuntimeException} or {@link Error}. Example usage:
@@ -6522,7 +6522,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="throwable" type="Throwable"/>
+      <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
@@ -6548,7 +6548,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="throwable" type="Throwable"/>
+      <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType1" type="java.lang.Class&lt;X1&gt;"/>
       <param name="declaredType2" type="java.lang.Class&lt;X2&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
