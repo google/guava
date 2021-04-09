@@ -536,7 +536,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns this list instance.
    *
    * @since 2.0
+   * @deprecated There is no reason to use this; it always returns {@code this}.
    */
+  @Deprecated
   @Override
   public final ImmutableList<E> asList() {
     return this;
