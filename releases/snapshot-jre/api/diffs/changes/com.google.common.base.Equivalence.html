@@ -57,6 +57,17 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Equivale
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Equivalence.onResultOf_changed(com.google.common.base.Function<? super F, ? extends T>)"></A>
+  <nobr><code>Equivalence&lt;F&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Equivalence.html#onResultOf(com.google.common.base.Function<? super F, ? extends T>)" target="_top"><tt>onResultOf</tt></A>(<code>Function&lt;?,</nobr> super<nobr>,</nobr> F<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> T&gt;<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>Function&lt;F, ? extends T&gt;</code>) to (<code>Function&lt;? super F, ? extends T&gt;</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Returns a new equivalence relation for {@code F} which evaluates equivalence by first applying
+ {@code function} to the argument, then evaluating using {@code this}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.base.Equivalence.wrap_changed(S extends T)"></A>
   <nobr><code>Wrapper&lt;S&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Equivalence.html#wrap(S extends T)" target="_top"><tt>wrap</tt></A>(<code>S extends T</code>)  </nobr>
   </TD>

@@ -1973,7 +1973,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="function" type="com.google.common.base.Function&lt;F, ? extends T&gt;"/>
+      <param name="function" type="com.google.common.base.Function&lt;? super F, ? extends T&gt;"/>
       <doc>
       <![CDATA[Returns a new equivalence relation for {@code F} which evaluates equivalence by first applying
  {@code function} to the argument, then evaluating using {@code this}. That is, for any pair of
