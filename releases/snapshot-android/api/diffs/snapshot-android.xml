@@ -1928,10 +1928,7 @@
       <param name="a" type="T"/>
       <param name="b" type="T"/>
       <doc>
-      <![CDATA[This method should not be called except by {@link #equivalent}. When {@link #equivalent} calls
- this method, {@code a} and {@code b} are guaranteed to be distinct, non-null instances.
-
- @since 10.0 (previously, subclasses would override equivalent())]]>
+      <![CDATA[@since 10.0 (previously, subclasses would override equivalent())]]>
       </doc>
     </method>
     <method name="hash" return="int"
@@ -2094,7 +2091,7 @@
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">

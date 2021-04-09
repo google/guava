@@ -2022,7 +2022,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="reference" type="S"/>
+      <param name="reference" type="S extends T"/>
       <doc>
       <![CDATA[Returns a wrapper of {@code reference} that implements {@link Wrapper#equals(Object)
  Object.equals()} such that {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a,
@@ -2106,7 +2106,7 @@
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -2118,7 +2118,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@link Equivalence#equivalent(Object, Object)} applied to the wrapped
  references is {@code true} and both wrappers use the {@link Object#equals(Object) same}

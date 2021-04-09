@@ -6335,12 +6335,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Indicates whether another object is equal to this converter.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.Wrapper.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a></dt>
-<dd>
-<div class="block">Returns <code>true</code> if <a href="com/google/common/base/Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(Object, Object)</code></a> applied to the wrapped
- references is <code>true</code> and both wrappers use the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>same</code></a>
- equivalence.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Function.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a></dt>
 <dd>
 <div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Function</code> that behaves identically
@@ -6504,6 +6498,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.Wrapper.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if <a href="com/google/common/base/Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(Object, Object)</code></a> applied to the wrapped
+ references is <code>true</code> and both wrappers use the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>same</code></a>
+ equivalence.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Optional.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
@@ -6546,7 +6546,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Constructor for use by subclasses.</div>
 </dd>
-<dt><a href="com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base"><span class="typeNameLink">Equivalence.Wrapper</span></a>&lt;<a href="com/google/common/base/Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&gt; - Class in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
+<dt><a href="com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base"><span class="typeNameLink">Equivalence.Wrapper</span></a>&lt;<a href="com/google/common/base/Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
 <div class="block">Wraps an object so that <a href="com/google/common/base/Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Equivalence.Wrapper.equals(Object)</code></a> and <a href="com/google/common/base/Equivalence.Wrapper.html#hashCode()"><code>Equivalence.Wrapper.hashCode()</code></a> delegate to an <a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.</div>
 </dd>
@@ -8929,10 +8929,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the <a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> based on the data written to this stream.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#hash(T)">hash(T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
-<dd>
-<div class="block">Returns a hash code for <code>t</code>.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteSource.html#hash(com.google.common.hash.HashFunction)">hash(HashFunction)</a></span> - Method in class com.google.common.io.<a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></dt>
 <dd>
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
@@ -8943,6 +8939,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>. This method is scheduled to
      be removed in October 2019.</div>
 </div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#hash(T)">hash(T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
+<dd>
+<div class="block">Returns a hash code for <code>t</code>.</div>
 </dd>
 <dt><a href="com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><span class="typeNameLink">HashBasedTable</span></a>&lt;<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">R</a>,&#8203;<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">C</a>,&#8203;<a href="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -18315,6 +18315,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A service in this state has completed execution normally.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#test(T)">test(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#test(T,T)">test(T, T)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -18322,8 +18324,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      instead.</div>
 </div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Predicate.html#test(T)">test(T)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/MediaType.html#TEXT_JAVASCRIPT_UTF_8">TEXT_JAVASCRIPT_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
 <div class="block"><a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares <a href="com/google/common/net/MediaType.html#JAVASCRIPT_UTF_8"><code>application/javascript</code></a> to be the correct media type for JavaScript, but this
@@ -20600,11 +20600,6 @@ the order they are declared.</div>
 <dd>
 <div class="block">Returns a view of the given byte array as a <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#wrap(S)">wrap(S)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
-<dd>
-<div class="block">Returns a wrapper of <code>reference</code> that implements <a href="com/google/common/base/Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
- b)</code>.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/CharSource.html#wrap(java.lang.CharSequence)">wrap(CharSequence)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a></dt>
 <dd>
 <div class="block">Returns a view of the given character sequence as a <a href="com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a>.</div>
@@ -20613,6 +20608,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Returns the corresponding wrapper type of <code>type</code> if it is a primitive type; otherwise
  returns <code>type</code> itself.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/base/Equivalence.html#wrap(S)">wrap(S)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
+<dd>
+<div class="block">Returns a wrapper of <code>reference</code> that implements <a href="com/google/common/base/Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
+ b)</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteArrayDataOutput.html#write(byte%5B%5D)">write(byte[])</a></span> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></dt>
 <dd>&nbsp;</dd>

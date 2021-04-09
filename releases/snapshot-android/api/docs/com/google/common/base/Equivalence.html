@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.40">Equivalence</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/base/Equivalence.html#line.41">Equivalence</a>&lt;T&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A strategy for determining whether two instances are considered equivalent, and for computing
  hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
@@ -171,7 +171,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a>&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;<a href="Equivalence.Wrapper.html" title="type parameter in Equivalence.Wrapper">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</span></code></th>
 <td class="colLast">
 <div class="block">Wraps an object so that <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Equivalence.Wrapper.equals(Object)</code></a> and <a href="Equivalence.Wrapper.html#hashCode()"><code>Equivalence.Wrapper.hashCode()</code></a> delegate to an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.</div>
 </td>
@@ -223,9 +223,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>protected abstract boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#doEquivalent(T,T)">doEquivalent</a></span>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
             <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</code></th>
-<td class="colLast">
-<div class="block">This method should not be called except by <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract int</code></td>
@@ -251,7 +249,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></td>
+<td class="colFirst"><code><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equivalentTo(T)">equivalentTo</a></span>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</code></th>
 <td class="colLast">
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
@@ -274,21 +272,21 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>&lt;F&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onResultOf(com.google.common.base.Function)">onResultOf</a></span>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;? extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onResultOf(com.google.common.base.Function)">onResultOf</a></span>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>&lt;S extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;S&gt;&gt;</code></td>
+<td class="colFirst"><code>&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;S&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pairwise()">pairwise</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>&lt;S extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;</code></td>
+<td class="colFirst"><code>&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;<br><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#wrap(S)">wrap</a></span>&#8203;(S&nbsp;reference)</code></th>
 <td class="colLast">
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
@@ -325,7 +323,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Equivalence</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.43">Equivalence</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.49">Equivalence</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -347,9 +345,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalent</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.62">equivalent</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.68">equivalent</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                 <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
-                                <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+                                <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                 <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
 <div class="block">Returns <code>true</code> if the given objects are considered equivalent.
 
@@ -377,10 +375,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>doEquivalent</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
-protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.78">doEquivalent</a>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.82">doEquivalent</a>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
                                         <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</pre>
-<div class="block">This method should not be called except by <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>. When <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a> calls
- this method, <code>a</code> and <code>b</code> are guaranteed to be distinct, non-null instances.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0 (previously, subclasses would override equivalent())</dd>
@@ -395,7 +391,7 @@ protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/co
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.98">hash</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.102">hash</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
 <div class="block">Returns a hash code for <code>t</code>.
 
@@ -423,7 +419,7 @@ protected abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/co
 <li class="blockList">
 <h4>doHash</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@ForOverride</a>
-protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.114">doHash</a>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
+protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.118">doHash</a>&#8203;(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</pre>
 <div class="block">Implemented by the user to return a hash code for <code>t</code>, subject to the requirements
  specified in <a href="#hash(T)"><code>hash(T)</code></a>.
 
@@ -441,7 +437,7 @@ protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>onResultOf</h4>
-<pre class="methodSignature">public final&nbsp;&lt;F&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.140">onResultOf</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;? extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;F&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.149">onResultOf</a>&#8203;(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</pre>
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>. That is, for any pair of
  non-null objects <code>x</code> and <code>y</code>, <code>equivalence.onResultOf(function).equivalent(a,
@@ -475,8 +471,7 @@ protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre class="methodSignature">public final&nbsp;&lt;S extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.151">wrap</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-                                                       S&nbsp;reference)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.160">wrap</a>&#8203;(S&nbsp;reference)</pre>
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
  b)</code>.</div>
 <dl>
@@ -492,7 +487,7 @@ protected abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common
 <li class="blockList">
 <h4>pairwise</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public final&nbsp;&lt;S extends <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.245">pairwise</a>()</pre>
+public final&nbsp;&lt;S extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.254">pairwise</a>()</pre>
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements. More
  specifically, two iterables are considered equivalent if they both contain the same number of
  elements, and each pair of corresponding elements is equivalent according to <code>this</code>. Null
@@ -513,8 +508,8 @@ public final&nbsp;&lt;S extends <a href="Equivalence.html" title="type parameter
 <ul class="blockList">
 <li class="blockList">
 <h4>equivalentTo</h4>
-<pre class="methodSignature">public final&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.258">equivalentTo</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-                                       <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.267">equivalentTo</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+                                                 <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</pre>
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
  target</code> according to this equivalence relation.</div>
 <dl>
@@ -529,7 +524,7 @@ public final&nbsp;&lt;S extends <a href="Equivalence.html" title="type parameter
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.312">equals</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.322">equals</a>()</pre>
 <div class="block">Returns an equivalence that delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>.
  <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a> returns <code>true</code> if both values are null, or if neither
  value is null and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a> returns <code>true</code>. <a href="#hash(T)"><code>hash(T)</code></a> returns
@@ -546,7 +541,7 @@ public final&nbsp;&lt;S extends <a href="Equivalence.html" title="type parameter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>identity</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.324">identity</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Equivalence.html#line.334">identity</a>()</pre>
 <div class="block">Returns an equivalence that uses <code>==</code> to compare values and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(Object)</code></a> to compute the hash code. <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
  returns <code>true</code> if <code>a == b</code>, including in the case that a and b are both null.</div>
 <dl>
