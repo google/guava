@@ -17,6 +17,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -331,6 +332,8 @@ public final class Throwables {
    */
   @Beta
   @GwtIncompatible // Class.cast(Object)
+  @SuppressWarnings("nullness")
+  // TODO(cpovirk): Add @CheckForNull after updating callers.
   public static <X extends Throwable> X getCauseAs(
       Throwable throwable, Class<X> expectedCauseType) {
     try {
@@ -413,15 +416,22 @@ public final class Throwables {
      * AOSP grief.
      */
     return new AbstractList<StackTraceElement>() {
+      /*
+       * The following requireNonNull calls are safe because we use jlaStackTrace() only if
+       * lazyStackTraceIsLazy() returns true.
+       */
       @Override
       public StackTraceElement get(int n) {
         return (StackTraceElement)
-            invokeAccessibleNonThrowingMethod(getStackTraceElementMethod, jla, t, n);
+            invokeAccessibleNonThrowingMethod(
+                requireNonNull(getStackTraceElementMethod), requireNonNull(jla), t, n);
       }
 
       @Override
       public int size() {
-        return (Integer) invokeAccessibleNonThrowingMethod(getStackTraceDepthMethod, jla, t);
+        return (Integer)
+            invokeAccessibleNonThrowingMethod(
+                requireNonNull(getStackTraceDepthMethod), requireNonNull(jla), t);
       }
     };
   }
@@ -466,7 +476,7 @@ public final class Throwables {
    */
   @GwtIncompatible // java.lang.reflect
   @CheckForNull
-  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod();
+  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod(jla);
 
   /**
    * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in
@@ -515,13 +525,13 @@ public final class Throwables {
    */
   @GwtIncompatible // java.lang.reflect
   @CheckForNull
-  private static Method getSizeMethod() {
+  private static Method getSizeMethod(Object jla) {
     try {
       Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);
       if (getStackTraceDepth == null) {
         return null;
       }
-      getStackTraceDepth.invoke(getJLA(), new Throwable());
+      getStackTraceDepth.invoke(jla, new Throwable());
       return getStackTraceDepth;
     } catch (UnsupportedOperationException | IllegalAccessException | InvocationTargetException e) {
       return null;
