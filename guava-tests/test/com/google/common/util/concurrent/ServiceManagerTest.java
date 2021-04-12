@@ -29,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -129,6 +130,18 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes).hasSize(2);
     assertThat(startupTimes.get(a)).isAtLeast(150);
     assertThat(startupTimes.get(b)).isAtLeast(353);
+  }
+
+
+  public void testServiceStartupDurations() {
+    Service a = new NoOpDelayedService(150);
+    Service b = new NoOpDelayedService(353);
+    ServiceManager serviceManager = new ServiceManager(asList(a, b));
+    serviceManager.startAsync().awaitHealthy();
+    ImmutableMap<Service, Duration> startupTimes = serviceManager.startupDurations();
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(Duration.ofMillis(150));
+    assertThat(startupTimes.get(b)).isAtLeast(Duration.ofMillis(353));
   }
 
 
