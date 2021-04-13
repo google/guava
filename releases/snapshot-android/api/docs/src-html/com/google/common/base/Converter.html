@@ -243,11 +243,11 @@
 <span class="sourceLineNo">234</span><a id="line.234">   * methods as implementations of normal converters do?</a>
 <span class="sourceLineNo">235</span><a id="line.235">   *</a>
 <span class="sourceLineNo">236</span><a id="line.236">   * But no matter what we do, it's worth remembering that the resulting code is going to be unsound</a>
-<span class="sourceLineNo">237</span><a id="line.237">   * in the presence of LegacyConverter, at least in the case of Converter.apply and convertAll (and</a>
-<span class="sourceLineNo">238</span><a id="line.238">   * for any checkers that apply @PolyNull-like semantics to Converter.convert). So maybe we don't</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * want to think too hard about how to prevent our checkers from issuing errors related to</a>
-<span class="sourceLineNo">240</span><a id="line.240">   * LegacyConverter, since it turns out that LegacyConverter does violate the assumptions we make</a>
-<span class="sourceLineNo">241</span><a id="line.241">   * elsewhere.</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * in the presence of LegacyConverter, at least in the case of users who view the converter as a</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * Function&lt;A, B&gt; or who call convertAll (and for any checkers that apply @PolyNull-like semantics</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * to Converter.convert). So maybe we don't want to think too hard about how to prevent our</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * checkers from issuing errors related to LegacyConverter, since it turns out that</a>
+<span class="sourceLineNo">241</span><a id="line.241">   * LegacyConverter does violate the assumptions we make elsewhere.</a>
 <span class="sourceLineNo">242</span><a id="line.242">   */</a>
 <span class="sourceLineNo">243</span><a id="line.243"></a>
 <span class="sourceLineNo">244</span><a id="line.244">  @CheckForNull</a>
