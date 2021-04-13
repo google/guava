@@ -234,11 +234,11 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * methods as implementations of normal converters do?
    *
    * But no matter what we do, it's worth remembering that the resulting code is going to be unsound
-   * in the presence of LegacyConverter, at least in the case of Converter.apply and convertAll (and
-   * for any checkers that apply @PolyNull-like semantics to Converter.convert). So maybe we don't
-   * want to think too hard about how to prevent our checkers from issuing errors related to
-   * LegacyConverter, since it turns out that LegacyConverter does violate the assumptions we make
-   * elsewhere.
+   * in the presence of LegacyConverter, at least in the case of users who view the converter as a
+   * Function<A, B> or who call convertAll (and for any checkers that apply @PolyNull-like semantics
+   * to Converter.convert). So maybe we don't want to think too hard about how to prevent our
+   * checkers from issuing errors related to LegacyConverter, since it turns out that
+   * LegacyConverter does violate the assumptions we make elsewhere.
    */
 
   @CheckForNull
