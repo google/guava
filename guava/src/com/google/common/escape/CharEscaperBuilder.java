@@ -22,6 +22,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to
@@ -34,16 +36,17 @@ import java.util.Map.Entry;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class CharEscaperBuilder {
   /**
    * Simple decorator that turns an array of replacement char[]s into a CharEscaper, this results in
    * a very fast escape method.
    */
   private static class CharArrayDecorator extends CharEscaper {
-    private final char[][] replacements;
+    private final char[] @Nullable [] replacements;
     private final int replaceLength;
 
-    CharArrayDecorator(char[][] replacements) {
+    CharArrayDecorator(char[] @Nullable [] replacements) {
       this.replacements = replacements;
       this.replaceLength = replacements.length;
     }
@@ -65,6 +68,7 @@ public final class CharEscaperBuilder {
     }
 
     @Override
+    @CheckForNull
     protected char[] escape(char c) {
       return c < replaceLength ? replacements[c] : null;
     }
@@ -108,7 +112,7 @@ public final class CharEscaperBuilder {
    *
    * @return a "sparse" array that holds the replacement mappings.
    */
-  public char[][] toArray() {
+  public char[] @Nullable [] toArray() {
     char[][] result = new char[max + 1][];
     for (Entry<Character, String> entry : map.entrySet()) {
       result[entry.getKey()] = entry.getValue().toCharArray();
