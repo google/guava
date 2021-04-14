@@ -40,6 +40,7 @@ import com.google.common.escape.Escapers;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class XmlEscapers {
   private XmlEscapers() {}
 
