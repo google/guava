@@ -20,9 +20,7 @@
      (I hope that this workaround does not cause its own problems in the future.)
 -->
 <super-source path="super"/>
-<inherits name="com.google.gwt.user.User" />
-
-
 
 <inherits name="com.google.gwt.core.Core" />
+<inherits name="com.google.gwt.user.User" />
 </module>
