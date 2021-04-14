@@ -34867,7 +34867,9 @@
       <doc>
       <![CDATA[Escapes a single character using the replacement array and safe range values. If the given
  character does not have an explicit replacement and lies outside the safe range then {@link
- #escapeUnsafe} is called.]]>
+ #escapeUnsafe} is called.
+
+ @return the replacement characters, or {@code null} if no escaping was required]]>
       </doc>
     </method>
     <method name="escapeUnsafe" return="char[]"
@@ -34948,7 +34950,7 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ArrayBasedUnicodeEscaper" type="java.util.Map&lt;java.lang.Character, java.lang.String&gt;, int, int, java.lang.String"
+    <constructor name="ArrayBasedUnicodeEscaper" type="java.util.Map&lt;java.lang.Character, java.lang.String&gt;, int, int, String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
@@ -34965,7 +34967,7 @@
      replacement is required]]>
       </doc>
     </constructor>
-    <constructor name="ArrayBasedUnicodeEscaper" type="com.google.common.escape.ArrayBasedEscaperMap, int, int, java.lang.String"
+    <constructor name="ArrayBasedUnicodeEscaper" type="com.google.common.escape.ArrayBasedEscaperMap, int, int, String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
@@ -34998,7 +35000,9 @@
       <doc>
       <![CDATA[Escapes a single Unicode code point using the replacement array and safe range values. If the
  given character does not have an explicit replacement and lies outside the safe range then
- {@link #escapeUnsafe} is called.]]>
+ {@link #escapeUnsafe} is called.
+
+ @return the replacement characters, or {@code null} if no escaping was required]]>
       </doc>
     </method>
     <method name="nextEscapeIndex" return="int"
@@ -35386,7 +35390,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="unsafeReplacement" type="java.lang.String"/>
+      <param name="unsafeReplacement" type="String"/>
       <doc>
       <![CDATA[Sets the replacement string for any characters outside the 'safe' range that have no explicit
  replacement. If {@code unsafeReplacement} is {@code null} then no replacement will occur, if
