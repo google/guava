@@ -413,6 +413,18 @@ public final class ServiceManager implements ServiceManagerBridge {
     return state.startupTimes();
   }
 
+  /**
+   * Returns the service load times. This value will only return startup times for services that
+   * have finished starting.
+   *
+   * @return Map of services and their corresponding startup time, the map entries will be ordered
+   *     by startup time.
+   * @since NEXT
+   */
+  public ImmutableMap<Service, Duration> startupDurations() {
+    return ImmutableMap.copyOf(Maps.transformValues(startupTimes(), Duration::ofMillis));
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(ServiceManager.class)
@@ -625,9 +637,9 @@ public final class ServiceManager implements ServiceManagerBridge {
         // N.B. There will only be an entry in the map if the service has started
         for (Entry<Service, Stopwatch> entry : startupTimers.entrySet()) {
           Service service = entry.getKey();
-          Stopwatch stopWatch = entry.getValue();
-          if (!stopWatch.isRunning() && !(service instanceof NoOpService)) {
-            loadTimes.add(Maps.immutableEntry(service, stopWatch.elapsed(MILLISECONDS)));
+          Stopwatch stopwatch = entry.getValue();
+          if (!stopwatch.isRunning() && !(service instanceof NoOpService)) {
+            loadTimes.add(Maps.immutableEntry(service, stopwatch.elapsed(MILLISECONDS)));
           }
         }
       } finally {
