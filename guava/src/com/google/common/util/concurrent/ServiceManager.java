@@ -51,6 +51,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
 import java.time.Duration;
@@ -421,6 +422,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *     by startup time.
    * @since NEXT
    */
+  @J2ObjCIncompatible
   public ImmutableMap<Service, Duration> startupDurations() {
     return ImmutableMap.copyOf(Maps.transformValues(startupTimes(), Duration::ofMillis));
   }
