@@ -195,12 +195,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   @Override
   public float floatValue() {
-    @SuppressWarnings("cast")
-    float fValue = (float) (value & UNSIGNED_MASK);
-    if (value < 0) {
-      fValue += 0x1.0p63f;
+    if (value >= 0) {
+      return (float) value;
     }
-    return fValue;
+    // The top bit is set, which means that the float value is going to come from the top 24 bits.
+    // So we can ignore the bottom 8, except for rounding. See doubleValue() for more.
+    return (float) ((value >>> 1) | (value & 1)) * 2f;
   }
 
   /**
@@ -209,12 +209,15 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   @Override
   public double doubleValue() {
-    @SuppressWarnings("cast")
-    double dValue = (double) (value & UNSIGNED_MASK);
-    if (value < 0) {
-      dValue += 0x1.0p63;
+    if (value >= 0) {
+      return (double) value;
     }
-    return dValue;
+    // The top bit is set, which means that the double value is going to come from the top 53 bits.
+    // So we can ignore the bottom 11, except for rounding. We can unsigned-shift right 1, aka
+    // unsigned-divide by 2, and convert that. Then we'll get exactly half of the desired double
+    // value. But in the specific case where the bottom two bits of the original number are 01, we
+    // want to replace that with 1 in the shifted value for correct rounding.
+    return (double) ((value >>> 1) | (value & 1)) * 2.0;
   }
 
   /** Returns the value of this {@code UnsignedLong} as a {@link BigInteger}. */
