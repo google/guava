@@ -604,9 +604,9 @@
 <span class="sourceLineNo">595</span><a id="line.595">        // N.B. There will only be an entry in the map if the service has started</a>
 <span class="sourceLineNo">596</span><a id="line.596">        for (Entry&lt;Service, Stopwatch&gt; entry : startupTimers.entrySet()) {</a>
 <span class="sourceLineNo">597</span><a id="line.597">          Service service = entry.getKey();</a>
-<span class="sourceLineNo">598</span><a id="line.598">          Stopwatch stopWatch = entry.getValue();</a>
-<span class="sourceLineNo">599</span><a id="line.599">          if (!stopWatch.isRunning() &amp;&amp; !(service instanceof NoOpService)) {</a>
-<span class="sourceLineNo">600</span><a id="line.600">            loadTimes.add(Maps.immutableEntry(service, stopWatch.elapsed(MILLISECONDS)));</a>
+<span class="sourceLineNo">598</span><a id="line.598">          Stopwatch stopwatch = entry.getValue();</a>
+<span class="sourceLineNo">599</span><a id="line.599">          if (!stopwatch.isRunning() &amp;&amp; !(service instanceof NoOpService)) {</a>
+<span class="sourceLineNo">600</span><a id="line.600">            loadTimes.add(Maps.immutableEntry(service, stopwatch.elapsed(MILLISECONDS)));</a>
 <span class="sourceLineNo">601</span><a id="line.601">          }</a>
 <span class="sourceLineNo">602</span><a id="line.602">        }</a>
 <span class="sourceLineNo">603</span><a id="line.603">      } finally {</a>

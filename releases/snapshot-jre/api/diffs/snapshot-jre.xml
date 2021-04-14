@@ -70799,6 +70799,19 @@
      ordered by startup time.]]>
       </doc>
     </method>
+    <method name="startupDurations" return="com.google.common.collect.ImmutableMap&lt;com.google.common.util.concurrent.Service, java.time.Duration&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the service load times. This value will only return startup times for services that
+ have finished starting.
+
+ @return Map of services and their corresponding startup time, the map entries will be ordered
+     by startup time.
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
