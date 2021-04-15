@@ -27,6 +27,7 @@ import com.google.common.base.MoreObjects;
  * @author Cliff Biffle
  * @since 10.0
  */
+@ElementTypesAreNonnullByDefault
 public class DeadEvent {
 
   private final Object source;
