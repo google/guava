@@ -35,7 +35,8 @@
 <span class="sourceLineNo">026</span><a id="line.26"> */</a>
 <span class="sourceLineNo">027</span><a id="line.27">@Beta</a>
 <span class="sourceLineNo">028</span><a id="line.28">@GwtCompatible</a>
-<span class="sourceLineNo">029</span><a id="line.29">public interface ListenableScheduledFuture&lt;V&gt; extends ScheduledFuture&lt;V&gt;, ListenableFuture&lt;V&gt; {}</a>
+<span class="sourceLineNo">029</span><a id="line.29">@SuppressWarnings("ShouldNotSubclass")</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface ListenableScheduledFuture&lt;V&gt; extends ScheduledFuture&lt;V&gt;, ListenableFuture&lt;V&gt; {}</a>
 
 
 

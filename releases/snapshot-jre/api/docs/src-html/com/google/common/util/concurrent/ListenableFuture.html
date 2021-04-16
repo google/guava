@@ -108,44 +108,45 @@
 <span class="sourceLineNo">099</span><a id="line.99"> * @author Nishant Thakkar</a>
 <span class="sourceLineNo">100</span><a id="line.100"> * @since 1.0</a>
 <span class="sourceLineNo">101</span><a id="line.101"> */</a>
-<span class="sourceLineNo">102</span><a id="line.102">@DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")</a>
-<span class="sourceLineNo">103</span><a id="line.103">public interface ListenableFuture&lt;V&gt; extends Future&lt;V&gt; {</a>
-<span class="sourceLineNo">104</span><a id="line.104">  /**</a>
-<span class="sourceLineNo">105</span><a id="line.105">   * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * complete} or, if the computation is already complete, immediately.</a>
-<span class="sourceLineNo">108</span><a id="line.108">   *</a>
-<span class="sourceLineNo">109</span><a id="line.109">   * &lt;p&gt;There is no guaranteed ordering of execution of listeners, but any listener added through</a>
-<span class="sourceLineNo">110</span><a id="line.110">   * this method is guaranteed to be called once the computation is complete.</a>
-<span class="sourceLineNo">111</span><a id="line.111">   *</a>
-<span class="sourceLineNo">112</span><a id="line.112">   * &lt;p&gt;Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown</a>
-<span class="sourceLineNo">113</span><a id="line.113">   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * logged.</a>
-<span class="sourceLineNo">116</span><a id="line.116">   *</a>
-<span class="sourceLineNo">117</span><a id="line.117">   * &lt;p&gt;Note: If your listener is lightweight -- and will not cause stack overflow by completing</a>
-<span class="sourceLineNo">118</span><a id="line.118">   * more futures or adding more {@code directExecutor()} listeners inline -- consider {@link</a>
-<span class="sourceLineNo">119</span><a id="line.119">   * MoreExecutors#directExecutor}. Otherwise, avoid it: See the warnings on the docs for {@code</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * directExecutor}.</a>
-<span class="sourceLineNo">121</span><a id="line.121">   *</a>
-<span class="sourceLineNo">122</span><a id="line.122">   * &lt;p&gt;This is the most general listener interface. For common operations performed using</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * listeners, see {@link Futures}. For a simplified but general listener interface, see {@link</a>
-<span class="sourceLineNo">124</span><a id="line.124">   * Futures#addCallback addCallback()}.</a>
-<span class="sourceLineNo">125</span><a id="line.125">   *</a>
-<span class="sourceLineNo">126</span><a id="line.126">   * &lt;p&gt;Memory consistency effects: Actions in a thread prior to adding a listener &lt;a</a>
-<span class="sourceLineNo">127</span><a id="line.127">   * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5"&gt;</a>
-<span class="sourceLineNo">128</span><a id="line.128">   * &lt;i&gt;happen-before&lt;/i&gt;&lt;/a&gt; its execution begins, perhaps in another thread.</a>
-<span class="sourceLineNo">129</span><a id="line.129">   *</a>
-<span class="sourceLineNo">130</span><a id="line.130">   * &lt;p&gt;Guava implementations of {@code ListenableFuture} promptly release references to listeners</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * after executing them.</a>
-<span class="sourceLineNo">132</span><a id="line.132">   *</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * @param listener the listener to run when the computation is complete</a>
-<span class="sourceLineNo">134</span><a id="line.134">   * @param executor the executor to run the listener in</a>
-<span class="sourceLineNo">135</span><a id="line.135">   * @throws RejectedExecutionException if we tried to execute the listener immediately but the</a>
-<span class="sourceLineNo">136</span><a id="line.136">   *     executor rejected it.</a>
-<span class="sourceLineNo">137</span><a id="line.137">   */</a>
-<span class="sourceLineNo">138</span><a id="line.138">  void addListener(Runnable listener, Executor executor);</a>
-<span class="sourceLineNo">139</span><a id="line.139">}</a>
+<span class="sourceLineNo">102</span><a id="line.102">@SuppressWarnings("ShouldNotSubclass")</a>
+<span class="sourceLineNo">103</span><a id="line.103">@DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")</a>
+<span class="sourceLineNo">104</span><a id="line.104">public interface ListenableFuture&lt;V&gt; extends Future&lt;V&gt; {</a>
+<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * complete} or, if the computation is already complete, immediately.</a>
+<span class="sourceLineNo">109</span><a id="line.109">   *</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * &lt;p&gt;There is no guaranteed ordering of execution of listeners, but any listener added through</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * this method is guaranteed to be called once the computation is complete.</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;p&gt;Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * logged.</a>
+<span class="sourceLineNo">117</span><a id="line.117">   *</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * &lt;p&gt;Note: If your listener is lightweight -- and will not cause stack overflow by completing</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * more futures or adding more {@code directExecutor()} listeners inline -- consider {@link</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * MoreExecutors#directExecutor}. Otherwise, avoid it: See the warnings on the docs for {@code</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * directExecutor}.</a>
+<span class="sourceLineNo">122</span><a id="line.122">   *</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * &lt;p&gt;This is the most general listener interface. For common operations performed using</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * listeners, see {@link Futures}. For a simplified but general listener interface, see {@link</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * Futures#addCallback addCallback()}.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * &lt;p&gt;Memory consistency effects: Actions in a thread prior to adding a listener &lt;a</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5"&gt;</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * &lt;i&gt;happen-before&lt;/i&gt;&lt;/a&gt; its execution begins, perhaps in another thread.</a>
+<span class="sourceLineNo">130</span><a id="line.130">   *</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * &lt;p&gt;Guava implementations of {@code ListenableFuture} promptly release references to listeners</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * after executing them.</a>
+<span class="sourceLineNo">133</span><a id="line.133">   *</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * @param listener the listener to run when the computation is complete</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * @param executor the executor to run the listener in</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * @throws RejectedExecutionException if we tried to execute the listener immediately but the</a>
+<span class="sourceLineNo">137</span><a id="line.137">   *     executor rejected it.</a>
+<span class="sourceLineNo">138</span><a id="line.138">   */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  void addListener(Runnable listener, Executor executor);</a>
+<span class="sourceLineNo">140</span><a id="line.140">}</a>
 
 
 
