@@ -147,7 +147,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.57">Invokable</a>&lt;T,&#8203;R&gt;
+public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.58">Invokable</a>&lt;T,&#8203;R&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AccessibleObject.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AccessibleObject</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/GenericDeclaration.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">GenericDeclaration</a></pre>
 <div class="block">Wrapper around either a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Method</code></a> or a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Constructor</code></a>. Convenience API is provided to
@@ -311,7 +311,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="Invokable.html" title="type parameter in Invokable">R</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invoke(T,java.lang.Object...)">invoke</a></span>&#8203;(<a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)</code></th>
+      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)</code></th>
 <td class="colLast">
 <div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
  returns the return value; or calls the underlying constructor with <code>args</code> and returns the
@@ -498,7 +498,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.65">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.67">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</pre>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>method</code>.</div>
 </li>
 </ul>
@@ -508,7 +508,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.70">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;T&gt;&nbsp;constructor)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.72">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;T&gt;&nbsp;constructor)</pre>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </li>
 </ul>
@@ -518,7 +518,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>isOverridable</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.78">isOverridable</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.80">isOverridable</a>()</pre>
 <div class="block">Returns <code>true</code> if this is an overridable method. Constructors, private, static or final
  methods, or methods declared by final classes are not overridable.</div>
 </li>
@@ -529,7 +529,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>isVarArgs</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.81">isVarArgs</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.83">isVarArgs</a>()</pre>
 <div class="block">Returns <code>true</code> if this was declared to take a variable number of arguments.</div>
 </li>
 </ul>
@@ -542,9 +542,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <li class="blockList">
 <h4>invoke</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.97">invoke</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.99">invoke</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)
+                      <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;args)
                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">InvocationTargetException</a>,
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalAccessException</a></pre>
 <div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
@@ -568,7 +569,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getReturnType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.106">getReturnType</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.109">getReturnType</a>()</pre>
 <div class="block">Returns the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -578,7 +579,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getParameters</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.116">getParameters</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.119">getParameters</a>()</pre>
 <div class="block">Returns all declared parameters of this <code>Invokable</code>. Note that if this is a constructor
  of a non-static inner class, unlike <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true#getParameterTypes()" title="class or interface in java.lang.reflect" class="externalLink"><code>Constructor.getParameterTypes()</code></a>, the hidden <code>
  this</code> parameter of the enclosing class is excluded from the returned parameters.</div>
@@ -590,7 +591,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getExceptionTypes</h4>
-<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.127">getExceptionTypes</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.130">getExceptionTypes</a>()</pre>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -600,7 +601,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.147">returning</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.150">returning</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
 
  <pre><code>
@@ -615,7 +616,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.152">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre class="methodSignature">public final&nbsp;&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.155">returning</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -625,7 +626,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringClass</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.162">getDeclaringClass</a>()</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.165">getDeclaringClass</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Member.html?is-external=true#getDeclaringClass()" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.Member</a></code></span></div>
 <div class="block">Returns the Class object representing the class or interface
  that declares the member or constructor represented by this Member.</div>
@@ -644,7 +645,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getOwnerType</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.170">getOwnerType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.173">getOwnerType</a>()</pre>
 <div class="block">Returns the type of <code>T</code>.</div>
 </li>
 </ul>
@@ -685,7 +686,8 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotation</h4>
-<pre class="methodSignature">public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;getAnnotation&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationClass)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;getAnnotation&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationClass)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotation(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>present</em>, else null.</div>
@@ -993,7 +995,7 @@ public final&nbsp;<a href="Invokable.html" title="type parameter in Invokable">R
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
