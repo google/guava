@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
 // TODO(cpovirk): Make this final (but that may break Mockito spy calls).
+@SuppressWarnings("ShouldNotSubclass")
 class ImmediateFuture<V> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<>(null);
 

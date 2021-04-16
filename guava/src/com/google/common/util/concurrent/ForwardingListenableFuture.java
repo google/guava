@@ -29,6 +29,7 @@ import java.util.concurrent.Executor;
  * @author Shardul Deo
  * @since 4.0
  */
+@SuppressWarnings("ShouldNotSubclass")
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>

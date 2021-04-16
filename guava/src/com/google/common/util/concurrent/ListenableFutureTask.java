@@ -40,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
+@SuppressWarnings("ShouldNotSubclass")
 @GwtIncompatible
 public class ListenableFutureTask<V> extends FutureTask<V> implements ListenableFuture<V> {
   // TODO(cpovirk): explore ways of making ListenableFutureTask final. There are some valid reasons

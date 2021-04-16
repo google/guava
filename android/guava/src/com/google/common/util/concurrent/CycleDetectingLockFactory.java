@@ -268,7 +268,8 @@ public class CycleDetectingLockFactory {
   }
 
   // A static mapping from an Enum type to its set of LockGraphNodes.
-  private static final ConcurrentMap<Class<? extends Enum>, Map<? extends Enum, LockGraphNode>>
+  private static final ConcurrentMap<
+          Class<? extends Enum<?>>, Map<? extends Enum<?>, LockGraphNode>>
       lockGraphNodesPerType = new MapMaker().weakKeys().makeMap();
 
   /** Creates a {@code CycleDetectingLockFactory.WithExplicitOrdering<E>}. */
@@ -283,13 +284,15 @@ public class CycleDetectingLockFactory {
     return new WithExplicitOrdering<E>(policy, lockGraphNodes);
   }
 
-  private static Map<? extends Enum, LockGraphNode> getOrCreateNodes(Class<? extends Enum> clazz) {
-    Map<? extends Enum, LockGraphNode> existing = lockGraphNodesPerType.get(clazz);
+  @SuppressWarnings("unchecked")
+  private static <E extends Enum<E>> Map<? extends E, LockGraphNode> getOrCreateNodes(
+      Class<E> clazz) {
+    Map<E, LockGraphNode> existing = (Map<E, LockGraphNode>) lockGraphNodesPerType.get(clazz);
     if (existing != null) {
       return existing;
     }
-    Map<? extends Enum, LockGraphNode> created = createNodes(clazz);
-    existing = lockGraphNodesPerType.putIfAbsent(clazz, created);
+    Map<E, LockGraphNode> created = createNodes(clazz);
+    existing = (Map<E, LockGraphNode>) lockGraphNodesPerType.putIfAbsent(clazz, created);
     return MoreObjects.firstNonNull(existing, created);
   }
 

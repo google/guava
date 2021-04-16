@@ -73,7 +73,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
 
   @Override
   public void run() {
-    InterruptibleTask localTask = task;
+    InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.run();
     }
@@ -89,7 +89,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     super.afterDone();
 
     if (wasInterrupted()) {
-      InterruptibleTask localTask = task;
+      InterruptibleTask<?> localTask = task;
       if (localTask != null) {
         localTask.interruptTask();
       }
@@ -100,7 +100,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
 
   @Override
   protected String pendingToString() {
-    InterruptibleTask localTask = task;
+    InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";
     }

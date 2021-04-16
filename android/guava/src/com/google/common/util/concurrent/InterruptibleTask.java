@@ -22,6 +22,7 @@ import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+@SuppressWarnings("ShouldNotSubclass")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause

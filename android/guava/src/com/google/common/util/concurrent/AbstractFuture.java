@@ -64,7 +64,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Luke Sandberg
  * @since 1.0
  */
-@SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
+// we use non-short circuiting comparisons intentionally
+@SuppressWarnings({"ShortCircuitBoolean", "ShouldNotSubclass"})
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
@@ -816,7 +817,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
         }
         return false;
       }
-      SetFuture valueToSet = new SetFuture<V>(this, future);
+      SetFuture<V> valueToSet = new SetFuture<V>(this, future);
       if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
         // the listener is responsible for calling completeWithFuture, directExecutor is appropriate
         // since all we are doing is unpacking a completed future which should be fast.
@@ -1247,6 +1248,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * <p>Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot
    * be accessed.
    */
+  @SuppressWarnings("sunapi")
   private static final class UnsafeAtomicHelper extends AtomicHelper {
     static final sun.misc.Unsafe UNSAFE;
     static final long LISTENERS_OFFSET;
@@ -1325,6 +1327,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
+  @SuppressWarnings("rawtypes")
   private static final class SafeAtomicHelper extends AtomicHelper {
     final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
     final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;

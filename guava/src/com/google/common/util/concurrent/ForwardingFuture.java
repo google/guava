@@ -35,6 +35,7 @@ import java.util.concurrent.TimeoutException;
  */
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
+@SuppressWarnings("ShouldNotSubclass")
 public abstract class ForwardingFuture<V> extends ForwardingObject implements Future<V> {
   /** Constructor for use by subclasses. */
   protected ForwardingFuture() {}

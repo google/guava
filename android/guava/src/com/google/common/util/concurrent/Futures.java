@@ -470,6 +470,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @GwtIncompatible // TODO
+  @SuppressWarnings("ShouldNotSubclass")
   public static <I, O> Future<O> lazyTransform(
       final Future<I> input, final Function<? super I, ? extends O> function) {
     checkNotNull(input);
@@ -834,17 +835,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
-    // Can't use Iterables.toArray because it's not gwt compatible
-    final Collection<ListenableFuture<? extends T>> collection;
-    if (futures instanceof Collection) {
-      collection = (Collection<ListenableFuture<? extends T>>) futures;
-    } else {
-      collection = ImmutableList.copyOf(futures);
-    }
-    @SuppressWarnings("unchecked")
-    ListenableFuture<? extends T>[] copy =
-        (ListenableFuture<? extends T>[])
-            collection.toArray(new ListenableFuture[collection.size()]);
+    ListenableFuture<? extends T>[] copy = gwtCompatibleToArray(futures);
     final InCompletionOrderState<T> state = new InCompletionOrderState<>(copy);
     ImmutableList.Builder<AbstractFuture<T>> delegatesBuilder = ImmutableList.builder();
     for (int i = 0; i < copy.length; i++) {
@@ -867,6 +858,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @SuppressWarnings("unchecked")
     ImmutableList<ListenableFuture<T>> delegatesCast = (ImmutableList) delegates;
     return delegatesCast;
+  }
+
+  /** Can't use Iterables.toArray because it's not gwt compatible */
+  @SuppressWarnings("unchecked")
+  private static <T> ListenableFuture<? extends T>[] gwtCompatibleToArray(
+      Iterable<? extends ListenableFuture<? extends T>> futures) {
+    final Collection<ListenableFuture<? extends T>> collection;
+    if (futures instanceof Collection) {
+      collection = (Collection<ListenableFuture<? extends T>>) futures;
+    } else {
+      collection = ImmutableList.copyOf(futures);
+    }
+    return (ListenableFuture<? extends T>[]) collection.toArray(new ListenableFuture<?>[0]);
   }
 
   // This can't be a TrustedFuture, because TrustedFuture has clever optimizations that

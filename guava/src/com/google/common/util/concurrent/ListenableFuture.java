@@ -99,6 +99,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+@SuppressWarnings("ShouldNotSubclass")
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
 public interface ListenableFuture<V> extends Future<V> {
   /**

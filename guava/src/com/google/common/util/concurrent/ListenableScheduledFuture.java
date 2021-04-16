@@ -26,4 +26,5 @@ import java.util.concurrent.ScheduledFuture;
  */
 @Beta
 @GwtCompatible
+@SuppressWarnings("ShouldNotSubclass")
 public interface ListenableScheduledFuture<V> extends ScheduledFuture<V>, ListenableFuture<V> {}
