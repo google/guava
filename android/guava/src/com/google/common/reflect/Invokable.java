@@ -30,7 +30,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
@@ -55,6 +56,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 14.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public abstract class Invokable<T, R> extends Element implements GenericDeclaration {
 
   <M extends AccessibleObject & Member> Invokable(M member) {
@@ -93,10 +95,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
    *     invocation conversion.
    * @throws InvocationTargetException if the underlying method or constructor throws an exception.
    */
-  // All subclasses are owned by us and we'll make sure to get the R type right.
-  @SuppressWarnings("unchecked")
+  // All subclasses are owned by us and we'll make sure to get the R type right, including nullness.
+  @SuppressWarnings({"unchecked", "nullness"})
   @CanIgnoreReturnValue
-  public final R invoke(@NullableDecl T receiver, Object... args)
+  @CheckForNull
+  public final R invoke(@CheckForNull T receiver, @Nullable Object... args)
       throws InvocationTargetException, IllegalAccessException {
     return (R) invokeInternal(receiver, checkNotNull(args));
   }
@@ -173,7 +176,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
-  abstract Object invokeInternal(@NullableDecl Object receiver, Object[] args)
+  @CheckForNull
+  abstract Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
   abstract Type[] getGenericParameterTypes();
@@ -195,7 +199,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)
+    @CheckForNull
+    final Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
@@ -249,7 +254,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(@NullableDecl Object receiver, Object[] args)
+    final Object invokeInternal(@CheckForNull Object receiver, @Nullable Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);

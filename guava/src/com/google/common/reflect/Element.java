@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Represents either a {@link Field}, a {@link Method} or a {@link Constructor}. Provides
@@ -31,6 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Ben Yu
  */
+@ElementTypesAreNonnullByDefault
 class Element extends AccessibleObject implements Member {
 
   private final AccessibleObject accessibleObject;
@@ -52,6 +53,7 @@ class Element extends AccessibleObject implements Member {
   }
 
   @Override
+  @CheckForNull
   public final <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
     return accessibleObject.getAnnotation(annotationClass);
   }
@@ -158,7 +160,7 @@ class Element extends AccessibleObject implements Member {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj instanceof Element) {
       Element that = (Element) obj;
       return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);

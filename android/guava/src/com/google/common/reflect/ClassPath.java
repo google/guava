@@ -51,7 +51,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -72,6 +72,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 14.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
@@ -265,7 +266,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;
@@ -297,8 +298,13 @@ public final class ClassPath {
     /**
      * Returns the package name of the class, without attempting to load the class.
      *
-     * <p>Behaves identically to {@link Package#getName()} but does not require the class (or
-     * package) to be loaded.
+     * <p>Behaves similarly to {@code class.getPackage().}{@link Package#getName() getName()} but
+     * does not require the class (or package) to be loaded.
+     *
+     * <p>But note that this method may behave differently for a class in the default package: For
+     * such classes, this method always returns an empty string. But under some version of Java,
+     * {@code class.getPackage().getName()} produces a {@code NullPointerException} because {@code
+     * class.getPackage()} returns {@code null}.
      */
     public String getPackageName() {
       return Reflection.getPackageName(className);
@@ -307,8 +313,11 @@ public final class ClassPath {
     /**
      * Returns the simple name of the underlying class as given in the source code.
      *
-     * <p>Behaves identically to {@link Class#getSimpleName()} but does not require the class to be
+     * <p>Behaves similarly to {@link Class#getSimpleName()} but does not require the class to be
      * loaded.
+     *
+     * <p>But note that this class uses heuristics to identify the simple name. See a related
+     * discussion in <a href="https://github.com/google/guava/issues/3349">issue 3349</a>.
      */
     public String getSimpleName() {
       int lastDollarSign = className.lastIndexOf('$');
@@ -531,7 +540,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof LocationInfo) {
         LocationInfo that = (LocationInfo) obj;
         return home.equals(that.home) && classloader.equals(that.classloader);
@@ -559,7 +568,7 @@ public final class ClassPath {
    */
   @VisibleForTesting
   static ImmutableSet<File> getClassPathFromManifest(
-      File jarFile, @NullableDecl Manifest manifest) {
+      File jarFile, @CheckForNull Manifest manifest) {
     if (manifest == null) {
       return ImmutableSet.of();
     }

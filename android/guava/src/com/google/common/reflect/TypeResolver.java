@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -52,6 +52,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 15.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 
   private final TypeTable typeTable;
@@ -527,7 +528,8 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(@NullableDecl Type type) {
+    @CheckForNull
+    private Type captureNullable(@CheckForNull Type type) {
       if (type == null) {
         return null;
       }
@@ -561,7 +563,7 @@ public final class TypeResolver {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof TypeVariableKey) {
         TypeVariableKey that = (TypeVariableKey) obj;
         return equalsTypeVariable(that.var);
@@ -576,6 +578,7 @@ public final class TypeResolver {
     }
 
     /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */
+    @CheckForNull
     static TypeVariableKey forLookup(Type t) {
       if (t instanceof TypeVariable) {
         return new TypeVariableKey((TypeVariable<?>) t);
