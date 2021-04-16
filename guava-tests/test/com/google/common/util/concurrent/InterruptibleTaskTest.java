@@ -17,9 +17,11 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.lang.reflect.Method;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import junit.framework.TestCase;
 
@@ -121,19 +123,29 @@ public final class InterruptibleTaskTest extends TestCase {
     runner.start();
     isInterruptibleRegistered.await();
     // trigger the interrupt on another thread since it will block
-    new Thread("Interrupter") {
-      @Override
-      public void run() {
-        task.interruptTask();
-      }
-    }.start();
+    Thread interrupter =
+        new Thread("Interrupter") {
+          @Override
+          public void run() {
+            task.interruptTask();
+          }
+        };
+    interrupter.start();
     // this will happen once the interrupt has been set which means that
     // 1. the runner has been woken up
     // 2. the interrupter is stuck in the call the Thread.interrupt()
 
     // after some period of time the runner thread should become blocked on the task because it is
     // waiting for the slow interrupting thread to complete Thread.interrupt
-    awaitBlockedOn(runner, task);
+    awaitBlockedOnInstanceOf(runner, InterruptibleTask.Blocker.class);
+
+    Object blocker = LockSupport.getBlocker(runner);
+    assertThat(blocker).isInstanceOf(AbstractOwnableSynchronizer.class);
+    Method getExclusiveOwnerThread =
+        AbstractOwnableSynchronizer.class.getDeclaredMethod("getExclusiveOwnerThread");
+    getExclusiveOwnerThread.setAccessible(true);
+    Thread owner = (Thread) getExclusiveOwnerThread.invoke(blocker);
+    assertThat(owner).isSameInstanceAs(interrupter);
 
     slowChannel.exitClose.countDown(); // release the interrupter
 
@@ -143,8 +155,9 @@ public final class InterruptibleTaskTest extends TestCase {
   }
 
   // waits for the given thread to be blocked on the given object
-  private static void awaitBlockedOn(Thread t, Object blocker) throws InterruptedException {
-    while (!isThreadBlockedOn(t, blocker)) {
+  private static void awaitBlockedOnInstanceOf(Thread t, Class<?> blocker)
+      throws InterruptedException {
+    while (!isThreadBlockedOnInstanceOf(t, blocker)) {
       if (t.getState() == Thread.State.TERMINATED) {
         throw new RuntimeException("Thread " + t + " exited unexpectedly");
       }
@@ -152,8 +165,8 @@ public final class InterruptibleTaskTest extends TestCase {
     }
   }
 
-  private static boolean isThreadBlockedOn(Thread t, Object blocker) {
-    return t.getState() == Thread.State.WAITING && LockSupport.getBlocker(t) == blocker;
+  private static boolean isThreadBlockedOnInstanceOf(Thread t, Class<?> blocker) {
+    return t.getState() == Thread.State.WAITING && blocker.isInstance(LockSupport.getBlocker(t));
   }
 
   static final class SlowChannel extends AbstractInterruptibleChannel {

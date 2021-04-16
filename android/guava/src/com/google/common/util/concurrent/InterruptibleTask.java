@@ -15,8 +15,10 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -42,7 +44,6 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   // The thread executing the task publishes itself to the superclass' reference and the thread
   // interrupting sets DONE when it has finished interrupting.
   private static final Runnable DONE = new DoNothingRunnable();
-  private static final Runnable INTERRUPTING = new DoNothingRunnable();
   private static final Runnable PARKED = new DoNothingRunnable();
   // Why 1000?  WHY NOT!
   private static final int MAX_BUSY_WAIT_SPINS = 1000;
@@ -91,16 +92,20 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
         //                ||----w |
         //                ||     ||
         Runnable state = get();
-        while (state == INTERRUPTING || state == PARKED) {
+        Blocker blocker = null;
+        while (state instanceof Blocker || state == PARKED) {
+          if (state instanceof Blocker) {
+            blocker = (Blocker) state;
+          }
           spinCount++;
           if (spinCount > MAX_BUSY_WAIT_SPINS) {
             // If we have spun a lot just park ourselves.
             // This will save CPU while we wait for a slow interrupting thread.  In theory
             // interruptTask() should be very fast but due to InterruptibleChannel and
             // JavaLangAccess.blockedOn(Thread, Interruptible), it isn't predictable what work might
-            // be done.  (e.g. close a file and flush buffers to disk).  To protect ourselve from
+            // be done.  (e.g. close a file and flush buffers to disk).  To protect ourselves from
             // this we park ourselves and tell our interrupter that we did so.
-            if (state == PARKED || compareAndSet(INTERRUPTING, PARKED)) {
+            if (state == PARKED || compareAndSet(state, PARKED)) {
               // Interrupting Cow Says:
               //  ______
               // < Park >
@@ -113,7 +118,7 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
               // We need to clear the interrupted bit prior to calling park and maintain it in case
               // we wake up spuriously.
               restoreInterruptedBit = Thread.interrupted() || restoreInterruptedBit;
-              LockSupport.park(this);
+              LockSupport.park(blocker);
             }
           } else {
             Thread.yield();
@@ -162,19 +167,49 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
     // in this CAS, there's no risk of interrupting the wrong thread or interrupting a thread that
     // isn't currently executing this task.
     Runnable currentRunner = get();
-    if (currentRunner instanceof Thread && compareAndSet(currentRunner, INTERRUPTING)) {
-      // Thread.interrupt can throw aribitrary exceptions due to the nio InterruptibleChannel API
-      // This will make sure that tasks don't get stuck busy waiting.
-      // Some of this is fixed in jdk11 (see https://bugs.openjdk.java.net/browse/JDK-8198692) but
-      // not all.  See the test cases for examples on how this can happen.
-      try {
-        ((Thread) currentRunner).interrupt();
-      } finally {
-        Runnable prev = getAndSet(DONE);
-        if (prev == PARKED) {
-          LockSupport.unpark((Thread) currentRunner);
+    if (currentRunner instanceof Thread) {
+      Blocker blocker = new Blocker(this);
+      blocker.setOwner(Thread.currentThread());
+      if (compareAndSet(currentRunner, blocker)) {
+        // Thread.interrupt can throw arbitrary exceptions due to the nio InterruptibleChannel API
+        // This will make sure that tasks don't get stuck busy waiting.
+        // Some of this is fixed in jdk11 (see https://bugs.openjdk.java.net/browse/JDK-8198692) but
+        // not all.  See the test cases for examples on how this can happen.
+        try {
+          ((Thread) currentRunner).interrupt();
+        } finally {
+          Runnable prev = getAndSet(DONE);
+          if (prev == PARKED) {
+            LockSupport.unpark((Thread) currentRunner);
+          }
         }
       }
+    }
+  }
+
+  /**
+   * Using this as the blocker object allows introspection and debugging tools to see that the
+   * currentRunner thread is blocked on the progress of the interruptor thread, which can help
+   * identify deadlocks.
+   */
+  @VisibleForTesting
+  static final class Blocker extends AbstractOwnableSynchronizer implements Runnable {
+    private final InterruptibleTask<?> task;
+
+    private Blocker(InterruptibleTask<?> task) {
+      this.task = task;
+    }
+
+    @Override
+    public void run() {}
+
+    private void setOwner(Thread thread) {
+      super.setExclusiveOwnerThread(thread);
+    }
+
+    @Override
+    public String toString() {
+      return task.toString();
     }
   }
 
@@ -184,7 +219,7 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
     final String result;
     if (state == DONE) {
       result = "running=[DONE]";
-    } else if (state == INTERRUPTING) {
+    } else if (state instanceof Blocker) {
       result = "running=[INTERRUPTED]";
     } else if (state instanceof Thread) {
       // getName is final on Thread, no need to worry about exceptions
