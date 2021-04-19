@@ -146,7 +146,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
  finalized. If this object is garbage collected earlier, the backing thread will not invoke <code>
  finalizeReferent()</code> on the remaining references.
 
- <p>As an example of how this is used, imagine you have a class <code>MyServer</code> that creates a a
+ <p>As an example of how this is used, imagine you have a class <code>MyServer</code> that creates a
  <a href="https://docs.oracle.com/javase/9/docs/api/java/net/ServerSocket.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>ServerSocket</code></a>, and you would like to ensure that the <code>
  ServerSocket</code> is closed even if the <code>MyServer</code> object is garbage-collected without calling
  its <code>close</code> method. You <em>could</em> use a finalizer to accomplish this, but that has a

@@ -354,9 +354,9 @@
 <span class="sourceLineNo">345</span><a id="line.345">   * fails}. Subclasses may override this method to supply a custom {@link ScheduledExecutorService}</a>
 <span class="sourceLineNo">346</span><a id="line.346">   * instance. This method is guaranteed to only be called once.</a>
 <span class="sourceLineNo">347</span><a id="line.347">   *</a>
-<span class="sourceLineNo">348</span><a id="line.348">   * &lt;p&gt;By default this returns a new {@link ScheduledExecutorService} with a single thread thread</a>
-<span class="sourceLineNo">349</span><a id="line.349">   * pool that sets the name of the thread to the {@linkplain #serviceName() service name}. Also,</a>
-<span class="sourceLineNo">350</span><a id="line.350">   * the pool will be {@linkplain ScheduledExecutorService#shutdown() shut down} when the service</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * &lt;p&gt;By default this returns a new {@link ScheduledExecutorService} with a single thread pool</a>
+<span class="sourceLineNo">349</span><a id="line.349">   * that sets the name of the thread to the {@linkplain #serviceName() service name}. Also, the</a>
+<span class="sourceLineNo">350</span><a id="line.350">   * pool will be {@linkplain ScheduledExecutorService#shutdown() shut down} when the service</a>
 <span class="sourceLineNo">351</span><a id="line.351">   * {@linkplain Service.State#TERMINATED terminates} or {@linkplain Service.State#TERMINATED</a>
 <span class="sourceLineNo">352</span><a id="line.352">   * fails}.</a>
 <span class="sourceLineNo">353</span><a id="line.353">   */</a>

@@ -46,7 +46,7 @@
 <span class="sourceLineNo">037</span><a id="line.37"> * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code</a>
 <span class="sourceLineNo">038</span><a id="line.38"> * finalizeReferent()} on the remaining references.</a>
 <span class="sourceLineNo">039</span><a id="line.39"> *</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * &lt;p&gt;As an example of how this is used, imagine you have a class {@code MyServer} that creates a a</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * &lt;p&gt;As an example of how this is used, imagine you have a class {@code MyServer} that creates a</a>
 <span class="sourceLineNo">041</span><a id="line.41"> * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the {@code</a>
 <span class="sourceLineNo">042</span><a id="line.42"> * ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without calling</a>
 <span class="sourceLineNo">043</span><a id="line.43"> * its {@code close} method. You &lt;em&gt;could&lt;/em&gt; use a finalizer to accomplish this, but that has a</a>

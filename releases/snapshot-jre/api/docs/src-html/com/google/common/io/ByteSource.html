@@ -437,7 +437,7 @@
 <span class="sourceLineNo">428</span><a id="line.428">   * Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range</a>
 <span class="sourceLineNo">429</span><a id="line.429">   * in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.</a>
 <span class="sourceLineNo">430</span><a id="line.430">   *</a>
-<span class="sourceLineNo">431</span><a id="line.431">   * &lt;p&gt;Note that the given byte array may be be passed directly to methods on, for example, {@code</a>
+<span class="sourceLineNo">431</span><a id="line.431">   * &lt;p&gt;Note that the given byte array may be passed directly to methods on, for example, {@code</a>
 <span class="sourceLineNo">432</span><a id="line.432">   * OutputStream} (when {@code copyTo(OutputStream)} is called on the resulting {@code</a>
 <span class="sourceLineNo">433</span><a id="line.433">   * ByteSource}). This could allow a malicious {@code OutputStream} implementation to modify the</a>
 <span class="sourceLineNo">434</span><a id="line.434">   * contents of the array, but provides better performance in the normal case.</a>

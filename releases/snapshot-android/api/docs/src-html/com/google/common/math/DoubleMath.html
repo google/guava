@@ -441,7 +441,7 @@
 <span class="sourceLineNo">432</span><a id="line.432">  @Deprecated</a>
 <span class="sourceLineNo">433</span><a id="line.433">  public static double mean(int... values) {</a>
 <span class="sourceLineNo">434</span><a id="line.434">    checkArgument(values.length &gt; 0, "Cannot take mean of 0 values");</a>
-<span class="sourceLineNo">435</span><a id="line.435">    // The upper bound on the the length of an array and the bounds on the int values mean that, in</a>
+<span class="sourceLineNo">435</span><a id="line.435">    // The upper bound on the length of an array and the bounds on the int values mean that, in</a>
 <span class="sourceLineNo">436</span><a id="line.436">    // this case only, we can compute the sum as a long without risking overflow or loss of</a>
 <span class="sourceLineNo">437</span><a id="line.437">    // precision. So we do that, as it's slightly quicker than the Knuth algorithm.</a>
 <span class="sourceLineNo">438</span><a id="line.438">    long sum = 0;</a>

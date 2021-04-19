@@ -541,9 +541,9 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
  <a href="Service.State.html#TERMINATED">terminates</a> or <a href="Service.State.html#TERMINATED">fails</a>. Subclasses may override this method to supply a custom <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a>
  instance. This method is guaranteed to only be called once.
 
- <p>By default this returns a new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a> with a single thread thread
- pool that sets the name of the thread to the <a href="#serviceName()">service name</a>. Also,
- the pool will be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown()" title="class or interface in java.util.concurrent" class="externalLink">shut down</a> when the service
+ <p>By default this returns a new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a> with a single thread pool
+ that sets the name of the thread to the <a href="#serviceName()">service name</a>. Also, the
+ pool will be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown()" title="class or interface in java.util.concurrent" class="externalLink">shut down</a> when the service
  <a href="Service.State.html#TERMINATED">terminates</a> or <a href="Service.State.html#TERMINATED">fails</a>.</div>
 </li>
 </ul>
