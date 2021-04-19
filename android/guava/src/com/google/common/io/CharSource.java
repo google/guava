@@ -60,6 +60,18 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>Any {@link ByteSource} containing text encoded with a specific {@linkplain Charset character
  * encoding} may be viewed as a {@code CharSource} using {@link ByteSource#asCharSource(Charset)}.
  *
+ * <p><b>Note:</b> In general, {@code CharSource} is intended to be used for "file-like" sources
+ * that provide readers that are:
+ *
+ * <ul>
+ *   <li><b>Finite:</b> Many operations, such as {@link #length()} and {@link #read()}, will either
+ *       block indefinitely or fail if the source creates an infinite reader.
+ *   <li><b>Non-destructive:</b> A <i>destructive</i> reader will consume or otherwise alter the
+ *       source as they are read from it. A source that provides such readers will not be reusable,
+ *       and operations that read from the stream (including {@link #length()}, in some
+ *       implementations) will prevent further operations from completing as expected.
+ * </ul>
+ *
  * @since 14.0
  * @author Colin Decker
  */

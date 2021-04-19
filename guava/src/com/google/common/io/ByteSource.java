@@ -57,6 +57,18 @@ import java.util.Iterator;
  *       doing something and finally closing the stream that was opened.
  * </ul>
  *
+ * <p><b>Note:</b> In general, {@code ByteSource} is intended to be used for "file-like" sources
+ * that provide streams that are:
+ *
+ * <ul>
+ *   <li><b>Finite:</b> Many operations, such as {@link #size()} and {@link #read()}, will either
+ *       block indefinitely or fail if the source creates an infinite stream.
+ *   <li><b>Non-destructive:</b> A <i>destructive</i> stream will consume or otherwise alter the
+ *       bytes of the source as they are read from it. A source that provides such streams will not
+ *       be reusable, and operations that read from the stream (including {@link #size()}, in some
+ *       implementations) will prevent further operations from completing as expected.
+ * </ul>
+ *
  * @since 14.0
  * @author Colin Decker
  */
