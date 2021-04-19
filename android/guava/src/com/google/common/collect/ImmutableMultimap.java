@@ -67,7 +67,11 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V>
     implements Serializable {
 
-  /** Returns an empty multimap. */
+  /**
+   * Returns an empty multimap.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   public static <K, V> ImmutableMultimap<K, V> of() {
     return ImmutableListMultimap.of();
   }

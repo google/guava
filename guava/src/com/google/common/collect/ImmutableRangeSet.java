@@ -68,7 +68,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return CollectCollectors.toImmutableRangeSet();
   }
 
-  /** Returns an empty immutable range set. */
+  /**
+   * Returns an empty immutable range set.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <C extends Comparable> ImmutableRangeSet<C> of() {
     return (ImmutableRangeSet<C>) EMPTY;

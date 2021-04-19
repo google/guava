@@ -83,7 +83,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     return CollectCollectors.toImmutableMultiset(elementFunction, countFunction);
   }
 
-  /** Returns the empty immutable multiset. */
+  /**
+   * Returns the empty immutable multiset.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
     return (ImmutableMultiset<E>) RegularImmutableMultiset.EMPTY;

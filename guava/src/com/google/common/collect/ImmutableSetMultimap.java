@@ -135,7 +135,11 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     return CollectCollectors.flatteningToImmutableSetMultimap(keyFunction, valuesFunction);
   }
 
-  /** Returns the empty multimap. */
+  /**
+   * Returns the empty multimap.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   // Casting is safe because the multimap will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSetMultimap<K, V> of() {

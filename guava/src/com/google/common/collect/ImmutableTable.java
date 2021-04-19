@@ -85,7 +85,11 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
         rowFunction, columnFunction, valueFunction, mergeFunction);
   }
 
-  /** Returns an empty immutable table. */
+  /**
+   * Returns an empty immutable table.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) SparseImmutableTable.EMPTY;

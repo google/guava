@@ -43,7 +43,12 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @GwtCompatible
 public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     implements Serializable {
-  /** Returns an empty immutable table. */
+
+  /**
+   * Returns an empty immutable table.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) SparseImmutableTable.EMPTY;

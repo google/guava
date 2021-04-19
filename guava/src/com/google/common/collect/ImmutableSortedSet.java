@@ -88,7 +88,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
   }
 
-  /** Returns the empty immutable sorted set. */
+  /**
+   * Returns the empty immutable sorted set.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   public static <E> ImmutableSortedSet<E> of() {
     return (ImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
   }

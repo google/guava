@@ -74,7 +74,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
   }
 
-  /** Returns the empty sorted map. */
+  /**
+   * Returns the empty sorted map.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   // unsafe, comparator() returns a comparator on the specified type
   // TODO(kevinb): evaluate whether or not of().comparator() should return null

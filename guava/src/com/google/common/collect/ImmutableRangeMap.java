@@ -63,7 +63,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);
   }
 
-  /** Returns an empty immutable range map. */
+  /**
+   * Returns an empty immutable range map.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
     return (ImmutableRangeMap<K, V>) EMPTY;

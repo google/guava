@@ -52,7 +52,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
 
-  /** Returns the empty immutable sorted multiset. */
+  /**
+   * Returns the empty immutable sorted multiset.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> of() {
     return (ImmutableSortedMultiset) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;

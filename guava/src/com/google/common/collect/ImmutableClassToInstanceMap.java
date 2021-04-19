@@ -45,6 +45,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
    *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   *
    * @since 19.0
    */
   @SuppressWarnings("unchecked")

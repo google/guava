@@ -47,7 +47,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
       new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
 
-  /** Returns an empty immutable range map. */
+  /**
+   * Returns an empty immutable range map.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
     return (ImmutableRangeMap<K, V>) EMPTY;
