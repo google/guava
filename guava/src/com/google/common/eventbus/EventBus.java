@@ -16,7 +16,6 @@ package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.util.concurrent.MoreExecutors;
 import java.lang.reflect.Method;
@@ -56,7 +55,7 @@ import java.util.logging.Logger;
  * href="https://kotlinlang.org/docs/channels.html">Channels</a>. Yet other usages are better served
  * by individual libraries that provide specialized support for particular use cases.
  *
- * <p>Disadvantes of EventBus include:
+ * <p>Disadvantages of EventBus include:
  *
  * <ul>
  *   <li>It makes the cross-references between producer and subscriber harder to find. This can
@@ -146,7 +145,6 @@ import java.util.logging.Logger;
  * @author Cliff Biffle
  * @since 10.0
  */
-@Beta
 public class EventBus {
 
   private static final Logger logger = Logger.getLogger(EventBus.class.getName());
