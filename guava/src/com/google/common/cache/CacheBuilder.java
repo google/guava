@@ -663,7 +663,7 @@ public final class CacheBuilder<K, V> {
    *     removed
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to live or time to idle was already set
+   * @throws IllegalStateException if {@link #expireAfterWrite} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
    * @since 25.0
    */
@@ -694,7 +694,7 @@ public final class CacheBuilder<K, V> {
    * @param unit the unit that {@code duration} is expressed in
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to live or time to idle was already set
+   * @throws IllegalStateException if {@link #expireAfterWrite} was already set
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
@@ -733,7 +733,7 @@ public final class CacheBuilder<K, V> {
    *     automatically removed
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to idle or time to live was already set
+   * @throws IllegalStateException if {@link #expireAfterAccess} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
    * @since 25.0
    */
@@ -769,7 +769,7 @@ public final class CacheBuilder<K, V> {
    * @param unit the unit that {@code duration} is expressed in
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to idle or time to live was already set
+   * @throws IllegalStateException if {@link #expireAfterAccess} was already set
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
@@ -811,7 +811,7 @@ public final class CacheBuilder<K, V> {
    *     stale, and thus eligible for refresh
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the refresh interval was already set
+   * @throws IllegalStateException if {@link #refreshAfterWrite} was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
    * @since 25.0
    */
@@ -848,7 +848,7 @@ public final class CacheBuilder<K, V> {
    * @param unit the unit that {@code duration} is expressed in
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the refresh interval was already set
+   * @throws IllegalStateException if {@link #refreshAfterWrite} was already set
    * @since 11.0
    */
   @GwtIncompatible // To be supported (synchronously).
