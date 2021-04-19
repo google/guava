@@ -1124,8 +1124,8 @@
 <span class="sourceLineNo">1115</span><a id="line.1115">   */</a>
 <span class="sourceLineNo">1116</span><a id="line.1116">  public static boolean isMaximum(InetAddress address) {</a>
 <span class="sourceLineNo">1117</span><a id="line.1117">    byte[] addr = address.getAddress();</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">    for (int i = 0; i &lt; addr.length; i++) {</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">      if (addr[i] != (byte) 0xff) {</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">    for (byte b : addr) {</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">      if (b != (byte) 0xff) {</a>
 <span class="sourceLineNo">1120</span><a id="line.1120">        return false;</a>
 <span class="sourceLineNo">1121</span><a id="line.1121">      }</a>
 <span class="sourceLineNo">1122</span><a id="line.1122">    }</a>

@@ -440,53 +440,52 @@
 <span class="sourceLineNo">431</span><a id="line.431">            break;</a>
 <span class="sourceLineNo">432</span><a id="line.432">          default:</a>
 <span class="sourceLineNo">433</span><a id="line.433">            throw new IllegalArgumentException(</a>
-<span class="sourceLineNo">434</span><a id="line.434">                format(</a>
-<span class="sourceLineNo">435</span><a id="line.435">                    "key %s invalid format.  was %s, must end with one of [dDhHmMsS]", key, value));</a>
-<span class="sourceLineNo">436</span><a id="line.436">        }</a>
-<span class="sourceLineNo">437</span><a id="line.437"></a>
-<span class="sourceLineNo">438</span><a id="line.438">        long duration = Long.parseLong(value.substring(0, value.length() - 1));</a>
-<span class="sourceLineNo">439</span><a id="line.439">        parseDuration(spec, duration, timeUnit);</a>
-<span class="sourceLineNo">440</span><a id="line.440">      } catch (NumberFormatException e) {</a>
-<span class="sourceLineNo">441</span><a id="line.441">        throw new IllegalArgumentException(</a>
-<span class="sourceLineNo">442</span><a id="line.442">            format("key %s value set to %s, must be integer", key, value));</a>
-<span class="sourceLineNo">443</span><a id="line.443">      }</a>
-<span class="sourceLineNo">444</span><a id="line.444">    }</a>
-<span class="sourceLineNo">445</span><a id="line.445">  }</a>
-<span class="sourceLineNo">446</span><a id="line.446"></a>
-<span class="sourceLineNo">447</span><a id="line.447">  /** Parse expireAfterAccess */</a>
-<span class="sourceLineNo">448</span><a id="line.448">  static class AccessDurationParser extends DurationParser {</a>
-<span class="sourceLineNo">449</span><a id="line.449">    @Override</a>
-<span class="sourceLineNo">450</span><a id="line.450">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">451</span><a id="line.451">      checkArgument(spec.accessExpirationTimeUnit == null, "expireAfterAccess already set");</a>
-<span class="sourceLineNo">452</span><a id="line.452">      spec.accessExpirationDuration = duration;</a>
-<span class="sourceLineNo">453</span><a id="line.453">      spec.accessExpirationTimeUnit = unit;</a>
-<span class="sourceLineNo">454</span><a id="line.454">    }</a>
-<span class="sourceLineNo">455</span><a id="line.455">  }</a>
-<span class="sourceLineNo">456</span><a id="line.456"></a>
-<span class="sourceLineNo">457</span><a id="line.457">  /** Parse expireAfterWrite */</a>
-<span class="sourceLineNo">458</span><a id="line.458">  static class WriteDurationParser extends DurationParser {</a>
-<span class="sourceLineNo">459</span><a id="line.459">    @Override</a>
-<span class="sourceLineNo">460</span><a id="line.460">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">461</span><a id="line.461">      checkArgument(spec.writeExpirationTimeUnit == null, "expireAfterWrite already set");</a>
-<span class="sourceLineNo">462</span><a id="line.462">      spec.writeExpirationDuration = duration;</a>
-<span class="sourceLineNo">463</span><a id="line.463">      spec.writeExpirationTimeUnit = unit;</a>
-<span class="sourceLineNo">464</span><a id="line.464">    }</a>
-<span class="sourceLineNo">465</span><a id="line.465">  }</a>
-<span class="sourceLineNo">466</span><a id="line.466"></a>
-<span class="sourceLineNo">467</span><a id="line.467">  /** Parse refreshAfterWrite */</a>
-<span class="sourceLineNo">468</span><a id="line.468">  static class RefreshDurationParser extends DurationParser {</a>
-<span class="sourceLineNo">469</span><a id="line.469">    @Override</a>
-<span class="sourceLineNo">470</span><a id="line.470">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">471</span><a id="line.471">      checkArgument(spec.refreshTimeUnit == null, "refreshAfterWrite already set");</a>
-<span class="sourceLineNo">472</span><a id="line.472">      spec.refreshDuration = duration;</a>
-<span class="sourceLineNo">473</span><a id="line.473">      spec.refreshTimeUnit = unit;</a>
-<span class="sourceLineNo">474</span><a id="line.474">    }</a>
-<span class="sourceLineNo">475</span><a id="line.475">  }</a>
-<span class="sourceLineNo">476</span><a id="line.476"></a>
-<span class="sourceLineNo">477</span><a id="line.477">  private static String format(String format, Object... args) {</a>
-<span class="sourceLineNo">478</span><a id="line.478">    return String.format(Locale.ROOT, format, args);</a>
-<span class="sourceLineNo">479</span><a id="line.479">  }</a>
-<span class="sourceLineNo">480</span><a id="line.480">}</a>
+<span class="sourceLineNo">434</span><a id="line.434">                format("key %s invalid unit: was %s, must end with one of [dhms]", key, value));</a>
+<span class="sourceLineNo">435</span><a id="line.435">        }</a>
+<span class="sourceLineNo">436</span><a id="line.436"></a>
+<span class="sourceLineNo">437</span><a id="line.437">        long duration = Long.parseLong(value.substring(0, value.length() - 1));</a>
+<span class="sourceLineNo">438</span><a id="line.438">        parseDuration(spec, duration, timeUnit);</a>
+<span class="sourceLineNo">439</span><a id="line.439">      } catch (NumberFormatException e) {</a>
+<span class="sourceLineNo">440</span><a id="line.440">        throw new IllegalArgumentException(</a>
+<span class="sourceLineNo">441</span><a id="line.441">            format("key %s value set to %s, must be integer", key, value));</a>
+<span class="sourceLineNo">442</span><a id="line.442">      }</a>
+<span class="sourceLineNo">443</span><a id="line.443">    }</a>
+<span class="sourceLineNo">444</span><a id="line.444">  }</a>
+<span class="sourceLineNo">445</span><a id="line.445"></a>
+<span class="sourceLineNo">446</span><a id="line.446">  /** Parse expireAfterAccess */</a>
+<span class="sourceLineNo">447</span><a id="line.447">  static class AccessDurationParser extends DurationParser {</a>
+<span class="sourceLineNo">448</span><a id="line.448">    @Override</a>
+<span class="sourceLineNo">449</span><a id="line.449">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
+<span class="sourceLineNo">450</span><a id="line.450">      checkArgument(spec.accessExpirationTimeUnit == null, "expireAfterAccess already set");</a>
+<span class="sourceLineNo">451</span><a id="line.451">      spec.accessExpirationDuration = duration;</a>
+<span class="sourceLineNo">452</span><a id="line.452">      spec.accessExpirationTimeUnit = unit;</a>
+<span class="sourceLineNo">453</span><a id="line.453">    }</a>
+<span class="sourceLineNo">454</span><a id="line.454">  }</a>
+<span class="sourceLineNo">455</span><a id="line.455"></a>
+<span class="sourceLineNo">456</span><a id="line.456">  /** Parse expireAfterWrite */</a>
+<span class="sourceLineNo">457</span><a id="line.457">  static class WriteDurationParser extends DurationParser {</a>
+<span class="sourceLineNo">458</span><a id="line.458">    @Override</a>
+<span class="sourceLineNo">459</span><a id="line.459">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
+<span class="sourceLineNo">460</span><a id="line.460">      checkArgument(spec.writeExpirationTimeUnit == null, "expireAfterWrite already set");</a>
+<span class="sourceLineNo">461</span><a id="line.461">      spec.writeExpirationDuration = duration;</a>
+<span class="sourceLineNo">462</span><a id="line.462">      spec.writeExpirationTimeUnit = unit;</a>
+<span class="sourceLineNo">463</span><a id="line.463">    }</a>
+<span class="sourceLineNo">464</span><a id="line.464">  }</a>
+<span class="sourceLineNo">465</span><a id="line.465"></a>
+<span class="sourceLineNo">466</span><a id="line.466">  /** Parse refreshAfterWrite */</a>
+<span class="sourceLineNo">467</span><a id="line.467">  static class RefreshDurationParser extends DurationParser {</a>
+<span class="sourceLineNo">468</span><a id="line.468">    @Override</a>
+<span class="sourceLineNo">469</span><a id="line.469">    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {</a>
+<span class="sourceLineNo">470</span><a id="line.470">      checkArgument(spec.refreshTimeUnit == null, "refreshAfterWrite already set");</a>
+<span class="sourceLineNo">471</span><a id="line.471">      spec.refreshDuration = duration;</a>
+<span class="sourceLineNo">472</span><a id="line.472">      spec.refreshTimeUnit = unit;</a>
+<span class="sourceLineNo">473</span><a id="line.473">    }</a>
+<span class="sourceLineNo">474</span><a id="line.474">  }</a>
+<span class="sourceLineNo">475</span><a id="line.475"></a>
+<span class="sourceLineNo">476</span><a id="line.476">  private static String format(String format, Object... args) {</a>
+<span class="sourceLineNo">477</span><a id="line.477">    return String.format(Locale.ROOT, format, args);</a>
+<span class="sourceLineNo">478</span><a id="line.478">  }</a>
+<span class="sourceLineNo">479</span><a id="line.479">}</a>
 
 
 

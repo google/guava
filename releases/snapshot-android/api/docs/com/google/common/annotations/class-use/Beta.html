@@ -125,64 +125,57 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="#com.google.common.eventbus">com.google.common.eventbus</a></th>
-<td class="colLast">
-<div class="block">The EventBus allows publish-subscribe-style communication between components without requiring
- the components to explicitly register with one another (and thus be aware of each other).</div>
-</td>
-</tr>
-<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.graph">com.google.common.graph</a></th>
 <td class="colLast">
 <div class="block">An API for representing graph (node and edge) data.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.hash">com.google.common.hash</a></th>
 <td class="colLast">
 <div class="block">Hash functions and related structures.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.io">com.google.common.io</a></th>
 <td class="colLast">
 <div class="block">This package contains utility methods and classes for working with Java I/O; for example input
  streams, output streams, readers, writers, and files.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.math">com.google.common.math</a></th>
 <td class="colLast">
 <div class="block">Arithmetic functions operating on primitive values and <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink"><code>BigInteger</code></a> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.net">com.google.common.net</a></th>
 <td class="colLast">
 <div class="block">This package contains utility methods and classes for working with net addresses (numeric IP and
  domain names).</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.primitives">com.google.common.primitives</a></th>
 <td class="colLast">
 <div class="block">Static utilities for working with the eight primitive types and <code>void</code>, and value types for
  treating them as unsigned.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.reflect">com.google.common.reflect</a></th>
 <td class="colLast">
 <div class="block">This package contains utilities to work with Java reflection.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.util.concurrent">com.google.common.util.concurrent</a></th>
 <td class="colLast">
 <div class="block">Concurrency utilities.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="#com.google.common.xml">com.google.common.xml</a></th>
 <td class="colLast">
 <div class="block">Escapers
@@ -1274,59 +1267,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">An <a href="../../escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> that converts literal text into a format safe for inclusion in a particular
  context (such as an XML document).</div>
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-</li>
-<li class="blockList">
-<section role="region"><a id="com.google.common.eventbus">
-<!--   -->
-</a>
-<h3>Uses of <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a> in <a href="../../eventbus/package-summary.html">com.google.common.eventbus</a></h3>
-<table class="useSummary">
-<caption><span>Classes in <a href="../../eventbus/package-summary.html">com.google.common.eventbus</a> with annotations of type <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colSecond" scope="col">Class</th>
-<th class="colLast" scope="col">Description</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../eventbus/AllowConcurrentEvents.html" title="annotation in com.google.common.eventbus">AllowConcurrentEvents</a></span></code></th>
-<td class="colLast">
-<div class="block">Marks an event subscriber method as being thread-safe.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../eventbus/AsyncEventBus.html" title="class in com.google.common.eventbus">AsyncEventBus</a></span></code></th>
-<td class="colLast">
-<div class="block">An <a href="../../eventbus/EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that takes the Executor of your choice and uses it to dispatch events,
- allowing dispatch to occur asynchronously.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../eventbus/DeadEvent.html" title="class in com.google.common.eventbus">DeadEvent</a></span></code></th>
-<td class="colLast">
-<div class="block">Wraps an event that was posted, but which had no subscribers and thus could not be delivered.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../eventbus/EventBus.html" title="class in com.google.common.eventbus">EventBus</a></span></code></th>
-<td class="colLast">
-<div class="block">Dispatches events to listeners, and provides ways for listeners to register themselves.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../eventbus/Subscribe.html" title="annotation in com.google.common.eventbus">Subscribe</a></span></code></th>
-<td class="colLast">
-<div class="block">Marks a method as an event subscriber.</div>
 </td>
 </tr>
 </tbody>

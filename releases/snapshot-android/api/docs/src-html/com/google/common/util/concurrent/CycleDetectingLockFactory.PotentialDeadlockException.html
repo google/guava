@@ -611,8 +611,8 @@
 <span class="sourceLineNo">602</span><a id="line.602">    }</a>
 <span class="sourceLineNo">603</span><a id="line.603"></a>
 <span class="sourceLineNo">604</span><a id="line.604">    void checkAcquiredLocks(Policy policy, List&lt;LockGraphNode&gt; acquiredLocks) {</a>
-<span class="sourceLineNo">605</span><a id="line.605">      for (int i = 0, size = acquiredLocks.size(); i &lt; size; i++) {</a>
-<span class="sourceLineNo">606</span><a id="line.606">        checkAcquiredLock(policy, acquiredLocks.get(i));</a>
+<span class="sourceLineNo">605</span><a id="line.605">      for (LockGraphNode acquiredLock : acquiredLocks) {</a>
+<span class="sourceLineNo">606</span><a id="line.606">        checkAcquiredLock(policy, acquiredLock);</a>
 <span class="sourceLineNo">607</span><a id="line.607">      }</a>
 <span class="sourceLineNo">608</span><a id="line.608">    }</a>
 <span class="sourceLineNo">609</span><a id="line.609"></a>

@@ -8501,7 +8501,8 @@
 
  <ul>
    <li>automatic loading of entries into the cache
-   <li>least-recently-used eviction when a maximum size is exceeded
+   <li>least-recently-used eviction when a maximum size is exceeded (note that the cache is
+       divided into segments, each of which does LRU internally)
    <li>time-based expiration of entries, measured since last access or last write
    <li>keys automatically wrapped in {@code WeakReference}
    <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
@@ -37652,7 +37653,7 @@
  href="https://kotlinlang.org/docs/channels.html">Channels</a>. Yet other usages are better served
  by individual libraries that provide specialized support for particular use cases.
 
- <p>Disadvantes of EventBus include:
+ <p>Disadvantages of EventBus include:
 
  <ul>
    <li>It makes the cross-references between producer and subscriber harder to find. This can
