@@ -65,6 +65,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * read operations will work correctly. To allow concurrent update operations, wrap your multimap
  * with a call to {@link Multimaps#synchronizedSetMultimap}.
  *
+ * <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code LinkedHashMultimap}
+ * in a way that affects its {@link Object#equals} behavior. Undefined behavior and bugs will
+ * result.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
  * Multimap}</a>.

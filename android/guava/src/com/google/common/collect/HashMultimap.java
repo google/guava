@@ -41,6 +41,9 @@ import java.util.Set;
  * concurrent update operations, wrap your multimap with a call to {@link
  * Multimaps#synchronizedSetMultimap}.
  *
+ * <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code HashMultimap} in a
+ * way that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+ *
  * @author Jared Levy
  * @since 2.0
  */

@@ -67,6 +67,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>A multiset uses {@link Object#equals} to determine whether two instances should be considered
  * "the same," <i>unless specified otherwise</i> by the implementation.
  *
+ * <p><b>Warning:</b> as with normal {@link Set}s, it is almost always a bad idea to modify an
+ * element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
+ * multiset. Undefined behavior and bugs will result.
+ *
  * <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
  * ConcurrentHashMultiset}.
  *
