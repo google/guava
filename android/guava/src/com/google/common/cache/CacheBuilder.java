@@ -49,7 +49,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *
  * <p>The successor to {@code common.cache} is <a
  * href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
- * nearly drop-in replacement (though it require Java 8 APIs). (Its equivalent to {@code
+ * nearly drop-in replacement (though it requires Java 8 APIs). (Its equivalent to {@code
  * CacheBuilder} is its <a
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
  * Caffeine}</a> class.) It offers better performance, more features (including asynchronous
