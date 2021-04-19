@@ -430,8 +430,7 @@ public final class CacheBuilderSpec {
             break;
           default:
             throw new IllegalArgumentException(
-                format(
-                    "key %s invalid format.  was %s, must end with one of [dDhHmMsS]", key, value));
+                format("key %s invalid unit: was %s, must end with one of [dhms]", key, value));
         }
 
         long duration = Long.parseLong(value.substring(0, value.length() - 1));
