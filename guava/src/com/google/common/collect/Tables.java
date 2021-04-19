@@ -60,6 +60,8 @@ public final class Tables {
    * <p>If multiple input elements map to the same row and column, an {@code IllegalStateException}
    * is thrown when the collection operation is performed.
    *
+   * <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
+   *
    * @since 21.0
    */
   @Beta

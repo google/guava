@@ -103,6 +103,10 @@ public final class Multimaps {
    * }
    * }</pre>
    *
+   * <p>To collect to an {@link ImmutableMultimap}, use either {@link
+   * ImmutableSetMultimap#toImmutableSetMultimap} or {@link
+   * ImmutableListMultimap#toImmutableListMultimap}.
+   *
    * @since 21.0
    */
   public static <T, K, V, M extends Multimap<K, V>> Collector<T, ?, M> toMultimap(
