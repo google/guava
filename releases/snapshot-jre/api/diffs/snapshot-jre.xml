@@ -44417,6 +44417,18 @@
        doing something and finally closing the stream that was opened.
  </ul>
 
+ <p><b>Note:</b> In general, {@code ByteSource} is intended to be used for "file-like" sources
+ that provide streams that are:
+
+ <ul>
+   <li><b>Finite:</b> Many operations, such as {@link #size()} and {@link #read()}, will either
+       block indefinitely or fail if the source creates an infinite stream.
+   <li><b>Non-destructive:</b> A <i>destructive</i> stream will consume or otherwise alter the
+       bytes of the source as they are read from it. A source that provides such streams will not
+       be reusable, and operations that read from the stream (including {@link #size()}, in some
+       implementations) will prevent further operations from completing as expected.
+ </ul>
+
  @since 14.0
  @author Colin Decker]]>
     </doc>
@@ -45227,6 +45239,18 @@
 
  <p>Any {@link ByteSource} containing text encoded with a specific {@linkplain Charset character
  encoding} may be viewed as a {@code CharSource} using {@link ByteSource#asCharSource(Charset)}.
+
+ <p><b>Note:</b> In general, {@code CharSource} is intended to be used for "file-like" sources
+ that provide readers that are:
+
+ <ul>
+   <li><b>Finite:</b> Many operations, such as {@link #length()} and {@link #read()}, will either
+       block indefinitely or fail if the source creates an infinite reader.
+   <li><b>Non-destructive:</b> A <i>destructive</i> reader will consume or otherwise alter the
+       source as they are read from it. A source that provides such readers will not be reusable,
+       and operations that read from the stream (including {@link #length()}, in some
+       implementations) will prevent further operations from completing as expected.
+ </ul>
 
  @since 14.0
  @author Colin Decker]]>
@@ -63634,7 +63658,7 @@
       <param name="i" type="int"/>
       <param name="newValue" type="double"/>
       <doc>
-      <![CDATA[Sets the element at position {@code i} to the given value.
+      <![CDATA[Atomically sets the element at position {@code i} to the given value.
 
  @param i the index
  @param newValue the new value]]>
