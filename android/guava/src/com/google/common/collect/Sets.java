@@ -655,8 +655,8 @@ public final class Sets {
    * that is not contained in {@code set1}.
    *
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
-   * equivalence relations (as {@link HashSet}, {@link TreeSet}, and the {@link Map#keySet} of an
-   * {@code IdentityHashMap} all are).
+   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    */
   public static <E> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
@@ -726,8 +726,8 @@ public final class Sets {
    * matches that of {@code set1}.
    *
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
-   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
-   * IdentityHashMap} all are).
+   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    *
    * <p><b>Note:</b> The returned view performs slightly better when {@code set1} is the smaller of
    * the two sets. If you have reason to believe one of your sets will generally be smaller than the
@@ -805,8 +805,8 @@ public final class Sets {
    * order of the returned set matches that of {@code set1}.
    *
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
-   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
-   * IdentityHashMap} all are).
+   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    */
   public static <E> SetView<E> difference(final Set<E> set1, final Set<?> set2) {
     checkNotNull(set1, "set1");
@@ -860,8 +860,8 @@ public final class Sets {
    * both. The iteration order of the returned set is undefined.
    *
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
-   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
-   * IdentityHashMap} all are).
+   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
    *
    * @since 3.0
    */
