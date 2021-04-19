@@ -8488,7 +8488,7 @@
 
  <p>The successor to {@code common.cache} is <a
  href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
- nearly drop-in replacement (though it require Java 8 APIs). (Its equivalent to {@code
+ nearly drop-in replacement (though it requires Java 8 APIs). (Its equivalent to {@code
  CacheBuilder} is its <a
  href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
  Caffeine}</a> class.) It offers better performance, more features (including asynchronous
@@ -10300,6 +10300,16 @@
     </method>
     <doc>
     <![CDATA[Fixed-size {@link Table} implementation backed by a two-dimensional array.
+
+ <p><b>Warning:</b> {@code ArrayTable} is rarely the {@link Table} implementation you want. First,
+ it requires that the complete universe of rows and columns be specified at construction time.
+ Second, it is always backed by an array large enough to hold a value for every possible
+ combination of row and column keys. (This is rarely optimal unless the table is extremely dense.)
+ Finally, every possible combination of row and column keys is always considered to have a value
+ associated with it: It is not possible to "remove" a value, only to replace it with {@code null},
+ which will still appear when iterating over the table's contents in a foreach loop or a call to a
+ null-hostile method like {@link ImmutableTable#copyOf}. For alternatives, please see <a
+ href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">the wiki</a>.
 
  <p>The allowed row and column keys must be supplied when the table is created. The table always
  contains a mapping for every row key / column pair. The value corresponding to a given row and
@@ -33785,8 +33795,8 @@
  that is not contained in {@code set1}.
 
  <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
- equivalence relations (as {@link HashSet}, {@link TreeSet}, and the {@link Map#keySet} of an
- {@code IdentityHashMap} all are).]]>
+ equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+ {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.]]>
       </doc>
     </method>
     <method name="intersection" return="com.google.common.collect.Sets.SetView&lt;E&gt;"
@@ -33801,8 +33811,8 @@
  matches that of {@code set1}.
 
  <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
- equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
- IdentityHashMap} all are).
+ equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+ {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
 
  <p><b>Note:</b> The returned view performs slightly better when {@code set1} is the smaller of
  the two sets. If you have reason to believe one of your sets will generally be smaller than the
@@ -33836,8 +33846,8 @@
  order of the returned set matches that of {@code set1}.
 
  <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
- equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
- IdentityHashMap} all are).]]>
+ equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+ {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.]]>
       </doc>
     </method>
     <method name="symmetricDifference" return="com.google.common.collect.Sets.SetView&lt;E&gt;"
@@ -33852,8 +33862,8 @@
  both. The iteration order of the returned set is undefined.
 
  <p>Results are undefined if {@code set1} and {@code set2} are sets based on different
- equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code
- IdentityHashMap} all are).
+ equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a
+ {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.
 
  @since 3.0]]>
       </doc>

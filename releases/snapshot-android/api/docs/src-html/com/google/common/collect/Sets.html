@@ -664,8 +664,8 @@
 <span class="sourceLineNo">655</span><a id="line.655">   * that is not contained in {@code set1}.</a>
 <span class="sourceLineNo">656</span><a id="line.656">   *</a>
 <span class="sourceLineNo">657</span><a id="line.657">   * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based on different</a>
-<span class="sourceLineNo">658</span><a id="line.658">   * equivalence relations (as {@link HashSet}, {@link TreeSet}, and the {@link Map#keySet} of an</a>
-<span class="sourceLineNo">659</span><a id="line.659">   * {@code IdentityHashMap} all are).</a>
+<span class="sourceLineNo">658</span><a id="line.658">   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a</a>
+<span class="sourceLineNo">659</span><a id="line.659">   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.</a>
 <span class="sourceLineNo">660</span><a id="line.660">   */</a>
 <span class="sourceLineNo">661</span><a id="line.661">  public static &lt;E&gt; SetView&lt;E&gt; union(final Set&lt;? extends E&gt; set1, final Set&lt;? extends E&gt; set2) {</a>
 <span class="sourceLineNo">662</span><a id="line.662">    checkNotNull(set1, "set1");</a>
@@ -735,8 +735,8 @@
 <span class="sourceLineNo">726</span><a id="line.726">   * matches that of {@code set1}.</a>
 <span class="sourceLineNo">727</span><a id="line.727">   *</a>
 <span class="sourceLineNo">728</span><a id="line.728">   * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based on different</a>
-<span class="sourceLineNo">729</span><a id="line.729">   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code</a>
-<span class="sourceLineNo">730</span><a id="line.730">   * IdentityHashMap} all are).</a>
+<span class="sourceLineNo">729</span><a id="line.729">   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a</a>
+<span class="sourceLineNo">730</span><a id="line.730">   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.</a>
 <span class="sourceLineNo">731</span><a id="line.731">   *</a>
 <span class="sourceLineNo">732</span><a id="line.732">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned view performs slightly better when {@code set1} is the smaller of</a>
 <span class="sourceLineNo">733</span><a id="line.733">   * the two sets. If you have reason to believe one of your sets will generally be smaller than the</a>
@@ -814,8 +814,8 @@
 <span class="sourceLineNo">805</span><a id="line.805">   * order of the returned set matches that of {@code set1}.</a>
 <span class="sourceLineNo">806</span><a id="line.806">   *</a>
 <span class="sourceLineNo">807</span><a id="line.807">   * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based on different</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * IdentityHashMap} all are).</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a</a>
+<span class="sourceLineNo">809</span><a id="line.809">   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.</a>
 <span class="sourceLineNo">810</span><a id="line.810">   */</a>
 <span class="sourceLineNo">811</span><a id="line.811">  public static &lt;E&gt; SetView&lt;E&gt; difference(final Set&lt;E&gt; set1, final Set&lt;?&gt; set2) {</a>
 <span class="sourceLineNo">812</span><a id="line.812">    checkNotNull(set1, "set1");</a>
@@ -869,8 +869,8 @@
 <span class="sourceLineNo">860</span><a id="line.860">   * both. The iteration order of the returned set is undefined.</a>
 <span class="sourceLineNo">861</span><a id="line.861">   *</a>
 <span class="sourceLineNo">862</span><a id="line.862">   * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based on different</a>
-<span class="sourceLineNo">863</span><a id="line.863">   * equivalence relations (as {@code HashSet}, {@code TreeSet}, and the keySet of an {@code</a>
-<span class="sourceLineNo">864</span><a id="line.864">   * IdentityHashMap} all are).</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * equivalence relations, for example if {@code set1} is a {@link HashSet} and {@code set2} is a</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * {@link TreeSet} or the {@link Map#keySet} of an {@code IdentityHashMap}.</a>
 <span class="sourceLineNo">865</span><a id="line.865">   *</a>
 <span class="sourceLineNo">866</span><a id="line.866">   * @since 3.0</a>
 <span class="sourceLineNo">867</span><a id="line.867">   */</a>
