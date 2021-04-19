@@ -602,8 +602,8 @@ public class CycleDetectingLockFactory {
     }
 
     void checkAcquiredLocks(Policy policy, List<LockGraphNode> acquiredLocks) {
-      for (int i = 0, size = acquiredLocks.size(); i < size; i++) {
-        checkAcquiredLock(policy, acquiredLocks.get(i));
+      for (LockGraphNode acquiredLock : acquiredLocks) {
+        checkAcquiredLock(policy, acquiredLock);
       }
     }
 

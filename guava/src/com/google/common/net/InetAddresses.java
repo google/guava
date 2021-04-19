@@ -1110,8 +1110,8 @@ public final class InetAddresses {
    */
   public static boolean isMaximum(InetAddress address) {
     byte[] addr = address.getAddress();
-    for (int i = 0; i < addr.length; i++) {
-      if (addr[i] != (byte) 0xff) {
+    for (byte b : addr) {
+      if (b != (byte) 0xff) {
         return false;
       }
     }
