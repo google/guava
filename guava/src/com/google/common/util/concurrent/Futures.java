@@ -1345,7 +1345,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * the computation -- makes sense, and if we don't convert it, the user still has to write a
    * try-catch block.
    *
-   * If you think you would use this method, let us know. You might also also look into the
+   * If you think you would use this method, let us know. You might also look into the
    * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
    */
 }

@@ -428,7 +428,7 @@ public abstract class ByteSource {
    * Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range
    * in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.
    *
-   * <p>Note that the given byte array may be be passed directly to methods on, for example, {@code
+   * <p>Note that the given byte array may be passed directly to methods on, for example, {@code
    * OutputStream} (when {@code copyTo(OutputStream)} is called on the resulting {@code
    * ByteSource}). This could allow a malicious {@code OutputStream} implementation to modify the
    * contents of the array, but provides better performance in the normal case.

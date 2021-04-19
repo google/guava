@@ -589,7 +589,7 @@ public final class Quantiles {
   /**
    * Selects the pivot to use, namely the median of the values at {@code from}, {@code to}, and
    * halfway between the two (rounded down), from {@code array}, and ensure (by swapping elements if
-   * necessary) that that pivot value appears at the start of the slice i.e. at {@code from}.
+   * necessary) that the pivot value appears at the start of the slice i.e. at {@code from}.
    * Expects that {@code from} is strictly less than {@code to}.
    */
   private static void movePivotToStartOfSlice(double[] array, int from, int to) {

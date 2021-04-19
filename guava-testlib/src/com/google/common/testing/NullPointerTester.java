@@ -539,7 +539,7 @@ public final class NullPointerTester {
   }
 
   /**
-   * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
+   * Returns true if the given member is a method that overrides {@link Object#equals(Object)}.
    *
    * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
    * explicit {@code @Nullable} annotation (see <a
