@@ -8481,8 +8481,23 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
- following features:
+    <![CDATA[A builder of {@link LoadingCache} and {@link Cache} instances.
+
+ <h2>Prefer <a href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a> over {@code
+ common.cache}</h2>
+
+ <p>The successor to {@code common.cache} is <a
+ href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
+ nearly drop-in replacement (though it require Java 8 APIs). (Its equivalent to {@code
+ CacheBuilder} is its <a
+ href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
+ Caffeine}</a> class.) It offers better performance, more features (including asynchronous
+ loading), and fewer <a
+ href="https://github.com/google/guava/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Dcache+label%3Atype%3Ddefect">bugs</a>.
+
+ <h2>More on {@code CacheBuilder}</h2>
+
+ {@code CacheBuilder} builds caches with any combination of the following features:
 
  <ul>
    <li>automatic loading of entries into the cache
@@ -28894,6 +28909,10 @@
  }
  }</pre>
 
+ <p>To collect to an {@link ImmutableMultimap}, use either {@link
+ ImmutableSetMultimap#toImmutableSetMultimap} or {@link
+ ImmutableListMultimap#toImmutableListMultimap}.
+
  @since 21.0]]>
       </doc>
     </method>
@@ -30425,6 +30444,9 @@
 
  <p>Note that {@code stream.collect(toMultiset(function, e -> 1, supplier))} is equivalent to
  {@code stream.map(function).collect(Collectors.toCollection(supplier))}.
+
+ <p>To collect to an {@link ImmutableMultiset}, use {@link
+ ImmutableMultiset#toImmutableMultiset}.
 
  @since 22.0]]>
       </doc>
@@ -35504,6 +35526,8 @@
 
  <p>If multiple input elements map to the same row and column, an {@code IllegalStateException}
  is thrown when the collection operation is performed.
+
+ <p>To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.
 
  @since 21.0]]>
       </doc>
