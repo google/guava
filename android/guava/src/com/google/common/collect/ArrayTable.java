@@ -40,6 +40,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
  *
+ * <p><b>Warning:</b> {@code ArrayTable} is rarely the {@link Table} implementation you want. First,
+ * it requires that the complete universe of rows and columns be specified at construction time.
+ * Second, it is always backed by an array large enough to hold a value for every possible
+ * combination of row and column keys. (This is rarely optimal unless the table is extremely dense.)
+ * Finally, every possible combination of row and column keys is always considered to have a value
+ * associated with it: It is not possible to "remove" a value, only to replace it with {@code null},
+ * which will still appear when iterating over the table's contents in a foreach loop or a call to a
+ * null-hostile method like {@link ImmutableTable#copyOf}. For alternatives, please see <a
+ * href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">the wiki</a>.
+ *
  * <p>The allowed row and column keys must be supplied when the table is created. The table always
  * contains a mapping for every row key / column pair. The value corresponding to a given row and
  * column is null unless another value is provided.
