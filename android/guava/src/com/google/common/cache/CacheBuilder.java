@@ -42,8 +42,23 @@ import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
- * following features:
+ * A builder of {@link LoadingCache} and {@link Cache} instances.
+ *
+ * <h2>Prefer <a href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a> over {@code
+ * common.cache}</h2>
+ *
+ * <p>The successor to {@code common.cache} is <a
+ * href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
+ * nearly drop-in replacement (though it require Java 8 APIs). (Its equivalent to {@code
+ * CacheBuilder} is its <a
+ * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
+ * Caffeine}</a> class.) It offers better performance, more features (including asynchronous
+ * loading), and fewer <a
+ * href="https://github.com/google/guava/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Dcache+label%3Atype%3Ddefect">bugs</a>.
+ *
+ * <h2>More on {@code CacheBuilder}</h2>
+ *
+ * {@code CacheBuilder} builds caches with any combination of the following features:
  *
  * <ul>
  *   <li>automatic loading of entries into the cache
