@@ -8212,7 +8212,7 @@
      removed
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the time to live or time to idle was already set
+ @throws IllegalStateException if {@link #expireAfterWrite} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
  @since 25.0]]>
       </doc>
@@ -8243,7 +8243,7 @@
  @param unit the unit that {@code duration} is expressed in
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the time to live or time to idle was already set]]>
+ @throws IllegalStateException if {@link #expireAfterWrite} was already set]]>
       </doc>
     </method>
     <method name="expireAfterAccess" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8272,7 +8272,7 @@
      automatically removed
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the time to idle or time to live was already set
+ @throws IllegalStateException if {@link #expireAfterAccess} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
  @since 25.0]]>
       </doc>
@@ -8308,7 +8308,7 @@
  @param unit the unit that {@code duration} is expressed in
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the time to idle or time to live was already set]]>
+ @throws IllegalStateException if {@link #expireAfterAccess} was already set]]>
       </doc>
     </method>
     <method name="refreshAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8338,7 +8338,7 @@
      stale, and thus eligible for refresh
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the refresh interval was already set
+ @throws IllegalStateException if {@link #refreshAfterWrite} was already set
  @throws ArithmeticException for durations greater than +/- approximately 292 years
  @since 25.0]]>
       </doc>
@@ -8375,7 +8375,7 @@
  @param unit the unit that {@code duration} is expressed in
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if the refresh interval was already set
+ @throws IllegalStateException if {@link #refreshAfterWrite} was already set
  @since 11.0]]>
       </doc>
     </method>
@@ -16711,7 +16711,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty bimap.]]>
+      <![CDATA[Returns the empty bimap.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -17029,6 +17031,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an empty {@code ImmutableClassToInstanceMap}.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.
 
  @since 19.0]]>
       </doc>
@@ -17540,7 +17544,9 @@
       <doc>
       <![CDATA[Returns the empty immutable list. This list behaves and performs comparably to {@link
  Collections#emptyList}, and is preferable mainly for consistency and maintainability of your
- code.]]>
+ code.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -18235,7 +18241,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty multimap.]]>
+      <![CDATA[Returns the empty multimap.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableListMultimap&lt;K, V&gt;"
@@ -18574,7 +18582,9 @@
       <doc>
       <![CDATA[Returns the empty map. This map behaves and performs comparably to {@link
  Collections#emptyMap}, and is preferable mainly for consistency and maintainability of your
- code.]]>
+ code.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -19114,7 +19124,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty multimap.]]>
+      <![CDATA[Returns an empty multimap.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMultimap&lt;K, V&gt;"
@@ -19611,7 +19623,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty immutable multiset.]]>
+      <![CDATA[Returns the empty immutable multiset.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMultiset&lt;E&gt;"
@@ -20022,7 +20036,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty immutable range map.]]>
+      <![CDATA[Returns an empty immutable range map.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
@@ -20253,7 +20269,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty immutable range set.]]>
+      <![CDATA[Returns an empty immutable range set.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
@@ -20599,7 +20617,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
- consistency, and because the return type conveys the immutability guarantee.]]>
+ consistency, and because the return type conveys the immutability guarantee.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
@@ -20964,7 +20984,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty multimap.]]>
+      <![CDATA[Returns the empty multimap.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
@@ -21323,7 +21345,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty sorted map.]]>
+      <![CDATA[Returns the empty sorted map.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -21964,7 +21988,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty immutable sorted multiset.]]>
+      <![CDATA[Returns the empty immutable sorted multiset.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
@@ -22438,7 +22464,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty immutable sorted set.]]>
+      <![CDATA[Returns the empty immutable sorted set.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
@@ -23083,7 +23111,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty immutable table.]]>
+      <![CDATA[Returns an empty immutable table.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableTable&lt;R, C, V&gt;"

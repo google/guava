@@ -773,7 +773,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the time to live or time to idle was already set</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterWrite(long,java.util.concurrent.TimeUnit)"><code>expireAfterWrite(long, java.util.concurrent.TimeUnit)</code></a> was already set</dd>
 </dl>
 </li>
 </ul>
@@ -808,7 +808,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the time to idle or time to live was already set</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#expireAfterAccess(long,java.util.concurrent.TimeUnit)"><code>expireAfterAccess(long, java.util.concurrent.TimeUnit)</code></a> was already set</dd>
 </dl>
 </li>
 </ul>
@@ -845,7 +845,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>duration</code> is negative</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the refresh interval was already set</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if <a href="#refreshAfterWrite(long,java.util.concurrent.TimeUnit)"><code>refreshAfterWrite(long, java.util.concurrent.TimeUnit)</code></a> was already set</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
 </dl>

@@ -492,8 +492,10 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.72">of</a>()</pre>
-<div class="block">Returns an empty immutable range set.</div>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.76">of</a>()</pre>
+<div class="block">Returns an empty immutable range set.
+
+ <p><b>Performance note:</b> the instance returned is a singleton.</div>
 </li>
 </ul>
 <a id="of(com.google.common.collect.Range)">
@@ -502,7 +504,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.81">of</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.85">of</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range)</pre>
 <div class="block">Returns an immutable range set containing the specified single range. If <a href="Range.html#isEmpty()"><code>range.isEmpty()</code></a>, this is equivalent to <a href="#of()"><code>of()</code></a>.</div>
 </li>
 </ul>
@@ -512,7 +514,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.99">copyOf</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.103">copyOf</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
 <div class="block">Returns an immutable copy of the specified <code>RangeSet</code>.</div>
 </li>
 </ul>
@@ -522,7 +524,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.124">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.128">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block">Returns an <code>ImmutableRangeSet</code> containing each of the specified disjoint ranges.
  Overlapping ranges and empty ranges are forbidden, though adjacent ranges are permitted and
  will be merged.</div>
@@ -540,7 +542,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>unionOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.136">unionOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.140">unionOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block">Returns an <code>ImmutableRangeSet</code> representing the union of the specified ranges.
 
  <p>This is the smallest <code>RangeSet</code> which encloses each of the specified ranges. Duplicate
@@ -557,7 +559,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>intersects</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.151">intersects</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;otherRange)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.155">intersects</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;otherRange)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#intersects(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if there exists a non-empty range enclosed by both a member range in this
  range set and the specified range. This is equivalent to calling <code>
@@ -574,7 +576,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>encloses</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.171">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;otherRange)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.175">encloses</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;otherRange)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#encloses(com.google.common.collect.Range)">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if there exists a member range in this range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> the specified range.</div>
 <dl>
@@ -591,7 +593,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>rangeContaining</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.184">rangeContaining</a>&#8203;(<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&nbsp;value)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.188">rangeContaining</a>&#8203;(<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#rangeContaining(C)">RangeSet</a></code></span></div>
 <div class="block">Returns the unique range from this range set that <a href="Range.html#contains(C)">contains</a> <code>
  value</code>, or <code>null</code> if this range set does not contain <code>value</code>.</div>
@@ -607,7 +609,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.201">span</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.205">span</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#span()">RangeSet</a></code></span></div>
 <div class="block">Returns the minimal range which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> all ranges in this
  range set.</div>
@@ -623,7 +625,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.209">isEmpty</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.213">isEmpty</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#isEmpty()">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if this range set contains no ranges.</div>
 <dl>
@@ -639,7 +641,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.220">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.224">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -659,7 +661,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.233">addAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.237">addAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -679,7 +681,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.246">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;other)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.250">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;other)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -699,7 +701,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.259">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.263">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -719,7 +721,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.272">removeAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.276">removeAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -739,7 +741,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.285">removeAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;other)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.289">removeAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;other)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
@@ -758,7 +760,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>asRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.292">asRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.296">asRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make up this
  range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink"><code>Iterable.iterator()</code></a> method return the ranges in increasing order of lower bound (equivalently,
@@ -775,7 +777,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingSetOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.300">asDescendingSetOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.304">asDescendingSetOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asDescendingSetOfRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a descending view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make
  up this range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink"><code>Iterable.iterator()</code></a> method return the ranges in decreasing order of lower bound (equivalently,
@@ -792,7 +794,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>complement</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.365">complement</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.369">complement</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#complement()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the complement of this <code>RangeSet</code>.
 
@@ -810,7 +812,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.389">union</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.393">union</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the union of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>TreeRangeSet.create(this).addAll(other)</code> except it
@@ -827,7 +829,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.402">intersection</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.406">intersection</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the intersection of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>
@@ -845,7 +847,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.416">difference</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.420">difference</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns a new range set consisting of the difference of this range set and <code>other</code>.
 
  <p>This is essentially the same as <code>TreeRangeSet.create(this).removeAll(other)</code> except it
@@ -862,7 +864,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.487">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.491">subRangeSet</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the intersection of this range set with the given range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -876,7 +878,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.519">asSet</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;domain)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.523">asSet</a>&#8203;(<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;domain)</pre>
 <div class="block">Returns an <a href="ImmutableSortedSet.html" title="class in com.google.common.collect"><code>ImmutableSortedSet</code></a> containing the same values in the given domain
  <a href="RangeSet.html#contains(C)">contained</a> by this range set.
 
@@ -903,7 +905,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Im
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.714">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.718">builder</a>()</pre>
 <div class="block">Returns a new builder for an immutable range set.</div>
 </li>
 </ul>

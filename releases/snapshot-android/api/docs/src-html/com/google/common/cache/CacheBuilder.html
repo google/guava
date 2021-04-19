@@ -674,7 +674,7 @@
 <span class="sourceLineNo">665</span><a id="line.665">   * @param unit the unit that {@code duration} is expressed in</a>
 <span class="sourceLineNo">666</span><a id="line.666">   * @return this {@code CacheBuilder} instance (for chaining)</a>
 <span class="sourceLineNo">667</span><a id="line.667">   * @throws IllegalArgumentException if {@code duration} is negative</a>
-<span class="sourceLineNo">668</span><a id="line.668">   * @throws IllegalStateException if the time to live or time to idle was already set</a>
+<span class="sourceLineNo">668</span><a id="line.668">   * @throws IllegalStateException if {@link #expireAfterWrite} was already set</a>
 <span class="sourceLineNo">669</span><a id="line.669">   */</a>
 <span class="sourceLineNo">670</span><a id="line.670">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
 <span class="sourceLineNo">671</span><a id="line.671">  public CacheBuilder&lt;K, V&gt; expireAfterWrite(long duration, TimeUnit unit) {</a>
@@ -714,7 +714,7 @@
 <span class="sourceLineNo">705</span><a id="line.705">   * @param unit the unit that {@code duration} is expressed in</a>
 <span class="sourceLineNo">706</span><a id="line.706">   * @return this {@code CacheBuilder} instance (for chaining)</a>
 <span class="sourceLineNo">707</span><a id="line.707">   * @throws IllegalArgumentException if {@code duration} is negative</a>
-<span class="sourceLineNo">708</span><a id="line.708">   * @throws IllegalStateException if the time to idle or time to live was already set</a>
+<span class="sourceLineNo">708</span><a id="line.708">   * @throws IllegalStateException if {@link #expireAfterAccess} was already set</a>
 <span class="sourceLineNo">709</span><a id="line.709">   */</a>
 <span class="sourceLineNo">710</span><a id="line.710">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
 <span class="sourceLineNo">711</span><a id="line.711">  public CacheBuilder&lt;K, V&gt; expireAfterAccess(long duration, TimeUnit unit) {</a>
@@ -757,7 +757,7 @@
 <span class="sourceLineNo">748</span><a id="line.748">   * @param unit the unit that {@code duration} is expressed in</a>
 <span class="sourceLineNo">749</span><a id="line.749">   * @return this {@code CacheBuilder} instance (for chaining)</a>
 <span class="sourceLineNo">750</span><a id="line.750">   * @throws IllegalArgumentException if {@code duration} is negative</a>
-<span class="sourceLineNo">751</span><a id="line.751">   * @throws IllegalStateException if the refresh interval was already set</a>
+<span class="sourceLineNo">751</span><a id="line.751">   * @throws IllegalStateException if {@link #refreshAfterWrite} was already set</a>
 <span class="sourceLineNo">752</span><a id="line.752">   * @since 11.0</a>
 <span class="sourceLineNo">753</span><a id="line.753">   */</a>
 <span class="sourceLineNo">754</span><a id="line.754">  @GwtIncompatible // To be supported (synchronously).</a>
