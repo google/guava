@@ -14,8 +14,8 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.1</truth.version>
-    <checker-framework.version>3.8.0</checker-framework.version>
+    <truth.version>1.1.2</truth.version>
+    <checker-framework.version>3.12.0</checker-framework.version>
     <!--
       Upgrading to 1.19 breaks things: Animal Sniffer reports a problem with the
       use of ClassValue in FuturesGetChecked, even though we've added a
@@ -296,7 +296,7 @@
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.5.1</version>
+        <version>2.6.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
@@ -312,19 +312,19 @@
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
-        <version>4.2</version>
+        <version>4.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.6.28</version>
+        <version>3.9.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.google.jimfs</groupId>
         <artifactId>jimfs</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
