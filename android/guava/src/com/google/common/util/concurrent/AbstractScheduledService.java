@@ -316,9 +316,9 @@ public abstract class AbstractScheduledService implements Service {
    * fails}. Subclasses may override this method to supply a custom {@link ScheduledExecutorService}
    * instance. This method is guaranteed to only be called once.
    *
-   * <p>By default this returns a new {@link ScheduledExecutorService} with a single thread thread
-   * pool that sets the name of the thread to the {@linkplain #serviceName() service name}. Also,
-   * the pool will be {@linkplain ScheduledExecutorService#shutdown() shut down} when the service
+   * <p>By default this returns a new {@link ScheduledExecutorService} with a single thread pool
+   * that sets the name of the thread to the {@linkplain #serviceName() service name}. Also, the
+   * pool will be {@linkplain ScheduledExecutorService#shutdown() shut down} when the service
    * {@linkplain Service.State#TERMINATED terminates} or {@linkplain Service.State#TERMINATED
    * fails}.
    */

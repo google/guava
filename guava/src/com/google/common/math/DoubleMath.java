@@ -432,7 +432,7 @@ public final class DoubleMath {
   @Deprecated
   public static double mean(int... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
-    // The upper bound on the the length of an array and the bounds on the int values mean that, in
+    // The upper bound on the length of an array and the bounds on the int values mean that, in
     // this case only, we can compute the sum as a long without risking overflow or loss of
     // precision. So we do that, as it's slightly quicker than the Knuth algorithm.
     long sum = 0;

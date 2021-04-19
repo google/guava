@@ -205,7 +205,7 @@ final class CollectCollectors {
     checkNotNull(valueFunction);
     /*
      * We will always fail if there are duplicate keys, and the keys are always sorted by
-     * the Comparator, so the entries can come in in arbitrary order -- so we report UNORDERED.
+     * the Comparator, so the entries can come in an arbitrary order -- so we report UNORDERED.
      */
     return Collector.of(
         () -> new ImmutableSortedMap.Builder<K, V>(comparator),

@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
  * finalizeReferent()} on the remaining references.
  *
- * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a a
+ * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
  * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the {@code
  * ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without calling
  * its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
