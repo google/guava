@@ -21,5 +21,7 @@ import com.google.errorprone.annotations.Immutable;
  * Explicitly named subinterface of {@link Supplier} that can be marked {@literal @}{@link
  * Immutable}.
  */
+// TODO(cpovirk): Should we just use ChecksumType directly instead of defining this type?
 @Immutable
+@ElementTypesAreNonnullByDefault
 interface ImmutableSupplier<T> extends Supplier<T> {}

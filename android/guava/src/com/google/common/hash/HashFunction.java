@@ -19,6 +19,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A hash function is a collision-averse pure function that maps an arbitrary block of data to a
@@ -117,6 +118,7 @@ import java.nio.charset.Charset;
  */
 @Beta
 @Immutable
+@ElementTypesAreNonnullByDefault
 public interface HashFunction {
   /**
    * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}
@@ -211,7 +213,8 @@ public interface HashFunction {
    *
    * @since 14.0
    */
-  <T> HashCode hashObject(T instance, Funnel<? super T> funnel);
+  <T extends @Nullable Object> HashCode hashObject(
+      @ParametricNullness T instance, Funnel<? super T> funnel);
 
   /**
    * Returns the number of bits (a multiple of 32) that each hash code produced by this hash
