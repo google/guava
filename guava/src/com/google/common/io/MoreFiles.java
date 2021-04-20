@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 
 import com.google.common.annotations.Beta;
@@ -773,11 +774,19 @@ public final class MoreFiles {
   }
 
   /**
-   * Throws an exception indicating that one or more files couldn't be deleted. The thrown exception
-   * contains all the exceptions in the given collection as suppressed exceptions.
+   * Throws an exception indicating that one or more files couldn't be deleted when deleting {@code
+   * path} or its contents.
+   *
+   * <p>If there is only one exception in the collection, and it is a {@link NoSuchFileException}
+   * thrown because {@code path} itself didn't exist, then throws that exception. Otherwise, the
+   * thrown exception contains all the exceptions in the given collection as suppressed exceptions.
    */
   private static void throwDeleteFailed(Path path, Collection<IOException> exceptions)
       throws FileSystemException {
+    NoSuchFileException pathNotFound = pathNotFound(path, exceptions);
+    if (pathNotFound != null) {
+      throw pathNotFound;
+    }
     // TODO(cgdecker): Should there be a custom exception type for this?
     // Also, should we try to include the Path of each file we may have failed to delete rather
     // than just the exceptions that occurred?
@@ -790,5 +799,21 @@ public final class MoreFiles {
       deleteFailed.addSuppressed(e);
     }
     throw deleteFailed;
+  }
+
+  private static @Nullable NoSuchFileException pathNotFound(
+      Path path, Collection<IOException> exceptions) {
+    if (exceptions.size() == 1) {
+      IOException exception = getOnlyElement(exceptions);
+      if (exception instanceof NoSuchFileException) {
+        NoSuchFileException noSuchFileException = (NoSuchFileException) exception;
+        if (noSuchFileException
+            .getFile()
+            .equals(getParentPath(path).resolve(path.getFileName()).toString())) {
+          return noSuchFileException;
+        }
+      }
+    }
+    return null;
   }
 }

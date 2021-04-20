@@ -34,6 +34,7 @@ import java.nio.file.FileSystemException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -553,6 +554,17 @@ public class MoreFilesTest extends TestCase {
       assertFalse(Files.exists(symlink));
       assertTrue(Files.exists(dir));
       assertEquals(6, MoreFiles.listFiles(dir).size());
+    }
+  }
+
+  public void testDeleteRecursively_nonexistingFile_throwsNoSuchFileException() throws IOException {
+    try (FileSystem fs = newTestFileSystem()) {
+      try {
+        MoreFiles.deleteRecursively(fs.getPath("/work/nothere"), ALLOW_INSECURE);
+        fail();
+      } catch (NoSuchFileException expected) {
+        assertThat(expected.getFile()).isEqualTo("/work/nothere");
+      }
     }
   }
 
