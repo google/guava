@@ -233,17 +233,22 @@
 <span class="sourceLineNo">224</span><a id="line.224">        // this is insurance.</a>
 <span class="sourceLineNo">225</span><a id="line.225">        temp.deleteOnExit();</a>
 <span class="sourceLineNo">226</span><a id="line.226">      }</a>
-<span class="sourceLineNo">227</span><a id="line.227">      FileOutputStream transfer = new FileOutputStream(temp);</a>
-<span class="sourceLineNo">228</span><a id="line.228">      transfer.write(memory.getBuffer(), 0, memory.getCount());</a>
-<span class="sourceLineNo">229</span><a id="line.229">      transfer.flush();</a>
-<span class="sourceLineNo">230</span><a id="line.230"></a>
-<span class="sourceLineNo">231</span><a id="line.231">      // We've successfully transferred the data; switch to writing to file</a>
-<span class="sourceLineNo">232</span><a id="line.232">      out = transfer;</a>
-<span class="sourceLineNo">233</span><a id="line.233">      file = temp;</a>
-<span class="sourceLineNo">234</span><a id="line.234">      memory = null;</a>
-<span class="sourceLineNo">235</span><a id="line.235">    }</a>
-<span class="sourceLineNo">236</span><a id="line.236">  }</a>
-<span class="sourceLineNo">237</span><a id="line.237">}</a>
+<span class="sourceLineNo">227</span><a id="line.227">      try {</a>
+<span class="sourceLineNo">228</span><a id="line.228">        FileOutputStream transfer = new FileOutputStream(temp);</a>
+<span class="sourceLineNo">229</span><a id="line.229">        transfer.write(memory.getBuffer(), 0, memory.getCount());</a>
+<span class="sourceLineNo">230</span><a id="line.230">        transfer.flush();</a>
+<span class="sourceLineNo">231</span><a id="line.231">        // We've successfully transferred the data; switch to writing to file</a>
+<span class="sourceLineNo">232</span><a id="line.232">        out = transfer;</a>
+<span class="sourceLineNo">233</span><a id="line.233">      } catch (IOException e) {</a>
+<span class="sourceLineNo">234</span><a id="line.234">        temp.delete();</a>
+<span class="sourceLineNo">235</span><a id="line.235">        throw e;</a>
+<span class="sourceLineNo">236</span><a id="line.236">      }</a>
+<span class="sourceLineNo">237</span><a id="line.237"></a>
+<span class="sourceLineNo">238</span><a id="line.238">      file = temp;</a>
+<span class="sourceLineNo">239</span><a id="line.239">      memory = null;</a>
+<span class="sourceLineNo">240</span><a id="line.240">    }</a>
+<span class="sourceLineNo">241</span><a id="line.241">  }</a>
+<span class="sourceLineNo">242</span><a id="line.242">}</a>
 
 
 
