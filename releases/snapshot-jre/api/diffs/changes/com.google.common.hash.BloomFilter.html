@@ -18,7 +18,7 @@ com.google.common.hash.BloomFilter
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/BloomFilter.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/BloomFilter.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.hash.BloomFilter
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.hash.Funnel.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.hash.BloomFilter.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -50,24 +50,51 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/BloomFil
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.BloomFilter.toBloomFilter_removed(com.google.common.hash.Funnel<? super T>, long)"></A>
-  <nobr>(<code>Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt;</code>)&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/hash/BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel<? super T>, long)" target="_top"><tt>toBloomFilter</tt></A>(<code>Funnel&lt;?,</nobr> super<nobr>,</nobr> T&gt;<nobr>,</nobr> long<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.hash.BloomFilter.apply_changed(T extends java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/hash/BloomFilter.html#apply(T extends java.lang.Object)" target="_top"><tt>apply</tt></A>(<code>T extends Object</code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Collector} expecting the specified number of insertions, and yielding a <A HREF="../../docs/BloomFilter.html"><TT>BloomFilter</TT></A> with false positive probability 3%.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>T</code> to (<code>T extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}      instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.BloomFilter.toBloomFilter_removed(com.google.common.hash.Funnel<? super T>, long, double)"></A>
-  <nobr>(<code>Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt;</code>)&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/hash/BloomFilter.html#toBloomFilter(com.google.common.hash.Funnel<? super T>, long, double)" target="_top"><tt>toBloomFilter</tt></A>(<code>Funnel&lt;?,</nobr> super<nobr>,</nobr> T&gt;<nobr>,</nobr> long<nobr>,</nobr> double<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.hash.BloomFilter.equals_changed(java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/hash/BloomFilter.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Collector} expecting the specified number of insertions, and yielding a <A HREF="../../docs/BloomFilter.html"><TT>BloomFilter</TT></A> with the specified expected false positive probability.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>Object</code> to <code>java.lang.Object</code>.<br>
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.BloomFilter.mightContain_changed(T extends java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/hash/BloomFilter.html#mightContain(T extends java.lang.Object)" target="_top"><tt>mightContain</tt></A>(<code>T extends Object</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>T</code> to (<code>T extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
+ false} if this is <i>definitely</i> not the case.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.BloomFilter.put_changed(T extends java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/hash/BloomFilter.html#put(T extends java.lang.Object)" target="_top"><tt>put</tt></A>(<code>T extends Object</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>T</code> to (<code>T extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Puts an element into this {@code BloomFilter}.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -79,7 +106,7 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/BloomFil
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/BloomFilter.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/BloomFilter.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -92,7 +119,7 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/BloomFil
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.hash.Funnel.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.hash.BloomFilter.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

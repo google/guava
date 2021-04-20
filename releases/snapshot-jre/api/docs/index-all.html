@@ -2025,7 +2025,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this hash
  function has.</div>
 </dd>
-<dt><a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><span class="typeNameLink">BloomFilter</span></a>&lt;<a href="com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt; - Class in <a href="com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
+<dt><a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><span class="typeNameLink">BloomFilter</span></a>&lt;<a href="com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
 <dd>
 <div class="block">A Bloom filter for instances of <code>T</code>.</div>
 </dd>
@@ -6432,13 +6432,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/hash/HashCode.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
-<dd>
-<div class="block">Returns <code>true</code> if <code>object</code> is a <a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> instance with the identical byte
- representation to this hash code.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/PairedStats.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.math.<a href="com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -6501,6 +6494,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Multiset.Entry.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/hash/BloomFilter.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/hash/HashCode.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if <code>object</code> is a <a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> instance with the identical byte
+ representation to this hash code.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/AbstractInvocationHandler.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/AbstractInvocationHandler.html" title="class in com.google.common.reflect">AbstractInvocationHandler</a></dt>
 <dd>
@@ -8019,7 +8019,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Sends a stream of data from the <code>from</code> object into the sink <code>into</code>.</div>
 </dd>
-<dt><a href="com/google/common/hash/Funnel.html" title="interface in com.google.common.hash"><span class="typeNameLink">Funnel</span></a>&lt;<a href="com/google/common/hash/Funnel.html" title="type parameter in Funnel">T</a>&gt; - Interface in <a href="com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
+<dt><a href="com/google/common/hash/Funnel.html" title="interface in com.google.common.hash"><span class="typeNameLink">Funnel</span></a>&lt;<a href="com/google/common/hash/Funnel.html" title="type parameter in Funnel">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
 <dd>
 <div class="block">An object which can send data from an object of type <code>T</code> into a <code>PrimitiveSink</code>.</div>
 </dd>

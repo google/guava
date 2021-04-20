@@ -41558,7 +41558,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="T"/>
+      <param name="object" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
  false} if this is <i>definitely</i> not the case.]]>
@@ -41569,7 +41569,7 @@
       static="false" final="false" visibility="public"
       deprecated="Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}
      instead.">
-      <param name="input" type="T"/>
+      <param name="input" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[@deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}
      instead.]]>
@@ -41579,7 +41579,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="T"/>
+      <param name="object" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link
  #mightContain(Object)} with the same element will always return {@code true}.
@@ -41660,7 +41660,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -41906,7 +41906,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="from" type="T"/>
+      <param name="from" type="T extends java.lang.Object"/>
       <param name="into" type="com.google.common.hash.PrimitiveSink"/>
       <doc>
       <![CDATA[Sends a stream of data from the {@code from} object into the sink {@code into}. There is no
@@ -42163,7 +42163,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is a {@link HashCode} instance with the identical byte
  representation to this hash code.
@@ -42327,7 +42327,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="instance" type="T"/>
+      <param name="instance" type="T extends java.lang.Object"/>
       <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <doc>
       <![CDATA[A simple convenience for {@code funnel.funnel(object, this)}.]]>
@@ -42522,7 +42522,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="instance" type="T"/>
+      <param name="instance" type="T extends java.lang.Object"/>
       <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <doc>
       <![CDATA[Shortcut for {@code newHasher().putObject(instance, funnel).hash()}. The implementation
