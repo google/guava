@@ -55774,7 +55774,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="Double"
+    <method name="tryParse" return="java.lang.Double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -56176,7 +56176,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="Float"
+    <method name="tryParse" return="java.lang.Float"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -56502,7 +56502,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableDoubleArray} containing the same
  values as this one, in the same order. Values are compared as if by {@link Double#equals}.]]>
@@ -56949,7 +56949,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableIntArray} containing the same
  values as this one, in the same order.]]>
@@ -57396,7 +57396,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableLongArray} containing the same
  values as this one, in the same order.]]>
@@ -57967,7 +57967,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="Integer"
+    <method name="tryParse" return="java.lang.Integer"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -57990,7 +57990,7 @@
  @since 11.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="Integer"
+    <method name="tryParse" return="java.lang.Integer"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -58267,7 +58267,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="Long"
+    <method name="tryParse" return="java.lang.Long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -58290,7 +58290,7 @@
  @since 14.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="Long"
+    <method name="tryParse" return="java.lang.Long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -59659,7 +59659,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -60223,7 +60223,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"

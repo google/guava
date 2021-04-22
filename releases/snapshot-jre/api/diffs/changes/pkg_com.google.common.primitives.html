@@ -18,7 +18,7 @@ com.google.common.primitives
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/primitives/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/primitives/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -30,7 +30,7 @@ com.google.common.primitives
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.net.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.hash.html"><B>PREV PACKAGE</B></A>
 &nbsp;<A HREF="pkg_com.google.common.reflect.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
@@ -55,17 +55,26 @@ Package <A HREF="../../docs/com/google/common/primitives/package-summary.html" t
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Doubles"></A>
+  <nobr><A HREF="com.google.common.primitives.Doubles.html">Doubles</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to {@code double} primitives, that are not already found in
+ either <A HREF="../../docs/com/google/common/primitives/Doubles/Double.html"><TT>Double</TT></A> or <A HREF="../../docs/com/google/common/primitives/Doubles/Arrays.html"><TT>Arrays</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Floats"></A>
+  <nobr><A HREF="com.google.common.primitives.Floats.html">Floats</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to {@code float} primitives, that are not already found in
+ either <A HREF="../../docs/com/google/common/primitives/Floats/Float.html"><TT>Float</TT></A> or <A HREF="../../docs/com/google/common/primitives/Floats/Arrays.html"><TT>Arrays</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="ImmutableDoubleArray"></A>
   <nobr><A HREF="com.google.common.primitives.ImmutableDoubleArray.html">ImmutableDoubleArray</A></nobr>
   </TD>
   <TD VALIGN="TOP">An immutable array of {@code double} values, with an API resembling <A HREF="../../docs/com/google/common/primitives/ImmutableDoubleArray/List.html"><TT>List</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ImmutableDoubleArray.Builder"></A>
-  <nobr><A HREF="com.google.common.primitives.ImmutableDoubleArray.Builder.html">ImmutableDoubleArray.Builder</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A builder for <A HREF="../../docs/com/google/common/primitives/ImmutableDoubleArray/Builder/ImmutableDoubleArray.html"><TT>ImmutableDoubleArray</TT></A> instances; obtained using <A HREF="../../docs/com/google/common/primitives/ImmutableDoubleArray/Builder/ImmutableDoubleArray.html#builder"><TT>ImmutableDoubleArray.builder</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -76,13 +85,6 @@ Package <A HREF="../../docs/com/google/common/primitives/package-summary.html" t
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ImmutableIntArray.Builder"></A>
-  <nobr><A HREF="com.google.common.primitives.ImmutableIntArray.Builder.html">ImmutableIntArray.Builder</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A builder for <A HREF="../../docs/com/google/common/primitives/ImmutableIntArray/Builder/ImmutableIntArray.html"><TT>ImmutableIntArray</TT></A> instances; obtained using <A HREF="../../docs/com/google/common/primitives/ImmutableIntArray/Builder/ImmutableIntArray.html#builder"><TT>ImmutableIntArray.builder</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="ImmutableLongArray"></A>
   <nobr><A HREF="com.google.common.primitives.ImmutableLongArray.html">ImmutableLongArray</A></nobr>
   </TD>
@@ -90,10 +92,33 @@ Package <A HREF="../../docs/com/google/common/primitives/package-summary.html" t
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ImmutableLongArray.Builder"></A>
-  <nobr><A HREF="com.google.common.primitives.ImmutableLongArray.Builder.html">ImmutableLongArray.Builder</A></nobr>
+  <A NAME="Ints"></A>
+  <nobr><A HREF="com.google.common.primitives.Ints.html">Ints</A></nobr>
   </TD>
-  <TD VALIGN="TOP">A builder for <A HREF="../../docs/com/google/common/primitives/ImmutableLongArray/Builder/ImmutableLongArray.html"><TT>ImmutableLongArray</TT></A> instances; obtained using <A HREF="../../docs/com/google/common/primitives/ImmutableLongArray/Builder/ImmutableLongArray.html#builder"><TT>ImmutableLongArray.builder</TT></A>.</TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to {@code int} primitives, that are not already found in either
+ <A HREF="../../docs/com/google/common/primitives/Ints/Integer.html"><TT>Integer</TT></A> or <A HREF="../../docs/com/google/common/primitives/Ints/Arrays.html"><TT>Arrays</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Longs"></A>
+  <nobr><A HREF="com.google.common.primitives.Longs.html">Longs</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to {@code long} primitives, that are not already found in
+ either <A HREF="../../docs/com/google/common/primitives/Longs/Long.html"><TT>Long</TT></A> or <A HREF="../../docs/com/google/common/primitives/Longs/Arrays.html"><TT>Arrays</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="UnsignedInteger"></A>
+  <nobr><A HREF="com.google.common.primitives.UnsignedInteger.html">UnsignedInteger</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A wrapper class for unsigned {@code int} values, supporting arithmetic operations.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="UnsignedLong"></A>
+  <nobr><A HREF="com.google.common.primitives.UnsignedLong.html">UnsignedLong</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A wrapper class for unsigned {@code long} values, supporting arithmetic operations.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -104,7 +129,7 @@ Package <A HREF="../../docs/com/google/common/primitives/package-summary.html" t
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/primitives/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/primitives/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -116,7 +141,7 @@ Package <A HREF="../../docs/com/google/common/primitives/package-summary.html" t
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="pkg_com.google.common.net.html"><B>PREV PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.hash.html"><B>PREV PACKAGE</B></A>
 &nbsp;<A HREF="pkg_com.google.common.reflect.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
