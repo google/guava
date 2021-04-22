@@ -21,6 +21,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -48,6 +49,11 @@ final class Platform {
   /** Returns the platform preferred implementation of a set based on a hash table. */
   static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  /** Returns the platform preferred implementation of a thread-safe hash set. */
+  static <E> Set<E> newConcurrentHashSet() {
+    return ConcurrentHashMap.newKeySet();
   }
 
   /**

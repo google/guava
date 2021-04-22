@@ -266,7 +266,7 @@ public final class Sets {
    * @since 15.0
    */
   public static <E> Set<E> newConcurrentHashSet() {
-    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
+    return Platform.newConcurrentHashSet();
   }
 
   /**
