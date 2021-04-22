@@ -16,6 +16,8 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Map;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -36,7 +38,8 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   @SuppressWarnings("unchecked") // Safe because we only cast if key is found in map.
   @Override
-  public V get(@NullableDecl Object key) {
+  V get(Object key) {
+    checkNotNull(key);
     V value = getIfCached(key);
     if (value != null) {
       return value;
