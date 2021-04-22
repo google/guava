@@ -275,7 +275,7 @@
 <span class="sourceLineNo">266</span><a id="line.266">   * @since 15.0</a>
 <span class="sourceLineNo">267</span><a id="line.267">   */</a>
 <span class="sourceLineNo">268</span><a id="line.268">  public static &lt;E&gt; Set&lt;E&gt; newConcurrentHashSet() {</a>
-<span class="sourceLineNo">269</span><a id="line.269">    return Collections.newSetFromMap(new ConcurrentHashMap&lt;E, Boolean&gt;());</a>
+<span class="sourceLineNo">269</span><a id="line.269">    return Platform.newConcurrentHashSet();</a>
 <span class="sourceLineNo">270</span><a id="line.270">  }</a>
 <span class="sourceLineNo">271</span><a id="line.271"></a>
 <span class="sourceLineNo">272</span><a id="line.272">  /**</a>
