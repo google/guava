@@ -16375,6 +16375,9 @@
  concurrent update operations, wrap your multimap with a call to {@link
  Multimaps#synchronizedSetMultimap}.
 
+ <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code HashMultimap} in a
+ way that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+
  @author Jared Levy
  @since 2.0]]>
     </doc>
@@ -20470,6 +20473,10 @@
     <![CDATA[A {@link SetMultimap} whose contents will never change, with many other important properties
  detailed at {@link ImmutableCollection}.
 
+ <p><b>Warning:</b> As in all {@link SetMultimap}s, do not modify either a key <i>or a value</i>
+ of a {@code ImmutableSetMultimap} in a way that affects its {@link Object#equals} behavior.
+ Undefined behavior and bugs will result.
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
 
@@ -24348,6 +24355,10 @@
  <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
  read operations will work correctly. To allow concurrent update operations, wrap your multimap
  with a call to {@link Multimaps#synchronizedSetMultimap}.
+
+ <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code LinkedHashMultimap}
+ in a way that affects its {@link Object#equals} behavior. Undefined behavior and bugs will
+ result.
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
@@ -29309,6 +29320,10 @@
  <p>A multiset uses {@link Object#equals} to determine whether two instances should be considered
  "the same," <i>unless specified otherwise</i> by the implementation.
 
+ <p><b>Warning:</b> as with normal {@link Set}s, it is almost always a bad idea to modify an
+ element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
+ multiset. Undefined behavior and bugs will result.
+
  <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
  ConcurrentHashMultiset}.
 
@@ -32200,6 +32215,9 @@
  {@code equals} comparisons. Use caution if mutable objects are used as keys or values in a {@code
  SetMultimap}.
 
+ <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code SetMultimap} in a way
+ that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
  Multimap}</a>.
@@ -33502,6 +33520,10 @@
  SortedSet} of values, while {@link Multimap#entries()} returns a {@link Set} of map entries.
  Though the method signature doesn't say so explicitly, the map returned by {@link #asMap} has
  {@code SortedSet} values.
+
+ <p><b>Warning:</b> As in all {@link SetMultimap}s, do not modify either a key <i>or a value</i>
+ of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
+ position in the order of the values). Undefined behavior and bugs will result.
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
