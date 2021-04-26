@@ -28,6 +28,7 @@ import com.google.common.graph.GraphConstants.Presence;
  * @author James Sexton
  * @param <N> Node parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class StandardMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private final MutableValueGraph<N, Presence> backingValueGraph;
 

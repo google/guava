@@ -22,12 +22,12 @@ import static com.google.common.graph.GraphConstants.DEFAULT_EDGE_COUNT;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphConstants.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Standard implementation of {@link Network} that supports the options supplied by {@link
@@ -48,6 +48,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
@@ -135,7 +136,8 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public EndpointPair<N> incidentNodes(E edge) {
     N nodeU = checkedReferenceNode(edge);
-    N nodeV = nodeConnections.get(nodeU).adjacentNode(edge);
+    // requireNonNull is safe because checkedReferenceNode made sure the edge is in the network.
+    N nodeV = requireNonNull(nodeConnections.get(nodeU)).adjacentNode(edge);
     return EndpointPair.of(this, nodeU, nodeV);
   }
 
@@ -192,11 +194,11 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     return referenceNode;
   }
 
-  final boolean containsNode(@NullableDecl N node) {
+  final boolean containsNode(N node) {
     return nodeConnections.containsKey(node);
   }
 
-  final boolean containsEdge(@NullableDecl E edge) {
+  final boolean containsEdge(E edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

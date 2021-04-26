@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Standard implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -43,6 +43,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
+@ElementTypesAreNonnullByDefault
 class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
@@ -129,27 +130,27 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
-    return hasEdgeConnecting_internal(checkNotNull(nodeU), checkNotNull(nodeV));
+    return hasEdgeConnectingInternal(checkNotNull(nodeU), checkNotNull(nodeV));
   }
 
   @Override
   public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
     checkNotNull(endpoints);
     return isOrderingCompatible(endpoints)
-        && hasEdgeConnecting_internal(endpoints.nodeU(), endpoints.nodeV());
+        && hasEdgeConnectingInternal(endpoints.nodeU(), endpoints.nodeV());
   }
 
   @Override
-  @NullableDecl
-  public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {
-    return edgeValueOrDefault_internal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
+  @CheckForNull
+  public V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue) {
+    return edgeValueOrDefaultInternal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
   }
 
   @Override
-  @NullableDecl
-  public V edgeValueOrDefault(EndpointPair<N> endpoints, @NullableDecl V defaultValue) {
+  @CheckForNull
+  public V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue) {
     validateEndpoints(endpoints);
-    return edgeValueOrDefault_internal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
+    return edgeValueOrDefaultInternal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
 
   @Override
@@ -157,7 +158,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return edgeCount;
   }
 
-  final GraphConnections<N, V> checkedConnections(N node) {
+  private final GraphConnections<N, V> checkedConnections(N node) {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
@@ -166,18 +167,24 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  final boolean containsNode(@NullableDecl N node) {
+  final boolean containsNode(@CheckForNull N node) {
     return nodeConnections.containsKey(node);
   }
 
-  final boolean hasEdgeConnecting_internal(N nodeU, N nodeV) {
+  private final boolean hasEdgeConnectingInternal(N nodeU, N nodeV) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     return (connectionsU != null) && connectionsU.successors().contains(nodeV);
   }
 
-  final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
+  @CheckForNull
+  private final V edgeValueOrDefaultInternal(N nodeU, N nodeV, @CheckForNull V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
-    return value == null ? defaultValue : value;
+    // TODO(cpovirk): Switch back to a ternary once our checker allows it.
+    if (value == null) {
+      return defaultValue;
+    } else {
+      return value;
+    }
   }
 }

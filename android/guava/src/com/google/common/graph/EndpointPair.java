@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.Immutable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}
@@ -39,6 +39,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @Immutable(containerOf = {"N"})
+@ElementTypesAreNonnullByDefault
 public abstract class EndpointPair<N> implements Iterable<N> {
   private final N nodeU;
   private final N nodeV;
@@ -132,7 +133,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.
    */
   @Override
-  public abstract boolean equals(@NullableDecl Object obj);
+  public abstract boolean equals(@CheckForNull Object obj);
 
   /**
    * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
@@ -163,7 +164,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj == this) {
         return true;
       }
@@ -211,7 +212,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj == this) {
         return true;
       }

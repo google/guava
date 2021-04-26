@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An implementation of {@link NetworkConnections} for directed networks with parallel edges.
@@ -39,6 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
   private DirectedMultiNetworkConnections(
@@ -59,7 +60,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
         ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 
-  @LazyInit private transient Reference<Multiset<N>> predecessorsReference;
+  @CheckForNull @LazyInit private transient Reference<Multiset<N>> predecessorsReference;
 
   @Override
   public Set<N> predecessors() {
@@ -75,7 +76,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     return predecessors;
   }
 
-  @LazyInit private transient Reference<Multiset<N>> successorsReference;
+  @CheckForNull @LazyInit private transient Reference<Multiset<N>> successorsReference;
 
   @Override
   public Set<N> successors() {
@@ -139,7 +140,8 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     }
   }
 
-  private static <T> @Nullable T getReference(@Nullable Reference<T> reference) {
+  @CheckForNull
+  private static <T> T getReference(@CheckForNull Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

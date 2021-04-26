@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -43,6 +44,7 @@ import com.google.errorprone.annotations.Immutable;
 @Beta
 @Immutable(containerOf = {"N", "V"})
 @SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
+@ElementTypesAreNonnullByDefault
 public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {
@@ -94,7 +96,8 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
         new Function<N, V>() {
           @Override
           public V apply(N successorNode) {
-            return graph.edgeValueOrDefault(node, successorNode, null);
+            // requireNonNull is safe because the endpoint pair comes from the graph.
+            return requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
           }
         };
     return graph.isDirected()
