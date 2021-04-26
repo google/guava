@@ -812,20 +812,51 @@
 <span class="sourceLineNo">803</span><a id="line.803"></a>
 <span class="sourceLineNo">804</span><a id="line.804">  private static @Nullable NoSuchFileException pathNotFound(</a>
 <span class="sourceLineNo">805</span><a id="line.805">      Path path, Collection&lt;IOException&gt; exceptions) {</a>
-<span class="sourceLineNo">806</span><a id="line.806">    if (exceptions.size() == 1) {</a>
-<span class="sourceLineNo">807</span><a id="line.807">      IOException exception = getOnlyElement(exceptions);</a>
-<span class="sourceLineNo">808</span><a id="line.808">      if (exception instanceof NoSuchFileException) {</a>
-<span class="sourceLineNo">809</span><a id="line.809">        NoSuchFileException noSuchFileException = (NoSuchFileException) exception;</a>
-<span class="sourceLineNo">810</span><a id="line.810">        if (noSuchFileException</a>
-<span class="sourceLineNo">811</span><a id="line.811">            .getFile()</a>
-<span class="sourceLineNo">812</span><a id="line.812">            .equals(getParentPath(path).resolve(path.getFileName()).toString())) {</a>
-<span class="sourceLineNo">813</span><a id="line.813">          return noSuchFileException;</a>
-<span class="sourceLineNo">814</span><a id="line.814">        }</a>
-<span class="sourceLineNo">815</span><a id="line.815">      }</a>
-<span class="sourceLineNo">816</span><a id="line.816">    }</a>
-<span class="sourceLineNo">817</span><a id="line.817">    return null;</a>
-<span class="sourceLineNo">818</span><a id="line.818">  }</a>
-<span class="sourceLineNo">819</span><a id="line.819">}</a>
+<span class="sourceLineNo">806</span><a id="line.806">    if (exceptions.size() != 1) {</a>
+<span class="sourceLineNo">807</span><a id="line.807">      return null;</a>
+<span class="sourceLineNo">808</span><a id="line.808">    }</a>
+<span class="sourceLineNo">809</span><a id="line.809">    IOException exception = getOnlyElement(exceptions);</a>
+<span class="sourceLineNo">810</span><a id="line.810">    if (!(exception instanceof NoSuchFileException)) {</a>
+<span class="sourceLineNo">811</span><a id="line.811">      return null;</a>
+<span class="sourceLineNo">812</span><a id="line.812">    }</a>
+<span class="sourceLineNo">813</span><a id="line.813">    NoSuchFileException noSuchFileException = (NoSuchFileException) exception;</a>
+<span class="sourceLineNo">814</span><a id="line.814">    String exceptionFile = noSuchFileException.getFile();</a>
+<span class="sourceLineNo">815</span><a id="line.815">    if (exceptionFile == null) {</a>
+<span class="sourceLineNo">816</span><a id="line.816">      /*</a>
+<span class="sourceLineNo">817</span><a id="line.817">       * It's not clear whether this happens in practice, especially with the filesystem</a>
+<span class="sourceLineNo">818</span><a id="line.818">       * implementations that are built into java.nio.</a>
+<span class="sourceLineNo">819</span><a id="line.819">       */</a>
+<span class="sourceLineNo">820</span><a id="line.820">      return null;</a>
+<span class="sourceLineNo">821</span><a id="line.821">    }</a>
+<span class="sourceLineNo">822</span><a id="line.822">    Path parentPath = getParentPath(path);</a>
+<span class="sourceLineNo">823</span><a id="line.823">    if (parentPath == null) {</a>
+<span class="sourceLineNo">824</span><a id="line.824">      /*</a>
+<span class="sourceLineNo">825</span><a id="line.825">       * This is probably impossible:</a>
+<span class="sourceLineNo">826</span><a id="line.826">       *</a>
+<span class="sourceLineNo">827</span><a id="line.827">       * - In deleteRecursively, we require the path argument to have a parent.</a>
+<span class="sourceLineNo">828</span><a id="line.828">       *</a>
+<span class="sourceLineNo">829</span><a id="line.829">       * - In deleteDirectoryContents, the path argument may have no parent. Fortunately, all the</a>
+<span class="sourceLineNo">830</span><a id="line.830">       *   *other* paths we process will be descendants of that. That leaves only the original path</a>
+<span class="sourceLineNo">831</span><a id="line.831">       *   argument for us to consider. And the only place we call pathNotFound is from</a>
+<span class="sourceLineNo">832</span><a id="line.832">       *   throwDeleteFailed, and the other place that we call throwDeleteFailed inside</a>
+<span class="sourceLineNo">833</span><a id="line.833">       *   deleteDirectoryContents is when an exception is thrown during the recusive steps. Any</a>
+<span class="sourceLineNo">834</span><a id="line.834">       *   failure during the initial lookup of the path argument itself is rethrown directly. So</a>
+<span class="sourceLineNo">835</span><a id="line.835">       *   any exception that we're seeing here is from a descendant, which naturally has a parent.</a>
+<span class="sourceLineNo">836</span><a id="line.836">       *   I think.</a>
+<span class="sourceLineNo">837</span><a id="line.837">       *</a>
+<span class="sourceLineNo">838</span><a id="line.838">       * Still, if this can happen somehow (a weird filesystem implementation that lets callers</a>
+<span class="sourceLineNo">839</span><a id="line.839">       * change its working directly concurrently with a call to deleteDirectoryContents?), it makes</a>
+<span class="sourceLineNo">840</span><a id="line.840">       * more sense for us to fall back to a generic FileSystemException (by returning null here)</a>
+<span class="sourceLineNo">841</span><a id="line.841">       * than to dereference parentPath and end up producing NullPointerException.</a>
+<span class="sourceLineNo">842</span><a id="line.842">       */</a>
+<span class="sourceLineNo">843</span><a id="line.843">      return null;</a>
+<span class="sourceLineNo">844</span><a id="line.844">    }</a>
+<span class="sourceLineNo">845</span><a id="line.845">    if (exceptionFile.equals(parentPath.resolve(path.getFileName()).toString())) {</a>
+<span class="sourceLineNo">846</span><a id="line.846">      return noSuchFileException;</a>
+<span class="sourceLineNo">847</span><a id="line.847">    }</a>
+<span class="sourceLineNo">848</span><a id="line.848">    return null;</a>
+<span class="sourceLineNo">849</span><a id="line.849">  }</a>
+<span class="sourceLineNo">850</span><a id="line.850">}</a>
 
 
 
