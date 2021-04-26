@@ -37,6 +37,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Though the method signature doesn't say so explicitly, the map returned by {@link #asMap} has
  * {@code SortedSet} values.
  *
+ * <p><b>Warning:</b> As in all {@link SetMultimap}s, do not modify either a key <i>or a value</i>
+ * of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
+ * position in the order of the values). Undefined behavior and bugs will result.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
  * Multimap}</a>.
