@@ -60,36 +60,41 @@ class MapIteratorCache<K, V> {
   }
 
   @CanIgnoreReturnValue
-  public final V put(@NullableDecl K key, @NullableDecl V value) {
+  final V put(K key, V value) {
+    checkNotNull(key);
+    checkNotNull(value);
     clearCache();
     return backingMap.put(key, value);
   }
 
   @CanIgnoreReturnValue
-  public final V remove(@NullableDecl Object key) {
+  final V remove(Object key) {
+    checkNotNull(key);
     clearCache();
     return backingMap.remove(key);
   }
 
-  public final void clear() {
+  final void clear() {
     clearCache();
     backingMap.clear();
   }
 
-  public V get(@NullableDecl Object key) {
+  V get(Object key) {
+    checkNotNull(key);
     V value = getIfCached(key);
     return (value != null) ? value : getWithoutCaching(key);
   }
 
-  public final V getWithoutCaching(@NullableDecl Object key) {
+  final V getWithoutCaching(Object key) {
+    checkNotNull(key);
     return backingMap.get(key);
   }
 
-  public final boolean containsKey(@NullableDecl Object key) {
+  final boolean containsKey(@NullableDecl Object key) {
     return getIfCached(key) != null || backingMap.containsKey(key);
   }
 
-  public final Set<K> unmodifiableKeySet() {
+  final Set<K> unmodifiableKeySet() {
     return new AbstractSet<K>() {
       @Override
       public UnmodifiableIterator<K> iterator() {

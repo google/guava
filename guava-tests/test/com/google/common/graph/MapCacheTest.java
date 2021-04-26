@@ -90,25 +90,4 @@ public final class MapCacheTest {
     assertThat(mapCache.remove(fooReference2)).isEqualTo("bar");
     assertThat(mapCache.get(fooReference1)).isNull();
   }
-
-  @Test
-  public void testHandleNulls() {
-    mapCache.put("foo", "bar");
-    mapCache.put("non-null key", null);
-    mapCache.put(null, "non-null value");
-
-    assertThat(mapCache.get("foo")).isEqualTo("bar");
-    assertThat(mapCache.get("non-null key")).isNull();
-    assertThat(mapCache.get(null)).isEqualTo("non-null value");
-
-    assertThat(mapCache.containsKey("foo")).isTrue();
-    assertThat(mapCache.containsKey("bar")).isFalse();
-    assertThat(mapCache.containsKey("non-null key")).isTrue();
-    assertThat(mapCache.containsKey(null)).isTrue();
-
-    // Test again - in reverse order.
-    assertThat(mapCache.get(null)).isEqualTo("non-null value");
-    assertThat(mapCache.get("non-null key")).isNull();
-    assertThat(mapCache.get("foo")).isEqualTo("bar");
-  }
 }
