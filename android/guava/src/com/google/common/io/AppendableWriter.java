@@ -68,13 +68,15 @@ class AppendableWriter extends Writer {
   }
 
   @Override
-  public void write(@NullableDecl String str) throws IOException {
+  public void write(String str) throws IOException {
+    checkNotNull(str);
     checkNotClosed();
     target.append(str);
   }
 
   @Override
-  public void write(@NullableDecl String str, int off, int len) throws IOException {
+  public void write(String str, int off, int len) throws IOException {
+    checkNotNull(str);
     checkNotClosed();
     // tricky: append takes start, end pair...
     target.append(str, off, off + len);
