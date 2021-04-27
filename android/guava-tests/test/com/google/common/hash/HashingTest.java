@@ -146,7 +146,7 @@ public class HashingTest extends TestCase {
   // goodFastHash(128) uses Murmur3_128. Use the same epsilon bounds.
   public void testGoodFastHash128() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(128), 250, 0.20);
-    HashTestUtils.checkAvalanche(Hashing.goodFastHash(128), 250, 0.17);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(128), 500, 0.17);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(128));
     HashTestUtils.checkNoFunnels(Hashing.goodFastHash(128));
     HashTestUtils.assertInvariants(Hashing.goodFastHash(128));
@@ -155,7 +155,7 @@ public class HashingTest extends TestCase {
   // goodFastHash(256) uses Murmur3_128. Use the same epsilon bounds.
   public void testGoodFastHash256() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(256), 250, 0.20);
-    HashTestUtils.checkAvalanche(Hashing.goodFastHash(256), 250, 0.17);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(256), 500, 0.17);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(256));
     HashTestUtils.checkNoFunnels(Hashing.goodFastHash(256));
     HashTestUtils.assertInvariants(Hashing.goodFastHash(256));
