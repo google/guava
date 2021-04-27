@@ -41,6 +41,8 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -50,6 +52,7 @@ import java.util.Queue;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;
@@ -438,6 +441,7 @@ public final class ByteStreams {
     }
 
     @Override
+    @CheckForNull
     public String readLine() {
       try {
         return input.readLine();
@@ -869,7 +873,9 @@ public final class ByteStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readBytes(
+      InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
     checkNotNull(processor);
 

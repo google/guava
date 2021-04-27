@@ -28,7 +28,8 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with character streams.
@@ -45,6 +46,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
   // 2K chars (4K bytes)
@@ -215,7 +217,9 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(Readable readable, LineProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readLines(
+      Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
     checkNotNull(processor);
 
@@ -307,12 +311,12 @@ public final class CharStreams {
     }
 
     @Override
-    public Writer append(@NullableDecl CharSequence csq) {
+    public Writer append(@CheckForNull CharSequence csq) {
       return this;
     }
 
     @Override
-    public Writer append(@NullableDecl CharSequence csq, int start, int end) {
+    public Writer append(@CheckForNull CharSequence csq, int start, int end) {
       checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }

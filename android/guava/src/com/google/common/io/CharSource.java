@@ -34,7 +34,8 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code
@@ -76,6 +77,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Colin Decker
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class CharSource {
 
   /** Constructor for use by subclasses. */
@@ -260,7 +262,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  @NullableDecl
+  @CheckForNull
   public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
@@ -317,7 +319,8 @@ public abstract class CharSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public <T> T readLines(LineProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
     Closer closer = Closer.create();
@@ -520,6 +523,7 @@ public abstract class CharSource {
     }
 
     @Override
+    @CheckForNull
     public String readFirstLine() {
       Iterator<String> lines = linesIterator();
       return lines.hasNext() ? lines.next() : null;
@@ -531,7 +535,8 @@ public abstract class CharSource {
     }
 
     @Override
-    public <T> T readLines(LineProcessor<T> processor) throws IOException {
+    @ParametricNullness
+    public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
       Iterator<String> lines = linesIterator();
       while (lines.hasNext()) {
         if (!processor.processLine(lines.next())) {

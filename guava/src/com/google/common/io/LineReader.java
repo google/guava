@@ -25,7 +25,7 @@ import java.io.Reader;
 import java.nio.CharBuffer;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -37,9 +37,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class LineReader {
   private final Readable readable;
-  private final @Nullable Reader reader;
+  @CheckForNull private final Reader reader;
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 
@@ -68,6 +69,8 @@ public final class LineReader {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // to skip a line
+  @SuppressWarnings("nullness") // TODO(cpovirk): Remove with change to @CheckForNull.
+  // TODO(cpovirk): @CheckForNull
   public String readLine() throws IOException {
     while (lines.peek() == null) {
       Java8Compatibility.clear(cbuf);

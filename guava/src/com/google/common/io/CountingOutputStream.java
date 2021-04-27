@@ -28,6 +28,7 @@ import java.io.OutputStream;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class CountingOutputStream extends FilterOutputStream {
 
   private long count;
