@@ -1811,7 +1811,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</span></code></th>
 <td class="colLast">
 <div class="block">A callback interface to process bytes from a stream.</div>
 </td>
@@ -1864,7 +1864,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</span></code></th>
 <td class="colLast">
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
 </td>
@@ -2221,7 +2221,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#read(com.google.common.io.ByteProcessor)">read</a></span>&#8203;(<a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
@@ -2239,7 +2239,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readBytes(java.io.InputStream,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;input,
          <a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
@@ -2247,7 +2247,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readBytes(java.io.File,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
          <a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
@@ -2287,7 +2287,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#readLines(com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
@@ -2301,7 +2301,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Readable</a>&nbsp;readable,
          <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
@@ -2318,7 +2318,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;T</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
          <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
          <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)</code></th>

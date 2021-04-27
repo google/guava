@@ -42190,7 +42190,7 @@
  @return true to continue processing, false to stop]]>
       </doc>
     </method>
-    <method name="getResult" return="T"
+    <method name="getResult" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -42488,7 +42488,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="read" return="T"
+    <method name="read" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -42870,7 +42870,7 @@
  @throws IOException if an I/O error occurs, or the stream does not support skipping]]>
       </doc>
     </method>
-    <method name="readBytes" return="T"
+    <method name="readBytes" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -43227,7 +43227,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -43444,7 +43444,7 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -44421,7 +44421,7 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
@@ -44444,7 +44444,7 @@
      scheduled to be removed in October 2019.]]>
       </doc>
     </method>
-    <method name="readBytes" return="T"
+    <method name="readBytes" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
@@ -44768,7 +44768,7 @@
  @return true to continue processing, false to stop]]>
       </doc>
     </method>
-    <method name="getResult" return="T"
+    <method name="getResult" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45272,7 +45272,7 @@
  @throws IOException if an I/O error occurs.]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">

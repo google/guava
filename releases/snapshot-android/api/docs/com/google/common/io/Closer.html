@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.89">Closer</a>
+public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.90">Closer</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></pre>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
@@ -230,7 +230,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&gt;<br>C</code></td>
+<td class="colFirst"><code>&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&gt;<br>C</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#register(C)">register</a></span>&#8203;(C&nbsp;closeable)</code></th>
 <td class="colLast">
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="#close()">closed</a>.</div>
@@ -290,7 +290,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.100">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.104">create</a>()</pre>
 <div class="block">Creates a new <a href="Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </li>
 </ul>
@@ -303,8 +303,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.
 <li class="blockList">
 <h4>register</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.122">register</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
-                                        C&nbsp;closeable)</pre>
+public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.126">register</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+                                                  C&nbsp;closeable)</pre>
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is <a href="#close()">closed</a>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -318,7 +318,7 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.144">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e)
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.151">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e)
                          throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an <code>
  IOException</code>, <code>RuntimeException</code> or <code>Error</code>. Otherwise, it will be rethrown wrapped
@@ -342,7 +342,7 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.165">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e,
+<pre class="methodSignature">public&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.172">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e,
                                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;declaredType)
                                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
                                                       X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
@@ -370,7 +370,7 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre class="methodSignature">public&nbsp;&lt;X1 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>,&#8203;X2 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.189">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e,
+<pre class="methodSignature">public&nbsp;&lt;X1 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>,&#8203;X2 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang" class="externalLink">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.196">rethrow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;e,
                                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X1&gt;&nbsp;declaredType1,
                                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X2&gt;&nbsp;declaredType2)
                                                                            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
@@ -401,7 +401,7 @@ public&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.205">close</a>()
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.212">close</a>()
            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Closes all <code>Closeable</code> instances that have been added to this <code>Closer</code>. If an
  exception was thrown in the try block and passed to one of the <code>exceptionThrown</code> methods,

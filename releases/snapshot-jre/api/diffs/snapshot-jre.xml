@@ -44093,7 +44093,7 @@
  @return true to continue processing, false to stop]]>
       </doc>
     </method>
-    <method name="getResult" return="T"
+    <method name="getResult" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -44391,7 +44391,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="read" return="T"
+    <method name="read" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -44773,7 +44773,7 @@
  @throws IOException if an I/O error occurs, or the stream does not support skipping]]>
       </doc>
     </method>
-    <method name="readBytes" return="T"
+    <method name="readBytes" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45159,7 +45159,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="readFirstLine" return="String"
+    <method name="readFirstLine" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45192,7 +45192,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45429,7 +45429,7 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45525,7 +45525,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="closeable" type="Closeable"/>
+      <param name="closeable" type="java.io.Closeable"/>
       <param name="swallowIOException" type="boolean"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
@@ -45564,7 +45564,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="inputStream" type="InputStream"/>
+      <param name="inputStream" type="java.io.InputStream"/>
       <doc>
       <![CDATA[Closes the given {@link InputStream}, logging any {@code IOException} that's thrown rather than
  propagating it.
@@ -45584,7 +45584,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="reader" type="Reader"/>
+      <param name="reader" type="java.io.Reader"/>
       <doc>
       <![CDATA[Closes the given {@link Reader}, logging any {@code IOException} that's thrown rather than
  propagating it.
@@ -45625,7 +45625,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="closeable" type="C"/>
+      <param name="closeable" type="C extends java.io.Closeable"/>
       <doc>
       <![CDATA[Registers the given {@code closeable} to be closed when this {@code Closer} is {@linkplain
  #close closed}.
@@ -46406,7 +46406,7 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
@@ -46429,7 +46429,7 @@
      scheduled to be removed in October 2019.]]>
       </doc>
     </method>
-    <method name="readBytes" return="T"
+    <method name="readBytes" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
@@ -46741,7 +46741,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <constructor name="InsecureRecursiveDeleteException" type="String"
+    <constructor name="InsecureRecursiveDeleteException" type="java.lang.String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
@@ -46776,7 +46776,7 @@
  @return true to continue processing, false to stop]]>
       </doc>
     </method>
-    <method name="getResult" return="T"
+    <method name="getResult" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -47502,7 +47502,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="dir" type="File"/>
+      <param name="dir" type="java.io.File"/>
       <param name="fileName" type="java.lang.String"/>
     </method>
     <doc>
@@ -47598,7 +47598,7 @@
  @throws IOException if an I/O error occurs.]]>
       </doc>
     </method>
-    <method name="readLines" return="T"
+    <method name="readLines" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">

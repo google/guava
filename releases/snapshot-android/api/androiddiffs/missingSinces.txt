@@ -85,8 +85,6 @@ OK: com.google.common.base.Preconditions Method checkState(boolean, java.lang.St
 OK: com.google.common.base.Preconditions Method checkState(boolean, java.lang.String, long, int)
 OK: com.google.common.base.Preconditions Method checkState(boolean, java.lang.String, long, java.lang.Object)
 OK: com.google.common.base.Preconditions Method checkState(boolean, java.lang.String, long, long)
-OK: com.google.common.io.Closeables Method closeQuietly(java.io.InputStream)
-OK: com.google.common.io.Closeables Method closeQuietly(java.io.Reader)
 NO DOC BLOCK: com.google.common.collect.HashBiMap Method entrySet()
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E extends T)
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E extends T, E extends T, E[])
