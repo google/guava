@@ -46,6 +46,7 @@ import java.util.Iterator;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class DoubleMath {
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result as
