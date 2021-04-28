@@ -49,7 +49,7 @@
 <span class="sourceLineNo">040</span><a id="line.40"> * @since 12.0</a>
 <span class="sourceLineNo">041</span><a id="line.41"> */</a>
 <span class="sourceLineNo">042</span><a id="line.42">@Beta</a>
-<span class="sourceLineNo">043</span><a id="line.43">// TODO(cpovirk): after adding @Nullable below</a>
+<span class="sourceLineNo">043</span><a id="line.43">// TODO(b/147136275): After adding @Nullable below, add .</a>
 <span class="sourceLineNo">044</span><a id="line.44">@ElementTypesAreNonnullByDefault</a>
 <span class="sourceLineNo">045</span><a id="line.45">public abstract class AbstractInvocationHandler implements InvocationHandler {</a>
 <span class="sourceLineNo">046</span><a id="line.46"></a>
@@ -109,54 +109,55 @@
 <span class="sourceLineNo">100</span><a id="line.100">   */</a>
 <span class="sourceLineNo">101</span><a id="line.101">  @CheckForNull</a>
 <span class="sourceLineNo">102</span><a id="line.102">  protected abstract Object handleInvocation(</a>
-<span class="sourceLineNo">103</span><a id="line.103">      Object proxy, Method method, /* TODO(cpovirk): @Nullable */ Object[] args) throws Throwable;</a>
-<span class="sourceLineNo">104</span><a id="line.104"></a>
-<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * By default delegates to {@link Object#equals} so instances are only equal if they are</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * identical. {@code proxy.equals(argument)} returns true if:</a>
-<span class="sourceLineNo">108</span><a id="line.108">   *</a>
-<span class="sourceLineNo">109</span><a id="line.109">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">110</span><a id="line.110">   *   &lt;li&gt;{@code proxy} and {@code argument} are of the same type</a>
-<span class="sourceLineNo">111</span><a id="line.111">   *   &lt;li&gt;and this method returns true for the {@link InvocationHandler} of {@code argument}</a>
-<span class="sourceLineNo">112</span><a id="line.112">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">113</span><a id="line.113">   *</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * &lt;p&gt;Subclasses can override this method to provide custom equality.</a>
-<span class="sourceLineNo">115</span><a id="line.115">   */</a>
-<span class="sourceLineNo">116</span><a id="line.116">  @Override</a>
-<span class="sourceLineNo">117</span><a id="line.117">  public boolean equals(@CheckForNull Object obj) {</a>
-<span class="sourceLineNo">118</span><a id="line.118">    return super.equals(obj);</a>
-<span class="sourceLineNo">119</span><a id="line.119">  }</a>
-<span class="sourceLineNo">120</span><a id="line.120"></a>
-<span class="sourceLineNo">121</span><a id="line.121">  /**</a>
-<span class="sourceLineNo">122</span><a id="line.122">   * By default delegates to {@link Object#hashCode}. The dynamic proxies' {@code hashCode()} will</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * delegate to this method. Subclasses can override this method to provide custom equality.</a>
-<span class="sourceLineNo">124</span><a id="line.124">   */</a>
-<span class="sourceLineNo">125</span><a id="line.125">  @Override</a>
-<span class="sourceLineNo">126</span><a id="line.126">  public int hashCode() {</a>
-<span class="sourceLineNo">127</span><a id="line.127">    return super.hashCode();</a>
-<span class="sourceLineNo">128</span><a id="line.128">  }</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">  /**</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * By default delegates to {@link Object#toString}. The dynamic proxies' {@code toString()} will</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * delegate to this method. Subclasses can override this method to provide custom string</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * representation for the proxies.</a>
-<span class="sourceLineNo">134</span><a id="line.134">   */</a>
-<span class="sourceLineNo">135</span><a id="line.135">  @Override</a>
-<span class="sourceLineNo">136</span><a id="line.136">  public String toString() {</a>
-<span class="sourceLineNo">137</span><a id="line.137">    return super.toString();</a>
-<span class="sourceLineNo">138</span><a id="line.138">  }</a>
-<span class="sourceLineNo">139</span><a id="line.139"></a>
-<span class="sourceLineNo">140</span><a id="line.140">  private static boolean isProxyOfSameInterfaces(Object arg, Class&lt;?&gt; proxyClass) {</a>
-<span class="sourceLineNo">141</span><a id="line.141">    return proxyClass.isInstance(arg)</a>
-<span class="sourceLineNo">142</span><a id="line.142">        // Equal proxy instances should mostly be instance of proxyClass</a>
-<span class="sourceLineNo">143</span><a id="line.143">        // Under some edge cases (such as the proxy of JDK types serialized and then deserialized)</a>
-<span class="sourceLineNo">144</span><a id="line.144">        // the proxy type may not be the same.</a>
-<span class="sourceLineNo">145</span><a id="line.145">        // We first check isProxyClass() so that the common case of comparing with non-proxy objects</a>
-<span class="sourceLineNo">146</span><a id="line.146">        // is efficient.</a>
-<span class="sourceLineNo">147</span><a id="line.147">        || (Proxy.isProxyClass(arg.getClass())</a>
-<span class="sourceLineNo">148</span><a id="line.148">            &amp;&amp; Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces()));</a>
-<span class="sourceLineNo">149</span><a id="line.149">  }</a>
-<span class="sourceLineNo">150</span><a id="line.150">}</a>
+<span class="sourceLineNo">103</span><a id="line.103">      Object proxy, Method method, /* TODO(b/147136275): Add @Nullable. */ Object[] args)</a>
+<span class="sourceLineNo">104</span><a id="line.104">      throws Throwable;</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  /**</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * By default delegates to {@link Object#equals} so instances are only equal if they are</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * identical. {@code proxy.equals(argument)} returns true if:</a>
+<span class="sourceLineNo">109</span><a id="line.109">   *</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">111</span><a id="line.111">   *   &lt;li&gt;{@code proxy} and {@code argument} are of the same type</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *   &lt;li&gt;and this method returns true for the {@link InvocationHandler} of {@code argument}</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">114</span><a id="line.114">   *</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * &lt;p&gt;Subclasses can override this method to provide custom equality.</a>
+<span class="sourceLineNo">116</span><a id="line.116">   */</a>
+<span class="sourceLineNo">117</span><a id="line.117">  @Override</a>
+<span class="sourceLineNo">118</span><a id="line.118">  public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">119</span><a id="line.119">    return super.equals(obj);</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  /**</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * By default delegates to {@link Object#hashCode}. The dynamic proxies' {@code hashCode()} will</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * delegate to this method. Subclasses can override this method to provide custom equality.</a>
+<span class="sourceLineNo">125</span><a id="line.125">   */</a>
+<span class="sourceLineNo">126</span><a id="line.126">  @Override</a>
+<span class="sourceLineNo">127</span><a id="line.127">  public int hashCode() {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    return super.hashCode();</a>
+<span class="sourceLineNo">129</span><a id="line.129">  }</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">  /**</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * By default delegates to {@link Object#toString}. The dynamic proxies' {@code toString()} will</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * delegate to this method. Subclasses can override this method to provide custom string</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * representation for the proxies.</a>
+<span class="sourceLineNo">135</span><a id="line.135">   */</a>
+<span class="sourceLineNo">136</span><a id="line.136">  @Override</a>
+<span class="sourceLineNo">137</span><a id="line.137">  public String toString() {</a>
+<span class="sourceLineNo">138</span><a id="line.138">    return super.toString();</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  private static boolean isProxyOfSameInterfaces(Object arg, Class&lt;?&gt; proxyClass) {</a>
+<span class="sourceLineNo">142</span><a id="line.142">    return proxyClass.isInstance(arg)</a>
+<span class="sourceLineNo">143</span><a id="line.143">        // Equal proxy instances should mostly be instance of proxyClass</a>
+<span class="sourceLineNo">144</span><a id="line.144">        // Under some edge cases (such as the proxy of JDK types serialized and then deserialized)</a>
+<span class="sourceLineNo">145</span><a id="line.145">        // the proxy type may not be the same.</a>
+<span class="sourceLineNo">146</span><a id="line.146">        // We first check isProxyClass() so that the common case of comparing with non-proxy objects</a>
+<span class="sourceLineNo">147</span><a id="line.147">        // is efficient.</a>
+<span class="sourceLineNo">148</span><a id="line.148">        || (Proxy.isProxyClass(arg.getClass())</a>
+<span class="sourceLineNo">149</span><a id="line.149">            &amp;&amp; Arrays.equals(arg.getClass().getInterfaces(), proxyClass.getInterfaces()));</a>
+<span class="sourceLineNo">150</span><a id="line.150">  }</a>
+<span class="sourceLineNo">151</span><a id="line.151">}</a>
 
 
 

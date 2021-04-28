@@ -46,7 +46,7 @@
 <span class="sourceLineNo">037</span><a id="line.37"> */</a>
 <span class="sourceLineNo">038</span><a id="line.38">@Beta</a>
 <span class="sourceLineNo">039</span><a id="line.39">@GwtIncompatible</a>
-<span class="sourceLineNo">040</span><a id="line.40">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">040</span><a id="line.40">// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.</a>
 <span class="sourceLineNo">041</span><a id="line.41">public final class LineReader {</a>
 <span class="sourceLineNo">042</span><a id="line.42">  private final Readable readable;</a>
 <span class="sourceLineNo">043</span><a id="line.43">  @CheckForNull private final Reader reader;</a>
@@ -78,8 +78,8 @@
 <span class="sourceLineNo">069</span><a id="line.69">   * @throws IOException if an I/O error occurs</a>
 <span class="sourceLineNo">070</span><a id="line.70">   */</a>
 <span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue // to skip a line</a>
-<span class="sourceLineNo">072</span><a id="line.72">  @SuppressWarnings("nullness") // TODO(cpovirk): Remove with change to @CheckForNull.</a>
-<span class="sourceLineNo">073</span><a id="line.73">  // TODO(cpovirk): @CheckForNull</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">073</span><a id="line.73">  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.</a>
 <span class="sourceLineNo">074</span><a id="line.74">  public String readLine() throws IOException {</a>
 <span class="sourceLineNo">075</span><a id="line.75">    while (lines.peek() == null) {</a>
 <span class="sourceLineNo">076</span><a id="line.76">      Java8Compatibility.clear(cbuf);</a>

@@ -55,7 +55,7 @@
 <span class="sourceLineNo">046</span><a id="line.46"> * @since 1.0</a>
 <span class="sourceLineNo">047</span><a id="line.47"> */</a>
 <span class="sourceLineNo">048</span><a id="line.48">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">049</span><a id="line.49">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">049</span><a id="line.49">// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.</a>
 <span class="sourceLineNo">050</span><a id="line.50">public final class Throwables {</a>
 <span class="sourceLineNo">051</span><a id="line.51">  private Throwables() {}</a>
 <span class="sourceLineNo">052</span><a id="line.52"></a>
@@ -342,7 +342,7 @@
 <span class="sourceLineNo">333</span><a id="line.333">  @Beta</a>
 <span class="sourceLineNo">334</span><a id="line.334">  @GwtIncompatible // Class.cast(Object)</a>
 <span class="sourceLineNo">335</span><a id="line.335">  @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">336</span><a id="line.336">  // TODO(cpovirk): Add @CheckForNull after updating callers.</a>
+<span class="sourceLineNo">336</span><a id="line.336">  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.</a>
 <span class="sourceLineNo">337</span><a id="line.337">  public static &lt;X extends Throwable&gt; X getCauseAs(</a>
 <span class="sourceLineNo">338</span><a id="line.338">      Throwable throwable, Class&lt;X&gt; expectedCauseType) {</a>
 <span class="sourceLineNo">339</span><a id="line.339">    try {</a>

@@ -82,11 +82,13 @@
 <span class="sourceLineNo">073</span><a id="line.73">   * used in FilenameFilter.)</a>
 <span class="sourceLineNo">074</span><a id="line.74">   */</a>
 <span class="sourceLineNo">075</span><a id="line.75">  @Override</a>
-<span class="sourceLineNo">076</span><a id="line.76">  @SuppressWarnings("nullness") // TODO(cpovirk): Remove with removal of @CheckForNull.</a>
-<span class="sourceLineNo">077</span><a id="line.77">  public boolean accept(/* TODO(cpovirk): remove */ @CheckForNull File dir, String fileName) {</a>
-<span class="sourceLineNo">078</span><a id="line.78">    return pattern.matcher(fileName).matches();</a>
-<span class="sourceLineNo">079</span><a id="line.79">  }</a>
-<span class="sourceLineNo">080</span><a id="line.80">}</a>
+<span class="sourceLineNo">076</span><a id="line.76">  @SuppressWarnings("nullness")</a>
+<span class="sourceLineNo">077</span><a id="line.77">  public boolean accept(</a>
+<span class="sourceLineNo">078</span><a id="line.78">      // TODO(b/147136275): Remove @CheckForNull, and remove suppression.</a>
+<span class="sourceLineNo">079</span><a id="line.79">      @CheckForNull File dir, String fileName) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">    return pattern.matcher(fileName).matches();</a>
+<span class="sourceLineNo">081</span><a id="line.81">  }</a>
+<span class="sourceLineNo">082</span><a id="line.82">}</a>
 
 
 
