@@ -50735,7 +50735,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="Object"/>
+      <param name="other" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -50840,7 +50840,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="Object"/>
+      <param name="other" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -52726,7 +52726,7 @@
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <constructor name="TeredoInfo" type="Inet4Address, Inet4Address, int, int"
+    <constructor name="TeredoInfo" type="java.net.Inet4Address, java.net.Inet4Address, int, int"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -53101,7 +53101,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Equality testing is based on the text supplied by the caller, after normalization as described
  in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
@@ -53331,7 +53331,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
