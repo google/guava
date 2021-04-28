@@ -37,7 +37,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
-@ElementTypesAreNonnullByDefault
+// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.
 public final class LineReader {
   private final Readable readable;
   @CheckForNull private final Reader reader;
@@ -69,8 +69,8 @@ public final class LineReader {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // to skip a line
-  @SuppressWarnings("nullness") // TODO(cpovirk): Remove with change to @CheckForNull.
-  // TODO(cpovirk): @CheckForNull
+  @SuppressWarnings("nullness")
+  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
   public String readLine() throws IOException {
     while (lines.peek() == null) {
       Java8Compatibility.clear(cbuf);

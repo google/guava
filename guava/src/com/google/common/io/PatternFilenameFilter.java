@@ -73,8 +73,10 @@ public final class PatternFilenameFilter implements FilenameFilter {
    * used in FilenameFilter.)
    */
   @Override
-  @SuppressWarnings("nullness") // TODO(cpovirk): Remove with removal of @CheckForNull.
-  public boolean accept(/* TODO(cpovirk): remove */ @CheckForNull File dir, String fileName) {
+  @SuppressWarnings("nullness")
+  public boolean accept(
+      // TODO(b/147136275): Remove @CheckForNull, and remove suppression.
+      @CheckForNull File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }
