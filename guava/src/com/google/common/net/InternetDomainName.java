@@ -30,7 +30,7 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -74,6 +74,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 @Immutable
+// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -353,6 +354,8 @@ public final class InternetDomainName {
    *
    * @since 6.0
    */
+  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
+  @SuppressWarnings("nullness")
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
   }
@@ -461,6 +464,8 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
+  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
+  @SuppressWarnings("nullness")
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
   }
@@ -621,7 +626,7 @@ public final class InternetDomainName {
    * version of the same domain name would not be considered equal.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

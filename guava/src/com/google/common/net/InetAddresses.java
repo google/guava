@@ -32,7 +32,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -97,6 +97,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
@@ -161,7 +162,9 @@ public final class InetAddresses {
   }
 
   /** Returns {@code null} if unable to parse into a {@code byte[]}. */
-  private static byte @Nullable [] ipStringToBytes(String ipString) {
+  @CheckForNull
+  private static byte[] ipStringToBytes(String ipStringParam) {
+    String ipString = ipStringParam;
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
     boolean hasDot = false;
@@ -204,7 +207,8 @@ public final class InetAddresses {
     return null;
   }
 
-  private static byte @Nullable [] textToNumericFormatV4(String ipString) {
+  @CheckForNull
+  private static byte[] textToNumericFormatV4(String ipString) {
     if (IPV4_DELIMITER_MATCHER.countIn(ipString) + 1 != IPV4_PART_COUNT) {
       return null; // Wrong number of parts
     }
@@ -229,7 +233,8 @@ public final class InetAddresses {
     return bytes;
   }
 
-  private static byte @Nullable [] textToNumericFormatV6(String ipString) {
+  @CheckForNull
+  private static byte[] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons.
     int delimiterCount = IPV6_DELIMITER_MATCHER.countIn(ipString);
     if (delimiterCount < 2 || delimiterCount > IPV6_PART_COUNT) {
@@ -299,7 +304,8 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  private static @Nullable String convertDottedQuadToHex(String ipString) {
+  @CheckForNull
+  private static String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
     String dottedQuad = ipString.substring(lastColon + 1);
@@ -515,7 +521,8 @@ public final class InetAddresses {
     return addr;
   }
 
-  private static @Nullable InetAddress forUriStringNoThrow(String hostAddr) {
+  @CheckForNull
+  private static InetAddress forUriStringNoThrow(String hostAddr) {
     checkNotNull(hostAddr);
 
     // Decide if this should be an IPv6 or IPv4 address.
@@ -658,7 +665,7 @@ public final class InetAddresses {
      */
     // TODO: why is this public?
     public TeredoInfo(
-        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
+        @CheckForNull Inet4Address server, @CheckForNull Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(

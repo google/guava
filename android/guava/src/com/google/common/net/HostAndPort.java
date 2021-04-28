@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable representation of a host and port.
@@ -62,6 +62,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @Beta
 @Immutable
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class HostAndPort implements Serializable {
   /** Magic value indicating the absence of a port number. */
   private static final int NO_PORT = -1;
@@ -209,14 +210,12 @@ public final class HostAndPort implements Serializable {
    * @throws IllegalArgumentException if parsing the bracketed host-port string fails.
    */
   private static String[] getHostAndPortFromBracketedHost(String hostPortString) {
-    int colonIndex = 0;
-    int closeBracketIndex = 0;
     checkArgument(
         hostPortString.charAt(0) == '[',
         "Bracketed host-port string must start with a bracket: %s",
         hostPortString);
-    colonIndex = hostPortString.indexOf(':');
-    closeBracketIndex = hostPortString.lastIndexOf(']');
+    int colonIndex = hostPortString.indexOf(':');
+    int closeBracketIndex = hostPortString.lastIndexOf(']');
     checkArgument(
         colonIndex > -1 && closeBracketIndex > colonIndex,
         "Invalid bracketed host/port: %s",
@@ -277,7 +276,7 @@ public final class HostAndPort implements Serializable {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object other) {
+  public boolean equals(@CheckForNull Object other) {
     if (this == other) {
       return true;
     }
