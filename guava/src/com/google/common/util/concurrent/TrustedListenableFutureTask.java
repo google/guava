@@ -126,12 +126,13 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     }
 
     @Override
-    void afterRanInterruptibly(V result, Throwable error) {
-      if (error == null) {
-        TrustedListenableFutureTask.this.set(result);
-      } else {
-        setException(error);
-      }
+    void afterRanInterruptiblySuccess(V result) {
+      TrustedListenableFutureTask.this.set(result);
+    }
+
+    @Override
+    void afterRanInterruptiblyFailure(Throwable error) {
+      setException(error);
     }
 
     @Override
@@ -164,12 +165,13 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     }
 
     @Override
-    void afterRanInterruptibly(ListenableFuture<V> result, Throwable error) {
-      if (error == null) {
-        setFuture(result);
-      } else {
-        setException(error);
-      }
+    void afterRanInterruptiblySuccess(ListenableFuture<V> result) {
+      setFuture(result);
+    }
+
+    @Override
+    void afterRanInterruptiblyFailure(Throwable error) {
+      setException(error);
     }
 
     @Override

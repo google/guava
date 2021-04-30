@@ -54,7 +54,10 @@ public final class InterruptibleTaskTest extends TestCase {
           }
 
           @Override
-          void afterRanInterruptibly(Void result, Throwable error) {}
+          void afterRanInterruptiblySuccess(Void result) {}
+
+          @Override
+          void afterRanInterruptiblyFailure(Throwable error) {}
         };
     Thread runner = new Thread(task);
     runner.start();
@@ -117,7 +120,10 @@ public final class InterruptibleTaskTest extends TestCase {
           }
 
           @Override
-          void afterRanInterruptibly(Void result, Throwable error) {}
+          void afterRanInterruptiblySuccess(Void result) {}
+
+          @Override
+          void afterRanInterruptiblyFailure(Throwable error) {}
         };
     Thread runner = new Thread(task, "runner");
     runner.start();

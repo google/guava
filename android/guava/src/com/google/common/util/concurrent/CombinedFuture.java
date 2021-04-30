@@ -108,7 +108,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    final void afterRanInterruptibly(T result, Throwable error) {
+    final void afterRanInterruptiblySuccess(T result) {
       /*
        * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
        *
@@ -122,16 +122,20 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
        */
       CombinedFuture.this.task = null;
 
-      if (error != null) {
-        if (error instanceof ExecutionException) {
-          CombinedFuture.this.setException(error.getCause());
-        } else if (error instanceof CancellationException) {
-          cancel(false);
-        } else {
-          CombinedFuture.this.setException(error);
-        }
+      setValue(result);
+    }
+
+    @Override
+    final void afterRanInterruptiblyFailure(Throwable error) {
+      // See afterRanInterruptiblySuccess.
+      CombinedFuture.this.task = null;
+
+      if (error instanceof ExecutionException) {
+        CombinedFuture.this.setException(error.getCause());
+      } else if (error instanceof CancellationException) {
+        cancel(false);
       } else {
-        setValue(result);
+        CombinedFuture.this.setException(error);
       }
     }
 
