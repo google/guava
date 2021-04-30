@@ -174,7 +174,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="EndpointPair.html" title="type parameter in EndpointPair">N</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNode(java.lang.Object)">adjacentNode</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;node)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#adjacentNode(N)">adjacentNode</a></span>&#8203;(<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns the node that is adjacent to <code>node</code> along the origin edge.</div>
 </td>
@@ -221,7 +221,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <td class="colFirst"><code><a href="EndpointPair.html" title="type parameter in EndpointPair">N</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nodeV()">nodeV</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns the node <a href="#adjacentNode(java.lang.Object)"><code>adjacent</code></a> to <a href="#nodeU()"><code>nodeU()</code></a> along the origin
+<div class="block">Returns the node <a href="#adjacentNode(N)"><code>adjacent</code></a> to <a href="#nodeU()"><code>nodeU()</code></a> along the origin
  edge.</div>
 </td>
 </tr>
@@ -358,17 +358,19 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable
 <li class="blockList">
 <h4>nodeV</h4>
 <pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.99">nodeV</a>()</pre>
-<div class="block">Returns the node <a href="#adjacentNode(java.lang.Object)"><code>adjacent</code></a> to <a href="#nodeU()"><code>nodeU()</code></a> along the origin
+<div class="block">Returns the node <a href="#adjacentNode(N)"><code>adjacent</code></a> to <a href="#nodeU()"><code>nodeU()</code></a> along the origin
  edge. If this <a href="EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="#isOrdered()"><code>isOrdered()</code></a>, this is equal to <a href="#target()"><code>target()</code></a>.</div>
 </li>
 </ul>
 <a id="adjacentNode(java.lang.Object)">
 <!--   -->
+</a><a id="adjacentNode(N)">
+<!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNode</h4>
-<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.108">adjacentNode</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;node)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/EndpointPair.html#line.108">adjacentNode</a>&#8203;(<a href="EndpointPair.html" title="type parameter in EndpointPair">N</a>&nbsp;node)</pre>
 <div class="block">Returns the node that is adjacent to <code>node</code> along the origin edge.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>

@@ -38333,7 +38333,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
+      <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the node that is adjacent to {@code node} along the origin edge.
 
