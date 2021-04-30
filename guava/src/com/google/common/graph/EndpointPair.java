@@ -105,7 +105,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    *
    * @throws IllegalArgumentException if this {@link EndpointPair} does not contain {@code node}
    */
-  public final N adjacentNode(Object node) {
+  public final N adjacentNode(N node) {
     if (node.equals(nodeU)) {
       return nodeV;
     } else if (node.equals(nodeV)) {
