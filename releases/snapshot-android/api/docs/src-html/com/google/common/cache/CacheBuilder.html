@@ -747,219 +747,220 @@
 <span class="sourceLineNo">738</span><a id="line.738">   * operations.</a>
 <span class="sourceLineNo">739</span><a id="line.739">   *</a>
 <span class="sourceLineNo">740</span><a id="line.740">   * &lt;p&gt;Currently automatic refreshes are performed when the first stale request for an entry</a>
-<span class="sourceLineNo">741</span><a id="line.741">   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}</a>
-<span class="sourceLineNo">742</span><a id="line.742">   * and immediately return the new value if the returned future is complete, and the old value</a>
-<span class="sourceLineNo">743</span><a id="line.743">   * otherwise.</a>
-<span class="sourceLineNo">744</span><a id="line.744">   *</a>
-<span class="sourceLineNo">745</span><a id="line.745">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; &lt;i&gt;all exceptions thrown during refresh will be logged and then swallowed&lt;/i&gt;.</a>
-<span class="sourceLineNo">746</span><a id="line.746">   *</a>
-<span class="sourceLineNo">747</span><a id="line.747">   * @param duration the length of time after an entry is created that it should be considered</a>
-<span class="sourceLineNo">748</span><a id="line.748">   *     stale, and thus eligible for refresh</a>
-<span class="sourceLineNo">749</span><a id="line.749">   * @param unit the unit that {@code duration} is expressed in</a>
-<span class="sourceLineNo">750</span><a id="line.750">   * @return this {@code CacheBuilder} instance (for chaining)</a>
-<span class="sourceLineNo">751</span><a id="line.751">   * @throws IllegalArgumentException if {@code duration} is negative</a>
-<span class="sourceLineNo">752</span><a id="line.752">   * @throws IllegalStateException if {@link #refreshAfterWrite} was already set</a>
-<span class="sourceLineNo">753</span><a id="line.753">   * @since 11.0</a>
-<span class="sourceLineNo">754</span><a id="line.754">   */</a>
-<span class="sourceLineNo">755</span><a id="line.755">  @GwtIncompatible // To be supported (synchronously).</a>
-<span class="sourceLineNo">756</span><a id="line.756">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
-<span class="sourceLineNo">757</span><a id="line.757">  public CacheBuilder&lt;K, V&gt; refreshAfterWrite(long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">758</span><a id="line.758">    checkNotNull(unit);</a>
-<span class="sourceLineNo">759</span><a id="line.759">    checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);</a>
-<span class="sourceLineNo">760</span><a id="line.760">    checkArgument(duration &gt; 0, "duration must be positive: %s %s", duration, unit);</a>
-<span class="sourceLineNo">761</span><a id="line.761">    this.refreshNanos = unit.toNanos(duration);</a>
-<span class="sourceLineNo">762</span><a id="line.762">    return this;</a>
-<span class="sourceLineNo">763</span><a id="line.763">  }</a>
-<span class="sourceLineNo">764</span><a id="line.764"></a>
-<span class="sourceLineNo">765</span><a id="line.765">  @SuppressWarnings("GoodTime") // nanos internally, should be Duration</a>
-<span class="sourceLineNo">766</span><a id="line.766">  long getRefreshNanos() {</a>
-<span class="sourceLineNo">767</span><a id="line.767">    return (refreshNanos == UNSET_INT) ? DEFAULT_REFRESH_NANOS : refreshNanos;</a>
-<span class="sourceLineNo">768</span><a id="line.768">  }</a>
-<span class="sourceLineNo">769</span><a id="line.769"></a>
-<span class="sourceLineNo">770</span><a id="line.770">  /**</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * Specifies a nanosecond-precision time source for this cache. By default, {@link</a>
-<span class="sourceLineNo">772</span><a id="line.772">   * System#nanoTime} is used.</a>
-<span class="sourceLineNo">773</span><a id="line.773">   *</a>
-<span class="sourceLineNo">774</span><a id="line.774">   * &lt;p&gt;The primary intent of this method is to facilitate testing of caches with a fake or mock</a>
-<span class="sourceLineNo">775</span><a id="line.775">   * time source.</a>
-<span class="sourceLineNo">776</span><a id="line.776">   *</a>
-<span class="sourceLineNo">777</span><a id="line.777">   * @return this {@code CacheBuilder} instance (for chaining)</a>
-<span class="sourceLineNo">778</span><a id="line.778">   * @throws IllegalStateException if a ticker was already set</a>
-<span class="sourceLineNo">779</span><a id="line.779">   */</a>
-<span class="sourceLineNo">780</span><a id="line.780">  public CacheBuilder&lt;K, V&gt; ticker(Ticker ticker) {</a>
-<span class="sourceLineNo">781</span><a id="line.781">    checkState(this.ticker == null);</a>
-<span class="sourceLineNo">782</span><a id="line.782">    this.ticker = checkNotNull(ticker);</a>
-<span class="sourceLineNo">783</span><a id="line.783">    return this;</a>
-<span class="sourceLineNo">784</span><a id="line.784">  }</a>
-<span class="sourceLineNo">785</span><a id="line.785"></a>
-<span class="sourceLineNo">786</span><a id="line.786">  Ticker getTicker(boolean recordsTime) {</a>
-<span class="sourceLineNo">787</span><a id="line.787">    if (ticker != null) {</a>
-<span class="sourceLineNo">788</span><a id="line.788">      return ticker;</a>
-<span class="sourceLineNo">789</span><a id="line.789">    }</a>
-<span class="sourceLineNo">790</span><a id="line.790">    return recordsTime ? Ticker.systemTicker() : NULL_TICKER;</a>
-<span class="sourceLineNo">791</span><a id="line.791">  }</a>
-<span class="sourceLineNo">792</span><a id="line.792"></a>
-<span class="sourceLineNo">793</span><a id="line.793">  /**</a>
-<span class="sourceLineNo">794</span><a id="line.794">   * Specifies a listener instance that caches should notify each time an entry is removed for any</a>
-<span class="sourceLineNo">795</span><a id="line.795">   * {@linkplain RemovalCause reason}. Each cache created by this builder will invoke this listener</a>
-<span class="sourceLineNo">796</span><a id="line.796">   * as part of the routine maintenance described in the class documentation above.</a>
-<span class="sourceLineNo">797</span><a id="line.797">   *</a>
-<span class="sourceLineNo">798</span><a id="line.798">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; after invoking this method, do not continue to use &lt;i&gt;this&lt;/i&gt; cache builder</a>
-<span class="sourceLineNo">799</span><a id="line.799">   * reference; instead use the reference this method &lt;i&gt;returns&lt;/i&gt;. At runtime, these point to the</a>
-<span class="sourceLineNo">800</span><a id="line.800">   * same instance, but only the returned reference has the correct generic type information so as</a>
-<span class="sourceLineNo">801</span><a id="line.801">   * to ensure type safety. For best results, use the standard method-chaining idiom illustrated in</a>
-<span class="sourceLineNo">802</span><a id="line.802">   * the class documentation above, configuring a builder and building your cache in a single</a>
-<span class="sourceLineNo">803</span><a id="line.803">   * statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown</a>
-<span class="sourceLineNo">804</span><a id="line.804">   * by a cache operation at some &lt;i&gt;undefined&lt;/i&gt; point in the future.</a>
-<span class="sourceLineNo">805</span><a id="line.805">   *</a>
-<span class="sourceLineNo">806</span><a id="line.806">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; any exception thrown by {@code listener} will &lt;i&gt;not&lt;/i&gt; be propagated to</a>
-<span class="sourceLineNo">807</span><a id="line.807">   * the {@code Cache} user, only logged via a {@link Logger}.</a>
-<span class="sourceLineNo">808</span><a id="line.808">   *</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * @return the cache builder reference that should be used instead of {@code this} for any</a>
-<span class="sourceLineNo">810</span><a id="line.810">   *     remaining configuration and cache building</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * @return this {@code CacheBuilder} instance (for chaining)</a>
-<span class="sourceLineNo">812</span><a id="line.812">   * @throws IllegalStateException if a removal listener was already set</a>
-<span class="sourceLineNo">813</span><a id="line.813">   */</a>
-<span class="sourceLineNo">814</span><a id="line.814">  @CheckReturnValue</a>
-<span class="sourceLineNo">815</span><a id="line.815">  public &lt;K1 extends K, V1 extends V&gt; CacheBuilder&lt;K1, V1&gt; removalListener(</a>
-<span class="sourceLineNo">816</span><a id="line.816">      RemovalListener&lt;? super K1, ? super V1&gt; listener) {</a>
-<span class="sourceLineNo">817</span><a id="line.817">    checkState(this.removalListener == null);</a>
-<span class="sourceLineNo">818</span><a id="line.818"></a>
-<span class="sourceLineNo">819</span><a id="line.819">    // safely limiting the kinds of caches this can produce</a>
-<span class="sourceLineNo">820</span><a id="line.820">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">821</span><a id="line.821">    CacheBuilder&lt;K1, V1&gt; me = (CacheBuilder&lt;K1, V1&gt;) this;</a>
-<span class="sourceLineNo">822</span><a id="line.822">    me.removalListener = checkNotNull(listener);</a>
-<span class="sourceLineNo">823</span><a id="line.823">    return me;</a>
-<span class="sourceLineNo">824</span><a id="line.824">  }</a>
-<span class="sourceLineNo">825</span><a id="line.825"></a>
-<span class="sourceLineNo">826</span><a id="line.826">  // Make a safe contravariant cast now so we don't have to do it over and over.</a>
-<span class="sourceLineNo">827</span><a id="line.827">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">828</span><a id="line.828">  &lt;K1 extends K, V1 extends V&gt; RemovalListener&lt;K1, V1&gt; getRemovalListener() {</a>
-<span class="sourceLineNo">829</span><a id="line.829">    return (RemovalListener&lt;K1, V1&gt;)</a>
-<span class="sourceLineNo">830</span><a id="line.830">        MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);</a>
-<span class="sourceLineNo">831</span><a id="line.831">  }</a>
-<span class="sourceLineNo">832</span><a id="line.832"></a>
-<span class="sourceLineNo">833</span><a id="line.833">  /**</a>
-<span class="sourceLineNo">834</span><a id="line.834">   * Enable the accumulation of {@link CacheStats} during the operation of the cache. Without this</a>
-<span class="sourceLineNo">835</span><a id="line.835">   * {@link Cache#stats} will return zero for all statistics. Note that recording stats requires</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * bookkeeping to be performed with each operation, and thus imposes a performance penalty on</a>
-<span class="sourceLineNo">837</span><a id="line.837">   * cache operation.</a>
-<span class="sourceLineNo">838</span><a id="line.838">   *</a>
-<span class="sourceLineNo">839</span><a id="line.839">   * @return this {@code CacheBuilder} instance (for chaining)</a>
-<span class="sourceLineNo">840</span><a id="line.840">   * @since 12.0 (previously, stats collection was automatic)</a>
-<span class="sourceLineNo">841</span><a id="line.841">   */</a>
-<span class="sourceLineNo">842</span><a id="line.842">  public CacheBuilder&lt;K, V&gt; recordStats() {</a>
-<span class="sourceLineNo">843</span><a id="line.843">    statsCounterSupplier = CACHE_STATS_COUNTER;</a>
-<span class="sourceLineNo">844</span><a id="line.844">    return this;</a>
-<span class="sourceLineNo">845</span><a id="line.845">  }</a>
-<span class="sourceLineNo">846</span><a id="line.846"></a>
-<span class="sourceLineNo">847</span><a id="line.847">  boolean isRecordingStats() {</a>
-<span class="sourceLineNo">848</span><a id="line.848">    return statsCounterSupplier == CACHE_STATS_COUNTER;</a>
-<span class="sourceLineNo">849</span><a id="line.849">  }</a>
-<span class="sourceLineNo">850</span><a id="line.850"></a>
-<span class="sourceLineNo">851</span><a id="line.851">  Supplier&lt;? extends StatsCounter&gt; getStatsCounterSupplier() {</a>
-<span class="sourceLineNo">852</span><a id="line.852">    return statsCounterSupplier;</a>
-<span class="sourceLineNo">853</span><a id="line.853">  }</a>
-<span class="sourceLineNo">854</span><a id="line.854"></a>
-<span class="sourceLineNo">855</span><a id="line.855">  /**</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * Builds a cache, which either returns an already-loaded value for a given key or atomically</a>
-<span class="sourceLineNo">857</span><a id="line.857">   * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently</a>
-<span class="sourceLineNo">858</span><a id="line.858">   * loading the value for this key, simply waits for that thread to finish and returns its loaded</a>
-<span class="sourceLineNo">859</span><a id="line.859">   * value. Note that multiple threads can concurrently load values for distinct keys.</a>
-<span class="sourceLineNo">860</span><a id="line.860">   *</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * &lt;p&gt;This method does not alter the state of this {@code CacheBuilder} instance, so it can be</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * invoked again to create multiple independent caches.</a>
-<span class="sourceLineNo">863</span><a id="line.863">   *</a>
-<span class="sourceLineNo">864</span><a id="line.864">   * @param loader the cache loader used to obtain new values</a>
-<span class="sourceLineNo">865</span><a id="line.865">   * @return a cache having the requested features</a>
-<span class="sourceLineNo">866</span><a id="line.866">   */</a>
-<span class="sourceLineNo">867</span><a id="line.867">  @CheckReturnValue</a>
-<span class="sourceLineNo">868</span><a id="line.868">  public &lt;K1 extends K, V1 extends V&gt; LoadingCache&lt;K1, V1&gt; build(</a>
-<span class="sourceLineNo">869</span><a id="line.869">      CacheLoader&lt;? super K1, V1&gt; loader) {</a>
-<span class="sourceLineNo">870</span><a id="line.870">    checkWeightWithWeigher();</a>
-<span class="sourceLineNo">871</span><a id="line.871">    return new LocalCache.LocalLoadingCache&lt;&gt;(this, loader);</a>
-<span class="sourceLineNo">872</span><a id="line.872">  }</a>
-<span class="sourceLineNo">873</span><a id="line.873"></a>
-<span class="sourceLineNo">874</span><a id="line.874">  /**</a>
-<span class="sourceLineNo">875</span><a id="line.875">   * Builds a cache which does not automatically load values when keys are requested.</a>
-<span class="sourceLineNo">876</span><a id="line.876">   *</a>
-<span class="sourceLineNo">877</span><a id="line.877">   * &lt;p&gt;Consider {@link #build(CacheLoader)} instead, if it is feasible to implement a {@code</a>
-<span class="sourceLineNo">878</span><a id="line.878">   * CacheLoader}.</a>
-<span class="sourceLineNo">879</span><a id="line.879">   *</a>
-<span class="sourceLineNo">880</span><a id="line.880">   * &lt;p&gt;This method does not alter the state of this {@code CacheBuilder} instance, so it can be</a>
-<span class="sourceLineNo">881</span><a id="line.881">   * invoked again to create multiple independent caches.</a>
-<span class="sourceLineNo">882</span><a id="line.882">   *</a>
-<span class="sourceLineNo">883</span><a id="line.883">   * @return a cache having the requested features</a>
-<span class="sourceLineNo">884</span><a id="line.884">   * @since 11.0</a>
-<span class="sourceLineNo">885</span><a id="line.885">   */</a>
-<span class="sourceLineNo">886</span><a id="line.886">  @CheckReturnValue</a>
-<span class="sourceLineNo">887</span><a id="line.887">  public &lt;K1 extends K, V1 extends V&gt; Cache&lt;K1, V1&gt; build() {</a>
-<span class="sourceLineNo">888</span><a id="line.888">    checkWeightWithWeigher();</a>
-<span class="sourceLineNo">889</span><a id="line.889">    checkNonLoadingCache();</a>
-<span class="sourceLineNo">890</span><a id="line.890">    return new LocalCache.LocalManualCache&lt;&gt;(this);</a>
-<span class="sourceLineNo">891</span><a id="line.891">  }</a>
-<span class="sourceLineNo">892</span><a id="line.892"></a>
-<span class="sourceLineNo">893</span><a id="line.893">  private void checkNonLoadingCache() {</a>
-<span class="sourceLineNo">894</span><a id="line.894">    checkState(refreshNanos == UNSET_INT, "refreshAfterWrite requires a LoadingCache");</a>
-<span class="sourceLineNo">895</span><a id="line.895">  }</a>
-<span class="sourceLineNo">896</span><a id="line.896"></a>
-<span class="sourceLineNo">897</span><a id="line.897">  private void checkWeightWithWeigher() {</a>
-<span class="sourceLineNo">898</span><a id="line.898">    if (weigher == null) {</a>
-<span class="sourceLineNo">899</span><a id="line.899">      checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");</a>
-<span class="sourceLineNo">900</span><a id="line.900">    } else {</a>
-<span class="sourceLineNo">901</span><a id="line.901">      if (strictParsing) {</a>
-<span class="sourceLineNo">902</span><a id="line.902">        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");</a>
-<span class="sourceLineNo">903</span><a id="line.903">      } else {</a>
-<span class="sourceLineNo">904</span><a id="line.904">        if (maximumWeight == UNSET_INT) {</a>
-<span class="sourceLineNo">905</span><a id="line.905">          logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");</a>
-<span class="sourceLineNo">906</span><a id="line.906">        }</a>
-<span class="sourceLineNo">907</span><a id="line.907">      }</a>
-<span class="sourceLineNo">908</span><a id="line.908">    }</a>
-<span class="sourceLineNo">909</span><a id="line.909">  }</a>
-<span class="sourceLineNo">910</span><a id="line.910"></a>
-<span class="sourceLineNo">911</span><a id="line.911">  /**</a>
-<span class="sourceLineNo">912</span><a id="line.912">   * Returns a string representation for this CacheBuilder instance. The exact form of the returned</a>
-<span class="sourceLineNo">913</span><a id="line.913">   * string is not specified.</a>
-<span class="sourceLineNo">914</span><a id="line.914">   */</a>
-<span class="sourceLineNo">915</span><a id="line.915">  @Override</a>
-<span class="sourceLineNo">916</span><a id="line.916">  public String toString() {</a>
-<span class="sourceLineNo">917</span><a id="line.917">    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);</a>
-<span class="sourceLineNo">918</span><a id="line.918">    if (initialCapacity != UNSET_INT) {</a>
-<span class="sourceLineNo">919</span><a id="line.919">      s.add("initialCapacity", initialCapacity);</a>
-<span class="sourceLineNo">920</span><a id="line.920">    }</a>
-<span class="sourceLineNo">921</span><a id="line.921">    if (concurrencyLevel != UNSET_INT) {</a>
-<span class="sourceLineNo">922</span><a id="line.922">      s.add("concurrencyLevel", concurrencyLevel);</a>
-<span class="sourceLineNo">923</span><a id="line.923">    }</a>
-<span class="sourceLineNo">924</span><a id="line.924">    if (maximumSize != UNSET_INT) {</a>
-<span class="sourceLineNo">925</span><a id="line.925">      s.add("maximumSize", maximumSize);</a>
-<span class="sourceLineNo">926</span><a id="line.926">    }</a>
-<span class="sourceLineNo">927</span><a id="line.927">    if (maximumWeight != UNSET_INT) {</a>
-<span class="sourceLineNo">928</span><a id="line.928">      s.add("maximumWeight", maximumWeight);</a>
-<span class="sourceLineNo">929</span><a id="line.929">    }</a>
-<span class="sourceLineNo">930</span><a id="line.930">    if (expireAfterWriteNanos != UNSET_INT) {</a>
-<span class="sourceLineNo">931</span><a id="line.931">      s.add("expireAfterWrite", expireAfterWriteNanos + "ns");</a>
-<span class="sourceLineNo">932</span><a id="line.932">    }</a>
-<span class="sourceLineNo">933</span><a id="line.933">    if (expireAfterAccessNanos != UNSET_INT) {</a>
-<span class="sourceLineNo">934</span><a id="line.934">      s.add("expireAfterAccess", expireAfterAccessNanos + "ns");</a>
-<span class="sourceLineNo">935</span><a id="line.935">    }</a>
-<span class="sourceLineNo">936</span><a id="line.936">    if (keyStrength != null) {</a>
-<span class="sourceLineNo">937</span><a id="line.937">      s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));</a>
-<span class="sourceLineNo">938</span><a id="line.938">    }</a>
-<span class="sourceLineNo">939</span><a id="line.939">    if (valueStrength != null) {</a>
-<span class="sourceLineNo">940</span><a id="line.940">      s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));</a>
-<span class="sourceLineNo">941</span><a id="line.941">    }</a>
-<span class="sourceLineNo">942</span><a id="line.942">    if (keyEquivalence != null) {</a>
-<span class="sourceLineNo">943</span><a id="line.943">      s.addValue("keyEquivalence");</a>
-<span class="sourceLineNo">944</span><a id="line.944">    }</a>
-<span class="sourceLineNo">945</span><a id="line.945">    if (valueEquivalence != null) {</a>
-<span class="sourceLineNo">946</span><a id="line.946">      s.addValue("valueEquivalence");</a>
-<span class="sourceLineNo">947</span><a id="line.947">    }</a>
-<span class="sourceLineNo">948</span><a id="line.948">    if (removalListener != null) {</a>
-<span class="sourceLineNo">949</span><a id="line.949">      s.addValue("removalListener");</a>
-<span class="sourceLineNo">950</span><a id="line.950">    }</a>
-<span class="sourceLineNo">951</span><a id="line.951">    return s.toString();</a>
-<span class="sourceLineNo">952</span><a id="line.952">  }</a>
-<span class="sourceLineNo">953</span><a id="line.953">}</a>
+<span class="sourceLineNo">741</span><a id="line.741">   * occurs. The request triggering refresh will make a synchronous call to {@link</a>
+<span class="sourceLineNo">742</span><a id="line.742">   * CacheLoader#reload}</a>
+<span class="sourceLineNo">743</span><a id="line.743">   * and immediately return the new value if the returned future is complete, and the old value</a>
+<span class="sourceLineNo">744</span><a id="line.744">   * otherwise.</a>
+<span class="sourceLineNo">745</span><a id="line.745">   *</a>
+<span class="sourceLineNo">746</span><a id="line.746">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; &lt;i&gt;all exceptions thrown during refresh will be logged and then swallowed&lt;/i&gt;.</a>
+<span class="sourceLineNo">747</span><a id="line.747">   *</a>
+<span class="sourceLineNo">748</span><a id="line.748">   * @param duration the length of time after an entry is created that it should be considered</a>
+<span class="sourceLineNo">749</span><a id="line.749">   *     stale, and thus eligible for refresh</a>
+<span class="sourceLineNo">750</span><a id="line.750">   * @param unit the unit that {@code duration} is expressed in</a>
+<span class="sourceLineNo">751</span><a id="line.751">   * @return this {@code CacheBuilder} instance (for chaining)</a>
+<span class="sourceLineNo">752</span><a id="line.752">   * @throws IllegalArgumentException if {@code duration} is negative</a>
+<span class="sourceLineNo">753</span><a id="line.753">   * @throws IllegalStateException if {@link #refreshAfterWrite} was already set</a>
+<span class="sourceLineNo">754</span><a id="line.754">   * @since 11.0</a>
+<span class="sourceLineNo">755</span><a id="line.755">   */</a>
+<span class="sourceLineNo">756</span><a id="line.756">  @GwtIncompatible // To be supported (synchronously).</a>
+<span class="sourceLineNo">757</span><a id="line.757">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">758</span><a id="line.758">  public CacheBuilder&lt;K, V&gt; refreshAfterWrite(long duration, TimeUnit unit) {</a>
+<span class="sourceLineNo">759</span><a id="line.759">    checkNotNull(unit);</a>
+<span class="sourceLineNo">760</span><a id="line.760">    checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);</a>
+<span class="sourceLineNo">761</span><a id="line.761">    checkArgument(duration &gt; 0, "duration must be positive: %s %s", duration, unit);</a>
+<span class="sourceLineNo">762</span><a id="line.762">    this.refreshNanos = unit.toNanos(duration);</a>
+<span class="sourceLineNo">763</span><a id="line.763">    return this;</a>
+<span class="sourceLineNo">764</span><a id="line.764">  }</a>
+<span class="sourceLineNo">765</span><a id="line.765"></a>
+<span class="sourceLineNo">766</span><a id="line.766">  @SuppressWarnings("GoodTime") // nanos internally, should be Duration</a>
+<span class="sourceLineNo">767</span><a id="line.767">  long getRefreshNanos() {</a>
+<span class="sourceLineNo">768</span><a id="line.768">    return (refreshNanos == UNSET_INT) ? DEFAULT_REFRESH_NANOS : refreshNanos;</a>
+<span class="sourceLineNo">769</span><a id="line.769">  }</a>
+<span class="sourceLineNo">770</span><a id="line.770"></a>
+<span class="sourceLineNo">771</span><a id="line.771">  /**</a>
+<span class="sourceLineNo">772</span><a id="line.772">   * Specifies a nanosecond-precision time source for this cache. By default, {@link</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * System#nanoTime} is used.</a>
+<span class="sourceLineNo">774</span><a id="line.774">   *</a>
+<span class="sourceLineNo">775</span><a id="line.775">   * &lt;p&gt;The primary intent of this method is to facilitate testing of caches with a fake or mock</a>
+<span class="sourceLineNo">776</span><a id="line.776">   * time source.</a>
+<span class="sourceLineNo">777</span><a id="line.777">   *</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * @return this {@code CacheBuilder} instance (for chaining)</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * @throws IllegalStateException if a ticker was already set</a>
+<span class="sourceLineNo">780</span><a id="line.780">   */</a>
+<span class="sourceLineNo">781</span><a id="line.781">  public CacheBuilder&lt;K, V&gt; ticker(Ticker ticker) {</a>
+<span class="sourceLineNo">782</span><a id="line.782">    checkState(this.ticker == null);</a>
+<span class="sourceLineNo">783</span><a id="line.783">    this.ticker = checkNotNull(ticker);</a>
+<span class="sourceLineNo">784</span><a id="line.784">    return this;</a>
+<span class="sourceLineNo">785</span><a id="line.785">  }</a>
+<span class="sourceLineNo">786</span><a id="line.786"></a>
+<span class="sourceLineNo">787</span><a id="line.787">  Ticker getTicker(boolean recordsTime) {</a>
+<span class="sourceLineNo">788</span><a id="line.788">    if (ticker != null) {</a>
+<span class="sourceLineNo">789</span><a id="line.789">      return ticker;</a>
+<span class="sourceLineNo">790</span><a id="line.790">    }</a>
+<span class="sourceLineNo">791</span><a id="line.791">    return recordsTime ? Ticker.systemTicker() : NULL_TICKER;</a>
+<span class="sourceLineNo">792</span><a id="line.792">  }</a>
+<span class="sourceLineNo">793</span><a id="line.793"></a>
+<span class="sourceLineNo">794</span><a id="line.794">  /**</a>
+<span class="sourceLineNo">795</span><a id="line.795">   * Specifies a listener instance that caches should notify each time an entry is removed for any</a>
+<span class="sourceLineNo">796</span><a id="line.796">   * {@linkplain RemovalCause reason}. Each cache created by this builder will invoke this listener</a>
+<span class="sourceLineNo">797</span><a id="line.797">   * as part of the routine maintenance described in the class documentation above.</a>
+<span class="sourceLineNo">798</span><a id="line.798">   *</a>
+<span class="sourceLineNo">799</span><a id="line.799">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; after invoking this method, do not continue to use &lt;i&gt;this&lt;/i&gt; cache builder</a>
+<span class="sourceLineNo">800</span><a id="line.800">   * reference; instead use the reference this method &lt;i&gt;returns&lt;/i&gt;. At runtime, these point to the</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * same instance, but only the returned reference has the correct generic type information so as</a>
+<span class="sourceLineNo">802</span><a id="line.802">   * to ensure type safety. For best results, use the standard method-chaining idiom illustrated in</a>
+<span class="sourceLineNo">803</span><a id="line.803">   * the class documentation above, configuring a builder and building your cache in a single</a>
+<span class="sourceLineNo">804</span><a id="line.804">   * statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * by a cache operation at some &lt;i&gt;undefined&lt;/i&gt; point in the future.</a>
+<span class="sourceLineNo">806</span><a id="line.806">   *</a>
+<span class="sourceLineNo">807</span><a id="line.807">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; any exception thrown by {@code listener} will &lt;i&gt;not&lt;/i&gt; be propagated to</a>
+<span class="sourceLineNo">808</span><a id="line.808">   * the {@code Cache} user, only logged via a {@link Logger}.</a>
+<span class="sourceLineNo">809</span><a id="line.809">   *</a>
+<span class="sourceLineNo">810</span><a id="line.810">   * @return the cache builder reference that should be used instead of {@code this} for any</a>
+<span class="sourceLineNo">811</span><a id="line.811">   *     remaining configuration and cache building</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * @return this {@code CacheBuilder} instance (for chaining)</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * @throws IllegalStateException if a removal listener was already set</a>
+<span class="sourceLineNo">814</span><a id="line.814">   */</a>
+<span class="sourceLineNo">815</span><a id="line.815">  @CheckReturnValue</a>
+<span class="sourceLineNo">816</span><a id="line.816">  public &lt;K1 extends K, V1 extends V&gt; CacheBuilder&lt;K1, V1&gt; removalListener(</a>
+<span class="sourceLineNo">817</span><a id="line.817">      RemovalListener&lt;? super K1, ? super V1&gt; listener) {</a>
+<span class="sourceLineNo">818</span><a id="line.818">    checkState(this.removalListener == null);</a>
+<span class="sourceLineNo">819</span><a id="line.819"></a>
+<span class="sourceLineNo">820</span><a id="line.820">    // safely limiting the kinds of caches this can produce</a>
+<span class="sourceLineNo">821</span><a id="line.821">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">822</span><a id="line.822">    CacheBuilder&lt;K1, V1&gt; me = (CacheBuilder&lt;K1, V1&gt;) this;</a>
+<span class="sourceLineNo">823</span><a id="line.823">    me.removalListener = checkNotNull(listener);</a>
+<span class="sourceLineNo">824</span><a id="line.824">    return me;</a>
+<span class="sourceLineNo">825</span><a id="line.825">  }</a>
+<span class="sourceLineNo">826</span><a id="line.826"></a>
+<span class="sourceLineNo">827</span><a id="line.827">  // Make a safe contravariant cast now so we don't have to do it over and over.</a>
+<span class="sourceLineNo">828</span><a id="line.828">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">829</span><a id="line.829">  &lt;K1 extends K, V1 extends V&gt; RemovalListener&lt;K1, V1&gt; getRemovalListener() {</a>
+<span class="sourceLineNo">830</span><a id="line.830">    return (RemovalListener&lt;K1, V1&gt;)</a>
+<span class="sourceLineNo">831</span><a id="line.831">        MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);</a>
+<span class="sourceLineNo">832</span><a id="line.832">  }</a>
+<span class="sourceLineNo">833</span><a id="line.833"></a>
+<span class="sourceLineNo">834</span><a id="line.834">  /**</a>
+<span class="sourceLineNo">835</span><a id="line.835">   * Enable the accumulation of {@link CacheStats} during the operation of the cache. Without this</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * {@link Cache#stats} will return zero for all statistics. Note that recording stats requires</a>
+<span class="sourceLineNo">837</span><a id="line.837">   * bookkeeping to be performed with each operation, and thus imposes a performance penalty on</a>
+<span class="sourceLineNo">838</span><a id="line.838">   * cache operation.</a>
+<span class="sourceLineNo">839</span><a id="line.839">   *</a>
+<span class="sourceLineNo">840</span><a id="line.840">   * @return this {@code CacheBuilder} instance (for chaining)</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * @since 12.0 (previously, stats collection was automatic)</a>
+<span class="sourceLineNo">842</span><a id="line.842">   */</a>
+<span class="sourceLineNo">843</span><a id="line.843">  public CacheBuilder&lt;K, V&gt; recordStats() {</a>
+<span class="sourceLineNo">844</span><a id="line.844">    statsCounterSupplier = CACHE_STATS_COUNTER;</a>
+<span class="sourceLineNo">845</span><a id="line.845">    return this;</a>
+<span class="sourceLineNo">846</span><a id="line.846">  }</a>
+<span class="sourceLineNo">847</span><a id="line.847"></a>
+<span class="sourceLineNo">848</span><a id="line.848">  boolean isRecordingStats() {</a>
+<span class="sourceLineNo">849</span><a id="line.849">    return statsCounterSupplier == CACHE_STATS_COUNTER;</a>
+<span class="sourceLineNo">850</span><a id="line.850">  }</a>
+<span class="sourceLineNo">851</span><a id="line.851"></a>
+<span class="sourceLineNo">852</span><a id="line.852">  Supplier&lt;? extends StatsCounter&gt; getStatsCounterSupplier() {</a>
+<span class="sourceLineNo">853</span><a id="line.853">    return statsCounterSupplier;</a>
+<span class="sourceLineNo">854</span><a id="line.854">  }</a>
+<span class="sourceLineNo">855</span><a id="line.855"></a>
+<span class="sourceLineNo">856</span><a id="line.856">  /**</a>
+<span class="sourceLineNo">857</span><a id="line.857">   * Builds a cache, which either returns an already-loaded value for a given key or atomically</a>
+<span class="sourceLineNo">858</span><a id="line.858">   * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * loading the value for this key, simply waits for that thread to finish and returns its loaded</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * value. Note that multiple threads can concurrently load values for distinct keys.</a>
+<span class="sourceLineNo">861</span><a id="line.861">   *</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * &lt;p&gt;This method does not alter the state of this {@code CacheBuilder} instance, so it can be</a>
+<span class="sourceLineNo">863</span><a id="line.863">   * invoked again to create multiple independent caches.</a>
+<span class="sourceLineNo">864</span><a id="line.864">   *</a>
+<span class="sourceLineNo">865</span><a id="line.865">   * @param loader the cache loader used to obtain new values</a>
+<span class="sourceLineNo">866</span><a id="line.866">   * @return a cache having the requested features</a>
+<span class="sourceLineNo">867</span><a id="line.867">   */</a>
+<span class="sourceLineNo">868</span><a id="line.868">  @CheckReturnValue</a>
+<span class="sourceLineNo">869</span><a id="line.869">  public &lt;K1 extends K, V1 extends V&gt; LoadingCache&lt;K1, V1&gt; build(</a>
+<span class="sourceLineNo">870</span><a id="line.870">      CacheLoader&lt;? super K1, V1&gt; loader) {</a>
+<span class="sourceLineNo">871</span><a id="line.871">    checkWeightWithWeigher();</a>
+<span class="sourceLineNo">872</span><a id="line.872">    return new LocalCache.LocalLoadingCache&lt;&gt;(this, loader);</a>
+<span class="sourceLineNo">873</span><a id="line.873">  }</a>
+<span class="sourceLineNo">874</span><a id="line.874"></a>
+<span class="sourceLineNo">875</span><a id="line.875">  /**</a>
+<span class="sourceLineNo">876</span><a id="line.876">   * Builds a cache which does not automatically load values when keys are requested.</a>
+<span class="sourceLineNo">877</span><a id="line.877">   *</a>
+<span class="sourceLineNo">878</span><a id="line.878">   * &lt;p&gt;Consider {@link #build(CacheLoader)} instead, if it is feasible to implement a {@code</a>
+<span class="sourceLineNo">879</span><a id="line.879">   * CacheLoader}.</a>
+<span class="sourceLineNo">880</span><a id="line.880">   *</a>
+<span class="sourceLineNo">881</span><a id="line.881">   * &lt;p&gt;This method does not alter the state of this {@code CacheBuilder} instance, so it can be</a>
+<span class="sourceLineNo">882</span><a id="line.882">   * invoked again to create multiple independent caches.</a>
+<span class="sourceLineNo">883</span><a id="line.883">   *</a>
+<span class="sourceLineNo">884</span><a id="line.884">   * @return a cache having the requested features</a>
+<span class="sourceLineNo">885</span><a id="line.885">   * @since 11.0</a>
+<span class="sourceLineNo">886</span><a id="line.886">   */</a>
+<span class="sourceLineNo">887</span><a id="line.887">  @CheckReturnValue</a>
+<span class="sourceLineNo">888</span><a id="line.888">  public &lt;K1 extends K, V1 extends V&gt; Cache&lt;K1, V1&gt; build() {</a>
+<span class="sourceLineNo">889</span><a id="line.889">    checkWeightWithWeigher();</a>
+<span class="sourceLineNo">890</span><a id="line.890">    checkNonLoadingCache();</a>
+<span class="sourceLineNo">891</span><a id="line.891">    return new LocalCache.LocalManualCache&lt;&gt;(this);</a>
+<span class="sourceLineNo">892</span><a id="line.892">  }</a>
+<span class="sourceLineNo">893</span><a id="line.893"></a>
+<span class="sourceLineNo">894</span><a id="line.894">  private void checkNonLoadingCache() {</a>
+<span class="sourceLineNo">895</span><a id="line.895">    checkState(refreshNanos == UNSET_INT, "refreshAfterWrite requires a LoadingCache");</a>
+<span class="sourceLineNo">896</span><a id="line.896">  }</a>
+<span class="sourceLineNo">897</span><a id="line.897"></a>
+<span class="sourceLineNo">898</span><a id="line.898">  private void checkWeightWithWeigher() {</a>
+<span class="sourceLineNo">899</span><a id="line.899">    if (weigher == null) {</a>
+<span class="sourceLineNo">900</span><a id="line.900">      checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");</a>
+<span class="sourceLineNo">901</span><a id="line.901">    } else {</a>
+<span class="sourceLineNo">902</span><a id="line.902">      if (strictParsing) {</a>
+<span class="sourceLineNo">903</span><a id="line.903">        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");</a>
+<span class="sourceLineNo">904</span><a id="line.904">      } else {</a>
+<span class="sourceLineNo">905</span><a id="line.905">        if (maximumWeight == UNSET_INT) {</a>
+<span class="sourceLineNo">906</span><a id="line.906">          logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");</a>
+<span class="sourceLineNo">907</span><a id="line.907">        }</a>
+<span class="sourceLineNo">908</span><a id="line.908">      }</a>
+<span class="sourceLineNo">909</span><a id="line.909">    }</a>
+<span class="sourceLineNo">910</span><a id="line.910">  }</a>
+<span class="sourceLineNo">911</span><a id="line.911"></a>
+<span class="sourceLineNo">912</span><a id="line.912">  /**</a>
+<span class="sourceLineNo">913</span><a id="line.913">   * Returns a string representation for this CacheBuilder instance. The exact form of the returned</a>
+<span class="sourceLineNo">914</span><a id="line.914">   * string is not specified.</a>
+<span class="sourceLineNo">915</span><a id="line.915">   */</a>
+<span class="sourceLineNo">916</span><a id="line.916">  @Override</a>
+<span class="sourceLineNo">917</span><a id="line.917">  public String toString() {</a>
+<span class="sourceLineNo">918</span><a id="line.918">    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);</a>
+<span class="sourceLineNo">919</span><a id="line.919">    if (initialCapacity != UNSET_INT) {</a>
+<span class="sourceLineNo">920</span><a id="line.920">      s.add("initialCapacity", initialCapacity);</a>
+<span class="sourceLineNo">921</span><a id="line.921">    }</a>
+<span class="sourceLineNo">922</span><a id="line.922">    if (concurrencyLevel != UNSET_INT) {</a>
+<span class="sourceLineNo">923</span><a id="line.923">      s.add("concurrencyLevel", concurrencyLevel);</a>
+<span class="sourceLineNo">924</span><a id="line.924">    }</a>
+<span class="sourceLineNo">925</span><a id="line.925">    if (maximumSize != UNSET_INT) {</a>
+<span class="sourceLineNo">926</span><a id="line.926">      s.add("maximumSize", maximumSize);</a>
+<span class="sourceLineNo">927</span><a id="line.927">    }</a>
+<span class="sourceLineNo">928</span><a id="line.928">    if (maximumWeight != UNSET_INT) {</a>
+<span class="sourceLineNo">929</span><a id="line.929">      s.add("maximumWeight", maximumWeight);</a>
+<span class="sourceLineNo">930</span><a id="line.930">    }</a>
+<span class="sourceLineNo">931</span><a id="line.931">    if (expireAfterWriteNanos != UNSET_INT) {</a>
+<span class="sourceLineNo">932</span><a id="line.932">      s.add("expireAfterWrite", expireAfterWriteNanos + "ns");</a>
+<span class="sourceLineNo">933</span><a id="line.933">    }</a>
+<span class="sourceLineNo">934</span><a id="line.934">    if (expireAfterAccessNanos != UNSET_INT) {</a>
+<span class="sourceLineNo">935</span><a id="line.935">      s.add("expireAfterAccess", expireAfterAccessNanos + "ns");</a>
+<span class="sourceLineNo">936</span><a id="line.936">    }</a>
+<span class="sourceLineNo">937</span><a id="line.937">    if (keyStrength != null) {</a>
+<span class="sourceLineNo">938</span><a id="line.938">      s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));</a>
+<span class="sourceLineNo">939</span><a id="line.939">    }</a>
+<span class="sourceLineNo">940</span><a id="line.940">    if (valueStrength != null) {</a>
+<span class="sourceLineNo">941</span><a id="line.941">      s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));</a>
+<span class="sourceLineNo">942</span><a id="line.942">    }</a>
+<span class="sourceLineNo">943</span><a id="line.943">    if (keyEquivalence != null) {</a>
+<span class="sourceLineNo">944</span><a id="line.944">      s.addValue("keyEquivalence");</a>
+<span class="sourceLineNo">945</span><a id="line.945">    }</a>
+<span class="sourceLineNo">946</span><a id="line.946">    if (valueEquivalence != null) {</a>
+<span class="sourceLineNo">947</span><a id="line.947">      s.addValue("valueEquivalence");</a>
+<span class="sourceLineNo">948</span><a id="line.948">    }</a>
+<span class="sourceLineNo">949</span><a id="line.949">    if (removalListener != null) {</a>
+<span class="sourceLineNo">950</span><a id="line.950">      s.addValue("removalListener");</a>
+<span class="sourceLineNo">951</span><a id="line.951">    }</a>
+<span class="sourceLineNo">952</span><a id="line.952">    return s.toString();</a>
+<span class="sourceLineNo">953</span><a id="line.953">  }</a>
+<span class="sourceLineNo">954</span><a id="line.954">}</a>
 
 
 
