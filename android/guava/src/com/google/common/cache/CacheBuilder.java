@@ -738,7 +738,8 @@ public final class CacheBuilder<K, V> {
    * operations.
    *
    * <p>Currently automatic refreshes are performed when the first stale request for an entry
-   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
+   * occurs. The request triggering refresh will make a synchronous call to {@link
+   * CacheLoader#reload}
    * and immediately return the new value if the returned future is complete, and the old value
    * otherwise.
    *
