@@ -19,10 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
-import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
@@ -39,6 +39,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -99,6 +100,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractScheduledService implements Service {
   private static final Logger logger = Logger.getLogger(AbstractScheduledService.class.getName());
 
@@ -147,7 +149,7 @@ public abstract class AbstractScheduledService implements Service {
         @Override
         public Cancellable schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
-          return new FutureAsCancellable<>(
+          return new FutureAsCancellable(
               executor.scheduleWithFixedDelay(task, initialDelay, delay, unit));
         }
       };
@@ -183,7 +185,7 @@ public abstract class AbstractScheduledService implements Service {
         @Override
         public Cancellable schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
-          return new FutureAsCancellable<>(
+          return new FutureAsCancellable(
               executor.scheduleAtFixedRate(task, initialDelay, period, unit));
         }
       };
@@ -204,8 +206,8 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    private volatile @Nullable Cancellable runningTask;
-    private volatile @Nullable ScheduledExecutorService executorService;
+    @CheckForNull private volatile Cancellable runningTask;
+    @CheckForNull private volatile ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
     // shutDown or runOneIteration) run concurrently with one another.
@@ -219,7 +221,11 @@ public abstract class AbstractScheduledService implements Service {
       public void run() {
         lock.lock();
         try {
-          if (runningTask.isCancelled()) {
+          /*
+           * requireNonNull is safe because Task isn't run (or at least it doesn't succeed in taking
+           * the lock) until after it's scheduled and the runningTask field is set.
+           */
+          if (requireNonNull(runningTask).isCancelled()) {
             // task may have been cancelled while blocked on the lock.
             return;
           }
@@ -234,7 +240,8 @@ public abstract class AbstractScheduledService implements Service {
                 ignored);
           }
           notifyFailed(t);
-          runningTask.cancel(false); // prevent future invocations.
+          // requireNonNull is safe now, just as it was above.
+          requireNonNull(runningTask).cancel(false); // prevent future invocations.
         } finally {
           lock.unlock();
         }
@@ -278,6 +285,9 @@ public abstract class AbstractScheduledService implements Service {
 
     @Override
     protected final void doStop() {
+      // Both requireNonNull calls are safe because doStop can run only after a successful doStart.
+      requireNonNull(runningTask);
+      requireNonNull(executorService);
       runningTask.cancel(false);
       executorService.execute(
           new Runnable() {
@@ -477,16 +487,26 @@ public abstract class AbstractScheduledService implements Service {
   }
 
   interface Cancellable {
-    @CanIgnoreReturnValue
-    boolean cancel(boolean mayInterruptIfRunning);
+    void cancel(boolean mayInterruptIfRunning);
 
     boolean isCancelled();
   }
 
-  private static final class FutureAsCancellable<V> extends SimpleForwardingFuture<V>
-      implements Cancellable {
-    FutureAsCancellable(Future<V> delegate) {
-      super(delegate);
+  private static final class FutureAsCancellable implements Cancellable {
+    private final Future<?> delegate;
+
+    FutureAsCancellable(Future<?> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public void cancel(boolean mayInterruptIfRunning) {
+      delegate.cancel(mayInterruptIfRunning);
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return delegate.isCancelled();
     }
   }
 
@@ -501,7 +521,7 @@ public abstract class AbstractScheduledService implements Service {
   public abstract static class CustomScheduler extends Scheduler {
 
     /** A callable class that can reschedule itself using a {@link CustomScheduler}. */
-    private final class ReschedulableCallable implements Callable<Void> {
+    private final class ReschedulableCallable implements Callable<@Nullable Void> {
 
       /** The underlying task. */
       private final Runnable wrappedRunnable;
@@ -524,7 +544,8 @@ public abstract class AbstractScheduledService implements Service {
 
       /** The future that represents the next execution of this task. */
       @GuardedBy("lock")
-      private @Nullable SupplantableFuture cancellationDelegate;
+      @CheckForNull
+      private SupplantableFuture cancellationDelegate;
 
       ReschedulableCallable(
           AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
@@ -534,6 +555,7 @@ public abstract class AbstractScheduledService implements Service {
       }
 
       @Override
+      @CheckForNull
       public Void call() throws Exception {
         wrappedRunnable.run();
         reschedule();
@@ -552,7 +574,7 @@ public abstract class AbstractScheduledService implements Service {
           schedule = CustomScheduler.this.getNextSchedule();
         } catch (Throwable t) {
           service.notifyFailed(t);
-          return new FutureAsCancellable<>(immediateCancelledFuture());
+          return new FutureAsCancellable(immediateCancelledFuture());
         }
         // We reschedule ourselves with a lock held for two reasons. 1. we want to make sure that
         // cancel calls cancel on the correct future. 2. we want to make sure that the assignment
@@ -573,7 +595,7 @@ public abstract class AbstractScheduledService implements Service {
           // the AbstractService could monitor the future directly. Rescheduling is still hard...
           // but it would help with some of these lock ordering issues.
           scheduleFailure = e;
-          toReturn = new FutureAsCancellable<>(immediateCancelledFuture());
+          toReturn = new FutureAsCancellable(immediateCancelledFuture());
         } finally {
           lock.unlock();
         }
@@ -602,7 +624,7 @@ public abstract class AbstractScheduledService implements Service {
         return cancellationDelegate;
       }
 
-      private ScheduledFuture<Void> submitToExecutor(Schedule schedule) {
+      private ScheduledFuture<@Nullable Void> submitToExecutor(Schedule schedule) {
         return executor.schedule(this, schedule.delay, schedule.unit);
       }
     }
@@ -615,15 +637,15 @@ public abstract class AbstractScheduledService implements Service {
       private final ReentrantLock lock;
 
       @GuardedBy("lock")
-      private Future<Void> currentFuture;
+      private Future<@Nullable Void> currentFuture;
 
-      SupplantableFuture(ReentrantLock lock, Future<Void> currentFuture) {
+      SupplantableFuture(ReentrantLock lock, Future<@Nullable Void> currentFuture) {
         this.lock = lock;
         this.currentFuture = currentFuture;
       }
 
       @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
+      public void cancel(boolean mayInterruptIfRunning) {
         /*
          * Lock to ensure that a task cannot be rescheduled while a cancel is ongoing.
          *
@@ -637,7 +659,7 @@ public abstract class AbstractScheduledService implements Service {
          */
         lock.lock();
         try {
-          return currentFuture.cancel(mayInterruptIfRunning);
+          currentFuture.cancel(mayInterruptIfRunning);
         } finally {
           lock.unlock();
         }

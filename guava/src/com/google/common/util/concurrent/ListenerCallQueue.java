@@ -53,6 +53,7 @@ import java.util.logging.Logger;
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());

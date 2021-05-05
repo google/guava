@@ -21,7 +21,8 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.
@@ -30,14 +31,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * performance reasons.
  */
 @GwtCompatible
-class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
+@ElementTypesAreNonnullByDefault
+class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
-  static <V> TrustedListenableFutureTask<V> create(AsyncCallable<V> callable) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+      AsyncCallable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
-  static <V> TrustedListenableFutureTask<V> create(Callable<V> callable) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(Callable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
@@ -50,7 +53,8 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
    *     result, consider using constructions of the form: {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
    */
-  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, @NullableDecl V result) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+      Runnable runnable, @ParametricNullness V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
@@ -61,7 +65,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
    * <p>{@code volatile} is required for j2objc transpiling:
    * https://developers.google.com/j2objc/guides/j2objc-memory-model#atomicity
    */
-  private volatile InterruptibleTask<?> task;
+  @CheckForNull private volatile InterruptibleTask<?> task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);
@@ -99,6 +103,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
   }
 
   @Override
+  @CheckForNull
   protected String pendingToString() {
     InterruptibleTask<?> localTask = task;
     if (localTask != null) {
@@ -121,12 +126,13 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     }
 
     @Override
+    @ParametricNullness
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void afterRanInterruptiblySuccess(V result) {
+    void afterRanInterruptiblySuccess(@ParametricNullness V result) {
       TrustedListenableFutureTask.this.set(result);
     }
 

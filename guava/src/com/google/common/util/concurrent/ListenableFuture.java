@@ -18,6 +18,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
@@ -99,9 +100,33 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+/*
+ * Some of the annotations below were added after we released our separate
+ * com.google.guava:listenablefuture:1.0 artifact. (For more on that artifact, see
+ * https://github.com/google/guava/releases/tag/v27.0) This means that the copy of ListenableFuture
+ * in com.google.guava:guava differs from the "frozen" copy in the listenablefuture artifact. This
+ * could in principle cause problems for some users. Still, we expect that the benefits of the
+ * nullness annotations in particular will outweigh the costs. (And it's worth noting that we have
+ * released multiple ListenableFuture.class files that are not byte-for-byte compatible even from
+ * the beginning, thanks to using different `-source -target` values for compiling our `-jre` and
+ * `-android` "flavors.")
+ *
+ * (We could consider releasing a listenablefuture:1.0.1 someday. But we would want to look into how
+ * that affects users, especially users of the Android Gradle Plugin, since the plugin developers
+ * put in a special hack for us: https://issuetracker.google.com/issues/131431257)
+ */
 @SuppressWarnings("ShouldNotSubclass")
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
-public interface ListenableFuture<V> extends Future<V> {
+/*
+ * It would make sense to also annotate this class with @ElementTypesAreNonnullByDefault. However,
+ * it makes no difference because this class is already covered by the package-level
+ * @ParametersAreNonnullByDefault, and this class declares only parameters, not return types or
+ * fields. (Not to mention that we'll be removing all @*AreNonnullByDefault annotations after tools
+ * understand .) And it's fortunate that the annotation makes no difference, because
+ * we're seeing a breakage internally when we add that annotation :)
+ *
+ */
+public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
    * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()

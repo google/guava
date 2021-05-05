@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Future} which forwards all its method calls to another future. Subclasses should
@@ -36,7 +37,9 @@ import java.util.concurrent.TimeoutException;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @SuppressWarnings("ShouldNotSubclass")
-public abstract class ForwardingFuture<V> extends ForwardingObject implements Future<V> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
+    implements Future<V> {
   /** Constructor for use by subclasses. */
   protected ForwardingFuture() {}
 
@@ -59,11 +62,13 @@ public abstract class ForwardingFuture<V> extends ForwardingObject implements Fu
   }
 
   @Override
+  @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     return delegate().get();
   }
 
   @Override
+  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate().get(timeout, unit);
@@ -76,7 +81,8 @@ public abstract class ForwardingFuture<V> extends ForwardingObject implements Fu
    *
    * @since 9.0
    */
-  public abstract static class SimpleForwardingFuture<V> extends ForwardingFuture<V> {
+  public abstract static class SimpleForwardingFuture<V extends @Nullable Object>
+      extends ForwardingFuture<V> {
     private final Future<V> delegate;
 
     protected SimpleForwardingFuture(Future<V> delegate) {

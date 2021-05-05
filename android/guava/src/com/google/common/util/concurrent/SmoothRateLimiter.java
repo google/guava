@@ -22,6 +22,7 @@ import com.google.common.math.LongMath;
 import java.util.concurrent.TimeUnit;
 
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 abstract class SmoothRateLimiter extends RateLimiter {
   /*
    * How is the RateLimiter designed, and why?

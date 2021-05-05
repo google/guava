@@ -34,6 +34,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =
       Logger.getLogger(AbstractExecutionThreadService.class.getName());

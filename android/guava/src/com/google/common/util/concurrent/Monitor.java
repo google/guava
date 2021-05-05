@@ -24,7 +24,7 @@ import com.google.j2objc.annotations.Weak;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A synchronization abstraction supporting waiting on arbitrary boolean conditions.
@@ -200,6 +200,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @Beta
 @GwtIncompatible
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
+@ElementTypesAreNonnullByDefault
 public final class Monitor {
   // TODO(user): Use raw LockSupport or AbstractQueuedSynchronizer instead of ReentrantLock.
   // TODO(user): "Port" jsr166 tests for ReentrantLock.
@@ -311,7 +312,7 @@ public final class Monitor {
 
     /** The next active guard */
     @GuardedBy("monitor.lock")
-    @NullableDecl
+    @CheckForNull
     Guard next;
 
     protected Guard(Monitor monitor) {
@@ -338,6 +339,7 @@ public final class Monitor {
    * A linked list threaded through the Guard.next field.
    */
   @GuardedBy("lock")
+  @CheckForNull
   private Guard activeGuards = null;
 
   /**

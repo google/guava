@@ -35,20 +35,25 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(Future<V> future, Class<X> exceptionClass) throws X {
+  @ParametricNullness
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
+      Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
   }
 
   /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
-  static <V, X extends Exception> V getChecked(
+  @ParametricNullness
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       GetCheckedTypeValidator validator, Future<V> future, Class<X> exceptionClass) throws X {
     validator.validateClass(exceptionClass);
     try {
@@ -64,7 +69,8 @@ final class FuturesGetChecked {
 
   /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(
+  @ParametricNullness
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     // TODO(cpovirk): benchmark a version of this method that accepts a GetCheckedTypeValidator
     bestGetCheckedTypeValidator().validateClass(exceptionClass);
@@ -185,7 +191,8 @@ final class FuturesGetChecked {
      */
     static GetCheckedTypeValidator getBestValidator() {
       try {
-        Class<?> theClass = Class.forName(CLASS_VALUE_VALIDATOR_NAME);
+        Class<? extends Enum> theClass =
+            Class.forName(CLASS_VALUE_VALIDATOR_NAME).asSubclass(Enum.class);
         return (GetCheckedTypeValidator) theClass.getEnumConstants()[0];
       } catch (Throwable t) { // ensure we really catch *everything*
         return weakSetValidator();
@@ -225,7 +232,7 @@ final class FuturesGetChecked {
     @SuppressWarnings({"unchecked", "rawtypes"})
     List<Constructor<X>> constructors = (List) Arrays.asList(exceptionClass.getConstructors());
     for (Constructor<X> constructor : preferringStrings(constructors)) {
-      @Nullable X instance = newFromConstructor(constructor, cause);
+      X instance = newFromConstructor(constructor, cause);
       if (instance != null) {
         if (instance.getCause() == null) {
           instance.initCause(cause);
@@ -256,7 +263,8 @@ final class FuturesGetChecked {
               })
           .reverse();
 
-  private static <X> @Nullable X newFromConstructor(Constructor<X> constructor, Throwable cause) {
+  @CheckForNull
+  private static <X> X newFromConstructor(Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
     Object[] params = new Object[paramTypes.length];
     for (int i = 0; i < paramTypes.length; i++) {

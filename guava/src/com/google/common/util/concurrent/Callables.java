@@ -30,13 +30,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(final @Nullable T value) {
+  public static <T extends @Nullable Object> Callable<T> returning(
+      @ParametricNullness final T value) {
     return new Callable<T>() {
       @Override
+      @ParametricNullness
       public T call() {
         return value;
       }
@@ -53,7 +56,7 @@ public final class Callables {
    */
   @Beta
   @GwtIncompatible
-  public static <T> AsyncCallable<T> asAsyncCallable(
+  public static <T extends @Nullable Object> AsyncCallable<T> asAsyncCallable(
       final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
@@ -74,12 +77,13 @@ public final class Callables {
    *     for each invocation of the wrapped callable.
    */
   @GwtIncompatible // threads
-  static <T> Callable<T> threadRenaming(
+  static <T extends @Nullable Object> Callable<T> threadRenaming(
       final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
     return new Callable<T>() {
       @Override
+      @ParametricNullness
       public T call() throws Exception {
         Thread currentThread = Thread.currentThread();
         String oldName = currentThread.getName();

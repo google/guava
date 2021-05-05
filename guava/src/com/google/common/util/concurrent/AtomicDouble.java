@@ -53,6 +53,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  */
 @GwtIncompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
+@ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 

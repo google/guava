@@ -32,6 +32,7 @@ import java.lang.annotation.Target;
  * version.
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class Partially {
   /**
    * The presence of this annotation on an API indicates that the method <i>may</i> be used with the

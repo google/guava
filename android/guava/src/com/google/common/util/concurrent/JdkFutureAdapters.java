@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utilities necessary for working with libraries that supply plain {@link Future} instances. Note
@@ -35,6 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.
@@ -49,7 +51,8 @@ public final class JdkFutureAdapters {
    * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
    * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
    */
-  public static <V> ListenableFuture<V> listenInPoolThread(Future<V> future) {
+  public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
+      Future<V> future) {
     if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
     }
@@ -76,7 +79,8 @@ public final class JdkFutureAdapters {
    *
    * @since 12.0
    */
-  public static <V> ListenableFuture<V> listenInPoolThread(Future<V> future, Executor executor) {
+  public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
+      Future<V> future, Executor executor) {
     checkNotNull(executor);
     if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
@@ -94,8 +98,8 @@ public final class JdkFutureAdapters {
    * listeners will not be invoked.
    */
   @SuppressWarnings("ShouldNotSubclass")
-  private static class ListenableFutureAdapter<V> extends ForwardingFuture<V>
-      implements ListenableFuture<V> {
+  private static class ListenableFutureAdapter<V extends @Nullable Object>
+      extends ForwardingFuture<V> implements ListenableFuture<V> {
 
     private static final ThreadFactory threadFactory =
         new ThreadFactoryBuilder()
