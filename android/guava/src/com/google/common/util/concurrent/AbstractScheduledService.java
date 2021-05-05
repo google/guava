@@ -16,10 +16,12 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
+import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
@@ -28,6 +30,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -126,9 +129,10 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
         @Override
-        public Future<?> schedule(
+        public Cancellable schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
-          return executor.scheduleWithFixedDelay(task, initialDelay, delay, unit);
+          return new FutureAsCancellable<>(
+              executor.scheduleWithFixedDelay(task, initialDelay, delay, unit));
         }
       };
     }
@@ -148,15 +152,16 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
         @Override
-        public Future<?> schedule(
+        public Cancellable schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
-          return executor.scheduleAtFixedRate(task, initialDelay, period, unit);
+          return new FutureAsCancellable<>(
+              executor.scheduleAtFixedRate(task, initialDelay, period, unit));
         }
       };
     }
 
     /** Schedules the task to run on the provided executor on behalf of the service. */
-    abstract Future<?> schedule(
+    abstract Cancellable schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable);
 
     private Scheduler() {}
@@ -170,7 +175,7 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    @NullableDecl private volatile Future<?> runningTask;
+    @NullableDecl private volatile Cancellable runningTask;
     @NullableDecl private volatile ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
@@ -430,6 +435,20 @@ public abstract class AbstractScheduledService implements Service {
     delegate.awaitTerminated(timeout, unit);
   }
 
+  interface Cancellable {
+    @CanIgnoreReturnValue
+    boolean cancel(boolean mayInterruptIfRunning);
+
+    boolean isCancelled();
+  }
+
+  private static final class FutureAsCancellable<V> extends SimpleForwardingFuture<V>
+      implements Cancellable {
+    FutureAsCancellable(Future<V> delegate) {
+      super(delegate);
+    }
+  }
+
   /**
    * A {@link Scheduler} that provides a convenient way for the {@link AbstractScheduledService} to
    * use a dynamically changing schedule. After every execution of the task, assuming it hasn't been
@@ -441,7 +460,7 @@ public abstract class AbstractScheduledService implements Service {
   public abstract static class CustomScheduler extends Scheduler {
 
     /** A callable class that can reschedule itself using a {@link CustomScheduler}. */
-    private class ReschedulableCallable extends ForwardingFuture<Void> implements Callable<Void> {
+    private final class ReschedulableCallable implements Callable<Void> {
 
       /** The underlying task. */
       private final Runnable wrappedRunnable;
@@ -465,7 +484,7 @@ public abstract class AbstractScheduledService implements Service {
       /** The future that represents the next execution of this task. */
       @GuardedBy("lock")
       @NullableDecl
-      private Future<Void> currentFuture;
+      private SupplantableFuture cancellationDelegate;
 
       ReschedulableCallable(
           AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
@@ -481,26 +500,29 @@ public abstract class AbstractScheduledService implements Service {
         return null;
       }
 
-      /** Atomically reschedules this task and assigns the new future to {@link #currentFuture}. */
-      public void reschedule() {
+      /**
+       * Atomically reschedules this task and assigns the new future to {@link
+       * #cancellationDelegate}.
+       */
+      @CanIgnoreReturnValue
+      public Cancellable reschedule() {
         // invoke the callback outside the lock, prevents some shenanigans.
         Schedule schedule;
         try {
           schedule = CustomScheduler.this.getNextSchedule();
         } catch (Throwable t) {
           service.notifyFailed(t);
-          return;
+          return new FutureAsCancellable<>(immediateCancelledFuture());
         }
         // We reschedule ourselves with a lock held for two reasons. 1. we want to make sure that
         // cancel calls cancel on the correct future. 2. we want to make sure that the assignment
         // to currentFuture doesn't race with itself so that currentFuture is assigned in the
         // correct order.
         Throwable scheduleFailure = null;
+        Cancellable toReturn;
         lock.lock();
         try {
-          if (currentFuture == null || !currentFuture.isCancelled()) {
-            currentFuture = executor.schedule(this, schedule.delay, schedule.unit);
-          }
+          toReturn = initializeOrUpdateCancellationDelegate(schedule);
         } catch (Throwable e) {
           // If an exception is thrown by the subclass then we need to make sure that the service
           // notices and transitions to the FAILED state. We do it by calling notifyFailed directly
@@ -511,6 +533,7 @@ public abstract class AbstractScheduledService implements Service {
           // the AbstractService could monitor the future directly. Rescheduling is still hard...
           // but it would help with some of these lock ordering issues.
           scheduleFailure = e;
+          toReturn = new FutureAsCancellable<>(immediateCancelledFuture());
         } finally {
           lock.unlock();
         }
@@ -518,13 +541,60 @@ public abstract class AbstractScheduledService implements Service {
         if (scheduleFailure != null) {
           service.notifyFailed(scheduleFailure);
         }
+        return toReturn;
       }
 
-      // N.B. Only protect cancel and isCancelled because those are the only methods that are
-      // invoked by the AbstractScheduledService.
+      @GuardedBy("lock")
+      /*
+       * The GuardedBy checker warns us that we're not holding cancellationDelegate.lock. But in
+       * fact we are holding it because it is the same as this.lock, which we know we are holding,
+       * thanks to @GuardedBy above. (cancellationDelegate.lock is initialized to this.lock in the
+       * call to `new SupplantableFuture` below.)
+       */
+      @SuppressWarnings("GuardedBy")
+      private Cancellable initializeOrUpdateCancellationDelegate(Schedule schedule) {
+        if (cancellationDelegate == null) {
+          return cancellationDelegate = new SupplantableFuture(lock, submitToExecutor(schedule));
+        }
+        if (!cancellationDelegate.currentFuture.isCancelled()) {
+          cancellationDelegate.currentFuture = submitToExecutor(schedule);
+        }
+        return cancellationDelegate;
+      }
+
+      private ScheduledFuture<Void> submitToExecutor(Schedule schedule) {
+        return executor.schedule(this, schedule.delay, schedule.unit);
+      }
+    }
+
+    /**
+     * Contains the most recently submitted {@code Future}, which may be cancelled or updated,
+     * always under a lock.
+     */
+    private static final class SupplantableFuture implements Cancellable {
+      private final ReentrantLock lock;
+
+      @GuardedBy("lock")
+      private Future<Void> currentFuture;
+
+      SupplantableFuture(ReentrantLock lock, Future<Void> currentFuture) {
+        this.lock = lock;
+        this.currentFuture = currentFuture;
+      }
+
       @Override
       public boolean cancel(boolean mayInterruptIfRunning) {
-        // Ensure that a task cannot be rescheduled while a cancel is ongoing.
+        /*
+         * Lock to ensure that a task cannot be rescheduled while a cancel is ongoing.
+         *
+         * In theory, cancel() could execute arbitrary listeners -- bad to do while holding a lock.
+         * However, we don't expose currentFuture to users, so they can't attach listeners. And the
+         * Future might not even be a ListenableFuture, just a plain Future. That said, similar
+         * problems can exist with methods like FutureTask.done(), not to mention slow calls to
+         * Thread.interrupt() (as discussed in InterruptibleTask). At the end of the day, it's
+         * unlikely that cancel() will be slow, so we can probably get away with calling it while
+         * holding a lock. Still, it would be nice to avoid somehow.
+         */
         lock.lock();
         try {
           return currentFuture.cancel(mayInterruptIfRunning);
@@ -542,20 +612,12 @@ public abstract class AbstractScheduledService implements Service {
           lock.unlock();
         }
       }
-
-      @Override
-      protected Future<Void> delegate() {
-        throw new UnsupportedOperationException(
-            "Only cancel and isCancelled is supported by this future");
-      }
     }
 
     @Override
-    final Future<?> schedule(
+    final Cancellable schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
-      ReschedulableCallable task = new ReschedulableCallable(service, executor, runnable);
-      task.reschedule();
-      return task;
+      return new ReschedulableCallable(service, executor, runnable).reschedule();
     }
 
     /**
