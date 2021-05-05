@@ -128,7 +128,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.34">ListeningScheduledExecutorService</a>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.35">ListeningScheduledExecutorService</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>, <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></pre>
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a> that returns <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
  <code>ExecutorService</code> methods. To create an instance from an existing <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a>, call <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ScheduledExecutorService)"><code>MoreExecutors.listeningDecorator(ScheduledExecutorService)</code></a>.</div>
@@ -176,7 +176,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>&lt;V&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;</code></td>
+<td class="colFirst"><code>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#schedule(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">schedule</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
         long&nbsp;delay,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
@@ -186,7 +186,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>default &lt;V&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;</code></td>
+<td class="colFirst"><code>default &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#schedule(java.util.concurrent.Callable,java.time.Duration)">schedule</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;delay)</code></th>
 <td class="colLast">
@@ -282,7 +282,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.39">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.41">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                       long&nbsp;delay,
                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true#schedule(java.lang.Runnable,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.ScheduledExecutorService</a></code></span></div>
@@ -309,7 +309,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.47">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.49">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#schedule(java.lang.Runnable,long,java.util.concurrent.TimeUnit)"><code>schedule(Runnable, long, TimeUnit)</code></a>.</div>
 <dl>
@@ -324,9 +324,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">&lt;V&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.52">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
-                                          long&nbsp;delay,
-                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
+<pre class="methodSignature">&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.54">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
+                                                                   long&nbsp;delay,
+                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true#schedule(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.ScheduledExecutorService</a></code></span></div>
 <div class="block">Submits a value-returning one-shot task that becomes enabled
  after the given delay.</div>
@@ -352,8 +352,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>schedule</h4>
-<pre class="methodSignature">default&nbsp;&lt;V&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.60">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
-                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;delay)</pre>
+<pre class="methodSignature">default&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.63">schedule</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;V&gt;&nbsp;callable,
+                                                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#schedule(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)"><code>schedule(Callable, long, TimeUnit)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -367,7 +367,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleAtFixedRate</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.65">scheduleAtFixedRate</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.69">scheduleAtFixedRate</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                                  long&nbsp;initialDelay,
                                                  long&nbsp;period,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
@@ -419,7 +419,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleAtFixedRate</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.74">scheduleAtFixedRate</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.78">scheduleAtFixedRate</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;initialDelay,
                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;period)</pre>
 <div class="block">Duration-based overload of <a href="#scheduleAtFixedRate(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit)"><code>scheduleAtFixedRate(Runnable, long, long, TimeUnit)</code></a>.</div>
@@ -435,7 +435,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>scheduleWithFixedDelay</h4>
-<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.81">scheduleWithFixedDelay</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature"><a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.85">scheduleWithFixedDelay</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                                     long&nbsp;initialDelay,
                                                     long&nbsp;delay,
                                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
@@ -483,7 +483,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>scheduleWithFixedDelay</h4>
-<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.90">scheduleWithFixedDelay</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
+<pre class="methodSignature">default&nbsp;<a href="ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningScheduledExecutorService.html#line.94">scheduleWithFixedDelay</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;command,
                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;initialDelay,
                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;delay)</pre>
 <div class="block">Duration-based overload of <a href="#scheduleWithFixedDelay(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit)"><code>scheduleWithFixedDelay(Runnable, long, long, TimeUnit)</code></a>.</div>

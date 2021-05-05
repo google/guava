@@ -60230,7 +60230,7 @@
       static="false" final="true" visibility="protected"
       deprecated="not deprecated">
       <param name="runnable" type="java.lang.Runnable"/>
-      <param name="value" type="T"/>
+      <param name="value" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[@since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)]]>
       </doc>
@@ -60255,7 +60255,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="task" type="java.lang.Runnable"/>
-      <param name="result" type="T"/>
+      <param name="result" type="T extends java.lang.Object"/>
     </method>
     <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
@@ -61543,7 +61543,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="T"/>
+      <param name="value" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Creates a {@code Callable} which immediately returns a preset value each time it is called.]]>
       </doc>
@@ -63881,7 +63881,7 @@
       <param name="timeoutDuration" type="long"/>
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
     </method>
-    <method name="callWithTimeout" return="T"
+    <method name="callWithTimeout" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -63890,7 +63890,7 @@
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
-    <method name="callUninterruptiblyWithTimeout" return="T"
+    <method name="callUninterruptiblyWithTimeout" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -64531,7 +64531,7 @@
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
     </method>
-    <method name="invokeAny" return="T"
+    <method name="invokeAny" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -64539,7 +64539,7 @@
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
-    <method name="invokeAny" return="T"
+    <method name="invokeAny" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -64593,7 +64593,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="task" type="java.lang.Runnable"/>
-      <param name="result" type="T"/>
+      <param name="result" type="T extends java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[An executor service which forwards all its method calls to another executor service. Subclasses
@@ -64639,14 +64639,14 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -64784,7 +64784,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="task" type="java.lang.Runnable"/>
-      <param name="result" type="T"/>
+      <param name="result" type="T extends java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[A listening executor service which forwards all its method calls to another listening executor
@@ -64805,7 +64805,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="result" type="V"/>
+      <param name="result" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Invoked with the result of the {@code Future} computation when it is successful.]]>
       </doc>
@@ -65909,7 +65909,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="runnable" type="java.lang.Runnable"/>
-      <param name="result" type="V"/>
+      <param name="result" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Creates a {@code ListenableFutureTask} that will upon running, execute the given {@code
  Runnable}, and arrange that {@code get} will return the given result on successful completion.
@@ -65928,7 +65928,7 @@
       <param name="listener" type="java.lang.Runnable"/>
       <param name="exec" type="java.util.concurrent.Executor"/>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -67959,7 +67959,7 @@
       <param name="timeoutDuration" type="long"/>
       <param name="timeoutUnit" type="java.util.concurrent.TimeUnit"/>
     </method>
-    <method name="callWithTimeout" return="T"
+    <method name="callWithTimeout" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -67970,7 +67970,7 @@
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
     </method>
-    <method name="callUninterruptiblyWithTimeout" return="T"
+    <method name="callUninterruptiblyWithTimeout" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68361,7 +68361,7 @@
      annotation type, rather than an interface]]>
       </doc>
     </method>
-    <method name="callWithTimeout" return="T"
+    <method name="callWithTimeout" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68389,7 +68389,7 @@
  @since 22.0]]>
       </doc>
     </method>
-    <method name="callUninterruptiblyWithTimeout" return="T"
+    <method name="callUninterruptiblyWithTimeout" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68652,7 +68652,7 @@
  uninterruptibly.]]>
       </doc>
     </method>
-    <method name="getUninterruptibly" return="V"
+    <method name="getUninterruptibly" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68676,7 +68676,7 @@
  @throws CancellationException if the computation was cancelled]]>
       </doc>
     </method>
-    <method name="getUninterruptibly" return="V"
+    <method name="getUninterruptibly" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
