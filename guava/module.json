@@ -49,8 +49,9 @@
         },
         {
           "group": "org.checkerframework",
-          "module": "${variant.checkerframework}"
+          "module": "checker-qual"
         },
+        ${variant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -118,8 +119,9 @@
         },
         {
           "group": "org.checkerframework",
-          "module": "${variant.checkerframework}"
+          "module": "checker-qual"
         },
+        ${variant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -183,8 +185,9 @@
         },
         {
           "group": "org.checkerframework",
-          "module": "${otherVariant.checkerframework}"
+          "module": "checker-qual"
         },
+        ${otherVariant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
@@ -252,8 +255,9 @@
         },
         {
           "group": "org.checkerframework",
-          "module": "${otherVariant.checkerframework}"
+          "module": "checker-qual"
         },
+        ${otherVariant.checkerCompatQual}
         {
           "group": "com.google.errorprone",
           "module": "error_prone_annotations"
