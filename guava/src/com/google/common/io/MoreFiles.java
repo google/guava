@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -534,7 +535,13 @@ public final class MoreFiles {
         if (parent instanceof SecureDirectoryStream) {
           sdsSupported = true;
           exceptions =
-              deleteRecursivelySecure((SecureDirectoryStream<Path>) parent, path.getFileName());
+              deleteRecursivelySecure(
+                  (SecureDirectoryStream<Path>) parent,
+                  /*
+                   * requireNonNull is safe because paths have file names when they have parents,
+                   * and we checked for a parent at the beginning of the method.
+                   */
+                  requireNonNull(path.getFileName()));
         }
       }
 
@@ -850,7 +857,9 @@ public final class MoreFiles {
        */
       return null;
     }
-    if (exceptionFile.equals(parentPath.resolve(path.getFileName()).toString())) {
+    // requireNonNull is safe because paths have file names when they have parents.
+    Path pathResolvedFromParent = parentPath.resolve(requireNonNull(path.getFileName()));
+    if (exceptionFile.equals(pathResolvedFromParent.toString())) {
       return noSuchFileException;
     }
     return null;
