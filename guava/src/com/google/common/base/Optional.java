@@ -22,6 +22,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
 
 /**
@@ -167,6 +168,17 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> no differences.
    */
   public abstract boolean isPresent();
+
+  /**
+   * if this holder contains a (non-null) instance then run callback
+   * @param consumer callback
+   */
+  public void ifPresent(Consumer<T> consumer) {
+      checkNotNull(consumer, "consumer is null");
+      if (isPresent()) {
+        consumer.accept(get());
+      }
+  }
 
   /**
    * Returns the contained instance, which must be present. If the instance might be absent, use

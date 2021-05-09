@@ -28,6 +28,8 @@ import com.google.common.testing.NullPointerTester;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+
 import junit.framework.TestCase;
 
 /**
@@ -87,6 +89,32 @@ public final class OptionalTest extends TestCase {
 
   public void testIsPresent_yes() {
     assertTrue(Optional.of("training").isPresent());
+  }
+
+  public void testIfPreset_nullable() {
+    Optional.<String>fromNullable(null).ifPresent(new Consumer<String>() {
+      @Override
+      public void accept(String s) {
+
+      }
+    });
+  }
+
+  public void testIfPresent_absent() {
+    Optional.<String>absent().ifPresent(new Consumer<String>() {
+      @Override
+      public void accept(String s) {
+      }
+    });
+  }
+
+  public void testIfPresent_present() {
+    Optional.of("a").ifPresent(new Consumer<String>() {
+      @Override
+      public void accept(String s) {
+        assertEquals(s, "a");
+      }
+    });
   }
 
   public void testGet_absent() {
