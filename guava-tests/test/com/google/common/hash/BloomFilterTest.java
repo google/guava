@@ -525,6 +525,19 @@ public class BloomFilterTest extends TestCase {
     assertEquals(bf, BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel));
   }
 
+  public void testBitmapRedisSerialization(){
+    Funnel<byte[]> funnel = Funnels.byteArrayFunnel();
+    BloomFilter<byte[]> bf = BloomFilter.create(funnel, 100);
+    for (int i = 0; i < 100; i++) {
+      bf.put(Ints.toByteArray(i));
+    }
+
+    byte[] data = bf.serialToRedisBitmapBytes();
+
+    BloomFilter<byte[]> bf2 = BloomFilter.createFromRedisBitmapBytes(data, funnel, 100, 0.03);
+    assertEquals(bf,bf2);
+  }
+
   /**
    * This test will fail whenever someone updates/reorders the BloomFilterStrategies constants. Only
    * appending a new constant is allowed.

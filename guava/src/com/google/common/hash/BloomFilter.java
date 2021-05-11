@@ -23,6 +23,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -623,5 +625,63 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
               + dataLength;
       throw new IOException(message, e);
     }
+  }
+
+  /**
+   *  Convert {@code BloomFilter.bits} to a byte array in Redis bitmap format.
+   *
+   *  @return The Redis bitmap format byte array
+   */
+  public byte[] serialToRedisBitmapBytes() {
+    if (!BloomFilterStrategies.MURMUR128_MITZ_32.equals(strategy)){
+      throw new IllegalArgumentException(
+              "Only support BloomFilterStrategies.MURMUR128_MITZ_32,because Redis only supports 32-bit bitmaps");
+    }
+    long[] plainArray = BloomFilterStrategies.LockFreeBitArray.toPlainArray(bits.data);
+    byte[] redisBitmapBytes = new byte[plainArray.length * 8];
+    for (int i = 0; i < plainArray.length; i++) {
+      long longValue = Long.reverse(plainArray[i]);
+      byte[] byteValues = Longs.toByteArray(longValue);
+      System.arraycopy(byteValues, 0, redisBitmapBytes, i * 8, byteValues.length);
+    }
+    return redisBitmapBytes;
+  }
+
+  /**
+   * Creates a {@link BloomFilter} ,which BloomFilter.bits is converted from
+   * the Redis bitmap byte array.
+   *
+   * <p>Note that the Redis bitmap offset argument is required to be greater than or equal to 0,
+   * and smaller than 2^32 ,Therefore, the strategy can only choose BloomFilterStrategies.MURMUR128_MITZ_32.
+   *
+   *
+   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
+   * @param fpp the desired false positive probability (must be positive and less than 1.0)
+   * @return a {@code BloomFilter}
+   */
+  public static <T extends @Nullable Object> BloomFilter<T> createFromRedisBitmapBytes(
+          byte[] bytes,
+          Funnel<? super T> funnel,
+          long expectedInsertions,
+          double fpp) {
+    checkNotNull(bytes, "Redis bitMap bytes");
+    checkNotNull(funnel, "Funnel");
+    checkArgument(
+            expectedInsertions >= 0, "Expected insertions (%s) must be >= 0", expectedInsertions);
+    checkArgument(fpp > 0.0, "False positive probability (%s) must be > 0.0", fpp);
+    checkArgument(fpp < 1.0, "False positive probability (%s) must be < 1.0", fpp);
+
+    long numBits = optimalNumOfBits(expectedInsertions, fpp);
+    int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
+
+    long[] data = new long[(bytes.length + 8 - 1) / 8];
+    for (int i = 0; i < data.length; i++) {
+      byte[] byteValue = Arrays.copyOfRange(bytes, i*8, i*8+8);
+      long longValue = Longs.fromByteArray(byteValue);
+      data[i] = Long.reverse(longValue);
+    }
+    return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, BloomFilterStrategies.MURMUR128_MITZ_32);
   }
 }
