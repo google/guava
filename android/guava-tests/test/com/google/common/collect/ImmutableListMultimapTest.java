@@ -29,6 +29,7 @@ import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
@@ -570,5 +571,14 @@ public class ImmutableListMultimapTest extends TestCase {
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableListMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableListMultimap.class);
+    tester.ignore(ImmutableListMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableListMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableListMultimap.of("a", 1));
   }
 }
