@@ -354,7 +354,7 @@ class FreshValueGenerator {
   private @interface Empty {}
 
   @Generates
-  private Class<?> generateClass() {
+  Class<?> generateClass() {
     return pickInstance(
         ImmutableList.of(
             int.class, long.class, void.class, Object.class, Object[].class, Iterable.class),
@@ -362,147 +362,147 @@ class FreshValueGenerator {
   }
 
   @Generates
-  private Object generateObject() {
+  Object generateObject() {
     return generateString();
   }
 
   @Generates
-  private Number generateNumber() {
+  Number generateNumber() {
     return generateInt();
   }
 
   @Generates
-  private int generateInt() {
+  int generateInt() {
     return freshness.get();
   }
 
   @Generates
-  private Integer generateInteger() {
+  Integer generateInteger() {
     return new Integer(generateInt());
   }
 
   @Generates
-  private long generateLong() {
+  long generateLong() {
     return generateInt();
   }
 
   @Generates
-  private Long generateLongObject() {
+  Long generateLongObject() {
     return new Long(generateLong());
   }
 
   @Generates
-  private float generateFloat() {
+  float generateFloat() {
     return generateInt();
   }
 
   @Generates
-  private Float generateFloatObject() {
+  Float generateFloatObject() {
     return new Float(generateFloat());
   }
 
   @Generates
-  private double generateDouble() {
+  double generateDouble() {
     return generateInt();
   }
 
   @Generates
-  private Double generateDoubleObject() {
+  Double generateDoubleObject() {
     return new Double(generateDouble());
   }
 
   @Generates
-  private short generateShort() {
+  short generateShort() {
     return (short) generateInt();
   }
 
   @Generates
-  private Short generateShortObject() {
+  Short generateShortObject() {
     return new Short(generateShort());
   }
 
   @Generates
-  private byte generateByte() {
+  byte generateByte() {
     return (byte) generateInt();
   }
 
   @Generates
-  private Byte generateByteObject() {
+  Byte generateByteObject() {
     return new Byte(generateByte());
   }
 
   @Generates
-  private char generateChar() {
+  char generateChar() {
     return generateString().charAt(0);
   }
 
   @Generates
-  private Character generateCharacter() {
+  Character generateCharacter() {
     return new Character(generateChar());
   }
 
   @Generates
-  private boolean generateBoolean() {
+  boolean generateBoolean() {
     return generateInt() % 2 == 0;
   }
 
   @Generates
-  private Boolean generateBooleanObject() {
+  Boolean generateBooleanObject() {
     return new Boolean(generateBoolean());
   }
 
   @Generates
-  private UnsignedInteger generateUnsignedInteger() {
+  UnsignedInteger generateUnsignedInteger() {
     return UnsignedInteger.fromIntBits(generateInt());
   }
 
   @Generates
-  private UnsignedLong generateUnsignedLong() {
+  UnsignedLong generateUnsignedLong() {
     return UnsignedLong.fromLongBits(generateLong());
   }
 
   @Generates
-  private BigInteger generateBigInteger() {
+  BigInteger generateBigInteger() {
     return BigInteger.valueOf(generateInt());
   }
 
   @Generates
-  private BigDecimal generateBigDecimal() {
+  BigDecimal generateBigDecimal() {
     return BigDecimal.valueOf(generateInt());
   }
 
   @Generates
-  private CharSequence generateCharSequence() {
+  CharSequence generateCharSequence() {
     return generateString();
   }
 
   @Generates
-  private String generateString() {
+  String generateString() {
     return Integer.toString(generateInt());
   }
 
   @Generates
-  private Comparable<?> generateComparable() {
+  Comparable<?> generateComparable() {
     return generateString();
   }
 
   @Generates
-  private Pattern generatePattern() {
+  Pattern generatePattern() {
     return Pattern.compile(generateString());
   }
 
   @Generates
-  private Charset generateCharset() {
+  Charset generateCharset() {
     return pickInstance(Charset.availableCharsets().values(), Charsets.UTF_8);
   }
 
   @Generates
-  private Locale generateLocale() {
+  Locale generateLocale() {
     return pickInstance(Locale.getAvailableLocales(), Locale.US);
   }
 
   @Generates
-  private Currency generateCurrency() {
+  Currency generateCurrency() {
     try {
       Method method = Currency.class.getMethod("getAvailableCurrencies");
       @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
@@ -538,27 +538,27 @@ class FreshValueGenerator {
 
   // common.base
   @Empty
-  private <T> com.google.common.base.Optional<T> generateGoogleOptional() {
+  <T> com.google.common.base.Optional<T> generateGoogleOptional() {
     return com.google.common.base.Optional.absent();
   }
 
   @Generates
-  private <T> com.google.common.base.Optional<T> generateGoogleOptional(T value) {
+  <T> com.google.common.base.Optional<T> generateGoogleOptional(T value) {
     return com.google.common.base.Optional.of(value);
   }
 
   @Generates
-  private Joiner generateJoiner() {
+  Joiner generateJoiner() {
     return Joiner.on(generateString());
   }
 
   @Generates
-  private Splitter generateSplitter() {
+  Splitter generateSplitter() {
     return Splitter.on(generateString());
   }
 
   @Generates
-  private <T> Equivalence<T> generateEquivalence() {
+  <T> Equivalence<T> generateEquivalence() {
     return new Equivalence<T>() {
       @Override
       protected boolean doEquivalent(T a, T b) {
@@ -580,7 +580,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  private CharMatcher generateCharMatcher() {
+  CharMatcher generateCharMatcher() {
     return new CharMatcher() {
       @Override
       public boolean matches(char c) {
@@ -597,7 +597,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  private Ticker generateTicker() {
+  Ticker generateTicker() {
     return new Ticker() {
       @Override
       public long read() {
@@ -615,12 +615,12 @@ class FreshValueGenerator {
 
   // collect
   @Generates
-  private <T> Comparator<T> generateComparator() {
+  <T> Comparator<T> generateComparator() {
     return generateOrdering();
   }
 
   @Generates
-  private <T> Ordering<T> generateOrdering() {
+  <T> Ordering<T> generateOrdering() {
     return new Ordering<T>() {
       @Override
       public int compare(T left, T right) {
@@ -637,279 +637,283 @@ class FreshValueGenerator {
   }
 
   @Empty
-  private static <C extends Comparable<?>> Range<C> generateRange() {
+  static <C extends Comparable<?>> Range<C> generateRange() {
     return Range.all();
   }
 
   @Generates
-  private static <C extends Comparable<?>> Range<C> generateRange(C freshElement) {
+  static <C extends Comparable<?>> Range<C> generateRange(C freshElement) {
     return Range.singleton(freshElement);
   }
 
   @Generates
-  private static <E> Iterable<E> generateIterable(E freshElement) {
+  static <E> Iterable<E> generateIterable(@NullableDecl E freshElement) {
     return generateList(freshElement);
   }
 
   @Generates
-  private static <E> Collection<E> generateCollection(E freshElement) {
+  static <E> Collection<E> generateCollection(@NullableDecl E freshElement) {
     return generateList(freshElement);
   }
 
   @Generates
-  private static <E> List<E> generateList(E freshElement) {
+  static <E> List<E> generateList(@NullableDecl E freshElement) {
     return generateArrayList(freshElement);
   }
 
   @Generates
-  private static <E> ArrayList<E> generateArrayList(E freshElement) {
+  static <E> ArrayList<E> generateArrayList(@NullableDecl E freshElement) {
     ArrayList<E> list = Lists.newArrayList();
     list.add(freshElement);
     return list;
   }
 
   @Generates
-  private static <E> LinkedList<E> generateLinkedList(E freshElement) {
+  static <E> LinkedList<E> generateLinkedList(@NullableDecl E freshElement) {
     LinkedList<E> list = Lists.newLinkedList();
     list.add(freshElement);
     return list;
   }
 
   @Generates
-  private static <E> ImmutableList<E> generateImmutableList(E freshElement) {
+  static <E> ImmutableList<E> generateImmutableList(E freshElement) {
     return ImmutableList.of(freshElement);
   }
 
   @Generates
-  private static <E> ImmutableCollection<E> generateImmutableCollection(E freshElement) {
+  static <E> ImmutableCollection<E> generateImmutableCollection(E freshElement) {
     return generateImmutableList(freshElement);
   }
 
   @Generates
-  private static <E> Set<E> generateSet(E freshElement) {
+  static <E> Set<E> generateSet(@NullableDecl E freshElement) {
     return generateHashSet(freshElement);
   }
 
   @Generates
-  private static <E> HashSet<E> generateHashSet(E freshElement) {
+  static <E> HashSet<E> generateHashSet(@NullableDecl E freshElement) {
     return generateLinkedHashSet(freshElement);
   }
 
   @Generates
-  private static <E> LinkedHashSet<E> generateLinkedHashSet(E freshElement) {
+  static <E> LinkedHashSet<E> generateLinkedHashSet(@NullableDecl E freshElement) {
     LinkedHashSet<E> set = Sets.newLinkedHashSet();
     set.add(freshElement);
     return set;
   }
 
   @Generates
-  private static <E> ImmutableSet<E> generateImmutableSet(E freshElement) {
+  static <E> ImmutableSet<E> generateImmutableSet(E freshElement) {
     return ImmutableSet.of(freshElement);
   }
 
   @Generates
-  private static <E extends Comparable<? super E>> SortedSet<E> generateSortedSet(E freshElement) {
+  static <E extends Comparable<? super E>> SortedSet<E> generateSortedSet(E freshElement) {
     return generateNavigableSet(freshElement);
   }
 
   @Generates
-  private static <E extends Comparable<? super E>> NavigableSet<E> generateNavigableSet(
-      E freshElement) {
+  static <E extends Comparable<? super E>> NavigableSet<E> generateNavigableSet(E freshElement) {
     return generateTreeSet(freshElement);
   }
 
   @Generates
-  private static <E extends Comparable<? super E>> TreeSet<E> generateTreeSet(E freshElement) {
+  static <E extends Comparable<? super E>> TreeSet<E> generateTreeSet(E freshElement) {
     TreeSet<E> set = Sets.newTreeSet();
     set.add(freshElement);
     return set;
   }
 
   @Generates
-  private static <E extends Comparable<? super E>> ImmutableSortedSet<E> generateImmutableSortedSet(
+  static <E extends Comparable<? super E>> ImmutableSortedSet<E> generateImmutableSortedSet(
       E freshElement) {
     return ImmutableSortedSet.of(freshElement);
   }
 
   @Generates
-  private static <E> Multiset<E> generateMultiset(E freshElement) {
+  static <E> Multiset<E> generateMultiset(@NullableDecl E freshElement) {
     return generateHashMultiset(freshElement);
   }
 
   @Generates
-  private static <E> HashMultiset<E> generateHashMultiset(E freshElement) {
+  static <E> HashMultiset<E> generateHashMultiset(@NullableDecl E freshElement) {
     HashMultiset<E> multiset = HashMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
   @Generates
-  private static <E> LinkedHashMultiset<E> generateLinkedHashMultiset(E freshElement) {
+  static <E> LinkedHashMultiset<E> generateLinkedHashMultiset(@NullableDecl E freshElement) {
     LinkedHashMultiset<E> multiset = LinkedHashMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
   @Generates
-  private static <E> ImmutableMultiset<E> generateImmutableMultiset(E freshElement) {
+  static <E> ImmutableMultiset<E> generateImmutableMultiset(E freshElement) {
     return ImmutableMultiset.of(freshElement);
   }
 
   @Generates
-  private static <E extends Comparable<E>> SortedMultiset<E> generateSortedMultiset(
-      E freshElement) {
+  static <E extends Comparable<E>> SortedMultiset<E> generateSortedMultiset(E freshElement) {
     return generateTreeMultiset(freshElement);
   }
 
   @Generates
-  private static <E extends Comparable<E>> TreeMultiset<E> generateTreeMultiset(E freshElement) {
+  static <E extends Comparable<E>> TreeMultiset<E> generateTreeMultiset(E freshElement) {
     TreeMultiset<E> multiset = TreeMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
   @Generates
-  private static <E extends Comparable<E>>
-      ImmutableSortedMultiset<E> generateImmutableSortedMultiset(E freshElement) {
+  static <E extends Comparable<E>> ImmutableSortedMultiset<E> generateImmutableSortedMultiset(
+      E freshElement) {
     return ImmutableSortedMultiset.of(freshElement);
   }
 
   @Generates
-  private static <K, V> Map<K, V> generateMap(K key, V value) {
+  static <K, V> Map<K, V> generateMap(@NullableDecl K key, @NullableDecl V value) {
     return generateHashdMap(key, value);
   }
 
   @Generates
-  private static <K, V> HashMap<K, V> generateHashdMap(K key, V value) {
+  static <K, V> HashMap<K, V> generateHashdMap(@NullableDecl K key, @NullableDecl V value) {
     return generateLinkedHashMap(key, value);
   }
 
   @Generates
-  private static <K, V> LinkedHashMap<K, V> generateLinkedHashMap(K key, V value) {
+  static <K, V> LinkedHashMap<K, V> generateLinkedHashMap(
+      @NullableDecl K key, @NullableDecl V value) {
     LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
     map.put(key, value);
     return map;
   }
 
   @Generates
-  private static <K, V> ImmutableMap<K, V> generateImmutableMap(K key, V value) {
+  static <K, V> ImmutableMap<K, V> generateImmutableMap(K key, V value) {
     return ImmutableMap.of(key, value);
   }
 
   @Empty
-  private static <K, V> ConcurrentMap<K, V> generateConcurrentMap() {
+  static <K, V> ConcurrentMap<K, V> generateConcurrentMap() {
     return Maps.newConcurrentMap();
   }
 
   @Generates
-  private static <K, V> ConcurrentMap<K, V> generateConcurrentMap(K key, V value) {
+  static <K, V> ConcurrentMap<K, V> generateConcurrentMap(K key, V value) {
     ConcurrentMap<K, V> map = Maps.newConcurrentMap();
     map.put(key, value);
     return map;
   }
 
   @Generates
-  private static <K extends Comparable<? super K>, V> SortedMap<K, V> generateSortedMap(
-      K key, V value) {
+  static <K extends Comparable<? super K>, V> SortedMap<K, V> generateSortedMap(
+      K key, @NullableDecl V value) {
     return generateNavigableMap(key, value);
   }
 
   @Generates
-  private static <K extends Comparable<? super K>, V> NavigableMap<K, V> generateNavigableMap(
-      K key, V value) {
+  static <K extends Comparable<? super K>, V> NavigableMap<K, V> generateNavigableMap(
+      K key, @NullableDecl V value) {
     return generateTreeMap(key, value);
   }
 
   @Generates
-  private static <K extends Comparable<? super K>, V> TreeMap<K, V> generateTreeMap(
-      K key, V value) {
+  static <K extends Comparable<? super K>, V> TreeMap<K, V> generateTreeMap(
+      K key, @NullableDecl V value) {
     TreeMap<K, V> map = Maps.newTreeMap();
     map.put(key, value);
     return map;
   }
 
   @Generates
-  private static <K extends Comparable<? super K>, V>
-      ImmutableSortedMap<K, V> generateImmutableSortedMap(K key, V value) {
+  static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> generateImmutableSortedMap(
+      K key, V value) {
     return ImmutableSortedMap.of(key, value);
   }
 
   @Generates
-  private static <K, V> Multimap<K, V> generateMultimap(K key, V value) {
+  static <K, V> Multimap<K, V> generateMultimap(@NullableDecl K key, @NullableDecl V value) {
     return generateListMultimap(key, value);
   }
 
   @Generates
-  private static <K, V> ImmutableMultimap<K, V> generateImmutableMultimap(K key, V value) {
+  static <K, V> ImmutableMultimap<K, V> generateImmutableMultimap(K key, V value) {
     return ImmutableMultimap.of(key, value);
   }
 
   @Generates
-  private static <K, V> ListMultimap<K, V> generateListMultimap(K key, V value) {
+  static <K, V> ListMultimap<K, V> generateListMultimap(
+      @NullableDecl K key, @NullableDecl V value) {
     return generateArrayListMultimap(key, value);
   }
 
   @Generates
-  private static <K, V> ArrayListMultimap<K, V> generateArrayListMultimap(K key, V value) {
+  static <K, V> ArrayListMultimap<K, V> generateArrayListMultimap(
+      @NullableDecl K key, @NullableDecl V value) {
     ArrayListMultimap<K, V> multimap = ArrayListMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
   @Generates
-  private static <K, V> ImmutableListMultimap<K, V> generateImmutableListMultimap(K key, V value) {
+  static <K, V> ImmutableListMultimap<K, V> generateImmutableListMultimap(K key, V value) {
     return ImmutableListMultimap.of(key, value);
   }
 
   @Generates
-  private static <K, V> SetMultimap<K, V> generateSetMultimap(K key, V value) {
+  static <K, V> SetMultimap<K, V> generateSetMultimap(@NullableDecl K key, @NullableDecl V value) {
     return generateLinkedHashMultimap(key, value);
   }
 
   @Generates
-  private static <K, V> HashMultimap<K, V> generateHashMultimap(K key, V value) {
+  static <K, V> HashMultimap<K, V> generateHashMultimap(
+      @NullableDecl K key, @NullableDecl V value) {
     HashMultimap<K, V> multimap = HashMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
   @Generates
-  private static <K, V> LinkedHashMultimap<K, V> generateLinkedHashMultimap(K key, V value) {
+  static <K, V> LinkedHashMultimap<K, V> generateLinkedHashMultimap(
+      @NullableDecl K key, @NullableDecl V value) {
     LinkedHashMultimap<K, V> multimap = LinkedHashMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
   @Generates
-  private static <K, V> ImmutableSetMultimap<K, V> generateImmutableSetMultimap(K key, V value) {
+  static <K, V> ImmutableSetMultimap<K, V> generateImmutableSetMultimap(K key, V value) {
     return ImmutableSetMultimap.of(key, value);
   }
 
   @Generates
-  private static <K, V> BiMap<K, V> generateBimap(K key, V value) {
+  static <K, V> BiMap<K, V> generateBimap(@NullableDecl K key, @NullableDecl V value) {
     return generateHashBiMap(key, value);
   }
 
   @Generates
-  private static <K, V> HashBiMap<K, V> generateHashBiMap(K key, V value) {
+  static <K, V> HashBiMap<K, V> generateHashBiMap(@NullableDecl K key, @NullableDecl V value) {
     HashBiMap<K, V> bimap = HashBiMap.create();
     bimap.put(key, value);
     return bimap;
   }
 
   @Generates
-  private static <K, V> ImmutableBiMap<K, V> generateImmutableBimap(K key, V value) {
+  static <K, V> ImmutableBiMap<K, V> generateImmutableBimap(K key, V value) {
     return ImmutableBiMap.of(key, value);
   }
 
   @Generates
-  private static <R, C, V> Table<R, C, V> generateTable(R row, C column, V value) {
+  static <R, C, V> Table<R, C, V> generateTable(
+      @NullableDecl R row, @NullableDecl C column, @NullableDecl V value) {
     return generateHashBasedTable(row, column, value);
   }
 
   @Generates
-  private static <R, C, V> HashBasedTable<R, C, V> generateHashBasedTable(
-      R row, C column, V value) {
+  static <R, C, V> HashBasedTable<R, C, V> generateHashBasedTable(
+      @NullableDecl R row, @NullableDecl C column, @NullableDecl V value) {
     HashBasedTable<R, C, V> table = HashBasedTable.create();
     table.put(row, column, value);
     return table;
@@ -917,14 +921,14 @@ class FreshValueGenerator {
 
   @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
   @Generates
-  private static <R extends Comparable, C extends Comparable, V>
+  static <R extends Comparable, C extends Comparable, V>
       RowSortedTable<R, C, V> generateRowSortedTable(R row, C column, V value) {
     return generateTreeBasedTable(row, column, value);
   }
 
   @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
   @Generates
-  private static <R extends Comparable, C extends Comparable, V>
+  static <R extends Comparable, C extends Comparable, V>
       TreeBasedTable<R, C, V> generateTreeBasedTable(R row, C column, V value) {
     TreeBasedTable<R, C, V> table = TreeBasedTable.create();
     table.put(row, column, value);
@@ -932,85 +936,84 @@ class FreshValueGenerator {
   }
 
   @Generates
-  private static <R, C, V> ImmutableTable<R, C, V> generateImmutableTable(
-      R row, C column, V value) {
+  static <R, C, V> ImmutableTable<R, C, V> generateImmutableTable(R row, C column, V value) {
     return ImmutableTable.of(row, column, value);
   }
 
   // common.reflect
   @Generates
-  private TypeToken<?> generateTypeToken() {
+  TypeToken<?> generateTypeToken() {
     return TypeToken.of(generateClass());
   }
 
   // io types
   @Generates
-  private File generateFile() {
+  File generateFile() {
     return new File(generateString());
   }
 
   @Generates
-  private static ByteArrayInputStream generateByteArrayInputStream() {
+  static ByteArrayInputStream generateByteArrayInputStream() {
     return new ByteArrayInputStream(new byte[0]);
   }
 
   @Generates
-  private static InputStream generateInputStream() {
+  static InputStream generateInputStream() {
     return generateByteArrayInputStream();
   }
 
   @Generates
-  private StringReader generateStringReader() {
+  StringReader generateStringReader() {
     return new StringReader(generateString());
   }
 
   @Generates
-  private Reader generateReader() {
+  Reader generateReader() {
     return generateStringReader();
   }
 
   @Generates
-  private Readable generateReadable() {
+  Readable generateReadable() {
     return generateReader();
   }
 
   @Generates
-  private Buffer generateBuffer() {
+  Buffer generateBuffer() {
     return generateCharBuffer();
   }
 
   @Generates
-  private CharBuffer generateCharBuffer() {
+  CharBuffer generateCharBuffer() {
     return CharBuffer.allocate(generateInt());
   }
 
   @Generates
-  private ByteBuffer generateByteBuffer() {
+  ByteBuffer generateByteBuffer() {
     return ByteBuffer.allocate(generateInt());
   }
 
   @Generates
-  private ShortBuffer generateShortBuffer() {
+  ShortBuffer generateShortBuffer() {
     return ShortBuffer.allocate(generateInt());
   }
 
   @Generates
-  private IntBuffer generateIntBuffer() {
+  IntBuffer generateIntBuffer() {
     return IntBuffer.allocate(generateInt());
   }
 
   @Generates
-  private LongBuffer generateLongBuffer() {
+  LongBuffer generateLongBuffer() {
     return LongBuffer.allocate(generateInt());
   }
 
   @Generates
-  private FloatBuffer generateFloatBuffer() {
+  FloatBuffer generateFloatBuffer() {
     return FloatBuffer.allocate(generateInt());
   }
 
   @Generates
-  private DoubleBuffer generateDoubleBuffer() {
+  DoubleBuffer generateDoubleBuffer() {
     return DoubleBuffer.allocate(generateInt());
   }
 }
