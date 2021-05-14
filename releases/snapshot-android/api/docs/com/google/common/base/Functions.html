@@ -204,7 +204,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T&gt;</code></td>
+<td class="colFirst"><code>static &lt;F,&#8203;T&gt;<br><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#forSupplier(com.google.common.base.Supplier)">forSupplier</a></span>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</code></th>
 <td class="colLast">
 <div class="block">Returns a function that ignores its input and returns the result of <code>supplier.get()</code>.</div>
@@ -393,7 +393,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>forSupplier</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.364">forSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;F,&#8203;T&gt;&nbsp;<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.364">forSupplier</a>&#8203;(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a function that ignores its input and returns the result of <code>supplier.get()</code>.
 
  <p><b>Java 8 users:</b> use the lambda expression <code>o -&gt; supplier.get()</code> instead.</div>

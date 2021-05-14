@@ -2518,7 +2518,7 @@
  @return a function that always returns {@code value}]]>
       </doc>
     </method>
-    <method name="forSupplier" return="com.google.common.base.Function&lt;java.lang.Object, T&gt;"
+    <method name="forSupplier" return="com.google.common.base.Function&lt;F, T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -5334,7 +5334,7 @@
  the given target or both are null.]]>
       </doc>
     </method>
-    <method name="instanceOf" return="com.google.common.base.Predicate&lt;java.lang.Object&gt;"
+    <method name="instanceOf" return="com.google.common.base.Predicate&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">

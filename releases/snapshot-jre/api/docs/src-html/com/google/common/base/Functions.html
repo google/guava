@@ -368,12 +368,12 @@
 <span class="sourceLineNo">359</span><a id="line.359">   *</a>
 <span class="sourceLineNo">360</span><a id="line.360">   * @since 10.0</a>
 <span class="sourceLineNo">361</span><a id="line.361">   */</a>
-<span class="sourceLineNo">362</span><a id="line.362">  public static &lt;T&gt; Function&lt;Object, T&gt; forSupplier(Supplier&lt;T&gt; supplier) {</a>
-<span class="sourceLineNo">363</span><a id="line.363">    return new SupplierFunction&lt;T&gt;(supplier);</a>
+<span class="sourceLineNo">362</span><a id="line.362">  public static &lt;F, T&gt; Function&lt;F, T&gt; forSupplier(Supplier&lt;T&gt; supplier) {</a>
+<span class="sourceLineNo">363</span><a id="line.363">    return new SupplierFunction&lt;&gt;(supplier);</a>
 <span class="sourceLineNo">364</span><a id="line.364">  }</a>
 <span class="sourceLineNo">365</span><a id="line.365"></a>
 <span class="sourceLineNo">366</span><a id="line.366">  /** @see Functions#forSupplier */</a>
-<span class="sourceLineNo">367</span><a id="line.367">  private static class SupplierFunction&lt;T&gt; implements Function&lt;Object, T&gt;, Serializable {</a>
+<span class="sourceLineNo">367</span><a id="line.367">  private static class SupplierFunction&lt;F, T&gt; implements Function&lt;F, T&gt;, Serializable {</a>
 <span class="sourceLineNo">368</span><a id="line.368"></a>
 <span class="sourceLineNo">369</span><a id="line.369">    private final Supplier&lt;T&gt; supplier;</a>
 <span class="sourceLineNo">370</span><a id="line.370"></a>
@@ -382,14 +382,14 @@
 <span class="sourceLineNo">373</span><a id="line.373">    }</a>
 <span class="sourceLineNo">374</span><a id="line.374"></a>
 <span class="sourceLineNo">375</span><a id="line.375">    @Override</a>
-<span class="sourceLineNo">376</span><a id="line.376">    public T apply(@Nullable Object input) {</a>
+<span class="sourceLineNo">376</span><a id="line.376">    public T apply(@Nullable F input) {</a>
 <span class="sourceLineNo">377</span><a id="line.377">      return supplier.get();</a>
 <span class="sourceLineNo">378</span><a id="line.378">    }</a>
 <span class="sourceLineNo">379</span><a id="line.379"></a>
 <span class="sourceLineNo">380</span><a id="line.380">    @Override</a>
 <span class="sourceLineNo">381</span><a id="line.381">    public boolean equals(@Nullable Object obj) {</a>
 <span class="sourceLineNo">382</span><a id="line.382">      if (obj instanceof SupplierFunction) {</a>
-<span class="sourceLineNo">383</span><a id="line.383">        SupplierFunction&lt;?&gt; that = (SupplierFunction&lt;?&gt;) obj;</a>
+<span class="sourceLineNo">383</span><a id="line.383">        SupplierFunction&lt;?, ?&gt; that = (SupplierFunction&lt;?, ?&gt;) obj;</a>
 <span class="sourceLineNo">384</span><a id="line.384">        return this.supplier.equals(that.supplier);</a>
 <span class="sourceLineNo">385</span><a id="line.385">      }</a>
 <span class="sourceLineNo">386</span><a id="line.386">      return false;</a>

@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.base.Equivalence.Wrapper
+com.google.common.base.Predicates
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.base.Equivalence.Wrapper
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Equivalence.Wrapper.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Predicates.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.base.Equivalence.Wrapper
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.base.Equivalence.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.base.Functions.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Predicate.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.StandardSystemProperty.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.base.Equivalence.Wrapper.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Predicates.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,7 +45,7 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Equivalence.Wrapper.html" target="_top"><tt>Equivalence.Wrapper</tt></A>
+Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Predicates.html" target="_top"><tt>Predicates</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
@@ -57,13 +57,14 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Equivale
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.Equivalence.Wrapper.get_changed()"></A>
-  <nobr><code>T extends Object</code>&nbsp;<A HREF="../../docs/com/google/common/base/Equivalence.Wrapper.html#get()" target="_top"><tt>get</tt></A>()  </nobr>
+  <A NAME="com.google.common.base.Predicates.instanceOf_changed(java.lang.Class<?>)"></A>
+  <nobr><code>Predicate&lt;T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Predicates.html#instanceOf(java.lang.Class<?>)" target="_top"><tt>instanceOf</tt></A>(<code>Class&lt;?&gt;</code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in return type from <code>T</code> to (<code>T extends Object</code>).<br>
+Change in return type from <code>Predicate&lt;Object&gt;</code> to <code>Predicate&lt;T&gt;</code>.<br>
   </TD>
-  <TD VALIGN="TOP">Returns the (possibly null) reference wrapped by this instance.</TD>
+  <TD VALIGN="TOP">Returns a predicate that evaluates to {@code true} if the object being tested is an instance of
+ the given class.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -75,7 +76,7 @@ Change in return type from <code>T</code> to (<code>T extends Object</code>).<br
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Equivalence.Wrapper.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/Predicates.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -87,11 +88,11 @@ Change in return type from <code>T</code> to (<code>T extends Object</code>).<br
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.base.Equivalence.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.base.Functions.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.Predicate.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.StandardSystemProperty.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.base.Equivalence.Wrapper.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.base.Predicates.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

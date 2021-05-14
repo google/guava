@@ -178,8 +178,8 @@
 <span class="sourceLineNo">169</span><a id="line.169">   * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.</a>
 <span class="sourceLineNo">170</span><a id="line.170">   */</a>
 <span class="sourceLineNo">171</span><a id="line.171">  @GwtIncompatible // Class.isInstance</a>
-<span class="sourceLineNo">172</span><a id="line.172">  public static Predicate&lt;Object&gt; instanceOf(Class&lt;?&gt; clazz) {</a>
-<span class="sourceLineNo">173</span><a id="line.173">    return new InstanceOfPredicate(clazz);</a>
+<span class="sourceLineNo">172</span><a id="line.172">  public static &lt;T&gt; Predicate&lt;T&gt; instanceOf(Class&lt;?&gt; clazz) {</a>
+<span class="sourceLineNo">173</span><a id="line.173">    return new InstanceOfPredicate&lt;T&gt;(clazz);</a>
 <span class="sourceLineNo">174</span><a id="line.174">  }</a>
 <span class="sourceLineNo">175</span><a id="line.175"></a>
 <span class="sourceLineNo">176</span><a id="line.176">  /**</a>
@@ -481,7 +481,7 @@
 <span class="sourceLineNo">472</span><a id="line.472"></a>
 <span class="sourceLineNo">473</span><a id="line.473">  /** @see Predicates#instanceOf(Class) */</a>
 <span class="sourceLineNo">474</span><a id="line.474">  @GwtIncompatible // Class.isInstance</a>
-<span class="sourceLineNo">475</span><a id="line.475">  private static class InstanceOfPredicate implements Predicate&lt;Object&gt;, Serializable {</a>
+<span class="sourceLineNo">475</span><a id="line.475">  private static class InstanceOfPredicate&lt;T&gt; implements Predicate&lt;T&gt;, Serializable {</a>
 <span class="sourceLineNo">476</span><a id="line.476">    private final Class&lt;?&gt; clazz;</a>
 <span class="sourceLineNo">477</span><a id="line.477"></a>
 <span class="sourceLineNo">478</span><a id="line.478">    private InstanceOfPredicate(Class&lt;?&gt; clazz) {</a>
@@ -489,7 +489,7 @@
 <span class="sourceLineNo">480</span><a id="line.480">    }</a>
 <span class="sourceLineNo">481</span><a id="line.481"></a>
 <span class="sourceLineNo">482</span><a id="line.482">    @Override</a>
-<span class="sourceLineNo">483</span><a id="line.483">    public boolean apply(@NullableDecl Object o) {</a>
+<span class="sourceLineNo">483</span><a id="line.483">    public boolean apply(@NullableDecl T o) {</a>
 <span class="sourceLineNo">484</span><a id="line.484">      return clazz.isInstance(o);</a>
 <span class="sourceLineNo">485</span><a id="line.485">    }</a>
 <span class="sourceLineNo">486</span><a id="line.486"></a>
@@ -501,7 +501,7 @@
 <span class="sourceLineNo">492</span><a id="line.492">    @Override</a>
 <span class="sourceLineNo">493</span><a id="line.493">    public boolean equals(@NullableDecl Object obj) {</a>
 <span class="sourceLineNo">494</span><a id="line.494">      if (obj instanceof InstanceOfPredicate) {</a>
-<span class="sourceLineNo">495</span><a id="line.495">        InstanceOfPredicate that = (InstanceOfPredicate) obj;</a>
+<span class="sourceLineNo">495</span><a id="line.495">        InstanceOfPredicate&lt;?&gt; that = (InstanceOfPredicate&lt;?&gt;) obj;</a>
 <span class="sourceLineNo">496</span><a id="line.496">        return clazz == that.clazz;</a>
 <span class="sourceLineNo">497</span><a id="line.497">      }</a>
 <span class="sourceLineNo">498</span><a id="line.498">      return false;</a>
