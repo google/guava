@@ -169,8 +169,8 @@ public final class Predicates {
    * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
    */
   @GwtIncompatible // Class.isInstance
-  public static Predicate<Object> instanceOf(Class<?> clazz) {
-    return new InstanceOfPredicate(clazz);
+  public static <T> Predicate<T> instanceOf(Class<?> clazz) {
+    return new InstanceOfPredicate<T>(clazz);
   }
 
   /**
@@ -472,7 +472,7 @@ public final class Predicates {
 
   /** @see Predicates#instanceOf(Class) */
   @GwtIncompatible // Class.isInstance
-  private static class InstanceOfPredicate implements Predicate<Object>, Serializable {
+  private static class InstanceOfPredicate<T> implements Predicate<T>, Serializable {
     private final Class<?> clazz;
 
     private InstanceOfPredicate(Class<?> clazz) {
@@ -480,7 +480,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(@Nullable Object o) {
+    public boolean apply(@Nullable T o) {
       return clazz.isInstance(o);
     }
 
@@ -492,7 +492,7 @@ public final class Predicates {
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof InstanceOfPredicate) {
-        InstanceOfPredicate that = (InstanceOfPredicate) obj;
+        InstanceOfPredicate<?> that = (InstanceOfPredicate<?>) obj;
         return clazz == that.clazz;
       }
       return false;

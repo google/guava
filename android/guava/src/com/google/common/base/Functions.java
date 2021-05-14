@@ -361,12 +361,12 @@ public final class Functions {
    *
    * @since 10.0
    */
-  public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {
-    return new SupplierFunction<T>(supplier);
+  public static <F, T> Function<F, T> forSupplier(Supplier<T> supplier) {
+    return new SupplierFunction<>(supplier);
   }
 
   /** @see Functions#forSupplier */
-  private static class SupplierFunction<T> implements Function<Object, T>, Serializable {
+  private static class SupplierFunction<F, T> implements Function<F, T>, Serializable {
 
     private final Supplier<T> supplier;
 
@@ -375,14 +375,14 @@ public final class Functions {
     }
 
     @Override
-    public T apply(@NullableDecl Object input) {
+    public T apply(@NullableDecl F input) {
       return supplier.get();
     }
 
     @Override
     public boolean equals(@NullableDecl Object obj) {
       if (obj instanceof SupplierFunction) {
-        SupplierFunction<?> that = (SupplierFunction<?>) obj;
+        SupplierFunction<?, ?> that = (SupplierFunction<?, ?>) obj;
         return this.supplier.equals(that.supplier);
       }
       return false;
