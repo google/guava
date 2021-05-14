@@ -18,7 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -145,6 +151,7 @@ public final class MoreObjects {
     private final ValueHolder holderHead = new ValueHolder();
     private ValueHolder holderTail = holderHead;
     private boolean omitNullValues = false;
+    private boolean omitEmptyValues = false;
 
     /** Use {@link MoreObjects#toStringHelper(Object)} to create an instance. */
     private ToStringHelper(String className) {
@@ -181,7 +188,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, boolean value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -191,7 +198,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, char value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -201,7 +208,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, double value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -211,7 +218,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, float value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -221,7 +228,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, int value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -231,7 +238,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, long value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -255,7 +262,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(boolean value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -268,7 +275,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(char value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -281,7 +288,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(double value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -294,7 +301,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(float value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -307,7 +314,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(int value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -320,7 +327,31 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(long value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
+    }
+
+    private static boolean isEmpty(Object value) {
+      // Put types estimated to be most frequent first.
+      if (value instanceof CharSequence) {
+        return ((CharSequence) value).length() == 0;
+      } else if (value instanceof Collection) {
+        return ((Collection<?>) value).isEmpty();
+      } else if (value instanceof Map) {
+        return ((Map<?, ?>) value).isEmpty();
+      } else if (value instanceof java.util.Optional) {
+        return !((java.util.Optional<?>) value).isPresent();
+      } else if (value instanceof OptionalInt) {
+        return !((OptionalInt) value).isPresent();
+      } else if (value instanceof OptionalLong) {
+        return !((OptionalLong) value).isPresent();
+      } else if (value instanceof OptionalDouble) {
+        return !((OptionalDouble) value).isPresent();
+      } else if (value instanceof Optional) {
+        return !((Optional) value).isPresent();
+      } else if (value.getClass().isArray()) {
+        return Array.getLength(value) == 0;
+      }
+      return false;
     }
 
     /**
@@ -335,13 +366,17 @@ public final class MoreObjects {
     public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
+      boolean omitEmptyValuesSnapshot = omitEmptyValues;
       String nextSeparator = "";
       StringBuilder builder = new StringBuilder(32).append(className).append('{');
       for (ValueHolder valueHolder = holderHead.next;
           valueHolder != null;
           valueHolder = valueHolder.next) {
         Object value = valueHolder.value;
-        if (!omitNullValuesSnapshot || value != null) {
+        if (valueHolder instanceof UnconditionalValueHolder
+            || (value == null
+                ? !omitNullValuesSnapshot
+                : (!omitEmptyValuesSnapshot || !isEmpty(value)))) {
           builder.append(nextSeparator);
           nextSeparator = ", ";
 
@@ -379,11 +414,38 @@ public final class MoreObjects {
       return this;
     }
 
-    private static final class ValueHolder {
+    private UnconditionalValueHolder addUnconditionalHolder() {
+      UnconditionalValueHolder valueHolder = new UnconditionalValueHolder();
+      holderTail = holderTail.next = valueHolder;
+      return valueHolder;
+    }
+
+    private ToStringHelper addUnconditionalHolder(Object value) {
+      UnconditionalValueHolder valueHolder = addUnconditionalHolder();
+      valueHolder.value = value;
+      return this;
+    }
+
+    private ToStringHelper addUnconditionalHolder(String name, Object value) {
+      UnconditionalValueHolder valueHolder = addUnconditionalHolder();
+      valueHolder.value = value;
+      valueHolder.name = checkNotNull(name);
+      return this;
+    }
+
+    // Holder object for values that might be null and/or empty.
+    private static class ValueHolder {
       @Nullable String name;
       @Nullable Object value;
       @Nullable ValueHolder next;
     }
+
+    /**
+     * Holder object for values that cannot be null or empty (will be printed unconditionally). This
+     * helps to shortcut most calls to isEmpty(), which is important because the check for emptiness
+     * is relatively expensive. Use a subtype so this also doesn't need any extra storage.
+     */
+    private static final class UnconditionalValueHolder extends ValueHolder {}
   }
 
   private MoreObjects() {}

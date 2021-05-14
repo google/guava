@@ -116,15 +116,15 @@ public class ToStringHelperTest extends TestCase {
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringHelper_moreThanNineAnonymousClasses() {
     // The nth anonymous class has a name ending like "Outer.$n"
-    Object o1 = new Object() {};
-    Object o2 = new Object() {};
-    Object o3 = new Object() {};
-    Object o4 = new Object() {};
-    Object o5 = new Object() {};
-    Object o6 = new Object() {};
-    Object o7 = new Object() {};
-    Object o8 = new Object() {};
-    Object o9 = new Object() {};
+    Object unused1 = new Object() {};
+    Object unused2 = new Object() {};
+    Object unused3 = new Object() {};
+    Object unused4 = new Object() {};
+    Object unused5 = new Object() {};
+    Object unused6 = new Object() {};
+    Object unused7 = new Object() {};
+    Object unused8 = new Object() {};
+    Object unused9 = new Object() {};
     Object o10 = new Object() {};
     String toTest = MoreObjects.toStringHelper(o10).toString();
     assertEquals("{}", toTest);
@@ -132,15 +132,15 @@ public class ToStringHelperTest extends TestCase {
 
   public void testToStringHelperLenient_moreThanNineAnonymousClasses() {
     // The nth anonymous class has a name ending like "Outer.$n"
-    Object o1 = new Object() {};
-    Object o2 = new Object() {};
-    Object o3 = new Object() {};
-    Object o4 = new Object() {};
-    Object o5 = new Object() {};
-    Object o6 = new Object() {};
-    Object o7 = new Object() {};
-    Object o8 = new Object() {};
-    Object o9 = new Object() {};
+    Object unused1 = new Object() {};
+    Object unused2 = new Object() {};
+    Object unused3 = new Object() {};
+    Object unused4 = new Object() {};
+    Object unused5 = new Object() {};
+    Object unused6 = new Object() {};
+    Object unused7 = new Object() {};
+    Object unused8 = new Object() {};
+    Object unused9 = new Object() {};
     Object o10 = new Object() {};
     String toTest = MoreObjects.toStringHelper(o10).toString();
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
@@ -357,7 +357,7 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
-  public void testToStringOmitNullValues_oneValue() {
+  public void testToStringOmitEmptyValues_oneValue() {
     String toTest =
         MoreObjects.toStringHelper(new TestClass()).omitNullValues().addValue(null).toString();
     assertEquals("TestClass{}", toTest);

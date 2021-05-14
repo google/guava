@@ -136,4 +136,6 @@ public class ToStringHelperBenchmark {
     }
     return dummy;
   }
+
+  // When omitEmptyValues() is released, remove this method and add a new @Param "omitEmptyValues".
 }
