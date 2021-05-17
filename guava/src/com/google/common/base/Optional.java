@@ -343,6 +343,7 @@ public abstract class Optional<T> implements Serializable {
               checkNotNull(optionals.iterator());
 
           @Override
+          @CheckForNull
           protected T computeNext() {
             while (iterator.hasNext()) {
               Optional<? extends T> optional = iterator.next();

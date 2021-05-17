@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Equivalence applied on functional result.
@@ -29,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serializable {
 
   private static final long serialVersionUID = 0;
@@ -53,7 +54,7 @@ final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serial
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == this) {
       return true;
     }

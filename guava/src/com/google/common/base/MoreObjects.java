@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in {@link
@@ -39,6 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 18.0 (since 2.0 as {@code Objects})
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class MoreObjects {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
@@ -60,7 +61,24 @@ public final class MoreObjects {
    * @throws NullPointerException if both {@code first} and {@code second} are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
-  public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
+  /*
+   * We annotate firstNonNull in a way that protects against NullPointerException at the cost of
+   * forbidding some reasonable calls.
+   *
+   * The more permissive signature would be to accept (@CheckForNull T first, @CheckForNull T
+   * second), since it's OK for `second` to be null as long as `first` is not also null. But we
+   * expect for that flexibility to be useful relatively rarely: The more common use case is to
+   * supply a clearly non-null default, like `firstNonNull(someString, "")`. And users who really
+   * know that `first` is guaranteed non-null when `second` is null can write the logic out
+   * longhand, including a requireNonNull call, which calls attention to the fact that the static
+   * analyzer can't prove that the operation is safe.
+   *
+   * This matches the signature we currently have for requireNonNullElse in our own checker. (And
+   * that in turn matches that method's signature under the Checker Framework.) As always, we could
+   * consider the more flexible signature if we judge it worth the risks. If we do, we would likely
+   * update both methods so that they continue to match.
+   */
+  public static <T> T firstNonNull(@CheckForNull T first, T second) {
     if (first != null) {
       return first;
     }
@@ -177,7 +195,7 @@ public final class MoreObjects {
      * called, in which case this name/value pair will not be added.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper add(String name, @Nullable Object value) {
+    public ToStringHelper add(String name, @CheckForNull Object value) {
       return addHolder(name, value);
     }
 
@@ -248,7 +266,7 @@ public final class MoreObjects {
      * readable name.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper addValue(@Nullable Object value) {
+    public ToStringHelper addValue(@CheckForNull Object value) {
       return addHolder(value);
     }
 
@@ -401,13 +419,13 @@ public final class MoreObjects {
       return valueHolder;
     }
 
-    private ToStringHelper addHolder(@Nullable Object value) {
+    private ToStringHelper addHolder(@CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
-    private ToStringHelper addHolder(String name, @Nullable Object value) {
+    private ToStringHelper addHolder(String name, @CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       valueHolder.name = checkNotNull(name);
@@ -435,9 +453,9 @@ public final class MoreObjects {
 
     // Holder object for values that might be null and/or empty.
     private static class ValueHolder {
-      @Nullable String name;
-      @Nullable Object value;
-      @Nullable ValueHolder next;
+      @CheckForNull String name;
+      @CheckForNull Object value;
+      @CheckForNull ValueHolder next;
     }
 
     /**

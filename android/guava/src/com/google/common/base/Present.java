@@ -19,10 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class Present<T> extends Optional<T> {
   private final T reference;
 
@@ -77,7 +78,7 @@ final class Present<T> extends Optional<T> {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object instanceof Present) {
       Present<?> other = (Present<?>) object;
       return reference.equals(other.reference);
