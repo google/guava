@@ -69,8 +69,8 @@
     </developer>
   </developers>
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/google/guava</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/google/guava/actions</url>
   </ciManagement>
   <modules>
     <module>guava</module>
