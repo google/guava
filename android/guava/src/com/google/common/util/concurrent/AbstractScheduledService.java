@@ -492,6 +492,27 @@ public abstract class AbstractScheduledService implements Service {
        * The service that is managing this callable. This is used so that failure can be reported
        * properly.
        */
+      /*
+       * This reference is part of a reference cycle, which is typically something we want to avoid
+       * under j2objc -- but it is not detected by our j2objc cycle test. The cycle:
+       *
+       * - CustomScheduler.service contains an instance of ServiceDelegate. (It needs it so that it
+       *   can call notifyFailed.)
+       *
+       * - ServiceDelegate.runningTask contains an instance of ReschedulableCallable (at least in
+       *   the case that the service is using CustomScheduler). (It needs it so that it can cancel
+       *   the task and detect whether it has been cancelled.)
+       *
+       * - ReschedulableCallable has a reference back to its enclosing CustomScheduler. (It needs it
+       *   so that it can call getNextSchedule).
+       *
+       * Maybe there is a way to avoid this cycle. But we think the cycle is safe enough to ignore:
+       * Each task is retained for only as long as it is running -- so it's retained only as long as
+       * it would already be retained by the underlying executor.
+       *
+       * If the cycle test starts reporting this cycle in the future, we should add an entry to
+       * cycle_suppress_list.txt.
+       */
       private final AbstractService service;
 
       /**
