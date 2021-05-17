@@ -29,6 +29,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -540,6 +541,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @since 2.0
    * @deprecated There is no reason to use this; it always returns {@code this}.
    */
+  @InlineMe(replacement = "this")
   @Deprecated
   @Override
   public final ImmutableList<E> asList() {

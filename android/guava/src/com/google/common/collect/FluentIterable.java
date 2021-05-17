@@ -24,6 +24,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -173,6 +174,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     FluentIterable}
    */
   @Deprecated
+  @InlineMe(
+      replacement = "checkNotNull(iterable)",
+      staticImports = {"com.google.common.base.Preconditions.checkNotNull"})
   public static <E> FluentIterable<E> from(FluentIterable<E> iterable) {
     return checkNotNull(iterable);
   }

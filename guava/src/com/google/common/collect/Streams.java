@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.LongMath;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -71,6 +72,7 @@ public final class Streams {
    */
   @Beta
   @Deprecated
+  @InlineMe(replacement = "collection.stream()")
   public static <T> Stream<T> stream(Collection<T> collection) {
     return collection.stream();
   }
