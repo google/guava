@@ -35,14 +35,15 @@
 <span class="sourceLineNo">026</span><a id="line.26"> */</a>
 <span class="sourceLineNo">027</span><a id="line.27">@DoNotMock("Use an instance of one of the Finalizable*Reference classes")</a>
 <span class="sourceLineNo">028</span><a id="line.28">@GwtIncompatible</a>
-<span class="sourceLineNo">029</span><a id="line.29">public interface FinalizableReference {</a>
-<span class="sourceLineNo">030</span><a id="line.30">  /**</a>
-<span class="sourceLineNo">031</span><a id="line.31">   * Invoked on a background thread after the referent has been garbage collected unless security</a>
-<span class="sourceLineNo">032</span><a id="line.32">   * restrictions prevented starting a background thread, in which case this method is invoked when</a>
-<span class="sourceLineNo">033</span><a id="line.33">   * new references are created.</a>
-<span class="sourceLineNo">034</span><a id="line.34">   */</a>
-<span class="sourceLineNo">035</span><a id="line.35">  void finalizeReferent();</a>
-<span class="sourceLineNo">036</span><a id="line.36">}</a>
+<span class="sourceLineNo">029</span><a id="line.29">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">030</span><a id="line.30">public interface FinalizableReference {</a>
+<span class="sourceLineNo">031</span><a id="line.31">  /**</a>
+<span class="sourceLineNo">032</span><a id="line.32">   * Invoked on a background thread after the referent has been garbage collected unless security</a>
+<span class="sourceLineNo">033</span><a id="line.33">   * restrictions prevented starting a background thread, in which case this method is invoked when</a>
+<span class="sourceLineNo">034</span><a id="line.34">   * new references are created.</a>
+<span class="sourceLineNo">035</span><a id="line.35">   */</a>
+<span class="sourceLineNo">036</span><a id="line.36">  void finalizeReferent();</a>
+<span class="sourceLineNo">037</span><a id="line.37">}</a>
 
 
 

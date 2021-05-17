@@ -310,22 +310,23 @@
 <span class="sourceLineNo">301</span><a id="line.301">              checkNotNull(optionals.iterator());</a>
 <span class="sourceLineNo">302</span><a id="line.302"></a>
 <span class="sourceLineNo">303</span><a id="line.303">          @Override</a>
-<span class="sourceLineNo">304</span><a id="line.304">          protected T computeNext() {</a>
-<span class="sourceLineNo">305</span><a id="line.305">            while (iterator.hasNext()) {</a>
-<span class="sourceLineNo">306</span><a id="line.306">              Optional&lt;? extends T&gt; optional = iterator.next();</a>
-<span class="sourceLineNo">307</span><a id="line.307">              if (optional.isPresent()) {</a>
-<span class="sourceLineNo">308</span><a id="line.308">                return optional.get();</a>
-<span class="sourceLineNo">309</span><a id="line.309">              }</a>
-<span class="sourceLineNo">310</span><a id="line.310">            }</a>
-<span class="sourceLineNo">311</span><a id="line.311">            return endOfData();</a>
-<span class="sourceLineNo">312</span><a id="line.312">          }</a>
-<span class="sourceLineNo">313</span><a id="line.313">        };</a>
-<span class="sourceLineNo">314</span><a id="line.314">      }</a>
-<span class="sourceLineNo">315</span><a id="line.315">    };</a>
-<span class="sourceLineNo">316</span><a id="line.316">  }</a>
-<span class="sourceLineNo">317</span><a id="line.317"></a>
-<span class="sourceLineNo">318</span><a id="line.318">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">319</span><a id="line.319">}</a>
+<span class="sourceLineNo">304</span><a id="line.304">          @CheckForNull</a>
+<span class="sourceLineNo">305</span><a id="line.305">          protected T computeNext() {</a>
+<span class="sourceLineNo">306</span><a id="line.306">            while (iterator.hasNext()) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">              Optional&lt;? extends T&gt; optional = iterator.next();</a>
+<span class="sourceLineNo">308</span><a id="line.308">              if (optional.isPresent()) {</a>
+<span class="sourceLineNo">309</span><a id="line.309">                return optional.get();</a>
+<span class="sourceLineNo">310</span><a id="line.310">              }</a>
+<span class="sourceLineNo">311</span><a id="line.311">            }</a>
+<span class="sourceLineNo">312</span><a id="line.312">            return endOfData();</a>
+<span class="sourceLineNo">313</span><a id="line.313">          }</a>
+<span class="sourceLineNo">314</span><a id="line.314">        };</a>
+<span class="sourceLineNo">315</span><a id="line.315">      }</a>
+<span class="sourceLineNo">316</span><a id="line.316">    };</a>
+<span class="sourceLineNo">317</span><a id="line.317">  }</a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">320</span><a id="line.320">}</a>
 
 
 

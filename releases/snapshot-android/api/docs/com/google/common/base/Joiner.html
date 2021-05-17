@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public class <a href="../../../../src-html/com/google/common/base/Joiner.html#line.65">Joiner</a>
+public class <a href="../../../../src-html/com/google/common/base/Joiner.html#line.67">Joiner</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">An object which joins pieces of text (specified as an array, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a>, varargs or even a
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a>) with a separator. It either appends the results to an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Appendable</code></a> or returns
@@ -217,8 +217,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;<br>A</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(A,java.lang.Iterable)">appendTo</a></span>&#8203;(A&nbsp;appendable,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(A,java.lang.Object%5B%5D)">appendTo</a></span>&#8203;(A&nbsp;appendable,
+        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>appendable</code>.</div>
@@ -226,8 +226,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;<br>A</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(A,java.lang.Object%5B%5D)">appendTo</a></span>&#8203;(A&nbsp;appendable,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(A,java.lang.Iterable)">appendTo</a></span>&#8203;(A&nbsp;appendable,
+        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>appendable</code>.</div>
@@ -238,7 +238,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(A,java.lang.Object,java.lang.Object,java.lang.Object...)">appendTo</a></span>&#8203;(A&nbsp;appendable,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
+        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
 <td class="colLast">
 <div class="block">Appends to <code>appendable</code> the string representation of each of the remaining arguments.</div>
 </td>
@@ -254,8 +254,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(java.lang.StringBuilder,java.lang.Iterable)">appendTo</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(java.lang.StringBuilder,java.lang.Object%5B%5D)">appendTo</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>builder</code>.</div>
@@ -263,8 +263,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(java.lang.StringBuilder,java.lang.Object%5B%5D)">appendTo</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(java.lang.StringBuilder,java.lang.Iterable)">appendTo</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>builder</code>.</div>
@@ -275,7 +275,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendTo(java.lang.StringBuilder,java.lang.Object,java.lang.Object,java.lang.Object...)">appendTo</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
+        <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
 <td class="colLast">
 <div class="block">Appends to <code>builder</code> the string representation of each of the remaining arguments.</div>
 </td>
@@ -291,7 +291,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(java.lang.Iterable)">join</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(java.lang.Object%5B%5D)">join</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Returns a string containing the string representation of each of <code>parts</code>, using the
  previously configured separator between each.</div>
@@ -299,7 +299,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(java.lang.Object%5B%5D)">join</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(java.lang.Iterable)">join</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</code></th>
 <td class="colLast">
 <div class="block">Returns a string containing the string representation of each of <code>parts</code>, using the
  previously configured separator between each.</div>
@@ -309,7 +309,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#join(java.lang.Object,java.lang.Object,java.lang.Object...)">join</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
+    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</code></th>
 <td class="colLast">
 <div class="block">Returns a string containing the string representation of each argument, using the previously
  configured separator between each.</div>
@@ -399,7 +399,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.68">on</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.71">on</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</pre>
 <div class="block">Returns a joiner which automatically places <code>separator</code> between consecutive elements.</div>
 </li>
 </ul>
@@ -409,7 +409,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.73">on</a>&#8203;(char&nbsp;separator)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.76">on</a>&#8203;(char&nbsp;separator)</pre>
 <div class="block">Returns a joiner which automatically places <code>separator</code> between consecutive elements.</div>
 </li>
 </ul>
@@ -422,7 +422,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.91">appendTo</a>&#8203;(A&nbsp;appendable,
+public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.94">appendTo</a>&#8203;(A&nbsp;appendable,
                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
@@ -442,7 +442,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.102">appendTo</a>&#8203;(A&nbsp;appendable,
+public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.105">appendTo</a>&#8203;(A&nbsp;appendable,
                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;?&gt;&nbsp;parts)
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
@@ -464,8 +464,8 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.119">appendTo</a>&#8203;(A&nbsp;appendable,
-                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)
+public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.122">appendTo</a>&#8203;(A&nbsp;appendable,
+                                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)
                                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>appendable</code>.</div>
@@ -484,12 +484,12 @@ public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/a
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.125">appendTo</a>&#8203;(A&nbsp;appendable,
-                                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.129">appendTo</a>&#8203;(A&nbsp;appendable,
+                                               <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
-                                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+                                               <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)
+                                               <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)
                                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <div class="block">Appends to <code>appendable</code> the string representation of each of the remaining arguments.</div>
 <dl>
@@ -505,7 +505,7 @@ public final&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/a
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.137">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.144">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>builder</code>. Identical to <a href="#appendTo(A,java.lang.Iterable)"><code>appendTo(Appendable,
@@ -519,7 +519,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.149">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.156">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;?&gt;&nbsp;parts)</pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>builder</code>. Identical to <a href="#appendTo(A,java.lang.Iterable)"><code>appendTo(Appendable,
@@ -537,8 +537,8 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.164">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</pre>
+public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.171">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</pre>
 <div class="block">Appends the string representation of each of <code>parts</code>, using the previously configured
  separator between each, to <code>builder</code>. Identical to <a href="#appendTo(A,java.lang.Iterable)"><code>appendTo(Appendable,
  Iterable)</code></a>, except that it does not throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.</div>
@@ -551,12 +551,12 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <li class="blockList">
 <h4>appendTo</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.174">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
-                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.181">appendTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html?is-external=true" title="class or interface in java.lang" class="externalLink">StringBuilder</a>&nbsp;builder,
+                                    <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
-                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+                                    <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</pre>
+                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</pre>
 <div class="block">Appends to <code>builder</code> the string representation of each of the remaining arguments.
  Identical to <a href="#appendTo(A,java.lang.Object,java.lang.Object,java.lang.Object...)"><code>appendTo(Appendable, Object, Object, Object...)</code></a>, except that it does not
  throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.</div>
@@ -568,7 +568,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.187">join</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.194">join</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;parts)</pre>
 <div class="block">Returns a string containing the string representation of each of <code>parts</code>, using the
  previously configured separator between each.</div>
 </li>
@@ -579,7 +579,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.197">join</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;?&gt;&nbsp;parts)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.204">join</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;?&gt;&nbsp;parts)</pre>
 <div class="block">Returns a string containing the string representation of each of <code>parts</code>, using the
  previously configured separator between each.</div>
 <dl>
@@ -594,7 +594,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.205">join</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.212">join</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;parts)</pre>
 <div class="block">Returns a string containing the string representation of each of <code>parts</code>, using the
  previously configured separator between each.</div>
 </li>
@@ -605,11 +605,11 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.213">join</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.220">join</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;first,
-                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+                         <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;second,
-                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</pre>
+                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>...&nbsp;rest)</pre>
 <div class="block">Returns a string containing the string representation of each argument, using the previously
  configured separator between each.</div>
 </li>
@@ -620,7 +620,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>useForNull</h4>
-<pre class="methodSignature">public&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.222">useForNull</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;nullText)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.229">useForNull</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;nullText)</pre>
 <div class="block">Returns a joiner with the same behavior as this one, except automatically substituting <code>
  nullText</code> for any provided null elements.</div>
 </li>
@@ -631,7 +631,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>skipNulls</h4>
-<pre class="methodSignature">public&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.246">skipNulls</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.253">skipNulls</a>()</pre>
 <div class="block">Returns a joiner with the same behavior as this joiner, except automatically skipping over any
  provided null elements.</div>
 </li>
@@ -642,7 +642,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="Joiner.MapJoiner.html" title="class in com.google.common.base">Joiner.MapJoiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.287">withKeyValueSeparator</a>&#8203;(char&nbsp;keyValueSeparator)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Joiner.MapJoiner.html" title="class in com.google.common.base">Joiner.MapJoiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.294">withKeyValueSeparator</a>&#8203;(char&nbsp;keyValueSeparator)</pre>
 <div class="block">Returns a <code>MapJoiner</code> using the given key-value separator, and the same configuration as
  this <code>Joiner</code> otherwise.</div>
 <dl>
@@ -657,7 +657,7 @@ public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/S
 <ul class="blockListLast">
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="Joiner.MapJoiner.html" title="class in com.google.common.base">Joiner.MapJoiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.295">withKeyValueSeparator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;keyValueSeparator)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Joiner.MapJoiner.html" title="class in com.google.common.base">Joiner.MapJoiner</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Joiner.html#line.302">withKeyValueSeparator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;keyValueSeparator)</pre>
 <div class="block">Returns a <code>MapJoiner</code> using the given key-value separator, and the same configuration as
  this <code>Joiner</code> otherwise.</div>
 </li>

@@ -259,7 +259,7 @@
 <span class="sourceLineNo">250</span><a id="line.250">  public final &lt;S extends @Nullable T&gt; Equivalence&lt;Iterable&lt;S&gt;&gt; pairwise() {</a>
 <span class="sourceLineNo">251</span><a id="line.251">    // Ideally, the returned equivalence would support Iterable&lt;? extends T&gt;. However,</a>
 <span class="sourceLineNo">252</span><a id="line.252">    // the need for this is so rare that it's not worth making callers deal with the ugly wildcard.</a>
-<span class="sourceLineNo">253</span><a id="line.253">    return new PairwiseEquivalence&lt;S&gt;(this);</a>
+<span class="sourceLineNo">253</span><a id="line.253">    return new PairwiseEquivalence&lt;&gt;(this);</a>
 <span class="sourceLineNo">254</span><a id="line.254">  }</a>
 <span class="sourceLineNo">255</span><a id="line.255"></a>
 <span class="sourceLineNo">256</span><a id="line.256">  /**</a>

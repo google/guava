@@ -2612,8 +2612,8 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="appendable" type="A extends java.lang.Appendable"/>
-      <param name="first" type="Object"/>
-      <param name="second" type="Object"/>
+      <param name="first" type="java.lang.Object"/>
+      <param name="second" type="java.lang.Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
@@ -2663,8 +2663,8 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="builder" type="java.lang.StringBuilder"/>
-      <param name="first" type="Object"/>
-      <param name="second" type="Object"/>
+      <param name="first" type="java.lang.Object"/>
+      <param name="second" type="java.lang.Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Appends to {@code builder} the string representation of each of the remaining arguments.
@@ -2708,8 +2708,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="first" type="Object"/>
-      <param name="second" type="Object"/>
+      <param name="first" type="java.lang.Object"/>
+      <param name="second" type="java.lang.Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Returns a string containing the string representation of each argument, using the previously
@@ -3086,7 +3086,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="name" type="java.lang.String"/>
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format. If {@code value}
  is {@code null}, the string {@code "null"} is used, unless {@link #omitNullValues()} is
@@ -3169,7 +3169,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Adds an unnamed value to the formatted output.
 
@@ -3727,7 +3727,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessage" type="Object"/>
+      <param name="errorMessage" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3742,8 +3742,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="errorMessageArgs" type="Object..."/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3763,7 +3763,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3778,7 +3778,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3793,7 +3793,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3808,8 +3808,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3823,7 +3823,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -3839,7 +3839,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -3855,7 +3855,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -3871,9 +3871,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3887,7 +3887,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -3903,7 +3903,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -3919,7 +3919,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -3935,9 +3935,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3951,7 +3951,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -3967,7 +3967,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -3983,7 +3983,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -3999,9 +3999,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4015,8 +4015,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4031,8 +4031,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4047,8 +4047,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4063,9 +4063,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4079,10 +4079,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4096,11 +4096,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
-      <param name="p4" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4128,7 +4128,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessage" type="Object"/>
+      <param name="errorMessage" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4145,8 +4145,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="errorMessageArgs" type="Object..."/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4168,7 +4168,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4184,7 +4184,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4200,7 +4200,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4216,8 +4216,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4232,7 +4232,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4249,7 +4249,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4266,7 +4266,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4283,9 +4283,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4300,7 +4300,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4317,7 +4317,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4334,7 +4334,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4351,9 +4351,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4368,7 +4368,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4385,7 +4385,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4402,7 +4402,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4419,9 +4419,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4436,8 +4436,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4453,8 +4453,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4470,8 +4470,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4487,9 +4487,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4504,10 +4504,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4522,11 +4522,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
-      <param name="p4" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4536,11 +4536,11 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="reference" type="T extends java.lang.Object"/>
+      <param name="reference" type="T"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4550,12 +4550,12 @@
  @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="reference" type="T extends java.lang.Object"/>
-      <param name="errorMessage" type="Object"/>
+      <param name="reference" type="T"/>
+      <param name="errorMessage" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4567,13 +4567,13 @@
  @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="reference" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="errorMessageArgs" type="Object..."/>
+      <param name="reference" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4590,12 +4590,12 @@
  @see Verify#verifyNotNull Verify.verifyNotNull()]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4605,12 +4605,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4620,12 +4620,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4635,13 +4635,13 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4650,12 +4650,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4666,12 +4666,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4682,12 +4682,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4698,14 +4698,14 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4714,12 +4714,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4730,12 +4730,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4746,12 +4746,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4762,14 +4762,14 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4778,12 +4778,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4794,12 +4794,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4810,12 +4810,12 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4826,14 +4826,14 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4842,13 +4842,13 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4858,13 +4858,13 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4874,13 +4874,13 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4890,14 +4890,14 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4906,15 +4906,15 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4923,16 +4923,16 @@
  @since 20.0 (varargs overload since 2.0)]]>
       </doc>
     </method>
-    <method name="checkNotNull" return="T extends java.lang.Object"
+    <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="T extends java.lang.Object"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
-      <param name="p4" type="Object"/>
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4964,7 +4964,7 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
       <param name="size" type="int"/>
-      <param name="desc" type="String"/>
+      <param name="desc" type="java.lang.String"/>
       <doc>
       <![CDATA[Ensures that {@code index} specifies a valid <i>element</i> in an array, list or string of size
  {@code size}. An element index may range from zero, inclusive, to {@code size}, exclusive.
@@ -5000,7 +5000,7 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
       <param name="size" type="int"/>
-      <param name="desc" type="String"/>
+      <param name="desc" type="java.lang.String"/>
       <doc>
       <![CDATA[Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
  size {@code size}. A position index may range from zero to {@code size}, inclusive.
@@ -6863,8 +6863,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="errorMessageArgs" type="Object..."/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -6886,7 +6886,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -6902,7 +6902,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -6918,7 +6918,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -6934,8 +6934,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -6950,7 +6950,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -6967,7 +6967,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -6984,7 +6984,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -7001,8 +7001,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7018,7 +7018,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7035,7 +7035,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7052,7 +7052,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7069,8 +7069,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7086,7 +7086,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7103,7 +7103,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7120,7 +7120,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7137,8 +7137,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7154,9 +7154,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7171,9 +7171,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7188,9 +7188,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7205,9 +7205,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7222,10 +7222,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7240,11 +7240,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="p1" type="Object"/>
-      <param name="p2" type="Object"/>
-      <param name="p3" type="Object"/>
-      <param name="p4" type="Object"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7273,8 +7273,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="reference" type="T"/>
-      <param name="errorMessageTemplate" type="String"/>
-      <param name="errorMessageArgs" type="Object..."/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a custom
  message otherwise.
@@ -7371,14 +7371,14 @@
       <![CDATA[Constructs a {@code VerifyException} with no message.]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="String"
+    <constructor name="VerifyException" type="java.lang.String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructs a {@code VerifyException} with the message {@code message}.]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="Throwable"
+    <constructor name="VerifyException" type="java.lang.Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -7388,7 +7388,7 @@
  @since 19.0]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="String, Throwable"
+    <constructor name="VerifyException" type="java.lang.String, java.lang.Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
