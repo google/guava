@@ -21,7 +21,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -31,6 +31,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible(emulated = true, serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@ElementTypesAreNonnullByDefault
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<>(ObjectCountHashMap.create());
@@ -38,7 +39,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   final transient ObjectCountHashMap<E> contents;
   private final transient int size;
 
-  @LazyInit private transient ImmutableSet<E> elementSet;
+  @LazyInit @CheckForNull private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(ObjectCountHashMap<E> contents) {
     this.contents = contents;
@@ -55,7 +56,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@NullableDecl Object element) {
+  public int count(@CheckForNull Object element) {
     return contents.get(element);
   }
 
@@ -79,7 +80,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object object) {
+    public boolean contains(@CheckForNull Object object) {
       return RegularImmutableMultiset.this.contains(object);
     }
 
@@ -104,12 +105,13 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     final Object[] elements;
     final int[] counts;
 
-    SerializedForm(Multiset<?> multiset) {
+    // "extends Object" works around https://github.com/typetools/checker-framework/issues/3013
+    SerializedForm(Multiset<? extends Object> multiset) {
       int distinct = multiset.entrySet().size();
       elements = new Object[distinct];
       counts = new int[distinct];
       int i = 0;
-      for (Entry<?> entry : multiset.entrySet()) {
+      for (Entry<? extends Object> entry : multiset.entrySet()) {
         elements[i] = entry.getElement();
         counts[i] = entry.getCount();
         i++;
