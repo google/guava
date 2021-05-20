@@ -278,6 +278,8 @@ public class MathTesting {
     INTEGRAL_DOUBLE_CANDIDATES = integralBuilder.build();
     fractionalBuilder.add(1.414).add(1.415).add(Math.sqrt(2));
     fractionalBuilder.add(5.656).add(5.657).add(4 * Math.sqrt(2));
+    double π = Math.PI;
+    fractionalBuilder.add(π);
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       double x = 1 / d;
       if (x != Math.rint(x)) {
