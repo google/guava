@@ -61122,11 +61122,12 @@
   </class>
   <!-- end class com.google.common.reflect.ImmutableTypeToInstanceMap.Builder -->
   <!-- start class com.google.common.reflect.Invokable -->
-  <class name="Invokable" extends="com.google.common.reflect.Element"
+  <class name="Invokable" extends="java.lang.Object"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="java.lang.reflect.GenericDeclaration"/>
+    <implements name="java.lang.reflect.AnnotatedElement"/>
+    <implements name="java.lang.reflect.Member"/>
     <method name="from" return="com.google.common.reflect.Invokable&lt;?, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -61144,6 +61145,168 @@
       <doc>
       <![CDATA[Returns {@link Invokable} of {@code constructor}.]]>
       </doc>
+    </method>
+    <method name="isAnnotationPresent" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="annotationClass" type="java.lang.Class&lt;? extends java.lang.annotation.Annotation&gt;"/>
+    </method>
+    <method name="getAnnotation" return="A extends java.lang.annotation.Annotation"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="annotationClass" type="java.lang.Class&lt;A&gt;"/>
+    </method>
+    <method name="getAnnotations" return="java.lang.annotation.Annotation[]"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="getDeclaredAnnotations" return="java.lang.annotation.Annotation[]"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="getTypeParameters" return="java.lang.reflect.TypeVariable[]"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[See {@link java.lang.reflect.GenericDeclaration#getTypeParameters()}.]]>
+      </doc>
+    </method>
+    <method name="setAccessible"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="flag" type="boolean"/>
+      <doc>
+      <![CDATA[See {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)}.]]>
+      </doc>
+    </method>
+    <method name="trySetAccessible" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[See {@link java.lang.reflect.AccessibleObject#trySetAccessible()}.]]>
+      </doc>
+    </method>
+    <method name="isAccessible" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[See {@link java.lang.reflect.AccessibleObject#isAccessible()}.]]>
+      </doc>
+    </method>
+    <method name="getName" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="getModifiers" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="isSynthetic" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="isPublic" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is public.]]>
+      </doc>
+    </method>
+    <method name="isProtected" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is protected.]]>
+      </doc>
+    </method>
+    <method name="isPackagePrivate" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is package-private.]]>
+      </doc>
+    </method>
+    <method name="isPrivate" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is private.]]>
+      </doc>
+    </method>
+    <method name="isStatic" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is static.]]>
+      </doc>
+    </method>
+    <method name="isFinal" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns {@code true} if this method is final, per {@code Modifier.isFinal(getModifiers())}.
+
+ <p>Note that a method may still be effectively "final", or non-overridable when it has no
+ {@code final} keyword. For example, it could be private, or it could be declared by a final
+ class. To tell whether a method is overridable, use {@link Invokable#isOverridable}.]]>
+      </doc>
+    </method>
+    <method name="isAbstract" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the method is abstract.]]>
+      </doc>
+    </method>
+    <method name="isNative" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the element is native.]]>
+      </doc>
+    </method>
+    <method name="isSynchronized" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if the method is synchronized.]]>
+      </doc>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="toString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
     </method>
     <method name="isOverridable" return="boolean"
       abstract="true" native="false" synchronized="false"
@@ -61267,11 +61430,18 @@
  assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
  }</pre>
 
+ <p><b>Note:</b> earlier versions of this class inherited from {@link
+ java.lang.reflect.AccessibleObject AccessibleObject} and {@link
+ java.lang.reflect.GenericDeclaration GenericDeclaration}. Since version 31.0 that is no longer
+ the case. However, most methods from those types are present with the same signature in this
+ class.
+
  @param <T> the type that owns this method or constructor.
  @param <R> the return type of (or supertype thereof) the method or the declaring type of the
      constructor.
  @author Ben Yu
- @since 14.0]]>
+ @since 14.0 (no longer implements {@link AccessibleObject} or {@code GenericDeclaration} since
+     31.0)]]>
     </doc>
   </class>
   <!-- end class com.google.common.reflect.Invokable -->
