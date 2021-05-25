@@ -31923,7 +31923,8 @@
       <![CDATA[Creates an empty {@code PriorityBlockingQueue} with the ordering given by its elements' natural
  ordering.
 
- @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).]]>
+ @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+     in 15.0)]]>
       </doc>
     </method>
     <method name="newPriorityBlockingQueue" return="java.util.concurrent.PriorityBlockingQueue&lt;E&gt;"
@@ -31937,7 +31938,8 @@
  <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
  this priority queue will be ordered according to the same ordering.
 
- @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).]]>
+ @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+     in 15.0)]]>
       </doc>
     </method>
     <method name="newPriorityQueue" return="java.util.PriorityQueue&lt;E&gt;"
@@ -31948,7 +31950,8 @@
       <![CDATA[Creates an empty {@code PriorityQueue} with the ordering given by its elements' natural
  ordering.
 
- @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).]]>
+ @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+     in 15.0)]]>
       </doc>
     </method>
     <method name="newPriorityQueue" return="java.util.PriorityQueue&lt;E&gt;"
@@ -31962,7 +31965,8 @@
  <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
  this priority queue will be ordered according to the same ordering.
 
- @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).]]>
+ @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+     in 15.0)]]>
       </doc>
     </method>
     <method name="newSynchronousQueue" return="java.util.concurrent.SynchronousQueue&lt;E&gt;"
@@ -38364,7 +38368,7 @@
       <![CDATA[Returns the node that is adjacent to {@code node} along the origin edge.
 
  @throws IllegalArgumentException if this {@link EndpointPair} does not contain {@code node}
- @since 20.0 (requires that the argument have type {@code N} since 31.0)]]>
+ @since 20.0 (but the argument type was changed from {@code Object} to {@code N} in 31.0)]]>
       </doc>
     </method>
     <method name="isOrdered" return="boolean"
