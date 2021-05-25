@@ -188,7 +188,8 @@ public final class Queues {
    * Creates an empty {@code PriorityBlockingQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
@@ -201,7 +202,8 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
@@ -220,7 +222,8 @@ public final class Queues {
    * Creates an empty {@code PriorityQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
     return new PriorityQueue<E>();
@@ -232,7 +235,8 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
       Iterable<? extends E> elements) {
