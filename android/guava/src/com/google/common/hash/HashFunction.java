@@ -14,7 +14,6 @@
 
 package com.google.common.hash;
 
-import com.google.common.annotations.Beta;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
@@ -116,7 +115,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 11.0
  */
-@Beta
 @Immutable
 @ElementTypesAreNonnullByDefault
 public interface HashFunction {
