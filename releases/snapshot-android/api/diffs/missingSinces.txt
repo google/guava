@@ -23,3 +23,4 @@ NO DOC BLOCK: com.google.common.reflect.Invokable Method isSynthetic()
 MISSING @SINCE TAG: com.google.common.reflect.Invokable Method setAccessible(boolean)
 NO DOC BLOCK: com.google.common.reflect.Invokable Method toString()
 MISSING @SINCE TAG: com.google.common.reflect.Invokable Method trySetAccessible()
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_BITNESS

@@ -51935,7 +51935,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-arch">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-arch">{@code
  Sec-CH-UA-Arch}</a> header field name.
 
  @since 30.0]]>
@@ -51946,7 +51946,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-model">{@code
  Sec-CH-UA-Model}</a> header field name.
 
  @since 30.0]]>
@@ -51957,7 +51957,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform">{@code
  Sec-CH-UA-Platform}</a> header field name.
 
  @since 30.0]]>
@@ -51968,7 +51968,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform-version">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform-version">{@code
  Sec-CH-UA-Platform-Version}</a> header field name.
 
  @since 30.0]]>
@@ -51979,7 +51979,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-full-version">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version">{@code
  Sec-CH-UA-Full-Version}</a> header field name.
 
  @since 30.0]]>
@@ -51990,10 +51990,21 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-mobile">{@code
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile">{@code
  Sec-CH-UA-Mobile}</a> header field name.
 
  @since 30.0]]>
+      </doc>
+    </field>
+    <field name="SEC_CH_UA_BITNESS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness">{@code
+ Sec-CH-UA-Bitness}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
