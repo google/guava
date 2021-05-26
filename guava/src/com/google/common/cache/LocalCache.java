@@ -4014,8 +4014,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Map<K, V> result = Maps.newLinkedHashMap();
     Set<K> keysToLoad = Sets.newLinkedHashSet();
     for (K key : keys) {
-      V value = get(key);
       if (!result.containsKey(key)) {
+        V value = get(key);
         result.put(key, value);
         if (value == null) {
           misses++;
