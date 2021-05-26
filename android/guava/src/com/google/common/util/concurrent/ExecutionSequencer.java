@@ -284,7 +284,6 @@ public final class ExecutionSequencer {
    * properties; for example, calling WeakReference.get() on Android will block during an
    * otherwise-concurrent GC cycle.
    */
-  @SuppressWarnings("ShouldNotSubclass") // Saving an allocation here is worth it
   private static final class TaskNonReentrantExecutor extends AtomicReference<RunningState>
       implements Executor, Runnable {
 

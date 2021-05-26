@@ -24,7 +24,6 @@ import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-@SuppressWarnings("ShouldNotSubclass")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 @ElementTypesAreNonnullByDefault

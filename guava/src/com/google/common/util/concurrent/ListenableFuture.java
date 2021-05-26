@@ -115,7 +115,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * that affects users, especially users of the Android Gradle Plugin, since the plugin developers
  * put in a special hack for us: https://issuetracker.google.com/issues/131431257)
  */
-@SuppressWarnings("ShouldNotSubclass")
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
 /*
  * It would make sense to also annotate this class with @ElementTypesAreNonnullByDefault. However,

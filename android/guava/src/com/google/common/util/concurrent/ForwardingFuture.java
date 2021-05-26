@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
-@SuppressWarnings("ShouldNotSubclass")
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
     implements Future<V> {

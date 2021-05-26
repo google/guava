@@ -30,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Shardul Deo
  * @since 4.0
  */
-@SuppressWarnings("ShouldNotSubclass")
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @ElementTypesAreNonnullByDefault

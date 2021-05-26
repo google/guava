@@ -470,7 +470,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @GwtIncompatible // TODO
-  @SuppressWarnings("ShouldNotSubclass")
   public static <I, O> Future<O> lazyTransform(
       final Future<I> input, final Function<? super I, ? extends O> function) {
     checkNotNull(input);

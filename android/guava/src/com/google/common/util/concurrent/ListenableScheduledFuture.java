@@ -27,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible
-@SuppressWarnings("ShouldNotSubclass")
 @ElementTypesAreNonnullByDefault
 public interface ListenableScheduledFuture<V extends @Nullable Object>
     extends ScheduledFuture<V>, ListenableFuture<V> {}

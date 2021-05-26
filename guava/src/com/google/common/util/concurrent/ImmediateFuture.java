@@ -29,7 +29,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 // TODO(cpovirk): Make this final (but that may break Mockito spy calls).
-@SuppressWarnings("ShouldNotSubclass")
 class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
 

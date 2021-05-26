@@ -65,7 +65,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 // we use non-short circuiting comparisons intentionally
-@SuppressWarnings({"ShortCircuitBoolean", "ShouldNotSubclass"})
+@SuppressWarnings("ShortCircuitBoolean")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> extends InternalFutureFailureAccess

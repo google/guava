@@ -823,6 +823,5 @@ public final class ServiceManager implements ServiceManagerBridge {
   }
 
   /** This is never thrown but only used for logging. */
-  @SuppressWarnings("ShouldNotSubclass")
   private static final class EmptyServiceManagerWarning extends Throwable {}
 }

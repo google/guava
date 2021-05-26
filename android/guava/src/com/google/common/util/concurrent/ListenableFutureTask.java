@@ -40,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-@SuppressWarnings("ShouldNotSubclass")
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask<V>

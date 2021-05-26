@@ -97,7 +97,6 @@ public final class JdkFutureAdapters {
    * <p>If the delegate future is interrupted or throws an unexpected unchecked exception, the
    * listeners will not be invoked.
    */
-  @SuppressWarnings("ShouldNotSubclass")
   private static class ListenableFutureAdapter<V extends @Nullable Object>
       extends ForwardingFuture<V> implements ListenableFuture<V> {
 
