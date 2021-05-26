@@ -293,170 +293,169 @@
 <span class="sourceLineNo">284</span><a id="line.284">   * properties; for example, calling WeakReference.get() on Android will block during an</a>
 <span class="sourceLineNo">285</span><a id="line.285">   * otherwise-concurrent GC cycle.</a>
 <span class="sourceLineNo">286</span><a id="line.286">   */</a>
-<span class="sourceLineNo">287</span><a id="line.287">  @SuppressWarnings("ShouldNotSubclass") // Saving an allocation here is worth it</a>
-<span class="sourceLineNo">288</span><a id="line.288">  private static final class TaskNonReentrantExecutor extends AtomicReference&lt;RunningState&gt;</a>
-<span class="sourceLineNo">289</span><a id="line.289">      implements Executor, Runnable {</a>
-<span class="sourceLineNo">290</span><a id="line.290"></a>
-<span class="sourceLineNo">291</span><a id="line.291">    /**</a>
-<span class="sourceLineNo">292</span><a id="line.292">     * Used to update and read the latestTaskQueue field. Set to null once the runnable has been run</a>
-<span class="sourceLineNo">293</span><a id="line.293">     * or queued.</a>
-<span class="sourceLineNo">294</span><a id="line.294">     */</a>
-<span class="sourceLineNo">295</span><a id="line.295">    @CheckForNull ExecutionSequencer sequencer;</a>
-<span class="sourceLineNo">296</span><a id="line.296"></a>
-<span class="sourceLineNo">297</span><a id="line.297">    /**</a>
-<span class="sourceLineNo">298</span><a id="line.298">     * Executor the task was set to run on. Set to null when the task has been queued, run, or</a>
-<span class="sourceLineNo">299</span><a id="line.299">     * cancelled.</a>
-<span class="sourceLineNo">300</span><a id="line.300">     */</a>
-<span class="sourceLineNo">301</span><a id="line.301">    @CheckForNull Executor delegate;</a>
-<span class="sourceLineNo">302</span><a id="line.302"></a>
-<span class="sourceLineNo">303</span><a id="line.303">    /**</a>
-<span class="sourceLineNo">304</span><a id="line.304">     * Set before calling delegate.execute(); set to null once run, so that it can be GCed; this</a>
-<span class="sourceLineNo">305</span><a id="line.305">     * object may live on after, if submitAsync returns an incomplete future.</a>
-<span class="sourceLineNo">306</span><a id="line.306">     */</a>
-<span class="sourceLineNo">307</span><a id="line.307">    @CheckForNull Runnable task;</a>
-<span class="sourceLineNo">308</span><a id="line.308"></a>
-<span class="sourceLineNo">309</span><a id="line.309">    /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */</a>
-<span class="sourceLineNo">310</span><a id="line.310">    @CheckForNull Thread submitting;</a>
-<span class="sourceLineNo">311</span><a id="line.311"></a>
-<span class="sourceLineNo">312</span><a id="line.312">    private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {</a>
-<span class="sourceLineNo">313</span><a id="line.313">      super(NOT_RUN);</a>
-<span class="sourceLineNo">314</span><a id="line.314">      this.delegate = delegate;</a>
-<span class="sourceLineNo">315</span><a id="line.315">      this.sequencer = sequencer;</a>
-<span class="sourceLineNo">316</span><a id="line.316">    }</a>
-<span class="sourceLineNo">317</span><a id="line.317"></a>
-<span class="sourceLineNo">318</span><a id="line.318">    @Override</a>
-<span class="sourceLineNo">319</span><a id="line.319">    public void execute(Runnable task) {</a>
-<span class="sourceLineNo">320</span><a id="line.320">      // If this operation was successfully cancelled already, calling the runnable will be a noop.</a>
-<span class="sourceLineNo">321</span><a id="line.321">      // This also avoids a race where if outputFuture is cancelled, it will call taskFuture.cancel,</a>
-<span class="sourceLineNo">322</span><a id="line.322">      // which will call newFuture.setFuture(oldFuture), to allow the next task in the queue to run</a>
-<span class="sourceLineNo">323</span><a id="line.323">      // without waiting for the user's executor to run our submitted Runnable. However, this can</a>
-<span class="sourceLineNo">324</span><a id="line.324">      // interact poorly with the reentrancy-avoiding behavior of this executor - when the operation</a>
-<span class="sourceLineNo">325</span><a id="line.325">      // before the cancelled future completes, it will synchronously complete both the newFuture</a>
-<span class="sourceLineNo">326</span><a id="line.326">      // from the cancelled operation and its own. This can cause one runnable to queue two tasks,</a>
-<span class="sourceLineNo">327</span><a id="line.327">      // breaking the invariant this method relies on to iteratively run the next task after the</a>
-<span class="sourceLineNo">328</span><a id="line.328">      // previous one completes.</a>
-<span class="sourceLineNo">329</span><a id="line.329">      if (get() == RunningState.CANCELLED) {</a>
-<span class="sourceLineNo">330</span><a id="line.330">        delegate = null;</a>
-<span class="sourceLineNo">331</span><a id="line.331">        sequencer = null;</a>
-<span class="sourceLineNo">332</span><a id="line.332">        return;</a>
-<span class="sourceLineNo">333</span><a id="line.333">      }</a>
-<span class="sourceLineNo">334</span><a id="line.334">      submitting = Thread.currentThread();</a>
-<span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">      try {</a>
-<span class="sourceLineNo">337</span><a id="line.337">        /*</a>
-<span class="sourceLineNo">338</span><a id="line.338">         * requireNonNull is safe because we don't null out `sequencer` except:</a>
-<span class="sourceLineNo">339</span><a id="line.339">         *</a>
-<span class="sourceLineNo">340</span><a id="line.340">         * - above, where we return (in which case we never get here)</a>
-<span class="sourceLineNo">341</span><a id="line.341">         *</a>
-<span class="sourceLineNo">342</span><a id="line.342">         * - in `run`, which can't run until this Runnable is submitted to an executor, which</a>
-<span class="sourceLineNo">343</span><a id="line.343">         *   doesn't happen until below. (And this Executor -- yes, the object is both a Runnable</a>
-<span class="sourceLineNo">344</span><a id="line.344">         *   and an Executor -- is used for only a single `execute` call.)</a>
-<span class="sourceLineNo">345</span><a id="line.345">         */</a>
-<span class="sourceLineNo">346</span><a id="line.346">        ThreadConfinedTaskQueue submittingTaskQueue = requireNonNull(sequencer).latestTaskQueue;</a>
-<span class="sourceLineNo">347</span><a id="line.347">        if (submittingTaskQueue.thread == submitting) {</a>
-<span class="sourceLineNo">348</span><a id="line.348">          sequencer = null;</a>
-<span class="sourceLineNo">349</span><a id="line.349">          // Submit from inside a reentrant submit. We don't know if this one will be reentrant (and</a>
-<span class="sourceLineNo">350</span><a id="line.350">          // can't know without submitting something to the executor) so queue to run iteratively.</a>
-<span class="sourceLineNo">351</span><a id="line.351">          // Task must be null, since each execution on this executor can only produce one more</a>
-<span class="sourceLineNo">352</span><a id="line.352">          // execution.</a>
-<span class="sourceLineNo">353</span><a id="line.353">          checkState(submittingTaskQueue.nextTask == null);</a>
-<span class="sourceLineNo">354</span><a id="line.354">          submittingTaskQueue.nextTask = task;</a>
-<span class="sourceLineNo">355</span><a id="line.355">          // requireNonNull(delegate) is safe for reasons similar to requireNonNull(sequencer).</a>
-<span class="sourceLineNo">356</span><a id="line.356">          submittingTaskQueue.nextExecutor = requireNonNull(delegate);</a>
-<span class="sourceLineNo">357</span><a id="line.357">          delegate = null;</a>
-<span class="sourceLineNo">358</span><a id="line.358">        } else {</a>
-<span class="sourceLineNo">359</span><a id="line.359">          // requireNonNull(delegate) is safe for reasons similar to requireNonNull(sequencer).</a>
-<span class="sourceLineNo">360</span><a id="line.360">          Executor localDelegate = requireNonNull(delegate);</a>
-<span class="sourceLineNo">361</span><a id="line.361">          delegate = null;</a>
-<span class="sourceLineNo">362</span><a id="line.362">          this.task = task;</a>
-<span class="sourceLineNo">363</span><a id="line.363">          localDelegate.execute(this);</a>
-<span class="sourceLineNo">364</span><a id="line.364">        }</a>
-<span class="sourceLineNo">365</span><a id="line.365">      } finally {</a>
-<span class="sourceLineNo">366</span><a id="line.366">        // Important to null this out here - if we did *not* execute inline, we might still</a>
-<span class="sourceLineNo">367</span><a id="line.367">        // run() on the same thread that called execute() - such as in a thread pool, and think</a>
-<span class="sourceLineNo">368</span><a id="line.368">        // that it was happening inline. As a side benefit, avoids holding on to the Thread object</a>
-<span class="sourceLineNo">369</span><a id="line.369">        // longer than necessary.</a>
-<span class="sourceLineNo">370</span><a id="line.370">        submitting = null;</a>
-<span class="sourceLineNo">371</span><a id="line.371">      }</a>
-<span class="sourceLineNo">372</span><a id="line.372">    }</a>
-<span class="sourceLineNo">373</span><a id="line.373"></a>
-<span class="sourceLineNo">374</span><a id="line.374">    @SuppressWarnings("ShortCircuitBoolean")</a>
-<span class="sourceLineNo">375</span><a id="line.375">    @Override</a>
-<span class="sourceLineNo">376</span><a id="line.376">    public void run() {</a>
-<span class="sourceLineNo">377</span><a id="line.377">      Thread currentThread = Thread.currentThread();</a>
-<span class="sourceLineNo">378</span><a id="line.378">      if (currentThread != submitting) {</a>
-<span class="sourceLineNo">379</span><a id="line.379">        /*</a>
-<span class="sourceLineNo">380</span><a id="line.380">         * requireNonNull is safe because we set `task` before submitting this Runnable to an</a>
-<span class="sourceLineNo">381</span><a id="line.381">         * Executor, and we don't null it out until here.</a>
-<span class="sourceLineNo">382</span><a id="line.382">         */</a>
-<span class="sourceLineNo">383</span><a id="line.383">        Runnable localTask = requireNonNull(task);</a>
-<span class="sourceLineNo">384</span><a id="line.384">        task = null;</a>
-<span class="sourceLineNo">385</span><a id="line.385">        localTask.run();</a>
-<span class="sourceLineNo">386</span><a id="line.386">        return;</a>
-<span class="sourceLineNo">387</span><a id="line.387">      }</a>
-<span class="sourceLineNo">388</span><a id="line.388">      // Executor called reentrantly! Make sure that further calls don't overflow stack. Further</a>
-<span class="sourceLineNo">389</span><a id="line.389">      // reentrant calls will see that their current thread is the same as the one set in</a>
-<span class="sourceLineNo">390</span><a id="line.390">      // latestTaskQueue, and queue rather than calling execute() directly.</a>
-<span class="sourceLineNo">391</span><a id="line.391">      ThreadConfinedTaskQueue executingTaskQueue = new ThreadConfinedTaskQueue();</a>
-<span class="sourceLineNo">392</span><a id="line.392">      executingTaskQueue.thread = currentThread;</a>
-<span class="sourceLineNo">393</span><a id="line.393">      /*</a>
-<span class="sourceLineNo">394</span><a id="line.394">       * requireNonNull is safe because we don't null out `sequencer` except:</a>
-<span class="sourceLineNo">395</span><a id="line.395">       *</a>
-<span class="sourceLineNo">396</span><a id="line.396">       * - after the requireNonNull call below. (And this object has its Runnable.run override</a>
-<span class="sourceLineNo">397</span><a id="line.397">       *   called only once, just as it has its Executor.execute override called only once.)</a>
-<span class="sourceLineNo">398</span><a id="line.398">       *</a>
-<span class="sourceLineNo">399</span><a id="line.399">       * - if we return immediately from `execute` (in which case we never get here)</a>
-<span class="sourceLineNo">400</span><a id="line.400">       *</a>
-<span class="sourceLineNo">401</span><a id="line.401">       * - in the "reentrant submit" case of `execute` (in which case we must have started running a</a>
-<span class="sourceLineNo">402</span><a id="line.402">       *   user task -- which means that we already got past this code (or else we exited early</a>
-<span class="sourceLineNo">403</span><a id="line.403">       *   above))</a>
-<span class="sourceLineNo">404</span><a id="line.404">       */</a>
-<span class="sourceLineNo">405</span><a id="line.405">      // Unconditionally set; there is no risk of throwing away a queued task from another thread,</a>
-<span class="sourceLineNo">406</span><a id="line.406">      // because in order for the current task to run on this executor the previous task must have</a>
-<span class="sourceLineNo">407</span><a id="line.407">      // already started execution. Because each task on a TaskNonReentrantExecutor can only produce</a>
-<span class="sourceLineNo">408</span><a id="line.408">      // one execute() call to another instance from the same ExecutionSequencer, we know by</a>
-<span class="sourceLineNo">409</span><a id="line.409">      // induction that the task that launched this one must not have added any other runnables to</a>
-<span class="sourceLineNo">410</span><a id="line.410">      // that thread's queue, and thus we cannot be replacing a TaskAndThread object that would</a>
-<span class="sourceLineNo">411</span><a id="line.411">      // otherwise have another task queued on to it. Note the exception to this, cancellation, is</a>
-<span class="sourceLineNo">412</span><a id="line.412">      // specially handled in execute() - execute() calls triggered by cancellation are no-ops, and</a>
-<span class="sourceLineNo">413</span><a id="line.413">      // thus don't count.</a>
-<span class="sourceLineNo">414</span><a id="line.414">      requireNonNull(sequencer).latestTaskQueue = executingTaskQueue;</a>
-<span class="sourceLineNo">415</span><a id="line.415">      sequencer = null;</a>
-<span class="sourceLineNo">416</span><a id="line.416">      try {</a>
-<span class="sourceLineNo">417</span><a id="line.417">        // requireNonNull is safe, as discussed above.</a>
-<span class="sourceLineNo">418</span><a id="line.418">        Runnable localTask = requireNonNull(task);</a>
-<span class="sourceLineNo">419</span><a id="line.419">        task = null;</a>
-<span class="sourceLineNo">420</span><a id="line.420">        localTask.run();</a>
-<span class="sourceLineNo">421</span><a id="line.421">        // Now check if our task attempted to reentrantly execute the next task.</a>
-<span class="sourceLineNo">422</span><a id="line.422">        Runnable queuedTask;</a>
-<span class="sourceLineNo">423</span><a id="line.423">        Executor queuedExecutor;</a>
-<span class="sourceLineNo">424</span><a id="line.424">        // Intentionally using non-short-circuit operator</a>
-<span class="sourceLineNo">425</span><a id="line.425">        while ((queuedTask = executingTaskQueue.nextTask) != null</a>
-<span class="sourceLineNo">426</span><a id="line.426">            &amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {</a>
-<span class="sourceLineNo">427</span><a id="line.427">          executingTaskQueue.nextTask = null;</a>
-<span class="sourceLineNo">428</span><a id="line.428">          executingTaskQueue.nextExecutor = null;</a>
-<span class="sourceLineNo">429</span><a id="line.429">          queuedExecutor.execute(queuedTask);</a>
-<span class="sourceLineNo">430</span><a id="line.430">        }</a>
-<span class="sourceLineNo">431</span><a id="line.431">      } finally {</a>
-<span class="sourceLineNo">432</span><a id="line.432">        // Null out the thread field, so that we don't leak a reference to Thread, and so that</a>
-<span class="sourceLineNo">433</span><a id="line.433">        // future `thread == currentThread()` calls from this thread don't incorrectly queue instead</a>
-<span class="sourceLineNo">434</span><a id="line.434">        // of executing. Don't null out the latestTaskQueue field, because the work done here</a>
-<span class="sourceLineNo">435</span><a id="line.435">        // may have scheduled more operations on another thread, and if those operations then</a>
-<span class="sourceLineNo">436</span><a id="line.436">        // trigger reentrant calls that thread will have updated the latestTaskQueue field, and</a>
-<span class="sourceLineNo">437</span><a id="line.437">        // we'd be interfering with their operation.</a>
-<span class="sourceLineNo">438</span><a id="line.438">        executingTaskQueue.thread = null;</a>
-<span class="sourceLineNo">439</span><a id="line.439">      }</a>
-<span class="sourceLineNo">440</span><a id="line.440">    }</a>
-<span class="sourceLineNo">441</span><a id="line.441"></a>
-<span class="sourceLineNo">442</span><a id="line.442">    private boolean trySetStarted() {</a>
-<span class="sourceLineNo">443</span><a id="line.443">      return compareAndSet(NOT_RUN, STARTED);</a>
-<span class="sourceLineNo">444</span><a id="line.444">    }</a>
-<span class="sourceLineNo">445</span><a id="line.445"></a>
-<span class="sourceLineNo">446</span><a id="line.446">    private boolean trySetCancelled() {</a>
-<span class="sourceLineNo">447</span><a id="line.447">      return compareAndSet(NOT_RUN, CANCELLED);</a>
-<span class="sourceLineNo">448</span><a id="line.448">    }</a>
-<span class="sourceLineNo">449</span><a id="line.449">  }</a>
-<span class="sourceLineNo">450</span><a id="line.450">}</a>
+<span class="sourceLineNo">287</span><a id="line.287">  private static final class TaskNonReentrantExecutor extends AtomicReference&lt;RunningState&gt;</a>
+<span class="sourceLineNo">288</span><a id="line.288">      implements Executor, Runnable {</a>
+<span class="sourceLineNo">289</span><a id="line.289"></a>
+<span class="sourceLineNo">290</span><a id="line.290">    /**</a>
+<span class="sourceLineNo">291</span><a id="line.291">     * Used to update and read the latestTaskQueue field. Set to null once the runnable has been run</a>
+<span class="sourceLineNo">292</span><a id="line.292">     * or queued.</a>
+<span class="sourceLineNo">293</span><a id="line.293">     */</a>
+<span class="sourceLineNo">294</span><a id="line.294">    @CheckForNull ExecutionSequencer sequencer;</a>
+<span class="sourceLineNo">295</span><a id="line.295"></a>
+<span class="sourceLineNo">296</span><a id="line.296">    /**</a>
+<span class="sourceLineNo">297</span><a id="line.297">     * Executor the task was set to run on. Set to null when the task has been queued, run, or</a>
+<span class="sourceLineNo">298</span><a id="line.298">     * cancelled.</a>
+<span class="sourceLineNo">299</span><a id="line.299">     */</a>
+<span class="sourceLineNo">300</span><a id="line.300">    @CheckForNull Executor delegate;</a>
+<span class="sourceLineNo">301</span><a id="line.301"></a>
+<span class="sourceLineNo">302</span><a id="line.302">    /**</a>
+<span class="sourceLineNo">303</span><a id="line.303">     * Set before calling delegate.execute(); set to null once run, so that it can be GCed; this</a>
+<span class="sourceLineNo">304</span><a id="line.304">     * object may live on after, if submitAsync returns an incomplete future.</a>
+<span class="sourceLineNo">305</span><a id="line.305">     */</a>
+<span class="sourceLineNo">306</span><a id="line.306">    @CheckForNull Runnable task;</a>
+<span class="sourceLineNo">307</span><a id="line.307"></a>
+<span class="sourceLineNo">308</span><a id="line.308">    /** Thread that called execute(). Set in execute, cleared when delegate.execute() returns. */</a>
+<span class="sourceLineNo">309</span><a id="line.309">    @CheckForNull Thread submitting;</a>
+<span class="sourceLineNo">310</span><a id="line.310"></a>
+<span class="sourceLineNo">311</span><a id="line.311">    private TaskNonReentrantExecutor(Executor delegate, ExecutionSequencer sequencer) {</a>
+<span class="sourceLineNo">312</span><a id="line.312">      super(NOT_RUN);</a>
+<span class="sourceLineNo">313</span><a id="line.313">      this.delegate = delegate;</a>
+<span class="sourceLineNo">314</span><a id="line.314">      this.sequencer = sequencer;</a>
+<span class="sourceLineNo">315</span><a id="line.315">    }</a>
+<span class="sourceLineNo">316</span><a id="line.316"></a>
+<span class="sourceLineNo">317</span><a id="line.317">    @Override</a>
+<span class="sourceLineNo">318</span><a id="line.318">    public void execute(Runnable task) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">      // If this operation was successfully cancelled already, calling the runnable will be a noop.</a>
+<span class="sourceLineNo">320</span><a id="line.320">      // This also avoids a race where if outputFuture is cancelled, it will call taskFuture.cancel,</a>
+<span class="sourceLineNo">321</span><a id="line.321">      // which will call newFuture.setFuture(oldFuture), to allow the next task in the queue to run</a>
+<span class="sourceLineNo">322</span><a id="line.322">      // without waiting for the user's executor to run our submitted Runnable. However, this can</a>
+<span class="sourceLineNo">323</span><a id="line.323">      // interact poorly with the reentrancy-avoiding behavior of this executor - when the operation</a>
+<span class="sourceLineNo">324</span><a id="line.324">      // before the cancelled future completes, it will synchronously complete both the newFuture</a>
+<span class="sourceLineNo">325</span><a id="line.325">      // from the cancelled operation and its own. This can cause one runnable to queue two tasks,</a>
+<span class="sourceLineNo">326</span><a id="line.326">      // breaking the invariant this method relies on to iteratively run the next task after the</a>
+<span class="sourceLineNo">327</span><a id="line.327">      // previous one completes.</a>
+<span class="sourceLineNo">328</span><a id="line.328">      if (get() == RunningState.CANCELLED) {</a>
+<span class="sourceLineNo">329</span><a id="line.329">        delegate = null;</a>
+<span class="sourceLineNo">330</span><a id="line.330">        sequencer = null;</a>
+<span class="sourceLineNo">331</span><a id="line.331">        return;</a>
+<span class="sourceLineNo">332</span><a id="line.332">      }</a>
+<span class="sourceLineNo">333</span><a id="line.333">      submitting = Thread.currentThread();</a>
+<span class="sourceLineNo">334</span><a id="line.334"></a>
+<span class="sourceLineNo">335</span><a id="line.335">      try {</a>
+<span class="sourceLineNo">336</span><a id="line.336">        /*</a>
+<span class="sourceLineNo">337</span><a id="line.337">         * requireNonNull is safe because we don't null out `sequencer` except:</a>
+<span class="sourceLineNo">338</span><a id="line.338">         *</a>
+<span class="sourceLineNo">339</span><a id="line.339">         * - above, where we return (in which case we never get here)</a>
+<span class="sourceLineNo">340</span><a id="line.340">         *</a>
+<span class="sourceLineNo">341</span><a id="line.341">         * - in `run`, which can't run until this Runnable is submitted to an executor, which</a>
+<span class="sourceLineNo">342</span><a id="line.342">         *   doesn't happen until below. (And this Executor -- yes, the object is both a Runnable</a>
+<span class="sourceLineNo">343</span><a id="line.343">         *   and an Executor -- is used for only a single `execute` call.)</a>
+<span class="sourceLineNo">344</span><a id="line.344">         */</a>
+<span class="sourceLineNo">345</span><a id="line.345">        ThreadConfinedTaskQueue submittingTaskQueue = requireNonNull(sequencer).latestTaskQueue;</a>
+<span class="sourceLineNo">346</span><a id="line.346">        if (submittingTaskQueue.thread == submitting) {</a>
+<span class="sourceLineNo">347</span><a id="line.347">          sequencer = null;</a>
+<span class="sourceLineNo">348</span><a id="line.348">          // Submit from inside a reentrant submit. We don't know if this one will be reentrant (and</a>
+<span class="sourceLineNo">349</span><a id="line.349">          // can't know without submitting something to the executor) so queue to run iteratively.</a>
+<span class="sourceLineNo">350</span><a id="line.350">          // Task must be null, since each execution on this executor can only produce one more</a>
+<span class="sourceLineNo">351</span><a id="line.351">          // execution.</a>
+<span class="sourceLineNo">352</span><a id="line.352">          checkState(submittingTaskQueue.nextTask == null);</a>
+<span class="sourceLineNo">353</span><a id="line.353">          submittingTaskQueue.nextTask = task;</a>
+<span class="sourceLineNo">354</span><a id="line.354">          // requireNonNull(delegate) is safe for reasons similar to requireNonNull(sequencer).</a>
+<span class="sourceLineNo">355</span><a id="line.355">          submittingTaskQueue.nextExecutor = requireNonNull(delegate);</a>
+<span class="sourceLineNo">356</span><a id="line.356">          delegate = null;</a>
+<span class="sourceLineNo">357</span><a id="line.357">        } else {</a>
+<span class="sourceLineNo">358</span><a id="line.358">          // requireNonNull(delegate) is safe for reasons similar to requireNonNull(sequencer).</a>
+<span class="sourceLineNo">359</span><a id="line.359">          Executor localDelegate = requireNonNull(delegate);</a>
+<span class="sourceLineNo">360</span><a id="line.360">          delegate = null;</a>
+<span class="sourceLineNo">361</span><a id="line.361">          this.task = task;</a>
+<span class="sourceLineNo">362</span><a id="line.362">          localDelegate.execute(this);</a>
+<span class="sourceLineNo">363</span><a id="line.363">        }</a>
+<span class="sourceLineNo">364</span><a id="line.364">      } finally {</a>
+<span class="sourceLineNo">365</span><a id="line.365">        // Important to null this out here - if we did *not* execute inline, we might still</a>
+<span class="sourceLineNo">366</span><a id="line.366">        // run() on the same thread that called execute() - such as in a thread pool, and think</a>
+<span class="sourceLineNo">367</span><a id="line.367">        // that it was happening inline. As a side benefit, avoids holding on to the Thread object</a>
+<span class="sourceLineNo">368</span><a id="line.368">        // longer than necessary.</a>
+<span class="sourceLineNo">369</span><a id="line.369">        submitting = null;</a>
+<span class="sourceLineNo">370</span><a id="line.370">      }</a>
+<span class="sourceLineNo">371</span><a id="line.371">    }</a>
+<span class="sourceLineNo">372</span><a id="line.372"></a>
+<span class="sourceLineNo">373</span><a id="line.373">    @SuppressWarnings("ShortCircuitBoolean")</a>
+<span class="sourceLineNo">374</span><a id="line.374">    @Override</a>
+<span class="sourceLineNo">375</span><a id="line.375">    public void run() {</a>
+<span class="sourceLineNo">376</span><a id="line.376">      Thread currentThread = Thread.currentThread();</a>
+<span class="sourceLineNo">377</span><a id="line.377">      if (currentThread != submitting) {</a>
+<span class="sourceLineNo">378</span><a id="line.378">        /*</a>
+<span class="sourceLineNo">379</span><a id="line.379">         * requireNonNull is safe because we set `task` before submitting this Runnable to an</a>
+<span class="sourceLineNo">380</span><a id="line.380">         * Executor, and we don't null it out until here.</a>
+<span class="sourceLineNo">381</span><a id="line.381">         */</a>
+<span class="sourceLineNo">382</span><a id="line.382">        Runnable localTask = requireNonNull(task);</a>
+<span class="sourceLineNo">383</span><a id="line.383">        task = null;</a>
+<span class="sourceLineNo">384</span><a id="line.384">        localTask.run();</a>
+<span class="sourceLineNo">385</span><a id="line.385">        return;</a>
+<span class="sourceLineNo">386</span><a id="line.386">      }</a>
+<span class="sourceLineNo">387</span><a id="line.387">      // Executor called reentrantly! Make sure that further calls don't overflow stack. Further</a>
+<span class="sourceLineNo">388</span><a id="line.388">      // reentrant calls will see that their current thread is the same as the one set in</a>
+<span class="sourceLineNo">389</span><a id="line.389">      // latestTaskQueue, and queue rather than calling execute() directly.</a>
+<span class="sourceLineNo">390</span><a id="line.390">      ThreadConfinedTaskQueue executingTaskQueue = new ThreadConfinedTaskQueue();</a>
+<span class="sourceLineNo">391</span><a id="line.391">      executingTaskQueue.thread = currentThread;</a>
+<span class="sourceLineNo">392</span><a id="line.392">      /*</a>
+<span class="sourceLineNo">393</span><a id="line.393">       * requireNonNull is safe because we don't null out `sequencer` except:</a>
+<span class="sourceLineNo">394</span><a id="line.394">       *</a>
+<span class="sourceLineNo">395</span><a id="line.395">       * - after the requireNonNull call below. (And this object has its Runnable.run override</a>
+<span class="sourceLineNo">396</span><a id="line.396">       *   called only once, just as it has its Executor.execute override called only once.)</a>
+<span class="sourceLineNo">397</span><a id="line.397">       *</a>
+<span class="sourceLineNo">398</span><a id="line.398">       * - if we return immediately from `execute` (in which case we never get here)</a>
+<span class="sourceLineNo">399</span><a id="line.399">       *</a>
+<span class="sourceLineNo">400</span><a id="line.400">       * - in the "reentrant submit" case of `execute` (in which case we must have started running a</a>
+<span class="sourceLineNo">401</span><a id="line.401">       *   user task -- which means that we already got past this code (or else we exited early</a>
+<span class="sourceLineNo">402</span><a id="line.402">       *   above))</a>
+<span class="sourceLineNo">403</span><a id="line.403">       */</a>
+<span class="sourceLineNo">404</span><a id="line.404">      // Unconditionally set; there is no risk of throwing away a queued task from another thread,</a>
+<span class="sourceLineNo">405</span><a id="line.405">      // because in order for the current task to run on this executor the previous task must have</a>
+<span class="sourceLineNo">406</span><a id="line.406">      // already started execution. Because each task on a TaskNonReentrantExecutor can only produce</a>
+<span class="sourceLineNo">407</span><a id="line.407">      // one execute() call to another instance from the same ExecutionSequencer, we know by</a>
+<span class="sourceLineNo">408</span><a id="line.408">      // induction that the task that launched this one must not have added any other runnables to</a>
+<span class="sourceLineNo">409</span><a id="line.409">      // that thread's queue, and thus we cannot be replacing a TaskAndThread object that would</a>
+<span class="sourceLineNo">410</span><a id="line.410">      // otherwise have another task queued on to it. Note the exception to this, cancellation, is</a>
+<span class="sourceLineNo">411</span><a id="line.411">      // specially handled in execute() - execute() calls triggered by cancellation are no-ops, and</a>
+<span class="sourceLineNo">412</span><a id="line.412">      // thus don't count.</a>
+<span class="sourceLineNo">413</span><a id="line.413">      requireNonNull(sequencer).latestTaskQueue = executingTaskQueue;</a>
+<span class="sourceLineNo">414</span><a id="line.414">      sequencer = null;</a>
+<span class="sourceLineNo">415</span><a id="line.415">      try {</a>
+<span class="sourceLineNo">416</span><a id="line.416">        // requireNonNull is safe, as discussed above.</a>
+<span class="sourceLineNo">417</span><a id="line.417">        Runnable localTask = requireNonNull(task);</a>
+<span class="sourceLineNo">418</span><a id="line.418">        task = null;</a>
+<span class="sourceLineNo">419</span><a id="line.419">        localTask.run();</a>
+<span class="sourceLineNo">420</span><a id="line.420">        // Now check if our task attempted to reentrantly execute the next task.</a>
+<span class="sourceLineNo">421</span><a id="line.421">        Runnable queuedTask;</a>
+<span class="sourceLineNo">422</span><a id="line.422">        Executor queuedExecutor;</a>
+<span class="sourceLineNo">423</span><a id="line.423">        // Intentionally using non-short-circuit operator</a>
+<span class="sourceLineNo">424</span><a id="line.424">        while ((queuedTask = executingTaskQueue.nextTask) != null</a>
+<span class="sourceLineNo">425</span><a id="line.425">            &amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {</a>
+<span class="sourceLineNo">426</span><a id="line.426">          executingTaskQueue.nextTask = null;</a>
+<span class="sourceLineNo">427</span><a id="line.427">          executingTaskQueue.nextExecutor = null;</a>
+<span class="sourceLineNo">428</span><a id="line.428">          queuedExecutor.execute(queuedTask);</a>
+<span class="sourceLineNo">429</span><a id="line.429">        }</a>
+<span class="sourceLineNo">430</span><a id="line.430">      } finally {</a>
+<span class="sourceLineNo">431</span><a id="line.431">        // Null out the thread field, so that we don't leak a reference to Thread, and so that</a>
+<span class="sourceLineNo">432</span><a id="line.432">        // future `thread == currentThread()` calls from this thread don't incorrectly queue instead</a>
+<span class="sourceLineNo">433</span><a id="line.433">        // of executing. Don't null out the latestTaskQueue field, because the work done here</a>
+<span class="sourceLineNo">434</span><a id="line.434">        // may have scheduled more operations on another thread, and if those operations then</a>
+<span class="sourceLineNo">435</span><a id="line.435">        // trigger reentrant calls that thread will have updated the latestTaskQueue field, and</a>
+<span class="sourceLineNo">436</span><a id="line.436">        // we'd be interfering with their operation.</a>
+<span class="sourceLineNo">437</span><a id="line.437">        executingTaskQueue.thread = null;</a>
+<span class="sourceLineNo">438</span><a id="line.438">      }</a>
+<span class="sourceLineNo">439</span><a id="line.439">    }</a>
+<span class="sourceLineNo">440</span><a id="line.440"></a>
+<span class="sourceLineNo">441</span><a id="line.441">    private boolean trySetStarted() {</a>
+<span class="sourceLineNo">442</span><a id="line.442">      return compareAndSet(NOT_RUN, STARTED);</a>
+<span class="sourceLineNo">443</span><a id="line.443">    }</a>
+<span class="sourceLineNo">444</span><a id="line.444"></a>
+<span class="sourceLineNo">445</span><a id="line.445">    private boolean trySetCancelled() {</a>
+<span class="sourceLineNo">446</span><a id="line.446">      return compareAndSet(NOT_RUN, CANCELLED);</a>
+<span class="sourceLineNo">447</span><a id="line.447">    }</a>
+<span class="sourceLineNo">448</span><a id="line.448">  }</a>
+<span class="sourceLineNo">449</span><a id="line.449">}</a>
 
 
 

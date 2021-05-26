@@ -884,20 +884,18 @@
 <span class="sourceLineNo">875</span><a id="line.875">  }</a>
 <span class="sourceLineNo">876</span><a id="line.876"></a>
 <span class="sourceLineNo">877</span><a id="line.877">  /** This is never thrown but only used for logging. */</a>
-<span class="sourceLineNo">878</span><a id="line.878">  @SuppressWarnings("ShouldNotSubclass")</a>
-<span class="sourceLineNo">879</span><a id="line.879">  private static final class EmptyServiceManagerWarning extends Throwable {}</a>
-<span class="sourceLineNo">880</span><a id="line.880"></a>
-<span class="sourceLineNo">881</span><a id="line.881">  @SuppressWarnings("ShouldNotSubclass")</a>
-<span class="sourceLineNo">882</span><a id="line.882">  private static final class FailedService extends Throwable {</a>
-<span class="sourceLineNo">883</span><a id="line.883">    FailedService(Service service) {</a>
-<span class="sourceLineNo">884</span><a id="line.884">      super(</a>
-<span class="sourceLineNo">885</span><a id="line.885">          service.toString(),</a>
-<span class="sourceLineNo">886</span><a id="line.886">          service.failureCause(),</a>
-<span class="sourceLineNo">887</span><a id="line.887">          false /* don't enable suppression */,</a>
-<span class="sourceLineNo">888</span><a id="line.888">          false /* don't calculate a stack trace. */);</a>
-<span class="sourceLineNo">889</span><a id="line.889">    }</a>
-<span class="sourceLineNo">890</span><a id="line.890">  }</a>
-<span class="sourceLineNo">891</span><a id="line.891">}</a>
+<span class="sourceLineNo">878</span><a id="line.878">  private static final class EmptyServiceManagerWarning extends Throwable {}</a>
+<span class="sourceLineNo">879</span><a id="line.879"></a>
+<span class="sourceLineNo">880</span><a id="line.880">  private static final class FailedService extends Throwable {</a>
+<span class="sourceLineNo">881</span><a id="line.881">    FailedService(Service service) {</a>
+<span class="sourceLineNo">882</span><a id="line.882">      super(</a>
+<span class="sourceLineNo">883</span><a id="line.883">          service.toString(),</a>
+<span class="sourceLineNo">884</span><a id="line.884">          service.failureCause(),</a>
+<span class="sourceLineNo">885</span><a id="line.885">          false /* don't enable suppression */,</a>
+<span class="sourceLineNo">886</span><a id="line.886">          false /* don't calculate a stack trace. */);</a>
+<span class="sourceLineNo">887</span><a id="line.887">    }</a>
+<span class="sourceLineNo">888</span><a id="line.888">  }</a>
+<span class="sourceLineNo">889</span><a id="line.889">}</a>
 
 
 
