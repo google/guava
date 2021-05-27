@@ -17245,7 +17245,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="add" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -17921,19 +17921,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="lastIndexOf" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="contains" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="subList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
@@ -18054,7 +18054,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -20813,7 +20813,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
