@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 
 /**
  * List returned by {@link ImmutableCollection#asList} that delegates {@code contains} checks to the
@@ -31,11 +32,12 @@ import java.io.Serializable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
+@ElementTypesAreNonnullByDefault
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
 
   @Override
-  public boolean contains(Object target) {
+  public boolean contains(@CheckForNull Object target) {
     // The collection's contains() is at least as fast as ImmutableList's
     // and is often faster.
     return delegateCollection().contains(target);

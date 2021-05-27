@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.function.Consumer;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link ImmutableAsList} implementation specialized for when the delegate collection is already
@@ -28,6 +30,7 @@ import java.util.function.Consumer;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
+@ElementTypesAreNonnullByDefault
 class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   private final ImmutableCollection<E> delegate;
   private final ImmutableList<? extends E> delegateList;
@@ -64,11 +67,12 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
 
   @GwtIncompatible // not present in emulated superclass
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     return delegateList.copyIntoArray(dst, offset);
   }
 
   @Override
+  @CheckForNull
   Object[] internalArray() {
     return delegateList.internalArray();
   }
