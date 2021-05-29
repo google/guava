@@ -716,39 +716,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     AvlNode<E> setCount(Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
-        AvlNode<E> initLeft = left;
-        if (initLeft == null) {
-          result[0] = 0;
-          return (count > 0) ? addLeftChild(e, count) : this;
-        }
-
-        left = initLeft.setCount(comparator, e, count, result);
-
-        if (count == 0 && result[0] != 0) {
-          this.distinctElements--;
-        } else if (count > 0 && result[0] == 0) {
-          this.distinctElements++;
-        }
-
-        this.totalCount += count - result[0];
-        return rebalance();
+        return setCountAndBalance(true,comparator,e,count,result);
       } else if (cmp > 0) {
-        AvlNode<E> initRight = right;
-        if (initRight == null) {
-          result[0] = 0;
-          return (count > 0) ? addRightChild(e, count) : this;
-        }
-
-        right = initRight.setCount(comparator, e, count, result);
-
-        if (count == 0 && result[0] != 0) {
-          this.distinctElements--;
-        } else if (count > 0 && result[0] == 0) {
-          this.distinctElements++;
-        }
-
-        this.totalCount += count - result[0];
-        return rebalance();
+        return setCountAndBalance(false,comparator,e,count,result);
       }
 
       // setting my count
@@ -769,47 +739,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
-        AvlNode<E> initLeft = left;
-        if (initLeft == null) {
-          result[0] = 0;
-          if (expectedCount == 0 && newCount > 0) {
-            return addLeftChild(e, newCount);
-          }
-          return this;
-        }
-
-        left = initLeft.setCount(comparator, e, expectedCount, newCount, result);
-
-        if (result[0] == expectedCount) {
-          if (newCount == 0 && result[0] != 0) {
-            this.distinctElements--;
-          } else if (newCount > 0 && result[0] == 0) {
-            this.distinctElements++;
-          }
-          this.totalCount += newCount - result[0];
-        }
-        return rebalance();
+        return setCountAndBalance(true,comparator,e,expectedCount,newCount,result);
       } else if (cmp > 0) {
-        AvlNode<E> initRight = right;
-        if (initRight == null) {
-          result[0] = 0;
-          if (expectedCount == 0 && newCount > 0) {
-            return addRightChild(e, newCount);
-          }
-          return this;
-        }
-
-        right = initRight.setCount(comparator, e, expectedCount, newCount, result);
-
-        if (result[0] == expectedCount) {
-          if (newCount == 0 && result[0] != 0) {
-            this.distinctElements--;
-          } else if (newCount > 0 && result[0] == 0) {
-            this.distinctElements++;
-          }
-          this.totalCount += newCount - result[0];
-        }
-        return rebalance();
+        return setCountAndBalance(false,comparator,e,expectedCount,newCount,result);
       }
 
       // setting my count
@@ -822,6 +754,67 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         this.elemCount = newCount;
       }
       return this;
+    }
+
+    private AvlNode<E> setCountAndBalance(boolean isLeft, Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
+      AvlNode<E> initNode = isLeft ? left : right;
+      if (initNode == null) {
+        result[0] = 0;
+        if (count > 0) {
+          if (isLeft) {
+            return addLeftChild(e, count);
+          } else {
+            return addRightChild(e, count);
+          }
+        }
+        return this;
+      }
+
+      if (isLeft) {
+        left = initNode.setCount(comparator, e, count, result);
+      } else {
+        right = initNode.setCount(comparator, e, count, result);
+      }
+
+      if (count == 0 && result[0] != 0) {
+        this.distinctElements--;
+      } else if (count > 0 && result[0] == 0) {
+        this.distinctElements++;
+      }
+
+      this.totalCount += count - result[0];
+      return rebalance();
+    }
+
+    private AvlNode<E> setCountAndBalance(boolean isLeft, Comparator<? super E> comparator, @Nullable E e,int expectedCount, int newCount, int[] result) {
+      AvlNode<E> initNode = isLeft ? left : right;
+      if (initNode == null) {
+        result[0] = 0;
+        if (expectedCount == 0 && newCount > 0) {
+          if (isLeft) {
+            return addLeftChild(e, newCount);
+          } else {
+            return addRightChild(e, newCount);
+          }
+        }
+        return this;
+      }
+
+      if (isLeft) {
+        left = initNode.setCount(comparator, e, expectedCount, newCount, result);
+      } else {
+        right = initNode.setCount(comparator, e, expectedCount, newCount, result);
+      }
+
+      if (result[0] == expectedCount) {
+        if (newCount == 0 && result[0] != 0) {
+          this.distinctElements--;
+        } else if (newCount > 0 && result[0] == 0) {
+          this.distinctElements++;
+        }
+        this.totalCount += newCount - result[0];
+      }
+      return rebalance();
     }
 
     private AvlNode<E> deleteMe() {
