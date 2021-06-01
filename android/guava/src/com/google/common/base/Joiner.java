@@ -87,12 +87,19 @@ public class Joiner {
     this.separator = prototype.separator;
   }
 
+  /*
+   * In this file, we use <? extends @Nullable Object> instead of <?> to work around a Kotlin bug
+   * (see b/189937072 until we file a bug against Kotlin itself). (The two should be equivalent, so
+   * we normally prefer the shorter one.)
+   */
+
   /**
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts) throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @Nullable Object> parts)
+      throws IOException {
     return appendTo(appendable, parts.iterator());
   }
 
@@ -103,7 +110,8 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterator<? extends @Nullable Object> parts)
+      throws IOException {
     checkNotNull(appendable);
     if (parts.hasNext()) {
       appendable.append(toString(parts.next()));
@@ -142,7 +150,8 @@ public class Joiner {
    * Iterable)}, except that it does not throw {@link IOException}.
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(StringBuilder builder, Iterable<?> parts) {
+  public final StringBuilder appendTo(
+      StringBuilder builder, Iterable<? extends @Nullable Object> parts) {
     return appendTo(builder, parts.iterator());
   }
 
@@ -154,7 +163,8 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(StringBuilder builder, Iterator<?> parts) {
+  public final StringBuilder appendTo(
+      StringBuilder builder, Iterator<? extends @Nullable Object> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -191,7 +201,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
-  public final String join(Iterable<?> parts) {
+  public final String join(Iterable<? extends @Nullable Object> parts) {
     return join(parts.iterator());
   }
 
@@ -201,7 +211,7 @@ public class Joiner {
    *
    * @since 11.0
    */
-  public final String join(Iterator<?> parts) {
+  public final String join(Iterator<? extends @Nullable Object> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
@@ -253,7 +263,8 @@ public class Joiner {
   public Joiner skipNulls() {
     return new Joiner(this) {
       @Override
-      public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
+      public <A extends Appendable> A appendTo(
+          A appendable, Iterator<? extends @Nullable Object> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
