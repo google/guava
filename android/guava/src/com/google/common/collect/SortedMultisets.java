@@ -28,7 +28,8 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
@@ -36,11 +37,14 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class SortedMultisets {
   private SortedMultisets() {}
 
   /** A skeleton implementation for {@link SortedMultiset#elementSet}. */
-  static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
+  @SuppressWarnings("JdkObsolete") // TODO(b/6160855): Switch GWT emulations to NavigableSet.
+  static class ElementSet<E extends @Nullable Object> extends Multisets.ElementSet<E>
+      implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
     ElementSet(SortedMultiset<E> multiset) {
@@ -63,26 +67,28 @@ final class SortedMultisets {
     }
 
     @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
+    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
       return multiset().subMultiset(fromElement, CLOSED, toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> headSet(E toElement) {
+    public SortedSet<E> headSet(@ParametricNullness E toElement) {
       return multiset().headMultiset(toElement, OPEN).elementSet();
     }
 
     @Override
-    public SortedSet<E> tailSet(E fromElement) {
+    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
       return multiset().tailMultiset(fromElement, CLOSED).elementSet();
     }
 
     @Override
+    @ParametricNullness
     public E first() {
       return getElementOrThrow(multiset().firstEntry());
     }
 
     @Override
+    @ParametricNullness
     public E last() {
       return getElementOrThrow(multiset().lastEntry());
     }
@@ -90,28 +96,33 @@ final class SortedMultisets {
 
   /** A skeleton navigable implementation for {@link SortedMultiset#elementSet}. */
   @GwtIncompatible // Navigable
-  static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
+  static class NavigableElementSet<E extends @Nullable Object> extends ElementSet<E>
+      implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);
     }
 
     @Override
-    public E lower(E e) {
+    @CheckForNull
+    public E lower(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
     }
 
     @Override
-    public E floor(E e) {
+    @CheckForNull
+    public E floor(@ParametricNullness E e) {
       return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
     }
 
     @Override
-    public E ceiling(E e) {
+    @CheckForNull
+    public E ceiling(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
     }
 
     @Override
-    public E higher(E e) {
+    @CheckForNull
+    public E higher(@ParametricNullness E e) {
       return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
     }
 
@@ -126,18 +137,23 @@ final class SortedMultisets {
     }
 
     @Override
+    @CheckForNull
     public E pollFirst() {
       return getElementOrNull(multiset().pollFirstEntry());
     }
 
     @Override
+    @CheckForNull
     public E pollLast() {
       return getElementOrNull(multiset().pollLastEntry());
     }
 
     @Override
     public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+        @ParametricNullness E fromElement,
+        boolean fromInclusive,
+        @ParametricNullness E toElement,
+        boolean toInclusive) {
       return new NavigableElementSet<E>(
           multiset()
               .subMultiset(
@@ -146,26 +162,27 @@ final class SortedMultisets {
     }
 
     @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+    public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
       return new NavigableElementSet<E>(
           multiset().headMultiset(toElement, BoundType.forBoolean(inclusive)));
     }
 
     @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+    public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
       return new NavigableElementSet<E>(
           multiset().tailMultiset(fromElement, BoundType.forBoolean(inclusive)));
     }
   }
 
-  private static <E> E getElementOrThrow(Entry<E> entry) {
+  private static <E extends @Nullable Object> E getElementOrThrow(@CheckForNull Entry<E> entry) {
     if (entry == null) {
       throw new NoSuchElementException();
     }
     return entry.getElement();
   }
 
-  private static <E> E getElementOrNull(@NullableDecl Entry<E> entry) {
+  @CheckForNull
+  private static <E extends @Nullable Object> E getElementOrNull(@CheckForNull Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

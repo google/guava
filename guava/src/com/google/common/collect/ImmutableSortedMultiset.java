@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -49,6 +51,7 @@ import java.util.stream.Collector;
  * @since 12.0
  */
 @GwtIncompatible // hasn't been tested yet
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
@@ -78,10 +81,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @since 22.0
    */
-  public static <T, E> Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
-      Comparator<? super E> comparator,
-      Function<? super T, ? extends E> elementFunction,
-      ToIntFunction<? super T> countFunction) {
+  public static <T extends @Nullable Object, E>
+      Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+          Comparator<? super E> comparator,
+          Function<? super T, ? extends E> elementFunction,
+          ToIntFunction<? super T> countFunction) {
     checkNotNull(comparator);
     checkNotNull(elementFunction);
     checkNotNull(countFunction);
@@ -120,7 +124,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1, E e2) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2));
   }
@@ -131,7 +134,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3));
   }
@@ -142,7 +144,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
       E e1, E e2, E e3, E e4) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));
@@ -154,7 +155,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
@@ -166,7 +166,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
     int size = remaining.length + 6;
@@ -332,7 +331,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public abstract ImmutableSortedSet<E> elementSet();
 
-  @LazyInit transient ImmutableSortedMultiset<E> descendingMultiset;
+  @LazyInit @CheckForNull transient ImmutableSortedMultiset<E> descendingMultiset;
 
   @Override
   public ImmutableSortedMultiset<E> descendingMultiset() {
@@ -358,6 +357,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
@@ -374,6 +374,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
