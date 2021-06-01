@@ -551,6 +551,11 @@ public final class MoreExecutors {
     public final void execute(Runnable command) {
       delegate.execute(command);
     }
+
+    @Override
+    public final String toString() {
+      return super.toString() + "[" + delegate + "]";
+    }
   }
 
   @GwtIncompatible // TODO
@@ -648,6 +653,11 @@ public final class MoreExecutors {
           setException(t);
           throw Throwables.propagate(t);
         }
+      }
+
+      @Override
+      protected String pendingToString() {
+        return "task=[" + delegate + "]";
       }
     }
   }
