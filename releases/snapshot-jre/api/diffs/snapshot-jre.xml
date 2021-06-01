@@ -11209,7 +11209,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns the number of occurrences of {@code element} in this multiset.
 
@@ -11259,7 +11259,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -11275,7 +11275,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes exactly the specified number of occurrences of {@code element}, or makes no change if
@@ -11893,7 +11893,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
@@ -11906,7 +11906,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="setCount" return="int"
@@ -14427,7 +14427,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="remove" return="int"
@@ -14451,7 +14451,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -14462,14 +14462,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="count" type="int"/>
     </method>
     <method name="setCount" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="oldCount" type="int"/>
       <param name="newCount" type="int"/>
     </method>
@@ -14477,7 +14477,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of {@link #count}. If you override {@link
  #count}, you may wish to override {@link #contains} to forward to this implementation.
@@ -14501,7 +14501,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #count} in terms of {@link #entrySet}. If
  you override {@link #entrySet}, you may wish to override {@link #count} to forward to this
@@ -14514,7 +14514,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #add(Object)} in terms of {@link #add(Object, int)}. If you
  override {@link #add(Object, int)}, you may wish to override {@link #add(Object)} to forward to
@@ -14579,7 +14579,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="count" type="int"/>
       <doc>
       <![CDATA[A sensible definition of {@link #setCount(Object, int)} in terms of {@link #count(Object)},
@@ -14594,7 +14594,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="oldCount" type="int"/>
       <param name="newCount" type="int"/>
       <doc>
@@ -14633,7 +14633,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #equals} in terms of {@code
  entrySet().size()} and {@link #count}. If you override either of these methods, you may wish to
@@ -15914,25 +15914,25 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
     </method>
     <method name="subMultiset" return="com.google.common.collect.SortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="lowerBoundType" type="com.google.common.collect.BoundType"/>
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="upperBoundType" type="com.google.common.collect.BoundType"/>
     </method>
     <method name="standardSubMultiset" return="com.google.common.collect.SortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="lowerBoundType" type="com.google.common.collect.BoundType"/>
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="upperBoundType" type="com.google.common.collect.BoundType"/>
       <doc>
       <![CDATA[A sensible definition of {@link #subMultiset(Object, BoundType, Object, BoundType)} in terms of
@@ -15947,7 +15947,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
     </method>
     <doc>
@@ -19811,7 +19811,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
@@ -19870,7 +19870,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -30025,7 +30025,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an {@link Object#equals}-based multiset, this gives the same result as
@@ -30044,7 +30044,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Adds a number of occurrences of an element to this multiset. Note that if {@code occurrences ==
@@ -30069,7 +30069,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[Adds a single occurrence of the specified element to this multiset.
 
@@ -30094,7 +30094,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -30113,7 +30113,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
@@ -30131,7 +30131,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="count" type="int"/>
       <doc>
       <![CDATA[Adds or removes the necessary occurrences of an element such that the element attains the
@@ -30151,7 +30151,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="oldCount" type="int"/>
       <param name="newCount" type="int"/>
       <doc>
@@ -30229,7 +30229,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object with this multiset for equality. Returns {@code true} if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
@@ -30278,7 +30278,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[Determines whether this multiset contains the specified element.
 
@@ -30424,7 +30424,7 @@
   <interface name="Multiset.Entry"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="getElement" return="E"
+    <method name="getElement" return="E extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -30582,7 +30582,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <param name="n" type="int"/>
       <doc>
       <![CDATA[Returns an immutable multiset entry with the specified element and count. The entry will be
@@ -34561,7 +34561,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
       <doc>
       <![CDATA[Returns a view of this multiset restricted to the elements less than {@code upperBound},
@@ -34577,9 +34577,9 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="lowerBoundType" type="com.google.common.collect.BoundType"/>
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="upperBoundType" type="com.google.common.collect.BoundType"/>
       <doc>
       <![CDATA[Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
@@ -34598,7 +34598,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
       <doc>
       <![CDATA[Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
@@ -36125,7 +36125,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="comparator" type="Comparator"/>
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
       <doc>
       <![CDATA[Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
@@ -36162,34 +36162,34 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="remove" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="setCount" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="count" type="int"/>
     </method>
     <method name="setCount" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="oldCount" type="int"/>
       <param name="newCount" type="int"/>
     </method>
@@ -36213,14 +36213,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="upperBound" type="E"/>
+      <param name="upperBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
     </method>
     <method name="tailMultiset" return="com.google.common.collect.SortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="lowerBound" type="E"/>
+      <param name="lowerBound" type="E extends java.lang.Object"/>
       <param name="boundType" type="com.google.common.collect.BoundType"/>
     </method>
     <doc>

@@ -283,7 +283,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ArrayListMult
 <ul class="blockList">
 <li class="blockList">
 <h4>readObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.593">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.605">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassNotFoundException</a></pre>
 <dl>
@@ -294,7 +294,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ArrayListMult
 </li>
 <li class="blockListLast">
 <h4>writeObject</h4>
-<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.588">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.600">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="simpleTagLabel">Serial Data:</span></dt>
@@ -420,7 +420,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumHashBiMap
 <li class="blockList">
 <h4>readObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.html#line.293">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.html#line.296">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassNotFoundException</a></pre>
 <dl>
@@ -435,7 +435,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.
 <li class="blockListLast">
 <h4>writeObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.html#line.282">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.html#line.285">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -559,7 +559,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultimap.
 <li class="blockList"><a id="com.google.common.collect.HashMultiset">
 <!--   -->
 </a>
-<h3>Class <a href="com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.HashMultiset</a> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<a href="com/google/common/collect/HashMultiset.html" title="type parameter in HashMultiset">E</a>&gt; implements Serializable</h3>
+<h3>Class <a href="com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.HashMultiset</a> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<a href="com/google/common/collect/HashMultiset.html" title="type parameter in HashMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; implements Serializable</h3>
 <dl class="nameValue">
 <dt>serialVersionUID:</dt>
 <dd>0L</dd>
@@ -856,7 +856,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <ul class="blockList">
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.671">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.670">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -947,7 +947,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/LinkedHashMul
 <li class="blockList"><a id="com.google.common.collect.LinkedHashMultiset">
 <!--   -->
 </a>
-<h3>Class <a href="com/google/common/collect/LinkedHashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.LinkedHashMultiset</a> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<a href="com/google/common/collect/LinkedHashMultiset.html" title="type parameter in LinkedHashMultiset">E</a>&gt; implements Serializable</h3>
+<h3>Class <a href="com/google/common/collect/LinkedHashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.LinkedHashMultiset</a> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<a href="com/google/common/collect/LinkedHashMultiset.html" title="type parameter in LinkedHashMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; implements Serializable</h3>
 </li>
 <li class="blockList"><a id="com.google.common.collect.LinkedListMultimap">
 <!--   -->
@@ -1113,7 +1113,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultimap.
 <li class="blockList"><a id="com.google.common.collect.TreeMultiset">
 <!--   -->
 </a>
-<h3>Class <a href="com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">com.google.common.collect.TreeMultiset</a> extends com.google.common.collect.AbstractSortedMultiset&lt;<a href="com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt; implements Serializable</h3>
+<h3>Class <a href="com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">com.google.common.collect.TreeMultiset</a> extends com.google.common.collect.AbstractSortedMultiset&lt;<a href="com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; implements Serializable</h3>
 <dl class="nameValue">
 <dt>serialVersionUID:</dt>
 <dd>1L</dd>
@@ -1125,7 +1125,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultimap.
 <li class="blockList">
 <h4>readObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.html#line.1004">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.html#line.1072">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassNotFoundException</a></pre>
 <dl>
@@ -1137,7 +1137,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.
 <li class="blockListLast">
 <h4>writeObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.html#line.997">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.html#line.1065">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="simpleTagLabel">Serial Data:</span></dt>

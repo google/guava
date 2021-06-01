@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Interface SortedMultiset" class="title">Interface SortedMultiset&lt;E&gt;</h2>
+<h2 title="Interface SortedMultiset" class="title">Interface SortedMultiset&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public interface <a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.44">SortedMultiset</a>&lt;E&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.46">SortedMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">A <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> which maintains the ordering of its elements, according to either their
  natural order or an explicit <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a>. This order is reflected when iterating over the
  sorted multiset, either directly, or through its <code>elementSet</code> or <code>entrySet</code> views. In
@@ -168,7 +168,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <!--   -->
 </a>
 <h3>Nested classes/interfaces inherited from interface&nbsp;com.google.common.collect.<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a></h3>
-<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a>&gt;</code></li>
+<code><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.Entry.html" title="type parameter in Multiset.Entry">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -298,7 +298,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.collect.<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a></h3>
-<code><a href="Multiset.html#add(E,int)">add</a>, <a href="Multiset.html#add(E)">add</a>, <a href="Multiset.html#contains(java.lang.Object)">contains</a>, <a href="Multiset.html#containsAll(java.util.Collection)">containsAll</a>, <a href="Multiset.html#count(java.lang.Object)">count</a>, <a href="Multiset.html#equals(java.lang.Object)">equals</a>, <a href="Multiset.html#forEach(java.util.function.Consumer)">forEach</a>, <a href="Multiset.html#forEachEntry(java.util.function.ObjIntConsumer)">forEachEntry</a>, <a href="Multiset.html#hashCode()">hashCode</a>, <a href="Multiset.html#remove(java.lang.Object)">remove</a>, <a href="Multiset.html#remove(java.lang.Object,int)">remove</a>, <a href="Multiset.html#removeAll(java.util.Collection)">removeAll</a>, <a href="Multiset.html#retainAll(java.util.Collection)">retainAll</a>, <a href="Multiset.html#setCount(E,int)">setCount</a>, <a href="Multiset.html#setCount(E,int,int)">setCount</a>, <a href="Multiset.html#size()">size</a>, <a href="Multiset.html#spliterator()">spliterator</a>, <a href="Multiset.html#toString()">toString</a></code></li>
+<code><a href="Multiset.html#add(E)">add</a>, <a href="Multiset.html#add(E,int)">add</a>, <a href="Multiset.html#contains(java.lang.Object)">contains</a>, <a href="Multiset.html#containsAll(java.util.Collection)">containsAll</a>, <a href="Multiset.html#count(java.lang.Object)">count</a>, <a href="Multiset.html#equals(java.lang.Object)">equals</a>, <a href="Multiset.html#forEach(java.util.function.Consumer)">forEach</a>, <a href="Multiset.html#forEachEntry(java.util.function.ObjIntConsumer)">forEachEntry</a>, <a href="Multiset.html#hashCode()">hashCode</a>, <a href="Multiset.html#remove(java.lang.Object)">remove</a>, <a href="Multiset.html#remove(java.lang.Object,int)">remove</a>, <a href="Multiset.html#removeAll(java.util.Collection)">removeAll</a>, <a href="Multiset.html#retainAll(java.util.Collection)">retainAll</a>, <a href="Multiset.html#setCount(E,int)">setCount</a>, <a href="Multiset.html#setCount(E,int,int)">setCount</a>, <a href="Multiset.html#size()">size</a>, <a href="Multiset.html#spliterator()">spliterator</a>, <a href="Multiset.html#toString()">toString</a></code></li>
 </ul>
 </li>
 </ul>
@@ -322,7 +322,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.50">comparator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.54">comparator</a>()</pre>
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
  ordering of the elements is used.</div>
 </li>
@@ -333,7 +333,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>firstEntry</h4>
-<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.57">firstEntry</a>()</pre>
+<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.62">firstEntry</a>()</pre>
 <div class="block">Returns the entry of the first element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
 </li>
@@ -344,7 +344,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>lastEntry</h4>
-<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.63">lastEntry</a>()</pre>
+<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.69">lastEntry</a>()</pre>
 <div class="block">Returns the entry of the last element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
 </li>
@@ -355,7 +355,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>pollFirstEntry</h4>
-<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.69">pollFirstEntry</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.75">pollFirstEntry</a>()</pre>
 <div class="block">Returns and removes the entry associated with the lowest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
 </li>
@@ -366,7 +367,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>pollLastEntry</h4>
-<pre class="methodSignature"><a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.75">pollLastEntry</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.82">pollLastEntry</a>()</pre>
 <div class="block">Returns and removes the entry associated with the greatest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
 </li>
@@ -377,11 +379,11 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>elementSet</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.82">elementSet</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.90">elementSet</a>()</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>NavigableSet</code></a> view of the distinct elements in this multiset.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the set of distinct elements in this multiset</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -395,7 +397,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.91">entrySet</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.99">entrySet</a>()</pre>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
  each providing an element of the multiset and the count of that element. This set contains
  exactly one entry for each distinct element in the multiset (thus it always has the same size
@@ -413,7 +415,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
  this multiset's comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a set of entries representing the data of this multiset</dd>
 </dl>
@@ -425,7 +427,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.100">iterator</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.108">iterator</a>()</pre>
 <div class="block">Returns an iterator over the elements in this collection.  There are no
  guarantees concerning the order in which the elements are returned
  (unless this collection is an instance of some class that provides a
@@ -438,11 +440,11 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
  comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Multiset.html#iterator()">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></dd>
+<dd><code><a href="Multiset.html#iterator()">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an <code>Iterator</code> over the elements in this collection</dd>
 </dl>
@@ -454,7 +456,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingMultiset</h4>
-<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.107">descendingMultiset</a>()</pre>
+<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.115">descendingMultiset</a>()</pre>
 <div class="block">Returns a descending view of this multiset. Modifications made to either map will be reflected
  in the other.</div>
 </li>
@@ -467,7 +469,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.118">headMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;upperBound,
+<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.126">headMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;upperBound,
                                <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a view of this multiset restricted to the elements less than <code>upperBound</code>,
  optionally including <code>upperBound</code> itself. The returned multiset is a view of this
@@ -486,7 +488,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockList">
 <li class="blockList">
 <h4>subMultiset</h4>
-<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.132">subMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.140">subMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;lowerBound,
                               <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
                               <a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;upperBound,
                               <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</pre>
@@ -510,7 +512,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/SortedM
 <ul class="blockListLast">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.144">tailMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/SortedMultiset.html#line.155">tailMultiset</a>&#8203;(<a href="SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&nbsp;lowerBound,
                                <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a view of this multiset restricted to the elements greater than <code>lowerBound</code>,
  optionally including <code>lowerBound</code> itself. The returned multiset is a view of this

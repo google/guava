@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.collect.ConcurrentHashMultiset
+com.google.common.collect.SortedMultiset
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.collect.ConcurrentHashMultiset
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/SortedMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.collect.ConcurrentHashMultiset
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ComputationException.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.EnumMultiset.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Multisets.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.TreeMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.ConcurrentHashMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.SortedMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,7 +45,7 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html" target="_top"><tt>ConcurrentHashMultiset</tt></A>
+Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collect/SortedMultiset.html" target="_top"><tt>SortedMultiset</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
@@ -57,34 +57,36 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Co
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ConcurrentHashMultiset.count_changed(java.lang.Object)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html#count(java.lang.Object)" target="_top"><tt>count</tt></A>(<code>Object</code>)  </nobr>
+  <A NAME="com.google.common.collect.SortedMultiset.headMultiset_changed(E extends java.lang.Object, com.google.common.collect.BoundType)"></A>
+  <nobr><code>SortedMultiset&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/SortedMultiset.html#headMultiset(E extends java.lang.Object, com.google.common.collect.BoundType)" target="_top"><tt>headMultiset</tt></A>(<code>E,</nobr> extends<nobr>,</nobr> Object<nobr>,</nobr> BoundType<nobr><nobr></code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in signature from <code>Object</code> to <code>java.lang.Object</code>.<br>
+Change in signature from (<code>E, BoundType</code>) to (<code>E extends Object, BoundType</code>).<br>
   </TD>
-  <TD VALIGN="TOP">Returns the number of occurrences of {@code element} in this multiset.</TD>
+  <TD VALIGN="TOP">Returns a view of this multiset restricted to the elements less than {@code upperBound},
+ optionally including {@code upperBound} itself.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ConcurrentHashMultiset.remove_changed(java.lang.Object, int)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html#remove(java.lang.Object, int)" target="_top"><tt>remove</tt></A>(<code>Object,</nobr> int<nobr><nobr></code>)  </nobr>
+  <A NAME="com.google.common.collect.SortedMultiset.subMultiset_changed(E extends java.lang.Object, com.google.common.collect.BoundType, E extends java.lang.Object, com.google.common.collect.BoundType)"></A>
+  <nobr><code>SortedMultiset&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/SortedMultiset.html#subMultiset(E extends java.lang.Object, com.google.common.collect.BoundType, E extends java.lang.Object, com.google.common.collect.BoundType)" target="_top"><tt>subMultiset</tt></A>(<code>E,</nobr> extends<nobr>,</nobr> Object<nobr>,</nobr> BoundType<nobr>,</nobr> E<nobr>,</nobr> extends<nobr>,</nobr> Object<nobr>,</nobr> BoundType<nobr><nobr></code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in signature from (<code>Object, int</code>) to (<code>java.lang.Object, int</code>).<br>
+Change in signature from (<code>E, BoundType, E, BoundType</code>) to (<code>E extends Object, BoundType, E extends Object, BoundType</code>).<br>
   </TD>
-  <TD VALIGN="TOP">Removes a number of occurrences of the specified element from this multiset.</TD>
+  <TD VALIGN="TOP">Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
+ upperBound}.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ConcurrentHashMultiset.removeExactly_changed(java.lang.Object, int)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html#removeExactly(java.lang.Object, int)" target="_top"><tt>removeExactly</tt></A>(<code>Object,</nobr> int<nobr><nobr></code>)  </nobr>
+  <A NAME="com.google.common.collect.SortedMultiset.tailMultiset_changed(E extends java.lang.Object, com.google.common.collect.BoundType)"></A>
+  <nobr><code>SortedMultiset&lt;E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/SortedMultiset.html#tailMultiset(E extends java.lang.Object, com.google.common.collect.BoundType)" target="_top"><tt>tailMultiset</tt></A>(<code>E,</nobr> extends<nobr>,</nobr> Object<nobr>,</nobr> BoundType<nobr><nobr></code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in signature from (<code>Object, int</code>) to (<code>java.lang.Object, int</code>).<br>
+Change in signature from (<code>E, BoundType</code>) to (<code>E extends Object, BoundType</code>).<br>
   </TD>
-  <TD VALIGN="TOP">Removes exactly the specified number of occurrences of {@code element}, or makes no change if
- this is not possible.</TD>
+  <TD VALIGN="TOP">Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
+ optionally including {@code lowerBound} itself.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -96,7 +98,7 @@ Change in signature from (<code>Object, int</code>) to (<code>java.lang.Object, 
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ConcurrentHashMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/SortedMultiset.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-jre-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -108,11 +110,11 @@ Change in signature from (<code>Object, int</code>) to (<code>java.lang.Object, 
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ComputationException.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.EnumMultiset.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.Multisets.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.TreeMultiset.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.ConcurrentHashMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.SortedMultiset.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>
