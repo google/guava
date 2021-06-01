@@ -85,7 +85,7 @@ import java.util.concurrent.TimeUnit;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @SuppressWarnings("GoodTime") // lots of violations
 @ElementTypesAreNonnullByDefault
 public final class Stopwatch {
