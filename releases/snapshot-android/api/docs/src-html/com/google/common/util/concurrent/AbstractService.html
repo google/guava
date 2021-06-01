@@ -180,7 +180,7 @@
 <span class="sourceLineNo">171</span><a id="line.171"></a>
 <span class="sourceLineNo">172</span><a id="line.172">    @Override</a>
 <span class="sourceLineNo">173</span><a id="line.173">    public boolean isSatisfied() {</a>
-<span class="sourceLineNo">174</span><a id="line.174">      return state().isTerminal();</a>
+<span class="sourceLineNo">174</span><a id="line.174">      return state().compareTo(TERMINATED) &gt;= 0;</a>
 <span class="sourceLineNo">175</span><a id="line.175">    }</a>
 <span class="sourceLineNo">176</span><a id="line.176">  }</a>
 <span class="sourceLineNo">177</span><a id="line.177"></a>

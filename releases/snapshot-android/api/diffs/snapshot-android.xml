@@ -67783,7 +67783,7 @@
   <!-- start class com.google.common.util.concurrent.Service.State -->
   <class name="Service.State" extends="java.lang.Enum&lt;com.google.common.util.concurrent.Service.State&gt;"
     abstract="false"
-    static="true" final="false" visibility="public"
+    static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="values" return="com.google.common.util.concurrent.Service.State[]"
       abstract="false" native="false" synchronized="false"
