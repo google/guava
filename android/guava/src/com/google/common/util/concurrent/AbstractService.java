@@ -171,7 +171,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public boolean isSatisfied() {
-      return state().isTerminal();
+      return state().compareTo(TERMINATED) >= 0;
     }
   }
 
