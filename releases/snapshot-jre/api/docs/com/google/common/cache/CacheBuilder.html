@@ -166,7 +166,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>Caffeine's API for asynchronous operations uses <code>CompletableFuture</code>: <a href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncLoadingCache.html#get(K)"><code>
  AsyncLoadingCache.get</code></a> returns a <code>CompletableFuture</code>, and implementations of <a href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncCacheLoader.html#asyncLoad(K,java.util.concurrent.Executor)"><code>
- AsyncLoadingCache.asyncLoad</code></a> must return a <code>CompletableFuture</code>. Users of Guava's <a href="../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> can adapt between the two <code>Future</code>
+ AsyncCacheLoader.asyncLoad</code></a> must return a <code>CompletableFuture</code>. Users of Guava's <a href="../util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> can adapt between the two <code>Future</code>
  types by using <a href="https://github.com/lukas-krecan/future-converter#java8-guava"><code>
  net.javacrumbs.futureconverter.java8guava.FutureConverter</code></a>.
 
