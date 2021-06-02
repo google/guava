@@ -75,7 +75,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncLoadingCache.html#get(K)">{@code
  * AsyncLoadingCache.get}</a> returns a {@code CompletableFuture}, and implementations of <a
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncCacheLoader.html#asyncLoad(K,java.util.concurrent.Executor)">{@code
- * AsyncLoadingCache.asyncLoad}</a> must return a {@code CompletableFuture}. Users of Guava's {@link
+ * AsyncCacheLoader.asyncLoad}</a> must return a {@code CompletableFuture}. Users of Guava's {@link
  * com.google.common.util.concurrent.ListenableFuture} can adapt between the two {@code Future}
  * types by using <a href="https://github.com/lukas-krecan/future-converter#java8-guava">{@code
  * net.javacrumbs.futureconverter.java8guava.FutureConverter}</a>.
