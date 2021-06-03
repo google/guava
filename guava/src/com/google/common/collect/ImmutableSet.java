@@ -796,7 +796,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * determined experimentally to match our desired probability of false positives.
      */
     // NB: yes, this is surprisingly high, but that's what the experiments said was necessary
-    // The higher it is, the worse constant factors we are willing to accept.
+    // Raising this number slows the worst-case contains behavior, speeds up hashFloodingDetected,
+    // and reduces the false-positive probability.
     static final int MAX_RUN_MULTIPLIER = 13;
 
     /**
@@ -816,49 +817,41 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      *
      * <p>This method may return {@code true} even on truly random input, but {@code
      * ImmutableSetTest} tests that the probability of that is low.
-     *
-     * <p>If this method returns false, there are definitely no runs of length at least {@code
-     * maxRunBeforeFallback(hashTable.length)} nonnull elements. If there are no runs of length at
-     * least {@code maxRunBeforeFallback(hashTable.length) / 2} nonnull elements, this method
-     * definitely returns false. In between those constraints, the result of this method is
-     * undefined, subject to the probabilistic guarantee discussed above.
      */
     static boolean hashFloodingDetected(@Nullable Object[] hashTable) {
       int maxRunBeforeFallback = maxRunBeforeFallback(hashTable.length);
+      int mask = hashTable.length - 1;
 
-      // Test for a run wrapping around the end of the table of length at least
-      // maxRunBeforeFallback.
-      int endOfStartRun;
-      for (endOfStartRun = 0; endOfStartRun < hashTable.length; ) {
-        if (hashTable[endOfStartRun] == null) {
-          break;
-        }
-        endOfStartRun++;
-        if (endOfStartRun > maxRunBeforeFallback) {
-          return true;
-        }
-      }
-      int startOfEndRun;
-      for (startOfEndRun = hashTable.length - 1; startOfEndRun > endOfStartRun; startOfEndRun--) {
-        if (hashTable[startOfEndRun] == null) {
-          break;
-        }
-        if (endOfStartRun + (hashTable.length - 1 - startOfEndRun) > maxRunBeforeFallback) {
-          return true;
-        }
-      }
+      // Invariant: all elements at indices in [knownRunStart, knownRunEnd) are nonnull.
+      // If knownRunStart == knownRunEnd, this is vacuously true.
+      // When knownRunEnd exceeds hashTable.length, it "wraps", detecting runs around the end
+      // of the table.
+      int knownRunStart = 0;
+      int knownRunEnd = 0;
 
-      // Now, break the remainder of the table into blocks of maxRunBeforeFallback/2 elements and
-      // check that each has at least one null.
-      int testBlockSize = maxRunBeforeFallback / 2;
-      blockLoop:
-      for (int i = endOfStartRun + 1; i + testBlockSize <= startOfEndRun; i += testBlockSize) {
-        for (int j = 0; j < testBlockSize; j++) {
-          if (hashTable[i + j] == null) {
-            continue blockLoop;
+      outerLoop:
+      while (knownRunStart < hashTable.length) {
+        if (knownRunStart == knownRunEnd && hashTable[knownRunStart] == null) {
+          if (hashTable[(knownRunStart + maxRunBeforeFallback - 1) & mask] == null) {
+            // There are only maxRunBeforeFallback - 1 elements between here and there,
+            // so even if they were all nonnull, we wouldn't detect a hash flood.  Therefore,
+            // we can skip them all.
+            knownRunStart += maxRunBeforeFallback;
+          } else {
+            knownRunStart++; // the only case in which maxRunEnd doesn't increase by mRBF
+            // happens about f * (1-f) for f = DESIRED_LOAD_FACTOR, so around 21% of the time
           }
+          knownRunEnd = knownRunStart;
+        } else {
+          for (int j = knownRunStart + maxRunBeforeFallback - 1; j >= knownRunEnd; j--) {
+            if (hashTable[j & mask] == null) {
+              knownRunEnd = knownRunStart + maxRunBeforeFallback;
+              knownRunStart = j + 1;
+              continue outerLoop;
+            }
+          }
+          return true;
         }
-        return true;
       }
       return false;
     }
