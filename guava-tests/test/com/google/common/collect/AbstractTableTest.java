@@ -172,4 +172,110 @@ public abstract class AbstractTableTest extends AbstractTableReadTest {
       assertEquals(ImmutableMap.of(5, 'x'), row);
     }
   }
+
+  public void testReplaceAll() {
+    Table<String, Integer, Character> expected = create("foo", 1, 'b', "bar", 1, 'c', "foo", 3, 'f');
+
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    table.replaceAll((r, c, v) -> {
+      if (c != null && v != null) {
+        return (char) (v + c);
+      } else {
+        return v;
+      }
+    });
+
+    assertEquals(expected, table);
+  }
+
+  public void testPutIfAbsent() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+
+    assertEquals((Character) 'a', table.putIfAbsent("foo", 1, 'd'));
+    assertNull(table.putIfAbsent("foo", 2, 'd'));
+
+    Table<String, Integer, Character> expected = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "foo", 2, 'd');
+    assertEquals(expected, table);
+  }
+
+  public void testRemoveObject() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+
+    assertFalse(table.remove("foo", 1, 'd'));
+    assertFalse(table.remove("foo", 4, null));
+    assertFalse(table.remove("foo", 4, 'd'));
+
+    if (supportsRemove()) {
+      assertTrue(table.remove("foo", 3, 'c'));
+
+      Table<String, Integer, Character> expected = create("foo", 1, 'a', "bar", 1, 'b');
+      assertEquals(expected, table);
+    } else {
+      try {
+        table.remove("foo", 3, 'c');
+        fail();
+      } catch (UnsupportedOperationException expected) {
+      }
+    }
+  }
+
+  public void testReplace() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+
+    assertFalse(table.replace("foo", 1, 'd', 'e'));
+    assertFalse(table.replace("foo", 4, null, 'e'));
+    assertFalse(table.replace("foo", 4, 'd', 'e'));
+    assertTrue(table.replace("foo", 1, 'a', 'e'));
+
+    assertNull(table.replace("foo", 4, 'f'));
+    assertEquals((Character) 'c', table.replace("foo", 3, 'f'));
+
+    Table<String, Integer, Character> expected = create("foo", 1, 'e', "bar", 1, 'b', "foo", 3, 'f');
+    assertEquals(expected, table);
+  }
+
+  public void testCompute() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+
+    assertEquals((Character) 'a', table.computeIfAbsent("foo", 1, (r, c) -> 'd'));
+    assertEquals((Character) 'd', table.computeIfAbsent("foo", 2, (r, c) -> 'd'));
+
+    assertNull(table.computeIfPresent("bar", 2, (r, c, v) -> 'e'));
+    assertEquals((Character) 'e', table.computeIfPresent("bar", 1, (r, c, v) -> 'e'));
+
+    assertNull(table.compute("foo", 4, (r,c,v) -> null));
+    assertEquals((Character) 'f', table.compute("bar", 2, (r, c, v) -> 'f'));
+
+    Table<String, Integer, Character> expected;
+
+    if (supportsRemove()) {
+      assertNull(table.computeIfPresent("foo", 2, (r, c, v) -> null));
+      assertNull(table.compute("bar", 2, (r, c, v) -> null));
+
+      expected = create("foo", 1, 'a', "bar", 1, 'e', "foo", 3, 'c');
+    } else {
+      expected = create("foo", 1, 'a', "bar", 1, 'e', "foo", 3, 'c', "bar", 2, 'f', "foo", 2, 'd');
+    }
+
+    assertEquals(expected, table);
+  }
+
+  public void testMerge() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+
+    assertEquals((Character) 'd', table.merge("foo", 1, 'd', (o, n) -> n));
+    assertEquals((Character) 'e', table.merge("foo", 2, 'e', (o, n) -> n));
+
+    Table<String, Integer, Character> expected;
+
+    if (supportsRemove()) {
+      assertNull(table.merge("foo", 2, 'f', (o, n) -> null));
+
+      expected = create("foo", 1, 'd', "bar", 1, 'b', "foo", 3, 'c');
+    } else {
+      expected = create("foo", 1, 'd', "bar", 1, 'b', "foo", 3, 'c', "foo", 2, 'e');
+    }
+
+    assertEquals(expected, table);
+  }
 }

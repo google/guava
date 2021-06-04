@@ -393,7 +393,7 @@ public interface Table<R, C, V> {
       v = function.apply(r, c, v);
 
       try {
-        put(r, c, v); // TODO: Should it be `cell.setValue(v)`
+        put(r, c, v);
       } catch (IllegalStateException ise) {
         // this usually means the cell is no longer in the table.
         throw new ConcurrentModificationException(ise);
@@ -470,8 +470,7 @@ public interface Table<R, C, V> {
       @Nullable @CompatibleWith("C") Object columnKey,
       @Nullable @CompatibleWith("V") Object value) {
     Object curValue = get(rowKey, columnKey);
-    if (!Objects.equal(curValue, value)
-        || (curValue == null && !contains(rowKey, columnKey))) {
+    if (!Objects.equal(curValue, value) || (curValue == null && !contains(rowKey, columnKey))) {
       return false;
     }
     remove(rowKey, columnKey);
@@ -510,8 +509,7 @@ public interface Table<R, C, V> {
   @CanIgnoreReturnValue
   default boolean replace(R rowKey, C columnKey, V oldValue, V newValue) {
     Object curValue = get(rowKey, columnKey);
-    if (!Objects.equal(curValue, oldValue)
-        || (curValue == null && !contains(rowKey, columnKey))) {
+    if (!Objects.equal(curValue, oldValue) || (curValue == null && !contains(rowKey, columnKey))) {
       return false;
     }
     put(rowKey, columnKey, newValue);
