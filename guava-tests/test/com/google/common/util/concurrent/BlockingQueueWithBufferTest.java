@@ -131,7 +131,7 @@ public class BlockingQueueWithBufferTest extends TestCase{
             }
         };
 
-        EvictingBlockingQueue<String> queue = EvictingBlockingQueue.create(3);
+        BlockingQueueWithBuffer<String> queue = BlockingQueueWithBuffer.create(3);
         assertTrue(queue.addAll(misbehavingList));
         assertEquals("three", queue.remove());
         assertEquals("four", queue.remove());
@@ -142,9 +142,9 @@ public class BlockingQueueWithBufferTest extends TestCase{
     @GwtIncompatible // NullPointerTester
     public void testNullPointerExceptions() {
         NullPointerTester tester = new NullPointerTester();
-        tester.testAllPublicStaticMethods(EvictingBlockingQueue.class);
-        tester.testAllPublicConstructors(EvictingBlockingQueue.class);
-        EvictingBlockingQueue<String> queue = EvictingBlockingQueue.create(5);
+        tester.testAllPublicStaticMethods(BlockingQueueWithBuffer.class);
+        tester.testAllPublicConstructors(BlockingQueueWithBuffer.class);
+        BlockingQueueWithBuffer<String> queue = BlockingQueueWithBuffer.create(5);
         // The queue must be non-empty so it throws a NPE correctly
         queue.add("one");
         tester.testAllPublicInstanceMethods(queue);
