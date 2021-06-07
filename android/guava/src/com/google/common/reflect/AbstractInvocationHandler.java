@@ -40,7 +40,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @Beta
-// TODO(b/147136275): After adding @Nullable below, add .
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractInvocationHandler implements InvocationHandler {
 
@@ -99,8 +98,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * an empty array is passed in.
    */
   @CheckForNull
-  protected abstract Object handleInvocation(
-      Object proxy, Method method, /* TODO(b/147136275): Add @Nullable. */ Object[] args)
+  protected abstract Object handleInvocation(Object proxy, Method method, @Nullable Object[] args)
       throws Throwable;
 
   /**
