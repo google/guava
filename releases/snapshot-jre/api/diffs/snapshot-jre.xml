@@ -51541,6 +51541,16 @@
       <![CDATA[The HTTP {@code Location} header field name.]]>
       </doc>
     </field>
+    <field name="KEEP_ALIVE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP {@code Keep-Alive} header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
