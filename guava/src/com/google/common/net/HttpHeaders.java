@@ -305,6 +305,12 @@ public final class HttpHeaders {
   /** The HTTP {@code Location} header field name. */
   public static final String LOCATION = "Location";
   /**
+   * The HTTP {@code Keep-Alive} header field name.
+   *
+   * @since NEXT
+   */
+  public static final String KEEP_ALIVE = "Keep-Alive";
+  /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
    *
