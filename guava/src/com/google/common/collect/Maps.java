@@ -1288,8 +1288,8 @@ public final class Maps {
    *
    * @param properties a {@code Properties} object to be converted
    * @return an immutable map containing all the entries in {@code properties}
-   * @throws ClassCastException if any key in {@code Properties} is not a {@code String}
-   * @throws NullPointerException if any key or value in {@code Properties} is null
+   * @throws ClassCastException if any key in {@code properties} is not a {@code String}
+   * @throws NullPointerException if any key or value in {@code properties} is null
    */
   @GwtIncompatible // java.util.Properties
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
