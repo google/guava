@@ -20,7 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -262,6 +267,60 @@ public final class Suppliers {
 
     private static final long serialVersionUID = 0;
   }
+
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+    public static <T> Supplier<T> memoizeWithRefresh(
+            Supplier<T> delegate, long duration, TimeUnit unit) {
+        return new RefreshingMemoizingSupplier<T>(delegate, duration, unit);
+    }
+
+    @VisibleForTesting
+    static class RefreshingMemoizingSupplier<T> implements Supplier<T>, Serializable {
+        final Supplier<T> delegate;
+        final long durationNanos;
+        transient volatile @Nullable T value;
+        final AtomicLong expirationNanos;
+        final Lock lock = new ReentrantLock();
+
+        RefreshingMemoizingSupplier(Supplier<T> delegate, long duration, TimeUnit unit) {
+            this.delegate = checkNotNull(delegate);
+            this.durationNanos = unit.toNanos(duration);
+            this.expirationNanos = new AtomicLong(Platform.systemNanoTime() + durationNanos);
+            // initialise the value on creation
+            this.value = delegate.get();
+            checkArgument(duration > 0, "duration (%s %s) must be > 0", duration, unit);
+        }
+
+        @Override
+        public T get() {
+            long now = Platform.systemNanoTime();
+            if (now >= expirationNanos.get()
+                    && lock.tryLock()) {
+                CompletableFuture.supplyAsync(delegate)
+                        .exceptionally(ex -> {
+                            lock.unlock();
+                            return value;
+                        })
+                        .thenAcceptAsync(d -> {
+                            expirationNanos.set(Platform.systemNanoTime() + durationNanos);
+                            if (java.util.Objects.equals(value, d)) {
+                                lock.unlock();
+                                return;
+                            }
+                            value = d;
+                            lock.unlock();
+                        });
+            }
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return "Suppliers.memoizeWithRefresh(" + delegate + ", " + durationNanos + ", NANOS)";
+        }
+
+        private static final long serialVersionUID = 0;
+    }
 
   /** Returns a supplier that always supplies {@code instance}. */
   public static <T> Supplier<T> ofInstance(@Nullable T instance) {

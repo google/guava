@@ -57,6 +57,30 @@ public class SuppliersTest extends TestCase {
     }
   }
 
+  static class CountingDelayedSupplier extends CountingSupplier {
+    private final long delayTime;
+
+    CountingDelayedSupplier(long delayTime) {
+      this.delayTime = delayTime;
+    }
+
+    @Override
+    public Integer get() {
+      try {
+        Thread.sleep(delayTime);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      calls++;
+      return calls * 10;
+    }
+
+    @Override
+    public String toString() {
+      return "CountingDelayedSupplier";
+    }
+  }
+
   static class ThrowingSupplier implements Supplier<Integer> {
     @Override
     public Integer get() {
@@ -221,6 +245,67 @@ public class SuppliersTest extends TestCase {
         Suppliers.memoizeWithExpiration(countingSupplier, 75, TimeUnit.MILLISECONDS);
 
     checkExpiration(countingSupplier, memoizedSupplier);
+  }
+
+  @GwtIncompatible // Thread.sleep
+  public void testMemoizeWithRefresh() throws InterruptedException {
+    CountingSupplier countingSupplier = new CountingSupplier();
+
+    int refreshInterval = 8;
+    Supplier<Integer> memoizedSupplier =
+            Suppliers.memoizeWithRefresh(countingSupplier, refreshInterval, TimeUnit.MILLISECONDS);
+
+    // the underlying supplier executes when the supplier is initialised
+    assertEquals(1, countingSupplier.calls);
+
+    assertEquals(10, (int) memoizedSupplier.get());
+    // now it has
+    assertEquals(1, countingSupplier.calls);
+
+    assertEquals(10, (int) memoizedSupplier.get());
+    // it still should only have executed once due to memoization
+    assertEquals(1, countingSupplier.calls);
+
+    // wait for enough time to make the supplier request a refresh
+    Thread.sleep(refreshInterval + 1);
+
+    // request the value to kick off the async refresh task
+    // this could return 10 or 20 depending on speed of the async task
+    memoizedSupplier.get();
+
+    // ensure the task has enough time to run
+    Thread.sleep(1);
+    assertEquals(2, countingSupplier.calls);
+    assertEquals(20, (int) memoizedSupplier.get());
+    // it still should only have executed twice due to memoization
+    assertEquals(2, countingSupplier.calls);
+  }
+
+  @GwtIncompatible // Thread.sleep
+  public void testMemoizeWithRefreshAsync() throws InterruptedException {
+    int processingDelay = 2;
+    int refreshInterval = 8;
+
+    CountingDelayedSupplier countingDelayedSupplier = new CountingDelayedSupplier(processingDelay);
+    Supplier<Integer> memoizedSupplier =
+            Suppliers.memoizeWithRefresh(countingDelayedSupplier, refreshInterval, TimeUnit.MILLISECONDS);
+
+    // the underlying supplier executes when the supplier is initialised
+    assertEquals(1, countingDelayedSupplier.calls);
+
+    assertEquals(10, (int) memoizedSupplier.get());
+
+    // wait for enough time to make the supplier request a refresh
+    Thread.sleep(refreshInterval + 1);
+
+    // request the value to kick off the async refresh task
+    // since the supplier has a processing time we can verify the old value is still returned
+    assertEquals(10, (int) memoizedSupplier.get());
+
+    // ensure the task has enough time to run
+    Thread.sleep(processingDelay + 1);
+    assertEquals(2, countingDelayedSupplier.calls);
+    assertEquals(20, (int) memoizedSupplier.get());
   }
 
   @GwtIncompatible // Thread.sleep, SerializationTester
