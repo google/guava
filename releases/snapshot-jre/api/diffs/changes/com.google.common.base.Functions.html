@@ -57,6 +57,16 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Function
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Functions.constant_changed(E extends java.lang.Object)"></A>
+  <nobr><code>Function&lt;Object, E&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Functions.html#constant(E extends java.lang.Object)" target="_top"><tt>constant</tt></A>(<code>E extends Object</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from <code>E</code> to (<code>E extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Returns a function that ignores its input and always returns {@code value}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.base.Functions.forSupplier_changed(com.google.common.base.Supplier<T>)"></A>
   <nobr><code>Function&lt;F, T&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Functions.html#forSupplier(com.google.common.base.Supplier<T>)" target="_top"><tt>forSupplier</tt></A>(<code>Supplier&lt;T&gt;</code>)  </nobr>
   </TD>
@@ -64,6 +74,16 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Function
 Change in return type from (<code>Function&lt;Object, T&gt;</code>) to (<code>Function&lt;F, T&gt;</code>).<br>
   </TD>
   <TD VALIGN="TOP">Returns a function that ignores its input and returns the result of {@code supplier.get()}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Functions.forMap_changed(java.util.Map<K, ? extends V>, V extends java.lang.Object)"></A>
+  <nobr><code>Function&lt;K, V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/base/Functions.html#forMap(java.util.Map<K, ? extends V>, V extends java.lang.Object)" target="_top"><tt>forMap</tt></A>(<code>Map&lt;K,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> V<nobr>,</nobr> extends<nobr>,</nobr> Object<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>Map&lt;K, ? extends V&gt;, V</code>) to (<code>Map&lt;K, ? extends V&gt;, V extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Returns a function which performs a map lookup with a default value.</TD>
 </TR>
 </TABLE>
 &nbsp;

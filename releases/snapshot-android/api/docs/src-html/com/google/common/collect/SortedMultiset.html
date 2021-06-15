@@ -53,7 +53,7 @@
 <span class="sourceLineNo">044</span><a id="line.44"> * @since 11.0</a>
 <span class="sourceLineNo">045</span><a id="line.45"> */</a>
 <span class="sourceLineNo">046</span><a id="line.46">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">047</span><a id="line.47">// TODO(cpovirk): // TODO(cpovirk): @ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">047</span><a id="line.47">@ElementTypesAreNonnullByDefault</a>
 <span class="sourceLineNo">048</span><a id="line.48">public interface SortedMultiset&lt;E extends @Nullable Object&gt;</a>
 <span class="sourceLineNo">049</span><a id="line.49">    extends SortedMultisetBridge&lt;E&gt;, SortedIterable&lt;E&gt; {</a>
 <span class="sourceLineNo">050</span><a id="line.50">  /**</a>
@@ -67,14 +67,14 @@
 <span class="sourceLineNo">058</span><a id="line.58">   * Returns the entry of the first element in this multiset, or {@code null} if this multiset is</a>
 <span class="sourceLineNo">059</span><a id="line.59">   * empty.</a>
 <span class="sourceLineNo">060</span><a id="line.60">   */</a>
-<span class="sourceLineNo">061</span><a id="line.61">  // TODO(cpovirk): @CheckForNull</a>
+<span class="sourceLineNo">061</span><a id="line.61">  @CheckForNull</a>
 <span class="sourceLineNo">062</span><a id="line.62">  Entry&lt;E&gt; firstEntry();</a>
 <span class="sourceLineNo">063</span><a id="line.63"></a>
 <span class="sourceLineNo">064</span><a id="line.64">  /**</a>
 <span class="sourceLineNo">065</span><a id="line.65">   * Returns the entry of the last element in this multiset, or {@code null} if this multiset is</a>
 <span class="sourceLineNo">066</span><a id="line.66">   * empty.</a>
 <span class="sourceLineNo">067</span><a id="line.67">   */</a>
-<span class="sourceLineNo">068</span><a id="line.68">  // TODO(cpovirk): @CheckForNull</a>
+<span class="sourceLineNo">068</span><a id="line.68">  @CheckForNull</a>
 <span class="sourceLineNo">069</span><a id="line.69">  Entry&lt;E&gt; lastEntry();</a>
 <span class="sourceLineNo">070</span><a id="line.70"></a>
 <span class="sourceLineNo">071</span><a id="line.71">  /**</a>

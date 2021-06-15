@@ -2456,7 +2456,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="map" type="java.util.Map&lt;K, ? extends V&gt;"/>
-      <param name="defaultValue" type="V"/>
+      <param name="defaultValue" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a function which performs a map lookup with a default value. The function created by
  this method returns {@code defaultValue} for all inputs that do not belong to the map's key
@@ -2508,7 +2508,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="E"/>
+      <param name="value" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a function that ignores its input and always returns {@code value}.
 
@@ -5328,7 +5328,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="target" type="T"/>
+      <param name="target" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
  the given target or both are null.]]>
@@ -6368,7 +6368,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="instance" type="T"/>
+      <param name="instance" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a supplier that always supplies {@code instance}.]]>
       </doc>
@@ -7437,7 +7437,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -7487,7 +7487,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[@since 11.0]]>
       </doc>
@@ -7809,7 +7809,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[Returns a map of the values associated with {@code keys} in this cache. The returned map will
  only contain entries which are already present in the cache.
@@ -7860,7 +7860,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[Discards any cached values for keys {@code keys}.
 
@@ -7928,6 +7928,8 @@
  <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  by multiple concurrent threads.
 
+ @param <K> the type of the cache's keys, which are not permitted to be null
+ @param <V> the type of the cache's values, which are not permitted to be null
  @author Charles Fry
  @since 10.0]]>
     </doc>
@@ -8623,10 +8625,10 @@
 
  @param <K> the most general key type this builder will be able to create caches for. This is
      normally {@code Object} unless it is constrained by using a method like {@code
-     #removalListener}
+     #removalListener}. Cache keys may not be null.
  @param <V> the most general value type this builder will be able to create caches for. This is
      normally {@code Object} unless it is constrained by using a method like {@code
-     #removalListener}
+     #removalListener}. Cache values may not be null.
  @author Charles Fry
  @author Kevin Bourrillion
  @since 10.0]]>
@@ -8685,7 +8687,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[A specification of a {@link CacheBuilder} configuration.
@@ -9121,7 +9123,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -9204,7 +9206,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[@since 11.0]]>
       </doc>
@@ -9238,7 +9240,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[@since 11.0]]>
       </doc>
@@ -9544,6 +9546,8 @@
  <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link
  #getUnchecked}.
 
+ @param <K> the type of the cache's keys, which are not permitted to be null
+ @param <V> the type of the cache's values, which are not permitted to be null
  @author Charles Fry
  @since 11.0]]>
     </doc>
@@ -20111,7 +20115,7 @@
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Comparable&lt;?&gt;"/>
     </method>
-    <method name="getEntry" return="Map.Entry"
+    <method name="getEntry" return="java.util.Map.Entry&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">

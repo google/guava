@@ -46,7 +46,7 @@
 <span class="sourceLineNo">037</span><a id="line.37"> */</a>
 <span class="sourceLineNo">038</span><a id="line.38">@Beta</a>
 <span class="sourceLineNo">039</span><a id="line.39">@GwtIncompatible</a>
-<span class="sourceLineNo">040</span><a id="line.40">// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.</a>
+<span class="sourceLineNo">040</span><a id="line.40">@ElementTypesAreNonnullByDefault</a>
 <span class="sourceLineNo">041</span><a id="line.41">public final class LineReader {</a>
 <span class="sourceLineNo">042</span><a id="line.42">  private final Readable readable;</a>
 <span class="sourceLineNo">043</span><a id="line.43">  @CheckForNull private final Reader reader;</a>
@@ -78,23 +78,22 @@
 <span class="sourceLineNo">069</span><a id="line.69">   * @throws IOException if an I/O error occurs</a>
 <span class="sourceLineNo">070</span><a id="line.70">   */</a>
 <span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue // to skip a line</a>
-<span class="sourceLineNo">072</span><a id="line.72">  @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">073</span><a id="line.73">  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.</a>
-<span class="sourceLineNo">074</span><a id="line.74">  public String readLine() throws IOException {</a>
-<span class="sourceLineNo">075</span><a id="line.75">    while (lines.peek() == null) {</a>
-<span class="sourceLineNo">076</span><a id="line.76">      Java8Compatibility.clear(cbuf);</a>
-<span class="sourceLineNo">077</span><a id="line.77">      // The default implementation of Reader#read(CharBuffer) allocates a</a>
-<span class="sourceLineNo">078</span><a id="line.78">      // temporary char[], so we call Reader#read(char[], int, int) instead.</a>
-<span class="sourceLineNo">079</span><a id="line.79">      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);</a>
-<span class="sourceLineNo">080</span><a id="line.80">      if (read == -1) {</a>
-<span class="sourceLineNo">081</span><a id="line.81">        lineBuf.finish();</a>
-<span class="sourceLineNo">082</span><a id="line.82">        break;</a>
-<span class="sourceLineNo">083</span><a id="line.83">      }</a>
-<span class="sourceLineNo">084</span><a id="line.84">      lineBuf.add(buf, 0, read);</a>
-<span class="sourceLineNo">085</span><a id="line.85">    }</a>
-<span class="sourceLineNo">086</span><a id="line.86">    return lines.poll();</a>
-<span class="sourceLineNo">087</span><a id="line.87">  }</a>
-<span class="sourceLineNo">088</span><a id="line.88">}</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @CheckForNull</a>
+<span class="sourceLineNo">073</span><a id="line.73">  public String readLine() throws IOException {</a>
+<span class="sourceLineNo">074</span><a id="line.74">    while (lines.peek() == null) {</a>
+<span class="sourceLineNo">075</span><a id="line.75">      Java8Compatibility.clear(cbuf);</a>
+<span class="sourceLineNo">076</span><a id="line.76">      // The default implementation of Reader#read(CharBuffer) allocates a</a>
+<span class="sourceLineNo">077</span><a id="line.77">      // temporary char[], so we call Reader#read(char[], int, int) instead.</a>
+<span class="sourceLineNo">078</span><a id="line.78">      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);</a>
+<span class="sourceLineNo">079</span><a id="line.79">      if (read == -1) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">        lineBuf.finish();</a>
+<span class="sourceLineNo">081</span><a id="line.81">        break;</a>
+<span class="sourceLineNo">082</span><a id="line.82">      }</a>
+<span class="sourceLineNo">083</span><a id="line.83">      lineBuf.add(buf, 0, read);</a>
+<span class="sourceLineNo">084</span><a id="line.84">    }</a>
+<span class="sourceLineNo">085</span><a id="line.85">    return lines.poll();</a>
+<span class="sourceLineNo">086</span><a id="line.86">  }</a>
+<span class="sourceLineNo">087</span><a id="line.87">}</a>
 
 
 

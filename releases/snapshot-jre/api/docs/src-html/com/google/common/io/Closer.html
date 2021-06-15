@@ -134,178 +134,175 @@
 <span class="sourceLineNo">125</span><a id="line.125">  // close. this word no longer has any meaning to me.</a>
 <span class="sourceLineNo">126</span><a id="line.126">  @CanIgnoreReturnValue</a>
 <span class="sourceLineNo">127</span><a id="line.127">  @ParametricNullness</a>
-<span class="sourceLineNo">128</span><a id="line.128">  @SuppressWarnings("nullness")</a>
-<span class="sourceLineNo">129</span><a id="line.129">  public &lt;C extends @Nullable Closeable&gt; C register(</a>
-<span class="sourceLineNo">130</span><a id="line.130">      // TODO(b/147136275): Replace @CheckForNull with @ParametricNullness, and remove suppression.</a>
-<span class="sourceLineNo">131</span><a id="line.131">      @CheckForNull C closeable) {</a>
-<span class="sourceLineNo">132</span><a id="line.132">    if (closeable != null) {</a>
-<span class="sourceLineNo">133</span><a id="line.133">      stack.addFirst(closeable);</a>
-<span class="sourceLineNo">134</span><a id="line.134">    }</a>
+<span class="sourceLineNo">128</span><a id="line.128">  public &lt;C extends @Nullable Closeable&gt; C register(@ParametricNullness C closeable) {</a>
+<span class="sourceLineNo">129</span><a id="line.129">    if (closeable != null) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      stack.addFirst(closeable);</a>
+<span class="sourceLineNo">131</span><a id="line.131">    }</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">    return closeable;</a>
+<span class="sourceLineNo">134</span><a id="line.134">  }</a>
 <span class="sourceLineNo">135</span><a id="line.135"></a>
-<span class="sourceLineNo">136</span><a id="line.136">    return closeable;</a>
-<span class="sourceLineNo">137</span><a id="line.137">  }</a>
-<span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">  /**</a>
-<span class="sourceLineNo">140</span><a id="line.140">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
-<span class="sourceLineNo">141</span><a id="line.141">   * IOException}, {@code RuntimeException} or {@code Error}. Otherwise, it will be rethrown wrapped</a>
-<span class="sourceLineNo">142</span><a id="line.142">   * in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt; Be sure to declare all of the checked exception</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * types your try block can throw when calling an overload of this method so as to avoid losing</a>
-<span class="sourceLineNo">144</span><a id="line.144">   * the original exception type.</a>
+<span class="sourceLineNo">136</span><a id="line.136">  /**</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * IOException}, {@code RuntimeException} or {@code Error}. Otherwise, it will be rethrown wrapped</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt; Be sure to declare all of the checked exception</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * types your try block can throw when calling an overload of this method so as to avoid losing</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * the original exception type.</a>
+<span class="sourceLineNo">142</span><a id="line.142">   *</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e);}</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * to ensure the compiler knows that it will throw.</a>
 <span class="sourceLineNo">145</span><a id="line.145">   *</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e);}</a>
-<span class="sourceLineNo">147</span><a id="line.147">   * to ensure the compiler knows that it will throw.</a>
-<span class="sourceLineNo">148</span><a id="line.148">   *</a>
-<span class="sourceLineNo">149</span><a id="line.149">   * @return this method does not return; it always throws</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * @throws IOException when the given throwable is an IOException</a>
-<span class="sourceLineNo">151</span><a id="line.151">   */</a>
-<span class="sourceLineNo">152</span><a id="line.152">  public RuntimeException rethrow(Throwable e) throws IOException {</a>
-<span class="sourceLineNo">153</span><a id="line.153">    checkNotNull(e);</a>
-<span class="sourceLineNo">154</span><a id="line.154">    thrown = e;</a>
-<span class="sourceLineNo">155</span><a id="line.155">    Throwables.propagateIfPossible(e, IOException.class);</a>
-<span class="sourceLineNo">156</span><a id="line.156">    throw new RuntimeException(e);</a>
-<span class="sourceLineNo">157</span><a id="line.157">  }</a>
-<span class="sourceLineNo">158</span><a id="line.158"></a>
-<span class="sourceLineNo">159</span><a id="line.159">  /**</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * IOException}, {@code RuntimeException}, {@code Error} or a checked exception of the given type.</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt; Be sure to</a>
-<span class="sourceLineNo">163</span><a id="line.163">   * declare all of the checked exception types your try block can throw when calling an overload of</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * this method so as to avoid losing the original exception type.</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * @return this method does not return; it always throws</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @throws IOException when the given throwable is an IOException</a>
+<span class="sourceLineNo">148</span><a id="line.148">   */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  public RuntimeException rethrow(Throwable e) throws IOException {</a>
+<span class="sourceLineNo">150</span><a id="line.150">    checkNotNull(e);</a>
+<span class="sourceLineNo">151</span><a id="line.151">    thrown = e;</a>
+<span class="sourceLineNo">152</span><a id="line.152">    Throwables.propagateIfPossible(e, IOException.class);</a>
+<span class="sourceLineNo">153</span><a id="line.153">    throw new RuntimeException(e);</a>
+<span class="sourceLineNo">154</span><a id="line.154">  }</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  /**</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * IOException}, {@code RuntimeException}, {@code Error} or a checked exception of the given type.</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt; Be sure to</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * declare all of the checked exception types your try block can throw when calling an overload of</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * this method so as to avoid losing the original exception type.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   *</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e,</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * ...);} to ensure the compiler knows that it will throw.</a>
 <span class="sourceLineNo">165</span><a id="line.165">   *</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e,</a>
-<span class="sourceLineNo">167</span><a id="line.167">   * ...);} to ensure the compiler knows that it will throw.</a>
-<span class="sourceLineNo">168</span><a id="line.168">   *</a>
-<span class="sourceLineNo">169</span><a id="line.169">   * @return this method does not return; it always throws</a>
-<span class="sourceLineNo">170</span><a id="line.170">   * @throws IOException when the given throwable is an IOException</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * @throws X when the given throwable is of the declared type X</a>
-<span class="sourceLineNo">172</span><a id="line.172">   */</a>
-<span class="sourceLineNo">173</span><a id="line.173">  public &lt;X extends Exception&gt; RuntimeException rethrow(Throwable e, Class&lt;X&gt; declaredType)</a>
-<span class="sourceLineNo">174</span><a id="line.174">      throws IOException, X {</a>
-<span class="sourceLineNo">175</span><a id="line.175">    checkNotNull(e);</a>
-<span class="sourceLineNo">176</span><a id="line.176">    thrown = e;</a>
-<span class="sourceLineNo">177</span><a id="line.177">    Throwables.propagateIfPossible(e, IOException.class);</a>
-<span class="sourceLineNo">178</span><a id="line.178">    Throwables.propagateIfPossible(e, declaredType);</a>
-<span class="sourceLineNo">179</span><a id="line.179">    throw new RuntimeException(e);</a>
-<span class="sourceLineNo">180</span><a id="line.180">  }</a>
-<span class="sourceLineNo">181</span><a id="line.181"></a>
-<span class="sourceLineNo">182</span><a id="line.182">  /**</a>
-<span class="sourceLineNo">183</span><a id="line.183">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
-<span class="sourceLineNo">184</span><a id="line.184">   * IOException}, {@code RuntimeException}, {@code Error} or a checked exception of either of the</a>
-<span class="sourceLineNo">185</span><a id="line.185">   * given types. Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt;</a>
-<span class="sourceLineNo">186</span><a id="line.186">   * Be sure to declare all of the checked exception types your try block can throw when calling an</a>
-<span class="sourceLineNo">187</span><a id="line.187">   * overload of this method so as to avoid losing the original exception type.</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * @return this method does not return; it always throws</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * @throws IOException when the given throwable is an IOException</a>
+<span class="sourceLineNo">168</span><a id="line.168">   * @throws X when the given throwable is of the declared type X</a>
+<span class="sourceLineNo">169</span><a id="line.169">   */</a>
+<span class="sourceLineNo">170</span><a id="line.170">  public &lt;X extends Exception&gt; RuntimeException rethrow(Throwable e, Class&lt;X&gt; declaredType)</a>
+<span class="sourceLineNo">171</span><a id="line.171">      throws IOException, X {</a>
+<span class="sourceLineNo">172</span><a id="line.172">    checkNotNull(e);</a>
+<span class="sourceLineNo">173</span><a id="line.173">    thrown = e;</a>
+<span class="sourceLineNo">174</span><a id="line.174">    Throwables.propagateIfPossible(e, IOException.class);</a>
+<span class="sourceLineNo">175</span><a id="line.175">    Throwables.propagateIfPossible(e, declaredType);</a>
+<span class="sourceLineNo">176</span><a id="line.176">    throw new RuntimeException(e);</a>
+<span class="sourceLineNo">177</span><a id="line.177">  }</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">  /**</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an {@code</a>
+<span class="sourceLineNo">181</span><a id="line.181">   * IOException}, {@code RuntimeException}, {@code Error} or a checked exception of either of the</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * given types. Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. &lt;b&gt;Note:&lt;/b&gt;</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * Be sure to declare all of the checked exception types your try block can throw when calling an</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * overload of this method so as to avoid losing the original exception type.</a>
+<span class="sourceLineNo">185</span><a id="line.185">   *</a>
+<span class="sourceLineNo">186</span><a id="line.186">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e,</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * ...);} to ensure the compiler knows that it will throw.</a>
 <span class="sourceLineNo">188</span><a id="line.188">   *</a>
-<span class="sourceLineNo">189</span><a id="line.189">   * &lt;p&gt;This method always throws, and as such should be called as {@code throw closer.rethrow(e,</a>
-<span class="sourceLineNo">190</span><a id="line.190">   * ...);} to ensure the compiler knows that it will throw.</a>
-<span class="sourceLineNo">191</span><a id="line.191">   *</a>
-<span class="sourceLineNo">192</span><a id="line.192">   * @return this method does not return; it always throws</a>
-<span class="sourceLineNo">193</span><a id="line.193">   * @throws IOException when the given throwable is an IOException</a>
-<span class="sourceLineNo">194</span><a id="line.194">   * @throws X1 when the given throwable is of the declared type X1</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * @throws X2 when the given throwable is of the declared type X2</a>
-<span class="sourceLineNo">196</span><a id="line.196">   */</a>
-<span class="sourceLineNo">197</span><a id="line.197">  public &lt;X1 extends Exception, X2 extends Exception&gt; RuntimeException rethrow(</a>
-<span class="sourceLineNo">198</span><a id="line.198">      Throwable e, Class&lt;X1&gt; declaredType1, Class&lt;X2&gt; declaredType2) throws IOException, X1, X2 {</a>
-<span class="sourceLineNo">199</span><a id="line.199">    checkNotNull(e);</a>
-<span class="sourceLineNo">200</span><a id="line.200">    thrown = e;</a>
-<span class="sourceLineNo">201</span><a id="line.201">    Throwables.propagateIfPossible(e, IOException.class);</a>
-<span class="sourceLineNo">202</span><a id="line.202">    Throwables.propagateIfPossible(e, declaredType1, declaredType2);</a>
-<span class="sourceLineNo">203</span><a id="line.203">    throw new RuntimeException(e);</a>
-<span class="sourceLineNo">204</span><a id="line.204">  }</a>
-<span class="sourceLineNo">205</span><a id="line.205"></a>
-<span class="sourceLineNo">206</span><a id="line.206">  /**</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * Closes all {@code Closeable} instances that have been added to this {@code Closer}. If an</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * exception was thrown in the try block and passed to one of the {@code exceptionThrown} methods,</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * any exceptions thrown when attempting to close a closeable will be suppressed. Otherwise, the</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * &lt;i&gt;first&lt;/i&gt; exception to be thrown from an attempt to close a closeable will be thrown and any</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * additional exceptions that are thrown after that will be suppressed.</a>
-<span class="sourceLineNo">212</span><a id="line.212">   */</a>
-<span class="sourceLineNo">213</span><a id="line.213">  @Override</a>
-<span class="sourceLineNo">214</span><a id="line.214">  public void close() throws IOException {</a>
-<span class="sourceLineNo">215</span><a id="line.215">    Throwable throwable = thrown;</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">    // close closeables in LIFO order</a>
-<span class="sourceLineNo">218</span><a id="line.218">    while (!stack.isEmpty()) {</a>
-<span class="sourceLineNo">219</span><a id="line.219">      Closeable closeable = stack.removeFirst();</a>
-<span class="sourceLineNo">220</span><a id="line.220">      try {</a>
-<span class="sourceLineNo">221</span><a id="line.221">        closeable.close();</a>
-<span class="sourceLineNo">222</span><a id="line.222">      } catch (Throwable e) {</a>
-<span class="sourceLineNo">223</span><a id="line.223">        if (throwable == null) {</a>
-<span class="sourceLineNo">224</span><a id="line.224">          throwable = e;</a>
-<span class="sourceLineNo">225</span><a id="line.225">        } else {</a>
-<span class="sourceLineNo">226</span><a id="line.226">          suppressor.suppress(closeable, throwable, e);</a>
-<span class="sourceLineNo">227</span><a id="line.227">        }</a>
-<span class="sourceLineNo">228</span><a id="line.228">      }</a>
-<span class="sourceLineNo">229</span><a id="line.229">    }</a>
-<span class="sourceLineNo">230</span><a id="line.230"></a>
-<span class="sourceLineNo">231</span><a id="line.231">    if (thrown == null &amp;&amp; throwable != null) {</a>
-<span class="sourceLineNo">232</span><a id="line.232">      Throwables.propagateIfPossible(throwable, IOException.class);</a>
-<span class="sourceLineNo">233</span><a id="line.233">      throw new AssertionError(throwable); // not possible</a>
-<span class="sourceLineNo">234</span><a id="line.234">    }</a>
-<span class="sourceLineNo">235</span><a id="line.235">  }</a>
-<span class="sourceLineNo">236</span><a id="line.236"></a>
-<span class="sourceLineNo">237</span><a id="line.237">  /** Suppression strategy interface. */</a>
-<span class="sourceLineNo">238</span><a id="line.238">  @VisibleForTesting</a>
-<span class="sourceLineNo">239</span><a id="line.239">  interface Suppressor {</a>
-<span class="sourceLineNo">240</span><a id="line.240">    /**</a>
-<span class="sourceLineNo">241</span><a id="line.241">     * Suppresses the given exception ({@code suppressed}) which was thrown when attempting to close</a>
-<span class="sourceLineNo">242</span><a id="line.242">     * the given closeable. {@code thrown} is the exception that is actually being thrown from the</a>
-<span class="sourceLineNo">243</span><a id="line.243">     * method. Implementations of this method should not throw under any circumstances.</a>
-<span class="sourceLineNo">244</span><a id="line.244">     */</a>
-<span class="sourceLineNo">245</span><a id="line.245">    void suppress(Closeable closeable, Throwable thrown, Throwable suppressed);</a>
-<span class="sourceLineNo">246</span><a id="line.246">  }</a>
-<span class="sourceLineNo">247</span><a id="line.247"></a>
-<span class="sourceLineNo">248</span><a id="line.248">  /** Suppresses exceptions by logging them. */</a>
-<span class="sourceLineNo">249</span><a id="line.249">  @VisibleForTesting</a>
-<span class="sourceLineNo">250</span><a id="line.250">  static final class LoggingSuppressor implements Suppressor {</a>
-<span class="sourceLineNo">251</span><a id="line.251"></a>
-<span class="sourceLineNo">252</span><a id="line.252">    static final LoggingSuppressor INSTANCE = new LoggingSuppressor();</a>
-<span class="sourceLineNo">253</span><a id="line.253"></a>
-<span class="sourceLineNo">254</span><a id="line.254">    @Override</a>
-<span class="sourceLineNo">255</span><a id="line.255">    public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {</a>
-<span class="sourceLineNo">256</span><a id="line.256">      // log to the same place as Closeables</a>
-<span class="sourceLineNo">257</span><a id="line.257">      Closeables.logger.log(</a>
-<span class="sourceLineNo">258</span><a id="line.258">          Level.WARNING, "Suppressing exception thrown when closing " + closeable, suppressed);</a>
-<span class="sourceLineNo">259</span><a id="line.259">    }</a>
-<span class="sourceLineNo">260</span><a id="line.260">  }</a>
-<span class="sourceLineNo">261</span><a id="line.261"></a>
-<span class="sourceLineNo">262</span><a id="line.262">  /**</a>
-<span class="sourceLineNo">263</span><a id="line.263">   * Suppresses exceptions by adding them to the exception that will be thrown using JDK7's</a>
-<span class="sourceLineNo">264</span><a id="line.264">   * addSuppressed(Throwable) mechanism.</a>
-<span class="sourceLineNo">265</span><a id="line.265">   */</a>
-<span class="sourceLineNo">266</span><a id="line.266">  @VisibleForTesting</a>
-<span class="sourceLineNo">267</span><a id="line.267">  static final class SuppressingSuppressor implements Suppressor {</a>
-<span class="sourceLineNo">268</span><a id="line.268">    @CheckForNull</a>
-<span class="sourceLineNo">269</span><a id="line.269">    static SuppressingSuppressor tryCreate() {</a>
-<span class="sourceLineNo">270</span><a id="line.270">      Method addSuppressed;</a>
-<span class="sourceLineNo">271</span><a id="line.271">      try {</a>
-<span class="sourceLineNo">272</span><a id="line.272">        addSuppressed = Throwable.class.getMethod("addSuppressed", Throwable.class);</a>
-<span class="sourceLineNo">273</span><a id="line.273">      } catch (Throwable e) {</a>
-<span class="sourceLineNo">274</span><a id="line.274">        return null;</a>
-<span class="sourceLineNo">275</span><a id="line.275">      }</a>
-<span class="sourceLineNo">276</span><a id="line.276">      return new SuppressingSuppressor(addSuppressed);</a>
-<span class="sourceLineNo">277</span><a id="line.277">    }</a>
-<span class="sourceLineNo">278</span><a id="line.278"></a>
-<span class="sourceLineNo">279</span><a id="line.279">    private final Method addSuppressed;</a>
-<span class="sourceLineNo">280</span><a id="line.280"></a>
-<span class="sourceLineNo">281</span><a id="line.281">    private SuppressingSuppressor(Method addSuppressed) {</a>
-<span class="sourceLineNo">282</span><a id="line.282">      this.addSuppressed = addSuppressed;</a>
-<span class="sourceLineNo">283</span><a id="line.283">    }</a>
-<span class="sourceLineNo">284</span><a id="line.284"></a>
-<span class="sourceLineNo">285</span><a id="line.285">    @Override</a>
-<span class="sourceLineNo">286</span><a id="line.286">    public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {</a>
-<span class="sourceLineNo">287</span><a id="line.287">      // ensure no exceptions from addSuppressed</a>
-<span class="sourceLineNo">288</span><a id="line.288">      if (thrown == suppressed) {</a>
-<span class="sourceLineNo">289</span><a id="line.289">        return;</a>
-<span class="sourceLineNo">290</span><a id="line.290">      }</a>
-<span class="sourceLineNo">291</span><a id="line.291">      try {</a>
-<span class="sourceLineNo">292</span><a id="line.292">        addSuppressed.invoke(thrown, suppressed);</a>
-<span class="sourceLineNo">293</span><a id="line.293">      } catch (Throwable e) {</a>
-<span class="sourceLineNo">294</span><a id="line.294">        // if, somehow, IllegalAccessException or another exception is thrown, fall back to logging</a>
-<span class="sourceLineNo">295</span><a id="line.295">        LoggingSuppressor.INSTANCE.suppress(closeable, thrown, suppressed);</a>
-<span class="sourceLineNo">296</span><a id="line.296">      }</a>
-<span class="sourceLineNo">297</span><a id="line.297">    }</a>
-<span class="sourceLineNo">298</span><a id="line.298">  }</a>
-<span class="sourceLineNo">299</span><a id="line.299">}</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * @return this method does not return; it always throws</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * @throws IOException when the given throwable is an IOException</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * @throws X1 when the given throwable is of the declared type X1</a>
+<span class="sourceLineNo">192</span><a id="line.192">   * @throws X2 when the given throwable is of the declared type X2</a>
+<span class="sourceLineNo">193</span><a id="line.193">   */</a>
+<span class="sourceLineNo">194</span><a id="line.194">  public &lt;X1 extends Exception, X2 extends Exception&gt; RuntimeException rethrow(</a>
+<span class="sourceLineNo">195</span><a id="line.195">      Throwable e, Class&lt;X1&gt; declaredType1, Class&lt;X2&gt; declaredType2) throws IOException, X1, X2 {</a>
+<span class="sourceLineNo">196</span><a id="line.196">    checkNotNull(e);</a>
+<span class="sourceLineNo">197</span><a id="line.197">    thrown = e;</a>
+<span class="sourceLineNo">198</span><a id="line.198">    Throwables.propagateIfPossible(e, IOException.class);</a>
+<span class="sourceLineNo">199</span><a id="line.199">    Throwables.propagateIfPossible(e, declaredType1, declaredType2);</a>
+<span class="sourceLineNo">200</span><a id="line.200">    throw new RuntimeException(e);</a>
+<span class="sourceLineNo">201</span><a id="line.201">  }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">  /**</a>
+<span class="sourceLineNo">204</span><a id="line.204">   * Closes all {@code Closeable} instances that have been added to this {@code Closer}. If an</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * exception was thrown in the try block and passed to one of the {@code exceptionThrown} methods,</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * any exceptions thrown when attempting to close a closeable will be suppressed. Otherwise, the</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * &lt;i&gt;first&lt;/i&gt; exception to be thrown from an attempt to close a closeable will be thrown and any</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * additional exceptions that are thrown after that will be suppressed.</a>
+<span class="sourceLineNo">209</span><a id="line.209">   */</a>
+<span class="sourceLineNo">210</span><a id="line.210">  @Override</a>
+<span class="sourceLineNo">211</span><a id="line.211">  public void close() throws IOException {</a>
+<span class="sourceLineNo">212</span><a id="line.212">    Throwable throwable = thrown;</a>
+<span class="sourceLineNo">213</span><a id="line.213"></a>
+<span class="sourceLineNo">214</span><a id="line.214">    // close closeables in LIFO order</a>
+<span class="sourceLineNo">215</span><a id="line.215">    while (!stack.isEmpty()) {</a>
+<span class="sourceLineNo">216</span><a id="line.216">      Closeable closeable = stack.removeFirst();</a>
+<span class="sourceLineNo">217</span><a id="line.217">      try {</a>
+<span class="sourceLineNo">218</span><a id="line.218">        closeable.close();</a>
+<span class="sourceLineNo">219</span><a id="line.219">      } catch (Throwable e) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">        if (throwable == null) {</a>
+<span class="sourceLineNo">221</span><a id="line.221">          throwable = e;</a>
+<span class="sourceLineNo">222</span><a id="line.222">        } else {</a>
+<span class="sourceLineNo">223</span><a id="line.223">          suppressor.suppress(closeable, throwable, e);</a>
+<span class="sourceLineNo">224</span><a id="line.224">        }</a>
+<span class="sourceLineNo">225</span><a id="line.225">      }</a>
+<span class="sourceLineNo">226</span><a id="line.226">    }</a>
+<span class="sourceLineNo">227</span><a id="line.227"></a>
+<span class="sourceLineNo">228</span><a id="line.228">    if (thrown == null &amp;&amp; throwable != null) {</a>
+<span class="sourceLineNo">229</span><a id="line.229">      Throwables.propagateIfPossible(throwable, IOException.class);</a>
+<span class="sourceLineNo">230</span><a id="line.230">      throw new AssertionError(throwable); // not possible</a>
+<span class="sourceLineNo">231</span><a id="line.231">    }</a>
+<span class="sourceLineNo">232</span><a id="line.232">  }</a>
+<span class="sourceLineNo">233</span><a id="line.233"></a>
+<span class="sourceLineNo">234</span><a id="line.234">  /** Suppression strategy interface. */</a>
+<span class="sourceLineNo">235</span><a id="line.235">  @VisibleForTesting</a>
+<span class="sourceLineNo">236</span><a id="line.236">  interface Suppressor {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    /**</a>
+<span class="sourceLineNo">238</span><a id="line.238">     * Suppresses the given exception ({@code suppressed}) which was thrown when attempting to close</a>
+<span class="sourceLineNo">239</span><a id="line.239">     * the given closeable. {@code thrown} is the exception that is actually being thrown from the</a>
+<span class="sourceLineNo">240</span><a id="line.240">     * method. Implementations of this method should not throw under any circumstances.</a>
+<span class="sourceLineNo">241</span><a id="line.241">     */</a>
+<span class="sourceLineNo">242</span><a id="line.242">    void suppress(Closeable closeable, Throwable thrown, Throwable suppressed);</a>
+<span class="sourceLineNo">243</span><a id="line.243">  }</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">  /** Suppresses exceptions by logging them. */</a>
+<span class="sourceLineNo">246</span><a id="line.246">  @VisibleForTesting</a>
+<span class="sourceLineNo">247</span><a id="line.247">  static final class LoggingSuppressor implements Suppressor {</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">    static final LoggingSuppressor INSTANCE = new LoggingSuppressor();</a>
+<span class="sourceLineNo">250</span><a id="line.250"></a>
+<span class="sourceLineNo">251</span><a id="line.251">    @Override</a>
+<span class="sourceLineNo">252</span><a id="line.252">    public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {</a>
+<span class="sourceLineNo">253</span><a id="line.253">      // log to the same place as Closeables</a>
+<span class="sourceLineNo">254</span><a id="line.254">      Closeables.logger.log(</a>
+<span class="sourceLineNo">255</span><a id="line.255">          Level.WARNING, "Suppressing exception thrown when closing " + closeable, suppressed);</a>
+<span class="sourceLineNo">256</span><a id="line.256">    }</a>
+<span class="sourceLineNo">257</span><a id="line.257">  }</a>
+<span class="sourceLineNo">258</span><a id="line.258"></a>
+<span class="sourceLineNo">259</span><a id="line.259">  /**</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * Suppresses exceptions by adding them to the exception that will be thrown using JDK7's</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * addSuppressed(Throwable) mechanism.</a>
+<span class="sourceLineNo">262</span><a id="line.262">   */</a>
+<span class="sourceLineNo">263</span><a id="line.263">  @VisibleForTesting</a>
+<span class="sourceLineNo">264</span><a id="line.264">  static final class SuppressingSuppressor implements Suppressor {</a>
+<span class="sourceLineNo">265</span><a id="line.265">    @CheckForNull</a>
+<span class="sourceLineNo">266</span><a id="line.266">    static SuppressingSuppressor tryCreate() {</a>
+<span class="sourceLineNo">267</span><a id="line.267">      Method addSuppressed;</a>
+<span class="sourceLineNo">268</span><a id="line.268">      try {</a>
+<span class="sourceLineNo">269</span><a id="line.269">        addSuppressed = Throwable.class.getMethod("addSuppressed", Throwable.class);</a>
+<span class="sourceLineNo">270</span><a id="line.270">      } catch (Throwable e) {</a>
+<span class="sourceLineNo">271</span><a id="line.271">        return null;</a>
+<span class="sourceLineNo">272</span><a id="line.272">      }</a>
+<span class="sourceLineNo">273</span><a id="line.273">      return new SuppressingSuppressor(addSuppressed);</a>
+<span class="sourceLineNo">274</span><a id="line.274">    }</a>
+<span class="sourceLineNo">275</span><a id="line.275"></a>
+<span class="sourceLineNo">276</span><a id="line.276">    private final Method addSuppressed;</a>
+<span class="sourceLineNo">277</span><a id="line.277"></a>
+<span class="sourceLineNo">278</span><a id="line.278">    private SuppressingSuppressor(Method addSuppressed) {</a>
+<span class="sourceLineNo">279</span><a id="line.279">      this.addSuppressed = addSuppressed;</a>
+<span class="sourceLineNo">280</span><a id="line.280">    }</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">    @Override</a>
+<span class="sourceLineNo">283</span><a id="line.283">    public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {</a>
+<span class="sourceLineNo">284</span><a id="line.284">      // ensure no exceptions from addSuppressed</a>
+<span class="sourceLineNo">285</span><a id="line.285">      if (thrown == suppressed) {</a>
+<span class="sourceLineNo">286</span><a id="line.286">        return;</a>
+<span class="sourceLineNo">287</span><a id="line.287">      }</a>
+<span class="sourceLineNo">288</span><a id="line.288">      try {</a>
+<span class="sourceLineNo">289</span><a id="line.289">        addSuppressed.invoke(thrown, suppressed);</a>
+<span class="sourceLineNo">290</span><a id="line.290">      } catch (Throwable e) {</a>
+<span class="sourceLineNo">291</span><a id="line.291">        // if, somehow, IllegalAccessException or another exception is thrown, fall back to logging</a>
+<span class="sourceLineNo">292</span><a id="line.292">        LoggingSuppressor.INSTANCE.suppress(closeable, thrown, suppressed);</a>
+<span class="sourceLineNo">293</span><a id="line.293">      }</a>
+<span class="sourceLineNo">294</span><a id="line.294">    }</a>
+<span class="sourceLineNo">295</span><a id="line.295">  }</a>
+<span class="sourceLineNo">296</span><a id="line.296">}</a>
 
 
 

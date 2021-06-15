@@ -577,6 +577,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getCauseAs</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public static&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;&nbsp;X&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.333">getCauseAs</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;expectedCauseType)</pre>
 <div class="block">Returns <code>throwable</code>'s cause, cast to <code>expectedCauseType</code>.
@@ -601,7 +602,7 @@ public static&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/
 <li class="blockList">
 <h4>getStackTraceAsString</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.353">getStackTraceAsString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.352">getStackTraceAsString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns a string containing the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>toString()</code></a>, followed by
  the full, recursive stack trace of <code>throwable</code>. Note that you probably should not be
  parsing the resulting string; if you need programmatic access to the stack frames, you can call
@@ -616,7 +617,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <h4>lazyStackTrace</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang" class="externalLink">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.388">lazyStackTrace</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang" class="externalLink">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.387">lazyStackTrace</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns the stack trace of <code>throwable</code>, possibly providing slower iteration over the full
  trace but faster iteration over parts of the trace. Here, "slower" and "faster" are defined in
  comparison to the normal way to access the stack trace, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>throwable.getStackTrace()</code></a>. Note, however, that this method's special implementation is not
@@ -652,7 +653,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>lazyStackTraceIsLazy</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.403">lazyStackTraceIsLazy</a>()</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.402">lazyStackTraceIsLazy</a>()</pre>
 <div class="block">Returns whether <a href="#lazyStackTrace(java.lang.Throwable)"><code>lazyStackTrace(java.lang.Throwable)</code></a> will use the special implementation described in its
  documentation.</div>
 <dl>
