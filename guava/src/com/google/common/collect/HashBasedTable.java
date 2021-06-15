@@ -24,6 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -126,6 +127,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   }
 
   @Override
+  @CheckForNull
   public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     return super.get(rowKey, columnKey);
   }
@@ -137,6 +139,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
 
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     return super.remove(rowKey, columnKey);
   }

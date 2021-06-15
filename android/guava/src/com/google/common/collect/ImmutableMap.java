@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -526,6 +527,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   // Overriding to mark it Nullable
   @Override
+  @CheckForNull
   public abstract V get(@NullableDecl Object key);
 
   /**

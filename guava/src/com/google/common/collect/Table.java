@@ -24,6 +24,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -98,7 +99,7 @@ public interface Table<R, C, V> {
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  @Nullable
+  @CheckForNull
   V get(
       @Nullable @CompatibleWith("R") Object rowKey,
       @Nullable @CompatibleWith("C") Object columnKey);
@@ -139,7 +140,7 @@ public interface Table<R, C, V> {
    *     for the keys
    */
   @CanIgnoreReturnValue
-  @Nullable
+  @CheckForNull
   V put(R rowKey, C columnKey, V value);
 
   /**
@@ -158,7 +159,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if no such value existed
    */
   @CanIgnoreReturnValue
-  @Nullable
+  @CheckForNull
   V remove(
       @Nullable @CompatibleWith("R") Object rowKey,
       @Nullable @CompatibleWith("C") Object columnKey);

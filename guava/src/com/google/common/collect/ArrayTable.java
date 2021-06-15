@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -315,6 +316,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     or equal to the number of allowed row keys, or {@code columnIndex} is greater than or equal
    *     to the number of allowed column keys
    */
+  @CheckForNull
   public V at(int rowIndex, int columnIndex) {
     // In GWT array access never throws IndexOutOfBoundsException.
     checkElementIndex(rowIndex, rowList.size());
@@ -336,6 +338,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     to the number of allowed column keys
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   public V set(int rowIndex, int columnIndex, @Nullable V value) {
     // In GWT array access never throws IndexOutOfBoundsException.
     checkElementIndex(rowIndex, rowList.size());
@@ -424,6 +427,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   @Override
+  @CheckForNull
   public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
@@ -446,6 +450,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V put(R rowKey, C columnKey, @Nullable V value) {
     checkNotNull(rowKey);
     checkNotNull(columnKey);
@@ -504,6 +509,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     for the keys
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);

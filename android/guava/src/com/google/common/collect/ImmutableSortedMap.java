@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -578,6 +579,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
+  @CheckForNull
   public V get(@NullableDecl Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
@@ -789,51 +791,61 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
+  @CheckForNull
   public K lowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
+  @CheckForNull
   public K floorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
+  @CheckForNull
   public K ceilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
+  @CheckForNull
   public K higherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> firstEntry() {
     return isEmpty() ? null : entrySet().asList().get(0);
   }
 
   @Override
+  @CheckForNull
   public Entry<K, V> lastEntry() {
     return isEmpty() ? null : entrySet().asList().get(size() - 1);
   }

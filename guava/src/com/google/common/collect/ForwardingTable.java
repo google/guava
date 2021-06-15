@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses should override one or
@@ -84,6 +85,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
   }
 
   @Override
+  @CheckForNull
   public V get(Object rowKey, Object columnKey) {
     return delegate().get(rowKey, columnKey);
   }
@@ -95,6 +97,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
   }
@@ -106,6 +109,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V remove(Object rowKey, Object columnKey) {
     return delegate().remove(rowKey, columnKey);
   }

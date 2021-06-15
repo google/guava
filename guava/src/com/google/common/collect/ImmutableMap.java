@@ -47,6 +47,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -703,6 +704,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   // Overriding to mark it Nullable
   @Override
+  @CheckForNull
   public abstract V get(@Nullable Object key);
 
   /**

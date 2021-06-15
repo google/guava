@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -160,7 +161,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @NullableDecl
+  @CheckForNull
   public V get(K key) {
     int index =
         SortedLists.binarySearch(
@@ -178,7 +179,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @NullableDecl
+  @CheckForNull
   public Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
