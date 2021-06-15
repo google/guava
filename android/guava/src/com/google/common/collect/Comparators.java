@@ -22,7 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@link Comparator} instances. For many other helpful
@@ -41,6 +41,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Comparators {
   private Comparators() {}
 
@@ -58,7 +59,8 @@ public final class Comparators {
   // Note: 90% of the time we don't add type parameters or wildcards that serve only to "tweak" the
   // desired return type. However, *nested* generics introduce a special class of problems that we
   // think tip it over into being worthwhile.
-  public static <T, S extends T> Comparator<Iterable<S>> lexicographical(Comparator<T> comparator) {
+  public static <T extends @Nullable Object, S extends T> Comparator<Iterable<S>> lexicographical(
+      Comparator<T> comparator) {
     return new LexicographicalOrdering<S>(checkNotNull(comparator));
   }
 
@@ -67,7 +69,8 @@ public final class Comparators {
    * equal to the element that preceded it, according to the specified comparator. Note that this is
    * always true when the iterable has fewer than two elements.
    */
-  public static <T> boolean isInOrder(Iterable<? extends T> iterable, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> boolean isInOrder(
+      Iterable<? extends T> iterable, Comparator<T> comparator) {
     checkNotNull(comparator);
     Iterator<? extends T> it = iterable.iterator();
     if (it.hasNext()) {
@@ -88,7 +91,7 @@ public final class Comparators {
    * greater than the element that preceded it, according to the specified comparator. Note that
    * this is always true when the iterable has fewer than two elements.
    */
-  public static <T> boolean isInStrictOrder(
+  public static <T extends @Nullable Object> boolean isInStrictOrder(
       Iterable<? extends T> iterable, Comparator<T> comparator) {
     checkNotNull(comparator);
     Iterator<? extends T> it = iterable.iterator();
@@ -139,7 +142,9 @@ public final class Comparators {
    * @since 30.0
    */
   @Beta
-  public static <T> T min(@NullableDecl T a, @NullableDecl T b, Comparator<T> comparator) {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T min(
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -177,7 +182,9 @@ public final class Comparators {
    * @since 30.0
    */
   @Beta
-  public static <T> T max(@NullableDecl T a, @NullableDecl T b, Comparator<T> comparator) {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T max(
+      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

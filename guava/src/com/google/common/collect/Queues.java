@@ -32,6 +32,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 
@@ -436,7 +438,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
-  public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
+  public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
 
@@ -469,7 +471,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
-  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
+  public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }
 }

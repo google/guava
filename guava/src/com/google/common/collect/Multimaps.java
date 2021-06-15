@@ -1144,7 +1144,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get(final K key) {
+    public Set<V> get(@ParametricNullness final K key) {
       return new Sets.ImprovedAbstractSet<V>() {
         @Override
         public Iterator<V> iterator() {
@@ -1157,6 +1157,7 @@ public final class Multimaps {
             }
 
             @Override
+            @ParametricNullness
             public V next() {
               if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -1536,7 +1537,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V2> get(final K key) {
+    public Collection<V2> get(@ParametricNullness final K key) {
       return transform(key, fromMultimap.get(key));
     }
 
@@ -1556,7 +1557,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean put(@ParametricNullness K key, V2 value) {
+    public boolean put(@ParametricNullness K key, @ParametricNullness V2 value) {
       throw new UnsupportedOperationException();
     }
 
@@ -1734,6 +1735,7 @@ public final class Multimaps {
         Multiset.Entry<K> transform(final Map.Entry<K, Collection<V>> backingEntry) {
           return new Multisets.AbstractEntry<K>() {
             @Override
+            @ParametricNullness
             public K getElement() {
               return backingEntry.getKey();
             }

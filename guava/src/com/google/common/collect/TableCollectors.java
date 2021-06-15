@@ -26,15 +26,18 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class TableCollectors {
 
-  static <T, R, C, V> Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
-      Function<? super T, ? extends R> rowFunction,
-      Function<? super T, ? extends C> columnFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  static <T extends @Nullable Object, R, C, V>
+      Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
+          Function<? super T, ? extends R> rowFunction,
+          Function<? super T, ? extends C> columnFunction,
+          Function<? super T, ? extends V> valueFunction) {
     checkNotNull(rowFunction, "rowFunction");
     checkNotNull(columnFunction, "columnFunction");
     checkNotNull(valueFunction, "valueFunction");
@@ -46,11 +49,12 @@ final class TableCollectors {
         ImmutableTable.Builder::build);
   }
 
-  static <T, R, C, V> Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
-      Function<? super T, ? extends R> rowFunction,
-      Function<? super T, ? extends C> columnFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  static <T extends @Nullable Object, R, C, V>
+      Collector<T, ?, ImmutableTable<R, C, V>> toImmutableTable(
+          Function<? super T, ? extends R> rowFunction,
+          Function<? super T, ? extends C> columnFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
 
     checkNotNull(rowFunction, "rowFunction");
     checkNotNull(columnFunction, "columnFunction");
@@ -76,11 +80,17 @@ final class TableCollectors {
         state -> state.toTable());
   }
 
-  static <T, R, C, V, I extends Table<R, C, V>> Collector<T, ?, I> toTable(
-      java.util.function.Function<? super T, ? extends R> rowFunction,
-      java.util.function.Function<? super T, ? extends C> columnFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction,
-      java.util.function.Supplier<I> tableSupplier) {
+  static <
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
+          I extends Table<R, C, V>>
+      Collector<T, ?, I> toTable(
+          java.util.function.Function<? super T, ? extends R> rowFunction,
+          java.util.function.Function<? super T, ? extends C> columnFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          java.util.function.Supplier<I> tableSupplier) {
     return toTable(
         rowFunction,
         columnFunction,
@@ -91,12 +101,18 @@ final class TableCollectors {
         tableSupplier);
   }
 
-  static <T, R, C, V, I extends Table<R, C, V>> Collector<T, ?, I> toTable(
-      java.util.function.Function<? super T, ? extends R> rowFunction,
-      java.util.function.Function<? super T, ? extends C> columnFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction,
-      java.util.function.Supplier<I> tableSupplier) {
+  static <
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
+          I extends Table<R, C, V>>
+      Collector<T, ?, I> toTable(
+          java.util.function.Function<? super T, ? extends R> rowFunction,
+          java.util.function.Function<? super T, ? extends C> columnFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction,
+          java.util.function.Supplier<I> tableSupplier) {
     checkNotNull(rowFunction);
     checkNotNull(columnFunction);
     checkNotNull(valueFunction);
@@ -180,8 +196,14 @@ final class TableCollectors {
     }
   }
 
-  private static <R, C, V> void mergeTables(
-      Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
+  private static <
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      void mergeTables(
+          Table<R, C, V> table,
+          @ParametricNullness R row,
+          @ParametricNullness C column,
+          @ParametricNullness V value,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(value);
     V oldValue = table.get(row, column);
     if (oldValue == null) {

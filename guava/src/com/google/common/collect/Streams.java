@@ -17,7 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -46,6 +47,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -54,12 +56,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
    * Collection#stream} if possible.
    */
-  public static <T> Stream<T> stream(Iterable<T> iterable) {
+  public static <T extends @Nullable Object> Stream<T> stream(Iterable<T> iterable) {
     return (iterable instanceof Collection)
         ? ((Collection<T>) iterable).stream()
         : StreamSupport.stream(iterable.spliterator(), false);
@@ -73,7 +76,7 @@ public final class Streams {
   @Beta
   @Deprecated
   @InlineMe(replacement = "collection.stream()")
-  public static <T> Stream<T> stream(Collection<T> collection) {
+  public static <T extends @Nullable Object> Stream<T> stream(Collection<T> collection) {
     return collection.stream();
   }
 
@@ -82,7 +85,7 @@ public final class Streams {
    * {@code iterator} directly after passing it to this method.
    */
   @Beta
-  public static <T> Stream<T> stream(Iterator<T> iterator) {
+  public static <T extends @Nullable Object> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
   }
 
@@ -156,7 +159,7 @@ public final class Streams {
    * @see Stream#concat(Stream, Stream)
    */
   @SafeVarargs
-  public static <T> Stream<T> concat(Stream<? extends T>... streams) {
+  public static <T extends @Nullable Object> Stream<T> concat(Stream<? extends T>... streams) {
     // TODO(lowasser): consider an implementation that can support SUBSIZED
     boolean isParallel = false;
     int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
@@ -302,8 +305,9 @@ public final class Streams {
    * This may harm parallel performance.
    */
   @Beta
-  public static <A, B, R> Stream<R> zip(
-      Stream<A> streamA, Stream<B> streamB, BiFunction<? super A, ? super B, R> function) {
+  public static <A extends @Nullable Object, B extends @Nullable Object, R extends @Nullable Object>
+      Stream<R> zip(
+          Stream<A> streamA, Stream<B> streamB, BiFunction<? super A, ? super B, R> function) {
     checkNotNull(streamA);
     checkNotNull(streamB);
     checkNotNull(function);
@@ -364,7 +368,7 @@ public final class Streams {
    * @since 22.0
    */
   @Beta
-  public static <A, B> void forEachPair(
+  public static <A extends @Nullable Object, B extends @Nullable Object> void forEachPair(
       Stream<A> streamA, Stream<B> streamB, BiConsumer<? super A, ? super B> consumer) {
     checkNotNull(consumer);
 
@@ -380,11 +384,11 @@ public final class Streams {
   }
 
   // Use this carefully - it doesn't implement value semantics
-  private static class TemporaryPair<A, B> {
-    final A a;
-    final B b;
+  private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
+    @ParametricNullness final A a;
+    @ParametricNullness final B b;
 
-    TemporaryPair(A a, B b) {
+    TemporaryPair(@ParametricNullness A a, @ParametricNullness B b) {
       this.a = a;
       this.b = b;
     }
@@ -413,7 +417,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <T, R> Stream<R> mapWithIndex(
+  public static <T extends @Nullable Object, R extends @Nullable Object> Stream<R> mapWithIndex(
       Stream<T> stream, FunctionWithIndex<? super T, ? extends R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -441,14 +445,14 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      @Nullable T holder;
+      @CheckForNull T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
       }
 
       @Override
-      public void accept(@Nullable T t) {
+      public void accept(@ParametricNullness T t) {
         this.holder = t;
       }
 
@@ -456,7 +460,8 @@ public final class Streams {
       public boolean tryAdvance(Consumer<? super R> action) {
         if (fromSpliterator.tryAdvance(this)) {
           try {
-            action.accept(function.apply(holder, index++));
+            // The cast is safe because tryAdvance puts a T into `holder`.
+            action.accept(function.apply(uncheckedCastNullableTToT(holder), index++));
             return true;
           } finally {
             holder = null;
@@ -496,7 +501,8 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R> Stream<R> mapWithIndex(IntStream stream, IntFunctionWithIndex<R> function) {
+  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
+      IntStream stream, IntFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
     boolean isParallel = stream.isParallel();
@@ -575,7 +581,8 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R> Stream<R> mapWithIndex(LongStream stream, LongFunctionWithIndex<R> function) {
+  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
+      LongStream stream, LongFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
     boolean isParallel = stream.isParallel();
@@ -654,7 +661,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R> Stream<R> mapWithIndex(
+  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       DoubleStream stream, DoubleFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -720,13 +727,16 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface FunctionWithIndex<T, R> {
+  public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    R apply(T from, long index);
+    @ParametricNullness
+    R apply(@ParametricNullness T from, long index);
   }
 
   private abstract static class MapWithIndexSpliterator<
-          F extends Spliterator<?>, R, S extends MapWithIndexSpliterator<F, R, S>>
+          F extends Spliterator<?>,
+          R extends @Nullable Object,
+          S extends MapWithIndexSpliterator<F, R, S>>
       implements Spliterator<R> {
     final F fromSpliterator;
     long index;
@@ -739,12 +749,14 @@ public final class Streams {
     abstract S createSplit(F from, long i);
 
     @Override
+    @CheckForNull
     public S trySplit() {
-      @SuppressWarnings("unchecked")
-      F split = (F) fromSpliterator.trySplit();
-      if (split == null) {
+      Spliterator<?> splitOrNull = fromSpliterator.trySplit();
+      if (splitOrNull == null) {
         return null;
       }
+      @SuppressWarnings("unchecked")
+      F split = (F) splitOrNull;
       S result = createSplit(split, index);
       this.index += split.getExactSizeIfKnown();
       return result;
@@ -771,8 +783,9 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface IntFunctionWithIndex<R> {
+  public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
+    @ParametricNullness
     R apply(int from, long index);
   }
 
@@ -785,8 +798,9 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface LongFunctionWithIndex<R> {
+  public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
+    @ParametricNullness
     R apply(long from, long index);
   }
 
@@ -799,8 +813,9 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface DoubleFunctionWithIndex<R> {
+  public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
+    @ParametricNullness
     R apply(double from, long index);
   }
 
@@ -819,20 +834,34 @@ public final class Streams {
    * @see Stream#findFirst()
    * @throws NullPointerException if the last element of the stream is null
    */
+  /*
+   * By declaring <T> instead of <T extends @Nullable Object>, we declare this method as requiring a
+   * stream whose elements are non-null. However, the method goes out of its way to still handle
+   * nulls in the stream. This means that the method can safely be used with a stream that contains
+   * nulls as long as the *last* element is *not* null.
+   *
+   * (To "go out of its way," the method tracks a `set` bit so that it can distinguish "the final
+   * split has a last element of null, so throw NPE" from "the final split was empty, so look for an
+   * element in the prior one.")
+   */
   @Beta
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
     class OptionalState {
       boolean set = false;
-      T value = null;
+      @CheckForNull T value = null;
 
-      void set(@Nullable T value) {
+      void set(T value) {
         this.set = true;
         this.value = value;
       }
 
       T get() {
-        checkState(set);
-        return value;
+        /*
+         * requireNonNull is safe because we call get() only if we've previously called set().
+         *
+         * (For further discussion of nullness, see the comment above the method.)
+         */
+        return requireNonNull(value);
       }
     }
     OptionalState state = new OptionalState();
