@@ -13808,19 +13808,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="removeAll" return="java.util.List&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="replaceValues" return="java.util.List&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <doc>
@@ -14287,20 +14287,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
-      <param name="value" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="containsKey" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="entries" return="java.util.Collection&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
@@ -14311,7 +14311,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -14332,14 +14332,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="putAll" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <method name="putAll" return="boolean"
@@ -14352,20 +14352,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
-      <param name="value" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="removeAll" return="java.util.Collection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="replaceValues" return="java.util.Collection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <method name="size" return="int"
@@ -14382,7 +14382,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -15659,19 +15659,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="removeAll" return="java.util.Set&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="replaceValues" return="java.util.Set&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <doc>
@@ -16174,19 +16174,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="removeAll" return="java.util.SortedSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="replaceValues" return="java.util.SortedSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
     </method>
     <method name="valueComparator" return="java.util.Comparator&lt;? super V&gt;"
@@ -19398,13 +19398,13 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="size" return="int"
       abstract="false" native="false" synchronized="false"
@@ -25148,7 +25148,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[{@inheritDoc}
@@ -25358,20 +25358,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="put" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Stores a key-value pair in the multimap.
 
@@ -25384,7 +25384,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[{@inheritDoc}
@@ -25415,7 +25415,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -25523,7 +25523,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -25536,7 +25536,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -25549,7 +25549,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[{@inheritDoc}
@@ -25575,7 +25575,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object to this multimap for equality.
 
@@ -28237,7 +28237,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
  key}.]]>
@@ -28247,7 +28247,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the value
  {@code value}.]]>
@@ -28257,8 +28257,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
-      <param name="value" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
  key} and the value {@code value}.]]>
@@ -28268,8 +28268,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Stores a key-value pair in this multimap.
 
@@ -28285,8 +28285,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
-      <param name="value" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes a single key-value pair with the key {@code key} and the value {@code value} from this
  multimap, if such exists. If multiple key-value pairs in the multimap fit this description,
@@ -28299,7 +28299,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[Stores a key-value pair in this multimap for each of {@code values}, all using the same key,
@@ -28332,7 +28332,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[Stores a collection of values with the same key, replacing any existing values for that key.
@@ -28348,7 +28348,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes all values associated with the key {@code key}.
 
@@ -28371,7 +28371,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a view collection of the values associated with {@code key} in this multimap, if any.
  Note that when {@code containsKey(key)} is false, this returns an empty collection, not {@code
@@ -28464,7 +28464,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object with this multimap for equality. Two multimaps are equal when
  their map views, as returned by {@link #asMap}, are also equal.
@@ -33302,7 +33302,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -33315,7 +33315,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -33328,7 +33328,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[{@inheritDoc}
@@ -33368,7 +33368,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object to this multimap for equality.
 
@@ -34643,7 +34643,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a collection view of all values associated with a key. If no mappings in the multimap
  have the provided key, an empty collection is returned.
@@ -34659,7 +34659,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes all values associated with a given key.
 
@@ -34672,7 +34672,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
       <doc>
       <![CDATA[Stores a collection of values with the same key, replacing any existing values for that key.
@@ -36029,7 +36029,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[@since 14.0 (present with return type {@code SortedSet} since 2.0)]]>
       </doc>
