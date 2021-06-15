@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public enum RemovalCause {
   /**
    * The entry was manually removed by the user. This can result from the user invoking {@link

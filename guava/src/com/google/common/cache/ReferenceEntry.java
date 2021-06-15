@@ -16,7 +16,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.cache.LocalCache.ValueReference;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An entry in a reference map.
@@ -39,22 +39,24 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * </ul>
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
+  @CheckForNull
   ValueReference<K, V> getValueReference();
 
   /** Sets the value reference for this entry. */
   void setValueReference(ValueReference<K, V> valueReference);
 
   /** Returns the next entry in the chain. */
-  @Nullable
+  @CheckForNull
   ReferenceEntry<K, V> getNext();
 
   /** Returns the entry's hash. */
   int getHash();
 
   /** Returns the key for this entry. */
-  @Nullable
+  @CheckForNull
   K getKey();
 
   /*

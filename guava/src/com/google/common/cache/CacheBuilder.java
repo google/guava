@@ -181,15 +181,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @param <K> the most general key type this builder will be able to create caches for. This is
  *     normally {@code Object} unless it is constrained by using a method like {@code
- *     #removalListener}
+ *     #removalListener}. Cache keys may not be null.
  * @param <V> the most general value type this builder will be able to create caches for. This is
  *     normally {@code Object} unless it is constrained by using a method like {@code
- *     #removalListener}
+ *     #removalListener}. Cache values may not be null.
  * @author Charles Fry
  * @author Kevin Bourrillion
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;

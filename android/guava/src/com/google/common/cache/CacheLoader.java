@@ -57,6 +57,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class CacheLoader<K, V> {
   /** Constructor for use by subclasses. */
   protected CacheLoader() {}

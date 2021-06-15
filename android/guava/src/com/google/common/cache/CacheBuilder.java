@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances.
@@ -182,15 +182,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *
  * @param <K> the most general key type this builder will be able to create caches for. This is
  *     normally {@code Object} unless it is constrained by using a method like {@code
- *     #removalListener}
+ *     #removalListener}. Cache keys may not be null.
  * @param <V> the most general value type this builder will be able to create caches for. This is
  *     normally {@code Object} unless it is constrained by using a method like {@code
- *     #removalListener}
+ *     #removalListener}. Cache values may not be null.
  * @author Charles Fry
  * @author Kevin Bourrillion
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -270,10 +271,10 @@ public final class CacheBuilder<K, V> {
   int concurrencyLevel = UNSET_INT;
   long maximumSize = UNSET_INT;
   long maximumWeight = UNSET_INT;
-  @NullableDecl Weigher<? super K, ? super V> weigher;
+  @Nullable Weigher<? super K, ? super V> weigher;
 
-  @NullableDecl Strength keyStrength;
-  @NullableDecl Strength valueStrength;
+  @Nullable Strength keyStrength;
+  @Nullable Strength valueStrength;
 
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long expireAfterWriteNanos = UNSET_INT;
@@ -284,11 +285,11 @@ public final class CacheBuilder<K, V> {
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long refreshNanos = UNSET_INT;
 
-  @NullableDecl Equivalence<Object> keyEquivalence;
-  @NullableDecl Equivalence<Object> valueEquivalence;
+  @Nullable Equivalence<Object> keyEquivalence;
+  @Nullable Equivalence<Object> valueEquivalence;
 
-  @NullableDecl RemovalListener<? super K, ? super V> removalListener;
-  @NullableDecl Ticker ticker;
+  @Nullable RemovalListener<? super K, ? super V> removalListener;
+  @Nullable Ticker ticker;
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 

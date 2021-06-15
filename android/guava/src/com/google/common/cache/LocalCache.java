@@ -95,6 +95,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @SuppressWarnings("GoodTime") // lots of violations (nanosecond math)
 @GwtCompatible(emulated = true)
+// TODO(cpovirk): Annotate for nullness.
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
