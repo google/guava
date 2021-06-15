@@ -2335,11 +2335,11 @@
   <interface name="Function"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="apply" return="T"
+    <method name="apply" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="input" type="F"/>
+      <param name="input" type="F extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the result of applying this function to {@code input}. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:

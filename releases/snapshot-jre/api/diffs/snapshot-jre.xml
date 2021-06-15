@@ -2351,17 +2351,17 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.function.Function&lt;F, T&gt;"/>
-    <method name="apply" return="T"
+    <method name="apply" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="input" type="F"/>
+      <param name="input" type="F extends java.lang.Object"/>
     </method>
     <method name="equals" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[<i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
  to this function.
