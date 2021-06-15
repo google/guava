@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
+import java.util.HashMap;
+import java.util.Map;
 import junit.framework.TestCase;
 
 /**
@@ -188,5 +190,27 @@ public abstract class AbstractTableReadTest extends TestCase {
   public void testNullPointerInstance() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 2, 'c', "bar", 3, 'd');
     new NullPointerTester().testAllPublicInstanceMethods(table);
+  }
+
+  public void testGetOrDefault() {
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    assertEquals((Character) 'a', table.getOrDefault("foo", 1, 'd'));
+    assertEquals((Character) 'd', table.getOrDefault("foo", 4, 'd'));
+  }
+
+  public void testForEach() {
+    Map<String, Map<Integer, Character>> expected = ImmutableMap.of(
+        "foo", ImmutableMap.of(1, 'a', 3, 'c'),
+        "bar", ImmutableMap.of(1, 'b'));
+
+    Map<String, Map<Integer, Character>> actual = new HashMap<>();
+    table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    table.forEach((r, c, v) -> {
+      if (r != null && c != null && v != null) {
+        actual.computeIfAbsent(r, k -> new HashMap<>()).put(c, v);
+      }
+    });
+
+    assertEquals(expected, actual);
   }
 }

@@ -91,4 +91,19 @@ public class TablesTransformValuesTest extends AbstractTableTest {
 
   @Override
   public void testRowClearAndPut() {}
+
+  @Override
+  public void testReplaceAll() {}
+
+  @Override
+  public void testPutIfAbsent() {}
+
+  @Override
+  public void testReplace() {}
+
+  @Override
+  public void testCompute() {}
+
+  @Override
+  public void testMerge() {}
 }

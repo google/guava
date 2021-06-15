@@ -16,14 +16,20 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.common.base.TriConsumer;
+import com.google.common.base.TriFunction;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -56,7 +62,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @DoNotMock("Use ImmutableTable, HashBasedTable, or another implementation")
 @GwtCompatible
 public interface Table<R, C, V> {
-  // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
 
   // Accessors
 
@@ -281,5 +286,556 @@ public interface Table<R, C, V> {
      */
     @Override
     int hashCode();
+  }
+
+  // Defaultable methods
+
+  /**
+   * Returns the value to which the specified keys is mapped, or
+   * {@code defaultValue} if this table contains no mapping for the keys.
+   *
+   * @param rowKey       the row key whose associated value is to be returned
+   * @param columnKey    the column key whose associated value is to be returned
+   * @param defaultValue the default mapping of the keys
+   *
+   * @return the value to which the specified keys is mapped, or
+   * {@code defaultValue} if this table contains no mapping for the keys
+   * @implSpec The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V getOrDefault(
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey,
+      V defaultValue) {
+    V v;
+    return (((v = get(rowKey, columnKey)) != null) || contains(rowKey, columnKey))
+        ? v
+        : defaultValue;
+  }
+
+  /**
+   * Performs the given action for each cell in this table until all cells
+   * have been processed or the action throws an exception.   Unless
+   * otherwise specified by the implementing class, actions are performed in
+   * the order of cell set iteration (if an iteration order is specified.)
+   * Exceptions thrown by the action are relayed to the caller.
+   *
+   * @param action The action to be performed for each cell
+   *
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * for (Table.Cell<K, V> cell : table.cellSet())
+   *     action.accept(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default void forEach(TriConsumer<? super R, ? super C, ? super V> action) {
+    checkNotNull(action);
+    for (Cell<R, C, V> cell : cellSet()) {
+      R r;
+      C c;
+      V v;
+      try {
+        r = cell.getRowKey();
+        c = cell.getColumnKey();
+        v = cell.getValue();
+      } catch (IllegalStateException ise) {
+        // this usually means the cell is no longer in the table.
+        throw new ConcurrentModificationException(ise);
+      }
+      action.accept(r, c, v);
+    }
+  }
+
+  /**
+   * Replaces each cell's value with the result of invoking the given
+   * function on that cell until all cells have been processed or the
+   * function throws an exception.  Exceptions thrown by the function are
+   * relayed to the caller.
+   *
+   * @param function the function to apply to each cell
+   *
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * for (Table.Cell<K, V> cell : table.cellSet())
+   *     cell.setValue(function.apply(cell.getRowKey(), cell.getColumnKey(), cell.getValue()));
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default void replaceAll(TriFunction<? super R, ? super C, ? super V, ? extends V> function) {
+    checkNotNull(function);
+    for (Cell<R, C, V> cell : cellSet()) {
+      R r;
+      C c;
+      V v;
+      try {
+        r = cell.getRowKey();
+        c = cell.getColumnKey();
+        v = cell.getValue();
+      } catch (IllegalStateException ise) {
+        // this usually means the cell is no longer in the table.
+        throw new ConcurrentModificationException(ise);
+      }
+
+      // ise thrown from function is not a cme.
+      v = function.apply(r, c, v);
+
+      try {
+        put(r, c, v);
+      } catch (IllegalStateException ise) {
+        // this usually means the cell is no longer in the table.
+        throw new ConcurrentModificationException(ise);
+      }
+    }
+  }
+
+  /**
+   * If the specified keys is not already associated with a value (or is mapped
+   * to {@code null}) associates it with the given value and returns
+   * {@code null}, else returns the current value.
+   *
+   * @param rowKey    row key with which the specified value is to be associated
+   * @param columnKey column key with which the specified value is to be associated
+   * @param value     value to be associated with the specified keys
+   * @return the previous value associated with the specified keys, or
+   * {@code null} if there was no mapping for the keys.
+   * (A {@code null} return can also indicate that the table
+   * previously associated {@code null} with the keys,
+   * if the implementation supports null values.)
+   *
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * V v = table.get(rowKey, columnKey);
+   * if (v == null)
+   *     v = table.put(rowKey, columnKey, value);
+   * return v;
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  @CanIgnoreReturnValue
+  @Nullable
+  default V putIfAbsent(R rowKey, C columnKey, V value) {
+    V v = get(rowKey, columnKey);
+    if (v == null) {
+      v = put(rowKey, columnKey, value);
+    }
+    return v;
+  }
+
+  /**
+   * Removes the cell for the specified keys only if it is currently
+   * mapped to the specified value.
+   *
+   * @param rowKey    row key with which the specified value is associated
+   * @param columnKey column key with which the specified value is associated
+   * @param value     value expected to be associated with the specified keys
+   * @return {@code true} if the value was removed
+   *
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * if (table.contains(rowKey, columnKey)
+   *         && Objects.equals(table.get(rowKey, columnKey), value)) {
+   *     table.remove(rowKey, columnKey);
+   *     return true;
+   * } else
+   *     return false;
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  @CanIgnoreReturnValue
+  default boolean remove(
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey,
+      @Nullable @CompatibleWith("V") Object value) {
+    Object curValue = get(rowKey, columnKey);
+    if (!Objects.equal(curValue, value) || (curValue == null && !contains(rowKey, columnKey))) {
+      return false;
+    }
+    remove(rowKey, columnKey);
+    return true;
+  }
+
+  /**
+   * Replaces the cell for the specified keys only if currently
+   * mapped to the specified value.
+   *
+   * @param rowKey    row key with which the specified value is associated
+   * @param columnKey column key with which the specified value is associated
+   * @param oldValue  value expected to be associated with the specified keys
+   * @param newValue  value to be associated with the specified keys
+   * @return {@code true} if the value was replaced
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * if (table.contains(rowKey, columnKey)
+   *         && Objects.equals(table.get(rowKey, columnKey), oldValue)) {
+   *     table.put(rowKey, columnKey, newValue);
+   *     return true;
+   * } else
+   *     return false;
+   * }</pre>
+   *
+   * <p>The default implementation does not throw NullPointerException
+   * for maps that do not support null values if oldValue is null unless
+   * newValue is also null.
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  @CanIgnoreReturnValue
+  default boolean replace(R rowKey, C columnKey, V oldValue, V newValue) {
+    Object curValue = get(rowKey, columnKey);
+    if (!Objects.equal(curValue, oldValue) || (curValue == null && !contains(rowKey, columnKey))) {
+      return false;
+    }
+    put(rowKey, columnKey, newValue);
+    return true;
+  }
+
+  /**
+   * Replaces the cell for the specified keys only if it is
+   * currently mapped to some value.
+   *
+   * @param rowKey    row key with which the specified value is associated
+   * @param columnKey column key with which the specified value is associated
+   * @param value     value to be associated with the specified keys
+   * @return the previous value associated with the specified keys, or
+   * {@code null} if there was no mapping for the keys.
+   * (A {@code null} return can also indicate that the table
+   * previously associated {@code null} with the keys,
+   * if the implementation supports null values.)
+   * @implSpec The default implementation is equivalent to, for this {@code table}:
+   *
+   * <pre> {@code
+   * if (table.contains(rowKey, columnKey)) {
+   *     return table.put(rowKey, columnKey, value);
+   * } else
+   *     return null;
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V replace(R rowKey, C columnKey, V value) {
+    V curValue;
+    if (((curValue = get(rowKey, columnKey)) != null)
+        || contains(rowKey, columnKey)) {
+      curValue = put(rowKey, columnKey, value);
+    }
+    return curValue;
+  }
+
+
+  /**
+   * If the specified keys is not already associated with a value (or is mapped
+   * to {@code null}), attempts to compute its value using the given mapping
+   * function and enters it into this table unless {@code null}.
+   *
+   * <p>If the mapping function returns {@code null}, no mapping is recorded.
+   * If the mapping function itself throws an (unchecked) exception, the
+   * exception is rethrown, and no mapping is recorded.  The most
+   * common usage is to construct a new object serving as an initial
+   * mapped value or memoized result, as in:
+   *
+   * <pre> {@code
+   * table.computeIfAbsent(rowKey, columnKey, (r, c) -> new Value(f(r, c)));
+   * }</pre>
+   *
+   * <p>Or to implement a multi-value table, {@code Table<R,C,Collection<V>>},
+   * supporting multiple values per keys:
+   *
+   * <pre> {@code
+   * table.computeIfAbsent(rowKey, columnKey, (r, c) -> new HashSet<V>()).add(v);
+   * }</pre>
+   *
+   * <p>The mapping function should not modify this table during computation.
+   *
+   * @param rowKey          row key with which the specified value is to be associated
+   * @param columnKey       column key with which the specified value is to be associated
+   * @param mappingFunction the mapping function to compute a value
+   * @return the current (existing or computed) value associated with
+   * the specified keys, or null if the computed value is null
+   * @implSpec The default implementation is equivalent to the following steps for this
+   * {@code table}, then returning the current value or {@code null} if now
+   * absent:
+   *
+   * <pre> {@code
+   * if (table.get(rowKey, columnKey) == null) {
+   *     V newValue = mappingFunction.apply(rowKey, columnKey);
+   *     if (newValue != null)
+   *         table.put(rowKey, columnKey, newValue);
+   * }
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about detecting if the
+   * mapping function modifies this table during computation and, if
+   * appropriate, reporting an error. Non-concurrent implementations should
+   * override this method and, on a best-effort basis, throw a
+   * {@code ConcurrentModificationException} if it is detected that the
+   * mapping function modifies this table during computation. Concurrent
+   * implementations should override this method and, on a best-effort basis,
+   * throw an {@code IllegalStateException} if it is detected that the
+   * mapping function modifies this table during computation and as a result
+   * computation would never complete.
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V computeIfAbsent(R rowKey, C columnKey,
+                            BiFunction<? super R, ? super C, ? extends V> mappingFunction) {
+    checkNotNull(mappingFunction);
+    V v;
+    if ((v = get(rowKey, columnKey)) == null) {
+      V newValue;
+      if ((newValue = mappingFunction.apply(rowKey, columnKey)) != null) {
+        put(rowKey, columnKey, newValue);
+        return newValue;
+      }
+    }
+    return v;
+  }
+
+  /**
+   * If the value for the specified keys is present and non-null, attempts to
+   * compute a new mapping given the keys and its current mapped value.
+   *
+   * <p>If the remapping function returns {@code null}, the mapping is removed.
+   * If the remapping function itself throws an (unchecked) exception, the
+   * exception is rethrown, and the current mapping is left unchanged.
+   *
+   * <p>The remapping function should not modify this table during computation.
+   *
+   * @param rowKey            row key with which the specified value is to be associated
+   * @param columnKey         column key with which the specified value is to be associated
+   * @param remappingFunction the remapping function to compute a value
+   * @return the new value associated with the specified keys, or null if none
+   * @implSpec The default implementation is equivalent to performing the following
+   * steps for this {@code table}, then returning the current value or
+   * {@code null} if now absent:
+   *
+   * <pre> {@code
+   * if (table.get(rowKey, columnKey) != null) {
+   *     V oldValue = table.get(rowKey, columnKey);
+   *     V newValue = remappingFunction.apply(rowKey, columnKey, oldValue);
+   *     if (newValue != null)
+   *         table.put(rowKey, columnKey, newValue);
+   *     else
+   *         table.remove(rowKey, columnKey);
+   * }
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about detecting if the
+   * remapping function modifies this table during computation and, if
+   * appropriate, reporting an error. Non-concurrent implementations should
+   * override this method and, on a best-effort basis, throw a
+   * {@code ConcurrentModificationException} if it is detected that the
+   * remapping function modifies this table during computation. Concurrent
+   * implementations should override this method and, on a best-effort basis,
+   * throw an {@code IllegalStateException} if it is detected that the
+   * remapping function modifies this table during computation and as a result
+   * computation would never complete.
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V computeIfPresent(R rowKey, C columnKey,
+                             TriFunction<? super R, ? super C, ? super V, ? extends V> remappingFunction) {
+    checkNotNull(remappingFunction);
+    V oldValue;
+    if ((oldValue = get(rowKey, columnKey)) != null) {
+      V newValue = remappingFunction.apply(rowKey, columnKey, oldValue);
+      if (newValue != null) {
+        put(rowKey, columnKey, newValue);
+        return newValue;
+      } else {
+        remove(rowKey, columnKey);
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Attempts to compute a mapping for the specified keys and its current
+   * mapped value (or {@code null} if there is no current mapping). For
+   * example, to either create or append a {@code String} msg to a value
+   * mapping:
+   *
+   * <pre> {@code
+   * table.compute(rowKey, columnKey, (r, c, v) -> (v == null) ? msg : v.concat(msg))}</pre>
+   * (Method {@link #merge merge()} is often simpler to use for such purposes.)
+   *
+   * <p>If the remapping function returns {@code null}, the mapping is removed
+   * (or remains absent if initially absent).  If the remapping function
+   * itself throws an (unchecked) exception, the exception is rethrown, and
+   * the current mapping is left unchanged.
+   *
+   * <p>The remapping function should not modify this table during computation.
+   *
+   * @param rowKey            row key with which the specified value is to be associated
+   * @param columnKey         column key with which the specified value is to be associated
+   * @param remappingFunction the remapping function to compute a value
+   * @return the new value associated with the specified keys, or null if none
+   * @implSpec The default implementation is equivalent to performing the following
+   * steps for this {@code table}, then returning the current value or
+   * {@code null} if absent:
+   *
+   * <pre> {@code
+   * V oldValue = table.get(rowKey, columnKey);
+   * V newValue = remappingFunction.apply(rowKey, columnKey, oldValue);
+   * if (oldValue != null) {
+   *    if (newValue != null)
+   *       table.put(rowKey, columnKey, newValue);
+   *    else
+   *       table.remove(rowKey, columnKey);
+   * } else {
+   *    if (newValue != null)
+   *       table.put(rowKey, columnKey, newValue);
+   *    else
+   *       return null;
+   * }
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about detecting if the
+   * remapping function modifies this table during computation and, if
+   * appropriate, reporting an error. Non-concurrent implementations should
+   * override this method and, on a best-effort basis, throw a
+   * {@code ConcurrentModificationException} if it is detected that the
+   * remapping function modifies this table during computation. Concurrent
+   * implementations should override this method and, on a best-effort basis,
+   * throw an {@code IllegalStateException} if it is detected that the
+   * remapping function modifies this table during computation and as a result
+   * computation would never complete.
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V compute(R rowKey, C columnKey,
+                    TriFunction<? super R, ? super C, ? super V, ? extends V> remappingFunction) {
+    checkNotNull(remappingFunction);
+    V oldValue = get(rowKey, columnKey);
+
+    V newValue = remappingFunction.apply(rowKey, columnKey, oldValue);
+    if (newValue == null) {
+      // delete mapping
+      if (oldValue != null || contains(rowKey, columnKey)) {
+        // something to remove
+        remove(rowKey, columnKey);
+        return null;
+      } else {
+        // nothing to do. Leave things as they were.
+        return null;
+      }
+    } else {
+      // add or replace old mapping
+      put(rowKey, columnKey, newValue);
+      return newValue;
+    }
+  }
+
+  /**
+   * If the specified keys is not already associated with a value or is
+   * associated with null, associates it with the given non-null value.
+   * Otherwise, replaces the associated value with the results of the given
+   * remapping function, or removes if the result is {@code null}. This
+   * method may be of use when combining multiple mapped values for keys.
+   * For example, to either create or append a {@code String msg} to a
+   * value mapping:
+   *
+   * <pre> {@code
+   * table.merge(rowKey, columnKey, msg, String::concat)
+   * }</pre>
+   *
+   * <p>If the remapping function returns {@code null}, the mapping is removed.
+   * If the remapping function itself throws an (unchecked) exception, the
+   * exception is rethrown, and the current mapping is left unchanged.
+   *
+   * <p>The remapping function should not modify this table during computation.
+   *
+   * @param rowKey            row key with which the resulting value is to be associated
+   * @param columnKey         column key with which the resulting value is to be associated
+   * @param value             the non-null value to be merged with the existing value
+   *                          associated with the keys or, if no existing value or a null value
+   *                          is associated with the keys, to be associated with the keys
+   * @param remappingFunction the remapping function to recompute a value if
+   *                          present
+   * @return the new value associated with the specified keys, or null if no
+   * value is associated with the keys
+   * @implSpec The default implementation is equivalent to performing the following
+   * steps for this {@code table}, then returning the current value or
+   * {@code null} if absent:
+   *
+   * <pre> {@code
+   * V oldValue = table.get(rowKey, columnKey);
+   * V newValue = (oldValue == null) ? value :
+   *              remappingFunction.apply(oldValue, value);
+   * if (newValue == null)
+   *     table.remove(rowKey, columnKey);
+   * else
+   *     table.put(rowKey, columnKey, newValue);
+   * }</pre>
+   *
+   * <p>The default implementation makes no guarantees about detecting if the
+   * remapping function modifies this table during computation and, if
+   * appropriate, reporting an error. Non-concurrent implementations should
+   * override this method and, on a best-effort basis, throw a
+   * {@code ConcurrentModificationException} if it is detected that the
+   * remapping function modifies this table during computation. Concurrent
+   * implementations should override this method and, on a best-effort basis,
+   * throw an {@code IllegalStateException} if it is detected that the
+   * remapping function modifies this table during computation and as a result
+   * computation would never complete.
+   *
+   * <p>The default implementation makes no guarantees about synchronization
+   * or atomicity properties of this method. Any implementation providing
+   * atomicity guarantees must override this method and document its
+   * concurrency properties.
+   */
+  default V merge(R rowKey, C columnKey, V value,
+                  BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    checkNotNull(remappingFunction);
+    checkNotNull(value);
+    V oldValue = get(rowKey, columnKey);
+    V newValue = (oldValue == null) ? value :
+        remappingFunction.apply(oldValue, value);
+    if (newValue == null) {
+      remove(rowKey, columnKey);
+    } else {
+      put(rowKey, columnKey, newValue);
+    }
+    return newValue;
   }
 }

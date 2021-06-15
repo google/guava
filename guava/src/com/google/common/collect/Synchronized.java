@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.TriConsumer;
+import com.google.common.base.TriFunction;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -2155,6 +2157,83 @@ final class Synchronized {
       }
       synchronized (mutex) {
         return delegate().equals(obj);
+      }
+    }
+
+    @Override
+    public V getOrDefault(@Nullable Object rowKey, @Nullable Object columnKey, V defaultValue) {
+      synchronized (mutex) {
+        return delegate().getOrDefault(rowKey, columnKey, defaultValue);
+      }
+    }
+
+    @Override
+    public void forEach(TriConsumer<? super R, ? super C, ? super V> action) {
+      synchronized (mutex) {
+        delegate().forEach(action);
+      }
+    }
+
+    @Override
+    public void replaceAll(TriFunction<? super R, ? super C, ? super V, ? extends V> function) {
+      synchronized (mutex) {
+        delegate().replaceAll(function);
+      }
+    }
+
+    @Override
+    public @Nullable V putIfAbsent(R rowKey, C columnKey, V value) {
+      synchronized (mutex) {
+        return delegate().putIfAbsent(rowKey, columnKey, value);
+      }
+    }
+
+    @Override
+    public boolean remove(@Nullable Object rowKey, @Nullable Object columnKey, @Nullable Object value) {
+      synchronized (mutex) {
+        return delegate().remove(rowKey, columnKey, value);
+      }
+    }
+
+    @Override
+    public boolean replace(R rowKey, C columnKey, V oldValue, V newValue) {
+      synchronized (mutex) {
+        return delegate().replace(rowKey, columnKey, oldValue, newValue);
+      }
+    }
+
+    @Override
+    public V replace(R rowKey, C columnKey, V value) {
+      synchronized (mutex) {
+        return delegate().replace(rowKey, columnKey, value);
+      }
+    }
+
+    @Override
+    public V computeIfAbsent(R rowKey, C columnKey, BiFunction<? super R, ? super C, ? extends V> mappingFunction) {
+      synchronized (mutex) {
+        return delegate().computeIfAbsent(rowKey, columnKey, mappingFunction);
+      }
+    }
+
+    @Override
+    public V computeIfPresent(R rowKey, C columnKey, TriFunction<? super R, ? super C, ? super V, ? extends V> remappingFunction) {
+      synchronized (mutex) {
+        return delegate().computeIfPresent(rowKey, columnKey, remappingFunction);
+      }
+    }
+
+    @Override
+    public V compute(R rowKey, C columnKey, TriFunction<? super R, ? super C, ? super V, ? extends V> remappingFunction) {
+      synchronized (mutex) {
+        return delegate().compute(rowKey, columnKey, remappingFunction);
+      }
+    }
+
+    @Override
+    public V merge(R rowKey, C columnKey, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      synchronized (mutex) {
+        return delegate().merge(rowKey, columnKey, value, remappingFunction);
       }
     }
   }
