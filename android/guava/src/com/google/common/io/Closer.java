@@ -125,10 +125,7 @@ public final class Closer implements Closeable {
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
   @ParametricNullness
-  @SuppressWarnings("nullness")
-  public <C extends @Nullable Closeable> C register(
-      // TODO(b/147136275): Replace @CheckForNull with @ParametricNullness, and remove suppression.
-      @CheckForNull C closeable) {
+  public <C extends @Nullable Closeable> C register(@ParametricNullness C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }

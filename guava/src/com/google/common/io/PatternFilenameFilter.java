@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import javax.annotation.CheckForNull;
 
 /**
  * File name filter that only accepts files matching a regular expression. This class is thread-safe
@@ -63,9 +62,6 @@ public final class PatternFilenameFilter implements FilenameFilter {
    * parameter as non-nullable (since passing null to a FilenameFilter is unsafe in general), but if
    * someone still manages to pass null, let's continue to have the method work.
    *
-   * (OK, I haven't done that yet, but I will when I follow through on the TODO below after updating
-   * callers.)
-   *
    * (PatternFilenameFilter is of course one of those classes that shouldn't be a publicly visible
    * class to begin with but rather something returned from a static factory method whose declared
    * return type is plain FilenameFilter. If we made such a change, then the annotation we choose
@@ -73,10 +69,7 @@ public final class PatternFilenameFilter implements FilenameFilter {
    * used in FilenameFilter.)
    */
   @Override
-  @SuppressWarnings("nullness")
-  public boolean accept(
-      // TODO(b/147136275): Remove @CheckForNull, and remove suppression.
-      @CheckForNull File dir, String fileName) {
+  public boolean accept(File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }
