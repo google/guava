@@ -46,7 +46,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.
+@ElementTypesAreNonnullByDefault
 public final class Throwables {
   private Throwables() {}
 
@@ -332,8 +332,7 @@ public final class Throwables {
    */
   @Beta
   @GwtIncompatible // Class.cast(Object)
-  @SuppressWarnings("nullness")
-  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
+  @CheckForNull
   public static <X extends Throwable> X getCauseAs(
       Throwable throwable, Class<X> expectedCauseType) {
     try {
