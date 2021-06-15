@@ -44,7 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-// TODO(cpovirk): // TODO(cpovirk): @ElementTypesAreNonnullByDefault
+@ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object>
     extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**
@@ -58,14 +58,14 @@ public interface SortedMultiset<E extends @Nullable Object>
    * Returns the entry of the first element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  // TODO(cpovirk): @CheckForNull
+  @CheckForNull
   Entry<E> firstEntry();
 
   /**
    * Returns the entry of the last element in this multiset, or {@code null} if this multiset is
    * empty.
    */
-  // TODO(cpovirk): @CheckForNull
+  @CheckForNull
   Entry<E> lastEntry();
 
   /**
