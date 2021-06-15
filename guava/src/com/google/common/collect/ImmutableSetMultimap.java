@@ -39,6 +39,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -56,6 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
+@ElementTypesAreNonnullByDefault
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
   /**
@@ -86,9 +88,10 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *
    * @since 21.0
    */
-  public static <T, K, V> Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableSetMultimap(keyFunction, valueFunction);
   }
 
@@ -132,7 +135,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    *
    * @since 21.0
    */
-  public static <T, K, V>
+  public static <T extends @Nullable Object, K, V>
       Collector<T, ?, ImmutableSetMultimap<K, V>> flatteningToImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
@@ -371,7 +374,8 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static <K, V> ImmutableSetMultimap<K, V> copyOf(
-      Multimap<? extends K, ? extends V> multimap, Comparator<? super V> valueComparator) {
+      Multimap<? extends K, ? extends V> multimap,
+      @CheckForNull Comparator<? super V> valueComparator) {
     checkNotNull(multimap); // eager for GWT
     if (multimap.isEmpty() && valueComparator == null) {
       return of();
@@ -406,7 +410,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   /** Creates an ImmutableSetMultimap from an asMap.entrySet. */
   static <K, V> ImmutableSetMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
-      @Nullable Comparator<? super V> valueComparator) {
+      @CheckForNull Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }
@@ -436,7 +440,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   ImmutableSetMultimap(
       ImmutableMap<K, ImmutableSet<V>> map,
       int size,
-      @Nullable Comparator<? super V> valueComparator) {
+      @CheckForNull Comparator<? super V> valueComparator) {
     super(map, size);
     this.emptySet = emptySet(valueComparator);
   }
@@ -449,13 +453,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * parameters used to build this multimap.
    */
   @Override
-  public ImmutableSet<V> get(@Nullable K key) {
+  public ImmutableSet<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSetMultimap<V, K> inverse;
+  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSetMultimap<V, K> inverse;
 
   /**
    * {@inheritDoc}
@@ -490,7 +494,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final ImmutableSet<V> removeAll(Object key) {
+  public final ImmutableSet<V> removeAll(@CheckForNull Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -508,7 +512,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entries;
+  @LazyInit @RetainedWith @CheckForNull private transient ImmutableSet<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
@@ -528,7 +532,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(@CheckForNull Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -553,20 +557,20 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static <V> ImmutableSet<V> valueSet(
-      @Nullable Comparator<? super V> valueComparator, Collection<? extends V> values) {
+      @CheckForNull Comparator<? super V> valueComparator, Collection<? extends V> values) {
     return (valueComparator == null)
         ? ImmutableSet.copyOf(values)
         : ImmutableSortedSet.copyOf(valueComparator, values);
   }
 
-  private static <V> ImmutableSet<V> emptySet(@Nullable Comparator<? super V> valueComparator) {
+  private static <V> ImmutableSet<V> emptySet(@CheckForNull Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? ImmutableSet.<V>of()
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
   private static <V> ImmutableSet.Builder<V> valuesBuilder(
-      @Nullable Comparator<? super V> valueComparator) {
+      @CheckForNull Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? new ImmutableSet.Builder<V>()
         : new ImmutableSortedSet.Builder<V>(valueComparator);
@@ -583,7 +587,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     Serialization.writeMultimap(this, stream);
   }
 
-  @Nullable
+  @CheckForNull
   Comparator<? super V> valueComparator() {
     return emptySet instanceof ImmutableSortedSet
         ? ((ImmutableSortedSet<V>) emptySet).comparator()

@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,8 +34,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
-    implements SortedSetMultimap<K, V> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -53,7 +55,8 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
   }
 
   @Override
-  <E> SortedSet<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+  <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
+      Collection<E> collection) {
     if (collection instanceof NavigableSet) {
       return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
     } else {
@@ -62,7 +65,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
   }
 
   @Override
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
+  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     if (collection instanceof NavigableSet) {
       return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
     } else {
@@ -83,7 +86,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    * Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(@Nullable K key) {
+  public SortedSet<V> get(@ParametricNullness K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -96,7 +99,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(@Nullable Object key) {
+  public SortedSet<V> removeAll(@CheckForNull Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 
@@ -112,7 +115,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

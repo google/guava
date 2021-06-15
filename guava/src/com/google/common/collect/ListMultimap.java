@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -40,7 +41,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface ListMultimap<K, V> extends Multimap<K, V> {
+@ElementTypesAreNonnullByDefault
+public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends Multimap<K, V> {
   /**
    * {@inheritDoc}
    *
@@ -49,7 +52,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * the {@link Multimap} interface.
    */
   @Override
-  List<V> get(@Nullable K key);
+  List<V> get(@ParametricNullness K key);
 
   /**
    * {@inheritDoc}
@@ -60,7 +63,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> removeAll(@Nullable Object key);
+  List<V> removeAll(@CheckForNull Object key);
 
   /**
    * {@inheritDoc}
@@ -71,7 +74,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> replaceValues(K key, Iterable<? extends V> values);
+  List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * {@inheritDoc}
@@ -93,5 +96,5 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * empty {@code SetMultimap}.
    */
   @Override
-  boolean equals(@Nullable Object obj);
+  boolean equals(@CheckForNull Object obj);
 }
