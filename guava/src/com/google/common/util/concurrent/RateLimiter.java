@@ -92,7 +92,6 @@ import javax.annotation.CheckForNull;
  */
 // TODO(user): switch to nano precision. A natural unit of cost is "bytes", and a micro precision
 // would mean a maximum rate of "1MB/s", which might be small in some cases.
-@Beta
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class RateLimiter {
