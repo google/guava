@@ -33200,7 +33200,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code obj} is another {@code RangeSet} that contains the same ranges
  according to {@link Range#equals(Object)}.]]>
@@ -36405,7 +36405,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="rangeContaining" return="Range"
+    <method name="rangeContaining" return="com.google.common.collect.Range&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
