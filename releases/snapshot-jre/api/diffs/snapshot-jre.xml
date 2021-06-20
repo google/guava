@@ -31282,8 +31282,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="left" type="T"/>
-      <param name="right" type="T"/>
+      <param name="left" type="T extends java.lang.Object"/>
+      <param name="right" type="T extends java.lang.Object"/>
     </method>
     <method name="min" return="E extends T"
       abstract="false" native="false" synchronized="false"
@@ -31329,8 +31329,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="E"/>
-      <param name="b" type="E"/>
+      <param name="a" type="E extends T"/>
+      <param name="b" type="E extends T"/>
       <doc>
       <![CDATA[Returns the lesser of the two values according to this ordering. If the values compare as 0,
  the first is returned.
@@ -31351,9 +31351,9 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="E"/>
-      <param name="b" type="E"/>
-      <param name="c" type="E"/>
+      <param name="a" type="E extends T"/>
+      <param name="b" type="E extends T"/>
+      <param name="c" type="E extends T"/>
       <param name="rest" type="E[]"/>
       <doc>
       <![CDATA[Returns the least of the specified values according to this ordering. If there are multiple
@@ -31414,8 +31414,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="E"/>
-      <param name="b" type="E"/>
+      <param name="a" type="E extends T"/>
+      <param name="b" type="E extends T"/>
       <doc>
       <![CDATA[Returns the greater of the two values according to this ordering. If the values compare as 0,
  the first is returned.
@@ -31436,9 +31436,9 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="E"/>
-      <param name="b" type="E"/>
-      <param name="c" type="E"/>
+      <param name="a" type="E extends T"/>
+      <param name="b" type="E extends T"/>
+      <param name="c" type="E extends T"/>
       <param name="rest" type="E[]"/>
       <doc>
       <![CDATA[Returns the greatest of the specified values according to this ordering. If there are multiple
@@ -31624,7 +31624,7 @@
       static="false" final="false" visibility="public"
       deprecated="Use {@link Collections#binarySearch(List, Object, Comparator)} directly.">
       <param name="sortedList" type="java.util.List&lt;? extends T&gt;"/>
-      <param name="key" type="T"/>
+      <param name="key" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[{@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for
  {@code key} using the binary search algorithm. The list must be sorted using this ordering.

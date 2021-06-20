@@ -30202,8 +30202,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="left" type="T"/>
-      <param name="right" type="T"/>
+      <param name="left" type="T extends java.lang.Object"/>
+      <param name="right" type="T extends java.lang.Object"/>
     </method>
     <method name="min" return="E extends T"
       abstract="false" native="false" synchronized="false"
@@ -30544,7 +30544,7 @@
       static="false" final="false" visibility="public"
       deprecated="Use {@link Collections#binarySearch(List, Object, Comparator)} directly.">
       <param name="sortedList" type="java.util.List&lt;? extends T&gt;"/>
-      <param name="key" type="T"/>
+      <param name="key" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[{@link Collections#binarySearch(List, Object, Comparator) Searches} {@code sortedList} for
  {@code key} using the binary search algorithm. The list must be sorted using this ordering.

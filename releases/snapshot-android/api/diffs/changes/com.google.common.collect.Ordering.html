@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.collect.Queues
+com.google.common.collect.Ordering
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.collect.Queues
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Queues.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Ordering.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,10 +31,10 @@ com.google.common.collect.Queues
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.collect.Multisets.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.Range.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.SetMultimap.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.Queues.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.Ordering.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,31 +45,35 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Queues.html" target="_top"><tt>Queues</tt></A>
+Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Ordering.html" target="_top"><tt>Ordering</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Queues.drain_removed(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)" target="_top"><tt>drain</tt></A>(<code>BlockingQueue&lt;E&gt;,</nobr> Collection&lt;?<nobr>,</nobr> super<nobr>,</nobr> E&gt;<nobr>,</nobr> int<nobr>,</nobr> Duration<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.collect.Ordering.binarySearch_changed(java.util.List<? extends T>, T extends java.lang.Object)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Ordering.html#binarySearch(java.util.List<? extends T>, T extends java.lang.Object)" target="_top"><tt>binarySearch</tt></A>(<code>List&lt;?,</nobr> extends<nobr>,</nobr> T&gt;<nobr>,</nobr> T<nobr>,</nobr> extends<nobr>,</nobr> Object<nobr><nobr></code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Drains the queue as <A HREF="../../docs/BlockingQueue.html#drainTo(Collection, int)"><TT>BlockingQueue.drainTo(Collection, int)</TT></A>, but if the requested {@code
- numElements} elements are not available, it will wait for them up to the specified timeout.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>List&lt;? extends T&gt;, T</code>) to (<code>List&lt;? extends T&gt;, T extends Object</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@link Collections#binarySearch(List, Object, Comparator)} directly.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.Queues.drainUninterruptibly_removed(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue<E>, java.util.Collection<? super E>, int, java.time.Duration)" target="_top"><tt>drainUninterruptibly</tt></A>(<code>BlockingQueue&lt;E&gt;,</nobr> Collection&lt;?<nobr>,</nobr> super<nobr>,</nobr> E&gt;<nobr>,</nobr> int<nobr>,</nobr> Duration<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.collect.Ordering.compare_changed(T extends java.lang.Object, T extends java.lang.Object)"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/collect/Ordering.html#compare(T extends java.lang.Object, T extends java.lang.Object)" target="_top"><tt>compare</tt></A>(<code>T,</nobr> extends<nobr>,</nobr> Object<nobr>,</nobr> T<nobr>,</nobr> extends<nobr>,</nobr> Object<nobr><nobr></code>)  </nobr>
   </TD>
-  <TD VALIGN="TOP">Drains the queue as <A HREF="../../docs/lain.html"><TT>#drain(BlockingQueue, Collection, int, Duration)</TT></A>, but with a
- different behavior in case it is interrupted while waiting.</TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in signature from (<code>T, T</code>) to (<code>T extends Object, T extends Object</code>).<br>
+  </TD>
+  <TD>&nbsp;</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -81,7 +85,7 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Qu
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Queues.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/Ordering.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -94,10 +98,10 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Qu
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.collect.Multisets.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.Range.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.SetMultimap.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.collect.Queues.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.collect.Ordering.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

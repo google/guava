@@ -3804,8 +3804,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Compares the two specified <code>short</code> values.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#compare(T,T)">compare(T, T)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ComparisonChain.html#compare(T,T,java.util.Comparator)">compare(T, T, Comparator&lt;T&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></dt>
 <dd>
 <div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
@@ -3823,6 +3821,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
  result of this comparison chain has not already been determined.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#compare(T,T)">compare(T, T)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AtomicDouble.html#compareAndSet(double,double)">compareAndSet(double, double)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
 <div class="block">Atomically sets the value to the given updated value if the current value is <a href="./com/google/common/util/concurrent/#bitEquals">bitwise equal</a> to the expected value.</div>
@@ -11848,6 +11848,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#max(T,T,java.util.Comparator)">max(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns the maximum of the two values, according to the given comparator.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#max(E,E)">max(E, E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the greater of the two values according to this ordering.</div>
@@ -11855,10 +11859,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#max(E,E,E,E...)">max(E, E, E, E...)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the greatest of the specified values according to this ordering.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#max(T,T,java.util.Comparator)">max(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
-<dd>
-<div class="block">Returns the maximum of the two values, according to the given comparator.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#max(java.lang.Iterable)">max(Iterable&lt;E&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
@@ -12151,6 +12151,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#min(T,T,java.util.Comparator)">min(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns the minimum of the two values, according to the given comparator.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#min(E,E)">min(E, E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the lesser of the two values according to this ordering.</div>
@@ -12158,10 +12162,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#min(E,E,E,E...)">min(E, E, E, E...)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the least of the specified values according to this ordering.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#min(T,T,java.util.Comparator)">min(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
-<dd>
-<div class="block">Returns the minimum of the two values, according to the given comparator.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#min(java.lang.Iterable)">min(Iterable&lt;E&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
@@ -13839,7 +13839,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Unsupported by ImmutableSortedMap.Builder.</div>
 </div>
 </dd>
-<dt><a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect"><span class="typeNameLink">Ordering</span></a>&lt;<a href="com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect"><span class="typeNameLink">Ordering</span></a>&lt;<a href="com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A comparator, with additional methods to support common operations.</div>
 </dd>
