@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ListenableFuture} whose result can be set by a {@link #set(Object)}, {@link
@@ -33,17 +33,19 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
 @GwtCompatible
-public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
+@ElementTypesAreNonnullByDefault
+public final class SettableFuture<V extends @Nullable Object>
+    extends AbstractFuture.TrustedFuture<V> {
   /**
    * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.
    */
-  public static <V> SettableFuture<V> create() {
+  public static <V extends @Nullable Object> SettableFuture<V> create() {
     return new SettableFuture<V>();
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean set(@NullableDecl V value) {
+  public boolean set(@ParametricNullness V value) {
     return super.set(value);
   }
 
