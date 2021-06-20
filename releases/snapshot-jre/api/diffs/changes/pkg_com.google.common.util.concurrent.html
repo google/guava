@@ -55,6 +55,13 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractFuture.html">AbstractFuture</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An abstract implementation of <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A>, intended for advanced users only.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="AbstractListeningExecutorService"></A>
   <nobr><A HREF="com.google.common.util.concurrent.AbstractListeningExecutorService.html">AbstractListeningExecutorService</A></nobr>
   </TD>
@@ -63,10 +70,33 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AsyncFunction"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AsyncFunction.html"><I>AsyncFunction</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Transforms a value, possibly asynchronously.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Atomics"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.Atomics.html">Atomics</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to classes in the {@code java.util.concurrent.atomic} package.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="Callables"></A>
   <nobr><A HREF="com.google.common.util.concurrent.Callables.html">Callables</A></nobr>
   </TD>
   <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Callables/Callable.html"><TT>Callable</TT></A> interface.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ClosingFuture.ValueAndCloser"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.ClosingFuture.ValueAndCloser.html">ClosingFuture.ValueAndCloser</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An object that holds the final result of an asynchronous <A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture/ValueAndCloser/ClosingFuture.html"><TT>ClosingFuture</TT></A> operation and
+ allows the user to close all the closeable objects that were captured during it for later
+ closing.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -114,10 +144,24 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Futures"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.Futures.html">Futures</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Futures/Future.html"><TT>Future</TT></A> interface.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="ListenableFutureTask"></A>
   <nobr><A HREF="com.google.common.util.concurrent.ListenableFutureTask.html">ListenableFutureTask</A></nobr>
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ListenableFutureTask/FutureTask.html"><TT>FutureTask</TT></A> that also implements the <A HREF="../../docs/com/google/common/util/concurrent/ListenableFutureTask/ListenableFuture.html"><TT>ListenableFuture</TT></A> interface.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ListeningExecutorService"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.ListeningExecutorService.html"><I>ListeningExecutorService</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An <A HREF="../../docs/com/google/common/util/concurrent/ListeningExecutorService/ExecutorService.html"><TT>ExecutorService</TT></A> that returns <A HREF="../../docs/com/google/common/util/concurrent/ListeningExecutorService/ListenableFuture.html"><TT>ListenableFuture</TT></A> instances.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -132,6 +176,13 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="com.google.common.util.concurrent.ServiceManager.html">ServiceManager</A></nobr>
   </TD>
   <TD VALIGN="TOP">A manager for monitoring and controlling a set of <A HREF="../../docs/com/google/common/util/concurrent/ServiceManager/lain.html"><TT>Service services</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="SettableFuture"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.SettableFuture.html">SettableFuture</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> whose result can be set by a <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#set(Object)"><TT>.set(Object)</TT></A>, <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#setException(Throwable)"><TT>.setException(Throwable)</TT></A> or <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#setFuture(ListenableFuture)"><TT>.setFuture(ListenableFuture)</TT></A> call.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">

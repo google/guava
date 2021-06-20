@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.util.concurrent.AbstractFuture
+com.google.common.util.concurrent.ClosingFuture.ValueAndCloser
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.util.concurrent.AbstractFuture
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.util.concurrent.AbstractFuture
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractExecutionThreadService.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractIdleService.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Peeker.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.FakeTimeLimiter.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.util.concurrent.AbstractFuture.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.ValueAndCloser.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,7 +45,7 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><tt>AbstractFuture</tt></A>
+Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" target="_top"><tt>ClosingFuture.ValueAndCloser</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
@@ -57,24 +57,14 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.AbstractFuture.pendingToString_changed()"></A>
-  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#pendingToString()" target="_top"><tt>pendingToString</tt></A>()  </nobr>
+  <A NAME="com.google.common.util.concurrent.ClosingFuture.ValueAndCloser.get_changed()"></A>
+  <nobr><code>V extends Object</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html#get()" target="_top"><tt>get</tt></A>()  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in return type from <code>String</code> to <code>java.lang.String</code>.<br>
+Change in return type from <code>V</code> to (<code>V extends Object</code>).<br>
   </TD>
-  <TD VALIGN="TOP">Provide a human-readable explanation of why this future has not yet completed.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.AbstractFuture.tryInternalFastPathGetFailure_changed()"></A>
-  <nobr><code>Throwable</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#tryInternalFastPathGetFailure()" target="_top"><tt>tryInternalFastPathGetFailure</tt></A>()  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Change in return type from <code>Throwable</code> to <code>java.lang.Throwable</code>.<br>
-  </TD>
-  <TD VALIGN="TOP">Usually returns {@code null} but, if this {@code Future} has failed, may <i>optionally</i>
- return the cause of the failure.</TD>
+  <TD VALIGN="TOP">Returns the final value of the associated <A HREF="../../docs/ClosingFuture.html"><TT>ClosingFuture</TT></A>, or throws an exception as
+ <A HREF="../../docs/Future.html#get()"><TT>Future.get()</TT></A> would.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -86,7 +76,7 @@ Change in return type from <code>Throwable</code> to <code>java.lang.Throwable</
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -98,11 +88,11 @@ Change in return type from <code>Throwable</code> to <code>java.lang.Throwable</
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractExecutionThreadService.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractIdleService.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Peeker.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.FakeTimeLimiter.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.util.concurrent.AbstractFuture.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.ValueAndCloser.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

@@ -7,7 +7,7 @@
 <meta name="description" content="JDiff is a Javadoc doclet which generates an HTML report of all the packages, classes, constructors, methods, and fields which have been removed, added or changed in any way, including their documentation, when two APIs are compared.">
 <meta name="keywords" content="diff, jdiff, javadiff, java diff, java difference, API difference, difference between two APIs, API diff, Javadoc, doclet">
 <TITLE>
-com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4
+com.google.common.util.concurrent.AsyncFunction
 </TITLE>
 <LINK REL="stylesheet" TYPE="text/css" HREF="../stylesheet-jdiff.css" TITLE="Style">
 </HEAD>
@@ -18,7 +18,7 @@ com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AsyncFunction.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,11 +30,11 @@ com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner4.AsyncClosingFunction4.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner5.AsyncClosingFunction5.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.AbstractListeningExecutorService.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.Atomics.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.util.concurrent.AsyncFunction.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
 <a href="#methods">METHODS</a>&nbsp;|&nbsp;
@@ -45,7 +45,7 @@ FIELDS
 <HR>
 <!-- End of nav bar -->
 <H2>
-Interface com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" target="_top"><tt>ClosingFuture.Combiner4.ClosingFunction4</tt></A>
+Interface com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/AsyncFunction.html" target="_top"><tt>AsyncFunction</tt></A>
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
@@ -57,14 +57,13 @@ Interface com.google.common.util.concurrent.<A HREF="../../docs/com/google/commo
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4.apply_changed(com.google.common.util.concurrent.ClosingFuture.DeferredCloser, V1, V2, V3, V4)"></A>
-  <nobr><code>U</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html#apply(com.google.common.util.concurrent.ClosingFuture.DeferredCloser, V1, V2, V3, V4)" target="_top"><tt>apply</tt></A>(<code>DeferredCloser,</nobr> V1<nobr>,</nobr> V2<nobr>,</nobr> V3<nobr>,</nobr> V4<nobr><nobr></code>)  </nobr>
+  <A NAME="com.google.common.util.concurrent.AsyncFunction.apply_changed(I extends java.lang.Object)"></A>
+  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AsyncFunction.html#apply(I extends java.lang.Object)" target="_top"><tt>apply</tt></A>(<code>I extends Object</code>)  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in return type from (<code>U extends Object</code>) to <code>U</code>.<br>
- Change in signature from (<code>DeferredCloser, V1 extends Object, V2 extends Object, V3 extends Object, V4 extends Object</code>) to (<code>DeferredCloser, V1, V2, V3, V4</code>).<br>
+Change in signature from <code>I</code> to (<code>I extends Object</code>).<br>
   </TD>
-  <TD VALIGN="TOP">Applies this function to four inputs, or throws an exception if unable to do so.</TD>
+  <TD VALIGN="TOP">Returns an output {@code Future} to use in place of the given {@code input}.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -76,7 +75,7 @@ Change in return type from (<code>U extends Object</code>) to <code>U</code>.<br
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/ClosingFuture.Combiner4.ClosingFunction4.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AsyncFunction.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -88,11 +87,11 @@ Change in return type from (<code>U extends Object</code>) to <code>U</code>.<br
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner4.AsyncClosingFunction4.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner5.AsyncClosingFunction5.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.AbstractListeningExecutorService.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.Atomics.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
-  &nbsp;<A HREF="com.google.common.util.concurrent.ClosingFuture.Combiner4.ClosingFunction4.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
+  &nbsp;<A HREF="com.google.common.util.concurrent.AsyncFunction.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
 <TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
 </TR>
 </TABLE>

@@ -62607,7 +62607,7 @@
       <![CDATA[Constructor for use by subclasses.]]>
       </doc>
     </constructor>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -62625,7 +62625,7 @@
  @throws CancellationException {@inheritDoc}]]>
       </doc>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -62715,7 +62715,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Sets the result of this {@code Future} unless this {@code Future} has already been cancelled or
  set (including {@linkplain #setFuture set asynchronously}). When a call to this method returns,
@@ -62804,7 +62804,7 @@
  @since 20.0]]>
       </doc>
     </method>
-    <method name="tryInternalFastPathGetFailure" return="Throwable"
+    <method name="tryInternalFastPathGetFailure" return="java.lang.Throwable"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="protected"
       deprecated="not deprecated">
@@ -62834,7 +62834,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="pendingToString" return="String"
+    <method name="pendingToString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -63725,7 +63725,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="input" type="I"/>
+      <param name="input" type="I extends java.lang.Object"/>
       <exception name="Exception" type="java.lang.Exception"/>
       <doc>
       <![CDATA[Returns an output {@code Future} to use in place of the given {@code input}. The output {@code
@@ -64446,7 +64446,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="initialValue" type="V"/>
+      <param name="initialValue" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Creates an {@code AtomicReference} instance with the given initial value.
 
@@ -65755,7 +65755,7 @@
       <param name="closer" type="com.google.common.util.concurrent.ClosingFuture.DeferredCloser"/>
       <param name="value1" type="V1 extends java.lang.Object"/>
       <param name="value2" type="V2 extends java.lang.Object"/>
-      <param name="v3" type="V3 extends java.lang.Object"/>
+      <param name="value3" type="V3 extends java.lang.Object"/>
       <exception name="Exception" type="java.lang.Exception"/>
       <doc>
       <![CDATA[Applies this function to three inputs, or throws an exception if unable to do so.
@@ -66164,7 +66164,7 @@
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -67812,7 +67812,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Creates a {@code ListenableFuture} which has its value set immediately upon construction. The
  getters just return the value. This {@code Future} can't be canceled or timed out and its
@@ -68411,7 +68411,7 @@
  @since 10.0]]>
       </doc>
     </method>
-    <method name="getDone" return="V"
+    <method name="getDone" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68437,7 +68437,7 @@
  @since 20.0]]>
       </doc>
     </method>
-    <method name="getChecked" return="V"
+    <method name="getChecked" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68487,7 +68487,7 @@
  @since 19.0 (in 10.0 as {@code get})]]>
       </doc>
     </method>
-    <method name="getChecked" return="V"
+    <method name="getChecked" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68539,7 +68539,7 @@
  @since 28.0]]>
       </doc>
     </method>
-    <method name="getChecked" return="V"
+    <method name="getChecked" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68592,7 +68592,7 @@
  @since 19.0 (in 10.0 as {@code get} and with different parameter order)]]>
       </doc>
     </method>
-    <method name="getUnchecked" return="V"
+    <method name="getUnchecked" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -69060,7 +69060,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="task" type="java.lang.Runnable"/>
-      <param name="result" type="T"/>
+      <param name="result" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[@return a {@code ListenableFuture} representing pending completion of the task
  @throws RejectedExecutionException {@inheritDoc}]]>
@@ -71367,7 +71367,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="setException" return="boolean"
       abstract="false" native="false" synchronized="false"

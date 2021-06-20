@@ -131,7 +131,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Constructor for use by subclasses.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">AbstractFuture</span></a>&lt;<a href="com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">AbstractFuture</span></a>&lt;<a href="com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">An abstract implementation of <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, intended for advanced users only.</div>
 </dd>
@@ -1190,10 +1190,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Applies this function to the given argument and its index within a stream.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AsyncFunction.html#apply(I)">apply(I)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a></dt>
-<dd>
-<div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Converter.html#apply(A)">apply(A)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1249,6 +1245,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Function.html#apply(F)">apply(F)</a></span> - Method in interface com.google.common.base.<a href="com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AsyncFunction.html#apply(I)">apply(I)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a></dt>
+<dd>
+<div class="block">Returns an output <code>Future</code> to use in place of the given <code>input</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#apply(java.lang.Character)">apply(Character)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1689,7 +1689,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a Writer that sends all output to the given <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Appendable</code></a> target.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">AsyncCallable</span></a>&lt;<a href="com/google/common/util/concurrent/AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">AsyncCallable</span></a>&lt;<a href="com/google/common/util/concurrent/AsyncCallable.html" title="type parameter in AsyncCallable">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Computes a value, possibly asynchronously.</div>
 </dd>
@@ -1710,7 +1710,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Creates a new AsyncEventBus that will use <code>executor</code> to dispatch events.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">AsyncFunction</span></a>&lt;<a href="com/google/common/util/concurrent/AsyncFunction.html" title="type parameter in AsyncFunction">I</a>,&#8203;<a href="com/google/common/util/concurrent/AsyncFunction.html" title="type parameter in AsyncFunction">O</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">AsyncFunction</span></a>&lt;<a href="com/google/common/util/concurrent/AsyncFunction.html" title="type parameter in AsyncFunction">I</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="com/google/common/util/concurrent/AsyncFunction.html" title="type parameter in AsyncFunction">O</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Transforms a value, possibly asynchronously.</div>
 </dd>
@@ -3415,7 +3415,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
  <a href="com/google/common/io/Closer.html#close()">closed</a>.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.html" title="type parameter in ClosingFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A step in a pipeline of an asynchronous computation.</div>
 </dd>
@@ -3518,13 +3518,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">An object that can return the value of the <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>s that are passed to <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllComplete(java.lang.Iterable)"><code>ClosingFuture.whenAllComplete(Iterable)</code></a> or <a href="com/google/common/util/concurrent/ClosingFuture.html#whenAllSucceed(java.lang.Iterable)"><code>ClosingFuture.whenAllSucceed(Iterable)</code></a>.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloser</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloser</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="type parameter in ClosingFuture.ValueAndCloser">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">An object that holds the final result of an asynchronous <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> operation and
  allows the user to close all the closeable objects that were captured during it for later
  closing.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloserConsumer</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="type parameter in ClosingFuture.ValueAndCloserConsumer">V</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent"><span class="typeNameLink">ClosingFuture.ValueAndCloserConsumer</span></a>&lt;<a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloserConsumer.html" title="type parameter in ClosingFuture.ValueAndCloserConsumer">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Represents an operation that accepts a <a href="com/google/common/util/concurrent/ClosingFuture.ValueAndCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.ValueAndCloser</code></a> for the last step in a <a href="com/google/common/util/concurrent/ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline.</div>
 </dd>
@@ -8038,7 +8038,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Future</code></a> interface.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Futures.FutureCombiner</span></a>&lt;<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="type parameter in Futures.FutureCombiner">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Futures.FutureCombiner</span></a>&lt;<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="type parameter in Futures.FutureCombiner">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A helper to create a new <code>ListenableFuture</code> whose result is generated from a combination
  of input futures.</div>
@@ -16599,13 +16599,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#set(V)">set(V)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
-<dd>
-<div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
- set (including <a href="com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>).</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SettableFuture.html#set(V)">set(V)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingListIterator.html#set(E)">set(E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingListIterator.html" title="class in com.google.common.collect">ForwardingListIterator</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/UnmodifiableListIterator.html#set(E)">set(E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a></dt>
@@ -16614,6 +16607,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/AbstractFuture.html#set(V)">set(V)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
+<dd>
+<div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
+ set (including <a href="com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SettableFuture.html#set(V)">set(V)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#SET_COOKIE">SET_COOKIE</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Set-Cookie</code> header field name.</div>
@@ -16727,7 +16727,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Sets the safe range of characters for the escaper.</div>
 </dd>
-<dt><a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">SettableFuture</span></a>&lt;<a href="com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dt><a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">SettableFuture</span></a>&lt;<a href="com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="com/google/common/util/concurrent/SettableFuture.html#set(V)"><code>SettableFuture.set(Object)</code></a>, <a href="com/google/common/util/concurrent/SettableFuture.html#setException(java.lang.Throwable)"><code>SettableFuture.setException(Throwable)</code></a> or <a href="com/google/common/util/concurrent/SettableFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>SettableFuture.setFuture(ListenableFuture)</code></a> call.</div>
 </dd>
