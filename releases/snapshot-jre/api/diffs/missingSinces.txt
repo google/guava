@@ -161,4 +161,5 @@ OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long,
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, java.lang.Object)
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, long)
 OK: com.google.common.net.HttpHeaders Field KEEP_ALIVE
+OK: com.google.common.net.HttpHeaders Field SEC_CH_PREFERS_COLOR_SCHEME
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_BITNESS
