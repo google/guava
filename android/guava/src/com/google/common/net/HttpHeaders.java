@@ -494,6 +494,17 @@ public final class HttpHeaders {
   public static final String X_MOZ = "X-Moz";
 
   /**
+   * The HTTP <a
+   * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme">{@code
+   * Sec-CH-Prefers-Color-Scheme}</a> header field name.
+   *
+   * <p>This header is experimental.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";
+
+  /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
    * header field name.
    *
