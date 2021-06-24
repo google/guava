@@ -30,8 +30,8 @@ import com.google.common.collect.ImmutableMap;
  * determining whether a given domain name is an effective top-level domain (public suffix).
  *
  * <p>Because this class is used in GWT, the data members are stored in a space-efficient manner.
- * {@see TrieParser}.
  *
+ * @see TrieParser
  * @since 16.0
  */
 @GwtCompatible
