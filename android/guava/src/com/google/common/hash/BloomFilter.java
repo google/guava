@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * but if it claims that an element is <i>not</i> contained in it, then this is definitely true.
  *
  * <p>If you are unfamiliar with Bloom filters, this nice <a
- * href="http://llimllib.github.com/bloomfilter-tutorial/">tutorial</a> may help you understand how
+ * href="http://llimllib.github.io/bloomfilter-tutorial/">tutorial</a> may help you understand how
  * they work.
  *
  * <p>The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability
