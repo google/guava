@@ -156,11 +156,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
-  /*
-   * Our checker says "found: T[]; required: T[]." That sounds bogus. I discuss a possible reason
-   * for this error in https://github.com/jspecify/checker-framework/issues/10.
-   */
-  @SuppressWarnings("nullness")
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
   public <T extends @Nullable Object> T[] toArray(T[] array) {
     return standardToArray(array);
   }

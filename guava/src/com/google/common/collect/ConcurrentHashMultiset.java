@@ -170,11 +170,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
-  /*
-   * Our checker says "found: T[]; required: T[]." That sounds bogus. I discuss a possible reason
-   * for this error in https://github.com/jspecify/checker-framework/issues/10.
-   */
-  @SuppressWarnings("nullness")
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
   public <T extends @Nullable Object> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
@@ -579,11 +575,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
 
     @Override
-    /*
-     * Our checker says "found: T[]; required: T[]." That sounds bogus. I discuss a possible reason
-     * for this error in https://github.com/jspecify/checker-framework/issues/10.
-     */
-    @SuppressWarnings("nullness")
+    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
     public <T extends @Nullable Object> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }
