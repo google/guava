@@ -33,7 +33,6 @@ import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link NavigableMap} whose contents will never change, with many other important properties
@@ -53,6 +52,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0 (implements {@code NavigableMap} since 12.0)
  */
 @GwtCompatible(serializable = true, emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxverideShim<K, V>
     implements NavigableMap<K, V> {
 
@@ -558,7 +558,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   private final transient RegularImmutableSortedSet<K> keySet;
   private final transient ImmutableList<V> valueList;
-  private transient ImmutableSortedMap<K, V> descendingMap;
+  @CheckForNull private transient ImmutableSortedMap<K, V> descendingMap;
 
   ImmutableSortedMap(RegularImmutableSortedSet<K> keySet, ImmutableList<V> valueList) {
     this(keySet, valueList, null);
@@ -567,7 +567,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   ImmutableSortedMap(
       RegularImmutableSortedSet<K> keySet,
       ImmutableList<V> valueList,
-      ImmutableSortedMap<K, V> descendingMap) {
+      @CheckForNull ImmutableSortedMap<K, V> descendingMap) {
     this.keySet = keySet;
     this.valueList = valueList;
     this.descendingMap = descendingMap;
@@ -580,7 +580,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   @Override
   @CheckForNull
-  public V get(@NullableDecl Object key) {
+  public V get(@CheckForNull Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
   }
@@ -860,6 +860,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
@@ -874,6 +875,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
