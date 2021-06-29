@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingQueue" class="title">Class ForwardingQueue&lt;E&gt;</h2>
+<h2 title="Class ForwardingQueue" class="title">Class ForwardingQueue&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
@@ -150,7 +150,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.46">ForwardingQueue</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.48">ForwardingQueue</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;</pre>
 <div class="block">A queue which forwards all its method calls to another queue. Subclasses should override one or
@@ -350,7 +350,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingQueue</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.50">ForwardingQueue</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.54">ForwardingQueue</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -370,7 +370,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.52">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.56">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -378,7 +378,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingCollection.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="ForwardingCollection.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -391,7 +391,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.ht
 <li class="blockList">
 <h4>offer</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.55">offer</a>&#8203;(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.59">offer</a>&#8203;(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#offer(E)" title="class or interface in java.util" class="externalLink">java.util.Queue</a></code></span></div>
 <div class="block">Inserts the specified element into this queue if it is possible to do
  so immediately without violating capacity restrictions.
@@ -400,7 +400,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  by throwing an exception.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#offer(E)" title="class or interface in java.util" class="externalLink">offer</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#offer(E)" title="class or interface in java.util" class="externalLink">offer</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>o</code> - the element to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -416,13 +416,14 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>poll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.61">poll</a>()</pre>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.65">poll</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll()" title="class or interface in java.util" class="externalLink">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves and removes the head of this queue,
  or returns <code>null</code> if this queue is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll()" title="class or interface in java.util" class="externalLink">poll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll()" title="class or interface in java.util" class="externalLink">poll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this queue, or <code>null</code> if this queue is empty</dd>
 </dl>
@@ -435,14 +436,14 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.67">remove</a>()</pre>
+public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.72">remove</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves and removes the head of this queue.  This method differs
  from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#poll()" title="class or interface in java.util" class="externalLink"><code>poll()</code></a> only in that it throws an exception if
  this queue is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this queue</dd>
 </dl>
@@ -454,13 +455,14 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <ul class="blockList">
 <li class="blockList">
 <h4>peek</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.73">peek</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.79">peek</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#peek()" title="class or interface in java.util" class="externalLink">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the head of this queue,
  or returns <code>null</code> if this queue is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#peek()" title="class or interface in java.util" class="externalLink">peek</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#peek()" title="class or interface in java.util" class="externalLink">peek</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this queue, or <code>null</code> if this queue is empty</dd>
 </dl>
@@ -472,14 +474,14 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <ul class="blockList">
 <li class="blockList">
 <h4>element</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.78">element</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.85">element</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#element()" title="class or interface in java.util" class="externalLink">java.util.Queue</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the head of this queue.  This method
  differs from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#peek()" title="class or interface in java.util" class="externalLink"><code>peek</code></a> only in that it throws an exception
  if this queue is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#element()" title="class or interface in java.util" class="externalLink">element</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#element()" title="class or interface in java.util" class="externalLink">element</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this queue</dd>
 </dl>
@@ -493,7 +495,7 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <ul class="blockList">
 <li class="blockList">
 <h4>standardOffer</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.89">standardOffer</a>&#8203;(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.97">standardOffer</a>&#8203;(<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;e)</pre>
 <div class="block">A sensible definition of <a href="#offer(E)"><code>offer(E)</code></a> in terms of <a href="ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a>. If you override <a href="ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a>,
  you may wish to override <a href="#offer(E)"><code>offer(E)</code></a> to forward to this implementation.</div>
 <dl>
@@ -508,7 +510,8 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <ul class="blockList">
 <li class="blockList">
 <h4>standardPeek</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.103">standardPeek</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+protected&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.111">standardPeek</a>()</pre>
 <div class="block">A sensible definition of <a href="#peek()"><code>peek()</code></a> in terms of <a href="#element()"><code>element()</code></a>. If you override <a href="#element()"><code>element()</code></a>, you may wish to override <a href="#peek()"><code>peek()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -522,7 +525,8 @@ public&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardPoll</h4>
-<pre class="methodSignature">protected&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.117">standardPoll</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+protected&nbsp;<a href="ForwardingQueue.html" title="type parameter in ForwardingQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingQueue.html#line.126">standardPoll</a>()</pre>
 <div class="block">A sensible definition of <a href="#poll()"><code>poll()</code></a> in terms of <a href="#remove()"><code>remove()</code></a>. If you override <a href="#remove()"><code>remove()</code></a>, you may wish to override <a href="#poll()"><code>poll()</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

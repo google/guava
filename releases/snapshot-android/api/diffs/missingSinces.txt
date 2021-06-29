@@ -37,6 +37,9 @@ NO DOC BLOCK: com.google.common.collect.TreeMultiset Method setCount(E extends j
 NO DOC BLOCK: com.google.common.collect.TreeMultiset Method setCount(E extends java.lang.Object, int)
 OK: com.google.common.collect.ForwardingMultiset Method standardSetCount(E extends java.lang.Object, int, int)
 OK: com.google.common.collect.ForwardingMultiset Method standardSetCount(E extends java.lang.Object, int)
+MISSING @SINCE TAG: com.google.common.collect.ForwardingNavigableSet Method standardSubSet(E extends java.lang.Object, boolean, E extends java.lang.Object, boolean)
+MISSING @SINCE TAG: com.google.common.collect.ForwardingNavigableSet Method standardSubSet(E extends java.lang.Object, E extends java.lang.Object)
+NO DOC BLOCK: com.google.common.collect.EvictingQueue Method toArray()
 NO DOC BLOCK: com.google.common.reflect.Invokable Method toString()
 MISSING @SINCE TAG: com.google.common.reflect.Invokable Method trySetAccessible()
 OK: com.google.common.net.HttpHeaders Field KEEP_ALIVE

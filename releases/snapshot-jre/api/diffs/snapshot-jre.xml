@@ -12025,6 +12025,11 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
     </method>
+    <method name="toArray" return="java.lang.Object[]"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <doc>
     <![CDATA[A non-blocking queue which automatically evicts elements from the head of the queue when
  attempting to add new elements onto the queue and it is full. This queue orders elements FIFO
@@ -13024,7 +13029,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
     </method>
     <method name="remove" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -13070,7 +13075,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of {@link #iterator}. If you override
  {@link #iterator}, you may wish to override {@link #contains} to forward to this
@@ -13108,7 +13113,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #remove} in terms of {@link #iterator}, using the iterator's
  {@code remove} method. If you override {@link #iterator}, you may wish to override {@link
@@ -13314,25 +13319,25 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
     <method name="addLast"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
     <method name="descendingIterator" return="java.util.Iterator&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="getFirst" return="E"
+    <method name="getFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="getLast" return="E"
+    <method name="getLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13341,35 +13346,35 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
     <method name="offerLast" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="peekFirst" return="E"
+    <method name="peekFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="peekLast" return="E"
+    <method name="peekLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="pollFirst" return="E"
+    <method name="pollFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="pollLast" return="E"
+    <method name="pollLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="pop" return="E"
+    <method name="pop" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13378,14 +13383,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="removeFirst" return="E"
+    <method name="removeFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="removeLast" return="E"
+    <method name="removeLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13444,7 +13449,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="next" return="T"
+    <method name="next" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13494,7 +13499,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="index" type="int"/>
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
     </method>
     <method name="addAll" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -13503,7 +13508,7 @@
       <param name="index" type="int"/>
       <param name="elements" type="java.util.Collection&lt;? extends E&gt;"/>
     </method>
-    <method name="get" return="E"
+    <method name="get" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13532,18 +13537,18 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
     </method>
-    <method name="remove" return="E"
+    <method name="remove" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="index" type="int"/>
     </method>
-    <method name="set" return="E"
+    <method name="set" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="index" type="int"/>
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
     </method>
     <method name="subList" return="java.util.List&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
@@ -13556,7 +13561,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -13567,7 +13572,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #add(Object)}, in terms of {@link #add(int,
  Object)}. If you override {@link #add(int, Object)}, you may wish to override {@link
@@ -13594,7 +13599,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #indexOf}, in terms of {@link #listIterator()}. If
  you override {@link #listIterator()}, you may wish to override {@link #indexOf} to forward to
@@ -13607,7 +13612,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="Object"/>
+      <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #lastIndexOf}, in terms of {@link
  #listIterator(int)}. If you override {@link #listIterator(int)}, you may wish to override
@@ -13671,7 +13676,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals(Object)} in terms of {@link #size} and {@link
  #iterator}. If you override either of those methods, you may wish to override {@link
@@ -13741,7 +13746,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
     </method>
     <method name="hasPrevious" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -13753,7 +13758,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="previous" return="E"
+    <method name="previous" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13767,7 +13772,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[A list iterator which forwards all its method calls to another list iterator. Subclasses should
@@ -13865,7 +13870,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="remove" return="V"
+    <method name="remove" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -13880,26 +13885,26 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="putAll"
       abstract="false" native="false" synchronized="false"
@@ -13926,7 +13931,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -13946,11 +13951,11 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="standardRemove" return="V"
+    <method name="standardRemove" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #remove} in terms of the {@code iterator}
  method of {@link #entrySet}. If you override {@link #entrySet}, you may wish to override {@link
@@ -13978,7 +13983,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #containsKey} in terms of the {@code
  iterator} method of {@link #entrySet}. If you override {@link #entrySet}, you may wish to
@@ -13991,7 +13996,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #containsValue} in terms of the {@code iterator} method of
  {@link #entrySet}. If you override {@link #entrySet}, you may wish to override {@link
@@ -14016,7 +14021,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals} in terms of the {@code equals} method of {@link
  #entrySet}. If you override {@link #entrySet}, you may wish to override {@link #equals} to
@@ -14166,27 +14171,27 @@
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
     </method>
-    <method name="getKey" return="K"
+    <method name="getKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="getValue" return="V"
+    <method name="getValue" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="setValue" return="V"
+    <method name="setValue" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -14197,7 +14202,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals(Object)} in terms of {@link #getKey()} and {@link
  #getValue()}. If you override either of these methods, you may wish to override {@link
@@ -14746,30 +14751,30 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="standardLowerEntry" return="java.util.Map.Entry&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #lowerEntry} in terms of the {@code lastEntry()} of {@link
  #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
  lowerEntry} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="lowerKey" return="K"
+    <method name="lowerKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
-    <method name="standardLowerKey" return="K"
+    <method name="standardLowerKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #lowerKey} in terms of {@code lowerEntry}. If you override
  {@link #lowerEntry}, you may wish to override {@code lowerKey} to forward to this
@@ -14780,30 +14785,30 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="standardFloorEntry" return="java.util.Map.Entry&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #floorEntry} in terms of the {@code lastEntry()} of {@link
  #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
  floorEntry} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="floorKey" return="K"
+    <method name="floorKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
-    <method name="standardFloorKey" return="K"
+    <method name="standardFloorKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #floorKey} in terms of {@code floorEntry}. If you override
  {@code floorEntry}, you may wish to override {@code floorKey} to forward to this
@@ -14814,30 +14819,30 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="standardCeilingEntry" return="java.util.Map.Entry&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #ceilingEntry} in terms of the {@code firstEntry()} of {@link
  #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
  ceilingEntry} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="ceilingKey" return="K"
+    <method name="ceilingKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
-    <method name="standardCeilingKey" return="K"
+    <method name="standardCeilingKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #ceilingKey} in terms of {@code ceilingEntry}. If you override
  {@code ceilingEntry}, you may wish to override {@code ceilingKey} to forward to this
@@ -14848,30 +14853,30 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
     <method name="standardHigherEntry" return="java.util.Map.Entry&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #higherEntry} in terms of the {@code firstEntry()} of {@link
  #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
  higherEntry} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="higherKey" return="K"
+    <method name="higherKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
     </method>
-    <method name="standardHigherKey" return="K"
+    <method name="standardHigherKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
+      <param name="key" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #higherKey} in terms of {@code higherEntry}. If you override
  {@code higherEntry}, you may wish to override {@code higherKey} to forward to this
@@ -14893,7 +14898,7 @@
  forward to this implementation.]]>
       </doc>
     </method>
-    <method name="standardFirstKey" return="K"
+    <method name="standardFirstKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -14918,7 +14923,7 @@
  override {@code lastEntry} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="standardLastKey" return="K"
+    <method name="standardLastKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -14988,8 +14993,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
-      <param name="toKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #subMap(Object, Object)} in terms of {@link #subMap(Object,
  boolean, Object, boolean)}. If you override {@code subMap(K, boolean, K, boolean)}, you may
@@ -15000,30 +15005,30 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
       <param name="fromInclusive" type="boolean"/>
-      <param name="toKey" type="K"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
       <param name="toInclusive" type="boolean"/>
     </method>
     <method name="headMap" return="java.util.NavigableMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="toKey" type="K"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
       <param name="inclusive" type="boolean"/>
     </method>
     <method name="tailMap" return="java.util.NavigableMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
       <param name="inclusive" type="boolean"/>
     </method>
     <method name="standardHeadMap" return="java.util.SortedMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="toKey" type="K"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #headMap(Object)} in terms of {@link #headMap(Object,
  boolean)}. If you override {@code headMap(K, boolean)}, you may wish to override {@code
@@ -15034,7 +15039,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #tailMap(Object)} in terms of {@link #tailMap(Object,
  boolean)}. If you override {@code tailMap(K, boolean)}, you may wish to override {@code
@@ -15145,80 +15150,80 @@
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
     </method>
-    <method name="lower" return="E"
+    <method name="lower" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="standardLower" return="E"
+    <method name="standardLower" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #lower} in terms of the {@code descendingIterator} method of
  {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
  wish to override {@link #lower} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="floor" return="E"
+    <method name="floor" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="standardFloor" return="E"
+    <method name="standardFloor" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #floor} in terms of the {@code descendingIterator} method of
  {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
  wish to override {@link #floor} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="ceiling" return="E"
+    <method name="ceiling" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="standardCeiling" return="E"
+    <method name="standardCeiling" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #ceiling} in terms of the {@code iterator} method of {@link
  #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
  override {@link #ceiling} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="higher" return="E"
+    <method name="higher" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
     </method>
-    <method name="standardHigher" return="E"
+    <method name="standardHigher" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #higher} in terms of the {@code iterator} method of {@link
  #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
  override {@link #higher} to forward to this implementation.]]>
       </doc>
     </method>
-    <method name="pollFirst" return="E"
+    <method name="pollFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="standardPollFirst" return="E"
+    <method name="standardPollFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -15228,12 +15233,12 @@
  implementation.]]>
       </doc>
     </method>
-    <method name="pollLast" return="E"
+    <method name="pollLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="standardPollLast" return="E"
+    <method name="standardPollLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -15243,12 +15248,12 @@
  forward to this implementation.]]>
       </doc>
     </method>
-    <method name="standardFirst" return="E"
+    <method name="standardFirst" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
     </method>
-    <method name="standardLast" return="E"
+    <method name="standardLast" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -15267,18 +15272,18 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
       <param name="fromInclusive" type="boolean"/>
-      <param name="toElement" type="E"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <param name="toInclusive" type="boolean"/>
     </method>
     <method name="standardSubSet" return="java.util.NavigableSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
       <param name="fromInclusive" type="boolean"/>
-      <param name="toElement" type="E"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <param name="toInclusive" type="boolean"/>
       <doc>
       <![CDATA[A sensible definition of {@link #subSet(Object, boolean, Object, boolean)} in terms of the
@@ -15290,8 +15295,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
-      <param name="toElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #subSet(Object, Object)} in terms of the {@link #subSet(Object,
  boolean, Object, boolean)} method. If you override {@link #subSet(Object, boolean, Object,
@@ -15303,14 +15308,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="toElement" type="E"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <param name="inclusive" type="boolean"/>
     </method>
     <method name="standardHeadSet" return="java.util.SortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="toElement" type="E"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #headSet(Object)} in terms of the {@link #headSet(Object,
  boolean)} method. If you override {@link #headSet(Object, boolean)}, you may wish to override
@@ -15321,14 +15326,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
       <param name="inclusive" type="boolean"/>
     </method>
     <method name="standardTailSet" return="java.util.SortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #tailSet(Object)} in terms of the {@link #tailSet(Object,
  boolean)} method. If you override {@link #tailSet(Object, boolean)}, you may wish to override
@@ -15465,24 +15470,24 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="E"/>
+      <param name="o" type="E extends java.lang.Object"/>
     </method>
-    <method name="poll" return="E"
+    <method name="poll" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="remove" return="E"
+    <method name="remove" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="peek" return="E"
+    <method name="peek" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="element" return="E"
+    <method name="element" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -15491,7 +15496,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #offer} in terms of {@link #add}. If you override {@link #add},
  you may wish to override {@link #offer} to forward to this implementation.
@@ -15499,7 +15504,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="standardPeek" return="E"
+    <method name="standardPeek" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -15510,7 +15515,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="standardPoll" return="E"
+    <method name="standardPoll" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -15567,7 +15572,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -15591,7 +15596,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals} in terms of {@link #size} and {@link #containsAll}. If
  you override either of those methods, you may wish to override {@link #equals} to forward to
@@ -15711,7 +15716,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="firstKey" return="K"
+    <method name="firstKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -15720,9 +15725,9 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="toKey" type="K"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
     </method>
-    <method name="lastKey" return="K"
+    <method name="lastKey" return="K extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -15731,20 +15736,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
-      <param name="toKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
     </method>
     <method name="tailMap" return="java.util.SortedMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
     </method>
     <method name="standardContainsKey" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of
  {@link #tailMap}. If you override {@link #tailMap}, you may wish to override {@link
@@ -15757,8 +15762,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromKey" type="K"/>
-      <param name="toKey" type="K"/>
+      <param name="fromKey" type="K extends java.lang.Object"/>
+      <param name="toKey" type="K extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #subMap(Object, Object)} in terms of {@link
  #headMap(Object)} and {@link #tailMap(Object)}. In some situations, you may wish to override
@@ -16054,7 +16059,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="first" return="E"
+    <method name="first" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -16063,9 +16068,9 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="toElement" type="E"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
     </method>
-    <method name="last" return="E"
+    <method name="last" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -16074,20 +16079,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
-      <param name="toElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
     </method>
     <method name="tailSet" return="java.util.SortedSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
     </method>
     <method name="standardContains" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link
  #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to
@@ -16100,7 +16105,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link
  #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to
@@ -16113,8 +16118,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="fromElement" type="E"/>
-      <param name="toElement" type="E"/>
+      <param name="fromElement" type="E extends java.lang.Object"/>
+      <param name="toElement" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #subSet(Object, Object)} in terms of {@link
  #headSet(Object)} and {@link #tailSet(Object)}. In some situations, you may wish to override
@@ -16240,7 +16245,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="C"/>
+      <param name="columnKey" type="C extends java.lang.Object"/>
     </method>
     <method name="columnKeySet" return="java.util.Set&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
@@ -16277,7 +16282,7 @@
       deprecated="not deprecated">
       <param name="value" type="java.lang.Object"/>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -16289,13 +16294,13 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="R"/>
-      <param name="columnKey" type="C"/>
-      <param name="value" type="V"/>
+      <param name="rowKey" type="R extends java.lang.Object"/>
+      <param name="columnKey" type="C extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="putAll"
       abstract="false" native="false" synchronized="false"
@@ -16303,7 +16308,7 @@
       deprecated="not deprecated">
       <param name="table" type="com.google.common.collect.Table&lt;? extends R, ? extends C, ? extends V&gt;"/>
     </method>
-    <method name="remove" return="V"
+    <method name="remove" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -16314,7 +16319,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="R"/>
+      <param name="rowKey" type="R extends java.lang.Object"/>
     </method>
     <method name="rowKeySet" return="java.util.Set&lt;R&gt;"
       abstract="false" native="false" synchronized="false"

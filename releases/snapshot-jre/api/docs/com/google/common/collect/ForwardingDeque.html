@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingDeque" class="title">Class ForwardingDeque&lt;E&gt;</h2>
+<h2 title="Class ForwardingDeque" class="title">Class ForwardingDeque&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
@@ -155,7 +155,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.41">ForwardingDeque</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.43">ForwardingDeque</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;E&gt;</pre>
 <div class="block">A deque which forwards all its method calls to another deque. Subclasses should override one or
@@ -434,7 +434,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingDeque</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.45">ForwardingDeque</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.49">ForwardingDeque</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -454,7 +454,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.47">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.51">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -462,7 +462,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingQueue.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="ForwardingQueue.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -474,7 +474,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>addFirst</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.50">addFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.54">addFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addFirst(E)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Inserts the specified element at the front of this deque if it is
  possible to do so immediately without violating capacity restrictions,
@@ -483,7 +483,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
  preferable to use method <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerFirst(E)" title="class or interface in java.util" class="externalLink"><code>Deque.offerFirst(E)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addFirst(E)" title="class or interface in java.util" class="externalLink">addFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addFirst(E)" title="class or interface in java.util" class="externalLink">addFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to add</dd>
 </dl>
@@ -497,7 +497,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>addLast</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.55">addLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.59">addLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addLast(E)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Inserts the specified element at the end of this deque if it is
  possible to do so immediately without violating capacity restrictions,
@@ -508,7 +508,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
  <p>This method is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink"><code>Deque.add(E)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addLast(E)" title="class or interface in java.util" class="externalLink">addLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addLast(E)" title="class or interface in java.util" class="externalLink">addLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to add</dd>
 </dl>
@@ -520,14 +520,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>descendingIterator</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.60">descendingIterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.64">descendingIterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#descendingIterator()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Returns an iterator over the elements in this deque in reverse
  sequential order.  The elements will be returned in order from
  last (tail) to first (head).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#descendingIterator()" title="class or interface in java.util" class="externalLink">descendingIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#descendingIterator()" title="class or interface in java.util" class="externalLink">descendingIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an iterator over the elements in this deque in reverse
  sequence</dd>
@@ -540,7 +540,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>getFirst</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.65">getFirst</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.69">getFirst</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getFirst()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the first element of this deque.
 
@@ -548,7 +548,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
  throws an exception if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getFirst()" title="class or interface in java.util" class="externalLink">getFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getFirst()" title="class or interface in java.util" class="externalLink">getFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this deque</dd>
 </dl>
@@ -560,14 +560,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.70">getLast</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.75">getLast</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getLast()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the last element of this deque.
  This method differs from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekLast()" title="class or interface in java.util" class="externalLink"><code>peekLast</code></a> only in that it
  throws an exception if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getLast()" title="class or interface in java.util" class="externalLink">getLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#getLast()" title="class or interface in java.util" class="externalLink">getLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the tail of this deque</dd>
 </dl>
@@ -582,7 +582,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.ht
 <li class="blockList">
 <h4>offerFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.75">offerFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.81">offerFirst</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerFirst(E)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Inserts the specified element at the front of this deque unless it would
  violate capacity restrictions.  When using a capacity-restricted deque,
@@ -590,7 +590,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  which can fail to insert an element only by throwing an exception.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerFirst(E)" title="class or interface in java.util" class="externalLink">offerFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerFirst(E)" title="class or interface in java.util" class="externalLink">offerFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -608,7 +608,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>offerLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.81">offerLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.87">offerLast</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerLast(E)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Inserts the specified element at the end of this deque unless it would
  violate capacity restrictions.  When using a capacity-restricted deque,
@@ -616,7 +616,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  which can fail to insert an element only by throwing an exception.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerLast(E)" title="class or interface in java.util" class="externalLink">offerLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#offerLast(E)" title="class or interface in java.util" class="externalLink">offerLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -631,13 +631,14 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>peekFirst</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.87">peekFirst</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.93">peekFirst</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekFirst()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the first element of this deque,
  or returns <code>null</code> if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekFirst()" title="class or interface in java.util" class="externalLink">peekFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekFirst()" title="class or interface in java.util" class="externalLink">peekFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this deque, or <code>null</code> if this deque is empty</dd>
 </dl>
@@ -649,13 +650,14 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>peekLast</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.92">peekLast</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.99">peekLast</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekLast()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves, but does not remove, the last element of this deque,
  or returns <code>null</code> if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekLast()" title="class or interface in java.util" class="externalLink">peekLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#peekLast()" title="class or interface in java.util" class="externalLink">peekLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the tail of this deque, or <code>null</code> if this deque is empty</dd>
 </dl>
@@ -668,13 +670,14 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>pollFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.97">pollFirst</a>()</pre>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.105">pollFirst</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollFirst()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves and removes the first element of this deque,
  or returns <code>null</code> if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollFirst()" title="class or interface in java.util" class="externalLink">pollFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollFirst()" title="class or interface in java.util" class="externalLink">pollFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this deque, or <code>null</code> if this deque is empty</dd>
 </dl>
@@ -687,13 +690,14 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>pollLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.103">pollLast</a>()</pre>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.112">pollLast</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollLast()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves and removes the last element of this deque,
  or returns <code>null</code> if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollLast()" title="class or interface in java.util" class="externalLink">pollLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollLast()" title="class or interface in java.util" class="externalLink">pollLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the tail of this deque, or <code>null</code> if this deque is empty</dd>
 </dl>
@@ -706,7 +710,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>pop</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.109">pop</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.119">pop</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pop()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Pops an element from the stack represented by this deque.  In other
  words, removes and returns the first element of this deque.
@@ -714,7 +718,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
  <p>This method is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirst()" title="class or interface in java.util" class="externalLink"><code>Deque.removeFirst()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pop()" title="class or interface in java.util" class="externalLink">pop</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pop()" title="class or interface in java.util" class="externalLink">pop</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element at the front of this deque (which is the top
          of the stack represented by this deque)</dd>
@@ -729,7 +733,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <ul class="blockList">
 <li class="blockList">
 <h4>push</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.115">push</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.126">push</a>&#8203;(<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#push(E)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Pushes an element onto the stack represented by this deque (in other
  words, at the head of this deque) if it is possible to do so
@@ -739,7 +743,7 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
  <p>This method is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#addFirst(E)" title="class or interface in java.util" class="externalLink"><code>Deque.addFirst(E)</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#push(E)" title="class or interface in java.util" class="externalLink">push</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#push(E)" title="class or interface in java.util" class="externalLink">push</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to push</dd>
 </dl>
@@ -752,14 +756,14 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeFirst</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.120">removeFirst</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.131">removeFirst</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirst()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves and removes the first element of this deque.  This method
  differs from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollFirst()" title="class or interface in java.util" class="externalLink"><code>pollFirst</code></a> only in that it throws an
  exception if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirst()" title="class or interface in java.util" class="externalLink">removeFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirst()" title="class or interface in java.util" class="externalLink">removeFirst</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the head of this deque</dd>
 </dl>
@@ -772,14 +776,14 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeLast</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.126">removeLast</a>()</pre>
+public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.138">removeLast</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLast()" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Retrieves and removes the last element of this deque.  This method
  differs from <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#pollLast()" title="class or interface in java.util" class="externalLink"><code>pollLast</code></a> only in that it throws an
  exception if this deque is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLast()" title="class or interface in java.util" class="externalLink">removeLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLast()" title="class or interface in java.util" class="externalLink">removeLast</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the tail of this deque</dd>
 </dl>
@@ -792,7 +796,8 @@ public&nbsp;<a href="ForwardingDeque.html" title="type parameter in ForwardingDe
 <li class="blockList">
 <h4>removeFirstOccurrence</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.132">removeFirstOccurrence</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.145">removeFirstOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirstOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Removes the first occurrence of the specified element from this deque.
  If the deque does not contain the element, it is unchanged.
@@ -802,7 +807,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  (or equivalently, if this deque changed as a result of the call).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirstOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">removeFirstOccurrence</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeFirstOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">removeFirstOccurrence</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>o</code> - element to be removed from this deque, if present</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -817,7 +822,8 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>removeLastOccurrence</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.138">removeLastOccurrence</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingDeque.html#line.151">removeLastOccurrence</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLastOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Deque</a></code></span></div>
 <div class="block">Removes the last occurrence of the specified element from this deque.
  If the deque does not contain the element, it is unchanged.
@@ -827,7 +833,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  (or equivalently, if this deque changed as a result of the call).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLastOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">removeLastOccurrence</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true#removeLastOccurrence(java.lang.Object)" title="class or interface in java.util" class="externalLink">removeLastOccurrence</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util" class="externalLink">Deque</a>&lt;<a href="ForwardingDeque.html" title="type parameter in ForwardingDeque">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>o</code> - element to be removed from this deque, if present</dd>
 <dt><span class="returnLabel">Returns:</span></dt>

@@ -145,10 +145,25 @@
 <span class="sourceLineNo">136</span><a id="line.136">    return delegate().remove(checkNotNull(object));</a>
 <span class="sourceLineNo">137</span><a id="line.137">  }</a>
 <span class="sourceLineNo">138</span><a id="line.138"></a>
-<span class="sourceLineNo">139</span><a id="line.139">  // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?</a>
-<span class="sourceLineNo">140</span><a id="line.140"></a>
-<span class="sourceLineNo">141</span><a id="line.141">  private static final long serialVersionUID = 0L;</a>
-<span class="sourceLineNo">142</span><a id="line.142">}</a>
+<span class="sourceLineNo">139</span><a id="line.139">  @Override</a>
+<span class="sourceLineNo">140</span><a id="line.140">  public Object[] toArray() {</a>
+<span class="sourceLineNo">141</span><a id="line.141">    /*</a>
+<span class="sourceLineNo">142</span><a id="line.142">     * If we could, we'd declare the no-arg `Collection.toArray()` to return "Object[] but elements</a>
+<span class="sourceLineNo">143</span><a id="line.143">     * have the same nullness as E." Since we can't, we declare it to return nullable elements, and</a>
+<span class="sourceLineNo">144</span><a id="line.144">     * we can override it in our non-null-guaranteeing subtypes to present a better signature to</a>
+<span class="sourceLineNo">145</span><a id="line.145">     * their users.</a>
+<span class="sourceLineNo">146</span><a id="line.146">     *</a>
+<span class="sourceLineNo">147</span><a id="line.147">     * However, the checker *we* use has this special knowledge about `Collection.toArray()` anyway,</a>
+<span class="sourceLineNo">148</span><a id="line.148">     * so in our implementation code, we can rely on that. That's why the expression below</a>
+<span class="sourceLineNo">149</span><a id="line.149">     * type-checks.</a>
+<span class="sourceLineNo">150</span><a id="line.150">     */</a>
+<span class="sourceLineNo">151</span><a id="line.151">    return super.toArray();</a>
+<span class="sourceLineNo">152</span><a id="line.152">  }</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">  // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  private static final long serialVersionUID = 0L;</a>
+<span class="sourceLineNo">157</span><a id="line.157">}</a>
 
 
 
