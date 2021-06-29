@@ -136,6 +136,21 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return delegate().remove(checkNotNull(object));
   }
 
+  @Override
+  public Object[] toArray() {
+    /*
+     * If we could, we'd declare the no-arg `Collection.toArray()` to return "Object[] but elements
+     * have the same nullness as E." Since we can't, we declare it to return nullable elements, and
+     * we can override it in our non-null-guaranteeing subtypes to present a better signature to
+     * their users.
+     *
+     * However, the checker *we* use has this special knowledge about `Collection.toArray()` anyway,
+     * so in our implementation code, we can rely on that. That's why the expression below
+     * type-checks.
+     */
+    return super.toArray();
+  }
+
   // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
 
   private static final long serialVersionUID = 0L;
