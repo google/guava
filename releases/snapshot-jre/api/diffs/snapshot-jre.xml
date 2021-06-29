@@ -21614,7 +21614,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
