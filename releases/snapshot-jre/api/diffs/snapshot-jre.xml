@@ -10384,12 +10384,12 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.Map&lt;K, V&gt;"/>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -10398,12 +10398,12 @@
      #forcePut} instead.]]>
       </doc>
     </method>
-    <method name="forcePut" return="V"
+    <method name="forcePut" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[An alternate form of {@code put} that silently removes any existing entry with the value {@code
  value} before proceeding with the {@link #put} operation. If the bimap previously contained the
@@ -10417,8 +10417,10 @@
 
  @param key the key with which the specified value is to be associated
  @param value the value to be associated with the specified key
- @return the value which was previously associated with the key, which may be {@code null}, or
-     {@code null} if there was no previous entry]]>
+ @return the value that was previously associated with the key, or {@code null} if there was no
+     previous entry. (If the bimap contains null values, then {@code forcePut}, like {@code
+     put}, returns {@code null} both if the key is absent and if it is present with a null
+     value.)]]>
       </doc>
     </method>
     <method name="putAll"
@@ -10468,7 +10470,7 @@
  bimap containing the same entries as this bimap but with reversed keys and values.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -11811,19 +11813,19 @@
      instance and contains no mappings]]>
       </doc>
     </method>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Enum&lt;K&gt;"/>
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
-    <method name="forcePut" return="V"
+    <method name="forcePut" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Enum&lt;K&gt;"/>
-      <param name="value" type="V"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
     <method name="keyType" return="java.lang.Class&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
@@ -16513,13 +16515,13 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
  equivalently, if this inverse view contains a key that is equal to {@code value}).
@@ -16531,31 +16533,31 @@
  @return true if a mapping exists from a key to the specified value]]>
       </doc>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
-    <method name="forcePut" return="V"
+    <method name="forcePut" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
     </method>
-    <method name="remove" return="V"
+    <method name="remove" return="V extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
