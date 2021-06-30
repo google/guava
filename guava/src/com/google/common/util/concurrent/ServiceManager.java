@@ -425,7 +425,8 @@ public final class ServiceManager implements ServiceManagerBridge {
    */
   @J2ObjCIncompatible
   public ImmutableMap<Service, Duration> startupDurations() {
-    return ImmutableMap.copyOf(Maps.transformValues(startupTimes(), Duration::ofMillis));
+    return ImmutableMap.copyOf(
+        Maps.<Service, Long, Duration>transformValues(startupTimes(), Duration::ofMillis));
   }
 
   @Override

@@ -49,6 +49,7 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -64,6 +65,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Lists {
   private Lists() {}
 
@@ -79,7 +81,7 @@ public final class Lists {
    * directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayList() {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
     return new ArrayList<>();
   }
 
@@ -99,7 +101,7 @@ public final class Lists {
    */
   @SafeVarargs
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayList(E... elements) {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
     // Avoid integer overflow when a large array is passed in
     int capacity = computeArrayListCapacity(elements.length);
@@ -122,7 +124,8 @@ public final class Lists {
    * syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayList(
+      Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
     // Let ArrayList's sizing logic work, if possible
     return (elements instanceof Collection)
@@ -138,7 +141,8 @@ public final class Lists {
    * ImmutableList#copyOf(Iterator)} instead.
    */
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayList(
+      Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
     Iterators.addAll(list, elements);
     return list;
@@ -169,7 +173,8 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code initialArraySize} is negative
    */
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayListWithCapacity(int initialArraySize) {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayListWithCapacity(
+      int initialArraySize) {
     checkNonnegative(initialArraySize, "initialArraySize"); // for GWT.
     return new ArrayList<>(initialArraySize);
   }
@@ -188,7 +193,8 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code estimatedSize} is negative
    */
   @GwtCompatible(serializable = true)
-  public static <E> ArrayList<E> newArrayListWithExpectedSize(int estimatedSize) {
+  public static <E extends @Nullable Object> ArrayList<E> newArrayListWithExpectedSize(
+      int estimatedSize) {
     return new ArrayList<>(computeArrayListCapacity(estimatedSize));
   }
 
@@ -210,7 +216,7 @@ public final class Lists {
    * syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> LinkedList<E> newLinkedList() {
+  public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<>();
   }
 
@@ -232,7 +238,8 @@ public final class Lists {
    * syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
+      Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
     Iterables.addAll(list, elements);
     return list;
@@ -248,7 +255,7 @@ public final class Lists {
    * @since 12.0
    */
   @GwtIncompatible // CopyOnWriteArrayList
-  public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
+  public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<>();
   }
 
@@ -260,7 +267,7 @@ public final class Lists {
    * @since 12.0
    */
   @GwtIncompatible // CopyOnWriteArrayList
-  public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
+  public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
       Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAL directly.
@@ -285,7 +292,7 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E> List<E> asList(@Nullable E first, E[] rest) {
+  public static <E extends @Nullable Object> List<E> asList(@ParametricNullness E first, E[] rest) {
     return new OnePlusArrayList<>(first, rest);
   }
 
@@ -305,17 +312,18 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E> List<E> asList(@Nullable E first, @Nullable E second, E[] rest) {
+  public static <E extends @Nullable Object> List<E> asList(
+      @ParametricNullness E first, @ParametricNullness E second, E[] rest) {
     return new TwoPlusArrayList<>(first, second, rest);
   }
 
   /** @see Lists#asList(Object, Object[]) */
-  private static class OnePlusArrayList<E> extends AbstractList<E>
+  private static class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    final @Nullable E first;
+    @ParametricNullness final E first;
     final E[] rest;
 
-    OnePlusArrayList(@Nullable E first, E[] rest) {
+    OnePlusArrayList(@ParametricNullness E first, E[] rest) {
       this.first = first;
       this.rest = checkNotNull(rest);
     }
@@ -326,6 +334,7 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public E get(int index) {
       // check explicitly so the IOOBE will have the right message
       checkElementIndex(index, size());
@@ -336,13 +345,13 @@ public final class Lists {
   }
 
   /** @see Lists#asList(Object, Object, Object[]) */
-  private static class TwoPlusArrayList<E> extends AbstractList<E>
+  private static class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    final @Nullable E first;
-    final @Nullable E second;
+    @ParametricNullness final E first;
+    @ParametricNullness final E second;
     final E[] rest;
 
-    TwoPlusArrayList(@Nullable E first, @Nullable E second, E[] rest) {
+    TwoPlusArrayList(@ParametricNullness E first, @ParametricNullness E second, E[] rest) {
       this.first = first;
       this.second = second;
       this.rest = checkNotNull(rest);
@@ -354,6 +363,7 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public E get(int index) {
       switch (index) {
         case 0:
@@ -519,7 +529,7 @@ public final class Lists {
    * java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
    * to migrate to streams.
    */
-  public static <F, T> List<T> transform(
+  public static <F extends @Nullable Object, T extends @Nullable Object> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)
         ? new TransformingRandomAccessList<>(fromList, function)
@@ -531,8 +541,9 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingSequentialList<F, T> extends AbstractSequentialList<T>
-      implements Serializable {
+  private static class TransformingSequentialList<
+          F extends @Nullable Object, T extends @Nullable Object>
+      extends AbstractSequentialList<T> implements Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;
 
@@ -559,7 +570,8 @@ public final class Lists {
     public ListIterator<T> listIterator(final int index) {
       return new TransformedListIterator<F, T>(fromList.listIterator(index)) {
         @Override
-        T transform(F from) {
+        @ParametricNullness
+        T transform(@ParametricNullness F from) {
           return function.apply(from);
         }
       };
@@ -581,8 +593,9 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<F, T> extends AbstractList<T>
-      implements RandomAccess, Serializable {
+  private static class TransformingRandomAccessList<
+          F extends @Nullable Object, T extends @Nullable Object>
+      extends AbstractList<T> implements RandomAccess, Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;
 
@@ -597,6 +610,7 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public T get(int index) {
       return function.apply(fromList.get(index));
     }
@@ -628,6 +642,7 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public T remove(int index) {
       return function.apply(fromList.remove(index));
     }
@@ -655,7 +670,7 @@ public final class Lists {
    * @return a list of consecutive sublists
    * @throws IllegalArgumentException if {@code partitionSize} is nonpositive
    */
-  public static <T> List<List<T>> partition(List<T> list, int size) {
+  public static <T extends @Nullable Object> List<List<T>> partition(List<T> list, int size) {
     checkNotNull(list);
     checkArgument(size > 0);
     return (list instanceof RandomAccess)
@@ -663,7 +678,7 @@ public final class Lists {
         : new Partition<>(list, size);
   }
 
-  private static class Partition<T> extends AbstractList<List<T>> {
+  private static class Partition<T extends @Nullable Object> extends AbstractList<List<T>> {
     final List<T> list;
     final int size;
 
@@ -691,7 +706,8 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessPartition<T> extends Partition<T> implements RandomAccess {
+  private static class RandomAccessPartition<T extends @Nullable Object> extends Partition<T>
+      implements RandomAccess {
     RandomAccessPartition(List<T> list, int size) {
       super(list, size);
     }
@@ -730,12 +746,12 @@ public final class Lists {
     }
 
     @Override
-    public int indexOf(@Nullable Object object) {
+    public int indexOf(@CheckForNull Object object) {
       return (object instanceof Character) ? string.indexOf((Character) object) : -1;
     }
 
     @Override
-    public int lastIndexOf(@Nullable Object object) {
+    public int lastIndexOf(@CheckForNull Object object) {
       return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;
     }
 
@@ -792,9 +808,13 @@ public final class Lists {
    *
    * @since 7.0
    */
-  public static <T> List<T> reverse(List<T> list) {
+  public static <T extends @Nullable Object> List<T> reverse(List<T> list) {
     if (list instanceof ImmutableList) {
-      return ((ImmutableList<T>) list).reverse();
+      // Avoid nullness warnings.
+      List<?> reversed = ((ImmutableList<?>) list).reverse();
+      @SuppressWarnings("unchecked")
+      List<T> result = (List<T>) reversed;
+      return result;
     } else if (list instanceof ReverseList) {
       return ((ReverseList<T>) list).getForwardList();
     } else if (list instanceof RandomAccess) {
@@ -804,7 +824,7 @@ public final class Lists {
     }
   }
 
-  private static class ReverseList<T> extends AbstractList<T> {
+  private static class ReverseList<T extends @Nullable Object> extends AbstractList<T> {
     private final List<T> forwardList;
 
     ReverseList(List<T> forwardList) {
@@ -828,7 +848,7 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @Nullable T element) {
+    public void add(int index, @ParametricNullness T element) {
       forwardList.add(reversePosition(index), element);
     }
 
@@ -838,6 +858,7 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public T remove(int index) {
       return forwardList.remove(reverseIndex(index));
     }
@@ -848,11 +869,13 @@ public final class Lists {
     }
 
     @Override
-    public T set(int index, @Nullable T element) {
+    @ParametricNullness
+    public T set(int index, @ParametricNullness T element) {
       return forwardList.set(reverseIndex(index), element);
     }
 
     @Override
+    @ParametricNullness
     public T get(int index) {
       return forwardList.get(reverseIndex(index));
     }
@@ -882,7 +905,7 @@ public final class Lists {
         boolean canRemoveOrSet;
 
         @Override
-        public void add(T e) {
+        public void add(@ParametricNullness T e) {
           forwardIterator.add(e);
           forwardIterator.previous();
           canRemoveOrSet = false;
@@ -899,6 +922,7 @@ public final class Lists {
         }
 
         @Override
+        @ParametricNullness
         public T next() {
           if (!hasNext()) {
             throw new NoSuchElementException();
@@ -913,6 +937,7 @@ public final class Lists {
         }
 
         @Override
+        @ParametricNullness
         public T previous() {
           if (!hasPrevious()) {
             throw new NoSuchElementException();
@@ -934,7 +959,7 @@ public final class Lists {
         }
 
         @Override
-        public void set(T e) {
+        public void set(@ParametricNullness T e) {
           checkState(canRemoveOrSet);
           forwardIterator.set(e);
         }
@@ -942,7 +967,8 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessReverseList<T> extends ReverseList<T> implements RandomAccess {
+  private static class RandomAccessReverseList<T extends @Nullable Object> extends ReverseList<T>
+      implements RandomAccess {
     RandomAccessReverseList(List<T> forwardList) {
       super(forwardList);
     }
@@ -962,7 +988,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#equals(Object)}. */
-  static boolean equalsImpl(List<?> thisList, @Nullable Object other) {
+  static boolean equalsImpl(List<?> thisList, @CheckForNull Object other) {
     if (other == checkNotNull(thisList)) {
       return true;
     }
@@ -988,7 +1014,8 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#addAll(int, Collection)}. */
-  static <E> boolean addAllImpl(List<E> list, int index, Iterable<? extends E> elements) {
+  static <E extends @Nullable Object> boolean addAllImpl(
+      List<E> list, int index, Iterable<? extends E> elements) {
     boolean changed = false;
     ListIterator<E> listIterator = list.listIterator(index);
     for (E e : elements) {
@@ -999,7 +1026,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#indexOf(Object)}. */
-  static int indexOfImpl(List<?> list, @Nullable Object element) {
+  static int indexOfImpl(List<?> list, @CheckForNull Object element) {
     if (list instanceof RandomAccess) {
       return indexOfRandomAccess(list, element);
     } else {
@@ -1013,7 +1040,7 @@ public final class Lists {
     }
   }
 
-  private static int indexOfRandomAccess(List<?> list, @Nullable Object element) {
+  private static int indexOfRandomAccess(List<?> list, @CheckForNull Object element) {
     int size = list.size();
     if (element == null) {
       for (int i = 0; i < size; i++) {
@@ -1032,7 +1059,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#lastIndexOf(Object)}. */
-  static int lastIndexOfImpl(List<?> list, @Nullable Object element) {
+  static int lastIndexOfImpl(List<?> list, @CheckForNull Object element) {
     if (list instanceof RandomAccess) {
       return lastIndexOfRandomAccess(list, element);
     } else {
@@ -1046,7 +1073,7 @@ public final class Lists {
     }
   }
 
-  private static int lastIndexOfRandomAccess(List<?> list, @Nullable Object element) {
+  private static int lastIndexOfRandomAccess(List<?> list, @CheckForNull Object element) {
     if (element == null) {
       for (int i = list.size() - 1; i >= 0; i--) {
         if (list.get(i) == null) {
@@ -1064,12 +1091,13 @@ public final class Lists {
   }
 
   /** Returns an implementation of {@link List#listIterator(int)}. */
-  static <E> ListIterator<E> listIteratorImpl(List<E> list, int index) {
+  static <E extends @Nullable Object> ListIterator<E> listIteratorImpl(List<E> list, int index) {
     return new AbstractListWrapper<>(list).listIterator(index);
   }
 
   /** An implementation of {@link List#subList(int, int)}. */
-  static <E> List<E> subListImpl(final List<E> list, int fromIndex, int toIndex) {
+  static <E extends @Nullable Object> List<E> subListImpl(
+      final List<E> list, int fromIndex, int toIndex) {
     List<E> wrapper;
     if (list instanceof RandomAccess) {
       wrapper =
@@ -1095,7 +1123,7 @@ public final class Lists {
     return wrapper.subList(fromIndex, toIndex);
   }
 
-  private static class AbstractListWrapper<E> extends AbstractList<E> {
+  private static class AbstractListWrapper<E extends @Nullable Object> extends AbstractList<E> {
     final List<E> backingList;
 
     AbstractListWrapper(List<E> backingList) {
@@ -1103,7 +1131,7 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, E element) {
+    public void add(int index, @ParametricNullness E element) {
       backingList.add(index, element);
     }
 
@@ -1113,22 +1141,25 @@ public final class Lists {
     }
 
     @Override
+    @ParametricNullness
     public E get(int index) {
       return backingList.get(index);
     }
 
     @Override
+    @ParametricNullness
     public E remove(int index) {
       return backingList.remove(index);
     }
 
     @Override
-    public E set(int index, E element) {
+    @ParametricNullness
+    public E set(int index, @ParametricNullness E element) {
       return backingList.set(index, element);
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@CheckForNull Object o) {
       return backingList.contains(o);
     }
 
@@ -1138,15 +1169,15 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessListWrapper<E> extends AbstractListWrapper<E>
-      implements RandomAccess {
+  private static class RandomAccessListWrapper<E extends @Nullable Object>
+      extends AbstractListWrapper<E> implements RandomAccess {
     RandomAccessListWrapper(List<E> backingList) {
       super(backingList);
     }
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T> List<T> cast(Iterable<T> iterable) {
+  static <T extends @Nullable Object> List<T> cast(Iterable<T> iterable) {
     return (List<T>) iterable;
   }
 }
