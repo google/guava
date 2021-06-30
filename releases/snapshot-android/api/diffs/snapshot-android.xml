@@ -10639,12 +10639,12 @@
  @since 30.0]]>
       </doc>
     </method>
-    <method name="min" return="T"
+    <method name="min" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="T"/>
-      <param name="b" type="T"/>
+      <param name="a" type="T extends java.lang.Object"/>
+      <param name="b" type="T extends java.lang.Object"/>
       <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
       <doc>
       <![CDATA[Returns the minimum of the two values, according to the given comparator. If the values compare
@@ -10682,12 +10682,12 @@
  @since 30.0]]>
       </doc>
     </method>
-    <method name="max" return="T"
+    <method name="max" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="T"/>
-      <param name="b" type="T"/>
+      <param name="a" type="T extends java.lang.Object"/>
+      <param name="b" type="T extends java.lang.Object"/>
       <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
       <doc>
       <![CDATA[Returns the maximum of the two values, according to the given comparator. If the values compare
@@ -22780,7 +22780,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="iterable" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <param name="element" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which {@code
@@ -22869,7 +22869,7 @@
  generally guaranteed.]]>
       </doc>
     </method>
-    <method name="getOnlyElement" return="T"
+    <method name="getOnlyElement" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -22884,12 +22884,12 @@
  @throws IllegalArgumentException if the iterable contains multiple elements]]>
       </doc>
     </method>
-    <method name="getOnlyElement" return="T"
+    <method name="getOnlyElement" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the single element contained in {@code iterable}, or {@code defaultValue} if the
  iterable is empty.
@@ -23195,7 +23195,7 @@
  <p><b>{@code Stream} equivalent:</b> {@link Stream#allMatch}.]]>
       </doc>
     </method>
-    <method name="find" return="T"
+    <method name="find" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -23211,13 +23211,13 @@
  @throws NoSuchElementException if no element in {@code iterable} matches the given predicate]]>
       </doc>
     </method>
-    <method name="find" return="T"
+    <method name="find" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
       <param name="predicate" type="com.google.common.base.Predicate&lt;? super T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the first element in {@code iterable} that satisfies the given predicate, or {@code
  defaultValue} if none found. Note that this can usually be handled more naturally using {@code
@@ -23284,7 +23284,7 @@
  <p><b>{@code Stream} equivalent:</b> {@link Stream#map}]]>
       </doc>
     </method>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -23302,13 +23302,13 @@
      the size of {@code iterable}]]>
       </doc>
     </method>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
       <param name="position" type="int"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the element at the specified position in an iterable or a default value otherwise.
 
@@ -23325,12 +23325,12 @@
  @since 4.0]]>
       </doc>
     </method>
-    <method name="getFirst" return="T"
+    <method name="getFirst" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.
  The {@link Iterators} analog to this method is {@link Iterators#getNext}.
@@ -23349,7 +23349,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="getLast" return="T"
+    <method name="getLast" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -23364,12 +23364,12 @@
  @throws NoSuchElementException if the iterable is empty]]>
       </doc>
     </method>
-    <method name="getLast" return="T"
+    <method name="getLast" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the last element of {@code iterable} or {@code defaultValue} if the iterable is empty.
  If {@code iterable} is a {@link List} with {@link RandomAccess} support, then this operation is
@@ -23629,7 +23629,7 @@
  The iterator will be left exhausted: its {@code hasNext()} method will return {@code false}.]]>
       </doc>
     </method>
-    <method name="getOnlyElement" return="T"
+    <method name="getOnlyElement" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -23642,12 +23642,12 @@
      iterator is unspecified.]]>
       </doc>
     </method>
-    <method name="getOnlyElement" return="T"
+    <method name="getOnlyElement" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the single element contained in {@code iterator}, or {@code defaultValue} if the
  iterator is empty.
@@ -23899,7 +23899,7 @@
  predicate. If {@code iterator} is empty, {@code true} is returned.]]>
       </doc>
     </method>
-    <method name="find" return="T"
+    <method name="find" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -23915,13 +23915,13 @@
  @throws NoSuchElementException if no element in {@code iterator} matches the given predicate]]>
       </doc>
     </method>
-    <method name="find" return="T"
+    <method name="find" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
       <param name="predicate" type="com.google.common.base.Predicate&lt;? super T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the first element in {@code iterator} that satisfies the given predicate. If no such
  element is found, {@code defaultValue} will be returned from this method and the iterator will
@@ -23985,7 +23985,7 @@
  element.]]>
       </doc>
     </method>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -24001,13 +24001,13 @@
      the number of elements remaining in {@code iterator}]]>
       </doc>
     </method>
-    <method name="get" return="T"
+    <method name="get" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
       <param name="position" type="int"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Advances {@code iterator} {@code position + 1} times, returning the element at the {@code
  position}th position or {@code defaultValue} otherwise.
@@ -24021,12 +24021,12 @@
  @since 4.0]]>
       </doc>
     </method>
-    <method name="getNext" return="T"
+    <method name="getNext" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns the next element in {@code iterator} or {@code defaultValue} if the iterator is empty.
  The {@link Iterables} analog to this method is {@link Iterables#getFirst}.
@@ -24036,7 +24036,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="getLast" return="T"
+    <method name="getLast" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -24048,12 +24048,12 @@
  @throws NoSuchElementException if the iterator is empty]]>
       </doc>
     </method>
-    <method name="getLast" return="T"
+    <method name="getLast" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
-      <param name="defaultValue" type="T"/>
+      <param name="defaultValue" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Advances {@code iterator} to the end, returning the last element or {@code defaultValue} if the
  iterator is empty.
@@ -24131,7 +24131,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="T"/>
+      <param name="value" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns an iterator containing only {@code value}.
 
@@ -24947,7 +24947,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="first" type="E"/>
+      <param name="first" type="E extends java.lang.Object"/>
       <param name="rest" type="E[]"/>
       <doc>
       <![CDATA[Returns an unmodifiable list containing the specified first element and backed by the specified
@@ -24968,8 +24968,8 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="first" type="E"/>
-      <param name="second" type="E"/>
+      <param name="first" type="E extends java.lang.Object"/>
+      <param name="second" type="E extends java.lang.Object"/>
       <param name="rest" type="E[]"/>
       <doc>
       <![CDATA[Returns an unmodifiable list containing the specified first and second element, and backed by
@@ -26060,8 +26060,8 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns an immutable map entry with the specified key and value. The {@link Entry#setValue}
  operation throws an {@link UnsupportedOperationException}.
@@ -26944,12 +26944,12 @@
   <interface name="Maps.EntryTransformer"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="transformEntry" return="V2"
+    <method name="transformEntry" return="V2 extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="K"/>
-      <param name="value" type="V1"/>
+      <param name="key" type="K extends java.lang.Object"/>
+      <param name="value" type="V1 extends java.lang.Object"/>
       <doc>
       <![CDATA[Determines an output value based on a key-value pair. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:
@@ -29877,7 +29877,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="T"/>
+      <param name="element" type="T extends java.lang.Object"/>
       <param name="array" type="T[]"/>
       <doc>
       <![CDATA[Returns a new array that prepends {@code element} to {@code array}.
@@ -29893,7 +29893,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="T[]"/>
-      <param name="element" type="T"/>
+      <param name="element" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a new array that appends {@code element} to {@code array}.
 
@@ -33181,7 +33181,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the collection unmodified.
 
@@ -33926,9 +33926,9 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="R"/>
-      <param name="columnKey" type="C"/>
-      <param name="value" type="V"/>
+      <param name="rowKey" type="R extends java.lang.Object"/>
+      <param name="columnKey" type="C extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns an immutable cell with the specified row key, column key, and value.
 
@@ -68294,7 +68294,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="keys" type="java.lang.Iterable&lt;?&gt;"/>
+      <param name="keys" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
       <doc>
       <![CDATA[Returns the stripes that correspond to the passed objects, in ascending (as per {@link
  #getAt(int)}) order. Thus, threads that use the stripes in the order returned by this method

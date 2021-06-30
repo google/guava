@@ -1554,15 +1554,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util" class="externalLink"><code>Arrays.asList(Object[])</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Lists.html#asList(E,E,E%5B%5D)">asList(E, E, E[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
-<dd>
-<div class="block">Returns an unmodifiable list containing the specified first and second element, and backed by
- the specified array of additional elements.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Lists.html#asList(E,E%5B%5D)">asList(E, E[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable list containing the specified first element and backed by the specified
  array of additional elements.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Lists.html#asList(E,E,E%5B%5D)">asList(E, E, E[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
+<dd>
+<div class="block">Returns an unmodifiable list containing the specified first and second element, and backed by
+ the specified array of additional elements.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/HashCode.html#asLong()">asLong()</a></span> - Method in class com.google.common.hash.<a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
@@ -2381,7 +2381,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns a new builder, expecting the specified number of distinct elements to be added.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Striped.html#bulkGet(java.lang.Iterable)">bulkGet(Iterable&lt;?&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Striped.html#bulkGet(java.lang.Iterable)">bulkGet(Iterable&lt;? extends Object&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
 <dd>
 <div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="com/google/common/util/concurrent/Striped.html#getAt(int)"><code>Striped.getAt(int)</code></a>) order.</div>
 </dd>
@@ -4018,10 +4018,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the values from each provided array combined into a single array.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/ObjectArrays.html#concat(T,T%5B%5D)">concat(T, T[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ObjectArrays.html" title="class in com.google.common.collect">ObjectArrays</a></dt>
-<dd>
-<div class="block">Returns a new array that prepends <code>element</code> to <code>array</code>.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/ByteSource.html#concat(com.google.common.io.ByteSource...)">concat(ByteSource...)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></dt>
 <dd>
 <div class="block">Concatenates multiple <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source.</div>
@@ -4133,6 +4129,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ObjectArrays.html#concat(T%5B%5D,T%5B%5D,java.lang.Class)">concat(T[], T[], Class&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ObjectArrays.html" title="class in com.google.common.collect">ObjectArrays</a></dt>
 <dd>
 <div class="block">Returns a new array that contains the concatenated contents of two arrays.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ObjectArrays.html#concat(T,T%5B%5D)">concat(T, T[])</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/ObjectArrays.html" title="class in com.google.common.collect">ObjectArrays</a></dt>
+<dd>
+<div class="block">Returns a new array that prepends <code>element</code> to <code>array</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/hash/Hashing.html#concatenating(com.google.common.hash.HashFunction,com.google.common.hash.HashFunction,com.google.common.hash.HashFunction...)">concatenating(HashFunction, HashFunction, HashFunction...)</a></span> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
@@ -4287,7 +4287,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Determines whether any of this range set's member ranges contains <code>value</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Iterables.html#contains(java.lang.Iterable,java.lang.Object)">contains(Iterable&lt;?&gt;, Object)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Iterables.html#contains(java.lang.Iterable,java.lang.Object)">contains(Iterable&lt;? extends Object&gt;, Object)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if <code>iterable</code> contains any element <code>o</code> for which <code>
  Objects.equals(o, element)</code> would return <code>true</code>.</div>
@@ -9590,13 +9590,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A builder for <a href="com/google/common/primitives/ImmutableDoubleArray.html" title="class in com.google.common.primitives"><code>ImmutableDoubleArray</code></a> instances; obtained using <a href="com/google/common/primitives/ImmutableDoubleArray.html#builder(int)"><code>ImmutableDoubleArray.builder(int)</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Maps.html#immutableEntry(K,V)">immutableEntry(K, V)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
-<dd>
-<div class="block">Returns an immutable map entry with the specified key and value.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Multisets.html#immutableEntry(E,int)">immutableEntry(E, int)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Multisets.html" title="class in com.google.common.collect">Multisets</a></dt>
 <dd>
 <div class="block">Returns an immutable multiset entry with the specified element and count.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Maps.html#immutableEntry(K,V)">immutableEntry(K, V)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
+<dd>
+<div class="block">Returns an immutable map entry with the specified key and value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Maps.html#immutableEnumMap(java.util.Map)">immutableEnumMap(Map&lt;K, ? extends V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
 <dd>
@@ -11748,7 +11748,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> instances (including instances of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>SortedMap</code></a>, <a href="com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a>, etc.).</div>
 </dd>
-<dt><a href="com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect"><span class="typeNameLink">Maps.EntryTransformer</span></a>&lt;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">K</a>,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V1</a>,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V2</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect"><span class="typeNameLink">Maps.EntryTransformer</span></a>&lt;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V1</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V2</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A transformation of the value of a key-value pair, using both key and value as inputs.</div>
 </dd>
@@ -11848,10 +11848,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#max(T,T,java.util.Comparator)">max(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
-<dd>
-<div class="block">Returns the maximum of the two values, according to the given comparator.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#max(E,E)">max(E, E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the greater of the two values according to this ordering.</div>
@@ -11871,6 +11867,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#max(T,T)">max(T, T)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
 <dd>
 <div class="block">Returns the maximum of the two values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#max(T,T,java.util.Comparator)">max(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns the maximum of the two values, according to the given comparator.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#MAX">MAX</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -12151,10 +12151,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#min(T,T,java.util.Comparator)">min(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
-<dd>
-<div class="block">Returns the minimum of the two values, according to the given comparator.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Ordering.html#min(E,E)">min(E, E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
 <div class="block">Returns the lesser of the two values according to this ordering.</div>
@@ -12174,6 +12170,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#min(T,T)">min(T, T)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
 <dd>
 <div class="block">Returns the minimum of the two values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/Comparators.html#min(T,T,java.util.Comparator)">min(T, T, Comparator&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Comparators.html" title="class in com.google.common.collect">Comparators</a></dt>
+<dd>
+<div class="block">Returns the minimum of the two values, according to the given comparator.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Ascii.html#MIN">MIN</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -16723,7 +16723,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> instances.</div>
 </dd>
-<dt><a href="com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect"><span class="typeNameLink">Sets.SetView</span></a>&lt;<a href="com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect"><span class="typeNameLink">Sets.SetView</span></a>&lt;<a href="com/google/common/collect/Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An unmodifiable view of a set which may be backed by other sets; this view will change as the
  backing sets do.</div>
@@ -17921,19 +17921,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Static utility methods related to <code>Stream</code> instances.</div>
 </dd>
-<dt><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.DoubleFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="type parameter in Streams.DoubleFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.DoubleFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="type parameter in Streams.DoubleFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An analogue of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>DoubleFunction</code></a> also accepting an index.</div>
 </dd>
-<dt><a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.FunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">T</a>,&#8203;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.FunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="com/google/common/collect/Streams.FunctionWithIndex.html" title="type parameter in Streams.FunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An analogue of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>Function</code></a> also accepting an index.</div>
 </dd>
-<dt><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.IntFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="type parameter in Streams.IntFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.IntFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.IntFunctionWithIndex.html" title="type parameter in Streams.IntFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An analogue of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/IntFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>IntFunction</code></a> also accepting an index.</div>
 </dd>
-<dt><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.LongFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="type parameter in Streams.LongFunctionWithIndex">R</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dt><a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect"><span class="typeNameLink">Streams.LongFunctionWithIndex</span></a>&lt;<a href="com/google/common/collect/Streams.LongFunctionWithIndex.html" title="type parameter in Streams.LongFunctionWithIndex">R</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt; - Interface in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An analogue of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/LongFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>LongFunction</code></a> also accepting an index.</div>
 </dd>

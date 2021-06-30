@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.65">Sets</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Sets.html#line.66">Sets</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Static utility methods pertaining to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> instances. Also see this class's counterparts
  <a href="Lists.html" title="class in com.google.common.collect"><code>Lists</code></a>, <a href="Maps.html" title="class in com.google.common.collect"><code>Maps</code></a> and <a href="Queues.html" title="class in com.google.common.collect"><code>Queues</code></a>.
@@ -166,7 +166,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a>&gt;</span></code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;<a href="Sets.SetView.html" title="type parameter in Sets.SetView">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</span></code></th>
 <td class="colLast">
 <div class="block">An unmodifiable view of a set which may be backed by other sets; this view will change as the
  backing sets do.</div>
@@ -234,7 +234,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#difference(java.util.Set,java.util.Set)">difference</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</code></th>
 <td class="colLast">
@@ -242,7 +242,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.NavigableSet,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;unfiltered,
       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
@@ -250,7 +250,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.Set,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;unfiltered,
       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
@@ -258,7 +258,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.SortedSet,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;unfiltered,
       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
@@ -281,7 +281,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#intersection(java.util.Set,java.util.Set)">intersection</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</code></th>
 <td class="colLast">
@@ -303,14 +303,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newCopyOnWriteArraySet()">newCopyOnWriteArraySet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>CopyOnWriteArraySet</code> instance.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newCopyOnWriteArraySet(java.lang.Iterable)">newCopyOnWriteArraySet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>CopyOnWriteArraySet</code> instance containing the given elements.</div>
@@ -326,35 +326,35 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i17" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newHashSet()">newHashSet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i>, initially empty <code>HashSet</code> instance.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newHashSet(E...)">newHashSet</a></span>&#8203;(E...&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance initially containing the given elements.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newHashSet(java.lang.Iterable)">newHashSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newHashSet(java.util.Iterator)">newHashSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newHashSetWithExpectedSize(int)">newHashSetWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
 <td class="colLast">
 <div class="block">Returns a new hash set using the smallest initial table size that can hold <code>expectedSize</code>
@@ -362,28 +362,28 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newIdentityHashSet()">newIdentityHashSet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>Set</code> that uses identity to determine equality.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedHashSet()">newLinkedHashSet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i>, empty <code>LinkedHashSet</code> instance.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedHashSet(java.lang.Iterable)">newLinkedHashSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i> <code>LinkedHashSet</code> instance containing the given elements in order.</div>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newLinkedHashSetWithExpectedSize(int)">newLinkedHashSetWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>LinkedHashSet</code> instance, with a high enough "initial capacity" that it
@@ -391,7 +391,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newSetFromMap(java.util.Map)">newSetFromMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;E,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;map)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -416,7 +416,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newTreeSet(java.util.Comparator)">newTreeSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Creates a <i>mutable</i>, empty <code>TreeSet</code> instance with the given comparator.</div>
@@ -438,7 +438,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i32" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#symmetricDifference(java.util.Set,java.util.Set)">symmetricDifference</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</code></th>
 <td class="colLast">
@@ -446,14 +446,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i33" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizedNavigableSet(java.util.NavigableSet)">synchronizedNavigableSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;navigableSet)</code></th>
 <td class="colLast">
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified navigable set.</div>
 </td>
 </tr>
 <tr id="i34" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#union(java.util.Set,java.util.Set)">union</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</code></th>
 <td class="colLast">
@@ -461,7 +461,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i35" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unmodifiableNavigableSet(java.util.NavigableSet)">unmodifiableNavigableSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;set)</code></th>
 <td class="colLast">
 <div class="block">Returns an unmodifiable view of the specified navigable set.</div>
@@ -500,7 +500,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>immutableEnumSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.97">immutableEnumSet</a>&#8203;(E&nbsp;anElement,
+public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.99">immutableEnumSet</a>&#8203;(E&nbsp;anElement,
                                                                    E...&nbsp;otherElements)</pre>
 <div class="block">Returns an immutable set instance containing the given enum elements. Internally, the returned
  set will be backed by an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>EnumSet</code></a>.
@@ -523,7 +523,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <li class="blockList">
 <h4>immutableEnumSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.114">immutableEnumSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.116">immutableEnumSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable set instance containing the given enum elements. Internally, the returned
  set will be backed by an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>EnumSet</code></a>.
 
@@ -543,7 +543,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newEnumSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.142">newEnumSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.144">newEnumSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;iterable,
                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;E&gt;&nbsp;elementType)</pre>
 <div class="block">Returns a new, <i>mutable</i> <code>EnumSet</code> instance containing the given elements in their
  natural order. This method behaves identically to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true#copyOf(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>EnumSet.copyOf(Collection)</code></a>, but also
@@ -556,7 +556,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.163">newHashSet</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.165">newHashSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, initially empty <code>HashSet</code> instance.
 
  <p><b>Note:</b> if mutability is not required, use <a href="ImmutableSet.html#of()"><code>ImmutableSet.of()</code></a> instead. If <code>
@@ -577,7 +577,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.180">newHashSet</a>&#8203;(E...&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.182">newHashSet</a>&#8203;(E...&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance initially containing the given elements.
 
  <p><b>Note:</b> if elements are non-null and won't be added or removed after this point, use
@@ -596,7 +596,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.204">newHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.206">newHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements. A very thin
  convenience for creating an empty set then calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collection.addAll(java.util.Collection&lt;? extends E&gt;)</code></a> or <a href="Iterables.html#addAll(java.util.Collection,java.lang.Iterable)"><code>Iterables.addAll(java.util.Collection&lt;T&gt;, java.lang.Iterable&lt;? extends T&gt;)</code></a>.
 
@@ -618,7 +618,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.222">newHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.224">newHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements. A very thin
  convenience for creating an empty set and then calling <a href="Iterators.html#addAll(java.util.Collection,java.util.Iterator)"><code>Iterators.addAll(java.util.Collection&lt;T&gt;, java.util.Iterator&lt;? extends T&gt;)</code></a>.
 
@@ -636,7 +636,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashSetWithExpectedSize</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.240">newHashSetWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">HashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.242">newHashSetWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new hash set using the smallest initial table size that can hold <code>expectedSize</code>
  elements without resizing. Note that this is not what <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashSet.html?is-external=true#%3Cinit%3E(int)" title="class or interface in java.util" class="externalLink"><code>HashSet(int)</code></a> does, but it
  is what most users want and expect it to do.
@@ -659,7 +659,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newConcurrentHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.254">newConcurrentHashSet</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.257">newConcurrentHashSet</a>()</pre>
 <div class="block">Creates a thread-safe set backed by a hash map. The set is backed by a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentHashMap</code></a> instance, and thus carries the same concurrency guarantees.
 
  <p>Unlike <code>HashSet</code>, this class does NOT allow <code>null</code> to be used as an element. The
@@ -678,7 +678,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newConcurrentHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.271">newConcurrentHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.274">newConcurrentHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a thread-safe set backed by a hash map and containing the given elements. The set is
  backed by a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentHashMap</code></a> instance, and thus carries the same concurrency
  guarantees.
@@ -703,7 +703,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.290">newLinkedHashSet</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.293">newLinkedHashSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>LinkedHashSet</code> instance.
 
  <p><b>Note:</b> if mutability is not required, use <a href="ImmutableSet.html#of()"><code>ImmutableSet.of()</code></a> instead.
@@ -723,7 +723,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.309">newLinkedHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.312">newLinkedHashSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>LinkedHashSet</code> instance containing the given elements in order.
 
  <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableSet.html#copyOf(java.lang.Iterable)"><code>ImmutableSet.copyOf(Iterable)</code></a> instead.
@@ -747,7 +747,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashSetWithExpectedSize</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.330">newLinkedHashSetWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashSet.html?is-external=true" title="class or interface in java.util" class="externalLink">LinkedHashSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.334">newLinkedHashSetWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Creates a <code>LinkedHashSet</code> instance, with a high enough "initial capacity" that it
  <i>should</i> hold <code>expectedSize</code> elements without growth. This behavior cannot be
  broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
@@ -771,7 +771,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.348">newTreeSet</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.353">newTreeSet</a>()</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>TreeSet</code> instance sorted by the natural sort ordering of
  its elements.
 
@@ -792,7 +792,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.373">newTreeSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.378">newTreeSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <i>mutable</i> <code>TreeSet</code> instance containing the given elements sorted by their
  natural ordering.
 
@@ -822,7 +822,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newTreeSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.395">newTreeSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeSet.html?is-external=true" title="class or interface in java.util" class="externalLink">TreeSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.400">newTreeSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Creates a <i>mutable</i>, empty <code>TreeSet</code> instance with the given comparator.
 
  <p><b>Note:</b> if mutability is not required, use <code>
@@ -849,7 +849,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <ul class="blockList">
 <li class="blockList">
 <h4>newIdentityHashSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.408">newIdentityHashSet</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.414">newIdentityHashSet</a>()</pre>
 <div class="block">Creates an empty <code>Set</code> that uses identity to determine equality. It compares object
  references, instead of calling <code>equals</code>, to determine whether a provided object matches
  an element in the set. For example, <code>contains</code> returns <code>false</code> when passed an
@@ -868,7 +868,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <li class="blockList">
 <h4>newCopyOnWriteArraySet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.421">newCopyOnWriteArraySet</a>()</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.427">newCopyOnWriteArraySet</a>()</pre>
 <div class="block">Creates an empty <code>CopyOnWriteArraySet</code> instance.
 
  <p><b>Note:</b> if you need an immutable empty <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a>, use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptySet()" title="class or interface in java.util" class="externalLink"><code>Collections.emptySet()</code></a>
@@ -888,7 +888,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newCopyOnWriteArraySet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.433">newCopyOnWriteArraySet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CopyOnWriteArraySet.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CopyOnWriteArraySet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.439">newCopyOnWriteArraySet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a <code>CopyOnWriteArraySet</code> instance containing the given elements.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -906,7 +906,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.457">complementOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.464">complementOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;collection)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in the specified
  collection. If the collection is an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>EnumSet</code></a>, this method has the same behavior as
  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true#complementOf(java.util.EnumSet)" title="class or interface in java.util" class="externalLink"><code>EnumSet.complementOf(java.util.EnumSet&lt;E&gt;)</code></a>. Otherwise, the specified collection must contain at least one
@@ -929,7 +929,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>complementOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.477">complementOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;collection,
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true" title="class or interface in java.util" class="externalLink">EnumSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.484">complementOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;collection,
                                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;E&gt;&nbsp;type)</pre>
 <div class="block">Creates an <code>EnumSet</code> consisting of all enum values that are not in the specified
  collection. This is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/EnumSet.html?is-external=true#complementOf(java.util.EnumSet)" title="class or interface in java.util" class="externalLink"><code>EnumSet.complementOf(java.util.EnumSet&lt;E&gt;)</code></a>, but can act on any input
@@ -951,7 +951,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>newSetFromMap</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.521">newSetFromMap</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;E,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;map)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.528">newSetFromMap</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;E,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;map)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#newSetFromMap(java.util.Map)" title="class or interface in java.util" class="externalLink"><code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code></a> instead.</div>
 </div>
@@ -992,8 +992,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.661">union</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
-                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.670">union</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
+                                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the union of two sets. The returned set contains all
  elements that are contained in either backing set. Iterating over the returned set iterates
  first over all the elements of <code>set1</code>, then over each element of <code>set2</code>, in order,
@@ -1010,8 +1010,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.750">intersection</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
-                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.762">intersection</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
+                                                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the intersection of two sets. The returned set contains
  all elements that are contained by both backing sets. The iteration order of the returned set
  matches that of <code>set1</code>.
@@ -1045,8 +1045,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.811">difference</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
-                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.825">difference</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set1,
+                                                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;?&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the difference of two sets. The returned set contains
  all elements that are contained by <code>set1</code> and not contained by <code>set2</code>. <code>set2</code>
  may also contain elements not present in <code>set1</code>; these are simply ignored. The iteration
@@ -1063,8 +1063,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>symmetricDifference</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.868">symmetricDifference</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
-                                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.884">symmetricDifference</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set1,
+                                                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends E&gt;&nbsp;set2)</pre>
 <div class="block">Returns an unmodifiable <b>view</b> of the symmetric difference of two sets. The returned set
  contains all elements that are contained in either <code>set1</code> or <code>set2</code> but not in
  both. The iteration order of the returned set is undefined.
@@ -1084,8 +1084,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.953">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;unfiltered,
-                                <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.970">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;unfiltered,
+                                                         <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The returned set is a live
  view of <code>unfiltered</code>; changes to one affect the other.
 
@@ -1116,8 +1116,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.992">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;unfiltered,
-                                      <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1010">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;unfiltered,
+                                                               <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>SortedSet</code>, <code>unfiltered</code>, that satisfy a predicate. The
  returned set is a live view of <code>unfiltered</code>; changes to one affect the other.
 
@@ -1150,8 +1150,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>filter</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1028">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;unfiltered,
-                                         <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1047">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;unfiltered,
+                                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of a <code>NavigableSet</code>, <code>unfiltered</code>, that satisfy a predicate.
  The returned set is a live view of <code>unfiltered</code>; changes to one affect the other.
 
@@ -1183,7 +1183,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>cartesianProduct</h4>
-<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1233">cartesianProduct</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1265">cartesianProduct</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends B&gt;&gt;&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element from each of the given
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
@@ -1250,7 +1250,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>cartesianProduct</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1290">cartesianProduct</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends B&gt;...&nbsp;sets)</pre>
+public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;B&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1322">cartesianProduct</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;? extends B&gt;...&nbsp;sets)</pre>
 <div class="block">Returns every possible list that can be formed by choosing one element from each of the given
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
@@ -1317,7 +1317,7 @@ public static&nbsp;&lt;B&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>powerSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=false)
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1417">powerSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1449">powerSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns the set of all possible subsets of <code>set</code>. For example, <code>
  powerSet(ImmutableSet.of(1, 2))</code> returns the set <code>{{}, {1}, {2}, {1, 2}}</code>.
 
@@ -1355,7 +1355,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>combinations</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1553">combinations</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1585">combinations</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;E&gt;&nbsp;set,
                                            int&nbsp;size)</pre>
 <div class="block">Returns the set of all subsets of <code>set</code> of size <code>size</code>. For example, <code>
  combinations(ImmutableSet.of(1, 2, 3), 2)</code> returns the set <code>{{1, 2}, {1, 3}, {2, 3}}</code>.
@@ -1392,7 +1392,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableNavigableSet</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1693">unmodifiableNavigableSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;set)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1727">unmodifiableNavigableSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;set)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable set. This method allows modules to
  provide users with "read-only" access to internal navigable sets. Query operations on the
  returned set "read through" to the specified set, and attempts to modify the returned set,
@@ -1417,7 +1417,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>synchronizedNavigableSet</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1827">synchronizedNavigableSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;navigableSet)</pre>
+public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.1871">synchronizedNavigableSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;E&gt;&nbsp;navigableSet)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable set backed by the specified navigable set. In
  order to guarantee serial access, it is critical that <b>all</b> access to the backing
  navigable set is accomplished through the returned navigable set (or its views).
@@ -1475,7 +1475,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <h4>subSet</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2007">subSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.html#line.2064">subSet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;K&gt;&nbsp;set,
                                                                        <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.
 
