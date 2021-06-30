@@ -27,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -41,7 +42,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, V> {
+@ElementTypesAreNonnullByDefault
+public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
+    extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;
 
   /**
@@ -49,7 +52,8 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
    *
    * @param keyType the key type
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(Class<K> keyType) {
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
+      Class<K> keyType) {
     return new EnumHashBiMap<>(keyType);
   }
 
@@ -63,7 +67,8 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
    * @throws IllegalArgumentException if map is not an {@code EnumBiMap} or an {@code EnumHashBiMap}
    *     instance and contains no mappings
    */
-  public static <K extends Enum<K>, V> EnumHashBiMap<K, V> create(Map<K, ? extends V> map) {
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumHashBiMap<K, V> create(
+      Map<K, ? extends V> map) {
     EnumHashBiMap<K, V> bimap = create(EnumBiMap.inferKeyType(map));
     bimap.putAll(map);
     return bimap;
@@ -85,13 +90,19 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
 
   @CanIgnoreReturnValue
   @Override
-  public V put(K key, @Nullable V value) {
+  @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
+  // TODO(b/192446998): Remove this override after tools understand nullness better.
+  @CheckForNull
+  public V put(K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(K key, @Nullable V value) {
+  @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
+  // TODO(b/192446998): Remove this override after tools understand nullness better.
+  @CheckForNull
+  public V forcePut(K key, @ParametricNullness V value) {
     return super.forcePut(key, value);
   }
 
