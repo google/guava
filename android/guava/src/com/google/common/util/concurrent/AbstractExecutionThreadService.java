@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Base class for services that can implement {@link #startUp}, {@link #run} and {@link #shutDown}
@@ -33,6 +34,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =

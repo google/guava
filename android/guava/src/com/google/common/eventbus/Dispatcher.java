@@ -20,6 +20,7 @@ import com.google.common.collect.Queues;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Handler for dispatching events to subscribers, providing different event ordering guarantees that
@@ -31,6 +32,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @author Colin Decker
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class Dispatcher {
 

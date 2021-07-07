@@ -26,6 +26,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.stream.Stream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A destination to which characters can be written, such as a text file. Unlike a {@link Writer}, a
@@ -51,6 +52,7 @@ import java.util.stream.Stream;
  * @author Colin Decker
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class CharSink {
 

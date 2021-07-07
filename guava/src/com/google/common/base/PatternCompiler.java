@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Pluggable interface for compiling a regex pattern. By default this package uses the {@code
@@ -22,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
  * java.util.ServiceLoader} mechanism.
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface PatternCompiler {
   /**

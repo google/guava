@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An {@link InputStream} that counts the number of bytes read.
@@ -30,6 +31,7 @@ import java.io.InputStream;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class CountingInputStream extends FilterInputStream {
 

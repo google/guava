@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(ListMultimap, Predicate)}.
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends FilteredKeyMultimap<K, V> implements ListMultimap<K, V> {

@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.jspecify.nullness.NullMarked;
 import sun.misc.Unsafe;
 
 /**
@@ -44,6 +45,7 @@ import sun.misc.Unsafe;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UnsignedBytes {
   private UnsignedBytes() {}

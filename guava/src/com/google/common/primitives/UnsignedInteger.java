@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -39,6 +40,7 @@ import javax.annotation.CheckForNull;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = fromIntBits(0);

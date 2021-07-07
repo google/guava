@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@code Escaper} instances suitable for strings to be included in XML attribute values and
@@ -40,6 +41,7 @@ import com.google.common.escape.Escapers;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class XmlEscapers {
   private XmlEscapers() {}

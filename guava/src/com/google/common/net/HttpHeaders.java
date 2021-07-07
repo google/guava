@@ -16,6 +16,7 @@ package com.google.common.net;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Contains constant definitions for the HTTP header field names. See:
@@ -32,6 +33,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 11.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class HttpHeaders {
   private HttpHeaders() {}

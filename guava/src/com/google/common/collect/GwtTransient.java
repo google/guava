@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Private replacement for {@link com.google.gwt.user.client.rpc.GwtTransient} to work around
@@ -33,5 +34,6 @@ import java.lang.annotation.Target;
 @GwtCompatible
 @Retention(RUNTIME)
 @Target(FIELD)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 @interface GwtTransient {}

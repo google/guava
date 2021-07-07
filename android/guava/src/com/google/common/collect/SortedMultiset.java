@@ -23,7 +23,8 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A {@link Multiset} which maintains the ordering of its elements, according to either their
@@ -44,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object>
     extends SortedMultisetBridge<E>, SortedIterable<E> {

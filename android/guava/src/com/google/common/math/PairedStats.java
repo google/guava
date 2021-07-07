@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable value object capturing some basic statistics about a collection of paired double
@@ -39,6 +40,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class PairedStats implements Serializable {
 

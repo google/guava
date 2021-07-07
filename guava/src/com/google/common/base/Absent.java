@@ -20,9 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<>();

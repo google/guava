@@ -22,6 +22,7 @@ import static java.lang.Double.isNaN;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Doubles;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks some
@@ -32,6 +33,7 @@ import com.google.common.primitives.Doubles;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class PairedStatsAccumulator {
 

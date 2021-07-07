@@ -31,6 +31,7 @@ import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -74,6 +75,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtCompatible(emulated = true)
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 

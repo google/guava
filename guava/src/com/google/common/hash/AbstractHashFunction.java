@@ -20,7 +20,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Skeleton implementation of {@link HashFunction} in terms of {@link #newHasher()}.
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>TODO(lowasser): make public
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class AbstractHashFunction implements HashFunction {
   @Override

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
@@ -46,6 +47,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Throwables {
   private Throwables() {}

@@ -21,6 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Base class for services that do not need a thread while "running" but may need one during startup
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeoutException;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractIdleService implements Service {
 

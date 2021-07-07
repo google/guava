@@ -17,7 +17,8 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Helper functions that can operate on any {@code Object}.
@@ -30,6 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Objects extends ExtraObjectsMethodsForWeb {
   private Objects() {}

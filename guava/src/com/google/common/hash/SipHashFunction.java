@@ -25,6 +25,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link HashFunction} implementation of SipHash-c-d.
@@ -34,6 +35,7 @@ import javax.annotation.CheckForNull;
  * @author Daniel J. Bernstein
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =

@@ -19,6 +19,7 @@ import static java.lang.Double.longBitsToDouble;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@code double} value that may be updated atomically. See the {@link
@@ -49,6 +50,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Martin Buchholz
  * @since 11.0
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;

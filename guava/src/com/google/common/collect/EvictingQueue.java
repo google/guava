@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -45,6 +46,7 @@ import java.util.Queue;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 

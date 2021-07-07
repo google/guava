@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object which can receive a stream of primitive values.
@@ -27,6 +28,7 @@ import java.nio.charset.Charset;
  */
 @Beta
 @CanIgnoreReturnValue
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface PrimitiveSink {
   /**

@@ -37,7 +37,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -53,6 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Collections2 {
   private Collections2() {}

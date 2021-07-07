@@ -33,10 +33,12 @@ import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CollectSpliterators {
   private CollectSpliterators() {}

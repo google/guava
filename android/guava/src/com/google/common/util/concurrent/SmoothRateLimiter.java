@@ -20,8 +20,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.math.LongMath;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.nullness.NullMarked;
 
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class SmoothRateLimiter extends RateLimiter {
   /*

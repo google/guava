@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link ValueGraph} whose elements and structural relationships will never change. Instances of
@@ -44,6 +45,7 @@ import com.google.errorprone.annotations.Immutable;
 @Beta
 @Immutable(containerOf = {"N", "V"})
 @SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 

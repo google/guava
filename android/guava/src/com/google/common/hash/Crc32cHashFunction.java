@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * This class generates a CRC32C checksum, defined by RFC 3720, Section 12.1. The generator
@@ -24,6 +25,7 @@ import java.nio.ByteBuffer;
  * @author Kurt Alfred Kluever
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Crc32cHashFunction extends AbstractHashFunction {
   static final HashFunction CRC_32_C = new Crc32cHashFunction();

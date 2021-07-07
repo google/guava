@@ -37,6 +37,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -64,6 +65,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Stats implements Serializable {
 

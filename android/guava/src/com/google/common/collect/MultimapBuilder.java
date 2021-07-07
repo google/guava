@@ -34,7 +34,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A builder for a multimap implementation that allows customization of the backing map and value
@@ -62,6 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 16.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @Nullable Object> {
   /*

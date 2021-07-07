@@ -20,6 +20,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Outer class that exists solely to let us write {@code Partially.GwtIncompatible} instead of plain
@@ -32,6 +33,7 @@ import java.lang.annotation.Target;
  * version.
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Partially {
   /**

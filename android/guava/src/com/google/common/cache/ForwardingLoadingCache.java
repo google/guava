@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.util.concurrent.ExecutionException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -31,6 +32,7 @@ import java.util.concurrent.ExecutionException;
  * @since 11.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
     implements LoadingCache<K, V> {

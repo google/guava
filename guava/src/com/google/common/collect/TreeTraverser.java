@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -75,6 +76,7 @@ import javax.annotation.CheckForNull;
 @Deprecated
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
 

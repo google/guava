@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Calculates the weights of cache entries.
@@ -23,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 11.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Weigher<K, V> {
 

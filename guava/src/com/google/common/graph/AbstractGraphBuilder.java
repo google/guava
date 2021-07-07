@@ -17,12 +17,14 @@
 package com.google.common.graph;
 
 import com.google.common.base.Optional;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A base class for builders that construct graphs with user-defined properties.
  *
  * @author James Sexton
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class AbstractGraphBuilder<N> {
   final boolean directed;

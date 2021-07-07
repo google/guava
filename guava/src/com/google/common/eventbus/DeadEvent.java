@@ -17,6 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Wraps an event that was posted, but which had no subscribers and thus could not be delivered.
@@ -27,6 +28,7 @@ import com.google.common.base.MoreObjects;
  * @author Cliff Biffle
  * @since 10.0
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class DeadEvent {
 

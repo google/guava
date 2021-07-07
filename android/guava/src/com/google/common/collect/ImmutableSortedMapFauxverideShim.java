@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * "Overrides" the {@link ImmutableMap} static methods that lack {@link ImmutableSortedMap}
@@ -27,6 +28,7 @@ import com.google.errorprone.annotations.DoNotCall;
  * @author Chris Povirk
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V> {
   /**

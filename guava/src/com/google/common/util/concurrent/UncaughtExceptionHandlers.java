@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Factories for {@link UncaughtExceptionHandler} instances.
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
  * @since 8.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}

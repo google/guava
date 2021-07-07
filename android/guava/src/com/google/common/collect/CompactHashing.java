@@ -21,7 +21,8 @@ import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Helper classes and static methods for implementing compact hash-based collections.
@@ -29,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jon Noack
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CompactHashing {
   private CompactHashing() {}

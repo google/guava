@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.graph.GraphConstants.Presence;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Standard implementation of {@link MutableGraph} that supports both directed and undirected
@@ -28,6 +29,7 @@ import com.google.common.graph.GraphConstants.Presence;
  * @author James Sexton
  * @param <N> Node parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class StandardMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private final MutableValueGraph<N, Presence> backingValueGraph;

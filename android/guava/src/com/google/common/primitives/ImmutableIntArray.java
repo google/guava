@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -80,6 +81,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtCompatible
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableIntArray implements Serializable {
   private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);

@@ -27,6 +27,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object that accurately measures <i>elapsed time</i>: the measured duration between two
@@ -87,6 +88,7 @@ import java.util.concurrent.TimeUnit;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("GoodTime") // lots of violations
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Stopwatch {
   private final Ticker ticker;

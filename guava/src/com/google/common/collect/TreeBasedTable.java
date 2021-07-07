@@ -33,6 +33,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -67,6 +68,7 @@ import javax.annotation.CheckForNull;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;

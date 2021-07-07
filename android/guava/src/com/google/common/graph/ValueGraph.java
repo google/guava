@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import java.util.Collection;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An interface for <a
@@ -107,6 +108,7 @@ import javax.annotation.CheckForNull;
  * @since 20.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface ValueGraph<N, V> extends BaseGraph<N> {
   //

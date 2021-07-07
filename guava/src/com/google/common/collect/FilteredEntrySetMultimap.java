@@ -21,7 +21,8 @@ import com.google.common.base.Predicate;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterEntries(SetMultimap, Predicate)}.
@@ -29,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class FilteredEntrySetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends FilteredEntryMultimap<K, V> implements FilteredSetMultimap<K, V> {

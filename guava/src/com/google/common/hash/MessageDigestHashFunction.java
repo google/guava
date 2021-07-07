@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest} instances.
@@ -32,6 +33,7 @@ import java.util.Arrays;
  * @author Dimitris Andreou
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class MessageDigestHashFunction extends AbstractHashFunction implements Serializable {
 

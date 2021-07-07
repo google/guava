@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.primitives.Longs;
 import java.nio.ByteOrder;
+import org.jspecify.nullness.NullMarked;
 import sun.misc.Unsafe;
 
 /**
@@ -24,6 +25,7 @@ import sun.misc.Unsafe;
  * @author Kevin Damm
  * @author Kyle Maddison
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class LittleEndianByteArray {
 

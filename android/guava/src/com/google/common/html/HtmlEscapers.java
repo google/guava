@@ -17,6 +17,7 @@ package com.google.common.html;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@code Escaper} instances suitable for strings to be included in HTML attribute values and
@@ -35,6 +36,7 @@ import com.google.common.escape.Escapers;
  * @since 15.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class HtmlEscapers {
   /**

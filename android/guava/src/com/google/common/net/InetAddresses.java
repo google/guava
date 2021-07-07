@@ -33,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -97,6 +98,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;

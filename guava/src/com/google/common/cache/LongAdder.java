@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * One or more variables that together maintain an initially zero {@code long} sum. When updates
@@ -40,6 +41,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Doug Lea
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class LongAdder extends Striped64 implements Serializable, LongAddable {
   private static final long serialVersionUID = 7249069246863182397L;

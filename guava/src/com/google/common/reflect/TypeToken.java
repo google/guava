@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link Type} with generics.
@@ -99,6 +100,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
 

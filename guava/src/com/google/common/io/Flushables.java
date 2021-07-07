@@ -20,6 +20,7 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Utility methods for working with {@link Flushable} objects.
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Flushables {
   private static final Logger logger = Logger.getLogger(Flushables.class.getName());

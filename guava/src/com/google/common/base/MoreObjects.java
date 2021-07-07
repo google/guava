@@ -26,6 +26,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in {@link
@@ -39,6 +40,7 @@ import javax.annotation.CheckForNull;
  * @since 18.0 (since 2.0 as {@code Objects})
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class MoreObjects {
   /**

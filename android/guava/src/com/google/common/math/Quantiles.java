@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Provides a fluent API for calculating <a
@@ -128,6 +129,7 @@ import java.util.Map;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Quantiles {
 

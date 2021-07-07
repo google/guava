@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A collection of preconditions for math functions.
@@ -26,6 +27,7 @@ import java.math.RoundingMode;
  */
 @GwtCompatible
 @CanIgnoreReturnValue
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class MathPreconditions {
   static int checkPositive(String role, int x) {

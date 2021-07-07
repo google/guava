@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link CharEscaper} that uses an array to quickly look up replacement characters for a given
@@ -43,6 +44,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedCharEscaper extends CharEscaper {
   // The replacement array (see ArrayBasedEscaperMap).

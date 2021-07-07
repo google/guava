@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * The reason why a cached entry was removed.
@@ -26,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public enum RemovalCause {
   /**

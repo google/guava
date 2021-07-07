@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utilities relating to Java reflection.
@@ -27,6 +28,7 @@ import java.lang.reflect.Proxy;
  * @since 12.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Reflection {
 

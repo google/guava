@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A strategy for determining whether two instances are considered equivalent, and for computing
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *     source-compatible</a> since 4.0)
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 /*
  * The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the

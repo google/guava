@@ -23,13 +23,15 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An ordering that orders elements by applying an order to the result of a function on those
  * elements.
  */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
     extends Ordering<F> implements Serializable {

@@ -17,7 +17,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Computes a value, possibly asynchronously. For an example usage and more information, see {@link
@@ -31,6 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 @FunctionalInterface
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface AsyncCallable<V extends @Nullable Object> {
   /**

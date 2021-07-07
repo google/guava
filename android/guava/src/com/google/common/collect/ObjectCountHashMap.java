@@ -29,7 +29,8 @@ import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * {@code ObjectCountHashMap} uses arrays to store key objects and count values. Comparing to using
@@ -39,6 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>In the absence of element deletions, this will iterate over elements in insertion order.
  */
 @GwtCompatible(serializable = true, emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class ObjectCountHashMap<K extends @Nullable Object> {
 

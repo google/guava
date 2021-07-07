@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses should override one or
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 7.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>

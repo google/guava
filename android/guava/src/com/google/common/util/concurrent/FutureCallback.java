@@ -17,7 +17,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A callback for accepting the results of a {@link java.util.concurrent.Future} computation
@@ -29,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface FutureCallback<V extends @Nullable Object> {
   /** Invoked with the result of the {@code Future} computation when it is successful. */

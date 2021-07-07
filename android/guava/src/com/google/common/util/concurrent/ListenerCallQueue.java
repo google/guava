@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A list of listeners for implementing a concurrency friendly observable object.
@@ -53,6 +54,7 @@ import java.util.logging.Logger;
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().

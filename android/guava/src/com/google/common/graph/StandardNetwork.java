@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Standard implementation of {@link Network} that supports the options supplied by {@link
@@ -48,6 +49,7 @@ import java.util.TreeMap;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;

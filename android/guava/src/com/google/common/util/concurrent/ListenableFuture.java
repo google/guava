@@ -18,7 +18,8 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
@@ -116,12 +117,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * put in a special hack for us: https://issuetracker.google.com/issues/131431257)
  */
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
+@NullMarked
 /*
  * It would make sense to also annotate this class with @ElementTypesAreNonnullByDefault. However,
  * it makes no difference because this class is already covered by the package-level
  * @ParametersAreNonnullByDefault, and this class declares only parameters, not return types or
  * fields. (Not to mention that we'll be removing all @*AreNonnullByDefault annotations after tools
- * understand .) And it's fortunate that the annotation makes no difference, because
+ * understand @NullMarked.) And it's fortunate that the annotation makes no difference, because
  * we're seeing a breakage internally when we add that annotation :)
  *
  */

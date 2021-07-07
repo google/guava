@@ -14,7 +14,8 @@ package com.google.common.cache;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic
@@ -22,6 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * so.
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class Striped64 extends Number {
   /*

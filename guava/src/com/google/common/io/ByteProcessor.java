@@ -19,7 +19,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.IOException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A callback interface to process bytes from a stream.
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 @DoNotMock("Implement it normally")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface ByteProcessor<T extends @Nullable Object> {
   /**

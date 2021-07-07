@@ -16,8 +16,10 @@
 
 package com.google.common.graph;
 
+import org.jspecify.nullness.NullMarked;
 
 /** A utility class to hold various constants used by the Guava Graph library. */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class GraphConstants {
 

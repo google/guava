@@ -31,6 +31,7 @@ import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -41,6 +42,7 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @param <N> Node parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 

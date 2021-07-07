@@ -22,7 +22,8 @@ import com.google.common.base.Objects;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A map entry which forwards all its method calls to another map entry. Subclasses should override
@@ -48,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Map.Entry<K, V> {

@@ -20,9 +20,11 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.jspecify.nullness.NullMarked;
 
 /** Precondition checks useful in collection implementations. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CollectPreconditions {
 

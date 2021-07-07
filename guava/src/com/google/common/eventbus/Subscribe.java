@@ -18,6 +18,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Marks a method as an event subscriber.
@@ -35,5 +36,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public @interface Subscribe {}

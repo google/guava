@@ -19,13 +19,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An Iterator implementation which draws elements from a queue, removing them from the queue as it
  * iterates.
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
   private final Queue<T> queue;

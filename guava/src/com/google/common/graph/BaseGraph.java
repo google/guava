@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Set;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A non-public interface for the methods shared between {@link Graph} and {@link ValueGraph}.
@@ -24,6 +25,7 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //

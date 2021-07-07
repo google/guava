@@ -25,13 +25,15 @@ import com.google.common.collect.Sets;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A class to facilitate the set returned by {@link Graph#edges()}.
  *
  * @author James Sexton
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
   private final BaseGraph<N> graph;

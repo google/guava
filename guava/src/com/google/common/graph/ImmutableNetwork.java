@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
@@ -46,6 +47,7 @@ import java.util.Map;
 @Beta
 @Immutable(containerOf = {"N", "E"})
 @SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 

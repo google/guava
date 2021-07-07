@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
@@ -70,6 +71,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class MoreFiles {
 

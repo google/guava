@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
@@ -35,6 +36,7 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class MultiEdgesConnecting<E> extends AbstractSet<E> {
 

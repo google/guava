@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -30,6 +31,7 @@ import javax.annotation.CheckForNull;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CartesianList<E> extends AbstractList<List<E>> implements RandomAccess {
 

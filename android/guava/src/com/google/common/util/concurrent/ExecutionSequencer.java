@@ -30,7 +30,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Serializes execution of tasks, somewhat like an "asynchronous {@code synchronized} block." Each
@@ -81,6 +82,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 26.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ExecutionSequencer {
 

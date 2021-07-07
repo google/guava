@@ -23,6 +23,7 @@ import java.io.DataOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link DataOutput} that uses little-endian byte ordering for writing {@code
@@ -37,6 +38,7 @@ import java.io.OutputStream;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class LittleEndianDataOutputStream extends FilterOutputStream implements DataOutput {
 

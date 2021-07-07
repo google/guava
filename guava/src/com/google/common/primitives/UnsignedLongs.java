@@ -24,6 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as
@@ -50,6 +51,7 @@ import java.util.Comparator;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UnsignedLongs {
   private UnsignedLongs() {}

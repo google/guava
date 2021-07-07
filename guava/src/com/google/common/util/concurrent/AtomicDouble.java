@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@code double} value that may be updated atomically. See the {@link
@@ -53,6 +54,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  */
 @GwtIncompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;

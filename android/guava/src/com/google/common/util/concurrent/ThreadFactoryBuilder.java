@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -47,6 +48,7 @@ import javax.annotation.CheckForNull;
  */
 @CanIgnoreReturnValue
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ThreadFactoryBuilder {
   @CheckForNull private String nameFormat = null;

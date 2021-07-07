@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -29,6 +30,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public enum CaseFormat {
   /** Hyphenated variable naming convention, e.g., "lower-hyphen". */

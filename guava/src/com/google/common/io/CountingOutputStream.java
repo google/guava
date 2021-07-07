@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An OutputStream that counts the number of bytes written.
@@ -28,6 +29,7 @@ import java.io.OutputStream;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class CountingOutputStream extends FilterOutputStream {
 

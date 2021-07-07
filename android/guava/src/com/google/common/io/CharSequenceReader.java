@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link Reader} that reads the characters in a {@link CharSequence}. Like {@code StringReader},
@@ -33,6 +34,7 @@ import javax.annotation.CheckForNull;
  */
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CharSequenceReader extends Reader {
 

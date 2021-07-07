@@ -21,10 +21,12 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /** An ordering that tries several comparators in order. */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {

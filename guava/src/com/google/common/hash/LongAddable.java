@@ -14,12 +14,14 @@
 
 package com.google.common.hash;
 
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Abstract interface for objects that can concurrently add longs.
  *
  * @author Louis Wasserman
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface LongAddable {
   void increment();

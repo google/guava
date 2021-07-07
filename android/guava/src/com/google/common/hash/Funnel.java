@@ -17,7 +17,8 @@ package com.google.common.hash;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.
@@ -44,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @DoNotMock("Implement with a lambda")
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Funnel<T extends @Nullable Object> extends Serializable {
 

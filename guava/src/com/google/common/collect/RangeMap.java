@@ -25,7 +25,8 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -40,6 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 @DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface RangeMap<K extends Comparable, V> {
   /*

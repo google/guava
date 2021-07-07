@@ -25,7 +25,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation of {@code Futures#withTimeout}.
@@ -35,6 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
   static <V extends @Nullable Object> ListenableFuture<V> create(

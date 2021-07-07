@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of
@@ -82,6 +83,7 @@ import javax.annotation.CheckForNull;
  */
 @DoNotMock("Use Optional.of(value) or Optional.absent()")
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class Optional<T> implements Serializable {
   /**

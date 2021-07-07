@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An {@link OutputStream} that maintains a hash of the data written to it.
@@ -28,6 +29,7 @@ import java.io.OutputStream;
  * @since 16.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class HashingOutputStream extends FilterOutputStream {
   private final Hasher hasher;

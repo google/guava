@@ -20,6 +20,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, {@linkplain
@@ -52,6 +53,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @DoNotMock("Use ImmutableRangeSet or TreeRangeSet")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface RangeSet<C extends Comparable> {
 

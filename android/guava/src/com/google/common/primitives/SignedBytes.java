@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives that interpret values as signed. The
@@ -36,6 +37,7 @@ import java.util.Comparator;
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class SignedBytes {
   private SignedBytes() {}

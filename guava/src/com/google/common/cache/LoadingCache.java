@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
@@ -39,6 +40,7 @@ import java.util.concurrent.ExecutionException;
  * @since 11.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 

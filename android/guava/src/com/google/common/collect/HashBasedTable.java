@@ -23,6 +23,7 @@ import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
@@ -47,6 +48,7 @@ import java.util.Map;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {

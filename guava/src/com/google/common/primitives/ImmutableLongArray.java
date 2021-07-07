@@ -34,6 +34,7 @@ import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -88,6 +89,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtCompatible
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableLongArray implements Serializable {
   private static final ImmutableLongArray EMPTY = new ImmutableLongArray(new long[0]);

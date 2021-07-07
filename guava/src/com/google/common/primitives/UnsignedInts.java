@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code int} primitives that interpret values as
@@ -47,6 +48,7 @@ import java.util.Comparator;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UnsignedInts {
   static final long INT_MASK = 0xffffffffL;

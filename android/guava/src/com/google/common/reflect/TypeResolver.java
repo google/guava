@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -52,6 +53,7 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 

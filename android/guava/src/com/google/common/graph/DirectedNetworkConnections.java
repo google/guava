@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableBiMap;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link NetworkConnections} for directed networks.
@@ -32,6 +33,7 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class DirectedNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 

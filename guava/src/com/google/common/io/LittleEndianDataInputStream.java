@@ -27,6 +27,7 @@ import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link DataInput} that uses little-endian byte ordering for reading {@code
@@ -41,6 +42,7 @@ import java.io.InputStream;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {
 

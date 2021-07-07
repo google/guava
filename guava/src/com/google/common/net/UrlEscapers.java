@@ -16,6 +16,7 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.Escaper;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@code Escaper} instances suitable for strings to be included in particular sections of URLs.
@@ -29,6 +30,7 @@ import com.google.common.escape.Escaper;
  * @since 15.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class UrlEscapers {
   private UrlEscapers() {}

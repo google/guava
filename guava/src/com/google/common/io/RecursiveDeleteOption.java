@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.SecureDirectoryStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
@@ -31,6 +32,7 @@ import java.nio.file.SecureDirectoryStream;
 @Beta
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public enum RecursiveDeleteOption {
   /**

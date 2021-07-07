@@ -23,6 +23,7 @@ import static java.lang.Double.isNaN;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A mutable object which accumulates double values and tracks some basic statistics over all the
@@ -34,6 +35,7 @@ import java.util.Iterator;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
 

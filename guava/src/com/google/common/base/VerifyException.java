@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Exception thrown upon the failure of a <a
@@ -25,6 +26,7 @@ import javax.annotation.CheckForNull;
  * @since 17.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class VerifyException extends RuntimeException {
   /** Constructs a {@code VerifyException} with no message. */

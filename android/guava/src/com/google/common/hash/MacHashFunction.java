@@ -23,6 +23,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link Mac} instances.
@@ -30,6 +31,7 @@ import javax.crypto.Mac;
  * @author Kurt Alfred Kluever
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class MacHashFunction extends AbstractHashFunction {
 

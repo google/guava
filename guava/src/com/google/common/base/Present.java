@@ -20,9 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Present<T> extends Optional<T> {
   private final T reference;

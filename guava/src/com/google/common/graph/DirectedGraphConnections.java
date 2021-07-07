@@ -41,6 +41,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link GraphConnections} for directed graphs.
@@ -50,6 +51,7 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   /**

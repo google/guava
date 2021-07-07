@@ -17,6 +17,7 @@ package com.google.common.io;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Package-protected abstract class that implements the line reading algorithm used by {@link
@@ -30,6 +31,7 @@ import java.io.IOException;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class LineBuffer {
   /** Holds partial line contents. */

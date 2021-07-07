@@ -23,6 +23,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.util.concurrent.Callable;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Statistics about the performance of a {@link Cache}. Instances of this class are immutable.
@@ -57,6 +58,7 @@ import javax.annotation.CheckForNull;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class CacheStats {
   private final long hitCount;

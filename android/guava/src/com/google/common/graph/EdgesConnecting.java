@@ -24,6 +24,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
 import java.util.Map;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
@@ -34,6 +35,7 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class EdgesConnecting<E> extends AbstractSet<E> {
 

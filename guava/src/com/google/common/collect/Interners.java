@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Contains static methods pertaining to instances of {@link Interner}.
@@ -31,6 +32,7 @@ import javax.annotation.CheckForNull;
  * @since 3.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Interners {
   private Interners() {}

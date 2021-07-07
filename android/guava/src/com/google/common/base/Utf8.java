@@ -20,6 +20,7 @@ import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
@@ -38,6 +39,7 @@ import com.google.common.annotations.GwtCompatible;
  */
 @Beta
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Utf8 {
   /**

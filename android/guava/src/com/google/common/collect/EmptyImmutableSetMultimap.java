@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implementation of {@link ImmutableListMultimap} with no entries.
@@ -24,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Mike Ward
  */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
   static final EmptyImmutableSetMultimap INSTANCE = new EmptyImmutableSetMultimap();

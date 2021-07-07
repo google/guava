@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
@@ -30,8 +31,15 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  * and a primitive type and its corresponding wrapper type may map to different values.
  *
+ * <p>Naturally, keys may not be null. From Guava 31.0 onward, this interface is <i>annotated</i> to
+ * disallow null <i>values</i>, too, even though the implementation {@link
+ * MutableClassToInstanceMap} will always continue to support them. If you use a nullness checker,
+ * you can safely suppress any warnings it produces when you write null values into a {@code
+ * MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,
+ * since nullness checkers will assume that vaules are non-null then, too.
+ *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"> {@code
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  * ClassToInstanceMap}</a>.
  *
  * <p>To map a generic type to an instance of that type, use {@link
@@ -43,12 +51,19 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 @GwtCompatible
+@NullMarked
+@ElementTypesAreNonnullByDefault
+// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we
+// we might annotate this as...
+// ClassToInstanceMap<B extends @Nullable Object> extends Map<Class<? extends @Nonnull B>, B>
+// ...and change its methods similarly (<T extends @Nonnull B> or Class<@Nonnull T>).
 public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no entry for this class
    * is present. This will only return a value that was bound to this specific class, not a value
    * that may have been bound to a subtype.
    */
+  @CheckForNull
   <T extends B> T getInstance(Class<T> type);
 
   /**
@@ -59,5 +74,6 @@ public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
    *     null} if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  <T extends B> T putInstance(Class<T> type, @NullableDecl T value);
+  @CheckForNull
+  <T extends B> T putInstance(Class<T> type, T value);
 }

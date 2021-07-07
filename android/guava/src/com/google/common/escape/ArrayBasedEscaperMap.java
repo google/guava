@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation-specific parameter class suitable for initializing {@link
@@ -38,6 +39,7 @@ import java.util.Map;
  */
 @Beta
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ArrayBasedEscaperMap {
   /**

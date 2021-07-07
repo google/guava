@@ -26,6 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values are not permitted.
@@ -38,6 +39,7 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;

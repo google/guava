@@ -65,6 +65,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A manager for monitoring and controlling a set of {@linkplain Service services}. This class
@@ -121,6 +122,7 @@ import java.util.logging.Logger;
  * @since 14.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());

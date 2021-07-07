@@ -22,6 +22,7 @@ import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.FileSystemException;
 import java.nio.file.SecureDirectoryStream;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Exception indicating that a recursive delete can't be performed because the file system does not
@@ -38,6 +39,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 

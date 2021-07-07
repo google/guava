@@ -21,7 +21,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * "Overrides" the {@link ImmutableMap} static methods that lack {@link ImmutableSortedMap}
@@ -31,6 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Chris Povirk
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V> {
   /**

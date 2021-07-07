@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Represents a {@linkplain System#getProperties() standard system property}.
@@ -24,6 +25,7 @@ import javax.annotation.CheckForNull;
  * @since 15.0
  */
 @GwtIncompatible // java.lang.System#getProperty
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public enum StandardSystemProperty {
 

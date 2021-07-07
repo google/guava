@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Dummy class that makes the GWT serialization policy happy. It isn't used on the server-side.
@@ -24,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class ForwardingImmutableCollection {
   private ForwardingImmutableCollection() {}

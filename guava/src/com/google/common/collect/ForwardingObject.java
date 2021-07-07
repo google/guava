@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An abstract base class for implementing the <a
@@ -44,6 +45,7 @@ import java.io.Serializable;
  * @since 2.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingObject {
 

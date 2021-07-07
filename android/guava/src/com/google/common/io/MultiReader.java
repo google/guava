@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link Reader} that concatenates multiple readers.
@@ -30,6 +31,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;

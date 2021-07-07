@@ -24,6 +24,7 @@ import com.google.common.primitives.Shorts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Abstract {@link Hasher} that handles converting primitives to bytes using a scratch {@code
@@ -32,6 +33,7 @@ import java.nio.ByteOrder;
  * @author Colin Decker
  */
 @CanIgnoreReturnValue
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class AbstractByteHasher extends AbstractHasher {
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);

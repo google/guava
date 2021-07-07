@@ -20,7 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An object representing the differences between two maps.
@@ -30,6 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use Maps.difference")
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface MapDifference<K extends @Nullable Object, V extends @Nullable Object> {
   /**

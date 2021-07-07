@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.Executor;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A collection of common removal listeners.
@@ -26,6 +27,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class RemovalListeners {
 

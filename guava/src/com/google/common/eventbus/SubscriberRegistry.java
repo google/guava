@@ -47,12 +47,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Registry of subscribers to a single event bus.
  *
  * @author Colin Decker
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class SubscriberRegistry {
 

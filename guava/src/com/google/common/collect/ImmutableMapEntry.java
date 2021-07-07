@@ -20,6 +20,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash
@@ -33,6 +34,7 @@ import javax.annotation.CheckForNull;
  * @author Louis Wasserman
  */
 @GwtIncompatible // unnecessary
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**

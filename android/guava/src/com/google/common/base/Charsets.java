@@ -17,6 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.nio.charset.Charset;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Contains constant definitions for the six standard {@link Charset} instances, which are
@@ -31,6 +32,7 @@ import java.nio.charset.Charset;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Charsets {
   private Charsets() {}

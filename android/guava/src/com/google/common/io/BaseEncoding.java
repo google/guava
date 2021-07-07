@@ -36,6 +36,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
@@ -122,6 +123,7 @@ import javax.annotation.CheckForNull;
  * @since 14.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class BaseEncoding {
   // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.

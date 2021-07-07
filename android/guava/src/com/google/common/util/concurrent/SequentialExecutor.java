@@ -32,6 +32,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
@@ -48,6 +49,7 @@ import javax.annotation.CheckForNull;
  * restarted by a call to {@link #execute}.
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
   private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());

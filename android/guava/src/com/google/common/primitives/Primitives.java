@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Contains static utility methods pertaining to primitive types and their corresponding wrapper
@@ -30,6 +31,7 @@ import java.util.Set;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Primitives {
   private Primitives() {}

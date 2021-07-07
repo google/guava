@@ -26,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -45,6 +46,7 @@ import com.google.errorprone.annotations.Immutable;
  */
 @Beta
 @Immutable(containerOf = {"N"})
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class ImmutableGraph<N> extends ForwardingGraph<N> {
   @SuppressWarnings("Immutable") // The backing graph must be immutable.

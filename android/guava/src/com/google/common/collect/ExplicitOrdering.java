@@ -20,9 +20,11 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableMap<T, Integer> rankMap;

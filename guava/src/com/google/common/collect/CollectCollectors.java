@@ -35,10 +35,12 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class CollectCollectors {
 

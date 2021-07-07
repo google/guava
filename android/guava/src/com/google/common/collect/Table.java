@@ -25,7 +25,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A collection that associates an ordered pair of keys, called a row key and a column key, with a
@@ -56,6 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @DoNotMock("Use ImmutableTable, HashBasedTable, or another implementation")
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Table<
     R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {

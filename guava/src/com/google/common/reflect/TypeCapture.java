@@ -18,12 +18,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Captures the actual type of {@code T}.
  *
  * @author Ben Yu
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class TypeCapture<T> {
 

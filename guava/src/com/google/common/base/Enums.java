@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Utility methods for working with {@link Enum} instances.
@@ -34,6 +35,7 @@ import javax.annotation.CheckForNull;
  * @since 9.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Enums {
 

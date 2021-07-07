@@ -22,6 +22,7 @@ import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An
@@ -40,6 +41,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ExecutionList {
   /** Logger to log exceptions caught when running runnables. */

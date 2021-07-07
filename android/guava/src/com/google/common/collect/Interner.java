@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Provides similar behavior to {@link String#intern} for any immutable type. Common implementations
@@ -33,6 +34,7 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @DoNotMock("Use Interners.new*Interner")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Interner<E> {
   /**

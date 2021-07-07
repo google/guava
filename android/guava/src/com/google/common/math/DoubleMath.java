@@ -38,6 +38,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Iterator;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
@@ -46,6 +47,7 @@ import java.util.Iterator;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class DoubleMath {
   /*

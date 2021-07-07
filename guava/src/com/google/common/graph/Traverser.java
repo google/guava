@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
@@ -64,6 +65,7 @@ import javax.annotation.CheckForNull;
 @DoNotMock(
     "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"
         + " GraphBuilder)")
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class Traverser<N> {
   private final SuccessorsFunction<N> successorFunction;

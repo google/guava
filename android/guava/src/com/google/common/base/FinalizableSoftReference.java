@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Soft reference with a {@code finalizeReferent()} method which a background thread invokes after
@@ -28,6 +29,7 @@ import javax.annotation.CheckForNull;
  * @since 2.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {

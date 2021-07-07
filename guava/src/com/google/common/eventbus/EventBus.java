@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
@@ -147,6 +148,7 @@ import java.util.logging.Logger;
  * @author Cliff Biffle
  * @since 10.0
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class EventBus {
 

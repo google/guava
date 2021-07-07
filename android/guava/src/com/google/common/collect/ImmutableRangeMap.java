@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -42,6 +43,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible // NavigableMap
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 

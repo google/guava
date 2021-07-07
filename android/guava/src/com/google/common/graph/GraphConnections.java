@@ -20,6 +20,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and edge values in
@@ -29,6 +30,7 @@ import javax.annotation.CheckForNull;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface GraphConnections<N, V> {
 

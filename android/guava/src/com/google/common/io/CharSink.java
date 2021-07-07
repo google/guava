@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A destination to which characters can be written, such as a text file. Unlike a {@link Writer}, a
@@ -48,6 +49,7 @@ import java.nio.charset.Charset;
  * @author Colin Decker
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class CharSink {
 

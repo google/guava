@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object that accurately measures <i>elapsed time</i>: the measured duration between two
@@ -89,6 +90,7 @@ import java.util.concurrent.TimeUnit;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("GoodTime") // lots of violations
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Stopwatch {
   private final Ticker ticker;

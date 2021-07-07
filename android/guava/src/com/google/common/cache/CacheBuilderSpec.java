@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -80,6 +81,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @SuppressWarnings("GoodTime") // lots of violations (nanosecond math)
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class CacheBuilderSpec {
   /** Parses a single value. */

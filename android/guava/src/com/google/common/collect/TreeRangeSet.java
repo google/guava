@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link RangeSet} backed by a {@link TreeMap}.
@@ -40,6 +41,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible // uses NavigableMap
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     implements Serializable {

@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A mutable object which accumulates double values and tracks some basic statistics over all the
@@ -37,6 +38,7 @@ import java.util.stream.LongStream;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
 

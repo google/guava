@@ -29,6 +29,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Used to represent the order of elements in a data structure that supports different options for
@@ -46,6 +47,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ElementOrder<T> {
   private final Type type;

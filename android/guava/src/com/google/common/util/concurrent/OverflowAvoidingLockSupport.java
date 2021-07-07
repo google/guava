@@ -18,11 +18,13 @@ import static java.lang.Math.min;
 
 import java.util.concurrent.locks.LockSupport;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Works around an android bug, where parking for more than INT_MAX seconds can produce an abort
  * signal on 32 bit devices running Android Q.
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class OverflowAvoidingLockSupport {
   // Represents the max nanoseconds representable on a linux timespec with a 32 bit tv_sec

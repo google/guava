@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
@@ -38,6 +39,7 @@ import java.util.concurrent.ExecutionException;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
 

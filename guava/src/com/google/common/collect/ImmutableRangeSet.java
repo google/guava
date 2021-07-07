@@ -38,6 +38,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link RangeSet} whose contents will never change, with many other important properties
@@ -48,6 +49,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {

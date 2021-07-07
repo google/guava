@@ -14,12 +14,14 @@
 
 package com.google.common.eventbus;
 
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Handler for exceptions thrown by event subscribers.
  *
  * @since 16.0
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface SubscriberExceptionHandler {
   /** Handles exceptions thrown by subscribers. */

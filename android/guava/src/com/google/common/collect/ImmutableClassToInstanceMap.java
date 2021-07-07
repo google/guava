@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -36,6 +37,7 @@ import javax.annotation.CheckForNull;
  */
 @Immutable(containerOf = "B")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
@@ -190,7 +192,6 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
   @CheckForNull
-  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after annotating supertype.
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }

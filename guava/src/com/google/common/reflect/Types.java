@@ -46,13 +46,15 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Utilities for working with {@link Type}.
  *
  * @author Ben Yu
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Types {
 

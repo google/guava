@@ -16,12 +16,14 @@ package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.nio.Buffer;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Wrappers around {@link Buffer} methods that are covariantly overridden in Java 9+. See
  * https://github.com/google/guava/issues/3990
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Java8Compatibility {
   static void clear(Buffer b) {

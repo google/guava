@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}
@@ -37,6 +38,7 @@ import com.google.errorprone.annotations.DoNotCall;
  * @author Chris Povirk
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   /**

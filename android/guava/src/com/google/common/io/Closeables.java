@@ -24,6 +24,7 @@ import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Utility methods for working with {@link Closeable} objects.
@@ -33,6 +34,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Closeables {
   @VisibleForTesting static final Logger logger = Logger.getLogger(Closeables.class.getName());

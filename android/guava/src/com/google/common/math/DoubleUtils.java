@@ -26,6 +26,7 @@ import static java.lang.Math.getExponent;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.math.BigInteger;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Utilities for {@code double} primitives.
@@ -33,6 +34,7 @@ import java.math.BigInteger;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class DoubleUtils {
   private DoubleUtils() {}

@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
@@ -41,6 +42,7 @@ import javax.annotation.CheckForNull;
  *
  * @author James Sexton
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class MapIteratorCache<K, V> {
   private final Map<K, V> backingMap;

@@ -24,13 +24,15 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation of ImmutableMap backed by a JDK HashMap, which has smartness protecting against
  * hash flooding.
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   /**

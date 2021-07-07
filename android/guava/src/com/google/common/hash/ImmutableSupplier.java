@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.Immutable;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Explicitly named subinterface of {@link Supplier} that can be marked {@literal @}{@link
@@ -23,5 +24,6 @@ import com.google.errorprone.annotations.Immutable;
  */
 // TODO(cpovirk): Should we just use ChecksumType directly instead of defining this type?
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface ImmutableSupplier<T> extends Supplier<T> {}

@@ -34,6 +34,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class for arithmetic on values of type {@code BigInteger}.
@@ -48,6 +49,7 @@ import java.util.List;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class BigIntegerMath {
   /**

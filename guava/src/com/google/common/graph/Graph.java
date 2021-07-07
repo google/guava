@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An interface for <a
@@ -103,6 +104,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @DoNotMock("Use GraphBuilder to create a real instance")
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Graph<N> extends BaseGraph<N> {
   //

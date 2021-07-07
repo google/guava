@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import java.net.InetAddress;
 import java.text.ParseException;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -43,6 +44,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class HostSpecifier {
 

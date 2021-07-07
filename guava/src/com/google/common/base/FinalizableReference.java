@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Implemented by references that have code to run after garbage collection of their referents.
@@ -26,6 +27,7 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @DoNotMock("Use an instance of one of the Finalizable*Reference classes")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface FinalizableReference {
   /**

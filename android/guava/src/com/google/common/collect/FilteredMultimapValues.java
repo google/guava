@@ -26,7 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implementation for {@link FilteredMultimap#values()}.
@@ -34,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractCollection<V> {

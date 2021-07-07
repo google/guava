@@ -28,7 +28,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
@@ -89,6 +90,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // Coffee's for {@link Closer closers} only.
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Closer implements Closeable {
 

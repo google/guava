@@ -24,7 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A list which forwards all its method calls to another list. Subclasses should override one or
@@ -52,6 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingList<E extends @Nullable Object> extends ForwardingCollection<E>
     implements List<E> {

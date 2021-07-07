@@ -22,6 +22,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A builder for constructing instances of {@link MutableValueGraph} or {@link ImmutableValueGraph}
@@ -66,6 +67,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
 

@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A destination to which bytes can be written, such as a file. Unlike an {@link OutputStream}, a
@@ -46,6 +47,7 @@ import java.nio.charset.Charset;
  * @author Colin Decker
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ByteSink {
 

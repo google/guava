@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An {@link InputStream} that maintains a hash of the data read from it.
@@ -29,6 +30,7 @@ import java.io.InputStream;
  * @since 16.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class HashingInputStream extends FilterInputStream {
   private final Hasher hasher;

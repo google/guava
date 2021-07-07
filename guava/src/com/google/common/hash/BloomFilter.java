@@ -35,7 +35,8 @@ import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.stream.Collector;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -65,6 +66,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0 (thread-safe since 23.0)
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class BloomFilter<T extends @Nullable Object> implements Predicate<T>, Serializable {
   /**

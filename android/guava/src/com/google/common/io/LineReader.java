@@ -26,6 +26,7 @@ import java.nio.CharBuffer;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -37,6 +38,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class LineReader {
   private final Readable readable;

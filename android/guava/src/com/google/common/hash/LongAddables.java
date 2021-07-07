@@ -16,12 +16,14 @@ package com.google.common.hash;
 
 import com.google.common.base.Supplier;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Source of {@link LongAddable} objects that deals with GWT, Unsafe, and all that.
  *
  * @author Louis Wasserman
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;

@@ -15,6 +15,7 @@
 package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -22,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Platform {
   private Platform() {}

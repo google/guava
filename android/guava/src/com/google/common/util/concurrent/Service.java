@@ -20,6 +20,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An object with an operational state, plus asynchronous {@link #startAsync()} and {@link
@@ -53,6 +54,7 @@ import java.util.concurrent.TimeoutException;
  */
 @DoNotMock("Create an AbstractIdleService")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Service {
   /**

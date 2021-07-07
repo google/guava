@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -49,6 +50,7 @@ import javax.annotation.CheckForNull;
  * @since 12.0
  */
 @GwtIncompatible // hasn't been tested yet
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {

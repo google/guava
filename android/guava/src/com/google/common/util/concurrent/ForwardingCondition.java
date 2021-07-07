@@ -17,8 +17,10 @@ package com.google.common.util.concurrent;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
+import org.jspecify.nullness.NullMarked;
 
 /** Forwarding wrapper around a {@code Condition}. */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ForwardingCondition implements Condition {
   abstract Condition delegate();

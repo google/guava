@@ -22,6 +22,7 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Writer that places all output on an {@link Appendable} target. If the target is {@link Flushable}
@@ -32,6 +33,7 @@ import javax.annotation.CheckForNull;
  * @since 1.0
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class AppendableWriter extends Writer {
   private final Appendable target;

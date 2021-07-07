@@ -26,6 +26,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -42,6 +43,7 @@ import javax.annotation.CheckForNull;
  */
 @DoNotMock("Use CacheBuilder.newBuilder().build()")
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Cache<K, V> {
 

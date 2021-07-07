@@ -33,6 +33,7 @@ import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class for arithmetic on values of type {@code long}. Where possible, methods are defined and
@@ -49,6 +50,7 @@ import java.math.RoundingMode;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||

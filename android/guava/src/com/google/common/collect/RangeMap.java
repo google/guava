@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -38,6 +39,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface RangeMap<K extends Comparable, V> {
   /*

@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}. For example:
@@ -35,6 +36,7 @@ import javax.annotation.CheckForNull;
  * @since 12.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 /*
  * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable

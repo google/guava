@@ -18,6 +18,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Marks an event subscriber method as being thread-safe. This annotation indicates that EventBus
@@ -30,5 +31,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public @interface AllowConcurrentEvents {}

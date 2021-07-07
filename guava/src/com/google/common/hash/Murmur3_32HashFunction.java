@@ -40,6 +40,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * See MurmurHash3_x86_32 in <a
@@ -51,6 +52,7 @@ import javax.annotation.CheckForNull;
  * @author Kurt Alfred Kluever
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class Murmur3_32HashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);

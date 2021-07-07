@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A subscriber method on a specific object, plus the executor that should be used for dispatching
@@ -32,6 +33,7 @@ import javax.annotation.CheckForNull;
  *
  * @author Colin Decker
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class Subscriber {
 

@@ -23,7 +23,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -32,6 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 14.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 

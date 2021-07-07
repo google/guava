@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not already found in
@@ -44,6 +45,7 @@ import javax.annotation.CheckForNull;
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Bytes {
   private Bytes() {}

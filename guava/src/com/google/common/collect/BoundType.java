@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Indicates whether an endpoint of some range is contained in the range itself ("closed") or not
@@ -24,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public enum BoundType {
   /** The endpoint value <i>is not</i> considered part of the set ("exclusive"). */

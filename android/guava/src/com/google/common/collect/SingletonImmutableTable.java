@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An implementation of {@link ImmutableTable} that holds a single cell.
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author Gregory Kick
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   final R singleRowKey;

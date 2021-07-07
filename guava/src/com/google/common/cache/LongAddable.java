@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Abstract interface for objects that can concurrently add longs.
@@ -22,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 interface LongAddable {
   void increment();

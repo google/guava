@@ -16,10 +16,12 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class NullnessCasts {
   /**

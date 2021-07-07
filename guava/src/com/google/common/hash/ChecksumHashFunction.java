@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.zip.Checksum;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.
@@ -27,6 +28,7 @@ import java.util.zip.Checksum;
  * @author Colin Decker
  */
 @Immutable
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ChecksumHashFunction extends AbstractHashFunction implements Serializable {
   private final ImmutableSupplier<? extends Checksum> checksumSupplier;

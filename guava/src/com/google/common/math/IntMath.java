@@ -32,6 +32,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class for arithmetic on values of type {@code int}. Where possible, methods are defined and
@@ -48,6 +49,7 @@ import java.math.RoundingMode;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||

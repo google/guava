@@ -19,7 +19,8 @@ import static com.google.common.base.Strings.lenientFormat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Static convenience methods that serve the same purpose as Java language <a
@@ -88,6 +89,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 17.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Verify {
   /**

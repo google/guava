@@ -25,6 +25,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
@@ -50,6 +51,7 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**

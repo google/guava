@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher.NamedFastMatcher;
 import java.util.BitSet;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An immutable version of CharMatcher for smallish sets of characters that uses a hash table with
@@ -26,6 +27,7 @@ import java.util.BitSet;
  * @author Christopher Swenson
  */
 @GwtIncompatible // no precomputation is done in GWT
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class SmallCharMatcher extends NamedFastMatcher {
   static final int MAX_SIZE = 1023;

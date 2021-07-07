@@ -17,6 +17,7 @@ package com.google.common.cache;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Source of {@link LongAddable} objects that deals with GWT, Unsafe, and all that.
@@ -24,6 +25,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;

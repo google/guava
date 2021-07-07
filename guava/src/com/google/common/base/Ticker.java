@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A time source; returns a time value representing the number of nanoseconds elapsed since some
@@ -28,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
  *     source-compatible</a> since 9.0)
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public abstract class Ticker {
   /** Constructor for use by subclasses. */

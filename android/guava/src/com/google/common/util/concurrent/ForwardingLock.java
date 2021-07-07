@@ -17,8 +17,10 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import org.jspecify.nullness.NullMarked;
 
 /** Forwarding wrapper around a {@code Lock}. */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ForwardingLock implements Lock {
   abstract Lock delegate();

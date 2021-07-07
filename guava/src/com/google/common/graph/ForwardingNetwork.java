@@ -19,6 +19,7 @@ package com.google.common.graph;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A class to allow {@link Network} implementations to be backed by a provided delegate. This is not
@@ -27,6 +28,7 @@ import javax.annotation.CheckForNull;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 

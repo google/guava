@@ -31,6 +31,7 @@ import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An {@link InputStream} that converts characters from a {@link Reader} into bytes using an
@@ -44,6 +45,7 @@ import java.util.Arrays;
  * @author Chris Nokleberg
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 final class ReaderInputStream extends InputStream {
   private final Reader reader;

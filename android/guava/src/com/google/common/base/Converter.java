@@ -25,6 +25,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -114,6 +115,7 @@ import javax.annotation.CheckForNull;
  * @since 16.0
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 /*
  * 1. The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the

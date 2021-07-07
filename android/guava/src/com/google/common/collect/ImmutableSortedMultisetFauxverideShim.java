@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotCall;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack {@link
@@ -35,6 +36,7 @@ import com.google.errorprone.annotations.DoNotCall;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
   /**

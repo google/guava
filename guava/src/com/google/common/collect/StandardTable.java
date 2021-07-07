@@ -45,6 +45,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link Table} implementation backed by a map that associates row keys with column key / value
@@ -66,6 +67,7 @@ import javax.annotation.CheckForNull;
  * @author Jared Levy
  */
 @GwtCompatible
+@NullMarked
 @ElementTypesAreNonnullByDefault
 class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
   @GwtTransient final Map<R, Map<C, V>> backingMap;

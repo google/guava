@@ -29,6 +29,7 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 import javax.annotation.CheckForNull;
 import javax.crypto.spec.SecretKeySpec;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
@@ -43,6 +44,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @since 11.0
  */
 @Beta
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public final class Hashing {
   /**

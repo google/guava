@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An interface for <a
@@ -104,6 +105,7 @@ import javax.annotation.CheckForNull;
  */
 @Beta
 @DoNotMock("Use NetworkBuilder to create a real instance")
+@NullMarked
 @ElementTypesAreNonnullByDefault
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
