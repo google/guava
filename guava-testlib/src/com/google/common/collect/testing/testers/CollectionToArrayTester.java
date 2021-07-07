@@ -48,8 +48,8 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * {@link Collection#toArray(Object[])} says: "Note that <tt>toArray(new Object[0])</tt> is
-   * identical in function to <tt>toArray()</tt>."
+   * {@link Collection#toArray(Object[])} says: "Note that {@code toArray(new Object[0])} is
+   * identical in function to {@code toArray()}."
    *
    * <p>For maximum effect, the collection under test should be created from an element array of a
    * type other than {@code Object[]}.
