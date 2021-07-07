@@ -25,7 +25,7 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -36,6 +36,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Immutable(containerOf = "B")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 
@@ -173,7 +174,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @NullableDecl
+  @CheckForNull
   public <T extends B> T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }
@@ -188,6 +189,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }

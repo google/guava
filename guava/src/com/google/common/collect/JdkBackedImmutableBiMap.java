@@ -15,6 +15,8 @@
  */
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -22,6 +24,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
@@ -31,11 +34,12 @@ import javax.annotation.CheckForNull;
 @ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @VisibleForTesting
-  static <K, V> ImmutableBiMap<K, V> create(int n, Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableBiMap<K, V> create(int n, @Nullable Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);
     Map<V, K> backwardDelegate = Maps.newHashMapWithExpectedSize(n);
     for (int i = 0; i < n; i++) {
-      Entry<K, V> e = RegularImmutableMap.makeImmutable(entryArray[i]);
+      // requireNonNull is safe because the first `n` elements have been filled in.
+      Entry<K, V> e = RegularImmutableMap.makeImmutable(requireNonNull(entryArray[i]));
       entryArray[i] = e;
       V oldValue = forwardDelegate.putIfAbsent(e.getKey(), e.getValue());
       if (oldValue != null) {

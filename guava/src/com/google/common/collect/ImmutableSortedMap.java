@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Maps.keyOrNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -347,22 +348,25 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
       final Comparator<? super K> comparator,
       boolean sameComparator,
-      Entry<K, V>[] entryArray,
+      @Nullable Entry<K, V>[] entryArray,
       int size) {
     switch (size) {
       case 0:
         return emptyMap(comparator);
       case 1:
-        return ImmutableSortedMap.<K, V>of(
-            comparator, entryArray[0].getKey(), entryArray[0].getValue());
+        // requireNonNull is safe because the first `size` elements have been filled in.
+        Entry<K, V> onlyEntry = requireNonNull(entryArray[0]);
+        return of(comparator, onlyEntry.getKey(), onlyEntry.getValue());
       default:
         Object[] keys = new Object[size];
         Object[] values = new Object[size];
         if (sameComparator) {
           // Need to check for nulls, but don't need to sort or validate.
           for (int i = 0; i < size; i++) {
-            Object key = entryArray[i].getKey();
-            Object value = entryArray[i].getValue();
+            // requireNonNull is safe because the first `size` elements have been filled in.
+            Entry<K, V> entry = requireNonNull(entryArray[i]);
+            Object key = entry.getKey();
+            Object value = entry.getValue();
             checkEntryNotNull(key, value);
             keys[i] = key;
             values[i] = value;
@@ -375,24 +379,31 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
               entryArray,
               0,
               size,
-              new Comparator<Entry<K, V>>() {
+              new Comparator<@Nullable Entry<K, V>>() {
                 @Override
-                public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+                public int compare(@CheckForNull Entry<K, V> e1, @CheckForNull Entry<K, V> e2) {
+                  // requireNonNull is safe because the first `size` elements have been filled in.
+                  requireNonNull(e1);
+                  requireNonNull(e2);
                   return comparator.compare(e1.getKey(), e2.getKey());
                 }
               });
-          K prevKey = entryArray[0].getKey();
+          // requireNonNull is safe because the first `size` elements have been filled in.
+          Entry<K, V> firstEntry = requireNonNull(entryArray[0]);
+          K prevKey = firstEntry.getKey();
           keys[0] = prevKey;
-          values[0] = entryArray[0].getValue();
+          values[0] = firstEntry.getValue();
           checkEntryNotNull(keys[0], values[0]);
           for (int i = 1; i < size; i++) {
-            K key = entryArray[i].getKey();
-            V value = entryArray[i].getValue();
+            // requireNonNull is safe because the first `size` elements have been filled in.
+            Entry<K, V> prevEntry = requireNonNull(entryArray[i - 1]);
+            Entry<K, V> entry = requireNonNull(entryArray[i]);
+            K key = entry.getKey();
+            V value = entry.getValue();
             checkEntryNotNull(key, value);
             keys[i] = key;
             values[i] = value;
-            checkNoConflict(
-                comparator.compare(prevKey, key) != 0, "key", entryArray[i - 1], entryArray[i]);
+            checkNoConflict(comparator.compare(prevKey, key) != 0, "key", prevEntry, entry);
             prevKey = key;
           }
         }
@@ -552,7 +563,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
         case 0:
           return emptyMap(comparator);
         case 1:
-          return of(comparator, entries[0].getKey(), entries[0].getValue());
+          // requireNonNull is safe because the first `size` elements have been filled in.
+          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
+          return of(comparator, onlyEntry.getKey(), onlyEntry.getValue());
         default:
           return fromEntries(comparator, false, entries, size);
       }
