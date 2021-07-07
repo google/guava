@@ -17131,7 +17131,7 @@
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
     </method>
-    <method name="getInstance" return="T"
+    <method name="getInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -18952,25 +18952,25 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="get" return="V"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
     </method>
     <method name="getOrDefault" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="Object"/>
+      <param name="key" type="java.lang.Object"/>
       <param name="defaultValue" type="V"/>
       <doc>
       <![CDATA[@since 21.0 (but only since 23.5 in the Android <a
@@ -19019,7 +19019,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
