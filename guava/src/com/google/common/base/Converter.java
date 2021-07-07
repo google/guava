@@ -200,9 +200,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
-    } else {
-      return unsafeDoForward(a);
     }
+    return unsafeDoForward(a);
   }
 
   @CheckForNull
@@ -210,9 +209,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
-    } else {
-      return unsafeDoBackward(b);
     }
+    return unsafeDoBackward(b);
   }
 
   /*
