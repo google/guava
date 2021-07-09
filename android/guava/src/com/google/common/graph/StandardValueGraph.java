@@ -180,7 +180,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final V edgeValueOrDefaultInternal(N nodeU, N nodeV, @CheckForNull V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
-    // TODO(cpovirk): Switch back to a ternary once our checker allows it.
+    // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
     if (value == null) {
       return defaultValue;
     } else {

@@ -478,7 +478,11 @@ public abstract class Traverser<N> {
             horizon.addFirst(successors);
             ancestorStack.push(next);
           }
-          return ancestorStack.isEmpty() ? endOfData() : ancestorStack.pop();
+          // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
+          if (!ancestorStack.isEmpty()) {
+            return ancestorStack.pop();
+          }
+          return endOfData();
         }
       };
     }

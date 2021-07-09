@@ -482,6 +482,7 @@ public final class Multisets {
         // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
+          @CheckForNull
           protected Entry<E> computeNext() {
             while (iterator1.hasNext()) {
               Entry<E> entry1 = iterator1.next();
@@ -554,6 +555,7 @@ public final class Multisets {
         final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
+          @CheckForNull
           protected Entry<E> computeNext() {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
@@ -611,7 +613,7 @@ public final class Multisets {
         final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<E>() {
           @Override
-          @ParametricNullness
+          @CheckForNull
           protected E computeNext() {
             while (iterator1.hasNext()) {
               Entry<E> entry1 = iterator1.next();
@@ -630,6 +632,7 @@ public final class Multisets {
         final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
+          @CheckForNull
           protected Entry<E> computeNext() {
             while (iterator1.hasNext()) {
               Entry<E> entry1 = iterator1.next();

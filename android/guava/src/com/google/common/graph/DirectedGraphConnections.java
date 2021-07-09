@@ -243,6 +243,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           final Set<N> seenNodes = new HashSet<>();
           return new AbstractIterator<N>() {
             @Override
+            @CheckForNull
             protected N computeNext() {
               while (nodeConnections.hasNext()) {
                 NodeConnection<N> nodeConnection = nodeConnections.next();
@@ -278,6 +279,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           final Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
           return new AbstractIterator<N>() {
             @Override
+            @CheckForNull
             protected N computeNext() {
               while (entries.hasNext()) {
                 Entry<N, Object> entry = entries.next();
@@ -292,6 +294,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           final Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
           return new AbstractIterator<N>() {
             @Override
+            @CheckForNull
             protected N computeNext() {
               while (nodeConnections.hasNext()) {
                 NodeConnection<N> nodeConnection = nodeConnections.next();
@@ -326,6 +329,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           final Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
           return new AbstractIterator<N>() {
             @Override
+            @CheckForNull
             protected N computeNext() {
               while (entries.hasNext()) {
                 Entry<N, Object> entry = entries.next();
@@ -340,6 +344,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           final Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
           return new AbstractIterator<N>() {
             @Override
+            @CheckForNull
             protected N computeNext() {
               while (nodeConnections.hasNext()) {
                 NodeConnection<N> nodeConnection = nodeConnections.next();
@@ -408,6 +413,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     final AtomicBoolean alreadySeenSelfLoop = new AtomicBoolean(false);
     return new AbstractIterator<EndpointPair<N>>() {
       @Override
+      @CheckForNull
       protected EndpointPair<N> computeNext() {
         while (resultWithDoubleSelfLoop.hasNext()) {
           EndpointPair<N> edge = resultWithDoubleSelfLoop.next();

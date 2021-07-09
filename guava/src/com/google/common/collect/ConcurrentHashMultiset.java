@@ -510,6 +510,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
               countMap.entrySet().iterator();
 
           @Override
+          @CheckForNull
           protected Entry<E> computeNext() {
             while (true) {
               if (!mapEntries.hasNext()) {

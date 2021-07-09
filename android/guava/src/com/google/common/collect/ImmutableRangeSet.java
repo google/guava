@@ -567,6 +567,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
+        @CheckForNull
         protected C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {
@@ -588,6 +589,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
+        @CheckForNull
         protected C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {

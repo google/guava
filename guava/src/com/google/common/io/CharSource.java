@@ -579,6 +579,7 @@ public abstract class CharSource {
         Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
 
         @Override
+        @CheckForNull
         protected String computeNext() {
           if (lines.hasNext()) {
             String next = lines.next();

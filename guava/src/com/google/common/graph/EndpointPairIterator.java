@@ -75,6 +75,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
     }
 
     @Override
+    @CheckForNull
     protected EndpointPair<N> computeNext() {
       while (true) {
         if (successorIterator.hasNext()) {
@@ -124,6 +125,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
     }
 
     @Override
+    @CheckForNull
     protected EndpointPair<N> computeNext() {
       while (true) {
         /*

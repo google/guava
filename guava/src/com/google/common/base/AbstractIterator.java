@@ -78,6 +78,7 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @Override
+  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();

@@ -388,6 +388,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       }
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (!backingItr.hasNext()) {
             return endOfData();
@@ -421,6 +422,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       }
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (!backingItr.hasNext()) {
             return endOfData();
@@ -542,6 +544,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         Cut<C> nextComplementRangeLowerBound = firstComplementRangeLowerBound;
 
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (complementLowerBoundWindow.upperBound.isLessThan(nextComplementRangeLowerBound)
               || nextComplementRangeLowerBound == Cut.<C>aboveAll()) {
@@ -603,6 +606,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         Cut<C> nextComplementRangeUpperBound = firstComplementRangeUpperBound;
 
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (nextComplementRangeUpperBound == Cut.<C>belowAll()) {
             return endOfData();
@@ -804,6 +808,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
               .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (!completeRangeItr.hasNext()) {
             return endOfData();
@@ -837,6 +842,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
               .iterator();
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         @Override
+        @CheckForNull
         protected Entry<Cut<C>, Range<C>> computeNext() {
           if (!completeRangeItr.hasNext()) {
             return endOfData();
