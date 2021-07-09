@@ -487,43 +487,47 @@
 <span class="sourceLineNo">478</span><a id="line.478">            horizon.addFirst(successors);</a>
 <span class="sourceLineNo">479</span><a id="line.479">            ancestorStack.push(next);</a>
 <span class="sourceLineNo">480</span><a id="line.480">          }</a>
-<span class="sourceLineNo">481</span><a id="line.481">          return ancestorStack.isEmpty() ? endOfData() : ancestorStack.pop();</a>
-<span class="sourceLineNo">482</span><a id="line.482">        }</a>
-<span class="sourceLineNo">483</span><a id="line.483">      };</a>
-<span class="sourceLineNo">484</span><a id="line.484">    }</a>
-<span class="sourceLineNo">485</span><a id="line.485"></a>
-<span class="sourceLineNo">486</span><a id="line.486">    /**</a>
-<span class="sourceLineNo">487</span><a id="line.487">     * Visits the next node from the top iterator of {@code horizon} and returns the visited node.</a>
-<span class="sourceLineNo">488</span><a id="line.488">     * Null is returned to indicate reaching the end of the top iterator.</a>
-<span class="sourceLineNo">489</span><a id="line.489">     *</a>
-<span class="sourceLineNo">490</span><a id="line.490">     * &lt;p&gt;For example, if horizon is {@code [[a, b], [c, d], [e]]}, {@code visitNext()} will return</a>
-<span class="sourceLineNo">491</span><a id="line.491">     * {@code [a, b, null, c, d, null, e, null]} sequentially, encoding the topological structure.</a>
-<span class="sourceLineNo">492</span><a id="line.492">     * (Note, however, that the callers of {@code visitNext()} often insert additional iterators</a>
-<span class="sourceLineNo">493</span><a id="line.493">     * into {@code horizon} between calls to {@code visitNext()}. This causes them to receive</a>
-<span class="sourceLineNo">494</span><a id="line.494">     * additional values interleaved with those shown above.)</a>
-<span class="sourceLineNo">495</span><a id="line.495">     */</a>
-<span class="sourceLineNo">496</span><a id="line.496">    @CheckForNull</a>
-<span class="sourceLineNo">497</span><a id="line.497">    abstract N visitNext(Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon);</a>
-<span class="sourceLineNo">498</span><a id="line.498">  }</a>
-<span class="sourceLineNo">499</span><a id="line.499"></a>
-<span class="sourceLineNo">500</span><a id="line.500">  /** Poor man's method reference for {@code Deque::addFirst} and {@code Deque::addLast}. */</a>
-<span class="sourceLineNo">501</span><a id="line.501">  private enum InsertionOrder {</a>
-<span class="sourceLineNo">502</span><a id="line.502">    FRONT {</a>
-<span class="sourceLineNo">503</span><a id="line.503">      @Override</a>
-<span class="sourceLineNo">504</span><a id="line.504">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
-<span class="sourceLineNo">505</span><a id="line.505">        deque.addFirst(value);</a>
-<span class="sourceLineNo">506</span><a id="line.506">      }</a>
-<span class="sourceLineNo">507</span><a id="line.507">    },</a>
-<span class="sourceLineNo">508</span><a id="line.508">    BACK {</a>
-<span class="sourceLineNo">509</span><a id="line.509">      @Override</a>
-<span class="sourceLineNo">510</span><a id="line.510">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
-<span class="sourceLineNo">511</span><a id="line.511">        deque.addLast(value);</a>
-<span class="sourceLineNo">512</span><a id="line.512">      }</a>
-<span class="sourceLineNo">513</span><a id="line.513">    };</a>
-<span class="sourceLineNo">514</span><a id="line.514"></a>
-<span class="sourceLineNo">515</span><a id="line.515">    abstract &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value);</a>
-<span class="sourceLineNo">516</span><a id="line.516">  }</a>
-<span class="sourceLineNo">517</span><a id="line.517">}</a>
+<span class="sourceLineNo">481</span><a id="line.481">          // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.</a>
+<span class="sourceLineNo">482</span><a id="line.482">          if (!ancestorStack.isEmpty()) {</a>
+<span class="sourceLineNo">483</span><a id="line.483">            return ancestorStack.pop();</a>
+<span class="sourceLineNo">484</span><a id="line.484">          }</a>
+<span class="sourceLineNo">485</span><a id="line.485">          return endOfData();</a>
+<span class="sourceLineNo">486</span><a id="line.486">        }</a>
+<span class="sourceLineNo">487</span><a id="line.487">      };</a>
+<span class="sourceLineNo">488</span><a id="line.488">    }</a>
+<span class="sourceLineNo">489</span><a id="line.489"></a>
+<span class="sourceLineNo">490</span><a id="line.490">    /**</a>
+<span class="sourceLineNo">491</span><a id="line.491">     * Visits the next node from the top iterator of {@code horizon} and returns the visited node.</a>
+<span class="sourceLineNo">492</span><a id="line.492">     * Null is returned to indicate reaching the end of the top iterator.</a>
+<span class="sourceLineNo">493</span><a id="line.493">     *</a>
+<span class="sourceLineNo">494</span><a id="line.494">     * &lt;p&gt;For example, if horizon is {@code [[a, b], [c, d], [e]]}, {@code visitNext()} will return</a>
+<span class="sourceLineNo">495</span><a id="line.495">     * {@code [a, b, null, c, d, null, e, null]} sequentially, encoding the topological structure.</a>
+<span class="sourceLineNo">496</span><a id="line.496">     * (Note, however, that the callers of {@code visitNext()} often insert additional iterators</a>
+<span class="sourceLineNo">497</span><a id="line.497">     * into {@code horizon} between calls to {@code visitNext()}. This causes them to receive</a>
+<span class="sourceLineNo">498</span><a id="line.498">     * additional values interleaved with those shown above.)</a>
+<span class="sourceLineNo">499</span><a id="line.499">     */</a>
+<span class="sourceLineNo">500</span><a id="line.500">    @CheckForNull</a>
+<span class="sourceLineNo">501</span><a id="line.501">    abstract N visitNext(Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon);</a>
+<span class="sourceLineNo">502</span><a id="line.502">  }</a>
+<span class="sourceLineNo">503</span><a id="line.503"></a>
+<span class="sourceLineNo">504</span><a id="line.504">  /** Poor man's method reference for {@code Deque::addFirst} and {@code Deque::addLast}. */</a>
+<span class="sourceLineNo">505</span><a id="line.505">  private enum InsertionOrder {</a>
+<span class="sourceLineNo">506</span><a id="line.506">    FRONT {</a>
+<span class="sourceLineNo">507</span><a id="line.507">      @Override</a>
+<span class="sourceLineNo">508</span><a id="line.508">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
+<span class="sourceLineNo">509</span><a id="line.509">        deque.addFirst(value);</a>
+<span class="sourceLineNo">510</span><a id="line.510">      }</a>
+<span class="sourceLineNo">511</span><a id="line.511">    },</a>
+<span class="sourceLineNo">512</span><a id="line.512">    BACK {</a>
+<span class="sourceLineNo">513</span><a id="line.513">      @Override</a>
+<span class="sourceLineNo">514</span><a id="line.514">      &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value) {</a>
+<span class="sourceLineNo">515</span><a id="line.515">        deque.addLast(value);</a>
+<span class="sourceLineNo">516</span><a id="line.516">      }</a>
+<span class="sourceLineNo">517</span><a id="line.517">    };</a>
+<span class="sourceLineNo">518</span><a id="line.518"></a>
+<span class="sourceLineNo">519</span><a id="line.519">    abstract &lt;T&gt; void insertInto(Deque&lt;T&gt; deque, T value);</a>
+<span class="sourceLineNo">520</span><a id="line.520">  }</a>
+<span class="sourceLineNo">521</span><a id="line.521">}</a>
 
 
 

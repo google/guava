@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class UnmodifiableListIterator" class="title">Class UnmodifiableListIterator&lt;E&gt;</h2>
+<h2 title="Class UnmodifiableListIterator" class="title">Class UnmodifiableListIterator&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.29">UnmodifiableListIterator</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.30">UnmodifiableListIterator</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util" class="externalLink">ListIterator</a>&lt;E&gt;</pre>
 <div class="block">A list iterator that does not support <a href="UnmodifiableIterator.html#remove()"><code>UnmodifiableIterator.remove()</code></a>, <a href="#add(E)"><code>add(E)</code></a>, or <a href="#set(E)"><code>set(E)</code></a>.</div>
@@ -265,7 +265,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UnmodifiableListIterator</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.33">UnmodifiableListIterator</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.35">UnmodifiableListIterator</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -288,14 +288,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.41">add</a>&#8203;(<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&nbsp;e)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.43">add</a>&#8203;(<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&nbsp;e)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the underlying data unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util" class="externalLink">ListIterator</a>&lt;<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util" class="externalLink">ListIterator</a>&lt;<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element to insert</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -312,14 +312,14 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.54">set</a>&#8203;(<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&nbsp;e)</pre>
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/UnmodifiableListIterator.html#line.56">set</a>&#8203;(<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&nbsp;e)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the underlying data unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#set(E)" title="class or interface in java.util" class="externalLink">set</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util" class="externalLink">ListIterator</a>&lt;<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#set(E)" title="class or interface in java.util" class="externalLink">set</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util" class="externalLink">ListIterator</a>&lt;<a href="UnmodifiableListIterator.html" title="type parameter in UnmodifiableListIterator">E</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>e</code> - the element with which to replace the last element returned by
           <code>next</code> or <code>previous</code></dd>

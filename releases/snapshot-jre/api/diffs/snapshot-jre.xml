@@ -9727,7 +9727,7 @@
       <![CDATA[Constructor for use by subclasses.]]>
       </doc>
     </constructor>
-    <method name="computeNext" return="T"
+    <method name="computeNext" return="T extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -9756,7 +9756,7 @@
      IllegalStateException}.]]>
       </doc>
     </method>
-    <method name="endOfData" return="T"
+    <method name="endOfData" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="protected"
       deprecated="not deprecated">
@@ -9773,12 +9773,12 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="next" return="T"
+    <method name="next" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="peek" return="T"
+    <method name="peek" return="T extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
@@ -31751,7 +31751,7 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="java.util.Iterator&lt;E&gt;"/>
-    <method name="peek" return="E"
+    <method name="peek" return="E extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -31765,7 +31765,7 @@
      #hasNext()}]]>
       </doc>
     </method>
-    <method name="next" return="E"
+    <method name="next" return="E extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36654,7 +36654,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the underlying data unmodified.
 
@@ -36666,7 +36666,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="e" type="E"/>
+      <param name="e" type="E extends java.lang.Object"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the underlying data unmodified.
 
