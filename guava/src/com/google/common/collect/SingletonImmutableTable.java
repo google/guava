@@ -27,6 +27,7 @@ import java.util.Map;
  * @author Gregory Kick
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   final R singleRowKey;
   final C singleColumnKey;
