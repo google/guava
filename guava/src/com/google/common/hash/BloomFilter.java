@@ -607,11 +607,11 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       dataLength = din.readInt();
 
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
-      long[] data = new long[dataLength];
-      for (int i = 0; i < data.length; i++) {
-        data[i] = din.readLong();
+      LockFreeBitArray bits = new LockFreeBitArray((long)dataLength * 64);
+      for (int i = 0; i < dataLength; i++) {
+        bits.data.lazySet(i, din.readLong());
       }
-      return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
+      return new BloomFilter<T>(bits, numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
       String message =
           "Unable to deserialize BloomFilter from InputStream."
