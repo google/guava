@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -49,6 +50,7 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
+@ElementTypesAreNonnullByDefault
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**
    * Returns a {@code ContiguousSet} containing the same values in the given domain {@linkplain
@@ -74,13 +76,19 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
       throw new IllegalArgumentException(e);
     }
 
-    // Per class spec, we are allowed to throw CCE if necessary
-    boolean empty =
-        effectiveRange.isEmpty()
-            || Range.compareOrThrow(
-                    range.lowerBound.leastValueAbove(domain),
-                    range.upperBound.greatestValueBelow(domain))
-                > 0;
+    boolean empty;
+    if (effectiveRange.isEmpty()) {
+      empty = true;
+    } else {
+      /*
+       * requireNonNull is safe because the effectiveRange operations above would have thrown or
+       * effectiveRange.isEmpty() would have returned true.
+       */
+      C afterLower = requireNonNull(range.lowerBound.leastValueAbove(domain));
+      C beforeUpper = requireNonNull(range.upperBound.greatestValueBelow(domain));
+      // Per class spec, we are allowed to throw CCE if necessary
+      empty = Range.compareOrThrow(afterLower, beforeUpper) > 0;
+    }
 
     return empty
         ? new EmptyContiguousSet<C>(domain)
