@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -102,7 +103,11 @@ public final class Parameter implements AnnotatedElement {
   /** @since 18.0 */
   // @Override on JDK8
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
-    return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @Nullable
+    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @SuppressWarnings("nullness") // safe because the input list contains no nulls
+    A[] cast = (A[]) result;
+    return cast;
   }
 
   @Override

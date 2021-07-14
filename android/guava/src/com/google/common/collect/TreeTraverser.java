@@ -25,6 +25,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
+import javax.annotation.CheckForNull;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -73,6 +74,7 @@ import java.util.Queue;
 @Deprecated
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
 
   /**
@@ -197,6 +199,7 @@ public abstract class TreeTraverser<T> {
     }
 
     @Override
+    @CheckForNull
     protected T computeNext() {
       while (!stack.isEmpty()) {
         PostOrderNode<T> top = stack.getLast();

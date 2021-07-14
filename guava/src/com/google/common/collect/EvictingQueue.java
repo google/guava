@@ -45,6 +45,7 @@ import java.util.Queue;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
@@ -126,13 +127,17 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(
+      // TODO(cpovirk): Consider accepting null.
+      @SuppressWarnings("nullness") Object object) {
     return delegate().contains(checkNotNull(object));
   }
 
   @Override
   @CanIgnoreReturnValue
-  public boolean remove(Object object) {
+  public boolean remove(
+      // TODO(cpovirk): Consider accepting null.
+      @SuppressWarnings("nullness") Object object) {
     return delegate().remove(checkNotNull(object));
   }
 

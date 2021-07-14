@@ -585,13 +585,13 @@ public final class Iterables {
    *     into partitions (the final iterable may have trailing null elements)
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public static <T extends @Nullable Object> Iterable<List<T>> paddedPartition(
+  public static <T extends @Nullable Object> Iterable<List<@Nullable T>> paddedPartition(
       final Iterable<T> iterable, final int size) {
     checkNotNull(iterable);
     checkArgument(size > 0);
-    return new FluentIterable<List<T>>() {
+    return new FluentIterable<List<@Nullable T>>() {
       @Override
-      public Iterator<List<T>> iterator() {
+      public Iterator<List<@Nullable T>> iterator() {
         return Iterators.paddedPartition(iterable.iterator(), size);
       }
     };
