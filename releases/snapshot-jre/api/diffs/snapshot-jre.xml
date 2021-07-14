@@ -32613,7 +32613,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is a range having the same endpoints and bound types as
  this range. Note that discrete ranges such as {@code (1..4)} and {@code [2..3]} are <b>not</b>
