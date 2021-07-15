@@ -188,6 +188,13 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     void recordEviction();
 
     /**
+     * Records the manual insert of a new entry.
+     *
+     * @since 20.0
+     */
+    void recordPut();
+
+    /**
      * Returns a snapshot of this counter's values. Note that this may be an inconsistent view, as
      * it may be interleaved with update operations.
      */
@@ -206,6 +213,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private final LongAddable loadExceptionCount = LongAddables.create();
     private final LongAddable totalLoadTime = LongAddables.create();
     private final LongAddable evictionCount = LongAddables.create();
+    private final LongAddable putCount = LongAddables.create();
 
     /** Constructs an instance with all counts initialized to zero. */
     public SimpleStatsCounter() {}
@@ -242,6 +250,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     }
 
     @Override
+    public void recordPut() {
+      putCount.increment();
+    }
+
+    @Override
     public CacheStats snapshot() {
       return new CacheStats(
           negativeToMaxValue(hitCount.sum()),
@@ -249,7 +262,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
           negativeToMaxValue(loadSuccessCount.sum()),
           negativeToMaxValue(loadExceptionCount.sum()),
           negativeToMaxValue(totalLoadTime.sum()),
-          negativeToMaxValue(evictionCount.sum()));
+          negativeToMaxValue(evictionCount.sum()),
+          negativeToMaxValue(putCount.sum()));
     }
 
     /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */

@@ -68,6 +68,7 @@ public final class CacheStats {
   private final long totalLoadTime;
 
   private final long evictionCount;
+  private final long putCount;
 
   /**
    * Constructs a new {@code CacheStats} instance.
@@ -82,13 +83,15 @@ public final class CacheStats {
       long loadSuccessCount,
       long loadExceptionCount,
       long totalLoadTime,
-      long evictionCount) {
+      long evictionCount,
+      long putCount) {
     checkArgument(hitCount >= 0);
     checkArgument(missCount >= 0);
     checkArgument(loadSuccessCount >= 0);
     checkArgument(loadExceptionCount >= 0);
     checkArgument(totalLoadTime >= 0);
     checkArgument(evictionCount >= 0);
+    checkArgument(putCount >= 0);
 
     this.hitCount = hitCount;
     this.missCount = missCount;
@@ -96,6 +99,7 @@ public final class CacheStats {
     this.loadExceptionCount = loadExceptionCount;
     this.totalLoadTime = totalLoadTime;
     this.evictionCount = evictionCount;
+    this.putCount = putCount;
   }
 
   /**
@@ -205,6 +209,13 @@ public final class CacheStats {
   }
 
   /**
+   * Returns the number of times {@link Cache} put methods inserted a value a new value.
+   */
+  public long putCount() {
+    return putCount;
+  }
+
+  /**
    * Returns the total number of nanoseconds the cache has spent loading new values. This can be
    * used to calculate the miss penalty. This value is increased every time {@code loadSuccessCount}
    * or {@code loadExceptionCount} is incremented.
@@ -247,7 +258,8 @@ public final class CacheStats {
         Math.max(0, saturatedSubtract(loadSuccessCount, other.loadSuccessCount)),
         Math.max(0, saturatedSubtract(loadExceptionCount, other.loadExceptionCount)),
         Math.max(0, saturatedSubtract(totalLoadTime, other.totalLoadTime)),
-        Math.max(0, saturatedSubtract(evictionCount, other.evictionCount)));
+        Math.max(0, saturatedSubtract(evictionCount, other.evictionCount)),
+        Math.max(0, saturatedSubtract(putCount, other.putCount)));
   }
 
   /**
@@ -267,7 +279,8 @@ public final class CacheStats {
         saturatedAdd(loadSuccessCount, other.loadSuccessCount),
         saturatedAdd(loadExceptionCount, other.loadExceptionCount),
         saturatedAdd(totalLoadTime, other.totalLoadTime),
-        saturatedAdd(evictionCount, other.evictionCount));
+        saturatedAdd(evictionCount, other.evictionCount),
+        saturatedAdd(putCount, other.putCount));
   }
 
   @Override
@@ -299,6 +312,7 @@ public final class CacheStats {
         .add("loadExceptionCount", loadExceptionCount)
         .add("totalLoadTime", totalLoadTime)
         .add("evictionCount", evictionCount)
+        .add("putCount", putCount)
         .toString();
   }
 }
