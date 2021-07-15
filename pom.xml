@@ -36,6 +36,14 @@
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <module.status>integration</module.status>
+    <variant.jvmVersion>8</variant.jvmVersion>
+    <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
+    <variant.checkerCompatQual></variant.checkerCompatQual>
+    <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
+    <otherVariant.jvmVersion>6</otherVariant.jvmVersion>
+    <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
+    <otherVariant.checkerCompatQual>{ "group": "org.checkerframework", "module": "checker-compat-qual" },</otherVariant.checkerCompatQual>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -244,6 +252,15 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
