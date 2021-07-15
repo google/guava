@@ -772,12 +772,9 @@ public class SetsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
+    // No longer fails with IAE
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
-    try {
-      Sets.cartesianProduct(set, set, set, set, set);
-      fail("Expected IAE");
-    } catch (IllegalArgumentException expected) {
-    }
+    Sets.cartesianProduct(set, set, set, set, set);
   }
 
   @SuppressWarnings("unchecked") // varargs!
