@@ -61,6 +61,12 @@
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
     </dependency>
+      <dependency>
+          <groupId>com.google.code.java-allocation-instrumenter</groupId>
+          <artifactId>java-allocation-instrumenter</artifactId>
+          <version>3.0</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
