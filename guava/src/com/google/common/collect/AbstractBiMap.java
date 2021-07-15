@@ -396,8 +396,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     public boolean remove(@CheckForNull Object object) {
       /*
-       * The instanceof check is redundant because esDelegate.contains(object), but we include it to
-       * satisfy our nullness checker.
+       * `o instanceof Entry` is guaranteed by `contains`, but we check it here to satisfy our
+       * nullness checker.
        */
       if (!esDelegate.contains(object) || !(object instanceof Entry)) {
         return false;
