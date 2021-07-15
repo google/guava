@@ -107,6 +107,14 @@ public enum CaseFormat {
       }
       return super.convert(format, s);
     }
+  },
+
+  /** Java properties naming convention, e.g., "lower.dot". */
+  LOWER_DOT(CharMatcher.is('.'), ".") {
+    @Override
+    String normalizeWord(String word) {
+      return Ascii.toLowerCase(word);
+    }
   };
 
   private final CharMatcher wordBoundary;
