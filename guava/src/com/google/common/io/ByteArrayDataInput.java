@@ -94,4 +94,8 @@ public interface ByteArrayDataInput extends DataInput {
   @CanIgnoreReturnValue // to skip a field
   @Override
   String readUTF();
+
+  void mark(int readlimit);
+
+  void reset();
 }
