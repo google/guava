@@ -10001,7 +10001,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="table" type="com.google.common.collect.Table&lt;R, C, V&gt;"/>
+      <param name="table" type="com.google.common.collect.Table&lt;R, C, ? extends V&gt;"/>
       <doc>
       <![CDATA[Creates an {@code ArrayTable} with the mappings in the provided table.
 
@@ -10116,8 +10116,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided keys are among the keys provided when the table was
  constructed.]]>
@@ -10127,7 +10127,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided column key is among the column keys provided when the
  table was constructed.]]>
@@ -10137,7 +10137,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided row key is among the row keys provided when the table was
  constructed.]]>
@@ -10147,14 +10147,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -10211,8 +10211,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Associates the value {@code null} with the specified keys, assuming both keys are valid. If
  either key is null or isn't among the keys provided during construction, this method has no
@@ -16404,51 +16404,6 @@
  @throws NullPointerException if any of the row keys, column keys, or values in {@code table} is
      null]]>
       </doc>
-    </method>
-    <method name="contains" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
-    </method>
-    <method name="containsColumn" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="columnKey" type="Object"/>
-    </method>
-    <method name="containsRow" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-    </method>
-    <method name="containsValue" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="value" type="Object"/>
-    </method>
-    <method name="get" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
-    </method>
-    <method name="equals" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="obj" type="Object"/>
-    </method>
-    <method name="remove" return="V"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
     </method>
     <doc>
     <![CDATA[Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
@@ -23278,14 +23233,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
@@ -35273,8 +35228,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified row and column keys.
 
@@ -35286,7 +35241,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified row key.
 
@@ -35297,7 +35252,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified column.
 
@@ -35308,19 +35263,19 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="Object"/>
+      <param name="value" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified value.
 
  @param value value to search for]]>
       </doc>
     </method>
-    <method name="get" return="V"
+    <method name="get" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns the value corresponding to the given row and column keys, or {@code null} if no such
  mapping exists.
@@ -35349,7 +35304,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object with this table for equality. Two tables are equal when their
  cell views, as returned by {@link #cellSet}, are equal.]]>
@@ -35372,13 +35327,13 @@
       <![CDATA[Removes all mappings from the table.]]>
       </doc>
     </method>
-    <method name="put" return="V"
+    <method name="put" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="R"/>
-      <param name="columnKey" type="C"/>
-      <param name="value" type="V"/>
+      <param name="rowKey" type="R extends java.lang.Object"/>
+      <param name="columnKey" type="C extends java.lang.Object"/>
+      <param name="value" type="V extends java.lang.Object"/>
       <doc>
       <![CDATA[Associates the specified value with the specified keys. If the table already contained a
  mapping for those keys, the old value is replaced with the specified value.
@@ -35402,12 +35357,12 @@
  @param table the table to add to this table]]>
       </doc>
     </method>
-    <method name="remove" return="V"
+    <method name="remove" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="Object"/>
-      <param name="columnKey" type="Object"/>
+      <param name="rowKey" type="java.lang.Object"/>
+      <param name="columnKey" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes the mapping, if any, associated with the given keys.
 
@@ -35420,7 +35375,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="R"/>
+      <param name="rowKey" type="R extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a view of all mappings that have the given row key. For each row key / column key /
  value mapping in the table with that row key, the returned map associates the column key with
@@ -35436,7 +35391,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="C"/>
+      <param name="columnKey" type="C extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a view of all mappings that have the given column key. For each row key / column key /
  value mapping in the table with that column key, the returned map associates the row key with
@@ -35558,7 +35513,7 @@
   <interface name="Table.Cell"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="getRowKey" return="R"
+    <method name="getRowKey" return="R extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -35566,7 +35521,7 @@
       <![CDATA[Returns the row key of this cell.]]>
       </doc>
     </method>
-    <method name="getColumnKey" return="C"
+    <method name="getColumnKey" return="C extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -35574,7 +35529,7 @@
       <![CDATA[Returns the column key of this cell.]]>
       </doc>
     </method>
-    <method name="getValue" return="V"
+    <method name="getValue" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -35586,7 +35541,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="Object"/>
+      <param name="obj" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object with this cell for equality. Two cells are equal when they have
  equal row keys, column keys, and values.]]>

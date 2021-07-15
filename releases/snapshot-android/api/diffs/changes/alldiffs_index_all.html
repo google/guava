@@ -236,6 +236,8 @@ All Differences Index
 <!-- Constructor ArrayBasedUnicodeEscaper -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.escape.ArrayBasedUnicodeEscaper.html#com.google.common.escape.ArrayBasedUnicodeEscaper.ctor_added(java.util.Map<java.lang.Character, java.lang.String>, int, int, String)" class="hiddenlink" target="rightframe"><b>ArrayBasedUnicodeEscaper</b>
 (<code>Map&lt;Character, String&gt;, int, int, String</code>)</A></nobr>&nbsp;constructor<br>
+<!-- Class ArrayTable -->
+<A HREF="com.google.common.collect.ArrayTable.html" class="hiddenlink" target="rightframe">ArrayTable</A><br>
 <!-- Method asList -->
 <i>asList</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ImmutableList.html#com.google.common.collect.ImmutableList.asList_changed()" class="hiddenlink" target="rightframe">type&nbsp;
@@ -404,8 +406,14 @@ All Differences Index
 <!-- Class ClosingFuture.ValueAndCloser -->
 <A HREF="com.google.common.util.concurrent.ClosingFuture.ValueAndCloser.html" class="hiddenlink" target="rightframe">ClosingFuture.ValueAndCloser</A><br>
 <!-- Method column -->
-<nobr><A HREF="com.google.common.collect.ForwardingTable.html#com.google.common.collect.ForwardingTable.column_changed(C extends java.lang.Object)" class="hiddenlink" target="rightframe">column
-(<code>C extends Object</code>)</A></nobr><br>
+<i>column</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ForwardingTable.html#com.google.common.collect.ForwardingTable.column_changed(C extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>C extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.ForwardingTable
+</A></nobr><br>
+<!-- Method column -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.column_changed(C extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>C extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
+</A></nobr><br>
 <!-- Package com.google.common.base -->
 <A HREF="pkg_com.google.common.base.html" class="hiddenlink" target="rightframe">com.google.common.base</A><br>
 <!-- Package com.google.common.cache -->
@@ -455,11 +463,32 @@ All Differences Index
 <nobr><A HREF="com.google.common.base.Functions.html#com.google.common.base.Functions.constant_changed(E extends java.lang.Object)" class="hiddenlink" target="rightframe">constant
 (<code>E extends Object</code>)</A></nobr><br>
 <!-- Method contains -->
-<nobr><A HREF="com.google.common.collect.Iterables.html#com.google.common.collect.Iterables.contains_changed(java.lang.Iterable<? extends java.lang.Object>, java.lang.Object)" class="hiddenlink" target="rightframe">contains
-(<code>Iterable&lt;? extends Object&gt;, Object</code>)</A></nobr><br>
+<i>contains</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.contains_removed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object, Object</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.HashBasedTable
+</A></nobr><br>
+<!-- Method contains -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Iterables.html#com.google.common.collect.Iterables.contains_changed(java.lang.Iterable<? extends java.lang.Object>, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Iterable&lt;? extends Object&gt;, Object</code>)&nbsp;in&nbsp;com.google.common.collect.Iterables
+</A></nobr><br>
+<!-- Method containsColumn -->
+<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.containsColumn_removed(java.lang.Object)" class="hiddenlink" target="rightframe"><strike>containsColumn</strike>
+(<code>Object</code>)</A></nobr><br>
+<!-- Method containsRow -->
+<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.containsRow_removed(java.lang.Object)" class="hiddenlink" target="rightframe"><strike>containsRow</strike>
+(<code>Object</code>)</A></nobr><br>
+<!-- Method containsValue -->
+<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.containsValue_removed(java.lang.Object)" class="hiddenlink" target="rightframe"><strike>containsValue</strike>
+(<code>Object</code>)</A></nobr><br>
 <!-- Method create -->
-<nobr><A HREF="com.google.common.util.concurrent.ListenableFutureTask.html#com.google.common.util.concurrent.ListenableFutureTask.create_changed(java.lang.Runnable, V extends java.lang.Object)" class="hiddenlink" target="rightframe">create
-(<code>Runnable, V extends Object</code>)</A></nobr><br>
+<i>create</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ArrayTable.html#com.google.common.collect.ArrayTable.create_changed(com.google.common.collect.Table<R, C, ? extends V>)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Table&lt;R, C, ? extends V&gt;</code>)&nbsp;in&nbsp;com.google.common.collect.ArrayTable
+</A></nobr><br>
+<!-- Method create -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.ListenableFutureTask.html#com.google.common.util.concurrent.ListenableFutureTask.create_changed(java.lang.Runnable, V extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Runnable, V extends Object</code>)&nbsp;in&nbsp;com.google.common.util.concurrent.ListenableFutureTask
+</A></nobr><br>
 <!-- Method delegate -->
 <A NAME="D"></A>
 <br><font size="+2">D</font>&nbsp;
@@ -520,8 +549,14 @@ All Differences Index
 <!-- Class EnumHashBiMap -->
 <A HREF="com.google.common.collect.EnumHashBiMap.html" class="hiddenlink" target="rightframe">EnumHashBiMap</A><br>
 <!-- Method equals -->
-<nobr><A HREF="com.google.common.reflect.Invokable.html#com.google.common.reflect.Invokable.equals_added(java.lang.Object)" class="hiddenlink" target="rightframe"><b>equals</b>
-(<code>Object</code>)</A></nobr><br>
+<i>equals</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.equals_removed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.HashBasedTable
+</A></nobr><br>
+<!-- Method equals -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.reflect.Invokable.html#com.google.common.reflect.Invokable.equals_added(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<b>
+(<code>Object</code>)</b>&nbsp;in&nbsp;com.google.common.reflect.Invokable
+</A></nobr><br>
 <!-- Method equalTo -->
 <nobr><A HREF="com.google.common.base.Predicates.html#com.google.common.base.Predicates.equalTo_changed(T extends java.lang.Object)" class="hiddenlink" target="rightframe">equalTo
 (<code>T extends Object</code>)</A></nobr><br>
@@ -747,6 +782,10 @@ All Differences Index
 (<code>Object, Object</code>)&nbsp;in&nbsp;com.google.common.collect.ForwardingTable
 </A></nobr><br>
 <!-- Method get -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.get_removed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object, Object</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.HashBasedTable
+</A></nobr><br>
+<!-- Method get -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBiMap.html#com.google.common.collect.HashBiMap.get_changed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Object</code>)&nbsp;in&nbsp;com.google.common.collect.HashBiMap
 </A></nobr><br>
@@ -801,6 +840,10 @@ All Differences Index
 <!-- Method get -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.SortedSetMultimap.html#com.google.common.collect.SortedSetMultimap.get_changed(K extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>K extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.SortedSetMultimap
+</A></nobr><br>
+<!-- Method get -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.get_changed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Object, Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
 </A></nobr><br>
 <!-- Method get -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeMultimap.html#com.google.common.collect.TreeMultimap.get_changed(K extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
@@ -858,6 +901,9 @@ All Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.getChecked_changed(java.util.concurrent.Future<V>, java.lang.Class<X>, long, java.util.concurrent.TimeUnit)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Future&lt;V&gt;, Class&lt;X&gt;, long, TimeUnit</code>)&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
 </A></nobr><br>
+<!-- Method getColumnKey -->
+<nobr><A HREF="com.google.common.collect.Table.Cell.html#com.google.common.collect.Table.Cell.getColumnKey_changed()" class="hiddenlink" target="rightframe">getColumnKey
+()</A></nobr><br>
 <!-- Method getDeclaredAnnotations -->
 <nobr><A HREF="com.google.common.reflect.Invokable.html#com.google.common.reflect.Invokable.getDeclaredAnnotations_added()" class="hiddenlink" target="rightframe"><b>getDeclaredAnnotations</b>
 ()</A></nobr><br>
@@ -973,6 +1019,9 @@ All Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.io.LineProcessor.html#com.google.common.io.LineProcessor.getResult_changed()" class="hiddenlink" target="rightframe">type&nbsp;
 ()&nbsp;in&nbsp;com.google.common.io.LineProcessor
 </A></nobr><br>
+<!-- Method getRowKey -->
+<nobr><A HREF="com.google.common.collect.Table.Cell.html#com.google.common.collect.Table.Cell.getRowKey_changed()" class="hiddenlink" target="rightframe">getRowKey
+()</A></nobr><br>
 <!-- Method getTypeParameters -->
 <nobr><A HREF="com.google.common.reflect.Invokable.html#com.google.common.reflect.Invokable.getTypeParameters_added()" class="hiddenlink" target="rightframe"><b>getTypeParameters</b>
 ()</A></nobr><br>
@@ -989,9 +1038,15 @@ All Differences Index
 (<code>Future&lt;V&gt;, long, TimeUnit</code>)&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
 </A></nobr><br>
 <!-- Method getValue -->
-<nobr><A HREF="com.google.common.collect.ForwardingMapEntry.html#com.google.common.collect.ForwardingMapEntry.getValue_changed()" class="hiddenlink" target="rightframe">getValue
-()</A></nobr><br>
-<!-- Class HashBiMap -->
+<i>getValue</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ForwardingMapEntry.html#com.google.common.collect.ForwardingMapEntry.getValue_changed()" class="hiddenlink" target="rightframe">type&nbsp;
+()&nbsp;in&nbsp;com.google.common.collect.ForwardingMapEntry
+</A></nobr><br>
+<!-- Method getValue -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.Cell.html#com.google.common.collect.Table.Cell.getValue_changed()" class="hiddenlink" target="rightframe">type&nbsp;
+()&nbsp;in&nbsp;com.google.common.collect.Table.Cell
+</A></nobr><br>
+<!-- Class HashBasedTable -->
 <A NAME="H"></A>
 <br><font size="+2">H</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -1015,6 +1070,8 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<A HREF="com.google.common.collect.HashBasedTable.html" class="hiddenlink" target="rightframe">HashBasedTable</A><br>
+<!-- Class HashBiMap -->
 <A HREF="com.google.common.collect.HashBiMap.html" class="hiddenlink" target="rightframe">HashBiMap</A><br>
 <!-- Method hashCode -->
 <nobr><A HREF="com.google.common.reflect.Invokable.html#com.google.common.reflect.Invokable.hashCode_added()" class="hiddenlink" target="rightframe"><b>hashCode</b>
@@ -1542,6 +1599,10 @@ All Differences Index
 (<code>K extends Object, V extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.Multimap
 </A></nobr><br>
 <!-- Method put -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.put_changed(R extends java.lang.Object, C extends java.lang.Object, V extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>R extends Object, C extends Object, V extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
+</A></nobr><br>
+<!-- Method put -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.hash.BloomFilter.html#com.google.common.hash.BloomFilter.put_changed(T extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>T extends Object</code>)&nbsp;in&nbsp;com.google.common.hash.BloomFilter
 </A></nobr><br>
@@ -1627,8 +1688,16 @@ All Differences Index
 (<code>Object, Object</code>)&nbsp;in&nbsp;com.google.common.collect.ForwardingTable
 </A></nobr><br>
 <!-- Method remove -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBasedTable.html#com.google.common.collect.HashBasedTable.remove_removed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Object, Object</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.HashBasedTable
+</A></nobr><br>
+<!-- Method remove -->
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.HashBiMap.html#com.google.common.collect.HashBiMap.remove_changed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Object</code>)&nbsp;in&nbsp;com.google.common.collect.HashBiMap
+</A></nobr><br>
+<!-- Method remove -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.remove_changed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Object, Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
 </A></nobr><br>
 <!-- Method removeAll -->
 <nobr><A HREF="com.google.common.collect.LinkedListMultimap.html#com.google.common.collect.LinkedListMultimap.removeAll_changed(Object)" class="hiddenlink" target="rightframe">removeAll
@@ -1686,8 +1755,14 @@ All Differences Index
 <nobr><A HREF="com.google.common.util.concurrent.Callables.html#com.google.common.util.concurrent.Callables.returning_changed(T extends java.lang.Object)" class="hiddenlink" target="rightframe">returning
 (<code>T extends Object</code>)</A></nobr><br>
 <!-- Method row -->
-<nobr><A HREF="com.google.common.collect.ForwardingTable.html#com.google.common.collect.ForwardingTable.row_changed(R extends java.lang.Object)" class="hiddenlink" target="rightframe">row
-(<code>R extends Object</code>)</A></nobr><br>
+<i>row</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.ForwardingTable.html#com.google.common.collect.ForwardingTable.row_changed(R extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>R extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.ForwardingTable
+</A></nobr><br>
+<!-- Method row -->
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.row_changed(R extends java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>R extends Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
+</A></nobr><br>
 <!-- Field SEC_CH_PREFERS_COLOR_SCHEME -->
 <A NAME="S"></A>
 <br><font size="+2">S</font>&nbsp;
@@ -2000,7 +2075,7 @@ All Differences Index
 <A HREF="com.google.common.base.Supplier.html" class="hiddenlink" target="rightframe"><i>Supplier</i></A><br>
 <!-- Class Suppliers -->
 <A HREF="com.google.common.base.Suppliers.html" class="hiddenlink" target="rightframe">Suppliers</A><br>
-<!-- Class Tables -->
+<!-- Class Table -->
 <A NAME="T"></A>
 <br><font size="+2">T</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -2024,6 +2099,10 @@ All Differences Index
 <a href="#U"><font size="-2">U</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<A HREF="com.google.common.collect.Table.html" class="hiddenlink" target="rightframe"><i>Table</i></A><br>
+<!-- Class Table.Cell -->
+<A HREF="com.google.common.collect.Table.Cell.html" class="hiddenlink" target="rightframe"><i>Table.Cell</i></A><br>
+<!-- Class Tables -->
 <A HREF="com.google.common.collect.Tables.html" class="hiddenlink" target="rightframe">Tables</A><br>
 <!-- Method tailMap -->
 <i>tailMap</i><br>
