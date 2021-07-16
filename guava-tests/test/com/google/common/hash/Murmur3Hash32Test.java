@@ -79,7 +79,9 @@ public class Murmur3Hash32Test extends TestCase {
 
   private void assertStringHash(int expected, String string, Charset charset) {
     assertHash(expected, murmur3_32().hashString(string, charset));
+    assertHash(expected, murmur3_32().newHasher().putString(string, charset).hash());
     assertHash(expected, murmur3_32().hashBytes(string.getBytes(charset)));
+    assertHash(expected, murmur3_32().newHasher().putBytes(string.getBytes(charset)).hash());
   }
 
   @SuppressWarnings("deprecation")
@@ -100,9 +102,10 @@ public class Murmur3Hash32Test extends TestCase {
         builder.appendCodePoint(codePoints[i]);
       }
       str = builder.toString();
-      assertEquals(
-          murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8)),
-          murmur3_32().hashString(str, Charsets.UTF_8));
+      HashCode hash = murmur3_32().hashBytes(str.getBytes(Charsets.UTF_8));
+      assertEquals(hash, murmur3_32().newHasher().putBytes(str.getBytes(Charsets.UTF_8)).hash());
+      assertEquals(hash, murmur3_32().hashString(str, Charsets.UTF_8));
+      assertEquals(hash, murmur3_32().newHasher().putString(str, Charsets.UTF_8).hash());
     }
   }
 
