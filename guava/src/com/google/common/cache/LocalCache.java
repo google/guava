@@ -97,7 +97,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Bob Lee ({@code com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-@SuppressWarnings("GoodTime") // lots of violations (nanosecond math)
+@SuppressWarnings({
+  "GoodTime", // lots of violations (nanosecond math)
+  "nullness", // too much trouble for the payoff
+})
 @GwtCompatible(emulated = true)
 // TODO(cpovirk): Annotate for nullness.
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
