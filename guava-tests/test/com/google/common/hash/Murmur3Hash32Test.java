@@ -64,20 +64,13 @@ public class Murmur3Hash32Test extends TestCase {
     assertStringHash(0x2e4ff723, "The quick brown fox jumps over the lazy dog", Charsets.UTF_8);
     assertStringHash(0xb5a4be05, "ABCDefGHI\u0799", Charsets.UTF_8);
     assertStringHash(0xfc5ba834, "毎月１日,毎週月曜日", Charsets.UTF_8);
+    assertStringHash(0x8a5c3699, "surrogate pair: \uD83D\uDCB0", Charsets.UTF_8);
 
     assertStringHash(0x3f4aff5c, Character.toString(Character.MAX_VALUE), Charsets.UTF_8);
-    // Note (https://github.com/google/guava/issues/5648) the hash expected here is not correct
-    // TODO switch to assertStringHash once this is fixed
-    assertHash(
-        0x81db5903,
-        murmur3_32()
-            .hashString(new String(Character.toChars(Character.MAX_VALUE + 1)), Charsets.UTF_8));
-    // Note (https://github.com/google/guava/issues/5648) the hash expected here is not correct
-    // TODO switch to assertStringHash once this is fixed
-    assertHash(
-        0x256068c8,
-        murmur3_32()
-            .hashString(new String(Character.toChars(Character.MAX_CODE_POINT)), Charsets.UTF_8));
+    assertStringHash(0x61c178ff, new String(Character.toChars(Character.MAX_VALUE + 1)),
+        Charsets.UTF_8);
+    assertStringHash(0x2bc506da, new String(Character.toChars(Character.MAX_CODE_POINT)),
+        Charsets.UTF_8);
 
     assertStringHash(0, "", Charsets.UTF_16LE);
     assertStringHash(0x288418e4, "k", Charsets.UTF_16LE);
@@ -87,6 +80,7 @@ public class Murmur3Hash32Test extends TestCase {
     assertStringHash(0xe07db09c, "The quick brown fox jumps over the lazy dog", Charsets.UTF_16LE);
     assertStringHash(0xfefa3e76, "ABCDefGHI\u0799", Charsets.UTF_16LE);
     assertStringHash(0x6a7be132, "毎月１日,毎週月曜日", Charsets.UTF_16LE);
+    assertStringHash(0x5a2d41c7, "surrogate pair: \uD83D\uDCB0", Charsets.UTF_16LE);
 
     assertStringHash(0x8619621f, Character.toString(Character.MAX_VALUE), Charsets.UTF_16LE);
     assertStringHash(0x496a90e1, new String(Character.toChars(Character.MAX_VALUE + 1)),

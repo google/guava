@@ -191,6 +191,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
           }
           i++;
           buffer |= codePointToFourUtf8Bytes(codePoint) << shift;
+          shift += 32;
           len += 4;
         }
 
