@@ -20,6 +20,7 @@ import static com.google.common.hash.Hashing.murmur3_32;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.HashTestUtils.HashFn;
+import java.nio.charset.Charset;
 import java.util.Random;
 import junit.framework.TestCase;
 
@@ -52,34 +53,33 @@ public class Murmur3Hash32Test extends TestCase {
   }
 
   public void testKnownUtf8StringInputs() {
-    assertHash(0, murmur3_32().hashString("", Charsets.UTF_8));
-    assertHash(0xcfbda5d1, murmur3_32().hashString("k", Charsets.UTF_8));
-    assertHash(0xa167dbf3, murmur3_32().hashString("hell", Charsets.UTF_8));
-    assertHash(0x248bfa47, murmur3_32().hashString("hello", Charsets.UTF_8));
-    assertHash(0x3d41b97c, murmur3_32().hashString("http://www.google.com/", Charsets.UTF_8));
-    assertHash(
-        0x2e4ff723,
-        murmur3_32().hashString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8));
-    assertHash(0xfc5ba834, murmur3_32().hashString("毎月１日,毎週月曜日", Charsets.UTF_8));
-    assertHash(
-        0x3f4aff5c,
-        murmur3_32().hashString(Character.toString(Character.MAX_VALUE), Charsets.UTF_8));
+    assertStringHash(0, "", Charsets.UTF_8);
+    assertStringHash(0xcfbda5d1, "k", Charsets.UTF_8);
+    assertStringHash(0xa167dbf3, "hell", Charsets.UTF_8);
+    assertStringHash(0x248bfa47, "hello", Charsets.UTF_8);
+    assertStringHash(0x3d41b97c, "http://www.google.com/", Charsets.UTF_8);
+    assertStringHash(0x2e4ff723, "The quick brown fox jumps over the lazy dog", Charsets.UTF_8);
+    assertStringHash(0xb5a4be05, "ABCDefGHI\u0799", Charsets.UTF_8);
+    assertStringHash(0xfc5ba834, "毎月１日,毎週月曜日", Charsets.UTF_8);
+
+    assertStringHash(0x3f4aff5c, Character.toString(Character.MAX_VALUE), Charsets.UTF_8);
+    // Note (https://github.com/google/guava/issues/5648) the hash expected here is not correct
+    // TODO switch to assertStringHash once this is fixed
     assertHash(
         0x81db5903,
         murmur3_32()
             .hashString(new String(Character.toChars(Character.MAX_VALUE + 1)), Charsets.UTF_8));
     // Note (https://github.com/google/guava/issues/5648) the hash expected here is not correct
+    // TODO switch to assertStringHash once this is fixed
     assertHash(
         0x256068c8,
         murmur3_32()
             .hashString(new String(Character.toChars(Character.MAX_CODE_POINT)), Charsets.UTF_8));
   }
 
-  @SuppressWarnings("deprecation")
-  public void testSimpleStringUtf8() {
-    assertEquals(
-        murmur3_32().hashBytes("ABCDefGHI\u0799".getBytes(Charsets.UTF_8)),
-        murmur3_32().hashString("ABCDefGHI\u0799", Charsets.UTF_8));
+  private void assertStringHash(int expected, String string, Charset charset) {
+    assertHash(expected, murmur3_32().hashString(string, charset));
+    assertHash(expected, murmur3_32().hashBytes(string.getBytes(charset)));
   }
 
   @SuppressWarnings("deprecation")
