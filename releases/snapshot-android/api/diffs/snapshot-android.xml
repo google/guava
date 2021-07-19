@@ -147,7 +147,7 @@
       deprecated="not deprecated">
       <param name="c" type="char"/>
       <doc>
-      <![CDATA[If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character} returns the
+      <![CDATA[If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character}, returns the
  lowercase equivalent. Otherwise returns the argument.]]>
       </doc>
     </method>
@@ -181,7 +181,7 @@
       deprecated="not deprecated">
       <param name="c" type="char"/>
       <doc>
-      <![CDATA[If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character} returns the
+      <![CDATA[If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character}, returns the
  uppercase equivalent. Otherwise returns the argument.]]>
       </doc>
     </method>
