@@ -54,6 +54,8 @@ import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 
@@ -292,25 +294,63 @@ public final class MoreFiles {
    * @since 23.5
    */
   public static Traverser<Path> fileTraverser() {
-    return Traverser.forTree(FILE_TREE);
+    return buildTraverser().build();
   }
 
-  private static final SuccessorsFunction<Path> FILE_TREE =
-      new SuccessorsFunction<Path>() {
-        @Override
-        public Iterable<Path> successors(Path path) {
+  /**
+   * TraverserBuilder class use use to build a Traverser and exposes a OnFail method
+   * which allows to have a user defined exception handling in case of IOException.
+   * The default exception handling mechanism is to throw {@link DirectoryIteratorException}
+   */
+  public static final class TraverserBuilder {
+
+    private BiConsumer<Path, IOException> exceptionHandler;
+    private static final BiConsumer<Path, IOException> DEFAULT_HANDLER =
+            (p, ex) -> {throw new DirectoryIteratorException(ex);};
+
+    TraverserBuilder() {}
+
+    public TraverserBuilder onFail(BiConsumer<Path, IOException> exceptionHandler) {
+      this.exceptionHandler = exceptionHandler;
+      return this;
+    }
+
+    public Traverser<Path> build() {
+      // create the successor function
+      SuccessorsFunction<Path> successorFunction = (path) -> {
+        try {
           return fileTreeChildren(path);
+        } catch (IOException e) {
+          if (exceptionHandler == null) {
+            DEFAULT_HANDLER.accept(path, e);
+          } else {
+            exceptionHandler.accept(path, e);
+          }
+          return ImmutableList.of();
         }
       };
+      return Traverser.forTree(successorFunction);
+    }
 
-  private static Iterable<Path> fileTreeChildren(Path dir) {
+  }
+
+  /**
+   *Returns a new instance of {@link TraverserBuilder} which can be used to define the behaviour
+   *in case of IOException and in case if the handler doesn't throw any exception it will
+   * continue the traversal skipping the error directory.
+   *
+   * <p>Example: {@code MoreFiles.newBuilder()
+   *  .onFail((p, e)->System.err.println("Error reading "+p.toString()))
+   *  .build().breadthFirst(Paths.of("/"))} will return all the files in the root directory
+   *  level wise and skip the files which raise IOException.
+   */
+  public static TraverserBuilder buildTraverser() {
+    return new TraverserBuilder();
+  }
+
+  private static Iterable<Path> fileTreeChildren(Path dir) throws IOException {
     if (Files.isDirectory(dir, NOFOLLOW_LINKS)) {
-      try {
-        return listFiles(dir);
-      } catch (IOException e) {
-        // the exception thrown when iterating a DirectoryStream if an I/O exception occurs
-        throw new DirectoryIteratorException(e);
-      }
+      return listFiles(dir);
     }
     return ImmutableList.of();
   }

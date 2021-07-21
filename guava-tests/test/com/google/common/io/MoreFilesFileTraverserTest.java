@@ -19,12 +19,15 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
+import com.google.common.graph.Traverser;
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import junit.framework.TestCase;
 
 /**
@@ -107,6 +110,26 @@ public class MoreFilesFileTraverserTest extends TestCase {
         .containsExactly(rootDir, fileA, fileB, dir1, dir2);
   }
 
+  public void testTraverserBuilder_onFailMethod() throws Exception {
+    // This test cannot use Jimfs because there is no support for permissions.
+    Path root = Files.createTempDirectory(null);
+    Path dirA = Files.createTempDirectory(root, "dirA");
+    Path fileA = Files.createTempFile(dirA, "FileA", null);
+    Traverser<Path> fileTraverser = MoreFiles.buildTraverser()
+            .onFail((p, ex) -> System.err.println("the file "+p.toString()+" has some I/O Error"))
+            .build();
+
+    dirA.toFile().setReadable(false);
+    assertThat(fileTraverser.breadthFirst(root))
+            .containsExactly(root, dirA);
+
+    dirA.toFile().setReadable(true);
+    assertThat(fileTraverser.breadthFirst(root))
+            .containsExactly(root, dirA, fileA);
+
+    root.toFile().deleteOnExit();
+
+  }
   @CanIgnoreReturnValue
   private Path newDir(String name) throws IOException {
     Path dir = rootDir.resolve(name);
