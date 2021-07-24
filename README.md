@@ -8,6 +8,9 @@ multimap and multiset), immutable collections, a graph library, functional
 types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
 primitives, reflection, string processing, and much more!
 
+Guava是一系列工具类合集，包括了新的集合类型（如mutimap和mutiset），不可变集合，
+图库，函数式类型，缓存，并发工具类，I/O，哈希,基础类型，反射，字符串处理等等。
+
 Guava comes in two flavors.
 
 *   The JRE flavor requires JDK 1.8 or higher.
