@@ -149,7 +149,8 @@ public final class ObjectArrays {
    * collection is set to {@code null}. This is useful in determining the length of the collection
    * <i>only</i> if the caller knows that the collection does not contain any null elements.
    */
-  static <T extends @Nullable Object> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
+  static <T extends @Nullable Object> T[] toArrayImpl(
+      @Nullable Object[] src, int offset, int len, T[] dst) {
     checkPositionIndexes(offset, offset + len, src.length);
     if (dst.length < len) {
       dst = newArray(dst, len);
@@ -181,12 +182,12 @@ public final class ObjectArrays {
    * Returns a copy of the specified subrange of the specified array that is literally an Object[],
    * and not e.g. a {@code String[]}.
    */
-  static Object[] copyAsObjectArray(Object[] elements, int offset, int length) {
+  static @Nullable Object[] copyAsObjectArray(@Nullable Object[] elements, int offset, int length) {
     checkPositionIndexes(offset, offset + length, elements.length);
     if (length == 0) {
       return new Object[0];
     }
-    Object[] result = new Object[length];
+    @Nullable Object[] result = new Object[length];
     System.arraycopy(elements, offset, result, 0, length);
     return result;
   }

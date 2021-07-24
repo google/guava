@@ -56,5 +56,13 @@ final class NullnessCasts {
     return t;
   }
 
+  /** Returns {@code null} as any type, even one that does not include {@code null}. */
+  @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals"})
+  // The warnings are legitimate. Each time we use this method, we document why.
+  @ParametricNullness
+  static <T extends @Nullable Object> T unsafeNull() {
+    return null;
+  }
+
   private NullnessCasts() {}
 }

@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.NullnessCasts.unsafeNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -1144,12 +1145,5 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int size = Serialization.readCount(stream);
     init(16); // resist hostile attempts to allocate gratuitous heap
     Serialization.populateMap(this, stream, size);
-  }
-
-  @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals"})
-  // The warnings are legitimate. Each time we use this method, we document why.
-  @ParametricNullness
-  private static <T extends @Nullable Object> T unsafeNull() {
-    return null;
   }
 }
