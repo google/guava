@@ -159,88 +159,89 @@
 <span class="sourceLineNo">150</span><a id="line.150">   * collection is set to {@code null}. This is useful in determining the length of the collection</a>
 <span class="sourceLineNo">151</span><a id="line.151">   * &lt;i&gt;only&lt;/i&gt; if the caller knows that the collection does not contain any null elements.</a>
 <span class="sourceLineNo">152</span><a id="line.152">   */</a>
-<span class="sourceLineNo">153</span><a id="line.153">  static &lt;T extends @Nullable Object&gt; T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {</a>
-<span class="sourceLineNo">154</span><a id="line.154">    checkPositionIndexes(offset, offset + len, src.length);</a>
-<span class="sourceLineNo">155</span><a id="line.155">    if (dst.length &lt; len) {</a>
-<span class="sourceLineNo">156</span><a id="line.156">      dst = newArray(dst, len);</a>
-<span class="sourceLineNo">157</span><a id="line.157">    } else if (dst.length &gt; len) {</a>
-<span class="sourceLineNo">158</span><a id="line.158">      @Nullable Object[] unsoundlyCovariantArray = dst;</a>
-<span class="sourceLineNo">159</span><a id="line.159">      unsoundlyCovariantArray[len] = null;</a>
-<span class="sourceLineNo">160</span><a id="line.160">    }</a>
-<span class="sourceLineNo">161</span><a id="line.161">    System.arraycopy(src, offset, dst, 0, len);</a>
-<span class="sourceLineNo">162</span><a id="line.162">    return dst;</a>
-<span class="sourceLineNo">163</span><a id="line.163">  }</a>
-<span class="sourceLineNo">164</span><a id="line.164"></a>
-<span class="sourceLineNo">165</span><a id="line.165">  /**</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * Returns an array containing all of the elements in the specified collection. This method</a>
-<span class="sourceLineNo">167</span><a id="line.167">   * returns the elements in the order they are returned by the collection's iterator. The returned</a>
-<span class="sourceLineNo">168</span><a id="line.168">   * array is "safe" in that no references to it are maintained by the collection. The caller is</a>
-<span class="sourceLineNo">169</span><a id="line.169">   * thus free to modify the returned array.</a>
-<span class="sourceLineNo">170</span><a id="line.170">   *</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * &lt;p&gt;This method assumes that the collection size doesn't change while the method is running.</a>
-<span class="sourceLineNo">172</span><a id="line.172">   *</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * &lt;p&gt;TODO(kevinb): support concurrently modified collections?</a>
-<span class="sourceLineNo">174</span><a id="line.174">   *</a>
-<span class="sourceLineNo">175</span><a id="line.175">   * @param c the collection for which to return an array of elements</a>
-<span class="sourceLineNo">176</span><a id="line.176">   */</a>
-<span class="sourceLineNo">177</span><a id="line.177">  static @Nullable Object[] toArrayImpl(Collection&lt;?&gt; c) {</a>
-<span class="sourceLineNo">178</span><a id="line.178">    return fillArray(c, new Object[c.size()]);</a>
-<span class="sourceLineNo">179</span><a id="line.179">  }</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">  /**</a>
-<span class="sourceLineNo">182</span><a id="line.182">   * Returns a copy of the specified subrange of the specified array that is literally an Object[],</a>
-<span class="sourceLineNo">183</span><a id="line.183">   * and not e.g. a {@code String[]}.</a>
-<span class="sourceLineNo">184</span><a id="line.184">   */</a>
-<span class="sourceLineNo">185</span><a id="line.185">  static Object[] copyAsObjectArray(Object[] elements, int offset, int length) {</a>
-<span class="sourceLineNo">186</span><a id="line.186">    checkPositionIndexes(offset, offset + length, elements.length);</a>
-<span class="sourceLineNo">187</span><a id="line.187">    if (length == 0) {</a>
-<span class="sourceLineNo">188</span><a id="line.188">      return new Object[0];</a>
-<span class="sourceLineNo">189</span><a id="line.189">    }</a>
-<span class="sourceLineNo">190</span><a id="line.190">    Object[] result = new Object[length];</a>
-<span class="sourceLineNo">191</span><a id="line.191">    System.arraycopy(elements, offset, result, 0, length);</a>
-<span class="sourceLineNo">192</span><a id="line.192">    return result;</a>
-<span class="sourceLineNo">193</span><a id="line.193">  }</a>
-<span class="sourceLineNo">194</span><a id="line.194"></a>
-<span class="sourceLineNo">195</span><a id="line.195">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">196</span><a id="line.196">  private static @Nullable Object[] fillArray(Iterable&lt;?&gt; elements, @Nullable Object[] array) {</a>
-<span class="sourceLineNo">197</span><a id="line.197">    int i = 0;</a>
-<span class="sourceLineNo">198</span><a id="line.198">    for (Object element : elements) {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      array[i++] = element;</a>
-<span class="sourceLineNo">200</span><a id="line.200">    }</a>
-<span class="sourceLineNo">201</span><a id="line.201">    return array;</a>
-<span class="sourceLineNo">202</span><a id="line.202">  }</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">  /** Swaps {@code array[i]} with {@code array[j]}. */</a>
-<span class="sourceLineNo">205</span><a id="line.205">  static void swap(Object[] array, int i, int j) {</a>
-<span class="sourceLineNo">206</span><a id="line.206">    Object temp = array[i];</a>
-<span class="sourceLineNo">207</span><a id="line.207">    array[i] = array[j];</a>
-<span class="sourceLineNo">208</span><a id="line.208">    array[j] = temp;</a>
-<span class="sourceLineNo">209</span><a id="line.209">  }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">212</span><a id="line.212">  static Object[] checkElementsNotNull(Object... array) {</a>
-<span class="sourceLineNo">213</span><a id="line.213">    checkElementsNotNull(array, array.length);</a>
-<span class="sourceLineNo">214</span><a id="line.214">    return array;</a>
-<span class="sourceLineNo">215</span><a id="line.215">  }</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">218</span><a id="line.218">  static @Nullable Object[] checkElementsNotNull(@Nullable Object[] array, int length) {</a>
-<span class="sourceLineNo">219</span><a id="line.219">    for (int i = 0; i &lt; length; i++) {</a>
-<span class="sourceLineNo">220</span><a id="line.220">      checkElementNotNull(array[i], i);</a>
-<span class="sourceLineNo">221</span><a id="line.221">    }</a>
-<span class="sourceLineNo">222</span><a id="line.222">    return array;</a>
-<span class="sourceLineNo">223</span><a id="line.223">  }</a>
-<span class="sourceLineNo">224</span><a id="line.224"></a>
-<span class="sourceLineNo">225</span><a id="line.225">  // We do this instead of Preconditions.checkNotNull to save boxing and array</a>
-<span class="sourceLineNo">226</span><a id="line.226">  // creation cost.</a>
-<span class="sourceLineNo">227</span><a id="line.227">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">228</span><a id="line.228">  static Object checkElementNotNull(@CheckForNull Object element, int index) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">    if (element == null) {</a>
-<span class="sourceLineNo">230</span><a id="line.230">      throw new NullPointerException("at index " + index);</a>
-<span class="sourceLineNo">231</span><a id="line.231">    }</a>
-<span class="sourceLineNo">232</span><a id="line.232">    return element;</a>
-<span class="sourceLineNo">233</span><a id="line.233">  }</a>
-<span class="sourceLineNo">234</span><a id="line.234">}</a>
+<span class="sourceLineNo">153</span><a id="line.153">  static &lt;T extends @Nullable Object&gt; T[] toArrayImpl(</a>
+<span class="sourceLineNo">154</span><a id="line.154">      @Nullable Object[] src, int offset, int len, T[] dst) {</a>
+<span class="sourceLineNo">155</span><a id="line.155">    checkPositionIndexes(offset, offset + len, src.length);</a>
+<span class="sourceLineNo">156</span><a id="line.156">    if (dst.length &lt; len) {</a>
+<span class="sourceLineNo">157</span><a id="line.157">      dst = newArray(dst, len);</a>
+<span class="sourceLineNo">158</span><a id="line.158">    } else if (dst.length &gt; len) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">      @Nullable Object[] unsoundlyCovariantArray = dst;</a>
+<span class="sourceLineNo">160</span><a id="line.160">      unsoundlyCovariantArray[len] = null;</a>
+<span class="sourceLineNo">161</span><a id="line.161">    }</a>
+<span class="sourceLineNo">162</span><a id="line.162">    System.arraycopy(src, offset, dst, 0, len);</a>
+<span class="sourceLineNo">163</span><a id="line.163">    return dst;</a>
+<span class="sourceLineNo">164</span><a id="line.164">  }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">  /**</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * Returns an array containing all of the elements in the specified collection. This method</a>
+<span class="sourceLineNo">168</span><a id="line.168">   * returns the elements in the order they are returned by the collection's iterator. The returned</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * array is "safe" in that no references to it are maintained by the collection. The caller is</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * thus free to modify the returned array.</a>
+<span class="sourceLineNo">171</span><a id="line.171">   *</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * &lt;p&gt;This method assumes that the collection size doesn't change while the method is running.</a>
+<span class="sourceLineNo">173</span><a id="line.173">   *</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * &lt;p&gt;TODO(kevinb): support concurrently modified collections?</a>
+<span class="sourceLineNo">175</span><a id="line.175">   *</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * @param c the collection for which to return an array of elements</a>
+<span class="sourceLineNo">177</span><a id="line.177">   */</a>
+<span class="sourceLineNo">178</span><a id="line.178">  static @Nullable Object[] toArrayImpl(Collection&lt;?&gt; c) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">    return fillArray(c, new Object[c.size()]);</a>
+<span class="sourceLineNo">180</span><a id="line.180">  }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">  /**</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * Returns a copy of the specified subrange of the specified array that is literally an Object[],</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * and not e.g. a {@code String[]}.</a>
+<span class="sourceLineNo">185</span><a id="line.185">   */</a>
+<span class="sourceLineNo">186</span><a id="line.186">  static @Nullable Object[] copyAsObjectArray(@Nullable Object[] elements, int offset, int length) {</a>
+<span class="sourceLineNo">187</span><a id="line.187">    checkPositionIndexes(offset, offset + length, elements.length);</a>
+<span class="sourceLineNo">188</span><a id="line.188">    if (length == 0) {</a>
+<span class="sourceLineNo">189</span><a id="line.189">      return new Object[0];</a>
+<span class="sourceLineNo">190</span><a id="line.190">    }</a>
+<span class="sourceLineNo">191</span><a id="line.191">    @Nullable Object[] result = new Object[length];</a>
+<span class="sourceLineNo">192</span><a id="line.192">    System.arraycopy(elements, offset, result, 0, length);</a>
+<span class="sourceLineNo">193</span><a id="line.193">    return result;</a>
+<span class="sourceLineNo">194</span><a id="line.194">  }</a>
+<span class="sourceLineNo">195</span><a id="line.195"></a>
+<span class="sourceLineNo">196</span><a id="line.196">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">197</span><a id="line.197">  private static @Nullable Object[] fillArray(Iterable&lt;?&gt; elements, @Nullable Object[] array) {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    int i = 0;</a>
+<span class="sourceLineNo">199</span><a id="line.199">    for (Object element : elements) {</a>
+<span class="sourceLineNo">200</span><a id="line.200">      array[i++] = element;</a>
+<span class="sourceLineNo">201</span><a id="line.201">    }</a>
+<span class="sourceLineNo">202</span><a id="line.202">    return array;</a>
+<span class="sourceLineNo">203</span><a id="line.203">  }</a>
+<span class="sourceLineNo">204</span><a id="line.204"></a>
+<span class="sourceLineNo">205</span><a id="line.205">  /** Swaps {@code array[i]} with {@code array[j]}. */</a>
+<span class="sourceLineNo">206</span><a id="line.206">  static void swap(Object[] array, int i, int j) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">    Object temp = array[i];</a>
+<span class="sourceLineNo">208</span><a id="line.208">    array[i] = array[j];</a>
+<span class="sourceLineNo">209</span><a id="line.209">    array[j] = temp;</a>
+<span class="sourceLineNo">210</span><a id="line.210">  }</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
+<span class="sourceLineNo">212</span><a id="line.212">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">213</span><a id="line.213">  static Object[] checkElementsNotNull(Object... array) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">    checkElementsNotNull(array, array.length);</a>
+<span class="sourceLineNo">215</span><a id="line.215">    return array;</a>
+<span class="sourceLineNo">216</span><a id="line.216">  }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">219</span><a id="line.219">  static @Nullable Object[] checkElementsNotNull(@Nullable Object[] array, int length) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">    for (int i = 0; i &lt; length; i++) {</a>
+<span class="sourceLineNo">221</span><a id="line.221">      checkElementNotNull(array[i], i);</a>
+<span class="sourceLineNo">222</span><a id="line.222">    }</a>
+<span class="sourceLineNo">223</span><a id="line.223">    return array;</a>
+<span class="sourceLineNo">224</span><a id="line.224">  }</a>
+<span class="sourceLineNo">225</span><a id="line.225"></a>
+<span class="sourceLineNo">226</span><a id="line.226">  // We do this instead of Preconditions.checkNotNull to save boxing and array</a>
+<span class="sourceLineNo">227</span><a id="line.227">  // creation cost.</a>
+<span class="sourceLineNo">228</span><a id="line.228">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">229</span><a id="line.229">  static Object checkElementNotNull(@CheckForNull Object element, int index) {</a>
+<span class="sourceLineNo">230</span><a id="line.230">    if (element == null) {</a>
+<span class="sourceLineNo">231</span><a id="line.231">      throw new NullPointerException("at index " + index);</a>
+<span class="sourceLineNo">232</span><a id="line.232">    }</a>
+<span class="sourceLineNo">233</span><a id="line.233">    return element;</a>
+<span class="sourceLineNo">234</span><a id="line.234">  }</a>
+<span class="sourceLineNo">235</span><a id="line.235">}</a>
 
 
 
