@@ -392,20 +392,22 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
   }
 
   private static long codePointToFourUtf8Bytes(int codePoint) {
-    return (((0xFL << 4) | (codePoint >>> 18)) & 0xFF)
+    // codePoint has at most 21 bits
+    return ((0xFL << 4) | (codePoint >>> 18))
         | ((0x80L | (0x3F & (codePoint >>> 12))) << 8)
         | ((0x80L | (0x3F & (codePoint >>> 6))) << 16)
         | ((0x80L | (0x3F & codePoint)) << 24);
   }
 
   private static long charToThreeUtf8Bytes(char c) {
-    return (((0xF << 5) | (c >>> 12)) & 0xFF)
+    return ((0x7L << 5) | (c >>> 12))
         | ((0x80 | (0x3F & (c >>> 6))) << 8)
         | ((0x80 | (0x3F & c)) << 16);
   }
 
   private static long charToTwoUtf8Bytes(char c) {
-    return (((0xF << 6) | (c >>> 6)) & 0xFF) | ((0x80 | (0x3F & c)) << 8);
+    // c has at most 11 bits
+    return ((0x3L << 6) | (c >>> 6)) | ((0x80 | (0x3F & c)) << 8);
   }
 
   private static final long serialVersionUID = 0L;
