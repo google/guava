@@ -98,6 +98,11 @@ final class CompactHashing {
     }
   }
 
+  /**
+   * Returns {@code table[index]}, where {@code table} is actually a {@code byte[]}, {@code
+   * short[]}, or {@code int[]}. When it is a {@code byte[]} or {@code short[]}, the returned value
+   * is unsigned, so the range of possible returned values is 0–255 or 0–65535, respectively.
+   */
   static int tableGet(Object table, int index) {
     if (table instanceof byte[]) {
       return ((byte[]) table)[index] & BYTE_MASK; // unsigned read
@@ -108,6 +113,13 @@ final class CompactHashing {
     }
   }
 
+  /**
+   * Sets {@code table[index]} to {@code entry}, where {@code table} is actually a {@code byte[]},
+   * {@code short[]}, or {@code int[]}. The value of {@code entry} should fit in the size of the
+   * assigned array element, when seen as an unsigned value. So if {@code table} is a {@code byte[]}
+   * then we should have {@code 0 ≤ entry ≤ 255}, and if {@code table} is a {@code short[]} then we
+   * should have {@code 0 ≤ entry ≤ 65535}. It is the caller's responsibility to ensure this.
+   */
   static void tableSet(Object table, int index, int entry) {
     if (table instanceof byte[]) {
       ((byte[]) table)[index] = (byte) entry; // unsigned write

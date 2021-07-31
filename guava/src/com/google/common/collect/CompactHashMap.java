@@ -127,6 +127,46 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    */
   private static final int MAX_HASH_BUCKET_LENGTH = 9;
 
+  // The way the `table`, `entries`, `keys`, and `values` arrays work together is as follows.
+  //
+  // The `table` array always has a size that is a power of 2. The hashcode of a key in the map
+  // is masked in order to correspond to the current table size. For example, if the table size
+  // is 128 then the mask is 127 == 0x7f, keeping the bottom 7 bits of the hash value.
+  // If a key hashes to 0x89abcdef the mask reduces it to 0x89abcdef & 0x7f == 0x6f. We'll call this
+  // the "short hash".
+  //
+  // The `keys`, `values`, and `entries` arrays always have the same size as each other. They can be
+  // seen as fields of an imaginary `Entry` object like this:
+  //
+  // class Entry {
+  //    int hash;
+  //    Entry next;
+  //    K key;
+  //    V value;
+  // }
+  //
+  // The imaginary `hash` and `next` values are combined into a single `int` value in the `entries`
+  // array. The top bits of this value are the remaining bits of the hash value that were not used
+  // in the short hash. We saw that a mask of 0x7f would keep the 7-bit value 0x6f from a full
+  // hashcode of 0x89abcdef. The imaginary `hash` value would then be the remaining top 25 bits,
+  // 0x89abcd80. To this is added (or'd) the `next` value, which is an index within `entries`
+  // (and therefore within `keys` and `values`) of another entry that has the same short hash
+  // value. In our example, it would be another entry for a key whose short hash is also 0x6f.
+  //
+  // Essentially, then, `table[h]` gives us the start of a linked list in `entries`, where every
+  // element of the list has the short hash value h.
+  //
+  // A wrinkle here is that the value 0 (called UNSET in the code) is used as the equivalent of a
+  // null pointer. If `table[h] == 0` that means there are no keys in the map whose short hash is h.
+  // If the `next` bits in `entries[i]` are 0 that means there are no further entries for the given
+  // short hash. But 0 is also a valid index in `entries`, so we add 1 to these indices before
+  // putting them in `table` or in `next` bits, and subtract 1 again when we need an index value.
+  //
+  // The elements of `keys`, `values`, and `entries` are added sequentially, so that elements 0 to
+  // `size() - 1` are used and remaining elements are not. This makes iteration straightforward.
+  // Removing an entry generally involves moving the last element of each array to where the removed
+  // entry was, and adjusting index links accordingly.
+
   /**
    * The hashtable object. This can be either:
    *
@@ -156,9 +196,9 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    *
    * <pre>
    * hash  = aaaaaaaa
-   * mask  = 0000ffff
-   * next  = 0000bbbb
-   * entry = aaaabbbb
+   * mask  = 00000fff
+   * next  = 00000bbb
+   * entry = aaaaabbb
    * </pre>
    *
    * <p>The pointers in [size(), entries.length) are all "null" (UNSET).
@@ -182,6 +222,12 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * structure (to make it possible to throw ConcurrentModificationException in the iterator). Note
    * that we choose not to make this volatile, so we do less of a "best effort" to track such
    * errors, for better performance.
+   *
+   * <p>For a new instance, where the arrays above have not yet been allocated, the value of {@code
+   * metadata} is the size that the arrays should be allocated with. Once the arrays have been
+   * allocated, the value of {@code metadata} combines the number of bits in the "short hash", in
+   * its bottom {@value CompactHashing#HASH_TABLE_BITS_MAX_BITS} bits, with a modification count in
+   * the remaining bits that is used to detect concurrent modification during iteration.
    */
   private transient int metadata;
 
@@ -387,7 +433,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @CanIgnoreReturnValue
-  private int resizeTable(int mask, int newCapacity, int targetHash, int targetEntryIndex) {
+  private int resizeTable(int oldMask, int newCapacity, int targetHash, int targetEntryIndex) {
     Object newTable = CompactHashing.createTable(newCapacity);
     int newMask = newCapacity - 1;
 
@@ -396,25 +442,35 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       CompactHashing.tableSet(newTable, targetHash & newMask, targetEntryIndex + 1);
     }
 
-    Object table = requireTable();
+    Object oldTable = requireTable();
     int[] entries = requireEntries();
 
-    // Loop over current hashtable
-    for (int tableIndex = 0; tableIndex <= mask; tableIndex++) {
-      int next = CompactHashing.tableGet(table, tableIndex);
-      while (next != UNSET) {
-        int entryIndex = next - 1;
-        int entry = entries[entryIndex];
+    // Loop over `oldTable` to construct its replacement, ``newTable`. The entries do not move, so
+    // the `keys` and `values` arrays do not need to change. But because the "short hash" now has a
+    // different number of bits, we must rewrite each element of `entries` so that its contribution
+    // to the full hashcode reflects the change, and so that its `next` link corresponds to the new
+    // linked list of entries with the new short hash.
+    for (int oldTableIndex = 0; oldTableIndex <= oldMask; oldTableIndex++) {
+      int oldNext = CompactHashing.tableGet(oldTable, oldTableIndex);
+      // Each element of `oldTable` is the head of a (possibly empty) linked list of elements in
+      // `entries`. The `oldNext` loop is going to traverse that linked list.
+      // We need to rewrite the `next` link of each of the elements so that it is in the appropriate
+      // linked list starting from `newTable`. In general, each element from the old linked list
+      // belongs to a different linked list from `newTable`. We insert each element in turn at the
+      // head of its appropriate `newTable` linked list.
+      while (oldNext != UNSET) {
+        int entryIndex = oldNext - 1;
+        int oldEntry = entries[entryIndex];
 
-        // Rebuild hash using entry hashPrefix and tableIndex ("hashSuffix")
-        int hash = CompactHashing.getHashPrefix(entry, mask) | tableIndex;
+        // Rebuild the full 32-bit hash using entry hashPrefix and oldTableIndex ("hashSuffix").
+        int hash = CompactHashing.getHashPrefix(oldEntry, oldMask) | oldTableIndex;
 
         int newTableIndex = hash & newMask;
         int newNext = CompactHashing.tableGet(newTable, newTableIndex);
-        CompactHashing.tableSet(newTable, newTableIndex, next);
+        CompactHashing.tableSet(newTable, newTableIndex, oldNext);
         entries[entryIndex] = CompactHashing.maskCombine(hash, newNext, newMask);
 
-        next = CompactHashing.getNext(entry, mask);
+        oldNext = CompactHashing.getNext(oldEntry, oldMask);
       }
     }
 
