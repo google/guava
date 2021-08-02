@@ -141,6 +141,10 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    */
   private static final int MAX_HASH_BUCKET_LENGTH = 9;
 
+  // See CompactHashMap for a detailed description of how the following fields work. That
+  // description talks about `keys`, `values`, and `entries`; here the `keys` and `values` arrays
+  // are replaced by a single `elements` array but everything else works similarly.
+
   /**
    * The hashtable object. This can be either:
    *
@@ -170,9 +174,9 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    *
    * <pre>
    * hash  = aaaaaaaa
-   * mask  = 0000ffff
-   * next  = 0000bbbb
-   * entry = aaaabbbb
+   * mask  = 00000fff
+   * next  = 00000bbb
+   * entry = aaaaabbb
    * </pre>
    *
    * <p>The pointers in [size(), entries.length) are all "null" (UNSET).
@@ -380,7 +384,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @CanIgnoreReturnValue
-  private int resizeTable(int mask, int newCapacity, int targetHash, int targetEntryIndex) {
+  private int resizeTable(int oldMask, int newCapacity, int targetHash, int targetEntryIndex) {
     Object newTable = CompactHashing.createTable(newCapacity);
     int newMask = newCapacity - 1;
 
@@ -389,25 +393,25 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       CompactHashing.tableSet(newTable, targetHash & newMask, targetEntryIndex + 1);
     }
 
-    Object table = requireTable();
+    Object oldTable = requireTable();
     int[] entries = requireEntries();
 
     // Loop over current hashtable
-    for (int tableIndex = 0; tableIndex <= mask; tableIndex++) {
-      int next = CompactHashing.tableGet(table, tableIndex);
-      while (next != UNSET) {
-        int entryIndex = next - 1;
-        int entry = entries[entryIndex];
+    for (int oldTableIndex = 0; oldTableIndex <= oldMask; oldTableIndex++) {
+      int oldNext = CompactHashing.tableGet(oldTable, oldTableIndex);
+      while (oldNext != UNSET) {
+        int entryIndex = oldNext - 1;
+        int oldEntry = entries[entryIndex];
 
         // Rebuild hash using entry hashPrefix and tableIndex ("hashSuffix")
-        int hash = CompactHashing.getHashPrefix(entry, mask) | tableIndex;
+        int hash = CompactHashing.getHashPrefix(oldEntry, oldMask) | oldTableIndex;
 
         int newTableIndex = hash & newMask;
         int newNext = CompactHashing.tableGet(newTable, newTableIndex);
-        CompactHashing.tableSet(newTable, newTableIndex, next);
+        CompactHashing.tableSet(newTable, newTableIndex, oldNext);
         entries[entryIndex] = CompactHashing.maskCombine(hash, newNext, newMask);
 
-        next = CompactHashing.getNext(entry, mask);
+        oldNext = CompactHashing.getNext(oldEntry, oldMask);
       }
     }
 
