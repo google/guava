@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
-import javax.annotation.CheckForNull;
 
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -125,17 +124,6 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
       return Iterables.addAll(this, Iterables.skip(collection, size - maxSize));
     }
     return standardAddAll(collection);
-  }
-
-  @Override
-  public boolean contains(@CheckForNull Object object) {
-    return delegate().contains(object);
-  }
-
-  @Override
-  @CanIgnoreReturnValue
-  public boolean remove(@CheckForNull Object object) {
-    return delegate().remove(object);
   }
 
   @Override
