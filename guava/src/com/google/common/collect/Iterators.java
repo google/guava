@@ -611,29 +611,29 @@ public final class Iterators {
    *     partitions (the final iterable may have trailing null elements)
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public static <T extends @Nullable Object> UnmodifiableIterator<List<T>> paddedPartition(
-      Iterator<T> iterator, int size) {
+  public static <T extends @Nullable Object>
+      UnmodifiableIterator<List<@Nullable T>> paddedPartition(Iterator<T> iterator, int size) {
     return partitionImpl(iterator, size, true);
   }
 
-  private static <T extends @Nullable Object> UnmodifiableIterator<List<T>> partitionImpl(
+  private static <T extends @Nullable Object> UnmodifiableIterator<List<@Nullable T>> partitionImpl(
       final Iterator<T> iterator, final int size, final boolean pad) {
     checkNotNull(iterator);
     checkArgument(size > 0);
-    return new UnmodifiableIterator<List<T>>() {
+    return new UnmodifiableIterator<List<@Nullable T>>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
       }
 
       @Override
-      public List<T> next() {
+      public List<@Nullable T> next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
         @SuppressWarnings("unchecked") // we only put Ts in it
         @Nullable
-        T[] array = (T[]) new Object[size];
+        T[] array = (@Nullable T[]) new Object[size];
         int count = 0;
         for (; count < size && iterator.hasNext(); count++) {
           array[count] = iterator.next();
@@ -642,8 +642,13 @@ public final class Iterators {
           array[i] = null; // for GWT
         }
 
-        List<T> list = Collections.unmodifiableList((List<T>) Arrays.asList(array));
-        return (pad || count == size) ? list : list.subList(0, count);
+        List<@Nullable T> list = Collections.unmodifiableList(Arrays.asList(array));
+        // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
+        if (pad || count == size) {
+          return list;
+        } else {
+          return list.subList(0, count);
+        }
       }
     };
   }
