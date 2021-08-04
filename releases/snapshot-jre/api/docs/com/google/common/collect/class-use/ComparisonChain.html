@@ -167,16 +167,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>abstract &lt;T&gt;&nbsp;<a href="../ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ComparisonChain.</span><code><span class="memberNameLink"><a href="../ComparisonChain.html#compare(T,T,java.util.Comparator)">compare</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;left,
-       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&nbsp;right,
-       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></th>
-<td class="colLast">
-<div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
- already been determined.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code><a href="../ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ComparisonChain.</span><code><span class="memberNameLink"><a href="../ComparisonChain.html#compare(java.lang.Boolean,java.lang.Boolean)">compare</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&nbsp;left,
        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&nbsp;right)</code></th>
@@ -187,13 +177,23 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>abstract <a href="../ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ComparisonChain.</span><code><span class="memberNameLink"><a href="../ComparisonChain.html#compare(java.lang.Comparable,java.lang.Comparable)">compare</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&nbsp;left,
        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&nbsp;right)</code></th>
 <td class="colLast">
 <div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
  result of this comparison chain has not already been determined.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>abstract &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ComparisonChain.</span><code><span class="memberNameLink"><a href="../ComparisonChain.html#compare(T,T,java.util.Comparator)">compare</a></span>&#8203;(T&nbsp;left,
+       T&nbsp;right,
+       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></th>
+<td class="colLast">
+<div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
+ already been determined.</div>
 </td>
 </tr>
 <tr class="rowColor">

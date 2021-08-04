@@ -10985,15 +10985,27 @@
       <param name="right" type="java.lang.Comparable&lt;?&gt;"/>
       <doc>
       <![CDATA[Compares two comparable objects as specified by {@link Comparable#compareTo}, <i>if</i> the
- result of this comparison chain has not already been determined.]]>
+ result of this comparison chain has not already been determined.
+
+ <p>This method is declared to accept any 2 {@code Comparable} objects, even if they are not <a
+ href="https://docs.oracle.com/javase/tutorial/collections/interfaces/order.html">mutually
+ comparable</a>. If you pass objects that are not mutually comparable, this method may throw an
+ exception. (The reason for this decision is lost to time, but the reason <i>might</i> be that
+ we wanted to support legacy classes that implement the raw type {@code Comparable} (instead of
+ implementing {@code Comparable<Foo>}) without producing warnings. If so, we would prefer today
+ to produce warnings in that case, and we may change this method to do so in the future. Support
+ for raw {@code Comparable} types in Guava in general is tracked as <a
+ href="https://github.com/google/guava/issues/989">#989</a>.)
+
+ @throws ClassCastException if the parameters are not mutually comparable]]>
       </doc>
     </method>
     <method name="compare" return="com.google.common.collect.ComparisonChain"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="left" type="T"/>
-      <param name="right" type="T"/>
+      <param name="left" type="T extends java.lang.Object"/>
+      <param name="right" type="T extends java.lang.Object"/>
       <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
       <doc>
       <![CDATA[Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
@@ -11140,7 +11152,7 @@
      code that is still catching {@code ComputationException} may need to be updated to catch some
      of those types instead. (Note that this type, though deprecated, is not planned to be removed
      from Guava.)">
-    <constructor name="ComputationException" type="Throwable"
+    <constructor name="ComputationException" type="java.lang.Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -12226,7 +12238,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="E"/>
+      <param name="element" type="E extends java.lang.Object"/>
       <param name="elements" type="E[]"/>
       <doc>
       <![CDATA[Returns a fluent iterable containing the specified elements in order.
@@ -12263,7 +12275,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="target" type="Object"/>
+      <param name="target" type="java.lang.Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this fluent iterable contains any object for which {@code
  equals(target)} is true.
@@ -12723,7 +12735,7 @@
  @since 18.0]]>
       </doc>
     </method>
-    <method name="get" return="E"
+    <method name="get" return="E extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
@@ -26084,7 +26096,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[Compares the specified object with this instance for equality. Returns {@code true} if the
  given object is also a {@code MapDifference} and the values returned by the {@link
@@ -26117,7 +26129,7 @@
   <interface name="MapDifference.ValueDifference"    abstract="true"
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="leftValue" return="V"
+    <method name="leftValue" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -26125,7 +26137,7 @@
       <![CDATA[Returns the value from the left map (possibly null).]]>
       </doc>
     </method>
-    <method name="rightValue" return="V"
+    <method name="rightValue" return="V extends java.lang.Object"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -26137,7 +26149,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="Object"/>
+      <param name="other" type="java.lang.Object"/>
       <doc>
       <![CDATA[Two instances are considered equal if their {@link #leftValue()} values are equal and their
  {@link #rightValue()} values are also equal.]]>

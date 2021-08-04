@@ -594,13 +594,13 @@
 <span class="sourceLineNo">585</span><a id="line.585">   *     into partitions (the final iterable may have trailing null elements)</a>
 <span class="sourceLineNo">586</span><a id="line.586">   * @throws IllegalArgumentException if {@code size} is nonpositive</a>
 <span class="sourceLineNo">587</span><a id="line.587">   */</a>
-<span class="sourceLineNo">588</span><a id="line.588">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;T&gt;&gt; paddedPartition(</a>
+<span class="sourceLineNo">588</span><a id="line.588">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;@Nullable T&gt;&gt; paddedPartition(</a>
 <span class="sourceLineNo">589</span><a id="line.589">      final Iterable&lt;T&gt; iterable, final int size) {</a>
 <span class="sourceLineNo">590</span><a id="line.590">    checkNotNull(iterable);</a>
 <span class="sourceLineNo">591</span><a id="line.591">    checkArgument(size &gt; 0);</a>
-<span class="sourceLineNo">592</span><a id="line.592">    return new FluentIterable&lt;List&lt;T&gt;&gt;() {</a>
+<span class="sourceLineNo">592</span><a id="line.592">    return new FluentIterable&lt;List&lt;@Nullable T&gt;&gt;() {</a>
 <span class="sourceLineNo">593</span><a id="line.593">      @Override</a>
-<span class="sourceLineNo">594</span><a id="line.594">      public Iterator&lt;List&lt;T&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">594</span><a id="line.594">      public Iterator&lt;List&lt;@Nullable T&gt;&gt; iterator() {</a>
 <span class="sourceLineNo">595</span><a id="line.595">        return Iterators.paddedPartition(iterable.iterator(), size);</a>
 <span class="sourceLineNo">596</span><a id="line.596">      }</a>
 <span class="sourceLineNo">597</span><a id="line.597">    };</a>
