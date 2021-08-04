@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,7 +152,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.47">EvictingQueue</a>&lt;E&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.46">EvictingQueue</a>&lt;E&gt;
 extends <a href="ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">A non-blocking queue which automatically evicts elements from the head of the queue when
@@ -209,34 +209,27 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Returns <code>true</code> if this collection contains the specified element.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(int)">create</a></span>&#8203;(int&nbsp;maxSize)</code></th>
 <td class="colLast">
 <div class="block">Creates and returns a new evicting queue that will hold up to <code>maxSize</code> elements.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delegate()">delegate</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the backing delegate instance that methods are forwarded to.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#offer(E)">offer</a></span>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</code></th>
 <td class="colLast">
 <div class="block">Adds the given element to this queue.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remainingCapacity()">remainingCapacity</a></span>()</code></th>
 <td class="colLast">
@@ -244,15 +237,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  the queue is currently full.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
-<td class="colLast">
-<div class="block">Removes a single instance of the specified element from this
- collection, if it is present (optional operation).</div>
-</td>
-</tr>
-<tr id="i8" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray()">toArray</a></span>()</code></th>
 <td class="colLast">
@@ -272,7 +257,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.collect.<a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a></h3>
-<code><a href="ForwardingCollection.html#clear()">clear</a>, <a href="ForwardingCollection.html#containsAll(java.util.Collection)">containsAll</a>, <a href="ForwardingCollection.html#isEmpty()">isEmpty</a>, <a href="ForwardingCollection.html#iterator()">iterator</a>, <a href="ForwardingCollection.html#removeAll(java.util.Collection)">removeAll</a>, <a href="ForwardingCollection.html#retainAll(java.util.Collection)">retainAll</a>, <a href="ForwardingCollection.html#size()">size</a>, <a href="ForwardingCollection.html#standardAddAll(java.util.Collection)">standardAddAll</a>, <a href="ForwardingCollection.html#standardClear()">standardClear</a>, <a href="ForwardingCollection.html#standardContains(java.lang.Object)">standardContains</a>, <a href="ForwardingCollection.html#standardContainsAll(java.util.Collection)">standardContainsAll</a>, <a href="ForwardingCollection.html#standardIsEmpty()">standardIsEmpty</a>, <a href="ForwardingCollection.html#standardRemove(java.lang.Object)">standardRemove</a>, <a href="ForwardingCollection.html#standardRemoveAll(java.util.Collection)">standardRemoveAll</a>, <a href="ForwardingCollection.html#standardRetainAll(java.util.Collection)">standardRetainAll</a>, <a href="ForwardingCollection.html#standardToArray()">standardToArray</a>, <a href="ForwardingCollection.html#standardToArray(T%5B%5D)">standardToArray</a>, <a href="ForwardingCollection.html#standardToString()">standardToString</a>, <a href="ForwardingCollection.html#toArray(T%5B%5D)">toArray</a></code></li>
+<code><a href="ForwardingCollection.html#clear()">clear</a>, <a href="ForwardingCollection.html#contains(java.lang.Object)">contains</a>, <a href="ForwardingCollection.html#containsAll(java.util.Collection)">containsAll</a>, <a href="ForwardingCollection.html#isEmpty()">isEmpty</a>, <a href="ForwardingCollection.html#iterator()">iterator</a>, <a href="ForwardingCollection.html#remove(java.lang.Object)">remove</a>, <a href="ForwardingCollection.html#removeAll(java.util.Collection)">removeAll</a>, <a href="ForwardingCollection.html#retainAll(java.util.Collection)">retainAll</a>, <a href="ForwardingCollection.html#size()">size</a>, <a href="ForwardingCollection.html#standardAddAll(java.util.Collection)">standardAddAll</a>, <a href="ForwardingCollection.html#standardClear()">standardClear</a>, <a href="ForwardingCollection.html#standardContains(java.lang.Object)">standardContains</a>, <a href="ForwardingCollection.html#standardContainsAll(java.util.Collection)">standardContainsAll</a>, <a href="ForwardingCollection.html#standardIsEmpty()">standardIsEmpty</a>, <a href="ForwardingCollection.html#standardRemove(java.lang.Object)">standardRemove</a>, <a href="ForwardingCollection.html#standardRemoveAll(java.util.Collection)">standardRemoveAll</a>, <a href="ForwardingCollection.html#standardRetainAll(java.util.Collection)">standardRetainAll</a>, <a href="ForwardingCollection.html#standardToArray()">standardToArray</a>, <a href="ForwardingCollection.html#standardToArray(T%5B%5D)">standardToArray</a>, <a href="ForwardingCollection.html#standardToString()">standardToString</a>, <a href="ForwardingCollection.html#toArray(T%5B%5D)">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.ForwardingObject">
@@ -293,7 +278,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
+<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
@@ -324,7 +309,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.68">create</a>&#8203;(int&nbsp;maxSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.67">create</a>&#8203;(int&nbsp;maxSize)</pre>
 <div class="block">Creates and returns a new evicting queue that will hold up to <code>maxSize</code> elements.
 
  <p>When <code>maxSize</code> is zero, elements will be evicted immediately after being added to the
@@ -337,7 +322,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>remainingCapacity</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.78">remainingCapacity</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.77">remainingCapacity</a>()</pre>
 <div class="block">Returns the number of additional elements that this queue can accept without evicting; zero if
  the queue is currently full.</div>
 <dl>
@@ -352,7 +337,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.82">delegate</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.81">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -373,7 +358,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>offer</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.93">offer</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.92">offer</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
 <div class="block">Adds the given element to this queue. If the queue is currently full, the element at the head
  of the queue is evicted to make room.</div>
 <dl>
@@ -397,7 +382,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.105">add</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.104">add</a>&#8203;(<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&nbsp;e)</pre>
 <div class="block">Adds the given element to this queue. If the queue is currently full, the element at the head
  of the queue is evicted to make room.</div>
 <dl>
@@ -421,7 +406,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.119">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;collection)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.118">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;&nbsp;collection)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">java.util.Collection</a></code></span></div>
 <div class="block">Adds all of the elements in the specified collection to this collection
  (optional operation).  The behavior of this operation is undefined if
@@ -443,68 +428,13 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 </dl>
 </li>
 </ul>
-<a id="contains(java.lang.Object)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>contains</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.130">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Collection</a></code></span></div>
-<div class="block">Returns <code>true</code> if this collection contains the specified element.
- More formally, returns <code>true</code> if and only if this collection
- contains at least one element <code>e</code> such that
- <code>Objects.equals(o, e)</code>.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingCollection.html#contains(java.lang.Object)">contains</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element whose presence in this collection is to be tested</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this collection contains the specified
-         element</dd>
-</dl>
-</li>
-</ul>
-<a id="remove(java.lang.Object)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>remove</h4>
-<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.135">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Collection</a></code></span></div>
-<div class="block">Removes a single instance of the specified element from this
- collection, if it is present (optional operation).  More formally,
- removes an element <code>e</code> such that
- <code>Objects.equals(o, e)</code>, if
- this collection contains one or more such elements.  Returns
- <code>true</code> if this collection contained the specified element (or
- equivalently, if this collection changed as a result of the call).</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingCollection.html#remove(java.lang.Object)">remove</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;<a href="EvictingQueue.html" title="type parameter in EvictingQueue">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>object</code> - element to be removed from this collection, if present</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if an element was removed as a result of this call</dd>
-</dl>
-</li>
-</ul>
 <a id="toArray()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.141">toArray</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/EvictingQueue.html#line.129">toArray</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">java.util.Collection</a></code></span></div>
 <div class="block">Returns an array containing all of the elements in this collection.
  If this collection makes any guarantees as to what order its elements

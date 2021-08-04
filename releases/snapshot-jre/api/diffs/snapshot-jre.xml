@@ -12027,18 +12027,6 @@
       deprecated="not deprecated">
       <param name="collection" type="java.util.Collection&lt;? extends E&gt;"/>
     </method>
-    <method name="contains" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
-    </method>
-    <method name="remove" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
-    </method>
     <method name="toArray" return="java.lang.Object[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
