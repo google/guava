@@ -60,36 +60,7 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
   <A NAME="com.google.common.collect.RangeMap.merge_removed(com.google.common.collect.Range<K>, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)"></A>
   <nobr><code>void</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/collect/RangeMap.html#merge(com.google.common.collect.Range<K>, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)" target="_top"><tt>merge</tt></A>(<code>Range&lt;K&gt;,</nobr> V<nobr>,</nobr> BiFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> V<nobr>,</nobr> ?<nobr>,</nobr> super<nobr>,</nobr> V<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Merges a value into the map over a range by applying a remapping function.</TD>
-</TR>
-</TABLE>
-&nbsp;
-<p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.RangeMap.equals_changed(java.lang.Object)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeMap.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Change in signature from <code>Object</code> to <code>java.lang.Object</code>.<br>
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if {@code obj} is another {@code RangeMap} that has an equivalent <A HREF="../../docs/.html#asMapOfRanges()"><TT>.asMapOfRanges()</TT></A>.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.RangeMap.getEntry_changed(K extends java.lang.Comparable)"></A>
-  <nobr><code>Entry&lt;Range&lt;K&gt;, V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeMap.html#getEntry(K extends java.lang.Comparable)" target="_top"><tt>getEntry</tt></A>(<code>K extends Comparable</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Change in return type from <code>Entry</code> to (<code>Entry&lt;Range&lt;K&gt;, V&gt;</code>).<br>
-  </TD>
-  <TD VALIGN="TOP">Returns the range containing this key and its associated value, if such a range is present in
- the range map, or {@code null} otherwise.</TD>
+  <TD VALIGN="TOP">Merges a value into a part of the map by applying a remapping function.</TD>
 </TR>
 </TABLE>
 &nbsp;

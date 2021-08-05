@@ -6312,14 +6312,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Returns an equivalence that delegates to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableRangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/RangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a></dt>
-<dd>
-<div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="com/google/common/collect/RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/collect/TreeRangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Converter.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a></dt>
 <dd>
 <div class="block">Indicates whether another object is equal to this converter.</div>
@@ -6368,6 +6360,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMultiset.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableRangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableSet.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ListMultimap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a></dt>
@@ -6400,6 +6394,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns <code>true</code> if <code>object</code> is a range having the same endpoints and bound types as
  this range.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/RangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="com/google/common/collect/RangeMap.html#asMapOfRanges()"><code>RangeMap.asMapOfRanges()</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/RangeSet.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeSet</code> that contains the same ranges
@@ -6417,6 +6415,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Compares the specified object with this table for equality.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/collect/TreeRangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractGraph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
@@ -12045,7 +12045,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/RangeMap.html#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">merge(Range&lt;K&gt;, V, BiFunction&lt;? super V, ? super V, ? extends V&gt;)</a></span> - Method in interface com.google.common.collect.<a href="com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a></dt>
 <dd>
-<div class="block">Merges a value into the map over a range by applying a remapping function.</div>
+<div class="block">Merges a value into a part of the map by applying a remapping function.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/TreeRangeMap.html#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">merge(Range&lt;K&gt;, V, BiFunction&lt;? super V, ? super V, ? extends V&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
 <dd>&nbsp;</dd>

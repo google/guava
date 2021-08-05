@@ -130,7 +130,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableRangeMap or TreeRangeMap")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.39">RangeMap</a>&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.40">RangeMap</a>&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V&gt;</pre>
 <div class="block">A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
  with the range (if any) that contains a specified key.
 
@@ -184,20 +184,20 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="#asMapOfRanges()"><code>asMapOfRanges()</code></a>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a></code></td>
+<td class="colFirst"><code><a href="RangeMap.html" title="type parameter in RangeMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(K)">get</a></span>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</code></td>
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEntry(K)">getEntry</a></span>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
@@ -214,10 +214,10 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#merge(com.google.common.collect.Range,V,java.util.function.BiFunction)">merge</a></span>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
-     <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+     <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value,
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
-<div class="block">Merges a value into the map over a range by applying a remapping function.</div>
+<div class="block">Merges a value into a part of the map by applying a remapping function.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -298,7 +298,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.49">get</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.56">get</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
  <p>Specifically, if any range in this range map contains the specified key, the value
@@ -313,7 +314,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>getEntry</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.56">getEntry</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.63">getEntry</a>&#8203;(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
 </li>
@@ -324,7 +326,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre class="methodSignature"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.65">span</a>()</pre>
+<pre class="methodSignature"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.72">span</a>()</pre>
 <div class="block">Returns the minimal range <a href="Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges in this
  <code>RangeMap</code>.</div>
 <dl>
@@ -341,7 +343,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.76">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.83">put</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
          <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</pre>
 <div class="block">Maps a range to a specified value (optional operation).
 
@@ -359,7 +361,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>putCoalescing</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.96">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.103">putCoalescing</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
                    <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</pre>
 <div class="block">Maps a range to a specified value, coalescing this range with any existing ranges with the same
  value that are <a href="Range.html#isConnected(com.google.common.collect.Range)">connected</a> to this range.
@@ -387,7 +389,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.99">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.106">putAll</a>&#8203;(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
 <div class="block">Puts all the associations from <code>rangeMap</code> into this range map (optional operation).</div>
 </li>
 </ul>
@@ -397,7 +399,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.102">clear</a>()</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.109">clear</a>()</pre>
 <div class="block">Removes all associations from this range map (optional operation).</div>
 </li>
 </ul>
@@ -407,7 +409,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.111">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.118">remove</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).
 
  <p>If <code>!range.contains(k)</code>, <a href="#get(K)"><code>get(k)</code></a> will return the same result
@@ -423,21 +425,24 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>merge</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.129">merge</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
-           <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value,
-           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;remappingFunction)</pre>
-<div class="block">Merges a value into the map over a range by applying a remapping function.
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.138">merge</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+           <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+           <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value,
+           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>,&#8203;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+<div class="block">Merges a value into a part of the map by applying a remapping function.
 
- <p>If any parts of the range are already present in this range map, those parts are mapped to
- new values by applying the remapping function. Any parts of the range not already present in
- this range map are mapped to the specified value, unless the value is <code>null</code>.
+ <p>If any parts of the range are already present in this map, those parts are mapped to new
+ values by applying the remapping function. The remapping function accepts the map's existing
+ value for that part of the range and the given value. It returns the value to be associated
+ with that part of the map, or it returns <code>null</code> to clear that part of the map.
 
- <p>Any existing map entry spanning either range boundary may be split at the boundary, even if
- the merge does not affect its value.
+ <p>Any parts of the range not already present in this map are mapped to the specified value,
+ unless the value is <code>null</code>.
 
- <p>For example, if <code>rangeMap</code> had one entry <code>[1, 5] =&gt; 3</code> then <code>
- rangeMap.merge(Range.closed(0,2), 3, Math::max)</code> could yield a range map with the entries
- <code>[0, 1) =&gt; 3, [1, 2] =&gt; 3, (2, 5] =&gt; 3</code>.</div>
+ <p>Any existing entry spanning either range boundary may be split at the boundary, even if the
+ merge does not affect its value. For example, if <code>rangeMap</code> had one entry <code>[1, 5]
+ =&gt; 3</code> then <code>rangeMap.merge(Range.closed(0,2), 3, Math::max)</code> could yield a map with the
+ entries <code>[0, 1) =&gt; 3, [1, 2] =&gt; 3, (2, 5] =&gt; 3</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>28.1</dd>
@@ -450,7 +455,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>asMapOfRanges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.143">asMapOfRanges</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.152">asMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -466,7 +471,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingMapOfRanges</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.156">asDescendingMapOfRanges</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.165">asDescendingMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -486,7 +491,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeMap</h4>
-<pre class="methodSignature"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.171">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre class="methodSignature"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,&#8203;<a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.181">subRangeMap</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
  <p>For example, if <code>rangeMap</code> had the entries <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar",
@@ -506,7 +511,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.177">equals</a>&#8203;(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+<pre class="methodSignature">boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.187">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="#asMapOfRanges()"><code>asMapOfRanges()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -528,7 +534,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.181">hashCode</a>()</pre>
+<pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.191">hashCode</a>()</pre>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -547,7 +553,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.185">toString</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.195">toString</a>()</pre>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
