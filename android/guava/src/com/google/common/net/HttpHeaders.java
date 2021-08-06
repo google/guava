@@ -140,7 +140,7 @@ public final class HttpHeaders {
   public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";
   /** The HTTP {@code Range} header field name. */
   public static final String RANGE = "Range";
-  /** The HTTP {@code Referer} header field name. */
+  /** The HTTP {@code Referrer} header field name. */
   public static final String REFERER = "Referer";
   /**
    * The HTTP <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a> header
