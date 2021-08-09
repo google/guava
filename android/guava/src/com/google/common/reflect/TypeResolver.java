@@ -509,7 +509,7 @@ public final class TypeResolver {
         @Override
         TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
           Set<Type> combined = new LinkedHashSet<>(asList(upperBounds));
-          // Since this is an artifically generated type variable, we don't bother checking
+          // Since this is an artificially generated type variable, we don't bother checking
           // subtyping between declared type bound and actual type bound. So it's possible that we
           // may generate something like <capture#1-of ? extends Foo&SubFoo>.
           // Checking subtype between declared and actual type bounds
