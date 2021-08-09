@@ -518,7 +518,7 @@
 <span class="sourceLineNo">509</span><a id="line.509">        @Override</a>
 <span class="sourceLineNo">510</span><a id="line.510">        TypeVariable&lt;?&gt; captureAsTypeVariable(Type[] upperBounds) {</a>
 <span class="sourceLineNo">511</span><a id="line.511">          Set&lt;Type&gt; combined = new LinkedHashSet&lt;&gt;(asList(upperBounds));</a>
-<span class="sourceLineNo">512</span><a id="line.512">          // Since this is an artifically generated type variable, we don't bother checking</a>
+<span class="sourceLineNo">512</span><a id="line.512">          // Since this is an artificially generated type variable, we don't bother checking</a>
 <span class="sourceLineNo">513</span><a id="line.513">          // subtyping between declared type bound and actual type bound. So it's possible that we</a>
 <span class="sourceLineNo">514</span><a id="line.514">          // may generate something like &lt;capture#1-of ? extends Foo&amp;SubFoo&gt;.</a>
 <span class="sourceLineNo">515</span><a id="line.515">          // Checking subtype between declared and actual type bounds</a>
