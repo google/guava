@@ -134,6 +134,11 @@ public final class InetAddresses {
    *
    * <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
    *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
    * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
    *     "192.168.0.1"} or {@code "2001:db8::1"}
    * @return {@link InetAddress} representing the argument
@@ -153,6 +158,11 @@ public final class InetAddresses {
   /**
    * Returns {@code true} if the supplied string is a valid IP string literal, {@code false}
    * otherwise.
+   *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * @param ipString {@code String} to evaluated as an IP string literal
    * @return {@code true} if the argument is a valid IP string literal
@@ -502,10 +512,15 @@ public final class InetAddresses {
    * Returns an InetAddress representing the literal IPv4 or IPv6 host portion of a URL, encoded in
    * the format specified by RFC 3986 section 3.2.2.
    *
-   * <p>This function is similar to {@link InetAddresses#forString(String)}, however, it requires
-   * that IPv6 addresses are surrounded by square brackets.
+   * <p>This method is similar to {@link InetAddresses#forString(String)}, however, it requires that
+   * IPv6 addresses are surrounded by square brackets.
    *
-   * <p>This function is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+   * <p>This method is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+   *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * @param hostAddr A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
    * @return an InetAddress representing the address in {@code hostAddr}
@@ -548,6 +563,11 @@ public final class InetAddresses {
   /**
    * Returns {@code true} if the supplied string is a valid URI IP string literal, {@code false}
    * otherwise.
+   *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * @param ipString {@code String} to evaluated as an IP URI host string literal
    * @return {@code true} if the argument is a valid IP URI host
@@ -844,6 +864,10 @@ public final class InetAddresses {
    * obscure {@link Inet6Address} methods, but it would be unwise to depend on such a
    * poorly-documented feature.)
    *
+   * <p>This method accepts non-ASCII digits. That is consistent with {@link InetAddress}, but not
+   * with various RFCs. If you want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
    * @param ipString {@code String} to be examined for embedded IPv4-mapped IPv6 address format
    * @return {@code true} if the argument is a valid "mapped" address
    * @since 10.0
@@ -871,7 +895,7 @@ public final class InetAddresses {
    *
    * <p>HACK: As long as applications continue to use IPv4 addresses for indexing into tables,
    * accounting, et cetera, it may be necessary to <b>coerce</b> IPv6 addresses into IPv4 addresses.
-   * This function does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits
+   * This method does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits
    * into 29 bits):
    *
    * <ul>
@@ -881,7 +905,7 @@ public final class InetAddresses {
    *
    * <p>A "coerced" IPv4 address is equivalent to itself.
    *
-   * <p>NOTE: This function is failsafe for security purposes: ALL IPv6 addresses (except localhost
+   * <p>NOTE: This method is failsafe for security purposes: ALL IPv6 addresses (except localhost
    * (::1)) are hashed to avoid the security risk associated with extracting an embedded IPv4
    * address that might permit elevated privileges.
    *

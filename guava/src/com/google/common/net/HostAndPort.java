@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.Immutable;
@@ -190,7 +191,10 @@ public final class HostAndPort implements Serializable {
     if (!Strings.isNullOrEmpty(portString)) {
       // Try to parse the whole port string as a number.
       // JDK7 accepts leading plus signs. We don't want to.
-      checkArgument(!portString.startsWith("+"), "Unparseable port number: %s", hostPortString);
+      checkArgument(
+          !portString.startsWith("+") && CharMatcher.ascii().matchesAllOf(portString),
+          "Unparseable port number: %s",
+          hostPortString);
       try {
         port = Integer.parseInt(portString);
       } catch (NumberFormatException e) {
