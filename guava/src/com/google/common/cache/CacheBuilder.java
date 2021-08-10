@@ -967,7 +967,20 @@ public final class CacheBuilder<K, V> {
    * @since 12.0 (previously, stats collection was automatic)
    */
   public CacheBuilder<K, V> recordStats() {
-    statsCounterSupplier = CACHE_STATS_COUNTER;
+    return recordStats(true);
+  }
+  
+  /**
+   * Enable or disable the accumulation of {@link CacheStats} during the operation of the cache. 
+   * Unless enabled {@link Cache#stats} will return zero for all statistics. 
+   * Note that recording stats requires bookkeeping to be performed with each operation, 
+   * and thus imposes a performance penalty on cache operation.
+   *
+   * @param enabled <code>true</code> to enable, <code>false</code> to disable statistics collection
+   * @return this {@code CacheBuilder} instance (for chaining)
+   */
+  public CacheBuilder<K, V> recordStats(boolean enabled) {
+    statsCounterSupplier = enabled ? CACHE_STATS_COUNTER : NULL_STATS_COUNTER;
     return this;
   }
 
