@@ -59,6 +59,13 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("[2001::2]:85", 77, "2001::2", 85, true);
   }
 
+  public void testFromStringNonAsciiDigits() {
+    // Same as testFromStringUnusedDefaultPort but with Gujarati digits for port numbers.
+    checkFromStringCase("gmail.com:૮1", 77, null, -1, false);
+    checkFromStringCase("192.0.2.2:૮૩", 77, null, -1, false);
+    checkFromStringCase("[2001::2]:૮૫", 77, null, -1, false);
+  }
+
   public void testFromStringBadPort() {
     // Out-of-range ports.
     checkFromStringCase("google.com:65536", 1, null, 99, false);
