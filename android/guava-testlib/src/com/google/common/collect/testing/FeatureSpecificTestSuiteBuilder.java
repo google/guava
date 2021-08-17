@@ -81,7 +81,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected Runnable getSetUp() {
+  public Runnable getSetUp() {
     return setUp;
   }
 
@@ -90,13 +90,13 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected Runnable getTearDown() {
+  public Runnable getTearDown() {
     return tearDown;
   }
 
   // Features
 
-  private Set<Feature<?>> features = new LinkedHashSet<>();
+  private final Set<Feature<?>> features = new LinkedHashSet<>();
 
   /**
    * Configures this builder to produce tests appropriate for the given features. This method may be
@@ -138,7 +138,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   // Test suppression
 
-  private Set<Method> suppressedTests = new HashSet<>();
+  private final Set<Method> suppressedTests = new HashSet<>();
 
   /**
    * Prevents the given methods from being run as part of the test suite.
