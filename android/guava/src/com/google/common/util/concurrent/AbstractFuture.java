@@ -67,8 +67,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
-// we use non-short circuiting comparisons intentionally
-@SuppressWarnings("ShortCircuitBoolean")
+@SuppressWarnings({
+  "ShortCircuitBoolean", // we use non-short circuiting comparisons intentionally
+  "nullness", // TODO(b/147136275): Remove once our checker understands & and |.
+})
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 @ElementTypesAreNonnullByDefault
