@@ -74,7 +74,7 @@ import javax.annotation.CheckForNull;
 @Beta
 @GwtCompatible(emulated = true)
 @Immutable
-// TODO(b/147136275): After adding @CheckForNull below, add @ElementTypesAreNonnullByDefault.
+@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -354,8 +354,7 @@ public final class InternetDomainName {
    *
    * @since 6.0
    */
-  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
-  @SuppressWarnings("nullness")
+  @CheckForNull
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
   }
@@ -464,8 +463,7 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
-  // TODO(b/147136275): After updating callers, add @CheckForNull, and remove @SuppressWarnings.
-  @SuppressWarnings("nullness")
+  @CheckForNull
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
   }
