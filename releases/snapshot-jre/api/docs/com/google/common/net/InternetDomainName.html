@@ -474,7 +474,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>publicSuffix</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.358">publicSuffix</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.357">publicSuffix</a>()</pre>
 <div class="block">Returns the <a href="#isPublicSuffix()">public suffix</a> portion of the domain name, or <code>
  null</code> if no public suffix is present.</div>
 <dl>
@@ -489,7 +490,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderPublicSuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.375">isUnderPublicSuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.374">isUnderPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isPublicSuffix()">public suffix</a>,
  while not being a public suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>myblog.blogspot.com</code>, but not for <code>com</code>,
@@ -510,7 +511,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopPrivateDomain</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.391">isTopPrivateDomain</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.390">isTopPrivateDomain</a>()</pre>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isPublicSuffix()">public suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code> <code>foo.co.uk</code>, and <code>myblog.blogspot.com</code>, but not for <code>
@@ -531,7 +532,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>topPrivateDomain</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.411">topPrivateDomain</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.410">topPrivateDomain</a>()</pre>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isPublicSuffix()">public suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it returns
  <code>google.co.uk</code>, since <code>co.uk</code> is a public suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns the same domain, <code>myblog.blogspot.com</code>, since <code>
@@ -556,7 +557,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.442">isRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.441">isRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name represents a <i>registry suffix</i>, as defined by a subset
  of the Mozilla Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A
  registry suffix is one under which Internet users can directly register names via a domain name
@@ -588,7 +589,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.457">hasRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.456">hasRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  including if it is a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>invalid</code> or <code>
@@ -608,7 +609,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>registrySuffix</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.468">registrySuffix</a>()</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.466">registrySuffix</a>()</pre>
 <div class="block">Returns the <a href="#isRegistrySuffix()">registry suffix</a> portion of the domain name, or
  <code>null</code> if no registry suffix is present.</div>
 <dl>
@@ -623,7 +625,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.481">isUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.479">isUnderRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  while not being a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>blogspot.com</code>, but not for <code>com</code>, <code>
@@ -640,7 +642,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopDomainUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.496">isTopDomainUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.494">isTopDomainUnderRegistrySuffix</a>()</pre>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isRegistrySuffix()">registry suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code>, <code>foo.co.uk</code>, and <code>blogspot.com</code>, but not for <code>www.google.com</code>,
@@ -660,7 +662,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>topDomainUnderRegistrySuffix</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.515">topDomainUnderRegistrySuffix</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.513">topDomainUnderRegistrySuffix</a>()</pre>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isRegistrySuffix()">registry suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it
  returns <code>google.co.uk</code>, since <code>co.uk</code> is a registry suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns <code>blogspot.com</code>, since <code>com</code> is a registry suffix.
@@ -684,7 +686,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasParent</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.524">hasParent</a>()</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.522">hasParent</a>()</pre>
 <div class="block">Indicates whether this domain is composed of two or more parts.</div>
 </li>
 </ul>
@@ -694,7 +696,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>parent</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.535">parent</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.533">parent</a>()</pre>
 <div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of this one; that is, the
  current domain with the leftmost part removed. For example, the parent of <code>
  www.google.com</code> is <code>google.com</code>.</div>
@@ -710,7 +712,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>child</h4>
-<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.560">child</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;leftParts)</pre>
+<pre class="methodSignature">public&nbsp;<a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.558">child</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;leftParts)</pre>
 <div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the argument and a dot to
  the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code>
  returns a new <code>InternetDomainName</code> with the value <code>www.bar.foo.com</code>. Only lenient
@@ -728,7 +730,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.587">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.585">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;name)</pre>
 <div class="block">Indicates whether the argument is a syntactically valid domain name using lenient validation.
  Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped.
@@ -760,7 +762,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.618">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.616">toString</a>()</pre>
 <div class="block">Returns the domain name, normalized to all lower case.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -776,7 +778,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.628">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.626">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
 <div class="block">Equality testing is based on the text supplied by the caller, after normalization as described
  in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
@@ -801,7 +803,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.642">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.640">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
