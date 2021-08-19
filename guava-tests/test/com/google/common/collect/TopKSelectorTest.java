@@ -21,9 +21,11 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import junit.framework.TestCase;
 
 /**
@@ -118,5 +120,38 @@ public class TopKSelectorTest extends TestCase {
     }
     assertThat(top.topK()).containsExactlyElementsIn(Collections.nCopies(k, 0));
     assertThat(compareCalls[0]).isAtMost(10L * n * IntMath.log2(k, RoundingMode.CEILING));
+  }
+
+  public void testExceedMaxIteration() {
+    int n = 10000;
+    int k = 10000;
+    // Test data that can certainly trigger the bug is hard to construct.
+    // We concatenate 10 sorted arrays into one array to increase the probability of
+    // iterations of partition() exceed maxIterations when trim() is invoked in TopKSelector.
+    // This will increase the chance that the bug will be triggered.
+    // In practice, the chances of a bug being triggered within 10 times are very high.
+    int testIteration = 10;
+    Random random = new Random(System.currentTimeMillis());
+
+    for (int iter = 0; iter < testIteration; iter ++) {
+      // target array to be sorted using TopKSelector
+      List<Integer> target = new ArrayList<>();
+      for (int i = 0; i < 9; i++) {
+        List<Integer> sortedArray = new ArrayList();
+        for (int j = 0; j < n; j++) {
+          sortedArray.add(random.nextInt());
+        }
+        sortedArray.sort(Integer::compareTo);
+        target.addAll(sortedArray);
+      }
+
+      TopKSelector<Integer> top = TopKSelector.least(k, Integer::compareTo);
+      for (int value : target) {
+        top.offer(value);
+      }
+
+      target.sort(Integer::compareTo);
+      assertEquals(top.topK(), target.subList(0, k));
+    }
   }
 }
