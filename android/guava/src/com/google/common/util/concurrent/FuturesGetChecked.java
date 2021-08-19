@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -101,12 +100,6 @@ final class FuturesGetChecked {
     return GetCheckedTypeValidatorHolder.WeakSetValidator.INSTANCE;
   }
 
-  @J2ObjCIncompatible // ClassValue
-  @VisibleForTesting
-  static GetCheckedTypeValidator classValueValidator() {
-    return GetCheckedTypeValidatorHolder.ClassValueValidator.INSTANCE;
-  }
-
   /**
    * Provides a check of whether an exception type is valid for use with {@link
    * FuturesGetChecked#getChecked(Future, Class)}, possibly using caching.
@@ -115,34 +108,7 @@ final class FuturesGetChecked {
    */
   @VisibleForTesting
   static class GetCheckedTypeValidatorHolder {
-    static final String CLASS_VALUE_VALIDATOR_NAME =
-        GetCheckedTypeValidatorHolder.class.getName() + "$ClassValueValidator";
-
     static final GetCheckedTypeValidator BEST_VALIDATOR = getBestValidator();
-
-    @IgnoreJRERequirement // getChecked falls back to another implementation if necessary
-    @J2ObjCIncompatible // ClassValue
-    enum ClassValueValidator implements GetCheckedTypeValidator {
-      INSTANCE;
-
-      /*
-       * Static final fields are presumed to be fastest, based on our experience with
-       * UnsignedBytesBenchmark. TODO(cpovirk): benchmark this
-       */
-      private static final ClassValue<Boolean> isValidClass =
-          new ClassValue<Boolean>() {
-            @Override
-            protected Boolean computeValue(Class<?> type) {
-              checkExceptionClassValidity(type.asSubclass(Exception.class));
-              return true;
-            }
-          };
-
-      @Override
-      public void validateClass(Class<? extends Exception> exceptionClass) {
-        isValidClass.get(exceptionClass); // throws if invalid; returns safely (and caches) if valid
-      }
-    }
 
     enum WeakSetValidator implements GetCheckedTypeValidator {
       INSTANCE;
@@ -190,13 +156,7 @@ final class FuturesGetChecked {
      * unable to do so.
      */
     static GetCheckedTypeValidator getBestValidator() {
-      try {
-        Class<? extends Enum> theClass =
-            Class.forName(CLASS_VALUE_VALIDATOR_NAME).asSubclass(Enum.class);
-        return (GetCheckedTypeValidator) theClass.getEnumConstants()[0];
-      } catch (Throwable t) { // ensure we really catch *everything*
-        return weakSetValidator();
-      }
+      return weakSetValidator();
     }
   }
 

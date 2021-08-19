@@ -381,5 +381,8 @@ public class FuturesGetCheckedTest extends TestCase {
    * environment that forces Futures.getChecked to its fallback WeakSetValidator. One awful way of
    * doing so would be to derive a separate test library by using remove_from_jar to strip out
    * ClassValueValidator.
+   *
+   * Fortunately, we get pretty good coverage "by accident": We run all these tests against the
+   * *backport*, where ClassValueValidator is not present.
    */
 }
