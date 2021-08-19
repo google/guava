@@ -120,7 +120,6 @@ final class FuturesGetChecked {
 
     static final GetCheckedTypeValidator BEST_VALIDATOR = getBestValidator();
 
-    @IgnoreJRERequirement // getChecked falls back to another implementation if necessary
     @J2ObjCIncompatible // ClassValue
     enum ClassValueValidator implements GetCheckedTypeValidator {
       INSTANCE;

@@ -16,23 +16,7 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>1.1.2</truth.version>
     <checker-framework.version>3.12.0</checker-framework.version>
-    <!--
-      Upgrading to 1.19 breaks things: Animal Sniffer reports a problem with the
-      use of ClassValue in FuturesGetChecked, even though we've added a
-      suppression annotation.
-
-      The problem might be
-      https://github.com/mojohaus/animal-sniffer/issues/131.
-
-      We could probably work around this with a different suppression strategy,
-      perhaps (untested):
-
-      <ignores><ignore>com.google.common.util.concurrent.FuturesGetChecked$GetCheckedTypeValidatorHolder$ClassValueValidator</ignore></ignores>
-
-      But upgrading doesn't really buy us much, as far as I know. (1.19 does
-      check test code in addition to prod code, but I don't think we care.)
-    -->
-    <animal.sniffer.version>1.18</animal.sniffer.version>
+    <animal.sniffer.version>1.20</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -167,7 +151,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>${animal.sniffer.version}</version>
           <configuration>
-            <annotations>com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
+            <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>

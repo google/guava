@@ -52,7 +52,8 @@ public class FuturesGetCheckedBenchmark {
     NON_CACHING_WITH_CONSTRUCTOR_CHECK(nonCachingWithConstructorCheckValidator()),
     NON_CACHING_WITHOUT_CONSTRUCTOR_CHECK(nonCachingWithoutConstructorCheckValidator()),
     WEAK_SET(weakSetValidator()),
-    CLASS_VALUE(classValueValidator());
+    CLASS_VALUE(classValueValidator()),
+    ;
 
     final GetCheckedTypeValidator validator;
 

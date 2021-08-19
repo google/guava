@@ -302,8 +302,8 @@ public final class MapTestSuiteBuilderTests extends TestCase {
         return method.invoke(map, args);
       } catch (InvocationTargetException e) {
         throw e.getCause();
-      } catch (ReflectiveOperationException e) {
-        throw new LinkageError(e.getMessage(), e);
+      } catch (IllegalAccessException e) {
+        throw newLinkageError(e);
       }
     }
   }
@@ -337,5 +337,11 @@ public final class MapTestSuiteBuilderTests extends TestCase {
         .withSetUp(setUp)
         .withTearDown(tearDown)
         .createTestSuite();
+  }
+
+  private static LinkageError newLinkageError(Throwable cause) {
+    LinkageError error = new LinkageError(cause.toString());
+    error.initCause(cause);
+    return error;
   }
 }
