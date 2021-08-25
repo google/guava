@@ -61,6 +61,8 @@ import java.util.logging.Logger;
  *   <li>It makes the cross-references between producer and subscriber harder to find. This can
  *       complicate debugging, lead to unintentional reentrant calls, and force apps to eagerly
  *       initialize all possible subscribers at startup time.
+ *   <li>It uses reflection in ways that break when code is processed by optimizers/minimizers like
+ *       <a href="https://developer.android.com/studio/build/shrink-code">R8 and Proguard</a>.
  *   <li>It doesn't offer a way to wait for multiple events before taking action. For example, it
  *       doesn't offer a way to wait for multiple producers to all report that they're "ready," nor
  *       does it offer a way to batch multiple events from a single producer together.
