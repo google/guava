@@ -186,7 +186,7 @@ final class TopKSelector<
       iterations++;
       if (iterations >= maxIterations) {
         // We've already taken O(k log k), let's make sure we don't take longer than O(k log k).
-        Arrays.sort(buffer, left, right, comparator);
+        Arrays.sort(buffer, left, right + 1, comparator);
         break;
       }
     }
