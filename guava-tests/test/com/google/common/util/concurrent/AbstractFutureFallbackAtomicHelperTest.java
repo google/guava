@@ -107,7 +107,7 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   private void runTestMethod(ClassLoader classLoader) throws Exception {
     Class<?> test = classLoader.loadClass(AbstractFutureTest.class.getName());
-    test.getMethod(getName()).invoke(test.newInstance());
+    test.getMethod(getName()).invoke(test.getDeclaredConstructor().newInstance());
   }
 
   private void checkHelperVersion(ClassLoader classLoader, String expectedHelperClassName)

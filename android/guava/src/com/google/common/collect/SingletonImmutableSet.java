@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with exactly one element.
@@ -28,6 +30,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@ElementTypesAreNonnullByDefault
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;
@@ -56,7 +59,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(Object target) {
+  public boolean contains(@CheckForNull Object target) {
     return element.equals(target);
   }
 
@@ -76,7 +79,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     dst[offset] = element;
     return offset + 1;
   }

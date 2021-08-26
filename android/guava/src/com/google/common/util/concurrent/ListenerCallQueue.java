@@ -53,6 +53,7 @@ import java.util.logging.Logger;
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());
@@ -123,7 +124,7 @@ final class ListenerCallQueue<L> {
 
   /**
    * A special purpose queue/executor that dispatches listener events serially on a configured
-   * executor. Each event event can be added and dispatched as separate phases.
+   * executor. Each event can be added and dispatched as separate phases.
    *
    * <p>This class is very similar to {@link SequentialExecutor} with the exception that events can
    * be added without necessarily executing immediately.

@@ -26,6 +26,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class RemovalListeners {
 
   private RemovalListeners() {}

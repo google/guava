@@ -330,6 +330,7 @@ public class AbstractServiceTest extends TestCase {
     }
   }
 
+
   public void testAwaitTerminated() throws Exception {
     final NoOpService service = new NoOpService();
     Thread waiter =
@@ -346,6 +347,7 @@ public class AbstractServiceTest extends TestCase {
     waiter.join(LONG_TIMEOUT_MILLIS); // ensure that the await in the other thread is triggered
     assertFalse(waiter.isAlive());
   }
+
 
   public void testAwaitTerminated_FailedService() throws Exception {
     final ManualSwitchedService service = new ManualSwitchedService();
@@ -374,6 +376,7 @@ public class AbstractServiceTest extends TestCase {
     assertThat(exception.get()).hasCauseThat().isEqualTo(EXCEPTION);
   }
 
+
   public void testThreadedServiceStartAndWaitStopAndWait() throws Throwable {
     ThreadedService service = new ThreadedService();
     RecordingListener listener = RecordingListener.record(service);
@@ -391,6 +394,7 @@ public class AbstractServiceTest extends TestCase {
         listener.getStateHistory());
   }
 
+
   public void testThreadedServiceStopIdempotence() throws Throwable {
     ThreadedService service = new ThreadedService();
 
@@ -405,6 +409,7 @@ public class AbstractServiceTest extends TestCase {
 
     throwIfSet(thrownByExecutionThread);
   }
+
 
   public void testThreadedServiceStopIdempotenceAfterWait() throws Throwable {
     ThreadedService service = new ThreadedService();
@@ -422,6 +427,7 @@ public class AbstractServiceTest extends TestCase {
 
     throwIfSet(thrownByExecutionThread);
   }
+
 
   public void testThreadedServiceStopIdempotenceDoubleWait() throws Throwable {
     ThreadedService service = new ThreadedService();
@@ -655,6 +661,7 @@ public class AbstractServiceTest extends TestCase {
     }
   }
 
+
   public void testAddListenerAfterFailureDoesntCauseDeadlock() throws InterruptedException {
     final StartFailingService service = new StartFailingService();
     service.startAsync();
@@ -674,6 +681,7 @@ public class AbstractServiceTest extends TestCase {
     assertFalse(thread + " is deadlocked", thread.isAlive());
   }
 
+
   public void testListenerDoesntDeadlockOnStartAndWaitFromRunning() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();
     service.addListener(
@@ -687,6 +695,7 @@ public class AbstractServiceTest extends TestCase {
     service.startAsync().awaitRunning(LONG_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
     service.stopAsync();
   }
+
 
   public void testListenerDoesntDeadlockOnStopAndWaitFromTerminated() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();

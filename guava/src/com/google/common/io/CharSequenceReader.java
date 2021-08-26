@@ -17,11 +17,13 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@link Reader} that reads the characters in a {@link CharSequence}. Like {@code StringReader},
@@ -31,9 +33,10 @@ import java.nio.CharBuffer;
  */
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class CharSequenceReader extends Reader {
 
-  private CharSequence seq;
+  @CheckForNull private CharSequence seq;
   private int pos;
   private int mark;
 
@@ -53,13 +56,27 @@ final class CharSequenceReader extends Reader {
   }
 
   private int remaining() {
+    requireNonNull(seq); // safe as long as we call this only after checkOpen
     return seq.length() - pos;
   }
+
+  /*
+   * To avoid the need to call requireNonNull so much, we could consider more clever approaches,
+   * such as:
+   *
+   * - Make checkOpen return the non-null `seq`. Then callers can assign that to a local variable or
+   *   even back to `this.seq`. However, that may suggest that we're defending against concurrent
+   *   mutation, which is not an actual risk because we use `synchronized`.
+   * - Make `remaining` require a non-null `seq` argument. But this is a bit weird because the
+   *   method, while it would avoid the instance field `seq` would still access the instance field
+   *   `pos`.
+   */
 
   @Override
   public synchronized int read(CharBuffer target) throws IOException {
     checkNotNull(target);
     checkOpen();
+    requireNonNull(seq); // safe because of checkOpen
     if (!hasRemaining()) {
       return -1;
     }
@@ -73,6 +90,7 @@ final class CharSequenceReader extends Reader {
   @Override
   public synchronized int read() throws IOException {
     checkOpen();
+    requireNonNull(seq); // safe because of checkOpen
     return hasRemaining() ? seq.charAt(pos++) : -1;
   }
 
@@ -80,6 +98,7 @@ final class CharSequenceReader extends Reader {
   public synchronized int read(char[] cbuf, int off, int len) throws IOException {
     checkPositionIndexes(off, off + len, cbuf.length);
     checkOpen();
+    requireNonNull(seq); // safe because of checkOpen
     if (!hasRemaining()) {
       return -1;
     }

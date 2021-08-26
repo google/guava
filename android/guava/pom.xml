@@ -10,6 +10,7 @@
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
   <name>Guava: Google Core Libraries for Java</name>
+  <url>https://github.com/google/guava</url>
   <description>
     Guava is a suite of core and expanded libraries that include
     utility classes, Google's collections, I/O classes, and
@@ -29,6 +30,10 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
@@ -90,42 +95,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <!--
-                 The execution named default-compile happens first, regardless
-                 of the order of the executions in the source file. So, because
-                 Java8Usage is a dependency of the main sources, we need to call
-                 its compilation "default-compile," even though it's the special
-                 case.
-            -->
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/Java8Usage.java</include>
-              </includes>
-              <!-- -source 8 -target 8 is a no-op in the mainline but matters in the backport. -->
-              <source>8</source>
-              <target>8</target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>main-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>**/Java8Usage.java</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -151,6 +120,12 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <configuration>
+          <ignores>
+            <!-- Allow requireNonNull: Android desugaring rewrites it (so it's safe for us to use), and it's useful for null checks. Note that this line allows *all* methods from java.util.Objects. That's the best that we can do with the configuration options that Animal Sniffer offers. -->
+            <ignore>java.util.Objects</ignore>
+          </ignores>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>

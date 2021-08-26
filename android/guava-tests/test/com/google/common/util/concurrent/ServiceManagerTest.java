@@ -119,18 +119,18 @@ public class ServiceManagerTest extends TestCase {
     }
   }
 
+
   public void testServiceStartupTimes() {
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
-    assertEquals(2, startupTimes.size());
-    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
-    assertTrue(startupTimes.get(a) >= 150);
-    // TODO(kak): Use assertThat(startupTimes.get(b)).isAtLeast(353);
-    assertTrue(startupTimes.get(b) >= 353);
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(150);
+    assertThat(startupTimes.get(b)).isAtLeast(353);
   }
+
 
   public void testServiceStartupTimes_selfStartingServices() {
     // This tests to ensure that:
@@ -157,15 +157,15 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
-    assertEquals(2, startupTimes.size());
-    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
-    assertTrue(startupTimes.get(a) >= 150);
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(150);
     // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
     // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either
     // of our sleep calls can be arbitrarily delayed we should just assert that there is a time
     // recorded.
     assertThat(startupTimes.get(b)).isNotNull();
   }
+
 
   public void testServiceStartStop() {
     Service a = new NoOpService();
@@ -187,6 +187,7 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
     assertTrue(listener.failedServices.isEmpty());
   }
+
 
   public void testFailStart() throws Exception {
     Service a = new NoOpService();
@@ -215,6 +216,7 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
   }
 
+
   public void testFailRun() throws Exception {
     Service a = new NoOpService();
     Service b = new FailRunService();
@@ -236,6 +238,7 @@ public class ServiceManagerTest extends TestCase {
 
     assertTrue(listener.stoppedCalled);
   }
+
 
   public void testFailStop() throws Exception {
     Service a = new NoOpService();
@@ -264,6 +267,7 @@ public class ServiceManagerTest extends TestCase {
     assertThat(toString).contains("NoOpService");
     assertThat(toString).contains("FailStartService");
   }
+
 
   public void testTimeouts() throws Exception {
     Service a = new NoOpDelayedService(50);

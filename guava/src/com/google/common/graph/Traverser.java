@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
@@ -28,7 +29,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
@@ -63,6 +64,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @DoNotMock(
     "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"
         + " GraphBuilder)")
+@ElementTypesAreNonnullByDefault
 public abstract class Traverser<N> {
   private final SuccessorsFunction<N> successorFunction;
 
@@ -383,10 +385,20 @@ public abstract class Traverser<N> {
       final Set<N> visited = new HashSet<>();
       return new Traversal<N>(graph) {
         @Override
+        @CheckForNull
         N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
           while (top.hasNext()) {
-            N element = checkNotNull(top.next());
+            N element = top.next();
+            // requireNonNull is safe because horizon contains only graph nodes.
+            /*
+             * TODO(cpovirk): Replace these two statements with one (`N element =
+             * requireNonNull(top.next())`) once our checker supports it.
+             *
+             * (The problem is likely
+             * https://github.com/jspecify/nullness-checker-for-checker-framework/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecAnnotatedTypeFactory.java#L896)
+             */
+            requireNonNull(element);
             if (visited.add(element)) {
               return element;
             }
@@ -399,6 +411,7 @@ public abstract class Traverser<N> {
 
     static <N> Traversal<N> inTree(SuccessorsFunction<N> tree) {
       return new Traversal<N>(tree) {
+        @CheckForNull
         @Override
         N visitNext(Deque<Iterator<? extends N>> horizon) {
           Iterator<? extends N> top = horizon.getFirst();
@@ -430,6 +443,7 @@ public abstract class Traverser<N> {
       horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override
+        @CheckForNull
         protected N computeNext() {
           do {
             N next = visitNext(horizon);
@@ -454,6 +468,7 @@ public abstract class Traverser<N> {
       horizon.add(startNodes);
       return new AbstractIterator<N>() {
         @Override
+        @CheckForNull
         protected N computeNext() {
           for (N next = visitNext(horizon); next != null; next = visitNext(horizon)) {
             Iterator<? extends N> successors = successorFunction.successors(next).iterator();
@@ -463,7 +478,11 @@ public abstract class Traverser<N> {
             horizon.addFirst(successors);
             ancestorStack.push(next);
           }
-          return ancestorStack.isEmpty() ? endOfData() : ancestorStack.pop();
+          // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
+          if (!ancestorStack.isEmpty()) {
+            return ancestorStack.pop();
+          }
+          return endOfData();
         }
       };
     }
@@ -478,7 +497,7 @@ public abstract class Traverser<N> {
      * into {@code horizon} between calls to {@code visitNext()}. This causes them to receive
      * additional values interleaved with those shown above.)
      */
-    @Nullable
+    @CheckForNull
     abstract N visitNext(Deque<Iterator<? extends N>> horizon);
   }
 

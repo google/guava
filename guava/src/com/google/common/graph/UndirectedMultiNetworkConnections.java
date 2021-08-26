@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks with parallel edges.
@@ -39,6 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class UndirectedMultiNetworkConnections<N, E>
     extends AbstractUndirectedNetworkConnections<N, E> {
 
@@ -55,7 +56,7 @@ final class UndirectedMultiNetworkConnections<N, E>
     return new UndirectedMultiNetworkConnections<>(ImmutableMap.copyOf(incidentEdges));
   }
 
-  @LazyInit private transient Reference<Multiset<N>> adjacentNodesReference;
+  @CheckForNull @LazyInit private transient Reference<Multiset<N>> adjacentNodesReference;
 
   @Override
   public Set<N> adjacentNodes() {
@@ -82,6 +83,7 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   @Override
+  @CheckForNull
   public N removeInEdge(E edge, boolean isSelfLoop) {
     if (!isSelfLoop) {
       return removeOutEdge(edge);
@@ -115,7 +117,8 @@ final class UndirectedMultiNetworkConnections<N, E>
     }
   }
 
-  private static <T> @Nullable T getReference(@Nullable Reference<T> reference) {
+  @CheckForNull
+  private static <T> T getReference(@CheckForNull Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

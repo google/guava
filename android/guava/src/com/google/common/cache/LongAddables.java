@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;
 

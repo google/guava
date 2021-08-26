@@ -1,25 +1,18 @@
 #!/bin/bash
 
-# see http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/ for details
-
 set -e -u
 
-if [ "$TRAVIS_REPO_SLUG" == "google/guava" ] && \
-   [ "$TRAVIS_JDK_VERSION" == "openjdk8" ] && \
-   [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
-   [ "$TRAVIS_BRANCH" == "master" ]; then
-  echo "Publishing Javadoc and JDiff..."
+echo "Publishing Javadoc and JDiff..."
 
-  cd $HOME
-  git clone -q -b gh-pages https://${GH_TOKEN}@github.com/google/guava gh-pages > /dev/null
-  cd gh-pages
+cd $HOME
+git clone -q -b gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/google/guava.git" gh-pages > /dev/null
+cd gh-pages
 
-  git config --global user.email "travis@travis-ci.org"
-  git config --global user.name "travis-ci"
+git config --global user.name "$GITHUB_ACTOR"
+git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-  ./updaterelease.sh snapshot
+./updaterelease.sh snapshot
 
-  git push -fq origin gh-pages > /dev/null
+git push -fq origin gh-pages > /dev/null
 
-  echo "Javadoc and JDiff published to gh-pages."
-fi
+echo "Javadoc and JDiff published to gh-pages."

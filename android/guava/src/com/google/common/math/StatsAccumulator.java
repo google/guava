@@ -34,6 +34,7 @@ import java.util.Iterator;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
 
   // These fields must satisfy the requirements of Stats' constructor as well as those of the stat

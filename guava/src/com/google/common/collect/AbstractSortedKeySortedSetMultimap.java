@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic implementation of a {@link SortedSetMultimap} with a sorted key set.
@@ -31,7 +32,10 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class AbstractSortedKeySortedSetMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractSortedKeySortedSetMultimap<
+        K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractSortedSetMultimap<K, V> {
 
   AbstractSortedKeySortedSetMultimap(SortedMap<K, Collection<V>> map) {
     super(map);

@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
@@ -32,9 +31,9 @@ import com.google.errorprone.annotations.DoNotMock;
  * @author Kevin Bourrillion
  * @since 3.0
  */
-@Beta
 @DoNotMock("Use Interners.new*Interner")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of instances that are

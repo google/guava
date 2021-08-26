@@ -35,6 +35,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -495,5 +496,14 @@ public class LinkedListMultimapTest extends TestCase {
         .addEqualityGroup(
             LinkedListMultimap.create(), LinkedListMultimap.create(), LinkedListMultimap.create(1))
         .testEquals();
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(LinkedListMultimap.class);
+    tester.ignore(LinkedListMultimap.class.getMethod("get", Object.class));
+    tester.ignore(LinkedListMultimap.class.getMethod("removeAll", Object.class));
+    tester.testAllPublicInstanceMethods(LinkedListMultimap.create());
   }
 }

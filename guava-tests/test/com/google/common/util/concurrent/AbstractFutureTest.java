@@ -579,7 +579,7 @@ public class AbstractFutureTest extends TestCase {
       final AbstractFuture<String> future = new AbstractFuture<String>() {};
       currentFuture.set(future);
       for (Callable<?> task : allTasks) {
-        @SuppressWarnings("unused") // go/futurereturn-lsc
+        @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
         Future<?> possiblyIgnoredError = executor.submit(task);
       }
       awaitUnchecked(barrier);
@@ -798,7 +798,7 @@ public class AbstractFutureTest extends TestCase {
       final AbstractFuture<String> future = new AbstractFuture<String>() {};
       currentFuture.set(future);
       for (Callable<?> task : allTasks) {
-        @SuppressWarnings("unused") // go/futurereturn-lsc
+        @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
         Future<?> possiblyIgnoredError = executor.submit(task);
       }
       awaitUnchecked(barrier);

@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -44,6 +44,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Shorts extends ShortsMethodsForWeb {
   private Shorts() {}
 
@@ -592,13 +593,13 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(@NullableDecl Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -610,7 +611,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public int lastIndexOf(@NullableDecl Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -641,7 +642,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

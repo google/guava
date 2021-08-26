@@ -33,10 +33,13 @@ import java.util.concurrent.ExecutionException;
  * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link
  * #getUnchecked}.
  *
+ * @param <K> the type of the cache's keys, which are not permitted to be null
+ * @param <V> the type of the cache's values, which are not permitted to be null
  * @author Charles Fry
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 
   /**

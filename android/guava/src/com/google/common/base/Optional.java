@@ -22,7 +22,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of
@@ -82,6 +82,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @DoNotMock("Use Optional.of(value) or Optional.absent()")
 @GwtCompatible(serializable = true)
+@ElementTypesAreNonnullByDefault
 public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
@@ -112,7 +113,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.ofNullable}.
    */
-  public static <T> Optional<T> fromNullable(@NullableDecl T nullableReference) {
+  public static <T> Optional<T> fromNullable(@CheckForNull T nullableReference) {
     return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
   }
 
@@ -206,7 +207,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.orElse(null)}.
    */
-  @NullableDecl
+  @CheckForNull
   public abstract T orNull();
 
   /**
@@ -255,7 +256,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> no differences.
    */
   @Override
-  public abstract boolean equals(@NullableDecl Object object);
+  public abstract boolean equals(@CheckForNull Object object);
 
   /**
    * Returns a hash code for this instance.
@@ -300,6 +301,7 @@ public abstract class Optional<T> implements Serializable {
               checkNotNull(optionals.iterator());
 
           @Override
+          @CheckForNull
           protected T computeNext() {
             while (iterator.hasNext()) {
               Optional<? extends T> optional = iterator.next();

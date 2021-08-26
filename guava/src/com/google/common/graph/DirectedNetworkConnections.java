@@ -32,10 +32,10 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class DirectedNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
-  protected DirectedNetworkConnections(
-      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+  DirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
     super(inEdgeMap, outEdgeMap, selfLoopCount);
   }
 

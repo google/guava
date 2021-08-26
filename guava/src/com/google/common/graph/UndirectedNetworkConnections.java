@@ -32,9 +32,10 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetworkConnections<N, E> {
 
-  protected UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
+  UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
     super(incidentEdgeMap);
   }
 

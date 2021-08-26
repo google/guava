@@ -36,6 +36,7 @@ public class ExecutionListTest extends TestCase {
 
   private final ExecutionList list = new ExecutionList();
 
+
   public void testRunOnPopulatedList() throws Exception {
     Executor exec = Executors.newCachedThreadPool();
     CountDownLatch countDownLatch = new CountDownLatch(3);
@@ -65,6 +66,7 @@ public class ExecutionListTest extends TestCase {
     list.execute();
     assertEquals(1, runCalled.get());
   }
+
 
   public void testExecute_idempotentConcurrently() throws InterruptedException {
     final CountDownLatch okayToRun = new CountDownLatch(1);
@@ -100,6 +102,7 @@ public class ExecutionListTest extends TestCase {
     thread2.join();
     assertEquals(1, runCalled.get());
   }
+
 
   public void testAddAfterRun() throws Exception {
     // Run the previous test

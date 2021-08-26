@@ -14,13 +14,15 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
@@ -36,6 +38,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Functions {
   private Functions() {}
 
@@ -79,17 +82,17 @@ public final class Functions {
   /** Returns the identity function. */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
-  public static <E> Function<E, E> identity() {
+  public static <E extends @Nullable Object> Function<E, E> identity() {
     return (Function<E, E>) IdentityFunction.INSTANCE;
   }
 
   // enum singleton pattern
-  private enum IdentityFunction implements Function<Object, Object> {
+  private enum IdentityFunction implements Function<@Nullable Object, @Nullable Object> {
     INSTANCE;
 
     @Override
-    @NullableDecl
-    public Object apply(@NullableDecl Object o) {
+    @CheckForNull
+    public Object apply(@CheckForNull Object o) {
       return o;
     }
 
@@ -112,7 +115,8 @@ public final class Functions {
    * key (instead of an exception being thrown), you can use the method reference {@code map::get}
    * instead.
    */
-  public static <K, V> Function<K, V> forMap(Map<K, V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> Function<K, V> forMap(
+      Map<K, V> map) {
     return new FunctionForMapNoDefault<>(map);
   }
 
@@ -129,12 +133,14 @@ public final class Functions {
    * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
    *     defaultValue} otherwise
    */
-  public static <K, V> Function<K, V> forMap(
-      Map<K, ? extends V> map, @NullableDecl V defaultValue) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> Function<K, V> forMap(
+      Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
     return new ForMapWithDefault<>(map, defaultValue);
   }
 
-  private static class FunctionForMapNoDefault<K, V> implements Function<K, V>, Serializable {
+  private static class FunctionForMapNoDefault<
+          K extends @Nullable Object, V extends @Nullable Object>
+      implements Function<K, V>, Serializable {
     final Map<K, V> map;
 
     FunctionForMapNoDefault(Map<K, V> map) {
@@ -142,14 +148,16 @@ public final class Functions {
     }
 
     @Override
-    public V apply(@NullableDecl K key) {
+    @ParametricNullness
+    public V apply(@ParametricNullness K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
-      return result;
+      // The unchecked cast is safe because of the containsKey check.
+      return uncheckedCastNullableTToT(result);
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@CheckForNull Object o) {
       if (o instanceof FunctionForMapNoDefault) {
         FunctionForMapNoDefault<?, ?> that = (FunctionForMapNoDefault<?, ?>) o;
         return map.equals(that.map);
@@ -170,23 +178,28 @@ public final class Functions {
     private static final long serialVersionUID = 0;
   }
 
-  private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
+  private static class ForMapWithDefault<K extends @Nullable Object, V extends @Nullable Object>
+      implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    @NullableDecl final V defaultValue;
+    @ParametricNullness final V defaultValue;
 
-    ForMapWithDefault(Map<K, ? extends V> map, @NullableDecl V defaultValue) {
+    ForMapWithDefault(Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
       this.map = checkNotNull(map);
       this.defaultValue = defaultValue;
     }
 
     @Override
-    public V apply(@NullableDecl K key) {
+    @ParametricNullness
+    public V apply(@ParametricNullness K key) {
       V result = map.get(key);
-      return (result != null || map.containsKey(key)) ? result : defaultValue;
+      // The unchecked cast is safe because of the containsKey check.
+      return (result != null || map.containsKey(key))
+          ? uncheckedCastNullableTToT(result)
+          : defaultValue;
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@CheckForNull Object o) {
       if (o instanceof ForMapWithDefault) {
         ForMapWithDefault<?, ?> that = (ForMapWithDefault<?, ?>) o;
         return map.equals(that.map) && Objects.equal(defaultValue, that.defaultValue);
@@ -220,11 +233,14 @@ public final class Functions {
    * @return the composition of {@code f} and {@code g}
    * @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>
    */
-  public static <A, B, C> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
+  public static <A extends @Nullable Object, B extends @Nullable Object, C extends @Nullable Object>
+      Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
     return new FunctionComposition<>(g, f);
   }
 
-  private static class FunctionComposition<A, B, C> implements Function<A, C>, Serializable {
+  private static class FunctionComposition<
+          A extends @Nullable Object, B extends @Nullable Object, C extends @Nullable Object>
+      implements Function<A, C>, Serializable {
     private final Function<B, C> g;
     private final Function<A, ? extends B> f;
 
@@ -234,12 +250,13 @@ public final class Functions {
     }
 
     @Override
-    public C apply(@NullableDecl A a) {
+    @ParametricNullness
+    public C apply(@ParametricNullness A a) {
       return g.apply(f.apply(a));
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof FunctionComposition) {
         FunctionComposition<?, ?, ?> that = (FunctionComposition<?, ?, ?>) obj;
         return f.equals(that.f) && g.equals(that.g);
@@ -269,12 +286,14 @@ public final class Functions {
    *
    * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
    */
-  public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
+  public static <T extends @Nullable Object> Function<T, Boolean> forPredicate(
+      Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);
   }
 
   /** @see Functions#forPredicate */
-  private static class PredicateFunction<T> implements Function<T, Boolean>, Serializable {
+  private static class PredicateFunction<T extends @Nullable Object>
+      implements Function<T, Boolean>, Serializable {
     private final Predicate<T> predicate;
 
     private PredicateFunction(Predicate<T> predicate) {
@@ -282,12 +301,12 @@ public final class Functions {
     }
 
     @Override
-    public Boolean apply(@NullableDecl T t) {
+    public Boolean apply(@ParametricNullness T t) {
       return predicate.apply(t);
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof PredicateFunction) {
         PredicateFunction<?> that = (PredicateFunction<?>) obj;
         return predicate.equals(that.predicate);
@@ -316,24 +335,27 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E> Function<Object, E> constant(@NullableDecl E value) {
-    return new ConstantFunction<E>(value);
+  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(
+      @ParametricNullness E value) {
+    return new ConstantFunction<>(value);
   }
 
-  private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
-    @NullableDecl private final E value;
+  private static class ConstantFunction<E extends @Nullable Object>
+      implements Function<@Nullable Object, E>, Serializable {
+    @ParametricNullness private final E value;
 
-    public ConstantFunction(@NullableDecl E value) {
+    public ConstantFunction(@ParametricNullness E value) {
       this.value = value;
     }
 
     @Override
-    public E apply(@NullableDecl Object from) {
+    @ParametricNullness
+    public E apply(@CheckForNull Object from) {
       return value;
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof ConstantFunction) {
         ConstantFunction<?> that = (ConstantFunction<?>) obj;
         return Objects.equal(value, that.value);
@@ -361,12 +383,14 @@ public final class Functions {
    *
    * @since 10.0
    */
-  public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {
-    return new SupplierFunction<T>(supplier);
+  public static <F extends @Nullable Object, T extends @Nullable Object> Function<F, T> forSupplier(
+      Supplier<T> supplier) {
+    return new SupplierFunction<>(supplier);
   }
 
   /** @see Functions#forSupplier */
-  private static class SupplierFunction<T> implements Function<Object, T>, Serializable {
+  private static class SupplierFunction<F extends @Nullable Object, T extends @Nullable Object>
+      implements Function<F, T>, Serializable {
 
     private final Supplier<T> supplier;
 
@@ -375,14 +399,15 @@ public final class Functions {
     }
 
     @Override
-    public T apply(@NullableDecl Object input) {
+    @ParametricNullness
+    public T apply(@ParametricNullness F input) {
       return supplier.get();
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof SupplierFunction) {
-        SupplierFunction<?> that = (SupplierFunction<?>) obj;
+        SupplierFunction<?, ?> that = (SupplierFunction<?, ?>) obj;
         return this.supplier.equals(that.supplier);
       }
       return false;

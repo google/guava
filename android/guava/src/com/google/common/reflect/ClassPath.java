@@ -51,18 +51,39 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
  *
- * <p><b>Warning:</b> Current limitations:
+ * <h2>Prefer <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a> over {@code
+ * ClassPath}</h2>
+ *
+ * <p>We recommend using <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a>
+ * instead of {@code ClassPath}. ClassGraph improves upon {@code ClassPath} in several ways,
+ * including addressing many of its limitations. Limitations of {@code ClassPath} include:
  *
  * <ul>
- *   <li>Looks only for files and JARs in URLs available from {@link URLClassLoader} instances or
- *       the {@linkplain ClassLoader#getSystemClassLoader() system class loader}.
- *   <li>Only understands {@code file:} URLs.
+ *   <li>It looks only for files and JARs in URLs available from {@link URLClassLoader} instances or
+ *       the {@linkplain ClassLoader#getSystemClassLoader() system class loader}. This means it does
+ *       not look for classes in the <i>module path</i>.
+ *   <li>It understands only {@code file:} URLs. This means that it does not understand <a
+ *       href="https://openjdk.java.net/jeps/220">{@code jrt:/} URLs</a>, among <a
+ *       href="https://github.com/classgraph/classgraph/wiki/Classpath-specification-mechanisms">others</a>.
+ *   <li>It does not know how to look for classes when running under an Android VM. (ClassGraph does
+ *       not support this directly, either, but ClassGraph documents how to <a
+ *       href="https://github.com/classgraph/classgraph/wiki/Build-Time-Scanning">perform build-time
+ *       classpath scanning and make the results available to an Android app</a>.)
+ *   <li>Like all of Guava, it is not tested under Windows. We have gotten <a
+ *       href="https://github.com/google/guava/issues/2130">a report of a specific bug under
+ *       Windows</a>.
+ *   <li>It <a href="https://github.com/google/guava/issues/2712">returns only one resource for a
+ *       given path</a>, even if resources with that path appear in multiple jars or directories.
+ *   <li>It assumes that <a href="https://github.com/google/guava/issues/3349">any class with a
+ *       {@code $} in its name is a nested class</a>.
  * </ul>
+ *
+ * <h2>{@code ClassPath} and symlinks</h2>
  *
  * <p>In the case of directory classloaders, symlinks are supported but cycles are not traversed.
  * This guarantees discovery of each <em>unique</em> loadable resource. However, not all possible
@@ -72,6 +93,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 14.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
@@ -265,7 +287,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;
@@ -297,8 +319,13 @@ public final class ClassPath {
     /**
      * Returns the package name of the class, without attempting to load the class.
      *
-     * <p>Behaves identically to {@link Package#getName()} but does not require the class (or
-     * package) to be loaded.
+     * <p>Behaves similarly to {@code class.getPackage().}{@link Package#getName() getName()} but
+     * does not require the class (or package) to be loaded.
+     *
+     * <p>But note that this method may behave differently for a class in the default package: For
+     * such classes, this method always returns an empty string. But under some version of Java,
+     * {@code class.getPackage().getName()} produces a {@code NullPointerException} because {@code
+     * class.getPackage()} returns {@code null}.
      */
     public String getPackageName() {
       return Reflection.getPackageName(className);
@@ -307,8 +334,11 @@ public final class ClassPath {
     /**
      * Returns the simple name of the underlying class as given in the source code.
      *
-     * <p>Behaves identically to {@link Class#getSimpleName()} but does not require the class to be
+     * <p>Behaves similarly to {@link Class#getSimpleName()} but does not require the class to be
      * loaded.
+     *
+     * <p>But note that this class uses heuristics to identify the simple name. See a related
+     * discussion in <a href="https://github.com/google/guava/issues/3349">issue 3349</a>.
      */
     public String getSimpleName() {
       int lastDollarSign = className.lastIndexOf('$');
@@ -531,7 +561,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof LocationInfo) {
         LocationInfo that = (LocationInfo) obj;
         return home.equals(that.home) && classloader.equals(that.classloader);
@@ -559,7 +589,7 @@ public final class ClassPath {
    */
   @VisibleForTesting
   static ImmutableSet<File> getClassPathFromManifest(
-      File jarFile, @NullableDecl Manifest manifest) {
+      File jarFile, @CheckForNull Manifest manifest) {
     if (manifest == null) {
       return ImmutableSet.of();
     }

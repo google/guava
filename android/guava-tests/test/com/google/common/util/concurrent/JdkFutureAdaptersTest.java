@@ -100,6 +100,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(listenableFuture.isDone());
   }
 
+
   public void testListenInPoolThreadUsesGivenExecutor() throws Exception {
     ExecutorService executorService =
         newCachedThreadPool(new ThreadFactoryBuilder().setDaemon(true).build());
@@ -123,6 +124,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(singleCallListener.wasCalled());
     assertTrue(listenableFuture.isDone());
   }
+
 
   public void testListenInPoolThreadCustomExecutorInterrupted() throws Exception {
     final CountDownLatch submitSuccessful = new CountDownLatch(1);
@@ -232,6 +234,7 @@ public class JdkFutureAdaptersTest extends TestCase {
       wasRun.countDown();
     }
   }
+
 
   @SuppressWarnings("IsInstanceIncompatibleType") // intentional.
   public void testListenInPoolThreadRunsListenerAfterRuntimeException() throws Exception {

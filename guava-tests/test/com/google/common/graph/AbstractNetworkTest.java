@@ -792,6 +792,7 @@ public abstract class AbstractNetworkTest {
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
+
   @Test
   public void concurrentIteration() throws Exception {
     addEdge(1, 2, "foo");

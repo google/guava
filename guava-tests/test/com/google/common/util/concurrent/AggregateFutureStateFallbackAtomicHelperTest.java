@@ -95,7 +95,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   private void runTestMethod(ClassLoader classLoader) throws Exception {
     Class<?> test = classLoader.loadClass(FuturesTest.class.getName());
-    Object testInstance = test.newInstance();
+    Object testInstance = test.getDeclaredConstructor().newInstance();
     test.getMethod("setUp").invoke(testInstance);
     test.getMethod(getName()).invoke(testInstance);
     test.getMethod("tearDown").invoke(testInstance);

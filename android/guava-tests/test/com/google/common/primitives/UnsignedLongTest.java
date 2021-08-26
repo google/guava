@@ -36,13 +36,23 @@ public class UnsignedLongTest extends TestCase {
   static {
     ImmutableSet.Builder<Long> testLongsBuilder = ImmutableSet.builder();
     ImmutableSet.Builder<BigInteger> testBigIntegersBuilder = ImmutableSet.builder();
+
+    // The values here look like 111...11101...010 in binary, where the initial 111...1110 takes
+    // up exactly as many bits as can be represented in the significand (24 for float, 53 for
+    // double). That final 0 should be rounded up to 1 because the remaining bits make that number
+    // slightly nearer.
+    long floatConversionTest = 0xfffffe8000000002L;
+    long doubleConversionTest = 0xfffffffffffff402L;
+
     for (long i = -3; i <= 3; i++) {
       testLongsBuilder
           .add(i)
           .add(Long.MAX_VALUE + i)
           .add(Long.MIN_VALUE + i)
           .add(Integer.MIN_VALUE + i)
-          .add(Integer.MAX_VALUE + i);
+          .add(Integer.MAX_VALUE + i)
+          .add(floatConversionTest + i)
+          .add(doubleConversionTest + i);
       BigInteger bigI = BigInteger.valueOf(i);
       testBigIntegersBuilder
           .add(bigI)
@@ -130,17 +140,26 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // b/28251030, re-enable when the fix is everywhere we run this test
   public void testFloatValue() {
     for (long value : TEST_LONGS) {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
-      assertEquals(unsignedValue.bigIntegerValue().floatValue(), unsignedValue.floatValue());
+      assertEquals(
+          "Float value of " + unsignedValue,
+          unsignedValue.bigIntegerValue().floatValue(),
+          unsignedValue.floatValue(),
+          0.0f);
     }
   }
 
   public void testDoubleValue() {
     for (long value : TEST_LONGS) {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
-      assertEquals(unsignedValue.bigIntegerValue().doubleValue(), unsignedValue.doubleValue());
+      assertEquals(
+          "Double value of " + unsignedValue,
+          unsignedValue.bigIntegerValue().doubleValue(),
+          unsignedValue.doubleValue(),
+          0.0);
     }
   }
 

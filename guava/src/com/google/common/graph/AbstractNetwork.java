@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
@@ -50,6 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
@@ -90,7 +91,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
           // Network<LinkedList>.
           @SuppressWarnings("unchecked")
           @Override
-          public boolean contains(@Nullable Object obj) {
+          public boolean contains(@CheckForNull Object obj) {
             if (!(obj instanceof EndpointPair)) {
               return false;
             }
@@ -206,7 +207,8 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {
+  @CheckForNull
+  public E edgeConnectingOrNull(N nodeU, N nodeV) {
     Set<E> edgesConnecting = edgesConnecting(nodeU, nodeV);
     switch (edgesConnecting.size()) {
       case 0:
@@ -219,7 +221,8 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public @Nullable E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+  @CheckForNull
+  public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
     validateEndpoints(endpoints);
     return edgeConnectingOrNull(endpoints.nodeU(), endpoints.nodeV());
   }
@@ -254,7 +257,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public final boolean equals(@Nullable Object obj) {
+  public final boolean equals(@CheckForNull Object obj) {
     if (obj == this) {
       return true;
     }

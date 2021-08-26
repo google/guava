@@ -17,6 +17,7 @@ package com.google.common.hash;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.
@@ -43,7 +44,8 @@ import java.io.Serializable;
  */
 @Beta
 @DoNotMock("Implement with a lambda")
-public interface Funnel<T> extends Serializable {
+@ElementTypesAreNonnullByDefault
+public interface Funnel<T extends @Nullable Object> extends Serializable {
 
   /**
    * Sends a stream of data from the {@code from} object into the sink {@code into}. There is no
@@ -51,5 +53,5 @@ public interface Funnel<T> extends Serializable {
    *
    * @since 12.0 (in Guava 11.0, {@code PrimitiveSink} was named {@code Sink})
    */
-  void funnel(T from, PrimitiveSink into);
+  void funnel(@ParametricNullness T from, PrimitiveSink into);
 }

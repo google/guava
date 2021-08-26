@@ -44,6 +44,7 @@ import java.io.Serializable;
  * @since 2.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ForwardingObject {
 
   /** Constructor for use by subclasses. */

@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @since 11.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -96,7 +97,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
   }
 
   /**
-   * Sets the element at position {@code i} to the given value.
+   * Atomically sets the element at position {@code i} to the given value.
    *
    * @param i the index
    * @param newValue the new value

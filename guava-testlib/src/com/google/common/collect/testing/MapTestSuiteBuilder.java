@@ -123,6 +123,8 @@ public class MapTestSuiteBuilder<K, V>
               .withFeatures(computeReserializedMapFeatures(parentBuilder.getFeatures()))
               .named(parentBuilder.getName() + " reserialized")
               .suppressing(parentBuilder.getSuppressedTests())
+              .withSetUp(parentBuilder.getSetUp())
+              .withTearDown(parentBuilder.getTearDown())
               .createTestSuite());
     }
 
@@ -132,6 +134,8 @@ public class MapTestSuiteBuilder<K, V>
             .withFeatures(computeEntrySetFeatures(parentBuilder.getFeatures()))
             .named(parentBuilder.getName() + " entrySet")
             .suppressing(parentBuilder.getSuppressedTests())
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
 
     derivedSuites.add(
@@ -139,6 +143,8 @@ public class MapTestSuiteBuilder<K, V>
             .withFeatures(computeKeySetFeatures(parentBuilder.getFeatures()))
             .named(parentBuilder.getName() + " keys")
             .suppressing(parentBuilder.getSuppressedTests())
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
 
     derivedSuites.add(
@@ -147,6 +153,8 @@ public class MapTestSuiteBuilder<K, V>
             .named(parentBuilder.getName() + " values")
             .withFeatures(computeValuesCollectionFeatures(parentBuilder.getFeatures()))
             .suppressing(parentBuilder.getSuppressedTests())
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
 
     return derivedSuites;

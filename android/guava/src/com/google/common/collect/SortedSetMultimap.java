@@ -24,7 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code SetMultimap} whose set of values for a given key are kept sorted; that is, they comprise
@@ -37,6 +38,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * Though the method signature doesn't say so explicitly, the map returned by {@link #asMap} has
  * {@code SortedSet} values.
  *
+ * <p><b>Warning:</b> As in all {@link SetMultimap}s, do not modify either a key <i>or a value</i>
+ * of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
+ * position in the order of the values). Undefined behavior and bugs will result.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
  * Multimap}</a>.
@@ -45,7 +50,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
+@ElementTypesAreNonnullByDefault
+public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
 
   /**
@@ -59,7 +66,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    * {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(@NullableDecl K key);
+  SortedSet<V> get(@ParametricNullness K key);
 
   /**
    * Removes all values associated with a given key.
@@ -70,7 +77,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> removeAll(@NullableDecl Object key);
+  SortedSet<V> removeAll(@CheckForNull Object key);
 
   /**
    * Stores a collection of values with the same key, replacing any existing values for that key.
@@ -83,7 +90,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
+  SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * Returns a map view that associates each key with the corresponding values in the multimap.
@@ -109,5 +116,6 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    * Returns the comparator that orders the multimap values, with {@code null} indicating that
    * natural ordering is used.
    */
+  @CheckForNull
   Comparator<? super V> valueComparator();
 }

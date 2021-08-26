@@ -40,6 +40,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
@@ -57,10 +58,23 @@ import java.util.Iterator;
  *       doing something and finally closing the stream that was opened.
  * </ul>
  *
+ * <p><b>Note:</b> In general, {@code ByteSource} is intended to be used for "file-like" sources
+ * that provide streams that are:
+ *
+ * <ul>
+ *   <li><b>Finite:</b> Many operations, such as {@link #size()} and {@link #read()}, will either
+ *       block indefinitely or fail if the source creates an infinite stream.
+ *   <li><b>Non-destructive:</b> A <i>destructive</i> stream will consume or otherwise alter the
+ *       bytes of the source as they are read from it. A source that provides such streams will not
+ *       be reusable, and operations that read from the stream (including {@link #size()}, in some
+ *       implementations) will prevent further operations from completing as expected.
+ * </ul>
+ *
  * @since 14.0
  * @author Colin Decker
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ByteSource {
 
   /** Constructor for use by subclasses. */
@@ -302,7 +316,7 @@ public abstract class ByteSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public <T> T read(ByteProcessor<T> processor) throws IOException {
+  public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
     Closer closer = Closer.create();
@@ -416,7 +430,7 @@ public abstract class ByteSource {
    * Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range
    * in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.
    *
-   * <p>Note that the given byte array may be be passed directly to methods on, for example, {@code
+   * <p>Note that the given byte array may be passed directly to methods on, for example, {@code
    * OutputStream} (when {@code copyTo(OutputStream)} is called on the resulting {@code
    * ByteSource}). This could allow a malicious {@code OutputStream} implementation to modify the
    * contents of the array, but provides better performance in the normal case.
@@ -606,7 +620,8 @@ public abstract class ByteSource {
 
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
-    public <T> T read(ByteProcessor<T> processor) throws IOException {
+    @ParametricNullness
+    public <T extends @Nullable Object> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();
     }

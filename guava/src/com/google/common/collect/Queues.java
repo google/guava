@@ -32,6 +32,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 
@@ -188,7 +190,8 @@ public final class Queues {
    * Creates an empty {@code PriorityBlockingQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
@@ -201,7 +204,8 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
@@ -220,7 +224,8 @@ public final class Queues {
    * Creates an empty {@code PriorityQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
     return new PriorityQueue<E>();
@@ -232,7 +237,8 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
       Iterable<? extends E> elements) {
@@ -432,7 +438,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
-  public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
+  public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
 
@@ -465,7 +471,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
-  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
+  public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }
 }
