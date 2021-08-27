@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <V> Value parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
     implements MutableValueGraph<N, V> {
 

@@ -44,7 +44,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use CacheBuilder.newBuilder().build()")
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Cache<K, V> {
 
   /**
@@ -164,7 +163,6 @@ public interface Cache<K, V> {
    * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method
    * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for
    * all values is returned.
-   *
    */
   @CheckReturnValue
   CacheStats stats();

@@ -94,7 +94,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per

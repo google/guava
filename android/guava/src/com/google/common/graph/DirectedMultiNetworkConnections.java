@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
   private DirectedMultiNetworkConnections(

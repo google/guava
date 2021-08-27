@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 
   /**

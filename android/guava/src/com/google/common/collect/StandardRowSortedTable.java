@@ -48,7 +48,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
     implements RowSortedTable<R, C, V> {
   /*

@@ -86,7 +86,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
 
@@ -202,10 +201,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     @CheckForNull ValueEntry<K, V> successorInMultimap;
 
     ValueEntry(
-        @ParametricNullness K key,
-        @ParametricNullness V value,
-        int smearedValueHash,
-        @CheckForNull ValueEntry<K, V> nextInValueBucket) {
+        K key, V value, int smearedValueHash, @CheckForNull ValueEntry<K, V> nextInValueBucket) {
       super(key, value);
       this.smearedValueHash = smearedValueHash;
       this.nextInValueBucket = nextInValueBucket;
@@ -295,7 +291,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
    * @return a new decorated set containing a collection of values for one key
    */
   @Override
-  Collection<V> createCollection(@ParametricNullness K key) {
+  Collection<V> createCollection(K key) {
     return new ValueSet(key, valueSetCapacity);
   }
 
@@ -308,7 +304,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
    */
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return super.replaceValues(key, values);
   }
 
@@ -363,7 +359,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      * consumption.
      */
 
-    @ParametricNullness private final K key;
+    private final K key;
     @VisibleForTesting @Nullable ValueEntry<K, V>[] hashTable;
     private int size = 0;
     private int modCount = 0;
@@ -373,7 +369,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     private ValueSetLink<K, V> firstEntry;
     private ValueSetLink<K, V> lastEntry;
 
-    ValueSet(@ParametricNullness K key, int expectedValues) {
+    ValueSet(K key, int expectedValues) {
       this.key = key;
       this.firstEntry = this;
       this.lastEntry = this;
@@ -430,7 +426,6 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
         }
 
         @Override
-        @ParametricNullness
         public V next() {
           if (!hasNext()) {
             throw new NoSuchElementException();
@@ -482,7 +477,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     }
 
     @Override
-    public boolean add(@ParametricNullness V value) {
+    public boolean add(V value) {
       int smearedHash = Hashing.smearedHash(value);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> rowHead = hashTable[bucket];

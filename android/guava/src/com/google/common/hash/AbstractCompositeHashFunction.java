@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
 
   @SuppressWarnings("Immutable") // array not modified after creation
@@ -181,8 +180,7 @@ abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
       }
 
       @Override
-      public <T extends @Nullable Object> Hasher putObject(
-          @ParametricNullness T instance, Funnel<? super T> funnel) {
+      public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
         for (Hasher hasher : hashers) {
           hasher.putObject(instance, funnel);
         }

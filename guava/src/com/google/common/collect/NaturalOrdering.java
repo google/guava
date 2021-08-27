@@ -28,7 +28,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true)
 @SuppressWarnings({"unchecked", "rawtypes"}) // TODO(kevinb): the right way to explain this??
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 

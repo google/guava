@@ -31,7 +31,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Platform {
   /** Returns the platform preferred implementation of a map based on a hash table. */
   static <K extends @Nullable Object, V extends @Nullable Object>

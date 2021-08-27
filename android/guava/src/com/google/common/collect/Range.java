@@ -119,7 +119,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @SuppressWarnings("rawtypes")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
 

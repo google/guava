@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class AppendableWriter extends Writer {
   private final Appendable target;
   private boolean closed;

@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final byte ABSENT = -1;
 

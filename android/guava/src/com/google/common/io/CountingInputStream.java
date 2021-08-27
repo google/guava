@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class CountingInputStream extends FilterInputStream {
 
   private long count;

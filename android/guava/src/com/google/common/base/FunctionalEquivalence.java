@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serializable {
 
   private static final long serialVersionUID = 0;

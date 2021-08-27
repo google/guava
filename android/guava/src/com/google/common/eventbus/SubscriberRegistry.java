@@ -55,7 +55,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class SubscriberRegistry {
 
   /**

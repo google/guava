@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   private final ImmutableMap<K, V> map;
 

@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class Dispatcher {
 
   /**

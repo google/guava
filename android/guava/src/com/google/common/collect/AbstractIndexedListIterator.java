@@ -33,14 +33,12 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIndexedListIterator<E extends @Nullable Object>
     extends UnmodifiableListIterator<E> {
   private final int size;
   private int position;
 
   /** Returns the element with the specified index. This method is called by {@link #next()}. */
-  @ParametricNullness
   protected abstract E get(int index);
 
   /**
@@ -76,7 +74,6 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
   }
 
   @Override
-  @ParametricNullness
   public final E next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
@@ -95,7 +92,6 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
   }
 
   @Override
-  @ParametricNullness
   public final E previous() {
     if (!hasPrevious()) {
       throw new NoSuchElementException();

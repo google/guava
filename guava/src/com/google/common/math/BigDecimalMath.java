@@ -27,7 +27,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class BigDecimalMath {
   private BigDecimalMath() {}
 

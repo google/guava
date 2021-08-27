@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @Immutable(containerOf = {"N"})
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class EndpointPair<N> implements Iterable<N> {
   private final N nodeU;
   private final N nodeV;

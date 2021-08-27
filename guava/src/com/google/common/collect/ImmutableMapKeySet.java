@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   private final ImmutableMap<K, V> map;
 

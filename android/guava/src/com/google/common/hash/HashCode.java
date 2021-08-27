@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 11.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class HashCode {
   HashCode() {}
 

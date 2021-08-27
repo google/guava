@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
 
   @Override

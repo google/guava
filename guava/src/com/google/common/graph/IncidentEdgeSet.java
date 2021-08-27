@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  * AbstractSet#iterator()}.
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
   final N node;
   final BaseGraph<N> graph;

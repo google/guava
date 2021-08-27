@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum RemovalCause {
   /**
    * The entry was manually removed by the user. This can result from the user invoking {@link

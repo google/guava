@@ -119,9 +119,7 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
 @NullMarked
 /*
- * It would make sense to also annotate this class with @ElementTypesAreNonnullByDefault. However,
  * it makes no difference because this class is already covered by the package-level
- * @ParametersAreNonnullByDefault, and this class declares only parameters, not return types or
  * fields. (Not to mention that we'll be removing all @*AreNonnullByDefault annotations after tools
  * understand @NullMarked.) And it's fortunate that the annotation makes no difference, because
  * we're seeing a breakage internally when we add that annotation :)

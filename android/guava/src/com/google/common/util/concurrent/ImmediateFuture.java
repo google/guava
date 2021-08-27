@@ -29,16 +29,15 @@ import org.jspecify.nullness.Nullable;
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 // TODO(cpovirk): Make this final (but that may break Mockito spy calls).
 class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
 
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
-  @ParametricNullness private final V value;
+  private final V value;
 
-  ImmediateFuture(@ParametricNullness V value) {
+  ImmediateFuture(V value) {
     this.value = value;
   }
 
@@ -65,13 +64,11 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   // TODO(lukes): Consider throwing InterruptedException when appropriate.
   @Override
-  @ParametricNullness
   public V get() {
     return value;
   }
 
   @Override
-  @ParametricNullness
   public V get(long timeout, TimeUnit unit) throws ExecutionException {
     checkNotNull(unit);
     return get();

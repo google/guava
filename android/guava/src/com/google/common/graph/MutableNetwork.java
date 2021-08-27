@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface MutableNetwork<N, E> extends Network<N, E> {
 
   /**

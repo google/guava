@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Use Maps.difference")
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface MapDifference<K extends @Nullable Object, V extends @Nullable Object> {
   /**
    * Returns {@code true} if there are no differences between the two maps; that is, if the maps are
@@ -93,11 +92,9 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
   @DoNotMock("Use Maps.difference")
   interface ValueDifference<V extends @Nullable Object> {
     /** Returns the value from the left map (possibly null). */
-    @ParametricNullness
     V leftValue();
 
     /** Returns the value from the right map (possibly null). */
-    @ParametricNullness
     V rightValue();
 
     /**

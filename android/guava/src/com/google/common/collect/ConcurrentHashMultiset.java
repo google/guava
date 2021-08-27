@@ -59,7 +59,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
   /*

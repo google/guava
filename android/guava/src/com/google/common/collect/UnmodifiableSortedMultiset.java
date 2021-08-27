@@ -33,7 +33,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends UnmodifiableMultiset<E>
     implements SortedMultiset<E> {
   UnmodifiableSortedMultiset(SortedMultiset<E> delegate) {
@@ -98,22 +97,19 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   }
 
   @Override
-  public SortedMultiset<E> headMultiset(@ParametricNullness E upperBound, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(E upperBound, BoundType boundType) {
     return Multisets.unmodifiableSortedMultiset(delegate().headMultiset(upperBound, boundType));
   }
 
   @Override
   public SortedMultiset<E> subMultiset(
-      @ParametricNullness E lowerBound,
-      BoundType lowerBoundType,
-      @ParametricNullness E upperBound,
-      BoundType upperBoundType) {
+      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
     return Multisets.unmodifiableSortedMultiset(
         delegate().subMultiset(lowerBound, lowerBoundType, upperBound, upperBoundType));
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
     return Multisets.unmodifiableSortedMultiset(delegate().tailMultiset(lowerBound, boundType));
   }
 

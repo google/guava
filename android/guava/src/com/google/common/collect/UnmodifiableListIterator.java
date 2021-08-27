@@ -30,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class UnmodifiableListIterator<E extends @Nullable Object>
     extends UnmodifiableIterator<E> implements ListIterator<E> {
   /** Constructor for use by subclasses. */
@@ -45,7 +44,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void add(@ParametricNullness E e) {
+  public final void add(E e) {
     throw new UnsupportedOperationException();
   }
 
@@ -58,7 +57,7 @@ public abstract class UnmodifiableListIterator<E extends @Nullable Object>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void set(@ParametricNullness E e) {
+  public final void set(E e) {
     throw new UnsupportedOperationException();
   }
 }

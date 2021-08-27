@@ -37,5 +37,4 @@ import org.jspecify.nullness.NullMarked;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public @interface Subscribe {}

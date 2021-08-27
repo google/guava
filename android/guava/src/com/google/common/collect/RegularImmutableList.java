@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<>(new Object[0], 0);
 

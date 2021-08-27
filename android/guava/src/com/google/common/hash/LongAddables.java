@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Louis Wasserman
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;
 

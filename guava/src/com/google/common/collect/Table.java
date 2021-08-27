@@ -58,7 +58,6 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Use ImmutableTable, HashBasedTable, or another implementation")
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Table<
     R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
@@ -145,7 +144,7 @@ public interface Table<
    */
   @CanIgnoreReturnValue
   @CheckForNull
-  V put(@ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value);
+  V put(R rowKey, C columnKey, V value);
 
   /**
    * Copies all mappings from the specified table to this table. The effect is equivalent to calling
@@ -180,7 +179,7 @@ public interface Table<
    * @param rowKey key of row to search for in the table
    * @return the corresponding map from column keys to values
    */
-  Map<C, V> row(@ParametricNullness R rowKey);
+  Map<C, V> row(R rowKey);
 
   /**
    * Returns a view of all mappings that have the given column key. For each row key / column key /
@@ -192,7 +191,7 @@ public interface Table<
    * @param columnKey key of column to search for in the table
    * @return the corresponding map from row keys to values
    */
-  Map<R, V> column(@ParametricNullness C columnKey);
+  Map<R, V> column(C columnKey);
 
   /**
    * Returns a set of all row key / column key / value triplets. Changes to the returned set will
@@ -261,15 +260,12 @@ public interface Table<
   interface Cell<
       R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
     /** Returns the row key of this cell. */
-    @ParametricNullness
     R getRowKey();
 
     /** Returns the column key of this cell. */
-    @ParametricNullness
     C getColumnKey();
 
     /** Returns the value of this cell. */
-    @ParametricNullness
     V getValue();
 
     /**

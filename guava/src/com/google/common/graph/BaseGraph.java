@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <N> Node parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Graph-level accessors

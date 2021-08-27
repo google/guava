@@ -54,7 +54,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ByteStreams {
 
   private static final int BUFFER_SIZE = 8192;
@@ -875,7 +874,6 @@ public final class ByteStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
   public static <T extends @Nullable Object> T readBytes(
       InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);

@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface RangeMap<K extends Comparable, V> {
   /*
    * TODO(cpovirk): These docs sometimes say "map" and sometimes say "range map." Pick one, or at

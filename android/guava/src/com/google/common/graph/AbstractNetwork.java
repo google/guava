@@ -51,7 +51,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override

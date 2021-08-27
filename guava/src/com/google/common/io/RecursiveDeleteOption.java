@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum RecursiveDeleteOption {
   /**
    * Specifies that the recursive delete should not throw an exception when it can't be guaranteed

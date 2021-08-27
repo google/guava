@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Defaults {
   private Defaults() {}
 

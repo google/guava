@@ -55,7 +55,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ListenerCallQueue<L> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());

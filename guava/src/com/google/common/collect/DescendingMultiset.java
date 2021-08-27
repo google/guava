@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
@@ -74,23 +73,20 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
-  public SortedMultiset<E> headMultiset(@ParametricNullness E toElement, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(E toElement, BoundType boundType) {
     return forwardMultiset().tailMultiset(toElement, boundType).descendingMultiset();
   }
 
   @Override
   public SortedMultiset<E> subMultiset(
-      @ParametricNullness E fromElement,
-      BoundType fromBoundType,
-      @ParametricNullness E toElement,
-      BoundType toBoundType) {
+      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
     return forwardMultiset()
         .subMultiset(toElement, toBoundType, fromElement, fromBoundType)
         .descendingMultiset();
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset(@ParametricNullness E fromElement, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(E fromElement, BoundType boundType) {
     return forwardMultiset().headMultiset(fromElement, boundType).descendingMultiset();
   }
 

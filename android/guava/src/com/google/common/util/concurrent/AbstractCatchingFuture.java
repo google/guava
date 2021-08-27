@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 @SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
 abstract class AbstractCatchingFuture<
         V extends @Nullable Object, X extends Throwable, F, T extends @Nullable Object>
@@ -170,12 +169,11 @@ abstract class AbstractCatchingFuture<
 
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
-  @ParametricNullness
   abstract T doFallback(F fallback, X throwable) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(@ParametricNullness T result);
+  abstract void setResult(T result);
 
   @Override
   protected final void afterDone() {
@@ -231,13 +229,12 @@ abstract class AbstractCatchingFuture<
     }
 
     @Override
-    @ParametricNullness
     V doFallback(Function<? super X, ? extends V> fallback, X cause) throws Exception {
       return fallback.apply(cause);
     }
 
     @Override
-    void setResult(@ParametricNullness V result) {
+    void setResult(V result) {
       set(result);
     }
   }

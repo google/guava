@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSortedSetMultimap<
         K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingSetMultimap<K, V> implements SortedSetMultimap<K, V> {
@@ -49,7 +48,7 @@ public abstract class ForwardingSortedSetMultimap<
   protected abstract SortedSetMultimap<K, V> delegate();
 
   @Override
-  public SortedSet<V> get(@ParametricNullness K key) {
+  public SortedSet<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -59,7 +58,7 @@ public abstract class ForwardingSortedSetMultimap<
   }
 
   @Override
-  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 

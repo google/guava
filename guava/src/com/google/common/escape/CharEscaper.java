@@ -44,7 +44,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class CharEscaper extends Escaper {
   /** Constructor for use by subclasses. */
   protected CharEscaper() {}

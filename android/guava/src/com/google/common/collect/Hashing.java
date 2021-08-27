@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Hashing {
   private Hashing() {}
 

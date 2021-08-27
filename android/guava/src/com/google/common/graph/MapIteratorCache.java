@@ -43,7 +43,6 @@ import org.jspecify.nullness.NullMarked;
  * @author James Sexton
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class MapIteratorCache<K, V> {
   private final Map<K, V> backingMap;
 

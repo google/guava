@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   private static final Object[] EMPTY_ARRAY = new Object[0];
   static final RegularImmutableSet<Object> EMPTY =

@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingObject {
 
   /** Constructor for use by subclasses. */

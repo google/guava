@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible // unnecessary
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
    * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The result must never

@@ -58,7 +58,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Streams {
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
@@ -387,10 +386,10 @@ public final class Streams {
 
   // Use this carefully - it doesn't implement value semantics
   private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
-    @ParametricNullness final A a;
-    @ParametricNullness final B b;
+    final A a;
+    final B b;
 
-    TemporaryPair(@ParametricNullness A a, @ParametricNullness B b) {
+    TemporaryPair(A a, B b) {
       this.a = a;
       this.b = b;
     }
@@ -454,7 +453,7 @@ public final class Streams {
       }
 
       @Override
-      public void accept(@ParametricNullness T t) {
+      public void accept(T t) {
         this.holder = t;
       }
 
@@ -731,8 +730,7 @@ public final class Streams {
   @Beta
   public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
-    R apply(@ParametricNullness T from, long index);
+    R apply(T from, long index);
   }
 
   private abstract static class MapWithIndexSpliterator<
@@ -787,7 +785,6 @@ public final class Streams {
   @Beta
   public interface IntFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
     R apply(int from, long index);
   }
 
@@ -802,7 +799,6 @@ public final class Streams {
   @Beta
   public interface LongFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
     R apply(long from, long index);
   }
 
@@ -817,7 +813,6 @@ public final class Streams {
   @Beta
   public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
     /** Applies this function to the given argument and its index within a stream. */
-    @ParametricNullness
     R apply(double from, long index);
   }
 

@@ -44,7 +44,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 

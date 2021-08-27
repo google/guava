@@ -82,7 +82,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ImmutableDoubleArray implements Serializable {
   private static final ImmutableDoubleArray EMPTY = new ImmutableDoubleArray(new double[0]);
 

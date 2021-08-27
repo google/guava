@@ -26,7 +26,6 @@ import sun.misc.Unsafe;
  * @author Kyle Maddison
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class LittleEndianByteArray {
 
   /** The instance that actually does the work; delegates to Unsafe or a pure-Java fallback. */

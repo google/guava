@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class MacHashFunction extends AbstractHashFunction {
 
   @SuppressWarnings("Immutable") // cloned before each use

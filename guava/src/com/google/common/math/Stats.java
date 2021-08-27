@@ -66,7 +66,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Stats implements Serializable {
 
   private final long count;

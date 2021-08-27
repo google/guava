@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class UncheckedExecutionException extends RuntimeException {
   /*
    * Ideally, this class would have exposed only constructors that require a non-null cause. We

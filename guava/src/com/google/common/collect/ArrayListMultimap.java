@@ -62,7 +62,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList

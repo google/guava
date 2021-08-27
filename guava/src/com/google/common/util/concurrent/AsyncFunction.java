@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible
 @FunctionalInterface
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface AsyncFunction<I extends @Nullable Object, O extends @Nullable Object> {
   /**
    * Returns an output {@code Future} to use in place of the given {@code input}. The output {@code
@@ -38,5 +37,5 @@ public interface AsyncFunction<I extends @Nullable Object, O extends @Nullable O
    *
    * <p>Throwing an exception from this method is equivalent to returning a failing {@code Future}.
    */
-  ListenableFuture<O> apply(@ParametricNullness I input) throws Exception;
+  ListenableFuture<O> apply(I input) throws Exception;
 }

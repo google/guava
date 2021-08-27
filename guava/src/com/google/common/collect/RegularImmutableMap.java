@@ -42,7 +42,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =

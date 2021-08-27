@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Flushables {
   private static final Logger logger = Logger.getLogger(Flushables.class.getName());
 

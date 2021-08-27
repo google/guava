@@ -90,7 +90,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Verify {
   /**
    * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with no

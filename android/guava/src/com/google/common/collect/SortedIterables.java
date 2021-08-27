@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class SortedIterables {
   private SortedIterables() {}
 

@@ -49,7 +49,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;

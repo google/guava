@@ -38,7 +38,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 
   /**

@@ -31,7 +31,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CompactHashing {
   private CompactHashing() {}
 

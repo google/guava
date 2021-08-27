@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class RemovalNotification<K, V>
     extends SimpleImmutableEntry<@Nullable K, @Nullable V> {
   private final RemovalCause cause;

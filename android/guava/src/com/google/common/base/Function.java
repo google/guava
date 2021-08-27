@@ -47,7 +47,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Function<F extends @Nullable Object, T extends @Nullable Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
@@ -64,8 +63,7 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    *     arguments
    */
   @CanIgnoreReturnValue // TODO(kevinb): remove this
-  @ParametricNullness
-  T apply(@ParametricNullness F input);
+  T apply(F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
 /** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Present<T> extends Optional<T> {
   private final T reference;
 

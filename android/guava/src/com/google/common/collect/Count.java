@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Count implements Serializable {
   private int value;
 

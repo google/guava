@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible
 @Immutable(containerOf = {"R", "C", "V"})
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   private final ImmutableMap<R, Integer> rowKeyToIndex;
   private final ImmutableMap<C, Integer> columnKeyToIndex;

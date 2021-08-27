@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class StandardMutableNetwork<N, E> extends StandardNetwork<N, E>
     implements MutableNetwork<N, E> {
 

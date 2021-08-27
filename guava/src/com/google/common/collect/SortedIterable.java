@@ -28,7 +28,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface SortedIterable<T extends @Nullable Object> extends Iterable<T> {
   /**
    * Returns the {@code Comparator} by which the elements of this iterable are ordered, or {@code

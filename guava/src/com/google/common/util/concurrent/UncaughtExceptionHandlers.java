@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}
 

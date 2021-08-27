@@ -20,7 +20,6 @@ import org.jspecify.nullness.NullMarked;
 /** A string to be parsed as a number and the radix to interpret it in. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ParseRequest {
   final String rawValue;
   final int radix;

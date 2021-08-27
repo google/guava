@@ -25,7 +25,6 @@ import org.jspecify.nullness.Nullable;
 /** An ordering that treats {@code null} as greater than all other values. */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
     implements Serializable {
   final Ordering<? super T> ordering;

@@ -43,7 +43,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     implements Serializable {
 

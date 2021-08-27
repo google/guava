@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingQueue<E> extends ForwardingQueue<E>
     implements BlockingQueue<E> {
 

@@ -39,7 +39,6 @@ import org.jspecify.nullness.Nullable;
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CollectSpliterators {
   private CollectSpliterators() {}
 
@@ -158,7 +157,7 @@ final class CollectSpliterators {
       @CheckForNull T holder = null;
 
       @Override
-      public void accept(@ParametricNullness T t) {
+      public void accept(T t) {
         this.holder = t;
       }
 

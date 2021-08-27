@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
  * @author James Sexton
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
   private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;

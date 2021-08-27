@@ -59,7 +59,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class CacheStats {
   private final long hitCount;
   private final long missCount;

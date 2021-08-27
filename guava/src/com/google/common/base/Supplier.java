@@ -40,7 +40,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible
 @FunctionalInterface
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Supplier<T extends @Nullable Object> extends java.util.function.Supplier<T> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or may not be a new
@@ -50,6 +49,5 @@ public interface Supplier<T extends @Nullable Object> extends java.util.function
    */
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   T get();
 }

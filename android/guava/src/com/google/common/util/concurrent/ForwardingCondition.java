@@ -21,7 +21,6 @@ import org.jspecify.nullness.NullMarked;
 
 /** Forwarding wrapper around a {@code Condition}. */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingCondition implements Condition {
   abstract Condition delegate();
 

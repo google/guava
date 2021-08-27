@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */

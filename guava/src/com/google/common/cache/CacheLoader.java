@@ -59,7 +59,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class CacheLoader<K, V> {
   /** Constructor for use by subclasses. */
   protected CacheLoader() {}

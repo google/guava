@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 10.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class DeadEvent {
 
   private final Object source;

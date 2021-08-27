@@ -31,10 +31,9 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface FutureCallback<V extends @Nullable Object> {
   /** Invoked with the result of the {@code Future} computation when it is successful. */
-  void onSuccess(@ParametricNullness V result);
+  void onSuccess(V result);
 
   /**
    * Invoked when a {@code Future} computation fails or is canceled.

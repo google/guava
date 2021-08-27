@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
 @Immutable(containerOf = {"N", "V"})
 @SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {

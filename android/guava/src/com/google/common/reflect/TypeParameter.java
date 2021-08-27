@@ -37,7 +37,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 /*
  * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable
  * bound. However, it would also let them create `new TypeParameter<@Nullable T>() {}`, which

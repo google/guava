@@ -57,7 +57,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Hasher extends PrimitiveSink {
   @Override
   Hasher putByte(byte b);
@@ -123,8 +122,7 @@ public interface Hasher extends PrimitiveSink {
   Hasher putString(CharSequence charSequence, Charset charset);
 
   /** A simple convenience for {@code funnel.funnel(object, this)}. */
-  <T extends @Nullable Object> Hasher putObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel);
+  <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel);
 
   /**
    * Computes a hash code based on the data that have been provided to this hasher. The result is

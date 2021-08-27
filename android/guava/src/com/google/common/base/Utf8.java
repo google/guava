@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Utf8 {
   /**
    * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this

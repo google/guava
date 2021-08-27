@@ -31,7 +31,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Funnels {
   private Funnels() {}
 

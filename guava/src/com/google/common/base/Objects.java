@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Objects extends ExtraObjectsMethodsForWeb {
   private Objects() {}
 

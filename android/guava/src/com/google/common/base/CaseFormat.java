@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum CaseFormat {
   /** Hyphenated variable naming convention, e.g., "lower-hyphen". */
   LOWER_HYPHEN(CharMatcher.is('-'), "-") {

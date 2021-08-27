@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator<T> {
   @CheckForNull private T nextOrNull;
 

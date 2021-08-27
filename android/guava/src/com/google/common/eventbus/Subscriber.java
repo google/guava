@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Colin Decker
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class Subscriber {
 
   /** Creates a {@code Subscriber} for {@code method} on {@code listener}. */

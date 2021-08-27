@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableSet<E> extends IndexedImmutableSet<E> {
   private final Set<?> delegate;
   private final ImmutableList<E> delegateList;

@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ByteArrayDataOutput extends DataOutput {
   @Override
   void write(int b);

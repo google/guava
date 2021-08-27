@@ -50,7 +50,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class BigIntegerMath {
   /**
    * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to

@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
  */
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractHasher implements Hasher {
   @Override
   public final Hasher putBoolean(boolean b) {
@@ -118,8 +117,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
-  public <T extends @Nullable Object> Hasher putObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel) {
+  public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
     funnel.funnel(instance, this);
     return this;
   }

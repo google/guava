@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class PatternFilenameFilter implements FilenameFilter {
 
   private final Pattern pattern;

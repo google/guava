@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingImmutableList<E> {
   private ForwardingImmutableList() {}
 }

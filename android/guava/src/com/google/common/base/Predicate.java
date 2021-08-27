@@ -48,7 +48,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Predicate<T extends @Nullable Object> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
@@ -66,7 +65,7 @@ public interface Predicate<T extends @Nullable Object> {
    *     arguments
    */
   @CanIgnoreReturnValue
-  boolean apply(@ParametricNullness T input);
+  boolean apply(T input);
 
   /**
    * Indicates whether another object is equal to this predicate.

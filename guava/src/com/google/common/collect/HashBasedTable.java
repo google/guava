@@ -49,7 +49,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final int expectedSize;

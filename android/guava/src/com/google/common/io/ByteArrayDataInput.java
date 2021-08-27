@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ByteArrayDataInput extends DataInput {
   @Override
   void readFully(byte b[]);

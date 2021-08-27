@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
   static final EmptyImmutableSetMultimap INSTANCE = new EmptyImmutableSetMultimap();
 

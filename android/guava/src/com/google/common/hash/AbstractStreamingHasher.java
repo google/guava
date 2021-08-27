@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
 // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractStreamingHasher extends AbstractHasher {
   /** Buffer via which we pass data to the hash algorithm (the implementor) */
   private final ByteBuffer buffer;

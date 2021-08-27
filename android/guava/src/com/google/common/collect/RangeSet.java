@@ -54,7 +54,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use ImmutableRangeSet or TreeRangeSet")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface RangeSet<C extends Comparable> {
 
   // Query methods

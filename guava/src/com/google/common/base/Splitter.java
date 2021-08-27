@@ -102,7 +102,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;

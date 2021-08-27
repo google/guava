@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Graphs {
 
   private Graphs() {}

@@ -43,7 +43,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends Multimap<K, V> {
   /**
@@ -54,7 +53,7 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * the {@link Multimap} interface.
    */
   @Override
-  List<V> get(@ParametricNullness K key);
+  List<V> get(K key);
 
   /**
    * {@inheritDoc}
@@ -76,7 +75,7 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
+  List<V> replaceValues(K key, Iterable<? extends V> values);
 
   /**
    * {@inheritDoc}

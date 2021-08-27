@@ -102,7 +102,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**

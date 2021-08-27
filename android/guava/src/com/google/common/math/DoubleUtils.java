@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class DoubleUtils {
   private DoubleUtils() {}
 

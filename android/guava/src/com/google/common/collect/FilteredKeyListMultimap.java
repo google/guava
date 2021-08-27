@@ -30,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends FilteredKeyMultimap<K, V> implements ListMultimap<K, V> {
   FilteredKeyListMultimap(ListMultimap<K, V> unfiltered, Predicate<? super K> keyPredicate) {
@@ -43,7 +42,7 @@ final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public List<V> get(K key) {
     return (List<V>) super.get(key);
   }
 
@@ -53,7 +52,7 @@ final class FilteredKeyListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 }

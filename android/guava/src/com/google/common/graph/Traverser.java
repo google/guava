@@ -66,7 +66,6 @@ import org.jspecify.nullness.NullMarked;
     "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"
         + " GraphBuilder)")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class Traverser<N> {
   private final SuccessorsFunction<N> successorFunction;
 

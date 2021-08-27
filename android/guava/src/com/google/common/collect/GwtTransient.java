@@ -35,5 +35,4 @@ import org.jspecify.nullness.NullMarked;
 @Retention(RUNTIME)
 @Target(FIELD)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 @interface GwtTransient {}

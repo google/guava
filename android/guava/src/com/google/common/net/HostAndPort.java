@@ -65,7 +65,6 @@ import org.jspecify.nullness.NullMarked;
 @Immutable
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class HostAndPort implements Serializable {
   /** Magic value indicating the absence of a port number. */
   private static final int NO_PORT = -1;

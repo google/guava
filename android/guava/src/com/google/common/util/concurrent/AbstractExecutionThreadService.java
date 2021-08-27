@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =
       Logger.getLogger(AbstractExecutionThreadService.class.getName());

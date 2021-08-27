@@ -31,7 +31,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
   private State state = State.NOT_READY;
 
@@ -80,7 +79,6 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @Override
-  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();

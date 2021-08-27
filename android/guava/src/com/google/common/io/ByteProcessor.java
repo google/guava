@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Implement it normally")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ByteProcessor<T extends @Nullable Object> {
   /**
    * This method will be called for each chunk of bytes in an input stream. The implementation
@@ -50,6 +49,5 @@ public interface ByteProcessor<T extends @Nullable Object> {
   boolean processBytes(byte[] buf, int off, int len) throws IOException;
 
   /** Return the result of processing all the bytes. */
-  @ParametricNullness
   T getResult();
 }

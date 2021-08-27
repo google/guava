@@ -72,7 +72,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MoreFiles {
 
   private MoreFiles() {}

@@ -49,7 +49,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSet<E extends @Nullable Object> extends ForwardingCollection<E>
     implements Set<E> {
   // TODO(lowasser): identify places where thread safety is actually lost

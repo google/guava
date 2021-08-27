@@ -53,7 +53,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible // hasn't been tested yet
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility

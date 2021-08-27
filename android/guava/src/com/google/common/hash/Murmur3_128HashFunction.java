@@ -43,7 +43,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Murmur3_128HashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
 

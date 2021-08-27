@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
   ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {

@@ -106,7 +106,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @DoNotMock("Use NetworkBuilder to create a real instance")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors

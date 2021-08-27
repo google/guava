@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Ints extends IntsMethodsForWeb {
   private Ints() {}
 

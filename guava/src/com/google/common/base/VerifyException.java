@@ -27,7 +27,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class VerifyException extends RuntimeException {
   /** Constructs a {@code VerifyException} with no message. */
   public VerifyException() {}

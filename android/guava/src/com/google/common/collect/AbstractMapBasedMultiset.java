@@ -46,7 +46,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements Serializable {
 
@@ -74,7 +73,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    */
   @CanIgnoreReturnValue
   @Override
-  public final int add(@ParametricNullness E element, int occurrences) {
+  public final int add(E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -119,7 +118,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
 
   @CanIgnoreReturnValue
   @Override
-  public final int setCount(@ParametricNullness E element, int count) {
+  public final int setCount(E element, int count) {
     checkNonnegative(count, "count");
     int oldCount = (count == 0) ? backingMap.remove(element) : backingMap.put(element, count);
     size += (count - oldCount);
@@ -127,7 +126,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  public final boolean setCount(@ParametricNullness E element, int oldCount, int newCount) {
+  public final boolean setCount(E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
     int entryIndex = backingMap.indexOf(element);
@@ -170,7 +169,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     int toRemove = -1;
     int expectedModCount = backingMap.modCount;
 
-    @ParametricNullness
     abstract T result(int entryIndex);
 
     private void checkForConcurrentModification() {
@@ -186,7 +184,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     }
 
     @Override
-    @ParametricNullness
     public T next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
@@ -212,7 +209,6 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   final Iterator<E> elementIterator() {
     return new Itr<E>() {
       @Override
-      @ParametricNullness
       E result(int entryIndex) {
         return backingMap.getKey(entryIndex);
       }

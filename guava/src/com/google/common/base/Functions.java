@@ -40,7 +40,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Functions {
   private Functions() {}
 
@@ -136,7 +135,7 @@ public final class Functions {
    *     defaultValue} otherwise
    */
   public static <K extends @Nullable Object, V extends @Nullable Object> Function<K, V> forMap(
-      Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
+      Map<K, ? extends V> map, V defaultValue) {
     return new ForMapWithDefault<>(map, defaultValue);
   }
 
@@ -150,8 +149,7 @@ public final class Functions {
     }
 
     @Override
-    @ParametricNullness
-    public V apply(@ParametricNullness K key) {
+    public V apply(K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
       // The unchecked cast is safe because of the containsKey check.
@@ -183,16 +181,15 @@ public final class Functions {
   private static class ForMapWithDefault<K extends @Nullable Object, V extends @Nullable Object>
       implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    @ParametricNullness final V defaultValue;
+    final V defaultValue;
 
-    ForMapWithDefault(Map<K, ? extends V> map, @ParametricNullness V defaultValue) {
+    ForMapWithDefault(Map<K, ? extends V> map, V defaultValue) {
       this.map = checkNotNull(map);
       this.defaultValue = defaultValue;
     }
 
     @Override
-    @ParametricNullness
-    public V apply(@ParametricNullness K key) {
+    public V apply(K key) {
       V result = map.get(key);
       // The unchecked cast is safe because of the containsKey check.
       return (result != null || map.containsKey(key))
@@ -252,8 +249,7 @@ public final class Functions {
     }
 
     @Override
-    @ParametricNullness
-    public C apply(@ParametricNullness A a) {
+    public C apply(A a) {
       return g.apply(f.apply(a));
     }
 
@@ -303,7 +299,7 @@ public final class Functions {
     }
 
     @Override
-    public Boolean apply(@ParametricNullness T t) {
+    public Boolean apply(T t) {
       return predicate.apply(t);
     }
 
@@ -337,21 +333,19 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(
-      @ParametricNullness E value) {
+  public static <E extends @Nullable Object> Function<@Nullable Object, E> constant(E value) {
     return new ConstantFunction<>(value);
   }
 
   private static class ConstantFunction<E extends @Nullable Object>
       implements Function<@Nullable Object, E>, Serializable {
-    @ParametricNullness private final E value;
+    private final E value;
 
-    public ConstantFunction(@ParametricNullness E value) {
+    public ConstantFunction(E value) {
       this.value = value;
     }
 
     @Override
-    @ParametricNullness
     public E apply(@CheckForNull Object from) {
       return value;
     }
@@ -401,8 +395,7 @@ public final class Functions {
     }
 
     @Override
-    @ParametricNullness
-    public T apply(@ParametricNullness F input) {
+    public T apply(F input) {
       return supplier.get();
     }
 

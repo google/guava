@@ -55,7 +55,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements BiMap<K, V>, Serializable {
 
@@ -276,12 +275,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   @CanIgnoreReturnValue
   @CheckForNull
-  public V put(@ParametricNullness K key, @ParametricNullness V value) {
+  public V put(K key, V value) {
     return put(key, value, false);
   }
 
   @CheckForNull
-  V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
+  V put(K key, V value, boolean force) {
     int keyHash = Hashing.smearedHash(key);
     int entryForKey = findEntryByKey(key, keyHash);
     if (entryForKey != ABSENT) {
@@ -321,13 +320,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   @CanIgnoreReturnValue
   @CheckForNull
-  public V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
+  public V forcePut(K key, V value) {
     return put(key, value, true);
   }
 
   @CanIgnoreReturnValue
   @CheckForNull
-  K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {
+  K putInverse(V value, K key, boolean force) {
     int valueHash = Hashing.smearedHash(value);
     int entryForValue = findEntryByValue(value, valueHash);
     if (entryForValue != ABSENT) {
@@ -472,7 +471,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * Updates the specified entry to point to the new value: removes the old value from the V-to-K
    * mapping and puts the new one in. The entry does not move in the insertion order of the bimap.
    */
-  private void replaceValueInEntry(int entry, @ParametricNullness V newValue, boolean force) {
+  private void replaceValueInEntry(int entry, V newValue, boolean force) {
     checkArgument(entry != ABSENT);
     int newValueHash = Hashing.smearedHash(newValue);
     int newValueIndex = findEntryByValue(newValue, newValueHash);
@@ -497,7 +496,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * mapping and puts the new one in. The entry is moved to the end of the insertion order, or to
    * the position of the new key if it was previously present.
    */
-  private void replaceKeyInEntry(int entry, @ParametricNullness K newKey, boolean force) {
+  private void replaceKeyInEntry(int entry, K newKey, boolean force) {
     checkArgument(entry != ABSENT);
     int newKeyHash = Hashing.smearedHash(newKey);
     int newKeyIndex = findEntryByKey(newKey, newKeyHash);
@@ -687,7 +686,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       this.biMap = biMap;
     }
 
-    @ParametricNullness
     abstract T forEntry(int entry);
 
     @Override
@@ -714,7 +712,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         }
 
         @Override
-        @ParametricNullness
         public T next() {
           if (!hasNext()) {
             throw new NoSuchElementException();
@@ -765,7 +762,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
     K forEntry(int entry) {
       // The cast is safe because we call forEntry only for indexes that contain entries.
       return uncheckedCastNullableTToT(keys[entry]);
@@ -803,7 +799,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
     V forEntry(int entry) {
       // The cast is safe because we call forEntry only for indexes that contain entries.
       return uncheckedCastNullableTToT(values[entry]);
@@ -883,7 +878,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * when {@code getValue()} is called.
    */
   final class EntryForKey extends AbstractMapEntry<K, V> {
-    @ParametricNullness final K key;
+    final K key;
     int index;
 
     EntryForKey(int index) {
@@ -899,13 +894,11 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
     public K getKey() {
       return key;
     }
 
     @Override
-    @ParametricNullness
     public V getValue() {
       updateIndex();
       /*
@@ -923,8 +916,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
-    public V setValue(@ParametricNullness V value) {
+    public V setValue(V value) {
       updateIndex();
       if (index == ABSENT) {
         HashBiMap.this.put(key, value);
@@ -984,14 +976,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     @CanIgnoreReturnValue
     @CheckForNull
-    public K put(@ParametricNullness V value, @ParametricNullness K key) {
+    public K put(V value, K key) {
       return forward.putInverse(value, key, false);
     }
 
     @Override
     @CanIgnoreReturnValue
     @CheckForNull
-    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
+    public K forcePut(V value, K key) {
       return forward.putInverse(value, key, true);
     }
 
@@ -1085,7 +1077,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   static final class EntryForValue<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapEntry<V, K> {
     final HashBiMap<K, V> biMap;
-    @ParametricNullness final V value;
+    final V value;
     int index;
 
     EntryForValue(HashBiMap<K, V> biMap, int index) {
@@ -1102,13 +1094,11 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
     public V getKey() {
       return value;
     }
 
     @Override
-    @ParametricNullness
     public K getValue() {
       updateIndex();
       // For discussion of unsafeNull() and uncheckedCastNullableTToT(), see EntryForKey.getValue().
@@ -1116,8 +1106,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    @ParametricNullness
-    public K setValue(@ParametricNullness K key) {
+    public K setValue(K key) {
       updateIndex();
       if (index == ABSENT) {
         biMap.putInverse(value, key, false);

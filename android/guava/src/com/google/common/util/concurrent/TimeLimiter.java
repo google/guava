@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
 @GwtIncompatible
 @SuppressWarnings("GoodTime") // should have java.time.Duration overloads
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**

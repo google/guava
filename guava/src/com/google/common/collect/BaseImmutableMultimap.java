@@ -24,5 +24,4 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class BaseImmutableMultimap<K, V> extends AbstractMultimap<K, V> {}

@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class MathPreconditions {
   static int checkPositive(String role, int x) {
     if (x <= 0) {

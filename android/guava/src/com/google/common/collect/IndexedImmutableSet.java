@@ -23,7 +23,6 @@ import org.jspecify.nullness.Nullable;
 
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class IndexedImmutableSet<E> extends ImmutableSet<E> {
   abstract E get(int index);
 

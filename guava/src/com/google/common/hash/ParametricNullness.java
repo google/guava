@@ -33,7 +33,6 @@ import javax.annotation.meta.TypeQualifierNickname;
  * non-nullable and (b) nullable when the type argument is nullable. This is the closest we can get
  * to "non-nullable when non-nullable; nullable when nullable" (like the Android <a
  * href="https://android.googlesource.com/platform/libcore/+/master/luni/src/main/java/libcore/util/NullFromTypeParam.java">{@code
- * NullFromTypeParam}</a>). We use this to "undo" {@link ElementTypesAreNonnullByDefault}.
  */
 @GwtCompatible
 @Retention(RUNTIME)

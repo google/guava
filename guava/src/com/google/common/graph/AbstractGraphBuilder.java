@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
  * @author James Sexton
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractGraphBuilder<N> {
   final boolean directed;
   boolean allowsSelfLoops = false;

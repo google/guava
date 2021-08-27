@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class PairedStats implements Serializable {
 
   private final Stats xStats;

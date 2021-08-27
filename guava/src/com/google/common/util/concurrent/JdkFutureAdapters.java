@@ -38,7 +38,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.

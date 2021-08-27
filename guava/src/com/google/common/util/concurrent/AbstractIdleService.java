@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractIdleService implements Service {
 
   /* Thread names will look like {@code "MyService STARTING"}. */

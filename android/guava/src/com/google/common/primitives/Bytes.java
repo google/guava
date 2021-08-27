@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
 // javadoc?
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Bytes {
   private Bytes() {}
 

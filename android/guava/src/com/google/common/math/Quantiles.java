@@ -130,7 +130,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Quantiles {
 
   /** Specifies the computation of a median (i.e. the 1st 2-quantile). */

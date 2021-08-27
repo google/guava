@@ -39,5 +39,4 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ImmutableMultisetGwtSerializationDependencies<E> extends ImmutableCollection<E> {}

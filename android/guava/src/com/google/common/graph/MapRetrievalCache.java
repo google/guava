@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  * @author James Sexton
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // See the note about volatile in the superclass.
   @CheckForNull private transient volatile CacheEntry<K, V> cacheEntry1;

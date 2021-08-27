@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Geoff Pike
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
   static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
 

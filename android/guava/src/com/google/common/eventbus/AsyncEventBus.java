@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 10.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class AsyncEventBus extends EventBus {
 
   /**

@@ -39,7 +39,6 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class FakeTimeLimiter implements TimeLimiter {
   @Override
   public <T> T newProxy(
@@ -51,7 +50,6 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  @ParametricNullness
   public <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     checkNotNull(callable);
@@ -72,7 +70,6 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  @ParametricNullness
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     return callWithTimeout(callable, timeoutDuration, timeoutUnit);

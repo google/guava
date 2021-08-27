@@ -49,7 +49,6 @@ import org.jspecify.nullness.NullMarked;
 @CanIgnoreReturnValue
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ThreadFactoryBuilder {
   @CheckForNull private String nameFormat = null;
   @CheckForNull private Boolean daemon = null;

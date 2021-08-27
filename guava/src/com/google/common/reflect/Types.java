@@ -55,7 +55,6 @@ import org.jspecify.nullness.Nullable;
  * @author Ben Yu
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */

@@ -33,7 +33,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
   private final Invokable<?, ?> declaration;

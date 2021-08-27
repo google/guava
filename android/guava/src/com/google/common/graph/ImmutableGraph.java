@@ -47,7 +47,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @Immutable(containerOf = {"N"})
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class ImmutableGraph<N> extends ForwardingGraph<N> {
   @SuppressWarnings("Immutable") // The backing graph must be immutable.
   private final BaseGraph<N> backingGraph;

@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class CommonPattern {
   public abstract CommonMatcher matcher(CharSequence t);
 

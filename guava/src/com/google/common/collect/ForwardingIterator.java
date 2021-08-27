@@ -39,7 +39,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingIterator<T extends @Nullable Object> extends ForwardingObject
     implements Iterator<T> {
 
@@ -56,7 +55,6 @@ public abstract class ForwardingIterator<T extends @Nullable Object> extends For
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   public T next() {
     return delegate().next();
   }

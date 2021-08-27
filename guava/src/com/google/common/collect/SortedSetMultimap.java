@@ -52,7 +52,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
@@ -68,7 +67,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(@ParametricNullness K key);
+  SortedSet<V> get(K key);
 
   /**
    * Removes all values associated with a given key.
@@ -92,7 +91,7 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
+  SortedSet<V> replaceValues(K key, Iterable<? extends V> values);
 
   /**
    * Returns a map view that associates each key with the corresponding values in the multimap.

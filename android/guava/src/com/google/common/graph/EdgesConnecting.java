@@ -36,7 +36,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class EdgesConnecting<E> extends AbstractSet<E> {
 
   private final Map<?, E> nodeToOutEdge;

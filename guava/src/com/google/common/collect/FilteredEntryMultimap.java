@@ -45,7 +45,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
@@ -71,19 +70,19 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return entries().size();
   }
 
-  private boolean satisfies(@ParametricNullness K key, @ParametricNullness V value) {
+  private boolean satisfies(K key, V value) {
     return predicate.apply(Maps.immutableEntry(key, value));
   }
 
   final class ValuePredicate implements Predicate<V> {
-    @ParametricNullness private final K key;
+    private final K key;
 
-    ValuePredicate(@ParametricNullness K key) {
+    ValuePredicate(K key) {
       this.key = key;
     }
 
     @Override
-    public boolean apply(@ParametricNullness V value) {
+    public boolean apply(V value) {
       return satisfies(key, value);
     }
   }
@@ -120,7 +119,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  public Collection<V> get(@ParametricNullness final K key) {
+  public Collection<V> get(final K key) {
     return filterCollection(unfiltered.get(key), new ValuePredicate(key));
   }
 

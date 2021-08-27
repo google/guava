@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @FunctionalInterface
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Weigher<K, V> {
 
   /**

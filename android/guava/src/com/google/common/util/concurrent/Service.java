@@ -55,7 +55,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Create an AbstractIdleService")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns

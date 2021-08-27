@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Partially {
   /**
    * The presence of this annotation on an API indicates that the method <i>may</i> be used with the

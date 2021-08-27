@@ -58,7 +58,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Map<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
@@ -110,7 +109,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(@ParametricNullness K key, @ParametricNullness V value) {
+  public V put(K key, V value) {
     return delegate().put(key, value);
   }
 

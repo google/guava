@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetworkConnections<N, E> {
 
   UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {

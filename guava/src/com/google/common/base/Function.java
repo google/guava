@@ -44,13 +44,11 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible
 @FunctionalInterface
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Function<F extends @Nullable Object, T extends @Nullable Object>
     extends java.util.function.Function<F, T> {
   @Override
   @CanIgnoreReturnValue // TODO(kevinb): remove this
-  @ParametricNullness
-  T apply(@ParametricNullness F input);
+  T apply(F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically

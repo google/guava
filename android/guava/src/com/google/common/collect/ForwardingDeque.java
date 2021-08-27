@@ -43,7 +43,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingDeque<E extends @Nullable Object> extends ForwardingQueue<E>
     implements Deque<E> {
 
@@ -54,12 +53,12 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   protected abstract Deque<E> delegate();
 
   @Override
-  public void addFirst(@ParametricNullness E e) {
+  public void addFirst(E e) {
     delegate().addFirst(e);
   }
 
   @Override
-  public void addLast(@ParametricNullness E e) {
+  public void addLast(E e) {
     delegate().addLast(e);
   }
 
@@ -69,26 +68,24 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
   }
 
   @Override
-  @ParametricNullness
   public E getFirst() {
     return delegate().getFirst();
   }
 
   @Override
-  @ParametricNullness
   public E getLast() {
     return delegate().getLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerFirst(@ParametricNullness E e) {
+  public boolean offerFirst(E e) {
     return delegate().offerFirst(e);
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public boolean offerLast(@ParametricNullness E e) {
+  public boolean offerLast(E e) {
     return delegate().offerLast(e);
   }
 
@@ -120,26 +117,23 @@ public abstract class ForwardingDeque<E extends @Nullable Object> extends Forwar
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   public E pop() {
     return delegate().pop();
   }
 
   @Override
-  public void push(@ParametricNullness E e) {
+  public void push(E e) {
     delegate().push(e);
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   public E removeFirst() {
     return delegate().removeFirst();
   }
 
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   public E removeLast() {
     return delegate().removeLast();
   }

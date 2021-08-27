@@ -45,7 +45,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <V> Value parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;

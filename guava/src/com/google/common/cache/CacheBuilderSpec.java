@@ -82,7 +82,6 @@ import org.jspecify.nullness.Nullable;
 @SuppressWarnings("GoodTime") // lots of violations (nanosecond math)
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class CacheBuilderSpec {
   /** Parses a single value. */
   private interface ValueParser {

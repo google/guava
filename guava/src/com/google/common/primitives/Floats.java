@@ -49,7 +49,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Floats extends FloatsMethodsForWeb {
   private Floats() {}
 

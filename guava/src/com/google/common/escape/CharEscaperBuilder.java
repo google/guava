@@ -38,7 +38,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class CharEscaperBuilder {
   /**
    * Simple decorator that turns an array of replacement char[]s into a CharEscaper, this results in

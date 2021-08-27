@@ -31,7 +31,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   private final ImmutableCollection<E> delegate;
   private final ImmutableList<? extends E> delegateList;

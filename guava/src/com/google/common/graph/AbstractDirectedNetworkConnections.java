@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /** Keys are edges incoming to the origin node, values are the source node. */
   final Map<E, N> inEdgeMap;

@@ -45,7 +45,6 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class WrappingExecutorService implements ExecutorService {
   private final ExecutorService delegate;
 
@@ -109,8 +108,7 @@ abstract class WrappingExecutorService implements ExecutorService {
   }
 
   @Override
-  public final <T extends @Nullable Object> Future<T> submit(
-      Runnable task, @ParametricNullness T result) {
+  public final <T extends @Nullable Object> Future<T> submit(Runnable task, T result) {
     return delegate.submit(wrapTask(task), result);
   }
 

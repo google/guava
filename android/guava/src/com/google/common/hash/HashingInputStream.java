@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class HashingInputStream extends FilterInputStream {
   private final Hasher hasher;
 

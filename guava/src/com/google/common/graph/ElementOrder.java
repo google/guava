@@ -48,7 +48,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ElementOrder<T> {
   private final Type type;
 

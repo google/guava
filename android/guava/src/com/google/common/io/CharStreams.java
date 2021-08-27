@@ -48,7 +48,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
   // 2K chars (4K bytes)
@@ -219,7 +218,6 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  @ParametricNullness
   public static <T extends @Nullable Object> T readLines(
       Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);

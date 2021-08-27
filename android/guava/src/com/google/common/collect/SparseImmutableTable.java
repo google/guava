@@ -27,7 +27,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @Immutable(containerOf = {"R", "C", "V"})
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   static final ImmutableTable<Object, Object, Object> EMPTY =
       new SparseImmutableTable<>(

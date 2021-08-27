@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CharSequenceReader extends Reader {
 
   @CheckForNull private CharSequence seq;

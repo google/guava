@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ChecksumHashFunction extends AbstractHashFunction implements Serializable {
   private final ImmutableSupplier<? extends Checksum> checksumSupplier;
   private final int bits;

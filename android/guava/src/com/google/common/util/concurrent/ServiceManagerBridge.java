@@ -28,7 +28,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface ServiceManagerBridge {
   ImmutableMultimap<State, Service> servicesByState();
 }

@@ -77,7 +77,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Futures extends GwtFuturesCatchingSpecialization {
 
   // A note on memory visibility.
@@ -132,8 +131,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * getters just return the value. This {@code Future} can't be canceled or timed out and its
    * {@code isDone()} method always returns {@code true}.
    */
-  public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(
-      @ParametricNullness V value) {
+  public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(V value) {
     if (value == null) {
       // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
       @SuppressWarnings("unchecked")
@@ -1168,7 +1166,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CanIgnoreReturnValue
   // TODO(cpovirk): Consider calling getDone() in our own code.
-  @ParametricNullness
+
   public static <V extends @Nullable Object> V getDone(Future<V> future) throws ExecutionException {
     /*
      * We throw IllegalStateException, since the call could succeed later. Perhaps we "should" throw
@@ -1229,7 +1227,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
-  @ParametricNullness
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass);
@@ -1281,7 +1278,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
-  @ParametricNullness
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, Duration timeout) throws X {
     return getChecked(future, exceptionClass, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -1334,7 +1330,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  @ParametricNullness
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);
@@ -1375,7 +1370,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @CanIgnoreReturnValue
-  @ParametricNullness
   public static <V extends @Nullable Object> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {

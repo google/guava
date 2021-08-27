@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class MessageDigestHashFunction extends AbstractHashFunction implements Serializable {
 
   @SuppressWarnings("Immutable") // cloned before each use

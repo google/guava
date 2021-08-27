@@ -54,7 +54,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 
   private final TypeTable typeTable;

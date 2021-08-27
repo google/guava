@@ -24,32 +24,28 @@ import org.jspecify.nullness.Nullable;
 /** @see com.google.common.collect.Maps#immutableEntry(Object, Object) */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class ImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapEntry<K, V> implements Serializable {
-  @ParametricNullness final K key;
-  @ParametricNullness final V value;
+  final K key;
+  final V value;
 
-  ImmutableEntry(@ParametricNullness K key, @ParametricNullness V value) {
+  ImmutableEntry(K key, V value) {
     this.key = key;
     this.value = value;
   }
 
   @Override
-  @ParametricNullness
   public final K getKey() {
     return key;
   }
 
   @Override
-  @ParametricNullness
   public final V getValue() {
     return value;
   }
 
   @Override
-  @ParametricNullness
-  public final V setValue(@ParametricNullness V value) {
+  public final V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 

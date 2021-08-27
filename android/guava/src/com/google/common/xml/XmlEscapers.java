@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class XmlEscapers {
   private XmlEscapers() {}
 

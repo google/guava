@@ -66,7 +66,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @DoNotMock
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */

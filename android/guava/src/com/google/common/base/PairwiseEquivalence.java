@@ -23,7 +23,6 @@ import org.jspecify.nullness.Nullable;
 
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class PairwiseEquivalence<E, T extends @Nullable E> extends Equivalence<Iterable<T>>
     implements Serializable {
   final Equivalence<E> elementEquivalence;

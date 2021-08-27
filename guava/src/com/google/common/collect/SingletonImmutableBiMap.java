@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   final transient K singleKey;

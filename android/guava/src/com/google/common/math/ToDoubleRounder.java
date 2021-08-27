@@ -27,7 +27,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
   /**
    * Returns x rounded to either the greatest double less than or equal to the precise value of x,

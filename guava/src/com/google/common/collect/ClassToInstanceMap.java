@@ -52,7 +52,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 // If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we
 // we might annotate this as...
 // ClassToInstanceMap<B extends @Nullable Object> extends Map<Class<? extends @Nonnull B>, B>

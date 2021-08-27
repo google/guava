@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable Object>
     extends AggregateFuture<V, C> {
   /*
@@ -59,7 +58,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
   }
 
   @Override
-  final void collectOneValue(int index, @ParametricNullness V returnValue) {
+  final void collectOneValue(int index, V returnValue) {
     List<@Nullable Present<V>> localValues = values;
     if (localValues != null) {
       localValues.set(index, new Present<>(returnValue));

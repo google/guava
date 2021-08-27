@@ -91,7 +91,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Closer implements Closeable {
 
   /** The suppressor implementation to use for the current Java version. */
@@ -126,8 +125,7 @@ public final class Closer implements Closeable {
    */
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
-  @ParametricNullness
-  public <C extends @Nullable Closeable> C register(@ParametricNullness C closeable) {
+  public <C extends @Nullable Closeable> C register(C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }

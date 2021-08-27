@@ -56,7 +56,6 @@ import org.jspecify.nullness.Nullable;
  * @author Ben Yu
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class TypeVisitor {
 
   private final Set<Type> visited = Sets.newHashSet();

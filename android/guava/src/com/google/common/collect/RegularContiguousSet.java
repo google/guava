@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   private final Range<C> range;
 

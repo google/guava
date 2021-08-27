@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <V> Value parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface GraphConnections<N, V> {
 
   Set<N> adjacentNodes();

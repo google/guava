@@ -20,7 +20,6 @@ import org.jspecify.nullness.NullMarked;
 /** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Platform {
   static void checkGwtRpcEnabled() {}
 

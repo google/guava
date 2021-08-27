@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
 
   /**

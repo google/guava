@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class CommonMatcher {
   public abstract boolean matches();
 

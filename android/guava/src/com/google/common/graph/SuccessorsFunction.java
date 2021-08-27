@@ -82,7 +82,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @DoNotMock("Implement with a lambda, or use GraphBuilder to build a Graph with the desired edges")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface SuccessorsFunction<N> {
 
   /**

@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
     switch (map.size()) {

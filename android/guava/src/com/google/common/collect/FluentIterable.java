@@ -114,7 +114,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class FluentIterable<E extends @Nullable Object> implements Iterable<E> {
   // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
   // checks on the _original_ iterable when FluentIterable.from is used.
@@ -334,8 +333,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @since 20.0
    */
   @Beta
-  public static <E extends @Nullable Object> FluentIterable<E> of(
-      @ParametricNullness E element, E... elements) {
+  public static <E extends @Nullable Object> FluentIterable<E> of(E element, E... elements) {
     return from(Lists.asList(element, elements));
   }
 
@@ -861,7 +859,6 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
-  @ParametricNullness
   public final E get(int position) {
     return Iterables.get(getDelegate(), position);
   }

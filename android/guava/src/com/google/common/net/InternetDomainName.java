@@ -76,7 +76,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(emulated = true)
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");

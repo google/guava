@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible // java.lang.System#getProperty
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum StandardSystemProperty {
 
   /** Java Runtime Environment version. */

@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class ExecutionError extends Error {
   /*
    * Ideally, this class would have exposed only constructors that require a non-null cause. We

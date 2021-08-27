@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 

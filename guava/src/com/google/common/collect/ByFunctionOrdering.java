@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
     extends Ordering<F> implements Serializable {
   final Function<F, ? extends T> function;
@@ -44,7 +43,7 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
   }
 
   @Override
-  public int compare(@ParametricNullness F left, @ParametricNullness F right) {
+  public int compare(F left, F right) {
     return ordering.compare(function.apply(left), function.apply(right));
   }
 

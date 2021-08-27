@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ArrayBasedEscaperMap {
   /**
    * Returns a new ArrayBasedEscaperMap for creating ArrayBasedCharEscaper or

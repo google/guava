@@ -57,7 +57,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSortedSet<E extends @Nullable Object> extends ForwardingSet<E>
     implements SortedSet<E> {
 
@@ -74,29 +73,27 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
   }
 
   @Override
-  @ParametricNullness
   public E first() {
     return delegate().first();
   }
 
   @Override
-  public SortedSet<E> headSet(@ParametricNullness E toElement) {
+  public SortedSet<E> headSet(E toElement) {
     return delegate().headSet(toElement);
   }
 
   @Override
-  @ParametricNullness
   public E last() {
     return delegate().last();
   }
 
   @Override
-  public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+  public SortedSet<E> subSet(E fromElement, E toElement) {
     return delegate().subSet(fromElement, toElement);
   }
 
   @Override
-  public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+  public SortedSet<E> tailSet(E fromElement) {
     return delegate().tailSet(fromElement);
   }
 
@@ -157,8 +154,7 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
    * @since 7.0
    */
   @Beta
-  protected SortedSet<E> standardSubSet(
-      @ParametricNullness E fromElement, @ParametricNullness E toElement) {
+  protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
     return tailSet(fromElement).headSet(toElement);
   }
 }

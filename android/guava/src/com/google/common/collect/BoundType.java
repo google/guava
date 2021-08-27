@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum BoundType {
   /** The endpoint value <i>is not</i> considered part of the set ("exclusive"). */
   OPEN(false),

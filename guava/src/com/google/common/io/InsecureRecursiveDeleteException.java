@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtIncompatible
 @J2ObjCIncompatible // java.nio.file
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 
   public InsecureRecursiveDeleteException(@CheckForNull String file) {

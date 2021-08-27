@@ -22,7 +22,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Louis Wasserman
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface LongAddable {
   void increment();
 

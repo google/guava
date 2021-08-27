@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractSortedKeySortedSetMultimap<
         K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSortedSetMultimap<K, V> {

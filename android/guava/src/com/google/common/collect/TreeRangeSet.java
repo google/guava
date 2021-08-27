@@ -42,7 +42,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible // uses NavigableMap
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     implements Serializable {
 

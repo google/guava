@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {
   /**

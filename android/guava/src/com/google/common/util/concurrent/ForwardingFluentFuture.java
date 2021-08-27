@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ForwardingFluentFuture<V extends @Nullable Object> extends FluentFuture<V> {
   private final ListenableFuture<V> delegate;
 
@@ -65,13 +64,11 @@ final class ForwardingFluentFuture<V extends @Nullable Object> extends FluentFut
   }
 
   @Override
-  @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     return delegate.get();
   }
 
   @Override
-  @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate.get(timeout, unit);

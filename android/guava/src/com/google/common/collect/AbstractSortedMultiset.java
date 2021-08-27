@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
   @GwtTransient final Comparator<? super E> comparator;
@@ -108,10 +107,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public SortedMultiset<E> subMultiset(
-      @ParametricNullness E fromElement,
-      BoundType fromBoundType,
-      @ParametricNullness E toElement,
-      BoundType toBoundType) {
+      E fromElement, BoundType fromBoundType, E toElement, BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);
     checkNotNull(toBoundType);

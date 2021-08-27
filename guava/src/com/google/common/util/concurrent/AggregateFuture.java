@@ -43,7 +43,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
     extends AggregateFutureState<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
@@ -342,7 +341,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
    * If {@code allMustSucceed} is true, called as each future completes; otherwise, if {@code
    * collectsValues} is true, called for each future when all futures complete.
    */
-  abstract void collectOneValue(int index, @ParametricNullness InputT returnValue);
+  abstract void collectOneValue(int index, InputT returnValue);
 
   abstract void handleAllCompleted();
 

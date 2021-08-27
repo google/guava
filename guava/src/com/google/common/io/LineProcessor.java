@@ -33,7 +33,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface LineProcessor<T extends @Nullable Object> {
 
   /**
@@ -46,6 +45,5 @@ public interface LineProcessor<T extends @Nullable Object> {
   boolean processLine(String line) throws IOException;
 
   /** Return the result of processing all the lines. */
-  @ParametricNullness
   T getResult();
 }

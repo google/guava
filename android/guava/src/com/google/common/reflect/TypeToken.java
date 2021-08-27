@@ -101,7 +101,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
 
   private final Type runtimeType;

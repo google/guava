@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 enum DirectExecutor implements Executor {
   INSTANCE;
 

@@ -64,7 +64,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @Nullable Object> {
   /*
    * Leaving K and V as upper bounds rather than the actual key and value types allows type

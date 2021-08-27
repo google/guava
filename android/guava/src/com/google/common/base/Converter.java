@@ -116,7 +116,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 /*
  * 1. The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
  * doForward and doBackward methods to indicate that the parameter cannot be null. (We also take

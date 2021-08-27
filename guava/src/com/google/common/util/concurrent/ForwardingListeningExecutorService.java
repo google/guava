@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */
@@ -52,8 +51,7 @@ public abstract class ForwardingListeningExecutorService extends ForwardingExecu
   }
 
   @Override
-  public <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task, @ParametricNullness T result) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result) {
     return delegate().submit(task, result);
   }
 }

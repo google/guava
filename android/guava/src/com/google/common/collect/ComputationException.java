@@ -36,7 +36,6 @@ import org.jspecify.nullness.NullMarked;
 @Deprecated
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class ComputationException extends RuntimeException {
   /** Creates a new instance with the given cause. */
   public ComputationException(@CheckForNull Throwable cause) {

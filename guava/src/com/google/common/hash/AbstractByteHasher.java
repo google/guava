@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractByteHasher extends AbstractHasher {
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
 

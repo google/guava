@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
@@ -67,7 +66,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
+  Collection<V> wrapCollection(K key, Collection<V> collection) {
     if (collection instanceof NavigableSet) {
       return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
     } else {
@@ -88,7 +87,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    * Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(@ParametricNullness K key) {
+  public SortedSet<V> get(K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -117,7 +116,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

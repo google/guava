@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class LineBuffer {
   /** Holds partial line contents. */
   private StringBuilder line = new StringBuilder();

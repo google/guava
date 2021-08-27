@@ -60,7 +60,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
     implements NavigableSet<E>, SortedIterable<E> {
   static <E> RegularImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {

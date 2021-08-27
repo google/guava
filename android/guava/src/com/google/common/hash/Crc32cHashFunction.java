@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Crc32cHashFunction extends AbstractHashFunction {
   static final HashFunction CRC_32_C = new Crc32cHashFunction();
 

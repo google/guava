@@ -48,7 +48,6 @@ import org.jspecify.nullness.NullMarked;
 @Immutable(containerOf = {"N", "E"})
 @SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {

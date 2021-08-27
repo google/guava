@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
   @CheckForNull private Reader current;

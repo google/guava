@@ -51,7 +51,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 11.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 

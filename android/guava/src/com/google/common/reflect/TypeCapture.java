@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Ben Yu
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class TypeCapture<T> {
 
   /** Returns the captured type. */

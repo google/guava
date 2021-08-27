@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
   @Override
   public Hasher newHasher() {

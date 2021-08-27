@@ -49,7 +49,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingCollection<E extends @Nullable Object> extends ForwardingObject
     implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
@@ -88,7 +87,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add(@ParametricNullness E element) {
+  public boolean add(E element) {
     return delegate().add(element);
   }
 

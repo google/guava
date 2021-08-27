@@ -30,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class AllEqualOrdering extends Ordering<@Nullable Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 

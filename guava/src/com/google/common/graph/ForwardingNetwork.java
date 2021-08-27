@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Joshua O'Madadhain
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
 
   abstract Network<N, E> delegate();

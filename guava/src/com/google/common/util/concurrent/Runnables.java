@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Runnables {
 
   private static final Runnable EMPTY_RUNNABLE =

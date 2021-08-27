@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Platform {
   private static final java.util.logging.Logger logger =
       java.util.logging.Logger.getLogger(Platform.class.getName());

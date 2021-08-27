@@ -105,7 +105,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @DoNotMock("Use GraphBuilder to create a real instance")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Graph<N> extends BaseGraph<N> {
   //
   // Graph-level accessors

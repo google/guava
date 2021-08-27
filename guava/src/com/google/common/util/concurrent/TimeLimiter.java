@@ -39,7 +39,6 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Use FakeTimeLimiter")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**

@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
  * @author Joshua O'Madadhain
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   abstract ValueGraph<N, V> delegate();

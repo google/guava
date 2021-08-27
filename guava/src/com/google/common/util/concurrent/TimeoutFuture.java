@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
   static <V extends @Nullable Object> ListenableFuture<V> create(
       ListenableFuture<V> delegate,

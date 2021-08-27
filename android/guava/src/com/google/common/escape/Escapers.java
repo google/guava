@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Escapers {
   private Escapers() {}
 

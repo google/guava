@@ -31,21 +31,17 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
     implements Entry<K, V> {
 
   @Override
-  @ParametricNullness
   public abstract K getKey();
 
   @Override
-  @ParametricNullness
   public abstract V getValue();
 
   @Override
-  @ParametricNullness
-  public V setValue(@ParametricNullness V value) {
+  public V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 

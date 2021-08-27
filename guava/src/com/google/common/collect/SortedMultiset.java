@@ -46,7 +46,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface SortedMultiset<E extends @Nullable Object>
     extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**
@@ -125,7 +124,7 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> headMultiset(@ParametricNullness E upperBound, BoundType boundType);
+  SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
   /**
    * Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
@@ -140,10 +139,7 @@ public interface SortedMultiset<E extends @Nullable Object>
    * lowerBoundType).headMultiset(upperBound, upperBoundType)}.
    */
   SortedMultiset<E> subMultiset(
-      @ParametricNullness E lowerBound,
-      BoundType lowerBoundType,
-      @ParametricNullness E upperBound,
-      BoundType upperBoundType);
+      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
 
   /**
    * Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
@@ -154,5 +150,5 @@ public interface SortedMultiset<E extends @Nullable Object>
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType);
+  SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
 }

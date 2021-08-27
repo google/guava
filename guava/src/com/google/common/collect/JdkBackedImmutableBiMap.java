@@ -33,7 +33,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @VisibleForTesting
   static <K, V> ImmutableBiMap<K, V> create(int n, @Nullable Entry<K, V>[] entryArray) {

@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MoreObjects {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise

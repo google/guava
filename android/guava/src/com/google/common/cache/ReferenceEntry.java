@@ -41,7 +41,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
   @CheckForNull

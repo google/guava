@@ -45,7 +45,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class HostSpecifier {
 
   private final String canonicalForm;

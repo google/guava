@@ -149,7 +149,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 10.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class EventBus {
 
   private static final Logger logger = Logger.getLogger(EventBus.class.getName());

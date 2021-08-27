@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;

@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   RegularImmutableTable() {}
 

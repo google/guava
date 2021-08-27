@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface FilteredMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends Multimap<K, V> {
   Multimap<K, V> unfiltered();

@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <E> Edge parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface NetworkConnections<N, E> {
 
   Set<N> adjacentNodes();

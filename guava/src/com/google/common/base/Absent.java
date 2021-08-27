@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
 /** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<>();
 

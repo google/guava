@@ -21,7 +21,6 @@ import org.jspecify.nullness.NullMarked;
 
 /** Forwarding wrapper around a {@code Lock}. */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingLock implements Lock {
   abstract Lock delegate();
 

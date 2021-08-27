@@ -52,7 +52,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**
    * Returns a {@code ContiguousSet} containing the same values in the given domain {@linkplain

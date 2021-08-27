@@ -40,7 +40,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Multimap<K, V> {
 
@@ -81,7 +80,7 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  public Collection<V> get(@ParametricNullness K key) {
+  public Collection<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -102,13 +101,13 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
 
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public boolean put(K key, V value) {
     return delegate().put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean putAll(@ParametricNullness K key, Iterable<? extends V> values) {
+  public boolean putAll(K key, Iterable<? extends V> values) {
     return delegate().putAll(key, values);
   }
 
@@ -132,7 +131,7 @@ public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 

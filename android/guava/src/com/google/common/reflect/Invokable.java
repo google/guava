@@ -65,7 +65,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   private final AccessibleObject accessibleObject;
   private final Member member;

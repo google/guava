@@ -83,7 +83,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   // Query Operations
 
@@ -132,7 +131,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     return normally.
    */
   @CanIgnoreReturnValue
-  int add(@ParametricNullness E element, int occurrences);
+  int add(E element, int occurrences);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -155,7 +154,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean add(@ParametricNullness E element);
+  boolean add(E element);
 
   /**
    * Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -202,7 +201,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     zero instead.
    */
   @CanIgnoreReturnValue
-  int setCount(@ParametricNullness E element, int count);
+  int setCount(E element, int count);
 
   /**
    * Conditionally sets the count of an element to a new value, as described in {@link
@@ -221,7 +220,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *     implementor may optionally return {@code true} instead.
    */
   @CanIgnoreReturnValue
-  boolean setCount(@ParametricNullness E element, int oldCount, int newCount);
+  boolean setCount(E element, int oldCount, int newCount);
 
   // Views
 
@@ -275,7 +274,6 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      *
      * @return the element corresponding to this entry
      */
-    @ParametricNullness
     E getElement();
 
     /**

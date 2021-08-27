@@ -30,11 +30,9 @@ import org.jspecify.nullness.Nullable;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractHashFunction implements HashFunction {
   @Override
-  public <T extends @Nullable Object> HashCode hashObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel) {
+  public <T extends @Nullable Object> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 

@@ -49,7 +49,6 @@ import org.jspecify.nullness.NullMarked;
 @Deprecated
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
 

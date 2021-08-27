@@ -29,7 +29,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @CanIgnoreReturnValue
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface PrimitiveSink {
   /**
    * Puts a byte into this sink.

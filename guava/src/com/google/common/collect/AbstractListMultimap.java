@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**
@@ -63,7 +62,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
+  Collection<V> wrapCollection(K key, Collection<V> collection) {
     return wrapList(key, (List<V>) collection, null);
   }
 
@@ -77,7 +76,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * Multimap} interface.
    */
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public List<V> get(K key) {
     return (List<V>) super.get(key);
   }
 
@@ -103,7 +102,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 
@@ -116,7 +115,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public boolean put(K key, V value) {
     return super.put(key, value);
   }
 

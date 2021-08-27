@@ -82,7 +82,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements Serializable {
   /*
@@ -119,9 +118,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * Maximum allowed false positive probability of detecting a hash flooding attack given random
    * input.
    */
-  @VisibleForTesting(
-      )
-  static final double HASH_FLOODING_FPP = 0.001;
+  @VisibleForTesting() static final double HASH_FLOODING_FPP = 0.001;
 
   /**
    * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
@@ -337,7 +334,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(@ParametricNullness K key, @ParametricNullness V value) {
+  public V put(K key, V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -404,8 +401,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(
-      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
+  void insertEntry(int entryIndex, K key, V value, int hash, int mask) {
     this.setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
     this.setKey(entryIndex, key);
     this.setValue(entryIndex, value);
@@ -639,11 +635,9 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       return currentIndex >= 0;
     }
 
-    @ParametricNullness
     abstract T getOutput(int entry);
 
     @Override
-    @ParametricNullness
     public T next() {
       checkForConcurrentModification();
       if (!hasNext()) {
@@ -779,7 +773,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<K>() {
       @Override
-      @ParametricNullness
       K getOutput(int entry) {
         return key(entry);
       }
@@ -892,7 +885,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-    @ParametricNullness private final K key;
+    private final K key;
 
     private int lastKnownIndex;
 
@@ -902,7 +895,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    @ParametricNullness
     public K getKey() {
       return key;
     }
@@ -916,7 +908,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    @ParametricNullness
     public V getValue() {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
@@ -939,8 +930,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    @ParametricNullness
-    public V setValue(@ParametricNullness V value) {
+    public V setValue(V value) {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return uncheckedCastNullableTToT(delegate.put(key, value)); // See discussion in getValue().
@@ -1063,7 +1053,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
     return new Itr<V>() {
       @Override
-      @ParametricNullness
       V getOutput(int entry) {
         return value(entry);
       }

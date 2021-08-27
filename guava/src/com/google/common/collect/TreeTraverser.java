@@ -77,7 +77,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
 
   /**

@@ -54,7 +54,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class PercentEscaper extends UnicodeEscaper {
 
   // In some escapers spaces are escaped to '+'

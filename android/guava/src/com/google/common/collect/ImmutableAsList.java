@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
 

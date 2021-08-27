@@ -28,7 +28,6 @@ import org.jspecify.nullness.Nullable;
 /** An ordering for a pre-existing comparator. */
 @GwtCompatible(serializable = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ComparatorOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Comparator<T> comparator;
@@ -38,7 +37,7 @@ final class ComparatorOrdering<T extends @Nullable Object> extends Ordering<T>
   }
 
   @Override
-  public int compare(@ParametricNullness T a, @ParametricNullness T b) {
+  public int compare(T a, T b) {
     return comparator.compare(a, b);
   }
 

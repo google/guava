@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
 

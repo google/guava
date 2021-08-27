@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 /** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CombinedFuture<V extends @Nullable Object>
     extends AggregateFuture<@Nullable Object, V> {
   @CheckForNull private CombinedFutureInterruptibleTask<?> task;
@@ -114,7 +113,7 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
-    final void afterRanInterruptiblySuccess(@ParametricNullness T result) {
+    final void afterRanInterruptiblySuccess(T result) {
       /*
        * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
        *
@@ -149,7 +148,7 @@ final class CombinedFuture<V extends @Nullable Object>
       }
     }
 
-    abstract void setValue(@ParametricNullness T value);
+    abstract void setValue(T value);
   }
 
   @WeakOuter
@@ -193,13 +192,12 @@ final class CombinedFuture<V extends @Nullable Object>
     }
 
     @Override
-    @ParametricNullness
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void setValue(@ParametricNullness V value) {
+    void setValue(V value) {
       CombinedFuture.this.set(value);
     }
 

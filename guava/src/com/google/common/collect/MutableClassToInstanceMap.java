@@ -49,7 +49,6 @@ import org.jspecify.nullness.Nullable;
 @GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 

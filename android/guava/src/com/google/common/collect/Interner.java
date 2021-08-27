@@ -35,7 +35,6 @@ import org.jspecify.nullness.NullMarked;
 @DoNotMock("Use Interners.new*Interner")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of instances that are

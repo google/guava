@@ -42,7 +42,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractInvocationHandler implements InvocationHandler {
 
   private static final Object[] NO_ARGS = {};

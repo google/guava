@@ -68,7 +68,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */

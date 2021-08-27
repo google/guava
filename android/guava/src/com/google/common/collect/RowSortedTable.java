@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface RowSortedTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     extends Table<R, C, V> {

@@ -45,7 +45,6 @@ import org.jspecify.nullness.Nullable;
 @FunctionalInterface
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface Predicate<T extends @Nullable Object> extends java.util.function.Predicate<T> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
@@ -63,7 +62,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
    *     arguments
    */
   @CanIgnoreReturnValue
-  boolean apply(@ParametricNullness T input);
+  boolean apply(T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -79,7 +78,7 @@ public interface Predicate<T extends @Nullable Object> extends java.util.functio
   boolean equals(@CheckForNull Object object);
 
   @Override
-  default boolean test(@ParametricNullness T input) {
+  default boolean test(T input) {
     return apply(input);
   }
 }

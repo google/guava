@@ -41,7 +41,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 /*
  * The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
  * doEquivalent and doHash methods to indicate that the parameter cannot be null.
@@ -77,10 +76,7 @@ public abstract class Equivalence<T> {
     return doEquivalent(a, b);
   }
 
-  /**
-   *
-   * @since 10.0 (previously, subclasses would override equivalent())
-   */
+  /** @since 10.0 (previously, subclasses would override equivalent()) */
   @ForOverride
   protected abstract boolean doEquivalent(T a, T b);
 
@@ -154,7 +150,7 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  public final <S extends @Nullable T> Wrapper<S> wrap(@ParametricNullness S reference) {
+  public final <S extends @Nullable T> Wrapper<S> wrap(S reference) {
     return new Wrapper<S>(this, reference);
   }
 
@@ -180,15 +176,14 @@ public abstract class Equivalence<T> {
    */
   public static final class Wrapper<T extends @Nullable Object> implements Serializable {
     private final Equivalence<? super T> equivalence;
-    @ParametricNullness private final T reference;
+    private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, @ParametricNullness T reference) {
+    private Wrapper(Equivalence<? super T> equivalence, T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
 
     /** Returns the (possibly null) reference wrapped by this instance. */
-    @ParametricNullness
     public T get() {
       return reference;
     }

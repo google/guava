@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
 
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class SmoothRateLimiter extends RateLimiter {
   /*
    * How is the RateLimiter designed, and why?

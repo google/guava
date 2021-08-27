@@ -22,7 +22,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 16.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface SubscriberExceptionHandler {
   /** Handles exceptions thrown by subscribers. */
   void handleException(Throwable exception, SubscriberExceptionContext context);

@@ -52,7 +52,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <V> Value parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   /**
    * A wrapper class to indicate a node is both a predecessor and successor while still providing

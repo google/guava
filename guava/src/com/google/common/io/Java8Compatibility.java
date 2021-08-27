@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class Java8Compatibility {
   static void clear(Buffer b) {
     b.clear();

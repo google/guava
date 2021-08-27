@@ -165,7 +165,6 @@ import org.jspecify.nullness.NullMarked;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class CycleDetectingLockFactory {
 
   /**

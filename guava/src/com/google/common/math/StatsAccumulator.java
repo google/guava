@@ -39,7 +39,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class StatsAccumulator {
 
   // These fields must satisfy the requirements of Stats' constructor as well as those of the stat

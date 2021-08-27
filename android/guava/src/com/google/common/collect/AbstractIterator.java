@@ -65,7 +65,6 @@ import org.jspecify.nullness.Nullable;
 // com.google.common.base.AbstractIterator
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
@@ -155,7 +154,6 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
 
   @CanIgnoreReturnValue // TODO(kak): Should we remove this?
   @Override
-  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
@@ -174,7 +172,6 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    * <p>Implementations of {@code AbstractIterator} that wish to expose this functionality should
    * implement {@code PeekingIterator}.
    */
-  @ParametricNullness
   public final T peek() {
     if (!hasNext()) {
       throw new NoSuchElementException();

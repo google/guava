@@ -65,13 +65,12 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 /*
- * I have decided not to bother adding @ParametricNullness annotations in this class. Adding them is
+ * I have decided not to bother adding  annotations in this class. Adding them is
  * a lot of busy work, and the annotation matters only when the APIs to be annotated are visible to
  * Kotlin code. In this class, nothing is publicly visible (nor exposed indirectly through a
  * publicly visible subclass), and I doubt any of our current or future Kotlin extensions for the
- * package will refer to the class. Plus, @ParametricNullness is only a temporary workaround,
+ * package will refer to the class. Plus,  is only a temporary workaround,
  * anyway, so we just need to get by without the annotations here until Kotlin better understands
  * our other nullness annotations.
  */

@@ -32,7 +32,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
     implements FinalizableReference {
   /**

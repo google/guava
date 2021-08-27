@@ -48,7 +48,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ByteSink {
 
   /** Constructor for use by subclasses. */

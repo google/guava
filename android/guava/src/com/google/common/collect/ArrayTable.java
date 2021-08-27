@@ -92,7 +92,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     implements Serializable {
 
@@ -208,11 +207,9 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
     abstract String getKeyRole();
 
-    @ParametricNullness
     abstract V getValue(int index);
 
-    @ParametricNullness
-    abstract V setValue(int index, @ParametricNullness V newValue);
+    abstract V setValue(int index, V newValue);
 
     @Override
     public int size() {
@@ -233,14 +230,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
         }
 
         @Override
-        @ParametricNullness
         public V getValue() {
           return ArrayMap.this.getValue(index);
         }
 
         @Override
-        @ParametricNullness
-        public V setValue(@ParametricNullness V value) {
+        public V setValue(V value) {
           return ArrayMap.this.setValue(index, value);
         }
       };
@@ -276,7 +271,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
     @Override
     @CheckForNull
-    public V put(K key, @ParametricNullness V value) {
+    public V put(K key, V value) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         throw new IllegalArgumentException(

@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMultimap<K, V> implements ListMultimap<K, V> {
 
@@ -48,7 +47,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
   protected abstract ListMultimap<K, V> delegate();
 
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public List<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -60,7 +59,7 @@ public abstract class ForwardingListMultimap<K extends @Nullable Object, V exten
 
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

@@ -52,7 +52,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class UnsignedLongs {
   private UnsignedLongs() {}
 

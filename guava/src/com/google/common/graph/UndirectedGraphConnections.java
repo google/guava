@@ -40,7 +40,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <V> Value parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   private final Map<N, V> adjacentNodeValues;
 

@@ -39,7 +39,6 @@ import org.jspecify.nullness.Nullable;
         + "java.util.concurrent.Executors with MoreExecutors.listeningDecorator")
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface ListeningExecutorService extends ExecutorService {
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
@@ -60,8 +59,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task, @ParametricNullness T result);
+  <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result);
 
   /**
    * {@inheritDoc}

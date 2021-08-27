@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListenableFuture<V extends @Nullable Object>
     extends ForwardingFuture<V> implements ListenableFuture<V> {
 

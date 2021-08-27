@@ -77,7 +77,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MediaType {
   private static final String CHARSET_ATTRIBUTE = "charset";
   private static final ImmutableListMultimap<String, String> UTF_8_CONSTANT_PARAMETERS =

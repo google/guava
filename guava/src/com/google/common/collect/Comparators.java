@@ -46,7 +46,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Comparators {
   private Comparators() {}
 
@@ -235,9 +234,7 @@ public final class Comparators {
    * @since 30.0
    */
   @Beta
-  @ParametricNullness
-  public static <T extends @Nullable Object> T min(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T min(T a, T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) <= 0) ? a : b;
   }
 
@@ -275,9 +272,7 @@ public final class Comparators {
    * @since 30.0
    */
   @Beta
-  @ParametricNullness
-  public static <T extends @Nullable Object> T max(
-      @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
+  public static <T extends @Nullable Object> T max(T a, T b, Comparator<T> comparator) {
     return (comparator.compare(a, b) >= 0) ? a : b;
   }
 }

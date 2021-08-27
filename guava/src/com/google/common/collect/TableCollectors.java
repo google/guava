@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class TableCollectors {
 
   static <T extends @Nullable Object, R, C, V>
@@ -201,11 +200,7 @@ final class TableCollectors {
   private static <
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       void mergeTables(
-          Table<R, C, V> table,
-          @ParametricNullness R row,
-          @ParametricNullness C column,
-          @ParametricNullness V value,
-          BinaryOperator<V> mergeFunction) {
+          Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
     checkNotNull(value);
     V oldValue = table.get(row, column);
     if (oldValue == null) {

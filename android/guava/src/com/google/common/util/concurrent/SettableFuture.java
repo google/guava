@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class SettableFuture<V extends @Nullable Object>
     extends AbstractFuture.TrustedFuture<V> {
   /**
@@ -47,7 +46,7 @@ public final class SettableFuture<V extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  public boolean set(@ParametricNullness V value) {
+  public boolean set(V value) {
     return super.set(value);
   }
 

@@ -22,7 +22,6 @@ import org.jspecify.nullness.Nullable;
 /** A utility method to perform unchecked casts to suppress errors produced by nullness analyses. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class NullnessCasts {
   /**
    * Accepts a {@code @Nullable T} and returns a plain {@code T}, without performing any check that
@@ -53,7 +52,6 @@ final class NullnessCasts {
    * value may be legitimately {@code null}.)
    */
   @SuppressWarnings("nullness")
-  @ParametricNullness
   static <T extends @Nullable Object> T uncheckedCastNullableTToT(@CheckForNull T t) {
     return t;
   }
@@ -68,7 +66,6 @@ final class NullnessCasts {
    * "plain {@code T}." This API provides that.
    */
   @SuppressWarnings("nullness")
-  @ParametricNullness
   static <T extends @Nullable Object> T uncheckedNull() {
     return null;
   }

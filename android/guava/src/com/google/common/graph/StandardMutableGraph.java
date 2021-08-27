@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <N> Node parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class StandardMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private final MutableValueGraph<N, Presence> backingValueGraph;
 

@@ -29,7 +29,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface SortedMapDifference<K extends @Nullable Object, V extends @Nullable Object>
     extends MapDifference<K, V> {
 

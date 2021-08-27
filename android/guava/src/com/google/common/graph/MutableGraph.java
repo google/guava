@@ -31,7 +31,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @Beta
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface MutableGraph<N> extends Graph<N> {
 
   /**

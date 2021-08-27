@@ -38,7 +38,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
 
@@ -51,7 +50,7 @@ public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extend
   }
 
   @Override
-  public Set<V> get(@ParametricNullness K key) {
+  public Set<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -63,7 +62,7 @@ public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extend
 
   @CanIgnoreReturnValue
   @Override
-  public Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

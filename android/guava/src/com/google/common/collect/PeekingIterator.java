@@ -37,7 +37,6 @@ import org.jspecify.nullness.Nullable;
 @DoNotMock("Use Iterators.peekingIterator")
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E> {
   /**
    * Returns the next element in the iteration, without advancing the iteration.
@@ -48,7 +47,6 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    * @throws NoSuchElementException if the iteration has no more elements according to {@link
    *     #hasNext()}
    */
-  @ParametricNullness
   E peek();
 
   /**
@@ -59,7 +57,6 @@ public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E>
    */
   @CanIgnoreReturnValue
   @Override
-  @ParametricNullness
   E next();
 
   /**

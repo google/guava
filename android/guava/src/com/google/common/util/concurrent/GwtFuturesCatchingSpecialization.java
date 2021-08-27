@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * This server copy of the class is empty. The corresponding GWT copy contains alternative

@@ -35,7 +35,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingObject implements Table<R, C, V> {
@@ -56,7 +55,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<R, V> column(@ParametricNullness C columnKey) {
+  public Map<R, V> column(C columnKey) {
     return delegate().column(columnKey);
   }
 
@@ -104,8 +103,7 @@ public abstract class ForwardingTable<
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(
-      @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value) {
+  public V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
   }
 
@@ -122,7 +120,7 @@ public abstract class ForwardingTable<
   }
 
   @Override
-  public Map<C, V> row(@ParametricNullness R rowKey) {
+  public Map<C, V> row(R rowKey) {
     return delegate().row(rowKey);
   }
 

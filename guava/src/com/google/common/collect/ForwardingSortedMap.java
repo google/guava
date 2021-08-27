@@ -54,7 +54,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
@@ -72,29 +71,27 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   }
 
   @Override
-  @ParametricNullness
   public K firstKey() {
     return delegate().firstKey();
   }
 
   @Override
-  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
+  public SortedMap<K, V> headMap(K toKey) {
     return delegate().headMap(toKey);
   }
 
   @Override
-  @ParametricNullness
   public K lastKey() {
     return delegate().lastKey();
   }
 
   @Override
-  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
+  public SortedMap<K, V> subMap(K fromKey, K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
+  public SortedMap<K, V> tailMap(K fromKey) {
     return delegate().tailMap(fromKey);
   }
 

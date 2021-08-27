@@ -34,7 +34,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class PairedStatsAccumulator {
 
   // These fields must satisfy the requirements of PairedStats' constructor as well as those of the

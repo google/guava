@@ -36,7 +36,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractTable<
         R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
     implements Table<R, C, V> {
@@ -105,8 +104,7 @@ abstract class AbstractTable<
   @CanIgnoreReturnValue
   @Override
   @CheckForNull
-  public V put(
-      @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value) {
+  public V put(R rowKey, C columnKey, V value) {
     return row(rowKey).put(columnKey, value);
   }
 
@@ -195,7 +193,6 @@ abstract class AbstractTable<
   Iterator<V> valuesIterator() {
     return new TransformedIterator<Cell<R, C, V>, V>(cellSet().iterator()) {
       @Override
-      @ParametricNullness
       V transform(Cell<R, C, V> cell) {
         return cell.getValue();
       }

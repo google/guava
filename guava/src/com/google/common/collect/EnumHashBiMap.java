@@ -44,7 +44,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
     extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;
@@ -95,7 +94,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
   @CheckForNull
-  public V put(K key, @ParametricNullness V value) {
+  public V put(K key, V value) {
     return super.put(key, value);
   }
 
@@ -104,7 +103,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
   @SuppressWarnings("RedundantOverride") // b/192446478: RedundantOverride ignores some annotations.
   // TODO(b/192446998): Remove this override after tools understand nullness better.
   @CheckForNull
-  public V forcePut(K key, @ParametricNullness V value) {
+  public V forcePut(K key, V value) {
     return super.forcePut(key, value);
   }
 

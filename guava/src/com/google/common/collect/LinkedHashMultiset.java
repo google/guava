@@ -42,7 +42,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class LinkedHashMultiset<E extends @Nullable Object>
     extends AbstractMapBasedMultiset<E> {
 

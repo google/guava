@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  * @author James Sexton
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class ForwardingGraph<N> extends AbstractGraph<N> {
 
   abstract BaseGraph<N> delegate();

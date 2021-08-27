@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public enum FileWriteMode {
   /** Specifies that writes to the opened file should append to the end of the file. */
   APPEND

@@ -24,7 +24,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface PatternCompiler {
   /**
    * Compiles the given pattern.

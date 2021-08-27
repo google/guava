@@ -32,7 +32,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface AsyncCallable<V extends @Nullable Object> {
   /**
    * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain

@@ -38,14 +38,13 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
 
   /** @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0) */
   @Override
   protected final <T extends @Nullable Object> RunnableFuture<T> newTaskFor(
-      Runnable runnable, @ParametricNullness T value) {
+      Runnable runnable, T value) {
     return TrustedListenableFutureTask.create(runnable, value);
   }
 
@@ -61,8 +60,7 @@ public abstract class AbstractListeningExecutorService extends AbstractExecutorS
   }
 
   @Override
-  public <T extends @Nullable Object> ListenableFuture<T> submit(
-      Runnable task, @ParametricNullness T result) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result) {
     return (ListenableFuture<T>) super.submit(task, result);
   }
 

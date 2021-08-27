@@ -27,7 +27,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface FilteredSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends FilteredMultimap<K, V>, SetMultimap<K, V> {
   @Override

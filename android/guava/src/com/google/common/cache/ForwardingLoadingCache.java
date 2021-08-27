@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
     implements LoadingCache<K, V> {
 

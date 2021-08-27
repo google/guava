@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
 /** Precondition checks useful in collection implementations. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CollectPreconditions {
 
   static void checkEntryNotNull(Object key, Object value) {

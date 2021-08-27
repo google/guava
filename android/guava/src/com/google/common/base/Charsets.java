@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Charsets {
   private Charsets() {}
 
@@ -42,7 +41,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#US_ASCII} instead.
-   *
    */
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset US_ASCII = Charset.forName("US-ASCII");
@@ -52,7 +50,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#ISO_8859_1} instead.
-   *
    */
   public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
 
@@ -61,7 +58,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#UTF_8} instead.
-   *
    */
   public static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -70,7 +66,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#UTF_16BE} instead.
-   *
    */
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
@@ -80,7 +75,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#UTF_16LE} instead.
-   *
    */
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
@@ -91,7 +85,6 @@ public final class Charsets {
    *
    * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use {@link
    * java.nio.charset.StandardCharsets#UTF_16} instead.
-   *
    */
   @GwtIncompatible // Charset not supported by GWT
   public static final Charset UTF_16 = Charset.forName("UTF-16");

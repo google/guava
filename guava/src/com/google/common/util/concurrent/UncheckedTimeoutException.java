@@ -26,7 +26,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class UncheckedTimeoutException extends RuntimeException {
   public UncheckedTimeoutException() {}
 

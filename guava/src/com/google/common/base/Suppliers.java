@@ -38,7 +38,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class Suppliers {
   private Suppliers() {}
 
@@ -64,7 +63,6 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       return function.apply(supplier.get());
     }
@@ -130,7 +128,6 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -170,7 +167,6 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -248,7 +244,6 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -286,21 +281,19 @@ public final class Suppliers {
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T extends @Nullable Object> Supplier<T> ofInstance(
-      @ParametricNullness T instance) {
+  public static <T extends @Nullable Object> Supplier<T> ofInstance(T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
   private static class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
-    @ParametricNullness final T instance;
+    final T instance;
 
-    SupplierOfInstance(@ParametricNullness T instance) {
+    SupplierOfInstance(T instance) {
       this.instance = instance;
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       return instance;
     }
@@ -345,7 +338,6 @@ public final class Suppliers {
     }
 
     @Override
-    @ParametricNullness
     public T get() {
       synchronized (delegate) {
         return delegate.get();

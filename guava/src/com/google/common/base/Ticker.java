@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class Ticker {
   /** Constructor for use by subclasses. */
   protected Ticker() {}

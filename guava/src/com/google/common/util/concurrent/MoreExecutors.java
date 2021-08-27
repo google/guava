@@ -65,7 +65,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible(emulated = true)
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class MoreExecutors {
   private MoreExecutors() {}
 
@@ -741,7 +740,6 @@ public final class MoreExecutors {
    * implementations.
    */
   @GwtIncompatible
-  @ParametricNullness
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
@@ -758,7 +756,6 @@ public final class MoreExecutors {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @GwtIncompatible
-  @ParametricNullness
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,

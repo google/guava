@@ -86,7 +86,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class Striped<L> {
   /**
    * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be

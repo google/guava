@@ -25,5 +25,4 @@ import org.jspecify.nullness.NullMarked;
 // TODO(cpovirk): Should we just use ChecksumType directly instead of defining this type?
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface ImmutableSupplier<T> extends Supplier<T> {}

@@ -90,7 +90,6 @@ import org.jspecify.nullness.NullMarked;
 @GwtCompatible
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class ImmutableLongArray implements Serializable {
   private static final ImmutableLongArray EMPTY = new ImmutableLongArray(new long[0]);
 

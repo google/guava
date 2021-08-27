@@ -43,7 +43,6 @@ import org.jspecify.nullness.NullMarked;
  * @param <N> Node parameter type
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
   /**

@@ -39,7 +39,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public final class LittleEndianDataOutputStream extends FilterOutputStream implements DataOutput {
 
   /**

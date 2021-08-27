@@ -118,7 +118,6 @@ import org.jspecify.nullness.Nullable;
  */
 @Immutable
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public interface HashFunction {
   /**
    * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}
@@ -213,8 +212,7 @@ public interface HashFunction {
    *
    * @since 14.0
    */
-  <T extends @Nullable Object> HashCode hashObject(
-      @ParametricNullness T instance, Funnel<? super T> funnel);
+  <T extends @Nullable Object> HashCode hashObject(T instance, Funnel<? super T> funnel);
 
   /**
    * Returns the number of bits (a multiple of 32) that each hash code produced by this hash

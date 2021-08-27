@@ -45,7 +45,6 @@ import org.jspecify.nullness.NullMarked;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedCharEscaper extends CharEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;

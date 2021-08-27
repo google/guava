@@ -34,7 +34,6 @@ import org.jspecify.nullness.Nullable;
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class WrappingScheduledExecutorService extends WrappingExecutorService
     implements ScheduledExecutorService {
   final ScheduledExecutorService delegate;

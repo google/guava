@@ -24,7 +24,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 abstract class Striped64 extends Number {
   /*
    * This class maintains a lazily-initialized table of atomically

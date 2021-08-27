@@ -28,7 +28,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
   private final Queue<T> queue;
 

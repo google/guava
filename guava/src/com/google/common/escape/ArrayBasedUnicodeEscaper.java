@@ -45,7 +45,6 @@ import org.jspecify.nullness.Nullable;
 @Beta
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;

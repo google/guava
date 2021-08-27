@@ -30,7 +30,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**

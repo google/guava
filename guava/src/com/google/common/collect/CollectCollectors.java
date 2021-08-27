@@ -41,7 +41,6 @@ import org.jspecify.nullness.Nullable;
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class CollectCollectors {
 
   private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =

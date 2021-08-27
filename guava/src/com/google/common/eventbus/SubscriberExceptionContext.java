@@ -25,7 +25,6 @@ import org.jspecify.nullness.NullMarked;
  * @since 16.0
  */
 @NullMarked
-@ElementTypesAreNonnullByDefault
 public class SubscriberExceptionContext {
   private final EventBus eventBus;
   private final Object event;

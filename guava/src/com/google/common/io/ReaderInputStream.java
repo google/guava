@@ -46,7 +46,6 @@ import org.jspecify.nullness.NullMarked;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class ReaderInputStream extends InputStream {
   private final Reader reader;
   private final CharsetEncoder encoder;

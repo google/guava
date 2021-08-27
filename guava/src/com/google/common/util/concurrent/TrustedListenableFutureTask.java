@@ -33,7 +33,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
@@ -56,7 +55,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    *     ListenableFutureTask.create(runnable, null)}
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
-      Runnable runnable, @ParametricNullness V result) {
+      Runnable runnable, V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
@@ -128,13 +127,12 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
-    @ParametricNullness
     V runInterruptibly() throws Exception {
       return callable.call();
     }
 
     @Override
-    void afterRanInterruptiblySuccess(@ParametricNullness V result) {
+    void afterRanInterruptiblySuccess(V result) {
       TrustedListenableFutureTask.this.set(result);
     }
 

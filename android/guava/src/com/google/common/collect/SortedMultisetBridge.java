@@ -30,7 +30,6 @@ import org.jspecify.nullness.Nullable;
  */
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 interface SortedMultisetBridge<E extends @Nullable Object> extends Multiset<E> {
   @Override
   SortedSet<E> elementSet();

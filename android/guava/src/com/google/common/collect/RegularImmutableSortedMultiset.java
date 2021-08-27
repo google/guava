@@ -33,7 +33,6 @@ import org.jspecify.nullness.NullMarked;
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @GwtIncompatible
 @NullMarked
-@ElementTypesAreNonnullByDefault
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
 
