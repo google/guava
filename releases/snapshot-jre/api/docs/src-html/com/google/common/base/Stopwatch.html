@@ -88,7 +88,7 @@
 <span class="sourceLineNo">079</span><a id="line.79"> * Stopwatch.createStarted(</a>
 <span class="sourceLineNo">080</span><a id="line.80"> *      new Ticker() {</a>
 <span class="sourceLineNo">081</span><a id="line.81"> *        public long read() {</a>
-<span class="sourceLineNo">082</span><a id="line.82"> *          return android.os.SystemClock.elapsedRealtimeNanos();</a>
+<span class="sourceLineNo">082</span><a id="line.82"> *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17</a>
 <span class="sourceLineNo">083</span><a id="line.83"> *        }</a>
 <span class="sourceLineNo">084</span><a id="line.84"> *      });</a>
 <span class="sourceLineNo">085</span><a id="line.85"> * }&lt;/pre&gt;</a>

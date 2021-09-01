@@ -181,7 +181,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  Stopwatch.createStarted(
       new Ticker() {
         public long read() {
-          return android.os.SystemClock.elapsedRealtimeNanos();
+          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
         }
       });
  </code></pre></div>
