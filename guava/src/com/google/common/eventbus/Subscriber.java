@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A subscriber method on a specific object, plus the executor that should be used for dispatching
@@ -32,6 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Colin Decker
  */
+@ElementTypesAreNonnullByDefault
 class Subscriber {
 
   /** Creates a {@code Subscriber} for {@code method} on {@code listener}. */
@@ -108,7 +109,7 @@ class Subscriber {
   }
 
   @Override
-  public final boolean equals(@Nullable Object obj) {
+  public final boolean equals(@CheckForNull Object obj) {
     if (obj instanceof Subscriber) {
       Subscriber that = (Subscriber) obj;
       // Use == so that different equal instances will still receive events.

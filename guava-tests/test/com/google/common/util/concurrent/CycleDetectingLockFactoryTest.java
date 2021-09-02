@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policy;
@@ -441,6 +442,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     lockD.lock();
   }
 
+
   public void testReentrantLock_tryLock() throws Exception {
     LockingThread thread = new LockingThread(lockA);
     thread.start();
@@ -451,6 +453,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     thread.releaseLockAndFinish();
     assertTrue(lockA.tryLock());
   }
+
 
   public void testReentrantWriteLock_tryLock() throws Exception {
     LockingThread thread = new LockingThread(writeLockA);
@@ -464,6 +467,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     assertTrue(writeLockA.tryLock());
     assertTrue(readLockA.tryLock());
   }
+
 
   public void testReentrantReadLock_tryLock() throws Exception {
     LockingThread thread = new LockingThread(readLockA);

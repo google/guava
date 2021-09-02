@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An interface for <a
@@ -103,6 +103,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @DoNotMock("Use GraphBuilder to create a real instance")
+@ElementTypesAreNonnullByDefault
 public interface Graph<N> extends BaseGraph<N> {
   //
   // Graph-level accessors
@@ -289,7 +290,7 @@ public interface Graph<N> extends BaseGraph<N> {
    * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of

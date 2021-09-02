@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentMap;
+import javax.annotation.CheckForNull;
 
 /**
  * A concurrent map which forwards all its method calls to another concurrent map. Subclasses should
@@ -36,6 +37,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 2.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
     implements ConcurrentMap<K, V> {
 
@@ -47,18 +49,20 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V putIfAbsent(K key, V value) {
     return delegate().putIfAbsent(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(Object key, Object value) {
+  public boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
     return delegate().remove(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
+  @CheckForNull
   public V replace(K key, V value) {
     return delegate().replace(key, value);
   }

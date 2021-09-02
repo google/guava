@@ -52,7 +52,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
- * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@lcode
+ * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@code
  * CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
@@ -474,7 +474,8 @@ public final class NullPointerTester {
   }
 
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
-      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
+      ImmutableSet.of(
+          "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
 
   static boolean isNullable(AnnotatedElement e) {
     for (Annotation annotation : e.getAnnotations()) {
@@ -490,7 +491,7 @@ public final class NullPointerTester {
   }
 
   /**
-   * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
+   * Returns true if the given member is a method that overrides {@link Object#equals(Object)}.
    *
    * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
    * explicit {@code @NullableDecl} annotation (see <a

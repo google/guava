@@ -98,6 +98,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(LocalCacheTest.class);
@@ -713,6 +714,7 @@ public class LocalCacheTest extends TestCase {
     assertTrue(notifications.toString(), notifications.isEmpty());
   }
 
+
   public void testCopyEntry_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
@@ -813,6 +815,7 @@ public class LocalCacheTest extends TestCase {
     cache.remove(key);
     checkLogged(e);
   }
+
 
   public void testRemovalListener_replaced_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);

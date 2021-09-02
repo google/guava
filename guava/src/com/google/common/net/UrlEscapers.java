@@ -24,12 +24,12 @@ import com.google.common.escape.Escaper;
  * escaping with {@link com.google.common.html.HtmlEscapers} or {@link
  * com.google.common.xml.XmlEscapers}.
  *
- *
  * @author David Beaumont
  * @author Chris Povirk
  * @since 15.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class UrlEscapers {
   private UrlEscapers() {}
 

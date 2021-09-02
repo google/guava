@@ -24,7 +24,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate
@@ -61,6 +62,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>A multiset uses {@link Object#equals} to determine whether two instances should be considered
  * "the same," <i>unless specified otherwise</i> by the implementation.
  *
+ * <p><b>Warning:</b> as with normal {@link Set}s, it is almost always a bad idea to modify an
+ * element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
+ * multiset. Undefined behavior and bugs will result.
+ *
  * <p>Common implementations include {@link ImmutableMultiset}, {@link HashMultiset}, and {@link
  * ConcurrentHashMultiset}.
  *
@@ -76,7 +81,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multiset<E> extends Collection<E> {
+@ElementTypesAreNonnullByDefault
+public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -101,7 +107,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly zero but never
    *     negative
    */
-  int count(@NullableDecl @CompatibleWith("E") Object element);
+  int count(@CompatibleWith("E") @CheckForNull Object element);
 
   // Bulk Operations
 
@@ -124,7 +130,7 @@ public interface Multiset<E> extends Collection<E> {
    *     return normally.
    */
   @CanIgnoreReturnValue
-  int add(@NullableDecl E element, int occurrences);
+  int add(@ParametricNullness E element, int occurrences);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -147,7 +153,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean add(E element);
+  boolean add(@ParametricNullness E element);
 
   /**
    * Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -162,7 +168,7 @@ public interface Multiset<E> extends Collection<E> {
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  int remove(@NullableDecl @CompatibleWith("E") Object element, int occurrences);
+  int remove(@CompatibleWith("E") @CheckForNull Object element, int occurrences);
 
   /**
    * Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
@@ -178,7 +184,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean remove(@NullableDecl Object element);
+  boolean remove(@CheckForNull Object element);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the element attains the
@@ -194,7 +200,7 @@ public interface Multiset<E> extends Collection<E> {
    *     zero instead.
    */
   @CanIgnoreReturnValue
-  int setCount(E element, int count);
+  int setCount(@ParametricNullness E element, int count);
 
   /**
    * Conditionally sets the count of an element to a new value, as described in {@link
@@ -213,7 +219,7 @@ public interface Multiset<E> extends Collection<E> {
    *     implementor may optionally return {@code true} instead.
    */
   @CanIgnoreReturnValue
-  boolean setCount(E element, int oldCount, int newCount);
+  boolean setCount(@ParametricNullness E element, int oldCount, int newCount);
 
   // Views
 
@@ -259,7 +265,7 @@ public interface Multiset<E> extends Collection<E> {
    *
    * @since 2.0
    */
-  interface Entry<E> {
+  interface Entry<E extends @Nullable Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls to this method
@@ -267,6 +273,7 @@ public interface Multiset<E> extends Collection<E> {
      *
      * @return the element corresponding to this entry
      */
+    @ParametricNullness
     E getElement();
 
     /**
@@ -294,7 +301,7 @@ public interface Multiset<E> extends Collection<E> {
      */
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(Object o);
+    boolean equals(@CheckForNull Object o);
 
     /**
      * {@inheritDoc}
@@ -328,7 +335,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -374,7 +381,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return {@code true} if this multiset contains at least one occurrence of the element
    */
   @Override
-  boolean contains(@NullableDecl Object element);
+  boolean contains(@CheckForNull Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of each element in the

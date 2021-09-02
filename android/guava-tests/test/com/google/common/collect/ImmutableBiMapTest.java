@@ -506,6 +506,30 @@ public class ImmutableBiMapTest extends TestCase {
         assertThat(expected.getMessage()).contains("1");
       }
     }
+
+    // TODO(b/172823566): Use mainline testToImmutableBiMap once CollectorTester is usable to java7.
+    public void testToImmutableBiMap_java7_combine() {
+      ImmutableBiMap.Builder<String, Integer> zis =
+          ImmutableBiMap.<String, Integer>builder().put("one", 1);
+      ImmutableBiMap.Builder<String, Integer> zat =
+          ImmutableBiMap.<String, Integer>builder().put("two", 2).put("three", 3);
+      ImmutableBiMap<String, Integer> biMap = zis.combine(zat).build();
+      assertMapEquals(biMap, "one", 1, "two", 2, "three", 3);
+    }
+
+    // TODO(b/172823566): Use mainline testToImmutableBiMap once CollectorTester is usable to java7.
+    public void testToImmutableBiMap_exceptionOnDuplicateKey_java7_combine() {
+      ImmutableBiMap.Builder<String, Integer> zis =
+          ImmutableBiMap.<String, Integer>builder().put("one", 1).put("two", 2);
+      ImmutableBiMap.Builder<String, Integer> zat =
+          ImmutableBiMap.<String, Integer>builder().put("two", 22).put("three", 3);
+      try {
+        zis.combine(zat).build();
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // expected
+      }
+    }
   }
 
   public static class BiMapSpecificTests extends TestCase {

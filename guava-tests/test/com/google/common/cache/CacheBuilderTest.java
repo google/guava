@@ -305,6 +305,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToLive_small() {
     CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS).build(identityLoader());
     // well, it didn't blow up.
@@ -352,6 +353,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToIdle_small() {
     CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS).build(identityLoader());
     // well, it didn't blow up.
@@ -380,6 +382,7 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testTimeToIdleAndToLive() {
     CacheBuilder.newBuilder()
         .expireAfterWrite(1, NANOSECONDS)
@@ -576,7 +579,7 @@ public class CacheBuilderTest extends TestCase {
     final CountDownLatch tasksFinished = new CountDownLatch(nTasks);
     for (int i = 0; i < nTasks; i++) {
       final String s = "a" + i;
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           threadPool.submit(
               new Runnable() {
@@ -671,7 +674,7 @@ public class CacheBuilderTest extends TestCase {
 
     ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
     for (int i = 0; i < nTasks; i++) {
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           threadPool.submit(
               new Runnable() {

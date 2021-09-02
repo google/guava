@@ -152,6 +152,7 @@ public class SynchronizedQueueTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testHoldsLockOnAllOperations() {
     create().element();
     create().offer("foo");
@@ -161,8 +162,8 @@ public class SynchronizedQueueTest extends TestCase {
     create().add("foo");
     create().addAll(ImmutableList.of("foo"));
     create().clear();
-    boolean unused = create().contains("foo");
-    boolean unused2 = create().containsAll(ImmutableList.of("foo"));
+    create().contains("foo");
+    create().containsAll(ImmutableList.of("foo"));
     create().equals(new ArrayDeque<>(ImmutableList.of("foo")));
     create().hashCode();
     create().isEmpty();

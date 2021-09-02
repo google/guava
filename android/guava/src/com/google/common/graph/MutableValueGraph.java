@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import javax.annotation.CheckForNull;
 
 /**
  * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,
@@ -29,6 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
 
   /**
@@ -59,6 +61,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *     #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   V putEdgeValue(N nodeU, N nodeV, V value);
 
   /**
@@ -83,6 +86,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    * @since 27.1
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   V putEdgeValue(EndpointPair<N> endpoints, V value);
 
   /**
@@ -100,6 +104,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *     nodeV}, or null if there was no such edge.
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   V removeEdge(N nodeU, N nodeV);
 
   /**
@@ -112,5 +117,6 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    * @since 27.1
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   V removeEdge(EndpointPair<N> endpoints);
 }

@@ -159,11 +159,11 @@ public class SynchronizedMapTest extends TestCase {
    */
 
   public void testSize() {
-    create().size();
+    int unused = create().size();
   }
 
   public void testIsEmpty() {
-    create().isEmpty();
+    boolean unused = create().isEmpty();
   }
 
   public void testRemove() {

@@ -17,29 +17,30 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.Queue;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An Iterator implementation which draws elements from a queue, removing them from the queue as it
  * iterates.
  */
 @GwtCompatible
-class ConsumingQueueIterator<T> extends AbstractIterator<T> {
+@ElementTypesAreNonnullByDefault
+final class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
   private final Queue<T> queue;
-
-  ConsumingQueueIterator(T... elements) {
-    this.queue = new ArrayDeque<T>(elements.length);
-    Collections.addAll(queue, elements);
-  }
 
   ConsumingQueueIterator(Queue<T> queue) {
     this.queue = checkNotNull(queue);
   }
 
   @Override
+  @CheckForNull
   public T computeNext() {
-    return queue.isEmpty() ? endOfData() : queue.remove();
+    // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
+    if (queue.isEmpty()) {
+      return endOfData();
+    }
+    return queue.remove();
   }
 }

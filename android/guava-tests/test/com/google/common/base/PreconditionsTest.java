@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ArbitraryInstances;
-import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -539,8 +538,22 @@ public class PreconditionsTest extends TestCase {
 
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicStaticMethods(Preconditions.class);
+    /*
+     * Don't bother testing: Preconditions defines a bunch of methods that accept a template (or
+     * even entire message) that simultaneously:
+     *
+     * - _shouldn't_ be null, so we don't annotate it with @Nullable
+     *
+     * - _can_ be null without causing a runtime failure (because we don't want the interesting
+     *   details of precondition failure to be hidden by an exception we throw about an unexpectedly
+     *   null _failure message_)
+     *
+     * That combination upsets NullPointerTester, which wants any call that passes null for a
+     * non-@Nullable parameter to trigger a NullPointerException.
+     *
+     * (We still define this empty method to keep PackageSanityTests from generating its own
+     * automated nullness tests, which would fail.)
+     */
   }
 
   private static final Object IGNORE_ME =

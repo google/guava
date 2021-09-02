@@ -87,4 +87,48 @@ public class DiscreteDomainTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
+
+  public void testCustomOffsetExceptions() {
+    try {
+      new MyIntegerDomain().offset(0, -1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      new MyIntegerDomain().offset(Integer.MAX_VALUE, 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  private static final class MyIntegerDomain extends DiscreteDomain<Integer> {
+    static final DiscreteDomain<Integer> DELEGATE = DiscreteDomain.integers();
+
+    @Override
+    public Integer next(Integer value) {
+      return DELEGATE.next(value);
+    }
+
+    @Override
+    public Integer previous(Integer value) {
+      return DELEGATE.previous(value);
+    }
+
+    // Do *not* override offset() to delegate: We want to test the default implementation.
+
+    @Override
+    public long distance(Integer start, Integer end) {
+      return DELEGATE.distance(start, end);
+    }
+
+    @Override
+    public Integer minValue() {
+      return DELEGATE.minValue();
+    }
+
+    @Override
+    public Integer maxValue() {
+      return DELEGATE.maxValue();
+    }
+  }
 }

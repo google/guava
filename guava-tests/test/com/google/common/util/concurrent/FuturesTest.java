@@ -2627,8 +2627,8 @@ public class FuturesTest extends TestCase {
     assertThat(futureResult.toString())
         .matches(
             "CombinedFuture@\\w+\\[status=PENDING,"
-                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=SUCCESS, result=\\[1]],"
-                + " SettableFuture@\\w+\\[status=PENDING]]]]");
+                + " info=\\[futures=\\[SettableFuture@\\w+\\[status=SUCCESS,"
+                + " result=\\[java.lang.Integer@\\w+]], SettableFuture@\\w+\\[status=PENDING]]]]");
 
     // Backing futures complete
     Boolean booleanPartial = true;
@@ -2649,7 +2649,7 @@ public class FuturesTest extends TestCase {
     String expectedResult = createCombinedResult(integerPartial, booleanPartial);
     assertEquals(expectedResult, futureResult.get());
     assertThat(futureResult.toString())
-        .matches("CombinedFuture@\\w+\\[status=SUCCESS, result=\\[" + expectedResult + "]]");
+        .matches("CombinedFuture@\\w+\\[status=SUCCESS, result=\\[java.lang.String@\\w+]]");
   }
 
   public void testWhenAllComplete_asyncError() throws Exception {
@@ -3375,10 +3375,12 @@ public class FuturesTest extends TestCase {
         : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }
 
+
   @GwtIncompatible // threads
   public void testAllAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.allMerger);
   }
+
 
   @GwtIncompatible // threads
   public void testSuccessfulAsList_extensive() throws InterruptedException {

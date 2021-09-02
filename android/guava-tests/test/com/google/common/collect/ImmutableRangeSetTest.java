@@ -590,4 +590,23 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
+  // TODO(b/172823566): Use mainline testToImmutableRangeSet once CollectorTester is usable to java7
+  public void testToImmutableRangeSet_java7_combine() {
+    Range<Integer> rangeOne = Range.closedOpen(1, 3);
+    Range<Integer> rangeTwo = Range.closedOpen(7, 9);
+    Range<Integer> rangeThree = Range.closedOpen(4, 5);
+    Range<Integer> rangeFour = Range.closedOpen(6, 7);
+
+    ImmutableRangeSet.Builder<Integer> zis =
+        ImmutableRangeSet.<Integer>builder().add(rangeOne).add(rangeTwo);
+    ImmutableRangeSet.Builder<Integer> zat =
+        ImmutableRangeSet.<Integer>builder().add(rangeThree).add(rangeFour);
+
+    ImmutableRangeSet<Integer> rangeSet = zis.combine(zat).build();
+
+    assertThat(rangeSet.asRanges())
+        .containsExactly(Range.closedOpen(1, 3), Range.closedOpen(4, 5), Range.closedOpen(6, 9))
+        .inOrder();
+  }
 }

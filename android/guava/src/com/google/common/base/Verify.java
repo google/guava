@@ -18,7 +18,8 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static convenience methods that serve the same purpose as Java language <a
@@ -87,6 +88,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 17.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Verify {
   /**
    * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with no
@@ -118,8 +120,8 @@ public final class Verify {
    */
   public static void verify(
       boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object... errorMessageArgs) {
+      String errorMessageTemplate,
+      @CheckForNull @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
@@ -133,8 +135,7 @@ public final class Verify {
    *
    * @since 23.1 (varargs overload since 17.0)
    */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, char p1) {
+  public static void verify(boolean expression, String errorMessageTemplate, char p1) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
     }
@@ -148,7 +149,7 @@ public final class Verify {
    *
    * @since 23.1 (varargs overload since 17.0)
    */
-  public static void verify(boolean expression, @NullableDecl String errorMessageTemplate, int p1) {
+  public static void verify(boolean expression, String errorMessageTemplate, int p1) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
     }
@@ -162,23 +163,7 @@ public final class Verify {
    *
    * @since 23.1 (varargs overload since 17.0)
    */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, long p1) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, @NullableDecl Object p1) {
+  public static void verify(boolean expression, String errorMessageTemplate, long p1) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
     }
@@ -193,7 +178,49 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, char p1, char p2) {
+      boolean expression, String errorMessageTemplate, @CheckForNull Object p1) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, char p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, int p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, long p1, char p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -208,7 +235,49 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, int p1, char p2) {
+      boolean expression, String errorMessageTemplate, @CheckForNull Object p1, char p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, char p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, int p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, long p1, int p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -223,7 +292,49 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, long p1, char p2) {
+      boolean expression, String errorMessageTemplate, @CheckForNull Object p1, int p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, char p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, int p1, long p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, long p1, long p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -238,10 +349,7 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      char p2) {
+      boolean expression, String errorMessageTemplate, @CheckForNull Object p1, long p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -256,7 +364,7 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, char p1, int p2) {
+      boolean expression, String errorMessageTemplate, char p1, @CheckForNull Object p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -271,7 +379,7 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, int p1, int p2) {
+      boolean expression, String errorMessageTemplate, int p1, @CheckForNull Object p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -286,160 +394,7 @@ public final class Verify {
    * @since 23.1 (varargs overload since 17.0)
    */
   public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, long p1, int p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      int p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, char p1, long p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, int p1, long p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression, @NullableDecl String errorMessageTemplate, long p1, long p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      long p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      char p1,
-      @NullableDecl Object p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      int p1,
-      @NullableDecl Object p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      long p1,
-      @NullableDecl Object p2) {
-    if (!expression) {
-      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
-    }
-  }
-
-  /**
-   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
-   * custom message otherwise.
-   *
-   * <p>See {@link #verify(boolean, String, Object...)} for details.
-   *
-   * @since 23.1 (varargs overload since 17.0)
-   */
-  public static void verify(
-      boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      @NullableDecl Object p2) {
+      boolean expression, String errorMessageTemplate, long p1, @CheckForNull Object p2) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
     }
@@ -455,10 +410,28 @@ public final class Verify {
    */
   public static void verify(
       boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      @NullableDecl Object p2,
-      @NullableDecl Object p3) {
+      String errorMessageTemplate,
+      @CheckForNull Object p1,
+      @CheckForNull Object p2) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
+   *
+   * @since 23.1 (varargs overload since 17.0)
+   */
+  public static void verify(
+      boolean expression,
+      String errorMessageTemplate,
+      @CheckForNull Object p1,
+      @CheckForNull Object p2,
+      @CheckForNull Object p3) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2, p3));
     }
@@ -474,15 +447,24 @@ public final class Verify {
    */
   public static void verify(
       boolean expression,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object p1,
-      @NullableDecl Object p2,
-      @NullableDecl Object p3,
-      @NullableDecl Object p4) {
+      String errorMessageTemplate,
+      @CheckForNull Object p1,
+      @CheckForNull Object p2,
+      @CheckForNull Object p3,
+      @CheckForNull Object p4) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
+
+  /*
+   * For a discussion of the signature of verifyNotNull, see the discussion above
+   * Preconditions.checkNotNull.
+   *
+   * (verifyNotNull has many fewer "problem" callers, so we could try to be stricter. On the other
+   * hand, verifyNotNull arguably has more reason to accept nullable arguments in the first
+   * place....)
+   */
 
   /**
    * Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a default
@@ -493,7 +475,7 @@ public final class Verify {
    * @see Preconditions#checkNotNull Preconditions.checkNotNull()
    */
   @CanIgnoreReturnValue
-  public static <T> T verifyNotNull(@NullableDecl T reference) {
+  public static <T> T verifyNotNull(@CheckForNull T reference) {
     return verifyNotNull(reference, "expected a non-null reference");
   }
 
@@ -514,10 +496,12 @@ public final class Verify {
    */
   @CanIgnoreReturnValue
   public static <T> T verifyNotNull(
-      @NullableDecl T reference,
-      @NullableDecl String errorMessageTemplate,
-      @NullableDecl Object... errorMessageArgs) {
-    verify(reference != null, errorMessageTemplate, errorMessageArgs);
+      @CheckForNull T reference,
+      String errorMessageTemplate,
+      @CheckForNull @Nullable Object... errorMessageArgs) {
+    if (reference == null) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, errorMessageArgs));
+    }
     return reference;
   }
 

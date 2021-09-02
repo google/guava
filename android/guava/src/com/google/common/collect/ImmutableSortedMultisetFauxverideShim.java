@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.DoNotCall;
 
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack {@link
@@ -34,6 +35,7 @@ import com.google.common.annotations.GwtIncompatible;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
   /**
    * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better
@@ -43,6 +45,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better type-safety.
    */
+  @DoNotCall("Use naturalOrder.")
   @Deprecated
   public static <E> ImmutableSortedMultiset.Builder<E> builder() {
     throw new UnsupportedOperationException();
@@ -57,6 +60,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
    *     ImmutableSortedMultiset#of(Comparable)}.</b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(E element) {
     throw new UnsupportedOperationException();
@@ -71,6 +75,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
    *     ImmutableSortedMultiset#of(Comparable, Comparable)}.</b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(E e1, E e2) {
     throw new UnsupportedOperationException();
@@ -85,6 +90,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable)}.</b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3) {
     throw new UnsupportedOperationException();
@@ -99,6 +105,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable)}. </b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4) {
     throw new UnsupportedOperationException();
@@ -114,6 +121,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable)} .
    *     </b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
     throw new UnsupportedOperationException();
@@ -129,6 +137,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    *     ImmutableSortedMultiset#of(Comparable, Comparable, Comparable, Comparable, Comparable,
    *     Comparable, Comparable...)} . </b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
@@ -144,6 +153,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultise
    * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
    *     ImmutableSortedMultiset#copyOf(Comparable[])}.</b>
    */
+  @DoNotCall("Elements must be Comparable. (Or, pass a Comparator to orderedBy or copyOf.)")
   @Deprecated
   public static <E> ImmutableSortedMultiset<E> copyOf(E[] elements) {
     throw new UnsupportedOperationException();

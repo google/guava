@@ -61,6 +61,18 @@ public class Murmur3Hash32Test extends TestCase {
         0x2e4ff723,
         murmur3_32().hashString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8));
     assertHash(0xfc5ba834, murmur3_32().hashString("毎月１日,毎週月曜日", Charsets.UTF_8));
+    assertHash(
+        0x3f4aff5c,
+        murmur3_32().hashString(Character.toString(Character.MAX_VALUE), Charsets.UTF_8));
+    assertHash(
+        0x81db5903,
+        murmur3_32()
+            .hashString(new String(Character.toChars(Character.MAX_VALUE + 1)), Charsets.UTF_8));
+    // Note (https://github.com/google/guava/issues/5648) the hash expected here is not correct
+    assertHash(
+        0x256068c8,
+        murmur3_32()
+            .hashString(new String(Character.toChars(Character.MAX_CODE_POINT)), Charsets.UTF_8));
   }
 
   @SuppressWarnings("deprecation")

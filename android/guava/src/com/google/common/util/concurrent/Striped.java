@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -21,7 +23,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.MapMaker;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
@@ -40,6 +41,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A striped {@code Lock/Semaphore/ReadWriteLock}. This offers the underlying lock striping similar
@@ -82,6 +84,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class Striped<L> {
   /**
    * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be
@@ -136,26 +139,26 @@ public abstract class Striped<L> {
    * @return the stripes corresponding to the objects (one per each object, derived by delegating to
    *     {@link #get(Object)}; may contain duplicates), in an increasing index order.
    */
-  public Iterable<L> bulkGet(Iterable<?> keys) {
-    // Initially using the array to store the keys, then reusing it to store the respective L's
-    final Object[] array = Iterables.toArray(keys, Object.class);
-    if (array.length == 0) {
+  public Iterable<L> bulkGet(Iterable<? extends Object> keys) {
+    // Initially using the list to store the keys, then reusing it to store the respective L's
+    List<Object> result = newArrayList(keys);
+    if (result.isEmpty()) {
       return ImmutableList.of();
     }
-    int[] stripes = new int[array.length];
-    for (int i = 0; i < array.length; i++) {
-      stripes[i] = indexFor(array[i]);
+    int[] stripes = new int[result.size()];
+    for (int i = 0; i < result.size(); i++) {
+      stripes[i] = indexFor(result.get(i));
     }
     Arrays.sort(stripes);
     // optimize for runs of identical stripes
     int previousStripe = stripes[0];
-    array[0] = getAt(previousStripe);
-    for (int i = 1; i < array.length; i++) {
+    result.set(0, getAt(previousStripe));
+    for (int i = 1; i < result.size(); i++) {
       int currentStripe = stripes[i];
       if (currentStripe == previousStripe) {
-        array[i] = array[i - 1];
+        result.set(i, result.get(i - 1));
       } else {
-        array[i] = getAt(currentStripe);
+        result.set(i, getAt(currentStripe));
         previousStripe = currentStripe;
       }
     }
@@ -177,8 +180,8 @@ public abstract class Striped<L> {
      * be garbage collected after locking them, ending up in a huge mess.
      */
     @SuppressWarnings("unchecked") // we carefully replaced all keys with their respective L's
-    List<L> asList = (List<L>) Arrays.asList(array);
-    return Collections.unmodifiableList(asList);
+    List<L> asStripes = (List<L>) result;
+    return Collections.unmodifiableList(asStripes);
   }
 
   // Static factories
@@ -435,7 +438,7 @@ public abstract class Striped<L> {
    */
   @VisibleForTesting
   static class SmallLazyStriped<L> extends PowerOfTwoStriped<L> {
-    final AtomicReferenceArray<ArrayReference<? extends L>> locks;
+    final AtomicReferenceArray<@Nullable ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
     final ReferenceQueue<L> queue = new ReferenceQueue<L>();

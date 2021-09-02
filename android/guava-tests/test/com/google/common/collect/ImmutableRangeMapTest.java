@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
@@ -207,6 +208,7 @@ public class ImmutableRangeMapTest extends TestCase {
     }
   }
 
+
   public void testSubRangeMap() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
@@ -253,5 +255,22 @@ public class ImmutableRangeMapTest extends TestCase {
     SerializableTester.reserializeAndAssert(test.keySet());
 
     SerializableTester.reserializeAndAssert(nonEmptyRangeMap);
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableRangeMap once CollectorTester is usable to java7
+  public void testToImmutableRangeMap() {
+    Range<Integer> rangeOne = Range.closedOpen(1, 5);
+    Range<Integer> rangeTwo = Range.openClosed(6, 7);
+
+    ImmutableRangeMap.Builder<Integer, Integer> zis =
+        ImmutableRangeMap.<Integer, Integer>builder().put(rangeOne, 1);
+    ImmutableRangeMap.Builder<Integer, Integer> zat =
+        ImmutableRangeMap.<Integer, Integer>builder().put(rangeTwo, 6);
+
+    ImmutableRangeMap<Integer, Integer> rangeMap = zis.combine(zat).build();
+
+    assertThat(rangeMap.asMapOfRanges().entrySet())
+        .containsExactly(Maps.immutableEntry(rangeOne, 1), Maps.immutableEntry(rangeTwo, 6))
+        .inOrder();
   }
 }

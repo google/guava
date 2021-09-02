@@ -28,6 +28,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -45,6 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
   private CharStreams() {
@@ -70,11 +72,13 @@ public final class CharStreams {
       } else {
         return copyReaderToWriter((Reader) from, asWriter(to));
       }
-    } else {
-      checkNotNull(from);
-      checkNotNull(to);
-      long total = 0;
-      try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
+    }
+
+    checkNotNull(from);
+    checkNotNull(to);
+    long total = 0;
+    
+    try (TransferBuffer<char[]> buffer = TransferBuffer.getCharArrayTransferBuffer()) {
         CharBuffer buf = CharBuffer.wrap(buffer.get());
         while (from.read(buf) != -1) {
           Java8Compatibility.flip(buf);
@@ -82,9 +86,8 @@ public final class CharStreams {
           total += buf.remaining();
           Java8Compatibility.clear(buf);
         }
-        return total;
-      }
     }
+    return total;
   }
 
   // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able
@@ -214,7 +217,9 @@ public final class CharStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(Readable readable, LineProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readLines(
+      Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
     checkNotNull(processor);
 
@@ -308,12 +313,12 @@ public final class CharStreams {
     }
 
     @Override
-    public Writer append(@Nullable CharSequence csq) {
+    public Writer append(@CheckForNull CharSequence csq) {
       return this;
     }
 
     @Override
-    public Writer append(@Nullable CharSequence csq, int start, int end) {
+    public Writer append(@CheckForNull CharSequence csq, int start, int end) {
       checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }

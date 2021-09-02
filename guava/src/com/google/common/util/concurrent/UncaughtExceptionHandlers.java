@@ -29,6 +29,7 @@ import java.util.logging.Logger;
  * @since 8.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}
 

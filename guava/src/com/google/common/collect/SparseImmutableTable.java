@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.Immutable;
 import java.util.LinkedHashMap;
@@ -23,6 +25,7 @@ import java.util.Map.Entry;
 /** A {@code RegularImmutableTable} optimized for sparse data. */
 @GwtCompatible
 @Immutable(containerOf = {"R", "C", "V"})
+@ElementTypesAreNonnullByDefault
 final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   static final ImmutableTable<Object, Object, Object> EMPTY =
       new SparseImmutableTable<>(
@@ -61,12 +64,16 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       C columnKey = cell.getColumnKey();
       V value = cell.getValue();
 
-      cellRowIndices[i] = rowIndex.get(rowKey);
-      Map<C, V> thisRow = rows.get(rowKey);
+      /*
+       * These requireNonNull calls are safe because we construct the maps to hold all the provided
+       * cells.
+       */
+      cellRowIndices[i] = requireNonNull(rowIndex.get(rowKey));
+      Map<C, V> thisRow = requireNonNull(rows.get(rowKey));
       cellColumnInRowIndices[i] = thisRow.size();
       V oldValue = thisRow.put(columnKey, value);
       checkNoDuplicate(rowKey, columnKey, oldValue, value);
-      columns.get(columnKey).put(rowKey, value);
+      requireNonNull(columns.get(columnKey)).put(rowKey, value);
     }
     this.cellRowIndices = cellRowIndices;
     this.cellColumnInRowIndices = cellColumnInRowIndices;
@@ -128,7 +135,8 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     int[] cellColumnIndices = new int[cellSet().size()];
     int i = 0;
     for (Cell<R, C, V> cell : cellSet()) {
-      cellColumnIndices[i++] = columnKeyToIndex.get(cell.getColumnKey());
+      // requireNonNull is safe because the cell exists in the table.
+      cellColumnIndices[i++] = requireNonNull(columnKeyToIndex.get(cell.getColumnKey()));
     }
     return SerializedForm.create(this, cellRowIndices, cellColumnIndices);
   }

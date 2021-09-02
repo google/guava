@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
+import com.google.common.io.Closer.LoggingSuppressor;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.common.testing.TestLogHandler;
 import java.io.ByteArrayOutputStream;
@@ -395,7 +396,7 @@ public class ByteSourceTest extends IoTestCase {
       ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
-    if (!Closer.SuppressingSuppressor.isAvailable()) {
+    if (Closer.create().suppressor instanceof LoggingSuppressor) {
       // test that exceptions are logged
 
       TestLogHandler logHandler = new TestLogHandler();

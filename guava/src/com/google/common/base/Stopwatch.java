@@ -79,7 +79,7 @@ import java.util.concurrent.TimeUnit;
  * Stopwatch.createStarted(
  *      new Ticker() {
  *        public long read() {
- *          return android.os.SystemClock.elapsedRealtimeNanos();
+ *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
  *        }
  *      });
  * }</pre>
@@ -89,6 +89,7 @@ import java.util.concurrent.TimeUnit;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("GoodTime") // lots of violations
+@ElementTypesAreNonnullByDefault
 public final class Stopwatch {
   private final Ticker ticker;
   private boolean isRunning;

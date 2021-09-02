@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As with {@code
@@ -28,22 +28,29 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public class ExecutionError extends Error {
+  /*
+   * Ideally, this class would have exposed only constructors that require a non-null cause. We
+   * might try to move in that direction, but there are complications. See
+   * https://github.com/jspecify/nullness-checker-for-checker-framework/blob/61aafa4ae52594830cfc2d61c8b113009dbdb045/src/main/java/com/google/jspecify/nullness/NullSpecTransfer.java#L789
+   */
+
   /** Creates a new instance with {@code null} as its detail message. */
   protected ExecutionError() {}
 
   /** Creates a new instance with the given detail message. */
-  protected ExecutionError(@Nullable String message) {
+  protected ExecutionError(@CheckForNull String message) {
     super(message);
   }
 
   /** Creates a new instance with the given detail message and cause. */
-  public ExecutionError(@Nullable String message, @Nullable Error cause) {
+  public ExecutionError(@CheckForNull String message, @CheckForNull Error cause) {
     super(message, cause);
   }
 
   /** Creates a new instance with the given cause. */
-  public ExecutionError(@Nullable Error cause) {
+  public ExecutionError(@CheckForNull Error cause) {
     super(cause);
   }
 

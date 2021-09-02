@@ -31,6 +31,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.CheckForNull;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
@@ -47,6 +48,7 @@ import java.util.logging.Logger;
  * restarted by a call to {@link #execute}.
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
   private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
 
@@ -91,7 +93,7 @@ final class SequentialExecutor implements Executor {
    * Adds a task to the queue and makes sure a worker thread is running.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
+   * execution of tasks will stop until a call to this method is made.
    */
   @Override
   public void execute(final Runnable task) {
@@ -170,7 +172,7 @@ final class SequentialExecutor implements Executor {
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
   private final class QueueWorker implements Runnable {
-    Runnable task;
+    @CheckForNull Runnable task;
 
     @Override
     public void run() {

@@ -18,8 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.lang.reflect.Array;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import java.util.Collection;
+import java.util.Map;
+import javax.annotation.CheckForNull;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in {@link
@@ -33,6 +36,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 18.0 (since 2.0 as {@code Objects})
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class MoreObjects {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
@@ -54,7 +58,24 @@ public final class MoreObjects {
    * @throws NullPointerException if both {@code first} and {@code second} are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
-  public static <T> T firstNonNull(@NullableDecl T first, @NullableDecl T second) {
+  /*
+   * We annotate firstNonNull in a way that protects against NullPointerException at the cost of
+   * forbidding some reasonable calls.
+   *
+   * The more permissive signature would be to accept (@CheckForNull T first, @CheckForNull T
+   * second), since it's OK for `second` to be null as long as `first` is not also null. But we
+   * expect for that flexibility to be useful relatively rarely: The more common use case is to
+   * supply a clearly non-null default, like `firstNonNull(someString, "")`. And users who really
+   * know that `first` is guaranteed non-null when `second` is null can write the logic out
+   * longhand, including a requireNonNull call, which calls attention to the fact that the static
+   * analyzer can't prove that the operation is safe.
+   *
+   * This matches the signature we currently have for requireNonNullElse in our own checker. (And
+   * that in turn matches that method's signature under the Checker Framework.) As always, we could
+   * consider the more flexible signature if we judge it worth the risks. If we do, we would likely
+   * update both methods so that they continue to match.
+   */
+  public static <T> T firstNonNull(@CheckForNull T first, T second) {
     if (first != null) {
       return first;
     }
@@ -145,6 +166,7 @@ public final class MoreObjects {
     private final ValueHolder holderHead = new ValueHolder();
     private ValueHolder holderTail = holderHead;
     private boolean omitNullValues = false;
+    private boolean omitEmptyValues = false;
 
     /** Use {@link MoreObjects#toStringHelper(Object)} to create an instance. */
     private ToStringHelper(String className) {
@@ -170,7 +192,7 @@ public final class MoreObjects {
      * called, in which case this name/value pair will not be added.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper add(String name, @NullableDecl Object value) {
+    public ToStringHelper add(String name, @CheckForNull Object value) {
       return addHolder(name, value);
     }
 
@@ -181,7 +203,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, boolean value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -191,7 +213,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, char value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -201,7 +223,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, double value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -211,7 +233,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, float value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -221,7 +243,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, int value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -231,7 +253,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, long value) {
-      return addHolder(name, String.valueOf(value));
+      return addUnconditionalHolder(name, String.valueOf(value));
     }
 
     /**
@@ -241,7 +263,7 @@ public final class MoreObjects {
      * readable name.
      */
     @CanIgnoreReturnValue
-    public ToStringHelper addValue(@NullableDecl Object value) {
+    public ToStringHelper addValue(@CheckForNull Object value) {
       return addHolder(value);
     }
 
@@ -255,7 +277,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(boolean value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -268,7 +290,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(char value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -281,7 +303,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(double value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -294,7 +316,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(float value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -307,7 +329,7 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(int value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
     }
 
     /**
@@ -320,7 +342,23 @@ public final class MoreObjects {
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(long value) {
-      return addHolder(String.valueOf(value));
+      return addUnconditionalHolder(String.valueOf(value));
+    }
+
+    private static boolean isEmpty(Object value) {
+      // Put types estimated to be most frequent first.
+      if (value instanceof CharSequence) {
+        return ((CharSequence) value).length() == 0;
+      } else if (value instanceof Collection) {
+        return ((Collection<?>) value).isEmpty();
+      } else if (value instanceof Map) {
+        return ((Map<?, ?>) value).isEmpty();
+      } else if (value instanceof Optional) {
+        return !((Optional) value).isPresent();
+      } else if (value.getClass().isArray()) {
+        return Array.getLength(value) == 0;
+      }
+      return false;
     }
 
     /**
@@ -335,13 +373,17 @@ public final class MoreObjects {
     public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
+      boolean omitEmptyValuesSnapshot = omitEmptyValues;
       String nextSeparator = "";
       StringBuilder builder = new StringBuilder(32).append(className).append('{');
       for (ValueHolder valueHolder = holderHead.next;
           valueHolder != null;
           valueHolder = valueHolder.next) {
         Object value = valueHolder.value;
-        if (!omitNullValuesSnapshot || value != null) {
+        if (valueHolder instanceof UnconditionalValueHolder
+            || (value == null
+                ? !omitNullValuesSnapshot
+                : (!omitEmptyValuesSnapshot || !isEmpty(value)))) {
           builder.append(nextSeparator);
           nextSeparator = ", ";
 
@@ -366,24 +408,51 @@ public final class MoreObjects {
       return valueHolder;
     }
 
-    private ToStringHelper addHolder(@NullableDecl Object value) {
+    private ToStringHelper addHolder(@CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
-    private ToStringHelper addHolder(String name, @NullableDecl Object value) {
+    private ToStringHelper addHolder(String name, @CheckForNull Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       valueHolder.name = checkNotNull(name);
       return this;
     }
 
-    private static final class ValueHolder {
-      @NullableDecl String name;
-      @NullableDecl Object value;
-      @NullableDecl ValueHolder next;
+    private UnconditionalValueHolder addUnconditionalHolder() {
+      UnconditionalValueHolder valueHolder = new UnconditionalValueHolder();
+      holderTail = holderTail.next = valueHolder;
+      return valueHolder;
     }
+
+    private ToStringHelper addUnconditionalHolder(Object value) {
+      UnconditionalValueHolder valueHolder = addUnconditionalHolder();
+      valueHolder.value = value;
+      return this;
+    }
+
+    private ToStringHelper addUnconditionalHolder(String name, Object value) {
+      UnconditionalValueHolder valueHolder = addUnconditionalHolder();
+      valueHolder.value = value;
+      valueHolder.name = checkNotNull(name);
+      return this;
+    }
+
+    // Holder object for values that might be null and/or empty.
+    private static class ValueHolder {
+      @CheckForNull String name;
+      @CheckForNull Object value;
+      @CheckForNull ValueHolder next;
+    }
+
+    /**
+     * Holder object for values that cannot be null or empty (will be printed unconditionally). This
+     * helps to shortcut most calls to isEmpty(), which is important because the check for emptiness
+     * is relatively expensive. Use a subtype so this also doesn't need any extra storage.
+     */
+    private static final class UnconditionalValueHolder extends ValueHolder {}
   }
 
   private MoreObjects() {}

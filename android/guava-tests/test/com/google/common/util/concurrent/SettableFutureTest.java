@@ -51,15 +51,18 @@ public class SettableFutureTest extends TestCase {
     }
   }
 
+
   public void testSetValue() throws Exception {
     assertTrue(future.set("value"));
     tester.testCompletedFuture("value");
   }
 
+
   public void testSetFailure() throws Exception {
     assertTrue(future.setException(new Exception("failure")));
     tester.testFailedFuture("failure");
   }
+
 
   public void testSetFailureNull() throws Exception {
     try {
@@ -71,6 +74,7 @@ public class SettableFutureTest extends TestCase {
     assertTrue(future.setException(new Exception("failure")));
     tester.testFailedFuture("failure");
   }
+
 
   public void testCancel() throws Exception {
     assertTrue(future.cancel(true));

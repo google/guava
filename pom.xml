@@ -14,10 +14,11 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.0</truth.version>
-    <animal.sniffer.version>1.18</animal.sniffer.version>
+    <truth.version>1.1.2</truth.version>
+    <checker-framework.version>3.12.0</checker-framework.version>
+    <animal.sniffer.version>1.20</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <issueManagement>
@@ -52,8 +53,8 @@
     </developer>
   </developers>
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/google/guava</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/google/guava/actions</url>
   </ciManagement>
   <modules>
     <module>guava</module>
@@ -119,6 +120,16 @@
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
+            <compilerArgs>
+              <!--
+                   Make includes/excludes fully work:
+                   https://issues.apache.org/jira/browse/MCOMPILER-174
+
+                   (Compare what guava-gwt has to do for maven-javadoc-plugin.)
+              -->
+              <arg>-sourcepath</arg>
+              <arg>doesnotexist</arg>
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
@@ -141,7 +152,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>${animal.sniffer.version}</version>
           <configuration>
-            <annotations>com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
+            <checkTestClasses>true</checkTestClasses>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java18</artifactId>
@@ -216,7 +227,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M2</version>
+          <version>3.0.0-M3</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -248,12 +259,18 @@
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
-        <version>3.5.0</version>
+        <version>${checker-framework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>${checker-framework.version}</version>
+        <classifier>sources</classifier>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.3.4</version>
+        <version>2.7.1</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
@@ -263,25 +280,25 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13</version>
+        <version>4.13.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
-        <version>3.0</version>
+        <version>4.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.19.0</version>
+        <version>3.9.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.google.jimfs</groupId>
         <artifactId>jimfs</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>

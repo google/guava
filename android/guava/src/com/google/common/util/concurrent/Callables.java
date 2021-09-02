@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -30,13 +30,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(@NullableDecl final T value) {
+  public static <T extends @Nullable Object> Callable<T> returning(
+      @ParametricNullness final T value) {
     return new Callable<T>() {
       @Override
+      @ParametricNullness
       public T call() {
         return value;
       }
@@ -53,7 +56,7 @@ public final class Callables {
    */
   @Beta
   @GwtIncompatible
-  public static <T> AsyncCallable<T> asAsyncCallable(
+  public static <T extends @Nullable Object> AsyncCallable<T> asAsyncCallable(
       final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
@@ -69,18 +72,18 @@ public final class Callables {
    * Wraps the given callable such that for the duration of {@link Callable#call} the thread that is
    * running will have the given name.
    *
-   *
    * @param callable The callable to wrap
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
   @GwtIncompatible // threads
-  static <T> Callable<T> threadRenaming(
+  static <T extends @Nullable Object> Callable<T> threadRenaming(
       final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
     return new Callable<T>() {
       @Override
+      @ParametricNullness
       public T call() throws Exception {
         Thread currentThread = Thread.currentThread();
         String oldName = currentThread.getName();
@@ -99,7 +102,6 @@ public final class Callables {
   /**
    * Wraps the given runnable such that for the duration of {@link Runnable#run} the thread that is
    * running with have the given name.
-   *
    *
    * @param task The Runnable to wrap
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once

@@ -24,6 +24,7 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +73,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
@@ -84,6 +86,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }

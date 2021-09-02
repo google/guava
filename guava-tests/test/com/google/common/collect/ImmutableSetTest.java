@@ -378,6 +378,12 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
         .testEquals();
   }
 
+  /**
+   * The maximum allowed probability of falsely detecting a hash flooding attack if the input is
+   * randomly generated.
+   */
+  private static final double HASH_FLOODING_FPP = 0.001;
+
   public void testReuseBuilderReducingHashTableSizeWithPowerOfTwoTotalElements() {
     ImmutableSet.Builder<Object> builder = ImmutableSet.builderWithExpectedSize(6);
     builder.add(0);

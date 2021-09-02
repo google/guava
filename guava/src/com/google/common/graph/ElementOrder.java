@@ -28,7 +28,7 @@ import com.google.common.collect.Ordering;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Used to represent the order of elements in a data structure that supports different options for
@@ -46,11 +46,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @Immutable
+@ElementTypesAreNonnullByDefault
 public final class ElementOrder<T> {
   private final Type type;
 
   @SuppressWarnings("Immutable") // Hopefully the comparator provided is immutable!
-  private final @Nullable Comparator<T> comparator;
+  @CheckForNull
+  private final Comparator<T> comparator;
 
   /**
    * The type of ordering that this object specifies.
@@ -70,7 +72,7 @@ public final class ElementOrder<T> {
     SORTED
   }
 
-  private ElementOrder(Type type, @Nullable Comparator<T> comparator) {
+  private ElementOrder(Type type, @CheckForNull Comparator<T> comparator) {
     this.type = checkNotNull(type);
     this.comparator = comparator;
     checkState((type == Type.SORTED) == (comparator != null));
@@ -159,7 +161,7 @@ public final class ElementOrder<T> {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == this) {
       return true;
     }

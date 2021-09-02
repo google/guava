@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.util.concurrent.Callable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Statistics about the performance of a {@link Cache}. Instances of this class are immutable.
@@ -57,6 +57,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class CacheStats {
   private final long hitCount;
   private final long missCount;
@@ -276,7 +277,7 @@ public final class CacheStats {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object instanceof CacheStats) {
       CacheStats other = (CacheStats) object;
       return hitCount == other.hitCount

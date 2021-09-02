@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
@@ -24,6 +26,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -48,10 +51,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashSet<E> extends CompactHashSet<E> {
+@ElementTypesAreNonnullByDefault
+class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E> {
 
   /** Creates an empty {@code CompactLinkedHashSet} instance. */
-  public static <E> CompactLinkedHashSet<E> create() {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create() {
     return new CompactLinkedHashSet<>();
   }
 
@@ -62,7 +66,8 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @param collection the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
-  public static <E> CompactLinkedHashSet<E> create(Collection<? extends E> collection) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create(
+      Collection<? extends E> collection) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(collection.size());
     set.addAll(collection);
     return set;
@@ -76,7 +81,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
   @SafeVarargs
-  public static <E> CompactLinkedHashSet<E> create(E... elements) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create(E... elements) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
@@ -91,7 +96,8 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <E> CompactLinkedHashSet<E> createWithExpectedSize(int expectedSize) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> createWithExpectedSize(
+      int expectedSize) {
     return new CompactLinkedHashSet<>(expectedSize);
   }
 
@@ -105,13 +111,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @Nullable [] predecessor;
+  @CheckForNull private transient int[] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @Nullable [] successor;
+  @CheckForNull private transient int[] successor;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -151,21 +157,27 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     return result;
   }
 
+  /*
+   * For discussion of the safety of the following methods for operating on predecessors and
+   * successors, see the comments near the end of CompactHashMap, noting that the methods here call
+   * requirePredecessors() and requireSuccessors(), which are defined at the end of this file.
+   */
+
   private int getPredecessor(int entry) {
-    return predecessor[entry] - 1;
+    return requirePredecessors()[entry] - 1;
   }
 
   @Override
   int getSuccessor(int entry) {
-    return successor[entry] - 1;
+    return requireSuccessors()[entry] - 1;
   }
 
   private void setSuccessor(int entry, int succ) {
-    successor[entry] = succ + 1;
+    requireSuccessors()[entry] = succ + 1;
   }
 
   private void setPredecessor(int entry, int pred) {
-    predecessor[entry] = pred + 1;
+    requirePredecessors()[entry] = pred + 1;
   }
 
   private void setSucceeds(int pred, int succ) {
@@ -183,7 +195,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  void insertEntry(int entryIndex, @Nullable E object, int hash, int mask) {
+  void insertEntry(int entryIndex, @ParametricNullness E object, int hash, int mask) {
     super.insertEntry(entryIndex, object, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
@@ -199,15 +211,15 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    predecessor[srcIndex] = 0;
-    successor[srcIndex] = 0;
+    requirePredecessors()[srcIndex] = 0;
+    requireSuccessors()[srcIndex] = 0;
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    predecessor = Arrays.copyOf(predecessor, newCapacity);
-    successor = Arrays.copyOf(successor, newCapacity);
+    predecessor = Arrays.copyOf(requirePredecessors(), newCapacity);
+    successor = Arrays.copyOf(requireSuccessors(), newCapacity);
   }
 
   @Override
@@ -221,12 +233,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return ObjectArrays.toArrayImpl(this);
   }
 
   @Override
-  public <T> T[] toArray(T[] a) {
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+  public <T extends @Nullable Object> T[] toArray(T[] a) {
     return ObjectArrays.toArrayImpl(this, a);
   }
 
@@ -242,10 +255,30 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    if (predecessor != null) {
+    // Either both arrays are null or neither is, but we check both to satisfy the nullness checker.
+    if (predecessor != null && successor != null) {
       Arrays.fill(predecessor, 0, size(), 0);
       Arrays.fill(successor, 0, size(), 0);
     }
     super.clear();
   }
+
+  /*
+   * For discussion of the safety of the following methods, see the comments near the end of
+   * CompactHashMap.
+   */
+
+  private int[] requirePredecessors() {
+    return requireNonNull(predecessor);
+  }
+
+  private int[] requireSuccessors() {
+    return requireNonNull(successor);
+  }
+
+  /*
+   * We don't define getPredecessor+getSuccessor and setPredecessor+setSuccessor here because
+   * they're defined above -- including logic to add and subtract 1 to map between the values stored
+   * in the predecessor/successor arrays and the indexes in the elements array that they identify.
+   */
 }

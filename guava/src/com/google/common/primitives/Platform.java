@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class Platform {
   private static final java.util.logging.Logger logger =
       java.util.logging.Logger.getLogger(Platform.class.getName());
@@ -41,7 +42,6 @@ final class Platform {
             + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
             + " can identify which type by looking at the class name in the attached stack trace.",
         new Throwable());
-
   }
 
   private Platform() {}

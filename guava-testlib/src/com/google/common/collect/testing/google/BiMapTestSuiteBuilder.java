@@ -88,6 +88,8 @@ public class BiMapTestSuiteBuilder<K, V>
             .suppressing(parentBuilder.getSuppressedTests())
             .suppressing(SetCreationTester.class.getMethods())
             // BiMap.entrySet() duplicate-handling behavior is too confusing for SetCreationTester
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
     /*
      * TODO(cpovirk): the Map tests duplicate most of this effort by using a
@@ -101,6 +103,8 @@ public class BiMapTestSuiteBuilder<K, V>
             .suppressing(parentBuilder.getSuppressedTests())
             .suppressing(SetCreationTester.class.getMethods())
             // BiMap.values() duplicate-handling behavior is too confusing for SetCreationTester
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
     if (!parentBuilder.getFeatures().contains(NoRecurse.INVERSE)) {
       derived.add(
@@ -109,6 +113,8 @@ public class BiMapTestSuiteBuilder<K, V>
               .withFeatures(computeInverseFeatures(parentBuilder.getFeatures()))
               .named(parentBuilder.getName() + " inverse")
               .suppressing(parentBuilder.getSuppressedTests())
+              .withSetUp(parentBuilder.getSetUp())
+              .withTearDown(parentBuilder.getTearDown())
               .createTestSuite());
     }
 
