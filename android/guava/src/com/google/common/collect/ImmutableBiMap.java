@@ -108,7 +108,157 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5}, 5);
   }
 
-  // looking for of() with > 5 entries? Use the builder instead.
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    return new RegularImmutableBiMap<K, V>(
+        new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6}, 6);
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    return new RegularImmutableBiMap<K, V>(
+        new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7}, 7);
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    return new RegularImmutableBiMap<K, V>(
+        new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8}, 8);
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    return new RegularImmutableBiMap<K, V>(
+        new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9}, 9);
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    checkEntryNotNull(k10, v10);
+    return new RegularImmutableBiMap<K, V>(
+        new Object[] {
+          k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10
+        },
+        10);
+  }
+
+  // looking for of() with > 10 entries? Use the builder instead.
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
