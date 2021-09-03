@@ -147,6 +147,11 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
             k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10));
   }
 
+  @SafeVarargs
+  public static <K, V> ImmutableBiMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return new RegularImmutableBiMap<K, V>(ImmutableMap.ofEntries(entries));
+  }
+
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
   }

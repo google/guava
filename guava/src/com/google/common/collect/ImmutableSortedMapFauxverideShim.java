@@ -308,5 +308,17 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Not supported. Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.
+   *
+   * @deprecated Use {@code ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))}.
+   */
+  @DoNotCall("ImmutableSortedMap.ofEntries not currently available; use ImmutableSortedMap.copyOf")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> ofEntries(
+      Entry<? extends K, ? extends V>... entries) {
+    throw new UnsupportedOperationException();
+  }
+
   // No copyOf() fauxveride; see ImmutableSortedSetFauxverideShim.
 }
