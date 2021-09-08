@@ -94,12 +94,53 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the <a
    * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
+   *
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed(int)} instead.
+   */
+  @Deprecated
+  public static HashFunction murmur3_32(int seed) {
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ false);
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
+   *
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed()} instead.
+   */
+  @Deprecated
+  public static HashFunction murmur3_32() {
+    return Murmur3_32HashFunction.MURMUR3_32;
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
    * algorithm, x86 variant</a> (little-endian variant), using the given seed value.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since NEXT
    */
-  public static HashFunction murmur3_32(int seed) {
-    return new Murmur3_32HashFunction(seed);
+  public static HashFunction murmur3_32_fixed(int seed) {
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
   }
 
   /**
@@ -108,9 +149,14 @@ public final class Hashing {
    * algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since NEXT
    */
-  public static HashFunction murmur3_32() {
-    return Murmur3_32HashFunction.MURMUR3_32;
+  public static HashFunction murmur3_32_fixed() {
+    return Murmur3_32HashFunction.MURMUR3_32_FIXED;
   }
 
   /**
