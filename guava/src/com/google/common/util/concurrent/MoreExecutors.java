@@ -455,6 +455,12 @@ public final class MoreExecutors {
    *       (In simple cases, callers can avoid this by registering all tasks with the same {@link
    *       MoreExecutors#newSequentialExecutor} wrapper around {@code directExecutor()}. More
    *       complex cases may require using thread pools or making deeper changes.)
+   *   <li>If an exception propagates out of a {@code Runnable}, it is not necessarily seen by any
+   *       {@code UncaughtExceptionHandler} for the thread. For example, if the callback passed to
+   *       {@link Futures#addCallback} throws an exception, that exception will be typically be
+   *       logged by the {@link ListenableFuture} implementation, even if the thread is configured
+   *       to do something different. In other cases, no code will catch the exception, and it may
+   *       terminate whichever thread happens to trigger the execution.
    * </ul>
    *
    * Additionally, beware of executing tasks with {@code directExecutor} while holding a lock. Since
