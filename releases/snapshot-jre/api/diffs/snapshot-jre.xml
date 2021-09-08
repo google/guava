@@ -42693,6 +42693,47 @@
     <method name="murmur3_32" return="com.google.common.hash.HashFunction"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
+      deprecated="This implementation produces incorrect hash values from the {@link
+     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+     #murmur3_32_fixed(int)} instead.">
+      <param name="seed" type="int"/>
+      <doc>
+      <![CDATA[Returns a hash function implementing the <a
+ href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+ algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+ bug</b> as described in the deprecation text.
+
+ <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+ have the bug.
+
+ @deprecated This implementation produces incorrect hash values from the {@link
+     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+     #murmur3_32_fixed(int)} instead.]]>
+      </doc>
+    </method>
+    <method name="murmur3_32" return="com.google.common.hash.HashFunction"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="This implementation produces incorrect hash values from the {@link
+     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+     #murmur3_32_fixed()} instead.">
+      <doc>
+      <![CDATA[Returns a hash function implementing the <a
+ href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+ algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+ bug</b> as described in the deprecation text.
+
+ <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+ have the bug.
+
+ @deprecated This implementation produces incorrect hash values from the {@link
+     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+     #murmur3_32_fixed()} instead.]]>
+      </doc>
+    </method>
+    <method name="murmur3_32_fixed" return="com.google.common.hash.HashFunction"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="seed" type="int"/>
       <doc>
@@ -42700,10 +42741,15 @@
  href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using the given seed value.
 
- <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).]]>
+ <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+
+ <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+ HashFunction} returned by the original {@code murmur3_32} method.
+
+ @since NEXT]]>
       </doc>
     </method>
-    <method name="murmur3_32" return="com.google.common.hash.HashFunction"
+    <method name="murmur3_32_fixed" return="com.google.common.hash.HashFunction"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -42712,7 +42758,12 @@
  href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
 
- <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).]]>
+ <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+
+ <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+ HashFunction} returned by the original {@code murmur3_32} method.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="murmur3_128" return="com.google.common.hash.HashFunction"

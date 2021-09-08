@@ -288,13 +288,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Hashing.</span><code><span class="memberNameLink"><a href="../Hashing.html#murmur3_32()">murmur3_32</a></span>()</code></th>
 <td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This implementation produces incorrect hash values from the <a href="../HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters.</div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hashing.</span><code><span class="memberNameLink"><a href="../Hashing.html#murmur3_32(int)">murmur3_32</a></span>&#8203;(int&nbsp;seed)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This implementation produces incorrect hash values from the <a href="../HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters.</div>
+</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hashing.</span><code><span class="memberNameLink"><a href="../Hashing.html#murmur3_32_fixed()">murmur3_32_fixed</a></span>()</code></th>
+<td class="colLast">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Hashing.</span><code><span class="memberNameLink"><a href="../Hashing.html#murmur3_32(int)">murmur3_32</a></span>&#8203;(int&nbsp;seed)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hashing.</span><code><span class="memberNameLink"><a href="../Hashing.html#murmur3_32_fixed(int)">murmur3_32_fixed</a></span>&#8203;(int&nbsp;seed)</code></th>
 <td class="colLast">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using the given seed value.</div>

@@ -140,6 +140,8 @@ MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method max(E extends T, E extends T, E extends T, E[])
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method min(E extends T, E extends T)
 MISSING @SINCE TAG: com.google.common.collect.Ordering Method min(E extends T, E extends T, E extends T, E[])
+OK: com.google.common.hash.Hashing Method murmur3_32_fixed()
+OK: com.google.common.hash.Hashing Method murmur3_32_fixed(int)
 MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable, java.lang.Class<X>)
 MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable, java.lang.Class<X1>, java.lang.Class<X2>)
 MISSING @SINCE TAG: com.google.common.base.Throwables Method propagateIfPossible(java.lang.Throwable)
