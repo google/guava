@@ -133,7 +133,157 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return RegularImmutableMap.create(5, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5});
   }
 
-  // looking for of() with > 5 entries? Use the builder instead.
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    return RegularImmutableMap.create(
+        6, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6});
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    return RegularImmutableMap.create(
+        7, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7});
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    return RegularImmutableMap.create(
+        8, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8});
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    return RegularImmutableMap.create(
+        9, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9});
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    checkEntryNotNull(k10, v10);
+    return RegularImmutableMap.create(
+        10,
+        new Object[] {
+          k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10
+        });
+  }
+
+  // looking for of() with > 10 entries? Use the builder instead.
 
   /**
    * Verifies that {@code key} and {@code value} are non-null, and returns a new immutable entry

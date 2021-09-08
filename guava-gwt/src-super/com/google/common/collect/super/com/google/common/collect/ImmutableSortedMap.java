@@ -129,6 +129,127 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
         .build();
   }
 
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .put(k9, v9)
+        .build();
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return new Builder<K, V>(Ordering.natural())
+        .put(k1, v1)
+        .put(k2, v2)
+        .put(k3, v3)
+        .put(k4, v4)
+        .put(k5, v5)
+        .put(k6, v6)
+        .put(k7, v7)
+        .put(k8, v8)
+        .put(k9, v9)
+        .put(k10, v10)
+        .build();
+  }
+
   public static <K, V> ImmutableSortedMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     return copyOfInternal((Map) map, (Ordering<K>) Ordering.natural());
   }

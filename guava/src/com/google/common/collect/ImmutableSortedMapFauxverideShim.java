@@ -172,5 +172,141 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
+   */
+  @DoNotCall("Pass keys of type Comparable")
+  @Deprecated
+  public static <K, V> ImmutableSortedMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    throw new UnsupportedOperationException();
+  }
+
   // No copyOf() fauxveride; see ImmutableSortedSetFauxverideShim.
 }
