@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.common.io;
+package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.nio.Buffer;
@@ -36,16 +36,8 @@ final class Java8Compatibility {
     b.limit(limit);
   }
 
-  static void mark(Buffer b) {
-    b.mark();
-  }
-
   static void position(Buffer b, int position) {
     b.position(position);
-  }
-
-  static void reset(Buffer b) {
-    b.reset();
   }
 
   private Java8Compatibility() {}

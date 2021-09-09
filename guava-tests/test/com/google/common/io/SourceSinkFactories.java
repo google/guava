@@ -442,9 +442,9 @@ public class SourceSinkFactories {
       StringBuilder builder = new StringBuilder();
       CharBuffer buffer = CharBuffer.allocate(100);
       while (reader.read(buffer) != -1) {
-        buffer.flip();
+        Java8Compatibility.flip(buffer);
         builder.append(buffer);
-        buffer.clear();
+        Java8Compatibility.clear(buffer);
       }
       return builder.toString();
     }

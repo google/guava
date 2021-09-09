@@ -195,8 +195,8 @@ final class HashTestUtils {
         int limit = pos + random.nextInt(value.length - pos + 1);
         for (PrimitiveSink sink : sinks) {
           ByteBuffer buffer = ByteBuffer.wrap(value);
-          buffer.position(pos);
-          buffer.limit(limit);
+          Java8Compatibility.position(buffer, pos);
+          Java8Compatibility.limit(buffer, limit);
           sink.putBytes(buffer);
           assertEquals(limit, buffer.limit());
           assertEquals(limit, buffer.position());
