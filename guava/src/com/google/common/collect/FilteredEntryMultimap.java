@@ -29,6 +29,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -212,7 +213,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       if (result.isEmpty()) {
         return null;
       } else if (unfiltered instanceof SetMultimap) {
-        return Collections.unmodifiableSet(Sets.newLinkedHashSet(result));
+        return Collections.unmodifiableSet(new LinkedHashSet<>(result));
       } else {
         return Collections.unmodifiableList(result);
       }

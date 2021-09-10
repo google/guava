@@ -236,7 +236,7 @@ public final class Sets {
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
   public static <E extends @Nullable Object> HashSet<E> newHashSet(Iterator<? extends E> elements) {
-    HashSet<E> set = newHashSet();
+    HashSet<E> set = new HashSet<>();
     Iterators.addAll(set, elements);
     return set;
   }
@@ -328,7 +328,7 @@ public final class Sets {
     if (elements instanceof Collection) {
       return new LinkedHashSet<E>((Collection<? extends E>) elements);
     }
-    LinkedHashSet<E> set = newLinkedHashSet();
+    LinkedHashSet<E> set = new LinkedHashSet<>();
     Iterables.addAll(set, elements);
     return set;
   }

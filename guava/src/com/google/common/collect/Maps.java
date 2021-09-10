@@ -49,6 +49,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -4138,7 +4139,7 @@ public final class Maps {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRemove = Sets.newHashSet();
+        Set<K> toRemove = new HashSet<>();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRemove.add(entry.getKey());
@@ -4153,7 +4154,7 @@ public final class Maps {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRetain = Sets.newHashSet();
+        Set<K> toRetain = new HashSet<>();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRetain.add(entry.getKey());

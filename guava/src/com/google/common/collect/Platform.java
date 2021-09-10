@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,7 +83,7 @@ final class Platform {
    * for insertions.
    */
   static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
-    return Sets.newLinkedHashSet();
+    return new LinkedHashSet<>();
   }
 
   /**
