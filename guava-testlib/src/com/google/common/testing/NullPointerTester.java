@@ -497,6 +497,8 @@ public final class NullPointerTester {
     TypeVariable<?> var = (TypeVariable<?>) type;
     AnnotatedType[] bounds = GET_ANNOTATED_BOUNDS.apply(var);
     for (AnnotatedType bound : bounds) {
+      // Until Java 15, the isNullableTypeVariable case here won't help:
+      // https://bugs.openjdk.java.net/browse/JDK-8202469
       if (isNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
         return true;
       }
