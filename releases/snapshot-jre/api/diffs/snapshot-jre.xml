@@ -16935,6 +16935,18 @@
  @since NEXT]]>
       </doc>
     </method>
+    <method name="ofEntries" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="entries" type="java.util.Map.Entry[]"/>
+      <doc>
+      <![CDATA[Returns an immutable map containing the given entries, in order.
+
+ @throws IllegalArgumentException if duplicate keys or values are provided
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="builder" return="com.google.common.collect.ImmutableBiMap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -18936,6 +18948,18 @@
       <param name="v9" type="V"/>
       <param name="k10" type="K"/>
       <param name="v10" type="V"/>
+      <doc>
+      <![CDATA[Returns an immutable map containing the given entries, in order.
+
+ @throws IllegalArgumentException if duplicate keys are provided
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="ofEntries" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="entries" type="java.util.Map.Entry[]"/>
       <doc>
       <![CDATA[Returns an immutable map containing the given entries, in order.
 

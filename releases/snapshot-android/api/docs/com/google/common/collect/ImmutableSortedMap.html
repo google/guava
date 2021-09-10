@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":41,"i1":41,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":9,"i28":10,"i29":9,"i30":9,"i31":41,"i32":9,"i33":41,"i34":9,"i35":41,"i36":9,"i37":41,"i38":9,"i39":41,"i40":9,"i41":41,"i42":9,"i43":41,"i44":9,"i45":41,"i46":9,"i47":41,"i48":9,"i49":41,"i50":9,"i51":42,"i52":42,"i53":9,"i54":10,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10};
+var data = {"i0":41,"i1":41,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":9,"i28":10,"i29":9,"i30":9,"i31":41,"i32":9,"i33":41,"i34":9,"i35":41,"i36":9,"i37":41,"i38":9,"i39":41,"i40":9,"i41":41,"i42":9,"i43":41,"i44":9,"i45":41,"i46":9,"i47":41,"i48":9,"i49":41,"i50":41,"i51":9,"i52":42,"i53":42,"i54":9,"i55":10,"i56":10,"i57":10,"i58":10,"i59":10,"i60":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -833,13 +833,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </td>
 </tr>
 <tr id="i50" class="altColor">
+<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <code>ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))</code>.</div>
+</div>
+</td>
+</tr>
+<tr id="i51" class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedBy(java.util.Comparator)">orderedBy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;K&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns a builder that creates immutable sorted maps with an explicit comparator.</div>
 </td>
 </tr>
-<tr id="i51" class="rowColor">
+<tr id="i52" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollFirstEntry()">pollFirstEntry</a></span>()</code></th>
 <td class="colLast">
@@ -848,7 +857,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i52" class="altColor">
+<tr id="i53" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollLastEntry()">pollLastEntry</a></span>()</code></th>
 <td class="colLast">
@@ -857,7 +866,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i53" class="rowColor">
+<tr id="i54" class="altColor">
 <td class="colFirst"><code>static &lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;,&#8203;V&gt;<br><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reverseOrder()">reverseOrder</a></span>()</code></th>
 <td class="colLast">
@@ -865,14 +874,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  their natural ordering.</div>
 </td>
 </tr>
-<tr id="i54" class="altColor">
+<tr id="i55" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of key-value mappings in this map.</div>
 </td>
 </tr>
-<tr id="i55" class="rowColor">
+<tr id="i56" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,boolean,K,boolean)">subMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
       boolean&nbsp;fromInclusive,
@@ -884,7 +893,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  flags.</div>
 </td>
 </tr>
-<tr id="i56" class="altColor">
+<tr id="i57" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,K)">subMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
       <a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;toKey)</code></th>
@@ -893,7 +902,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  from <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.</div>
 </td>
 </tr>
-<tr id="i57" class="rowColor">
+<tr id="i58" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K)">tailMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey)</code></th>
 <td class="colLast">
@@ -901,7 +910,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  greater than or equals to <code>fromKey</code>.</div>
 </td>
 </tr>
-<tr id="i58" class="altColor">
+<tr id="i59" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>,&#8203;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K,boolean)">tailMap</a></span>&#8203;(<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</a>&nbsp;fromKey,
        boolean&nbsp;inclusive)</code></th>
@@ -910,7 +919,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  greater than (or equal to, if <code>inclusive</code>) <code>fromKey</code>.</div>
 </td>
 </tr>
-<tr id="i59" class="rowColor">
+<tr id="i60" class="altColor">
 <td class="colFirst"><code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
 <td class="colLast">
@@ -1428,7 +1437,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.329">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.324">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>, sorted by the natural
  ordering of the keys.
 
@@ -1459,7 +1468,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.348">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map,
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.343">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map,
                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super K&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>, with keys sorted by the
  provided comparator.
@@ -1481,7 +1490,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.364">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.359">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the given entries, with keys sorted by their natural
  ordering.
 
@@ -1503,7 +1512,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.382">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries,
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.377">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries,
                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super K&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an immutable map containing the given entries, with keys sorted by the provided
  comparator.</div>
@@ -1522,7 +1531,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOfSorted</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.399">copyOfSorted</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.html#line.394">copyOfSorted</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;K,&#8203;? extends V&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable map containing the same entries as the provided sorted map, with the same
  ordering.
 
@@ -2771,7 +2780,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 </a><a id="of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
@@ -2831,6 +2840,31 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" tit
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+</dl>
+</li>
+</ul>
+<a id="ofEntries(java.util.Map.Entry...)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>ofEntries</h4>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,&#8203;V&gt;&nbsp;ofEntries&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">Use <code>ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))</code>.</div>
+</div>
+<div class="block">Not supported. Use <code>ImmutableSortedMap.copyOf(ImmutableMap.ofEntries(...))</code>.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>K</code> - the <code>Map</code>'s key type</dd>
+<dd><code>V</code> - the <code>Map</code>'s value type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>entries</code> - <code>Map.Entry</code>s containing the keys and values from which the map is populated</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>Map</code> containing the specified mappings</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entry(K,V)" title="class or interface in java.util" class="externalLink"><code>Map.entry()</code></a></dd>
 </dl>
 </li>
 </ul>

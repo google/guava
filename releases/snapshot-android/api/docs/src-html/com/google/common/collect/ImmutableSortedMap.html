@@ -119,7 +119,7 @@
 <span class="sourceLineNo">110</span><a id="line.110">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">111</span><a id="line.111">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">112</span><a id="line.112">      K k1, V v1, K k2, V v2) {</a>
-<span class="sourceLineNo">113</span><a id="line.113">    return ofEntries(entryOf(k1, v1), entryOf(k2, v2));</a>
+<span class="sourceLineNo">113</span><a id="line.113">    return fromEntries(entryOf(k1, v1), entryOf(k2, v2));</a>
 <span class="sourceLineNo">114</span><a id="line.114">  }</a>
 <span class="sourceLineNo">115</span><a id="line.115"></a>
 <span class="sourceLineNo">116</span><a id="line.116">  /**</a>
@@ -131,7 +131,7 @@
 <span class="sourceLineNo">122</span><a id="line.122">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">123</span><a id="line.123">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">124</span><a id="line.124">      K k1, V v1, K k2, V v2, K k3, V v3) {</a>
-<span class="sourceLineNo">125</span><a id="line.125">    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));</a>
+<span class="sourceLineNo">125</span><a id="line.125">    return fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));</a>
 <span class="sourceLineNo">126</span><a id="line.126">  }</a>
 <span class="sourceLineNo">127</span><a id="line.127"></a>
 <span class="sourceLineNo">128</span><a id="line.128">  /**</a>
@@ -143,7 +143,7 @@
 <span class="sourceLineNo">134</span><a id="line.134">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">135</span><a id="line.135">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">136</span><a id="line.136">      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {</a>
-<span class="sourceLineNo">137</span><a id="line.137">    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));</a>
+<span class="sourceLineNo">137</span><a id="line.137">    return fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));</a>
 <span class="sourceLineNo">138</span><a id="line.138">  }</a>
 <span class="sourceLineNo">139</span><a id="line.139"></a>
 <span class="sourceLineNo">140</span><a id="line.140">  /**</a>
@@ -155,7 +155,7 @@
 <span class="sourceLineNo">146</span><a id="line.146">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">147</span><a id="line.147">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">148</span><a id="line.148">      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {</a>
-<span class="sourceLineNo">149</span><a id="line.149">    return ofEntries(</a>
+<span class="sourceLineNo">149</span><a id="line.149">    return fromEntries(</a>
 <span class="sourceLineNo">150</span><a id="line.150">        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));</a>
 <span class="sourceLineNo">151</span><a id="line.151">  }</a>
 <span class="sourceLineNo">152</span><a id="line.152"></a>
@@ -169,7 +169,7 @@
 <span class="sourceLineNo">160</span><a id="line.160">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">161</span><a id="line.161">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">162</span><a id="line.162">      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {</a>
-<span class="sourceLineNo">163</span><a id="line.163">    return ofEntries(</a>
+<span class="sourceLineNo">163</span><a id="line.163">    return fromEntries(</a>
 <span class="sourceLineNo">164</span><a id="line.164">        entryOf(k1, v1),</a>
 <span class="sourceLineNo">165</span><a id="line.165">        entryOf(k2, v2),</a>
 <span class="sourceLineNo">166</span><a id="line.166">        entryOf(k3, v3),</a>
@@ -188,7 +188,7 @@
 <span class="sourceLineNo">179</span><a id="line.179">  @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">180</span><a id="line.180">  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; of(</a>
 <span class="sourceLineNo">181</span><a id="line.181">      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {</a>
-<span class="sourceLineNo">182</span><a id="line.182">    return ofEntries(</a>
+<span class="sourceLineNo">182</span><a id="line.182">    return fromEntries(</a>
 <span class="sourceLineNo">183</span><a id="line.183">        entryOf(k1, v1),</a>
 <span class="sourceLineNo">184</span><a id="line.184">        entryOf(k2, v2),</a>
 <span class="sourceLineNo">185</span><a id="line.185">        entryOf(k3, v3),</a>
@@ -223,7 +223,7 @@
 <span class="sourceLineNo">214</span><a id="line.214">      V v7,</a>
 <span class="sourceLineNo">215</span><a id="line.215">      K k8,</a>
 <span class="sourceLineNo">216</span><a id="line.216">      V v8) {</a>
-<span class="sourceLineNo">217</span><a id="line.217">    return ofEntries(</a>
+<span class="sourceLineNo">217</span><a id="line.217">    return fromEntries(</a>
 <span class="sourceLineNo">218</span><a id="line.218">        entryOf(k1, v1),</a>
 <span class="sourceLineNo">219</span><a id="line.219">        entryOf(k2, v2),</a>
 <span class="sourceLineNo">220</span><a id="line.220">        entryOf(k3, v3),</a>
@@ -261,7 +261,7 @@
 <span class="sourceLineNo">252</span><a id="line.252">      V v8,</a>
 <span class="sourceLineNo">253</span><a id="line.253">      K k9,</a>
 <span class="sourceLineNo">254</span><a id="line.254">      V v9) {</a>
-<span class="sourceLineNo">255</span><a id="line.255">    return ofEntries(</a>
+<span class="sourceLineNo">255</span><a id="line.255">    return fromEntries(</a>
 <span class="sourceLineNo">256</span><a id="line.256">        entryOf(k1, v1),</a>
 <span class="sourceLineNo">257</span><a id="line.257">        entryOf(k2, v2),</a>
 <span class="sourceLineNo">258</span><a id="line.258">        entryOf(k3, v3),</a>
@@ -302,7 +302,7 @@
 <span class="sourceLineNo">293</span><a id="line.293">      V v9,</a>
 <span class="sourceLineNo">294</span><a id="line.294">      K k10,</a>
 <span class="sourceLineNo">295</span><a id="line.295">      V v10) {</a>
-<span class="sourceLineNo">296</span><a id="line.296">    return ofEntries(</a>
+<span class="sourceLineNo">296</span><a id="line.296">    return fromEntries(</a>
 <span class="sourceLineNo">297</span><a id="line.297">        entryOf(k1, v1),</a>
 <span class="sourceLineNo">298</span><a id="line.298">        entryOf(k2, v2),</a>
 <span class="sourceLineNo">299</span><a id="line.299">        entryOf(k3, v3),</a>
@@ -315,136 +315,136 @@
 <span class="sourceLineNo">306</span><a id="line.306">        entryOf(k10, v10));</a>
 <span class="sourceLineNo">307</span><a id="line.307">  }</a>
 <span class="sourceLineNo">308</span><a id="line.308"></a>
-<span class="sourceLineNo">309</span><a id="line.309">  private static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; ofEntries(</a>
-<span class="sourceLineNo">310</span><a id="line.310">      Entry&lt;K, V&gt;... entries) {</a>
-<span class="sourceLineNo">311</span><a id="line.311">    return fromEntries(Ordering.natural(), false, entries, entries.length);</a>
-<span class="sourceLineNo">312</span><a id="line.312">  }</a>
-<span class="sourceLineNo">313</span><a id="line.313"></a>
-<span class="sourceLineNo">314</span><a id="line.314">  /**</a>
-<span class="sourceLineNo">315</span><a id="line.315">   * Returns an immutable map containing the same entries as {@code map}, sorted by the natural</a>
-<span class="sourceLineNo">316</span><a id="line.316">   * ordering of the keys.</a>
-<span class="sourceLineNo">317</span><a id="line.317">   *</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">320</span><a id="line.320">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">321</span><a id="line.321">   *</a>
-<span class="sourceLineNo">322</span><a id="line.322">   * &lt;p&gt;This method is not type-safe, as it may be called on a map with keys that are not mutually</a>
-<span class="sourceLineNo">323</span><a id="line.323">   * comparable.</a>
-<span class="sourceLineNo">324</span><a id="line.324">   *</a>
-<span class="sourceLineNo">325</span><a id="line.325">   * @throws ClassCastException if the keys in {@code map} are not mutually comparable</a>
-<span class="sourceLineNo">326</span><a id="line.326">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">327</span><a id="line.327">   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering</a>
-<span class="sourceLineNo">328</span><a id="line.328">   */</a>
-<span class="sourceLineNo">329</span><a id="line.329">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {</a>
-<span class="sourceLineNo">330</span><a id="line.330">    // Hack around K not being a subtype of Comparable.</a>
-<span class="sourceLineNo">331</span><a id="line.331">    // Unsafe, see ImmutableSortedSetFauxverideShim.</a>
-<span class="sourceLineNo">332</span><a id="line.332">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">333</span><a id="line.333">    Ordering&lt;K&gt; naturalOrder = (Ordering&lt;K&gt;) NATURAL_ORDER;</a>
-<span class="sourceLineNo">334</span><a id="line.334">    return copyOfInternal(map, naturalOrder);</a>
-<span class="sourceLineNo">335</span><a id="line.335">  }</a>
-<span class="sourceLineNo">336</span><a id="line.336"></a>
-<span class="sourceLineNo">337</span><a id="line.337">  /**</a>
-<span class="sourceLineNo">338</span><a id="line.338">   * Returns an immutable map containing the same entries as {@code map}, with keys sorted by the</a>
-<span class="sourceLineNo">339</span><a id="line.339">   * provided comparator.</a>
-<span class="sourceLineNo">340</span><a id="line.340">   *</a>
-<span class="sourceLineNo">341</span><a id="line.341">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">342</span><a id="line.342">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">343</span><a id="line.343">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">344</span><a id="line.344">   *</a>
-<span class="sourceLineNo">345</span><a id="line.345">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">346</span><a id="line.346">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
-<span class="sourceLineNo">347</span><a id="line.347">   */</a>
-<span class="sourceLineNo">348</span><a id="line.348">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
-<span class="sourceLineNo">349</span><a id="line.349">      Map&lt;? extends K, ? extends V&gt; map, Comparator&lt;? super K&gt; comparator) {</a>
-<span class="sourceLineNo">350</span><a id="line.350">    return copyOfInternal(map, checkNotNull(comparator));</a>
-<span class="sourceLineNo">351</span><a id="line.351">  }</a>
-<span class="sourceLineNo">352</span><a id="line.352"></a>
-<span class="sourceLineNo">353</span><a id="line.353">  /**</a>
-<span class="sourceLineNo">354</span><a id="line.354">   * Returns an immutable map containing the given entries, with keys sorted by their natural</a>
-<span class="sourceLineNo">355</span><a id="line.355">   * ordering.</a>
-<span class="sourceLineNo">356</span><a id="line.356">   *</a>
-<span class="sourceLineNo">357</span><a id="line.357">   * &lt;p&gt;This method is not type-safe, as it may be called on a map with keys that are not mutually</a>
-<span class="sourceLineNo">358</span><a id="line.358">   * comparable.</a>
-<span class="sourceLineNo">359</span><a id="line.359">   *</a>
-<span class="sourceLineNo">360</span><a id="line.360">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
-<span class="sourceLineNo">362</span><a id="line.362">   * @since 19.0</a>
-<span class="sourceLineNo">363</span><a id="line.363">   */</a>
-<span class="sourceLineNo">364</span><a id="line.364">  @Beta</a>
-<span class="sourceLineNo">365</span><a id="line.365">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
-<span class="sourceLineNo">366</span><a id="line.366">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {</a>
-<span class="sourceLineNo">367</span><a id="line.367">    // Hack around K not being a subtype of Comparable.</a>
-<span class="sourceLineNo">368</span><a id="line.368">    // Unsafe, see ImmutableSortedSetFauxverideShim.</a>
-<span class="sourceLineNo">369</span><a id="line.369">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">370</span><a id="line.370">    Ordering&lt;K&gt; naturalOrder = (Ordering&lt;K&gt;) NATURAL_ORDER;</a>
-<span class="sourceLineNo">371</span><a id="line.371">    return copyOf(entries, naturalOrder);</a>
-<span class="sourceLineNo">372</span><a id="line.372">  }</a>
-<span class="sourceLineNo">373</span><a id="line.373"></a>
-<span class="sourceLineNo">374</span><a id="line.374">  /**</a>
-<span class="sourceLineNo">375</span><a id="line.375">   * Returns an immutable map containing the given entries, with keys sorted by the provided</a>
-<span class="sourceLineNo">376</span><a id="line.376">   * comparator.</a>
-<span class="sourceLineNo">377</span><a id="line.377">   *</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">379</span><a id="line.379">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
-<span class="sourceLineNo">380</span><a id="line.380">   * @since 19.0</a>
-<span class="sourceLineNo">381</span><a id="line.381">   */</a>
-<span class="sourceLineNo">382</span><a id="line.382">  @Beta</a>
-<span class="sourceLineNo">383</span><a id="line.383">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
-<span class="sourceLineNo">384</span><a id="line.384">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries,</a>
-<span class="sourceLineNo">385</span><a id="line.385">      Comparator&lt;? super K&gt; comparator) {</a>
-<span class="sourceLineNo">386</span><a id="line.386">    return fromEntries(checkNotNull(comparator), false, entries);</a>
-<span class="sourceLineNo">387</span><a id="line.387">  }</a>
-<span class="sourceLineNo">388</span><a id="line.388"></a>
-<span class="sourceLineNo">389</span><a id="line.389">  /**</a>
-<span class="sourceLineNo">390</span><a id="line.390">   * Returns an immutable map containing the same entries as the provided sorted map, with the same</a>
-<span class="sourceLineNo">391</span><a id="line.391">   * ordering.</a>
-<span class="sourceLineNo">392</span><a id="line.392">   *</a>
-<span class="sourceLineNo">393</span><a id="line.393">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">394</span><a id="line.394">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">395</span><a id="line.395">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">396</span><a id="line.396">   *</a>
-<span class="sourceLineNo">397</span><a id="line.397">   * @throws NullPointerException if any key or value in {@code map} is null</a>
-<span class="sourceLineNo">398</span><a id="line.398">   */</a>
-<span class="sourceLineNo">399</span><a id="line.399">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">400</span><a id="line.400">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOfSorted(SortedMap&lt;K, ? extends V&gt; map) {</a>
-<span class="sourceLineNo">401</span><a id="line.401">    Comparator&lt;? super K&gt; comparator = map.comparator();</a>
-<span class="sourceLineNo">402</span><a id="line.402">    if (comparator == null) {</a>
-<span class="sourceLineNo">403</span><a id="line.403">      // If map has a null comparator, the keys should have a natural ordering,</a>
-<span class="sourceLineNo">404</span><a id="line.404">      // even though K doesn't explicitly implement Comparable.</a>
-<span class="sourceLineNo">405</span><a id="line.405">      comparator = (Comparator&lt;? super K&gt;) NATURAL_ORDER;</a>
-<span class="sourceLineNo">406</span><a id="line.406">    }</a>
-<span class="sourceLineNo">407</span><a id="line.407">    if (map instanceof ImmutableSortedMap) {</a>
-<span class="sourceLineNo">408</span><a id="line.408">      // TODO(kevinb): Prove that this cast is safe, even though</a>
-<span class="sourceLineNo">409</span><a id="line.409">      // Collections.unmodifiableSortedMap requires the same key type.</a>
-<span class="sourceLineNo">410</span><a id="line.410">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">411</span><a id="line.411">      ImmutableSortedMap&lt;K, V&gt; kvMap = (ImmutableSortedMap&lt;K, V&gt;) map;</a>
-<span class="sourceLineNo">412</span><a id="line.412">      if (!kvMap.isPartialView()) {</a>
-<span class="sourceLineNo">413</span><a id="line.413">        return kvMap;</a>
-<span class="sourceLineNo">414</span><a id="line.414">      }</a>
-<span class="sourceLineNo">415</span><a id="line.415">    }</a>
-<span class="sourceLineNo">416</span><a id="line.416">    return fromEntries(comparator, true, map.entrySet());</a>
-<span class="sourceLineNo">417</span><a id="line.417">  }</a>
-<span class="sourceLineNo">418</span><a id="line.418"></a>
-<span class="sourceLineNo">419</span><a id="line.419">  private static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOfInternal(</a>
-<span class="sourceLineNo">420</span><a id="line.420">      Map&lt;? extends K, ? extends V&gt; map, Comparator&lt;? super K&gt; comparator) {</a>
-<span class="sourceLineNo">421</span><a id="line.421">    boolean sameComparator = false;</a>
-<span class="sourceLineNo">422</span><a id="line.422">    if (map instanceof SortedMap) {</a>
-<span class="sourceLineNo">423</span><a id="line.423">      SortedMap&lt;?, ?&gt; sortedMap = (SortedMap&lt;?, ?&gt;) map;</a>
-<span class="sourceLineNo">424</span><a id="line.424">      Comparator&lt;?&gt; comparator2 = sortedMap.comparator();</a>
-<span class="sourceLineNo">425</span><a id="line.425">      sameComparator =</a>
-<span class="sourceLineNo">426</span><a id="line.426">          (comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);</a>
-<span class="sourceLineNo">427</span><a id="line.427">    }</a>
-<span class="sourceLineNo">428</span><a id="line.428"></a>
-<span class="sourceLineNo">429</span><a id="line.429">    if (sameComparator &amp;&amp; (map instanceof ImmutableSortedMap)) {</a>
-<span class="sourceLineNo">430</span><a id="line.430">      // TODO(kevinb): Prove that this cast is safe, even though</a>
-<span class="sourceLineNo">431</span><a id="line.431">      // Collections.unmodifiableSortedMap requires the same key type.</a>
-<span class="sourceLineNo">432</span><a id="line.432">      @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">433</span><a id="line.433">      ImmutableSortedMap&lt;K, V&gt; kvMap = (ImmutableSortedMap&lt;K, V&gt;) map;</a>
-<span class="sourceLineNo">434</span><a id="line.434">      if (!kvMap.isPartialView()) {</a>
-<span class="sourceLineNo">435</span><a id="line.435">        return kvMap;</a>
-<span class="sourceLineNo">436</span><a id="line.436">      }</a>
-<span class="sourceLineNo">437</span><a id="line.437">    }</a>
-<span class="sourceLineNo">438</span><a id="line.438">    return fromEntries(comparator, sameComparator, map.entrySet());</a>
+<span class="sourceLineNo">309</span><a id="line.309">  /**</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * Returns an immutable map containing the same entries as {@code map}, sorted by the natural</a>
+<span class="sourceLineNo">311</span><a id="line.311">   * ordering of the keys.</a>
+<span class="sourceLineNo">312</span><a id="line.312">   *</a>
+<span class="sourceLineNo">313</span><a id="line.313">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">314</span><a id="line.314">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">316</span><a id="line.316">   *</a>
+<span class="sourceLineNo">317</span><a id="line.317">   * &lt;p&gt;This method is not type-safe, as it may be called on a map with keys that are not mutually</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * comparable.</a>
+<span class="sourceLineNo">319</span><a id="line.319">   *</a>
+<span class="sourceLineNo">320</span><a id="line.320">   * @throws ClassCastException if the keys in {@code map} are not mutually comparable</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering</a>
+<span class="sourceLineNo">323</span><a id="line.323">   */</a>
+<span class="sourceLineNo">324</span><a id="line.324">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">    // Hack around K not being a subtype of Comparable.</a>
+<span class="sourceLineNo">326</span><a id="line.326">    // Unsafe, see ImmutableSortedSetFauxverideShim.</a>
+<span class="sourceLineNo">327</span><a id="line.327">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">328</span><a id="line.328">    Ordering&lt;K&gt; naturalOrder = (Ordering&lt;K&gt;) NATURAL_ORDER;</a>
+<span class="sourceLineNo">329</span><a id="line.329">    return copyOfInternal(map, naturalOrder);</a>
+<span class="sourceLineNo">330</span><a id="line.330">  }</a>
+<span class="sourceLineNo">331</span><a id="line.331"></a>
+<span class="sourceLineNo">332</span><a id="line.332">  /**</a>
+<span class="sourceLineNo">333</span><a id="line.333">   * Returns an immutable map containing the same entries as {@code map}, with keys sorted by the</a>
+<span class="sourceLineNo">334</span><a id="line.334">   * provided comparator.</a>
+<span class="sourceLineNo">335</span><a id="line.335">   *</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">339</span><a id="line.339">   *</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">341</span><a id="line.341">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
+<span class="sourceLineNo">342</span><a id="line.342">   */</a>
+<span class="sourceLineNo">343</span><a id="line.343">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
+<span class="sourceLineNo">344</span><a id="line.344">      Map&lt;? extends K, ? extends V&gt; map, Comparator&lt;? super K&gt; comparator) {</a>
+<span class="sourceLineNo">345</span><a id="line.345">    return copyOfInternal(map, checkNotNull(comparator));</a>
+<span class="sourceLineNo">346</span><a id="line.346">  }</a>
+<span class="sourceLineNo">347</span><a id="line.347"></a>
+<span class="sourceLineNo">348</span><a id="line.348">  /**</a>
+<span class="sourceLineNo">349</span><a id="line.349">   * Returns an immutable map containing the given entries, with keys sorted by their natural</a>
+<span class="sourceLineNo">350</span><a id="line.350">   * ordering.</a>
+<span class="sourceLineNo">351</span><a id="line.351">   *</a>
+<span class="sourceLineNo">352</span><a id="line.352">   * &lt;p&gt;This method is not type-safe, as it may be called on a map with keys that are not mutually</a>
+<span class="sourceLineNo">353</span><a id="line.353">   * comparable.</a>
+<span class="sourceLineNo">354</span><a id="line.354">   *</a>
+<span class="sourceLineNo">355</span><a id="line.355">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">356</span><a id="line.356">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
+<span class="sourceLineNo">357</span><a id="line.357">   * @since 19.0</a>
+<span class="sourceLineNo">358</span><a id="line.358">   */</a>
+<span class="sourceLineNo">359</span><a id="line.359">  @Beta</a>
+<span class="sourceLineNo">360</span><a id="line.360">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
+<span class="sourceLineNo">361</span><a id="line.361">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {</a>
+<span class="sourceLineNo">362</span><a id="line.362">    // Hack around K not being a subtype of Comparable.</a>
+<span class="sourceLineNo">363</span><a id="line.363">    // Unsafe, see ImmutableSortedSetFauxverideShim.</a>
+<span class="sourceLineNo">364</span><a id="line.364">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">365</span><a id="line.365">    Ordering&lt;K&gt; naturalOrder = (Ordering&lt;K&gt;) NATURAL_ORDER;</a>
+<span class="sourceLineNo">366</span><a id="line.366">    return copyOf(entries, naturalOrder);</a>
+<span class="sourceLineNo">367</span><a id="line.367">  }</a>
+<span class="sourceLineNo">368</span><a id="line.368"></a>
+<span class="sourceLineNo">369</span><a id="line.369">  /**</a>
+<span class="sourceLineNo">370</span><a id="line.370">   * Returns an immutable map containing the given entries, with keys sorted by the provided</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * comparator.</a>
+<span class="sourceLineNo">372</span><a id="line.372">   *</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">374</span><a id="line.374">   * @throws IllegalArgumentException if any two keys are equal according to the comparator</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * @since 19.0</a>
+<span class="sourceLineNo">376</span><a id="line.376">   */</a>
+<span class="sourceLineNo">377</span><a id="line.377">  @Beta</a>
+<span class="sourceLineNo">378</span><a id="line.378">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOf(</a>
+<span class="sourceLineNo">379</span><a id="line.379">      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries,</a>
+<span class="sourceLineNo">380</span><a id="line.380">      Comparator&lt;? super K&gt; comparator) {</a>
+<span class="sourceLineNo">381</span><a id="line.381">    return fromEntries(checkNotNull(comparator), false, entries);</a>
+<span class="sourceLineNo">382</span><a id="line.382">  }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">  /**</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * Returns an immutable map containing the same entries as the provided sorted map, with the same</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * ordering.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   *</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">389</span><a id="line.389">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">391</span><a id="line.391">   *</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * @throws NullPointerException if any key or value in {@code map} is null</a>
+<span class="sourceLineNo">393</span><a id="line.393">   */</a>
+<span class="sourceLineNo">394</span><a id="line.394">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">395</span><a id="line.395">  public static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOfSorted(SortedMap&lt;K, ? extends V&gt; map) {</a>
+<span class="sourceLineNo">396</span><a id="line.396">    Comparator&lt;? super K&gt; comparator = map.comparator();</a>
+<span class="sourceLineNo">397</span><a id="line.397">    if (comparator == null) {</a>
+<span class="sourceLineNo">398</span><a id="line.398">      // If map has a null comparator, the keys should have a natural ordering,</a>
+<span class="sourceLineNo">399</span><a id="line.399">      // even though K doesn't explicitly implement Comparable.</a>
+<span class="sourceLineNo">400</span><a id="line.400">      comparator = (Comparator&lt;? super K&gt;) NATURAL_ORDER;</a>
+<span class="sourceLineNo">401</span><a id="line.401">    }</a>
+<span class="sourceLineNo">402</span><a id="line.402">    if (map instanceof ImmutableSortedMap) {</a>
+<span class="sourceLineNo">403</span><a id="line.403">      // TODO(kevinb): Prove that this cast is safe, even though</a>
+<span class="sourceLineNo">404</span><a id="line.404">      // Collections.unmodifiableSortedMap requires the same key type.</a>
+<span class="sourceLineNo">405</span><a id="line.405">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">406</span><a id="line.406">      ImmutableSortedMap&lt;K, V&gt; kvMap = (ImmutableSortedMap&lt;K, V&gt;) map;</a>
+<span class="sourceLineNo">407</span><a id="line.407">      if (!kvMap.isPartialView()) {</a>
+<span class="sourceLineNo">408</span><a id="line.408">        return kvMap;</a>
+<span class="sourceLineNo">409</span><a id="line.409">      }</a>
+<span class="sourceLineNo">410</span><a id="line.410">    }</a>
+<span class="sourceLineNo">411</span><a id="line.411">    return fromEntries(comparator, true, map.entrySet());</a>
+<span class="sourceLineNo">412</span><a id="line.412">  }</a>
+<span class="sourceLineNo">413</span><a id="line.413"></a>
+<span class="sourceLineNo">414</span><a id="line.414">  private static &lt;K, V&gt; ImmutableSortedMap&lt;K, V&gt; copyOfInternal(</a>
+<span class="sourceLineNo">415</span><a id="line.415">      Map&lt;? extends K, ? extends V&gt; map, Comparator&lt;? super K&gt; comparator) {</a>
+<span class="sourceLineNo">416</span><a id="line.416">    boolean sameComparator = false;</a>
+<span class="sourceLineNo">417</span><a id="line.417">    if (map instanceof SortedMap) {</a>
+<span class="sourceLineNo">418</span><a id="line.418">      SortedMap&lt;?, ?&gt; sortedMap = (SortedMap&lt;?, ?&gt;) map;</a>
+<span class="sourceLineNo">419</span><a id="line.419">      Comparator&lt;?&gt; comparator2 = sortedMap.comparator();</a>
+<span class="sourceLineNo">420</span><a id="line.420">      sameComparator =</a>
+<span class="sourceLineNo">421</span><a id="line.421">          (comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);</a>
+<span class="sourceLineNo">422</span><a id="line.422">    }</a>
+<span class="sourceLineNo">423</span><a id="line.423"></a>
+<span class="sourceLineNo">424</span><a id="line.424">    if (sameComparator &amp;&amp; (map instanceof ImmutableSortedMap)) {</a>
+<span class="sourceLineNo">425</span><a id="line.425">      // TODO(kevinb): Prove that this cast is safe, even though</a>
+<span class="sourceLineNo">426</span><a id="line.426">      // Collections.unmodifiableSortedMap requires the same key type.</a>
+<span class="sourceLineNo">427</span><a id="line.427">      @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">428</span><a id="line.428">      ImmutableSortedMap&lt;K, V&gt; kvMap = (ImmutableSortedMap&lt;K, V&gt;) map;</a>
+<span class="sourceLineNo">429</span><a id="line.429">      if (!kvMap.isPartialView()) {</a>
+<span class="sourceLineNo">430</span><a id="line.430">        return kvMap;</a>
+<span class="sourceLineNo">431</span><a id="line.431">      }</a>
+<span class="sourceLineNo">432</span><a id="line.432">    }</a>
+<span class="sourceLineNo">433</span><a id="line.433">    return fromEntries(comparator, sameComparator, map.entrySet());</a>
+<span class="sourceLineNo">434</span><a id="line.434">  }</a>
+<span class="sourceLineNo">435</span><a id="line.435"></a>
+<span class="sourceLineNo">436</span><a id="line.436">  private static &lt;K extends Comparable&lt;? super K&gt;, V&gt; ImmutableSortedMap&lt;K, V&gt; fromEntries(</a>
+<span class="sourceLineNo">437</span><a id="line.437">      Entry&lt;K, V&gt;... entries) {</a>
+<span class="sourceLineNo">438</span><a id="line.438">    return fromEntries(Ordering.natural(), false, entries, entries.length);</a>
 <span class="sourceLineNo">439</span><a id="line.439">  }</a>
 <span class="sourceLineNo">440</span><a id="line.440"></a>
 <span class="sourceLineNo">441</span><a id="line.441">  /**</a>

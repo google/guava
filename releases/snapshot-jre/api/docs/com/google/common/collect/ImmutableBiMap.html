@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":42,"i5":6,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":41,"i19":41,"i20":10};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":42,"i5":6,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":41,"i20":41,"i21":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -432,6 +432,13 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 </td>
 </tr>
 <tr id="i17" class="rowColor">
+<td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
+<td class="colLast">
+<div class="block">Returns an immutable map containing the given entries, in order.</div>
+</td>
+</tr>
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableBiMap(java.util.function.Function,java.util.function.Function)">toImmutableBiMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
@@ -440,7 +447,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
  and values are the result of applying the provided mapping functions to the input elements.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
@@ -450,7 +457,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 </div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
@@ -459,7 +466,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
 <td class="colLast">
@@ -990,13 +997,39 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 </dl>
 </li>
 </ul>
+<a id="ofEntries(java.util.Map.Entry...)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ofEntries</h4>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.276">ofEntries</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
+<div class="block">Returns an immutable map containing the given entries, in order.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>K</code> - the <code>Map</code>'s key type</dd>
+<dd><code>V</code> - the <code>Map</code>'s value type</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>entries</code> - <code>Map.Entry</code>s containing the keys and values from which the map is populated</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>Map</code> containing the specified mappings</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys or values are provided</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entry(K,V)" title="class or interface in java.util" class="externalLink"><code>Map.entry()</code></a></dd>
+</dl>
+</li>
+</ul>
 <a id="builder()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.274">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.287">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder created by the <a href="ImmutableBiMap.Builder.html" title="class in com.google.common.collect"><code>ImmutableBiMap.Builder</code></a> constructor.</div>
 </li>
 </ul>
@@ -1007,7 +1040,7 @@ implements <a href="BiMap.html" title="interface in com.google.common.collect">B
 <li class="blockList">
 <h4>builderWithExpectedSize</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.290">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.303">builderWithExpectedSize</a>&#8203;(int&nbsp;expectedSize)</pre>
 <div class="block">Returns a new builder, expecting the specified number of entries to be added.
 
  <p>If <code>expectedSize</code> is exactly the number of entries added to the builder before <a href="ImmutableBiMap.Builder.html#build()"><code>ImmutableBiMap.Builder.build()</code></a> is called, the builder is likely to perform better than an unsized <a href="#builder()"><code>builder()</code></a> would have.
@@ -1026,7 +1059,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.488">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.501">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable bimap containing the same entries as <code>map</code>. If <code>map</code> somehow
  contains entries with duplicate keys (for example, if it is a <code>SortedMap</code> whose
  comparator is not <i>consistent with equals</i>), the results of this method are undefined.
@@ -1059,7 +1092,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.Builder.html"
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.510">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.523">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable bimap containing the given entries. The returned bimap iterates over
  entries in the same order as the original iterable.</div>
 <dl>
@@ -1078,7 +1111,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>inverse</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>,&#8203;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.537">inverse</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>,&#8203;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.550">inverse</a>()</pre>
 <div class="block">Returns the inverse view of this bimap, which maps each of this bimap's values to its
  associated key. The two bimaps are backed by the same data; any changes to one will appear in
  the other.
@@ -1101,7 +1134,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.544">values</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.557">values</a>()</pre>
 <div class="block">Returns an immutable set of the values in this map, in the same order they appear in <a href="ImmutableMap.html#entrySet"><code>ImmutableMap.entrySet</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -1126,7 +1159,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableBiMap.html" title="
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public final&nbsp;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.560">forcePut</a>&#8203;(<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>&nbsp;key,
+public final&nbsp;<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.html#line.573">forcePut</a>&#8203;(<a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>&nbsp;key,
                         <a href="ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
