@@ -283,7 +283,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         });
   }
 
-  // looking for of() with > 10 entries? Use the builder instead.
+  // looking for of() with > 10 entries? Use the builder or ofEntries instead.
+
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys are provided
+   * @since NEXT
+   */
+  @SafeVarargs
+  public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    @SuppressWarnings("unchecked") // we will only ever read these
+    Entry<K, V>[] entries2 = (Entry<K, V>[]) entries;
+    return copyOf(Arrays.asList(entries2));
+  }
 
   /**
    * Verifies that {@code key} and {@code value} are non-null, and returns a new immutable entry

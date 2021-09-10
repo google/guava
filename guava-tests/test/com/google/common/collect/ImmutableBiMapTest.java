@@ -37,6 +37,7 @@ import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -593,6 +594,30 @@ public class ImmutableBiMapTest extends TestCase {
       } catch (IllegalArgumentException expected) {
         assertThat(expected.getMessage()).contains("one");
       }
+    }
+
+    public void testOfEntries() {
+      assertMapEquals(
+          ImmutableBiMap.ofEntries(entry("one", 1), entry("two", 2)), "one", 1, "two", 2);
+    }
+
+    public void testOfEntriesNull() {
+      Entry<Integer, Integer> nullKey = entry(null, 23);
+      try {
+        ImmutableBiMap.ofEntries(nullKey);
+        fail();
+      } catch (NullPointerException expected) {
+      }
+      Entry<Integer, Integer> nullValue = entry(23, null);
+      try {
+        ImmutableBiMap.ofEntries(nullValue);
+        fail();
+      } catch (NullPointerException expected) {
+      }
+    }
+
+    private static <T> Entry<T, T> entry(T key, T value) {
+      return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
     public void testCopyOfEmptyMap() {

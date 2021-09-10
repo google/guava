@@ -235,6 +235,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   // looking for of() with > 10 entries? Use the builder instead.
 
+  @SafeVarargs
+  public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return new RegularImmutableMap(entries);
+  }
+
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
   }
