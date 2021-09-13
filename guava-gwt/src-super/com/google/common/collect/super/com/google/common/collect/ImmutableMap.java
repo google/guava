@@ -307,6 +307,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     public ImmutableMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    public ImmutableMap<K, V> buildOrThrow() {
       if (valueComparator != null) {
         Collections.sort(
             entries, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));

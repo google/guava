@@ -122,7 +122,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *         .put(1, 'A', "foo")
    *         .put(1, 'B', "bar")
    *         .put(2, 'A', "baz")
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>By default, the order in which cells are added to the builder determines the iteration
@@ -133,8 +133,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * <p>For empty or single-cell immutable tables, {@link #of()} and {@link #of(Object, Object,
    * Object)} are even more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple tables in series. Each table is a superset of the tables created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple tables in series. Each table is a superset of the tables created before it.
    *
    * @since 11.0
    */
@@ -216,9 +216,23 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     /**
      * Returns a newly-created immutable table.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate key pairs. The {@code build()} method will
+     * soon be deprecated.
+     *
      * @throws IllegalArgumentException if duplicate key pairs were added
      */
     public ImmutableTable<R, C, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+     * added.
+     *
+     * @throws IllegalArgumentException if duplicate key pairs were added
+     */
+    public ImmutableTable<R, C, V> buildOrThrow() {
       int size = cells.size();
       switch (size) {
         case 0:
