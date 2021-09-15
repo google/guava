@@ -17138,6 +17138,23 @@
  order in which entries were inserted into the builder, unless {@link #orderEntriesByValue}
  was called, in which case entries are sorted by value.
 
+ <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+ will throw an exception if there are duplicate keys or values. The {@code build()} method
+ will soon be deprecated.
+
+ @throws IllegalArgumentException if duplicate keys or values were added]]>
+      </doc>
+    </method>
+    <method name="buildOrThrow" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created immutable bimap, or throws an exception if any key or value was added
+ more than once. The iteration order of the returned bimap is the order in which entries were
+ inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
+ entries are sorted by value.
+
  @throws IllegalArgumentException if duplicate keys or values were added]]>
       </doc>
     </method>
@@ -17151,7 +17168,7 @@
          .put("one", 1)
          .put("two", 2)
          .put("three", 3)
-         .build();
+         .buildOrThrow();
  }</pre>
 
  <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more
@@ -17164,8 +17181,8 @@
  want a different order, consider using {@link #orderEntriesByValue(Comparator)}, which changes
  this builder to sort entries by value.
 
- <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
- multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
+ <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+ build multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
 
  @since 2.0]]>
     </doc>
@@ -19379,6 +19396,23 @@
  in which entries were inserted into the builder, unless {@link #orderEntriesByValue} was
  called, in which case entries are sorted by value.
 
+ <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+ will throw an exception if there are duplicate keys. The {@code build()} method will soon be
+ deprecated.
+
+ @throws IllegalArgumentException if duplicate keys were added]]>
+      </doc>
+    </method>
+    <method name="buildOrThrow" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created immutable map, or throws an exception if any key was added more than
+ once. The iteration order of the returned map is the order in which entries were inserted
+ into the builder, unless {@link #orderEntriesByValue} was called, in which case entries are
+ sorted by value.
+
  @throws IllegalArgumentException if duplicate keys were added]]>
       </doc>
     </method>
@@ -19392,7 +19426,7 @@
          .put("one", 1)
          .put("two", 2)
          .put("three", 3)
-         .build();
+         .buildOrThrow();
  }</pre>
 
  <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are even more
@@ -19406,8 +19440,8 @@
  sort by keys, or call {@link #orderEntriesByValue(Comparator)}, which changes this builder to
  sort entries by value.
 
- <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
- multiple maps in series. Each map is a superset of the maps created before it.
+ <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+ build multiple maps in series. Each map is a superset of the maps created before it.
 
  @since 2.0]]>
     </doc>
@@ -22360,6 +22394,22 @@
       <doc>
       <![CDATA[Returns a newly-created immutable sorted map.
 
+ <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+ will throw an exception if there are duplicate keys. The {@code build()} method will soon be
+ deprecated.
+
+ @throws IllegalArgumentException if any two keys are equal according to the comparator (which
+     might be the keys' natural order)]]>
+      </doc>
+    </method>
+    <method name="buildOrThrow" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created immutable sorted map, or throws an exception if any two keys are
+ equal.
+
  @throws IllegalArgumentException if any two keys are equal according to the comparator (which
      might be the keys' natural order)]]>
       </doc>
@@ -22374,14 +22424,14 @@
          .put(1, "one")
          .put(2, "two")
          .put(3, "three")
-         .build();
+         .buildOrThrow();
  }</pre>
 
  <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
  more convenient.
 
- <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
- multiple maps in series. Each map is a superset of the maps created before it.
+ <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+ build multiple maps in series. Each map is a superset of the maps created before it.
 
  @since 2.0]]>
     </doc>
@@ -23810,6 +23860,21 @@
       <doc>
       <![CDATA[Returns a newly-created immutable table.
 
+ <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+ will throw an exception if there are duplicate key pairs. The {@code build()} method will
+ soon be deprecated.
+
+ @throws IllegalArgumentException if duplicate key pairs were added]]>
+      </doc>
+    </method>
+    <method name="buildOrThrow" return="com.google.common.collect.ImmutableTable&lt;R, C, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+ added.
+
  @throws IllegalArgumentException if duplicate key pairs were added]]>
       </doc>
     </method>
@@ -23823,7 +23888,7 @@
          .put(1, 'A', "foo")
          .put(1, 'B', "bar")
          .put(2, 'A', "baz")
-         .build();
+         .buildOrThrow();
  }</pre>
 
  <p>By default, the order in which cells are added to the builder determines the iteration
@@ -23834,8 +23899,8 @@
  <p>For empty or single-cell immutable tables, {@link #of()} and {@link #of(Object, Object,
  Object)} are even more convenient.
 
- <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
- multiple tables in series. Each table is a superset of the tables created before it.
+ <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+ build multiple tables in series. Each table is a superset of the tables created before it.
 
  @since 11.0]]>
     </doc>

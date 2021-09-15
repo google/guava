@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -147,7 +147,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
          .put(1, 'A', "foo")
          .put(1, 'B', "bar")
          .put(2, 'A', "baz")
-         .build();
+         .buildOrThrow();
  </code></pre>
 
  <p>By default, the order in which cells are added to the builder determines the iteration
@@ -157,8 +157,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <p>For empty or single-cell immutable tables, <a href="ImmutableTable.html#of()"><code>ImmutableTable.of()</code></a> and <a href="ImmutableTable.html#of(R,C,V)"><code>ImmutableTable.of(Object, Object,
  Object)</code></a> are even more convenient.
 
- <p>Builder instances can be reused - it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
- multiple tables in series. Each table is a superset of the tables created before it.</div>
+ <p>Builder instances can be reused - it is safe to call <a href="#buildOrThrow()"><code>buildOrThrow()</code></a> multiple times to
+ build multiple tables in series. Each table is a superset of the tables created before it.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -214,27 +214,35 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildOrThrow()">buildOrThrow</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+ added.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderColumnsBy(java.util.Comparator)">orderColumnsBy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>&gt;&nbsp;columnComparator)</code></th>
 <td class="colLast">
 <div class="block">Specifies the ordering of the generated table's columns.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderRowsBy(java.util.Comparator)">orderRowsBy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>&gt;&nbsp;rowComparator)</code></th>
 <td class="colLast">
 <div class="block">Specifies the ordering of the generated table's rows.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(com.google.common.collect.Table.Cell)">put</a></span>&#8203;(<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;&nbsp;cell)</code></th>
 <td class="colLast">
 <div class="block">Adds the given <code>cell</code> to the table, making it immutable if necessary.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(R,C,V)">put</a></span>&#8203;(<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>&nbsp;rowKey,
    <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>&nbsp;columnKey,
@@ -244,7 +252,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  table.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(com.google.common.collect.Table)">putAll</a></span>&#8203;(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;? extends <a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;&nbsp;table)</code></th>
 <td class="colLast">
@@ -364,11 +372,30 @@ public&nbsp;<a href="ImmutableTable.Builder.html" title="class in com.google.com
 <a id="build()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.Builder.html#line.265">build</a>()</pre>
-<div class="block">Returns a newly-created immutable table.</div>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.Builder.html#line.269">build</a>()</pre>
+<div class="block">Returns a newly-created immutable table.
+
+ <p>Prefer the equivalent method <a href="#buildOrThrow()"><code>buildOrThrow()</code></a> to make it explicit that the method
+ will throw an exception if there are duplicate key pairs. The <code>build()</code> method will
+ soon be deprecated.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate key pairs were added</dd>
+</dl>
+</li>
+</ul>
+<a id="buildOrThrow()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>buildOrThrow</h4>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a>&lt;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">R</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">C</a>,&#8203;<a href="ImmutableTable.Builder.html" title="type parameter in ImmutableTable.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableTable.Builder.html#line.279">buildOrThrow</a>()</pre>
+<div class="block">Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+ added.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate key pairs were added</dd>
