@@ -379,6 +379,11 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
 
     @Override
     public ImmutableSortedMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    @Override
+    public ImmutableSortedMap<K, V> buildOrThrow() {
       SortedMap<K, V> delegate = newModifiableDelegate(comparator);
       for (Entry<? extends K, ? extends V> entry : entries) {
         putEntryWithChecks(delegate, entry);

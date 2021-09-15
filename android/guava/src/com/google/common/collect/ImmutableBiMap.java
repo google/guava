@@ -310,7 +310,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    *         .put("one", 1)
    *         .put("two", 2)
    *         .put("three", 3)
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more
@@ -323,8 +323,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * want a different order, consider using {@link #orderEntriesByValue(Comparator)}, which changes
    * this builder to sort entries by value.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
    *
    * @since 2.0
    */
@@ -423,10 +423,27 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      * order in which entries were inserted into the builder, unless {@link #orderEntriesByValue}
      * was called, in which case entries are sorted by value.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate keys or values. The {@code build()} method
+     * will soon be deprecated.
+     *
      * @throws IllegalArgumentException if duplicate keys or values were added
      */
     @Override
     public ImmutableBiMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable bimap, or throws an exception if any key or value was added
+     * more than once. The iteration order of the returned bimap is the order in which entries were
+     * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
+     * entries are sorted by value.
+     *
+     * @throws IllegalArgumentException if duplicate keys or values were added
+     */
+    @Override
+    public ImmutableBiMap<K, V> buildOrThrow() {
       if (size == 0) {
         return of();
       }

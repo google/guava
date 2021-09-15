@@ -560,14 +560,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    *         .put(1, "one")
    *         .put(2, "two")
    *         .put(3, "three")
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
    * more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple maps in series. Each map is a superset of the maps created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple maps in series. Each map is a superset of the maps created before it.
    *
    * @since 2.0
    */
@@ -686,11 +686,27 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     /**
      * Returns a newly-created immutable sorted map.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate keys. The {@code build()} method will soon be
+     * deprecated.
+     *
      * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
      *     might be the keys' natural order)
      */
     @Override
     public ImmutableSortedMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable sorted map, or throws an exception if any two keys are
+     * equal.
+     *
+     * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
+     *     might be the keys' natural order)
+     */
+    @Override
+    public ImmutableSortedMap<K, V> buildOrThrow() {
       switch (size) {
         case 0:
           return emptyMap(comparator);
