@@ -20,6 +20,7 @@ import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.DiscreteDomain.integers;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -349,11 +350,14 @@ public class RangeTest extends TestCase {
       range.intersection(Range.open(3, 5));
       fail();
     } catch (IllegalArgumentException expected) {
+      // TODO(kevinb): convert the rest of this file to Truth someday
+      assertThat(expected).hasMessageThat().contains("connected");
     }
     try {
       range.intersection(Range.closed(0, 2));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
   }
 
@@ -368,11 +372,13 @@ public class RangeTest extends TestCase {
       range.intersection(Range.lessThan(3));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
     try {
       range.intersection(Range.greaterThan(4));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
 
     range = Range.closed(3, 4);
@@ -395,11 +401,13 @@ public class RangeTest extends TestCase {
       range.intersection(Range.atLeast(4));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
     try {
       range.intersection(Range.atMost(2));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
   }
 
@@ -411,6 +419,7 @@ public class RangeTest extends TestCase {
       range.intersection(Range.closed(0, 2));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
 
     // adjacent below
@@ -451,6 +460,7 @@ public class RangeTest extends TestCase {
       range.intersection(Range.closed(10, 12));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected).hasMessageThat().contains("connected");
     }
   }
 
