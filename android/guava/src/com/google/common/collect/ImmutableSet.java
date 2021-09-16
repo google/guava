@@ -183,7 +183,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       // requireNonNull is safe because the first `uniques` elements are non-null.
       E element = (E) requireNonNull(elements[0]);
-      return new SingletonImmutableSet<E>(element, hashCode);
+      return new SingletonImmutableSet<E>(element);
     } else if (chooseTableSize(uniques) < tableSize / 2) {
       // Resize the table when the array includes too many duplicates.
       return construct(uniques, elements);
