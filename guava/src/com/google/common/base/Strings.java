@@ -20,6 +20,8 @@ import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.InlineMe;
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -137,12 +139,16 @@ public final class Strings {
    * Returns a string consisting of a specific number of concatenated copies of an input string. For
    * example, {@code repeat("hey", 3)} returns the string {@code "heyheyhey"}.
    *
+   * <p><b>Java 11+ users:</b> use {@code string.repeat(count)} instead.
+   *
    * @param string any non-null string
    * @param count the number of times to repeat it; a nonnegative integer
    * @return a string containing {@code string} repeated {@code count} times (the empty string if
    *     {@code count} is zero)
    * @throws IllegalArgumentException if {@code count} is negative
    */
+  @InlineMe(replacement = "string.repeat(count)")
+  @InlineMeValidationDisabled("Java 11+ API only")
   public static String repeat(String string, int count) {
     checkNotNull(string); // eager for GWT.
 
