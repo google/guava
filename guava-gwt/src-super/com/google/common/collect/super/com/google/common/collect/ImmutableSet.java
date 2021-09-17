@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -173,6 +174,24 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   // ImmutableCollection.iterator() appear consistent to javac's type inference.
   @Override
   public abstract UnmodifiableIterator<E> iterator();
+
+  abstract static class CachingAsList<E> extends ImmutableSet<E> {
+    @LazyInit private transient ImmutableList<E> asList;
+
+    @Override
+    public ImmutableList<E> asList() {
+      ImmutableList<E> result = asList;
+      if (result == null) {
+        return asList = createAsList();
+      } else {
+        return result;
+      }
+    }
+
+    ImmutableList<E> createAsList() {
+      return new RegularImmutableAsList<E>(this, toArray());
+    }
+  }
 
   abstract static class Indexed<E> extends ImmutableSet<E> {
     abstract E get(int index);
