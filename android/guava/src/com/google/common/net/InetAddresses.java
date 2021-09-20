@@ -943,7 +943,7 @@ public final class InetAddresses {
     }
 
     // Many strategies for hashing are possible. This might suffice for now.
-    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();
+    int coercedHash = Hashing.murmur3_32_fixed().hashLong(addressAsLong).asInt();
 
     // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).
     coercedHash |= 0xe0000000;
