@@ -208,7 +208,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     while (true) {
       AtomicInteger existingCounter = Maps.safeGet(countMap, element);
@@ -274,7 +274,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {
@@ -315,7 +315,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return true;
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {

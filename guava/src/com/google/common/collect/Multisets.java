@@ -171,7 +171,7 @@ public final class Multisets {
     }
 
     @Override
-    public int add(@ParametricNullness E element, int occurences) {
+    public int add(@ParametricNullness E element, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
