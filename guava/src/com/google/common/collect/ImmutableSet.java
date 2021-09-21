@@ -335,19 +335,26 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @RetainedWith @CheckForNull private transient ImmutableList<E> asList;
+  @GwtCompatible
+  abstract static class CachingAsList<E> extends ImmutableSet<E> {
+    @LazyInit @RetainedWith @CheckForNull private transient ImmutableList<E> asList;
 
-  @Override
-  public ImmutableList<E> asList() {
-    ImmutableList<E> result = asList;
-    return (result == null) ? asList = createAsList() : result;
+    @Override
+    public ImmutableList<E> asList() {
+      ImmutableList<E> result = asList;
+      if (result == null) {
+        return asList = createAsList();
+      } else {
+        return result;
+      }
+    }
+
+    ImmutableList<E> createAsList() {
+      return new RegularImmutableAsList<E>(this, toArray());
+    }
   }
 
-  ImmutableList<E> createAsList() {
-    return new RegularImmutableAsList<E>(this, toArray());
-  }
-
-  abstract static class Indexed<E> extends ImmutableSet<E> {
+  abstract static class Indexed<E> extends CachingAsList<E> {
     abstract E get(int index);
 
     @Override

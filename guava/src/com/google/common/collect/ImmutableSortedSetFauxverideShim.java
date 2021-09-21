@@ -39,7 +39,7 @@ import java.util.stream.Collector;
  */
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
-abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
+abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet.CachingAsList<E> {
   /**
    * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead. This method exists
    * only to hide {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
