@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":41,"i1":41,"i2":10,"i3":10,"i4":9,"i5":41,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":6,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":6,"i21":10,"i22":10,"i23":9,"i24":9,"i25":9,"i26":41,"i27":9,"i28":41,"i29":9,"i30":41,"i31":9,"i32":41,"i33":9,"i34":41,"i35":9,"i36":41,"i37":9,"i38":42,"i39":42,"i40":9,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":41,"i47":9};
+var data = {"i0":10,"i1":41,"i2":41,"i3":10,"i4":10,"i5":9,"i6":41,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":6,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":6,"i22":10,"i23":10,"i24":9,"i25":9,"i26":9,"i27":41,"i28":9,"i29":41,"i30":9,"i31":41,"i32":9,"i33":41,"i34":9,"i35":41,"i36":9,"i37":41,"i38":9,"i39":42,"i40":42,"i41":9,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":41,"i48":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -223,6 +223,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asList()">asList</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns an <code>ImmutableList</code> containing the same elements, in the same order, as this
+ collection.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#builder()">builder</a></span>()</code></th>
 <td class="colLast">
@@ -231,7 +239,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#builderWithExpectedSize(int)">builderWithExpectedSize</a></span>&#8203;(int&nbsp;expectedSize)</code></th>
 <td class="colLast">
@@ -240,7 +248,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ceiling(E)">ceiling</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code></th>
 <td class="colLast">
@@ -248,7 +256,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  the given element, or <code>null</code> if there is no such element.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comparator()">comparator</a></span>()</code></th>
 <td class="colLast">
@@ -256,14 +264,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  natural ordering of the elements is used.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(E%5B%5D)">copyOf</a></span>&#8203;(E[]&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(E%5B%5D)">copyOf</a></span>&#8203;(E[]&nbsp;elements)</code></th>
 <td class="colLast">
@@ -272,21 +280,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Collection)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Comparator,java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
@@ -295,7 +303,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  Comparator</code>.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Comparator,java.util.Collection)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
@@ -304,7 +312,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  Comparator</code>.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Comparator,java.util.Iterator)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
@@ -313,14 +321,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  Comparator</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Iterator)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOfSorted(java.util.SortedSet)">copyOfSorted</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedSet</a>&lt;E&gt;&nbsp;sortedSet)</code></th>
 <td class="colLast">
@@ -328,28 +336,28 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  <code>Comparator</code>.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>abstract <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#descendingIterator()">descendingIterator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an iterator over the elements in this set, in descending order.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#descendingSet()">descendingSet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a reverse order view of the elements contained in this set.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#first()">first</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the first (lowest) element currently in this set.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#floor(E)">floor</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code></th>
 <td class="colLast">
@@ -357,7 +365,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  the given element, or <code>null</code> if there is no such element.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(E)">headSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code></th>
 <td class="colLast">
@@ -365,7 +373,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  strictly less than <code>toElement</code>.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headSet(E,boolean)">headSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
        boolean&nbsp;inclusive)</code></th>
@@ -374,7 +382,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#higher(E)">higher</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code></th>
 <td class="colLast">
@@ -382,21 +390,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  given element, or <code>null</code> if there is no such element.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>abstract <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#last()">last</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the last (highest) element currently in this set.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lower(E)">lower</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</code></th>
 <td class="colLast">
@@ -404,7 +412,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  given element, or <code>null</code> if there is no such element.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#naturalOrder()">naturalOrder</a></span>()</code></th>
 <td class="colLast">
@@ -412,21 +420,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  natural ordering.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of()">of</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the empty immutable sorted set.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable sorted set containing a single element.</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E)">of</a></span>&#8203;(E&nbsp;element)</code></th>
 <td class="colLast">
@@ -435,7 +443,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2)</code></th>
@@ -443,7 +451,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2)</code></th>
@@ -453,7 +461,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -462,7 +470,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -473,7 +481,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -483,7 +491,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -495,7 +503,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -506,7 +514,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -519,7 +527,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i35" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E,E,E...)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -532,7 +540,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <div class="block">Returns an immutable sorted set containing the given elements sorted by their natural ordering.</div>
 </td>
 </tr>
-<tr id="i36" class="altColor">
+<tr id="i37" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(E,E,E,E,E,E,E...)">of</a></span>&#8203;(E&nbsp;e1,
   E&nbsp;e2,
@@ -548,14 +556,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i37" class="rowColor">
+<tr id="i38" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedBy(java.util.Comparator)">orderedBy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;E&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns a builder that creates immutable sorted sets with an explicit comparator.</div>
 </td>
 </tr>
-<tr id="i38" class="altColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollFirst()">pollFirst</a></span>()</code></th>
 <td class="colLast">
@@ -564,7 +572,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i39" class="rowColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pollLast()">pollLast</a></span>()</code></th>
 <td class="colLast">
@@ -573,7 +581,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i40" class="altColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="ImmutableSortedSet.Builder.html" title="class in com.google.common.collect">ImmutableSortedSet.Builder</a>&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reverseOrder()">reverseOrder</a></span>()</code></th>
 <td class="colLast">
@@ -581,14 +589,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  of their natural ordering.</div>
 </td>
 </tr>
-<tr id="i41" class="rowColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Spliterator</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#spliterator()">spliterator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Spliterator</code></a> over the elements in this collection.</div>
 </td>
 </tr>
-<tr id="i42" class="altColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subSet(E,boolean,E,boolean)">subSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
       boolean&nbsp;fromInclusive,
@@ -599,7 +607,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  <code>fromElement</code> to <code>toElement</code>.</div>
 </td>
 </tr>
-<tr id="i43" class="rowColor">
+<tr id="i44" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subSet(E,E)">subSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
       <a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</code></th>
@@ -609,7 +617,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  exclusive.</div>
 </td>
 </tr>
-<tr id="i44" class="altColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(E)">tailSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</code></th>
 <td class="colLast">
@@ -617,7 +625,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  greater than or equal to <code>fromElement</code>.</div>
 </td>
 </tr>
-<tr id="i45" class="rowColor">
+<tr id="i46" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailSet(E,boolean)">tailSet</a></span>&#8203;(<a href="ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
        boolean&nbsp;inclusive)</code></th>
@@ -626,7 +634,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
  than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.</div>
 </td>
 </tr>
-<tr id="i46" class="altColor">
+<tr id="i47" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableSet()">toImmutableSet</a></span>()</code></th>
 <td class="colLast">
@@ -635,7 +643,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </div>
 </td>
 </tr>
-<tr id="i47" class="rowColor">
+<tr id="i48" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;E,&#8203;?,&#8203;<a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;E&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableSortedSet(java.util.Comparator)">toImmutableSortedSet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
@@ -649,7 +657,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.collect.<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a></h3>
-<code><a href="ImmutableSet.html#asList()">asList</a>, <a href="ImmutableSet.html#equals(java.lang.Object)">equals</a>, <a href="ImmutableSet.html#hashCode()">hashCode</a></code></li>
+<code><a href="ImmutableSet.html#equals(java.lang.Object)">equals</a>, <a href="ImmutableSet.html#hashCode()">hashCode</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.collect.ImmutableCollection">
@@ -1993,7 +2001,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 </a><a id="copyOf(E[])">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
@@ -2007,6 +2015,26 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableSortedSet.html" title="class
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+</dl>
+</li>
+</ul>
+<a id="asList()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>asList</h4>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;asList()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ImmutableCollection.html#asList()">ImmutableCollection</a></code></span></div>
+<div class="block">Returns an <code>ImmutableList</code> containing the same elements, in the same order, as this
+ collection.
+
+ <p><b>Performance note:</b> in most cases this method can return quickly without actually
+ copying anything. The exact circumstances under which the copy is performed are undefined and
+ subject to change.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="ImmutableCollection.html#asList()">asList</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;</code></dd>
 </dl>
 </li>
 </ul>

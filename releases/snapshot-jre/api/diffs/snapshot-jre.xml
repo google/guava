@@ -21121,11 +21121,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <method name="builder" return="com.google.common.collect.ImmutableSet.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

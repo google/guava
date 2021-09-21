@@ -192,7 +192,7 @@
 <span class="sourceLineNo">183</span><a id="line.183">      @SuppressWarnings("unchecked") // we are careful to only pass in E</a>
 <span class="sourceLineNo">184</span><a id="line.184">      // requireNonNull is safe because the first `uniques` elements are non-null.</a>
 <span class="sourceLineNo">185</span><a id="line.185">      E element = (E) requireNonNull(elements[0]);</a>
-<span class="sourceLineNo">186</span><a id="line.186">      return new SingletonImmutableSet&lt;E&gt;(element, hashCode);</a>
+<span class="sourceLineNo">186</span><a id="line.186">      return new SingletonImmutableSet&lt;E&gt;(element);</a>
 <span class="sourceLineNo">187</span><a id="line.187">    } else if (chooseTableSize(uniques) &lt; tableSize / 2) {</a>
 <span class="sourceLineNo">188</span><a id="line.188">      // Resize the table when the array includes too many duplicates.</a>
 <span class="sourceLineNo">189</span><a id="line.189">      return construct(uniques, elements);</a>
