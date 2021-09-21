@@ -388,6 +388,45 @@ public final class HttpHeaders {
   public static final String DNT = "DNT";
   /** The HTTP {@code X-Content-Type-Options} header field name. */
   public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-IP}</a> header field name. Header used for VAST requests to provide the IP address of
+   * the device on whose behalf the request is being made.
+   *
+   * @since NEXT
+   */
+  public static final String X_DEVICE_IP = "X-Device-IP";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Referer}</a> header field name. Header used for VAST requests to provide the {@link
+   * #REFERER} header value that the on-behalf-of client would have used when making a request
+   * itself.
+   *
+   * @since NEXT
+   */
+  public static final String X_DEVICE_REFERER = "X-Device-Referer";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Accept-Language}</a> header field name. Header used for VAST requests to provide the
+   * {@link #ACCEPT_LANGUAGE} header value that the on-behalf-of client would have used when making
+   * a request itself.
+   *
+   * @since NEXT
+   */
+  public static final String X_DEVICE_ACCEPT_LANGUAGE = "X-Device-Accept-Language";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Requested-With}</a> header field name. Header used for VAST requests to provide the
+   * {@link #X_REQUESTED_WITH} header value that the on-behalf-of client would have used when making
+   * a request itself.
+   *
+   * @since NEXT
+   */
+  public static final String X_DEVICE_REQUESTED_WITH = "X-Device-Requested-With";
   /** The HTTP {@code X-Do-Not-Track} header field name. */
   public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";
   /** The HTTP {@code X-Forwarded-For} header field name (superseded by {@code Forwarded}). */
