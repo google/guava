@@ -88,3 +88,7 @@ MISSING @SINCE TAG: com.google.common.reflect.Invokable Method trySetAccessible(
 OK: com.google.common.net.HttpHeaders Field KEEP_ALIVE
 OK: com.google.common.net.HttpHeaders Field SEC_CH_PREFERS_COLOR_SCHEME
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_BITNESS
+OK: com.google.common.net.HttpHeaders Field X_DEVICE_ACCEPT_LANGUAGE
+OK: com.google.common.net.HttpHeaders Field X_DEVICE_IP
+OK: com.google.common.net.HttpHeaders Field X_DEVICE_REFERER
+OK: com.google.common.net.HttpHeaders Field X_DEVICE_REQUESTED_WITH

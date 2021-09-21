@@ -49819,6 +49819,61 @@
       <![CDATA[The HTTP {@code X-Content-Type-Options} header field name.]]>
       </doc>
     </field>
+    <field name="X_DEVICE_IP" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+ X-Device-IP}</a> header field name. Header used for VAST requests to provide the IP address of
+ the device on whose behalf the request is being made.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="X_DEVICE_REFERER" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+ X-Device-Referer}</a> header field name. Header used for VAST requests to provide the {@link
+ #REFERER} header value that the on-behalf-of client would have used when making a request
+ itself.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="X_DEVICE_ACCEPT_LANGUAGE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+ X-Device-Accept-Language}</a> header field name. Header used for VAST requests to provide the
+ {@link #ACCEPT_LANGUAGE} header value that the on-behalf-of client would have used when making
+ a request itself.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="X_DEVICE_REQUESTED_WITH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+ X-Device-Requested-With}</a> header field name. Header used for VAST requests to provide the
+ {@link #X_REQUESTED_WITH} header value that the on-behalf-of client would have used when making
+ a request itself.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="X_DO_NOT_TRACK" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
