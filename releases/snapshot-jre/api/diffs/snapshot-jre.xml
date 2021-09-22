@@ -52503,6 +52503,96 @@
  @since 28.0]]>
       </doc>
     </field>
+    <field name="DEVICE_MEMORY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Device-Memory">{@code
+ Device-Memory}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="DOWNLINK" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Downlink">{@code
+ Downlink}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="ECT" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ECT">{@code
+ ECT}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="RTT" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/RTT">{@code
+ RTT}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SAVE_DATA" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Save-Data">{@code
+ Save-Data}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="VIEWPORT_WIDTH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Viewport-Width">{@code
+ Viewport-Width}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="WIDTH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Width">{@code
+ Width}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="PERMISSIONS_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/permissions-policy-1/">{@code Permissions-Policy}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_CH_PREFERS_COLOR_SCHEME" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -52513,6 +52603,30 @@
  Sec-CH-Prefers-Color-Scheme}</a> header field name.
 
  <p>This header is experimental.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="ACCEPT_CH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head">{@code
+ Accept-CH}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="CRITICAL_CH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3">{@code
+ Critical-CH}</a> header field name.
 
  @since NEXT]]>
       </doc>

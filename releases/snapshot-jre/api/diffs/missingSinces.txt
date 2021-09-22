@@ -206,9 +206,19 @@ OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long,
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, int)
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, java.lang.Object)
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, long)
+OK: com.google.common.net.HttpHeaders Field ACCEPT_CH
+OK: com.google.common.net.HttpHeaders Field CRITICAL_CH
+OK: com.google.common.net.HttpHeaders Field DEVICE_MEMORY
+OK: com.google.common.net.HttpHeaders Field DOWNLINK
+OK: com.google.common.net.HttpHeaders Field ECT
 OK: com.google.common.net.HttpHeaders Field KEEP_ALIVE
+OK: com.google.common.net.HttpHeaders Field PERMISSIONS_POLICY
+OK: com.google.common.net.HttpHeaders Field RTT
+OK: com.google.common.net.HttpHeaders Field SAVE_DATA
 OK: com.google.common.net.HttpHeaders Field SEC_CH_PREFERS_COLOR_SCHEME
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_BITNESS
+OK: com.google.common.net.HttpHeaders Field VIEWPORT_WIDTH
+OK: com.google.common.net.HttpHeaders Field WIDTH
 OK: com.google.common.net.HttpHeaders Field X_DEVICE_ACCEPT_LANGUAGE
 OK: com.google.common.net.HttpHeaders Field X_DEVICE_IP
 OK: com.google.common.net.HttpHeaders Field X_DEVICE_REFERER
