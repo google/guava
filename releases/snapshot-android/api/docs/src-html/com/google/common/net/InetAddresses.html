@@ -952,7 +952,7 @@
 <span class="sourceLineNo">943</span><a id="line.943">    }</a>
 <span class="sourceLineNo">944</span><a id="line.944"></a>
 <span class="sourceLineNo">945</span><a id="line.945">    // Many strategies for hashing are possible. This might suffice for now.</a>
-<span class="sourceLineNo">946</span><a id="line.946">    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();</a>
+<span class="sourceLineNo">946</span><a id="line.946">    int coercedHash = Hashing.murmur3_32_fixed().hashLong(addressAsLong).asInt();</a>
 <span class="sourceLineNo">947</span><a id="line.947"></a>
 <span class="sourceLineNo">948</span><a id="line.948">    // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).</a>
 <span class="sourceLineNo">949</span><a id="line.949">    coercedHash |= 0xe0000000;</a>
