@@ -50,8 +50,8 @@ public class HttpHeadersTest extends TestCase {
             .build();
     ImmutableSet<String> uppercaseAcronyms =
         ImmutableSet.of(
-            "CH", "ID", "DNT", "DNS", "HTTP2", "IP", "MD5", "P3P", "TE", "UA", "UID", "URL", "WWW",
-            "XSS");
+            "CH", "ID", "DNT", "DNS", "ECT", "HTTP2", "IP", "MD5", "P3P", "RTT", "TE", "UA", "UID",
+            "URL", "WWW", "XSS");
     assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);
   }
 

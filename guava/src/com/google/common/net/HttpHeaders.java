@@ -534,6 +534,72 @@ public final class HttpHeaders {
 
   /**
    * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Device-Memory">{@code
+   * Device-Memory}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String DEVICE_MEMORY = "Device-Memory";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Downlink">{@code
+   * Downlink}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String DOWNLINK = "Downlink";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ECT">{@code
+   * ECT}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String ECT = "ECT";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/RTT">{@code
+   * RTT}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String RTT = "RTT";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Save-Data">{@code
+   * Save-Data}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SAVE_DATA = "Save-Data";
+
+  /**
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Viewport-Width">{@code
+   * Viewport-Width}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String VIEWPORT_WIDTH = "Viewport-Width";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Width">{@code
+   * Width}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String WIDTH = "Width";
+
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/permissions-policy-1/">{@code Permissions-Policy}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String PERMISSIONS_POLICY = "Permissions-Policy";
+
+  /**
+   * The HTTP <a
    * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme">{@code
    * Sec-CH-Prefers-Color-Scheme}</a> header field name.
    *
@@ -542,6 +608,23 @@ public final class HttpHeaders {
    * @since NEXT
    */
   public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";
+
+  /**
+   * The HTTP <a
+   * href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head">{@code
+   * Accept-CH}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String ACCEPT_CH = "Accept-CH";
+  /**
+   * The HTTP <a
+   * href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3">{@code
+   * Critical-CH}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CRITICAL_CH = "Critical-CH";
 
   /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
