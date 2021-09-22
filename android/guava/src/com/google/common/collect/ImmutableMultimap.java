@@ -25,6 +25,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
@@ -364,6 +365,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  // DoNotCall wants this to be final, but we want to override it to return more specific types.
+  // Inheritance is closed, and all subtypes are @DoNotCall, so this is safe to suppress.
+  @SuppressWarnings("DoNotCall")
   public ImmutableCollection<V> removeAll(@CheckForNull Object key) {
     throw new UnsupportedOperationException();
   }
@@ -377,6 +382,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  // DoNotCall wants this to be final, but we want to override it to return more specific types.
+  // Inheritance is closed, and all subtypes are @DoNotCall, so this is safe to suppress.
+  @SuppressWarnings("DoNotCall")
   public ImmutableCollection<V> replaceValues(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }
@@ -389,7 +398,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @Deprecated
   @Override
-  public void clear() {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void clear() {
     throw new UnsupportedOperationException();
   }
 
@@ -418,7 +428,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean put(K key, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean put(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -431,7 +442,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean putAll(K key, Iterable<? extends V> values) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean putAll(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }
 
@@ -444,7 +456,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     throw new UnsupportedOperationException();
   }
 
@@ -457,7 +470,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
     throw new UnsupportedOperationException();
   }
 

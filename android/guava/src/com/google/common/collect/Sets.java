@@ -28,6 +28,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -580,6 +581,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean add(@ParametricNullness E e) {
       throw new UnsupportedOperationException();
     }
@@ -593,6 +595,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean remove(@CheckForNull Object object) {
       throw new UnsupportedOperationException();
     }
@@ -606,6 +609,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean addAll(Collection<? extends E> newElements) {
       throw new UnsupportedOperationException();
     }
@@ -619,6 +623,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean removeAll(Collection<?> oldElements) {
       throw new UnsupportedOperationException();
     }
@@ -632,6 +637,7 @@ public final class Sets {
     @CanIgnoreReturnValue
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final boolean retainAll(Collection<?> elementsToKeep) {
       throw new UnsupportedOperationException();
     }
@@ -644,6 +650,7 @@ public final class Sets {
      */
     @Deprecated
     @Override
+    @DoNotCall("Always throws UnsupportedOperationException")
     public final void clear() {
       throw new UnsupportedOperationException();
     }
