@@ -19604,7 +19604,7 @@
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the multimap unmodified.
@@ -19637,7 +19637,7 @@
     </method>
     <method name="put" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="value" type="V"/>
@@ -19650,7 +19650,7 @@
     </method>
     <method name="putAll" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="K"/>
       <param name="values" type="java.lang.Iterable&lt;? extends V&gt;"/>
@@ -19663,7 +19663,7 @@
     </method>
     <method name="putAll" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
       <doc>
@@ -19675,7 +19675,7 @@
     </method>
     <method name="remove" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
       <param name="key" type="java.lang.Object"/>
       <param name="value" type="java.lang.Object"/>
