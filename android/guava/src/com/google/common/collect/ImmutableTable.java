@@ -231,6 +231,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
      * added.
      *
      * @throws IllegalArgumentException if duplicate key pairs were added
+     * @since 31.0
      */
     public ImmutableTable<R, C, V> buildOrThrow() {
       int size = cells.size();
