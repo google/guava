@@ -124,7 +124,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are added
-   * @since NEXT
+   * @since 31.0
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
@@ -141,7 +141,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are added
-   * @since NEXT
+   * @since 31.0
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
@@ -159,7 +159,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are added
-   * @since NEXT
+   * @since 31.0
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1,
@@ -193,7 +193,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are added
-   * @since NEXT
+   * @since 31.0
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1,
@@ -229,7 +229,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are added
-   * @since NEXT
+   * @since 31.0
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1,
@@ -271,7 +271,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * Returns an immutable map containing the given entries, in order.
    *
    * @throws IllegalArgumentException if duplicate keys or values are provided
-   * @since NEXT
+   * @since 31.0
    */
   @SafeVarargs
   public static <K, V> ImmutableBiMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
@@ -446,6 +446,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
      * entries are sorted by value.
      *
      * @throws IllegalArgumentException if duplicate keys or values were added
+     * @since 31.0
      */
     @Override
     public ImmutableBiMap<K, V> buildOrThrow() {

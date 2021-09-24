@@ -421,7 +421,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *
    * @return Map of services and their corresponding startup time, the map entries will be ordered
    *     by startup time.
-   * @since NEXT
+   * @since 31.0
    */
   @J2ObjCIncompatible
   public ImmutableMap<Service, Duration> startupDurations() {

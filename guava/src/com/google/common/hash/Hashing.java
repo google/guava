@@ -137,7 +137,7 @@ public final class Hashing {
    * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
    * HashFunction} returned by the original {@code murmur3_32} method.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static HashFunction murmur3_32_fixed(int seed) {
     return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
@@ -153,7 +153,7 @@ public final class Hashing {
    * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
    * HashFunction} returned by the original {@code murmur3_32} method.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static HashFunction murmur3_32_fixed() {
     return Murmur3_32HashFunction.MURMUR3_32_FIXED;

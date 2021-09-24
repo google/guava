@@ -307,7 +307,7 @@ public final class HttpHeaders {
   /**
    * The HTTP {@code Keep-Alive} header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String KEEP_ALIVE = "Keep-Alive";
   /**
@@ -394,7 +394,7 @@ public final class HttpHeaders {
    * X-Device-IP}</a> header field name. Header used for VAST requests to provide the IP address of
    * the device on whose behalf the request is being made.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String X_DEVICE_IP = "X-Device-IP";
   /**
@@ -404,7 +404,7 @@ public final class HttpHeaders {
    * #REFERER} header value that the on-behalf-of client would have used when making a request
    * itself.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String X_DEVICE_REFERER = "X-Device-Referer";
   /**
@@ -414,7 +414,7 @@ public final class HttpHeaders {
    * {@link #ACCEPT_LANGUAGE} header value that the on-behalf-of client would have used when making
    * a request itself.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String X_DEVICE_ACCEPT_LANGUAGE = "X-Device-Accept-Language";
   /**
@@ -424,7 +424,7 @@ public final class HttpHeaders {
    * {@link #X_REQUESTED_WITH} header value that the on-behalf-of client would have used when making
    * a request itself.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String X_DEVICE_REQUESTED_WITH = "X-Device-Requested-With";
   /** The HTTP {@code X-Do-Not-Track} header field name. */
@@ -537,7 +537,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Device-Memory">{@code
    * Device-Memory}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String DEVICE_MEMORY = "Device-Memory";
 
@@ -545,7 +545,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Downlink">{@code
    * Downlink}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String DOWNLINK = "Downlink";
 
@@ -553,7 +553,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ECT">{@code
    * ECT}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String ECT = "ECT";
 
@@ -561,7 +561,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/RTT">{@code
    * RTT}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String RTT = "RTT";
 
@@ -569,7 +569,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Save-Data">{@code
    * Save-Data}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String SAVE_DATA = "Save-Data";
 
@@ -578,7 +578,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Viewport-Width">{@code
    * Viewport-Width}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String VIEWPORT_WIDTH = "Viewport-Width";
 
@@ -586,7 +586,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Width">{@code
    * Width}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String WIDTH = "Width";
 
@@ -594,7 +594,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://www.w3.org/TR/permissions-policy-1/">{@code Permissions-Policy}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String PERMISSIONS_POLICY = "Permissions-Policy";
 
@@ -605,7 +605,7 @@ public final class HttpHeaders {
    *
    * <p>This header is experimental.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";
 
@@ -614,7 +614,7 @@ public final class HttpHeaders {
    * href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head">{@code
    * Accept-CH}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String ACCEPT_CH = "Accept-CH";
   /**
@@ -622,7 +622,7 @@ public final class HttpHeaders {
    * href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3">{@code
    * Critical-CH}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String CRITICAL_CH = "Critical-CH";
 
@@ -679,7 +679,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness">{@code
    * Sec-CH-UA-Bitness}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.0
    */
   public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
 

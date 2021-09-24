@@ -202,7 +202,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their keys.
    *
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
-   * @since NEXT
+   * @since 31.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -221,7 +221,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their keys.
    *
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
-   * @since NEXT
+   * @since 31.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -241,7 +241,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their keys.
    *
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
-   * @since NEXT
+   * @since 31.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -277,7 +277,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their keys.
    *
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
-   * @since NEXT
+   * @since 31.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -316,7 +316,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * their keys.
    *
    * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
-   * @since NEXT
+   * @since 31.0
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -728,6 +728,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      *
      * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
      *     might be the keys' natural order)
+     * @since 31.0
      */
     @Override
     public ImmutableSortedMap<K, V> buildOrThrow() {
