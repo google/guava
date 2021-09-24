@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.Map;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">/**</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * A map, each entry of which maps a Java &lt;a href="http://tinyurl.com/2cmwkz"&gt;raw type&lt;/a&gt; to an</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * instance of that type. In addition to implementing {@code Map}, the additional type-safe</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * operations {@link #putInstance} and {@link #getInstance} are available.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * &lt;p&gt;Like any other {@code Map&lt;Class, Object&gt;}, this map may contain entries for primitive types,</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * and a primitive type and its corresponding wrapper type may map to different values.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;This class's support for {@code null} requires some explanation: From release 31.0 onward,</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * Guava specifies the nullness of its types through annotations. In the case of {@code</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * ClassToInstanceMap}, it specifies that both the key and value types are restricted to</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * non-nullable types. This specification is reasonable for &lt;i&gt;keys&lt;/i&gt;, which must be non-null</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * classes. This is in contrast to the specification for &lt;i&gt;values&lt;/i&gt;: Null values &lt;i&gt;are&lt;/i&gt;</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * supported by the implementation {@link MutableClassToInstanceMap}, even though that</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * safely suppress any warnings it produces when you write null values into a {@code</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * since nullness checkers will assume that vaules are non-null then, too.</a>
+<span class="sourceLineNo">043</span><a id="line.43"> *</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"&gt;{@code</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * ClassToInstanceMap}&lt;/a&gt;.</a>
+<span class="sourceLineNo">047</span><a id="line.47"> *</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * &lt;p&gt;To map a generic type to an instance of that type, use {@link</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * com.google.common.reflect.TypeToInstanceMap} instead.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * @param &lt;B&gt; the common supertype that all entries must share; often this is simply {@link Object}</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * @since 2.0</a>
+<span class="sourceLineNo">054</span><a id="line.54"> */</a>
+<span class="sourceLineNo">055</span><a id="line.55">@DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")</a>
+<span class="sourceLineNo">056</span><a id="line.56">@GwtCompatible</a>
+<span class="sourceLineNo">057</span><a id="line.57">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">058</span><a id="line.58">// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we</a>
+<span class="sourceLineNo">059</span><a id="line.59">// we might annotate this as...</a>
+<span class="sourceLineNo">060</span><a id="line.60">// ClassToInstanceMap&lt;B extends @Nullable Object&gt; extends Map&lt;Class&lt;? extends @Nonnull B&gt;, B&gt;</a>
+<span class="sourceLineNo">061</span><a id="line.61">// ...and change its methods similarly (&lt;T extends @Nonnull B&gt; or Class&lt;@Nonnull T&gt;).</a>
+<span class="sourceLineNo">062</span><a id="line.62">public interface ClassToInstanceMap&lt;B&gt; extends Map&lt;Class&lt;? extends B&gt;, B&gt; {</a>
+<span class="sourceLineNo">063</span><a id="line.63">  /**</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * Returns the value the specified class is mapped to, or {@code null} if no entry for this class</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * is present. This will only return a value that was bound to this specific class, not a value</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * that may have been bound to a subtype.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   */</a>
+<span class="sourceLineNo">068</span><a id="line.68">  @CheckForNull</a>
+<span class="sourceLineNo">069</span><a id="line.69">  &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type);</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  /**</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * Maps the specified class to the specified value. Does &lt;i&gt;not&lt;/i&gt; associate this value with any</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * of the class's supertypes.</a>
+<span class="sourceLineNo">074</span><a id="line.74">   *</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * @return the value previously associated with this class (possibly {@code null}), or {@code</a>
+<span class="sourceLineNo">076</span><a id="line.76">   *     null} if there was no previous entry.</a>
+<span class="sourceLineNo">077</span><a id="line.77">   */</a>
+<span class="sourceLineNo">078</span><a id="line.78">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">079</span><a id="line.79">  @CheckForNull</a>
+<span class="sourceLineNo">080</span><a id="line.80">  &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value);</a>
+<span class="sourceLineNo">081</span><a id="line.81">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.util.concurrent;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.util.concurrent.Internal.toNanosSaturated;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.time.Duration;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.concurrent.Callable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.concurrent.ScheduledExecutorService;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.concurrent.TimeUnit;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * {@code ExecutorService} methods. To create an instance from an existing {@link</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * ScheduledExecutorService}, call {@link</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * MoreExecutors#listeningDecorator(ScheduledExecutorService)}.</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @author Chris Povirk</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @since 10.0</a>
+<span class="sourceLineNo">034</span><a id="line.34"> */</a>
+<span class="sourceLineNo">035</span><a id="line.35">@GwtIncompatible</a>
+<span class="sourceLineNo">036</span><a id="line.36">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">037</span><a id="line.37">public interface ListeningScheduledExecutorService</a>
+<span class="sourceLineNo">038</span><a id="line.38">    extends ScheduledExecutorService, ListeningExecutorService {</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">  /** @since 15.0 (previously returned ScheduledFuture) */</a>
+<span class="sourceLineNo">041</span><a id="line.41">  @Override</a>
+<span class="sourceLineNo">042</span><a id="line.42">  ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">  /**</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.</a>
+<span class="sourceLineNo">046</span><a id="line.46">   *</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * @since 29.0</a>
+<span class="sourceLineNo">048</span><a id="line.48">   */</a>
+<span class="sourceLineNo">049</span><a id="line.49">  default ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, Duration delay) {</a>
+<span class="sourceLineNo">050</span><a id="line.50">    return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">051</span><a id="line.51">  }</a>
+<span class="sourceLineNo">052</span><a id="line.52"></a>
+<span class="sourceLineNo">053</span><a id="line.53">  /** @since 15.0 (previously returned ScheduledFuture) */</a>
+<span class="sourceLineNo">054</span><a id="line.54">  @Override</a>
+<span class="sourceLineNo">055</span><a id="line.55">  &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</a>
+<span class="sourceLineNo">056</span><a id="line.56">      Callable&lt;V&gt; callable, long delay, TimeUnit unit);</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /**</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.</a>
+<span class="sourceLineNo">060</span><a id="line.60">   *</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * @since 29.0</a>
+<span class="sourceLineNo">062</span><a id="line.62">   */</a>
+<span class="sourceLineNo">063</span><a id="line.63">  default &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</a>
+<span class="sourceLineNo">064</span><a id="line.64">      Callable&lt;V&gt; callable, Duration delay) {</a>
+<span class="sourceLineNo">065</span><a id="line.65">    return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">066</span><a id="line.66">  }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  /** @since 15.0 (previously returned ScheduledFuture) */</a>
+<span class="sourceLineNo">069</span><a id="line.69">  @Override</a>
+<span class="sourceLineNo">070</span><a id="line.70">  ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</a>
+<span class="sourceLineNo">071</span><a id="line.71">      Runnable command, long initialDelay, long period, TimeUnit unit);</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">  /**</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * Duration-based overload of {@link #scheduleAtFixedRate(Runnable, long, long, TimeUnit)}.</a>
+<span class="sourceLineNo">075</span><a id="line.75">   *</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * @since 29.0</a>
+<span class="sourceLineNo">077</span><a id="line.77">   */</a>
+<span class="sourceLineNo">078</span><a id="line.78">  default ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</a>
+<span class="sourceLineNo">079</span><a id="line.79">      Runnable command, Duration initialDelay, Duration period) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">    return scheduleAtFixedRate(</a>
+<span class="sourceLineNo">081</span><a id="line.81">        command, toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">082</span><a id="line.82">  }</a>
+<span class="sourceLineNo">083</span><a id="line.83"></a>
+<span class="sourceLineNo">084</span><a id="line.84">  /** @since 15.0 (previously returned ScheduledFuture) */</a>
+<span class="sourceLineNo">085</span><a id="line.85">  @Override</a>
+<span class="sourceLineNo">086</span><a id="line.86">  ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</a>
+<span class="sourceLineNo">087</span><a id="line.87">      Runnable command, long initialDelay, long delay, TimeUnit unit);</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">  /**</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * Duration-based overload of {@link #scheduleWithFixedDelay(Runnable, long, long, TimeUnit)}.</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * @since 29.0</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  default ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</a>
+<span class="sourceLineNo">095</span><a id="line.95">      Runnable command, Duration initialDelay, Duration delay) {</a>
+<span class="sourceLineNo">096</span><a id="line.96">    return scheduleWithFixedDelay(</a>
+<span class="sourceLineNo">097</span><a id="line.97">        command, toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">098</span><a id="line.98">  }</a>
+<span class="sourceLineNo">099</span><a id="line.99">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

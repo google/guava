@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.io.IOException;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.io.ObjectInputStream;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.io.ObjectOutputStream;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.HashMap;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">/**</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * Multiset implementation backed by a {@link HashMap}.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * @author Jared Levy</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @since 2.0</a>
+<span class="sourceLineNo">033</span><a id="line.33"> */</a>
+<span class="sourceLineNo">034</span><a id="line.34">@GwtCompatible(serializable = true, emulated = true)</a>
+<span class="sourceLineNo">035</span><a id="line.35">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">036</span><a id="line.36">public final class HashMultiset&lt;E extends @Nullable Object&gt; extends AbstractMapBasedMultiset&lt;E&gt; {</a>
+<span class="sourceLineNo">037</span><a id="line.37"></a>
+<span class="sourceLineNo">038</span><a id="line.38">  /** Creates a new, empty {@code HashMultiset} using the default initial capacity. */</a>
+<span class="sourceLineNo">039</span><a id="line.39">  public static &lt;E extends @Nullable Object&gt; HashMultiset&lt;E&gt; create() {</a>
+<span class="sourceLineNo">040</span><a id="line.40">    return new HashMultiset&lt;E&gt;();</a>
+<span class="sourceLineNo">041</span><a id="line.41">  }</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">  /**</a>
+<span class="sourceLineNo">044</span><a id="line.44">   * Creates a new, empty {@code HashMultiset} with the specified expected number of distinct</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * elements.</a>
+<span class="sourceLineNo">046</span><a id="line.46">   *</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * @param distinctElements the expected number of distinct elements</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * @throws IllegalArgumentException if {@code distinctElements} is negative</a>
+<span class="sourceLineNo">049</span><a id="line.49">   */</a>
+<span class="sourceLineNo">050</span><a id="line.50">  public static &lt;E extends @Nullable Object&gt; HashMultiset&lt;E&gt; create(int distinctElements) {</a>
+<span class="sourceLineNo">051</span><a id="line.51">    return new HashMultiset&lt;E&gt;(distinctElements);</a>
+<span class="sourceLineNo">052</span><a id="line.52">  }</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">  /**</a>
+<span class="sourceLineNo">055</span><a id="line.55">   * Creates a new {@code HashMultiset} containing the specified elements.</a>
+<span class="sourceLineNo">056</span><a id="line.56">   *</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * &lt;p&gt;This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.</a>
+<span class="sourceLineNo">058</span><a id="line.58">   *</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * @param elements the elements that the multiset should contain</a>
+<span class="sourceLineNo">060</span><a id="line.60">   */</a>
+<span class="sourceLineNo">061</span><a id="line.61">  public static &lt;E extends @Nullable Object&gt; HashMultiset&lt;E&gt; create(</a>
+<span class="sourceLineNo">062</span><a id="line.62">      Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">063</span><a id="line.63">    HashMultiset&lt;E&gt; multiset = create(Multisets.inferDistinctElements(elements));</a>
+<span class="sourceLineNo">064</span><a id="line.64">    Iterables.addAll(multiset, elements);</a>
+<span class="sourceLineNo">065</span><a id="line.65">    return multiset;</a>
+<span class="sourceLineNo">066</span><a id="line.66">  }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  private HashMultiset() {</a>
+<span class="sourceLineNo">069</span><a id="line.69">    super(new HashMap&lt;E, Count&gt;());</a>
+<span class="sourceLineNo">070</span><a id="line.70">  }</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">  private HashMultiset(int distinctElements) {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    super(Maps.&lt;E, Count&gt;newHashMapWithExpectedSize(distinctElements));</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  /**</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * @serialData the number of distinct elements, the first element, its count, the second element,</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *     its count, and so on</a>
+<span class="sourceLineNo">079</span><a id="line.79">   */</a>
+<span class="sourceLineNo">080</span><a id="line.80">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">081</span><a id="line.81">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">082</span><a id="line.82">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">083</span><a id="line.83">    Serialization.writeMultiset(this, stream);</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">087</span><a id="line.87">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">088</span><a id="line.88">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">089</span><a id="line.89">    int distinctElements = Serialization.readCount(stream);</a>
+<span class="sourceLineNo">090</span><a id="line.90">    setBackingMap(Maps.&lt;E, Count&gt;newHashMap());</a>
+<span class="sourceLineNo">091</span><a id="line.91">    Serialization.populateMultiset(this, stream, distinctElements);</a>
+<span class="sourceLineNo">092</span><a id="line.92">  }</a>
+<span class="sourceLineNo">093</span><a id="line.93"></a>
+<span class="sourceLineNo">094</span><a id="line.94">  @GwtIncompatible // Not needed in emulated source.</a>
+<span class="sourceLineNo">095</span><a id="line.95">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">096</span><a id="line.96">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
