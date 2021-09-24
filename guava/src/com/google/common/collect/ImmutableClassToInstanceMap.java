@@ -190,7 +190,6 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
   @CheckForNull
-  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after annotating supertype.
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
