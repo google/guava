@@ -131,15 +131,13 @@ abstract class AbstractCatchingFuture<
     T fallbackResult;
     try {
       fallbackResult = doFallback(localFallback, castThrowable);
+      setResult(fallbackResult);
     } catch (Throwable t) {
       setException(t);
-      return;
     } finally {
       exceptionType = null;
       fallback = null;
     }
-
-    setResult(fallbackResult);
   }
 
   @Override
