@@ -437,7 +437,7 @@ public&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>buildOrThrow</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.Builder.html#line.450">buildOrThrow</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableBiMap.Builder.html#line.451">buildOrThrow</a>()</pre>
 <div class="block">Returns a newly-created immutable bimap, or throws an exception if any key or value was added
  more than once. The iteration order of the returned bimap is the order in which entries were
  inserted into the builder, unless <a href="#orderEntriesByValue(java.util.Comparator)"><code>orderEntriesByValue(java.util.Comparator&lt;? super V&gt;)</code></a> was called, in which case
@@ -447,6 +447,8 @@ public&nbsp;<a href="ImmutableBiMap.Builder.html" title="class in com.google.com
 <dd><code><a href="ImmutableMap.Builder.html#buildOrThrow()">buildOrThrow</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys or values were added</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>31.0</dd>
 </dl>
 </li>
 </ul>

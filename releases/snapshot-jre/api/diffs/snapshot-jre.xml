@@ -16833,7 +16833,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are added
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16858,7 +16858,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are added
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16885,7 +16885,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are added
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16914,7 +16914,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are added
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16945,7 +16945,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are added
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="ofEntries" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
@@ -16957,7 +16957,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys or values are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableBiMap.Builder&lt;K, V&gt;"
@@ -17168,7 +17168,8 @@
  inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
  entries are sorted by value.
 
- @throws IllegalArgumentException if duplicate keys or values were added]]>
+ @throws IllegalArgumentException if duplicate keys or values were added
+ @since 31.0]]>
       </doc>
     </method>
     <doc>
@@ -18870,7 +18871,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18895,7 +18896,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18922,7 +18923,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18951,7 +18952,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18982,7 +18983,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="ofEntries" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
@@ -18994,7 +18995,7 @@
       <![CDATA[Returns an immutable map containing the given entries, in order.
 
  @throws IllegalArgumentException if duplicate keys are provided
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableMap.Builder&lt;K, V&gt;"
@@ -19426,7 +19427,8 @@
  into the builder, unless {@link #orderEntriesByValue} was called, in which case entries are
  sorted by value.
 
- @throws IllegalArgumentException if duplicate keys were added]]>
+ @throws IllegalArgumentException if duplicate keys were added
+ @since 31.0]]>
       </doc>
     </method>
     <doc>
@@ -21799,7 +21801,7 @@
  their keys.
 
  @throws IllegalArgumentException if any two keys are equal according to their natural ordering
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -21825,7 +21827,7 @@
  their keys.
 
  @throws IllegalArgumentException if any two keys are equal according to their natural ordering
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -21853,7 +21855,7 @@
  their keys.
 
  @throws IllegalArgumentException if any two keys are equal according to their natural ordering
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -21883,7 +21885,7 @@
  their keys.
 
  @throws IllegalArgumentException if any two keys are equal according to their natural ordering
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -21915,7 +21917,7 @@
  their keys.
 
  @throws IllegalArgumentException if any two keys are equal according to their natural ordering
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
@@ -22419,7 +22421,8 @@
  equal.
 
  @throws IllegalArgumentException if any two keys are equal according to the comparator (which
-     might be the keys' natural order)]]>
+     might be the keys' natural order)
+ @since 31.0]]>
       </doc>
     </method>
     <doc>
@@ -23883,7 +23886,8 @@
       <![CDATA[Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
  added.
 
- @throws IllegalArgumentException if duplicate key pairs were added]]>
+ @throws IllegalArgumentException if duplicate key pairs were added
+ @since 31.0]]>
       </doc>
     </method>
     <doc>
@@ -43256,7 +43260,7 @@
  <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
  HashFunction} returned by the original {@code murmur3_32} method.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="murmur3_32_fixed" return="com.google.common.hash.HashFunction"
@@ -43273,7 +43277,7 @@
  <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
  HashFunction} returned by the original {@code murmur3_32} method.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="murmur3_128" return="com.google.common.hash.HashFunction"
@@ -52081,7 +52085,7 @@
       <doc>
       <![CDATA[The HTTP {@code Keep-Alive} header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
@@ -52273,7 +52277,7 @@
  X-Device-IP}</a> header field name. Header used for VAST requests to provide the IP address of
  the device on whose behalf the request is being made.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="X_DEVICE_REFERER" type="java.lang.String"
@@ -52287,7 +52291,7 @@
  #REFERER} header value that the on-behalf-of client would have used when making a request
  itself.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="X_DEVICE_ACCEPT_LANGUAGE" type="java.lang.String"
@@ -52301,7 +52305,7 @@
  {@link #ACCEPT_LANGUAGE} header value that the on-behalf-of client would have used when making
  a request itself.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="X_DEVICE_REQUESTED_WITH" type="java.lang.String"
@@ -52315,7 +52319,7 @@
  {@link #X_REQUESTED_WITH} header value that the on-behalf-of client would have used when making
  a request itself.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="X_DO_NOT_TRACK" type="java.lang.String"
@@ -52526,7 +52530,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Device-Memory">{@code
  Device-Memory}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="DOWNLINK" type="java.lang.String"
@@ -52537,7 +52541,7 @@
       <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Downlink">{@code
  Downlink}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="ECT" type="java.lang.String"
@@ -52548,7 +52552,7 @@
       <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ECT">{@code
  ECT}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="RTT" type="java.lang.String"
@@ -52559,7 +52563,7 @@
       <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/RTT">{@code
  RTT}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="SAVE_DATA" type="java.lang.String"
@@ -52570,7 +52574,7 @@
       <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Save-Data">{@code
  Save-Data}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="VIEWPORT_WIDTH" type="java.lang.String"
@@ -52582,7 +52586,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Viewport-Width">{@code
  Viewport-Width}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="WIDTH" type="java.lang.String"
@@ -52593,7 +52597,7 @@
       <![CDATA[The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Width">{@code
  Width}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="PERMISSIONS_POLICY" type="java.lang.String"
@@ -52604,7 +52608,7 @@
       <![CDATA[The HTTP <a href="https://www.w3.org/TR/permissions-policy-1/">{@code Permissions-Policy}</a>
  header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="SEC_CH_PREFERS_COLOR_SCHEME" type="java.lang.String"
@@ -52618,7 +52622,7 @@
 
  <p>This header is experimental.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="ACCEPT_CH" type="java.lang.String"
@@ -52630,7 +52634,7 @@
  href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head">{@code
  Accept-CH}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="CRITICAL_CH" type="java.lang.String"
@@ -52642,7 +52646,7 @@
  href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3">{@code
  Critical-CH}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="SEC_CH_UA" type="java.lang.String"
@@ -52730,7 +52734,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness">{@code
  Sec-CH-UA-Bitness}</a> header field name.
 
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -71975,7 +71979,7 @@
 
  @return Map of services and their corresponding startup time, the map entries will be ordered
      by startup time.
- @since NEXT]]>
+ @since 31.0]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
