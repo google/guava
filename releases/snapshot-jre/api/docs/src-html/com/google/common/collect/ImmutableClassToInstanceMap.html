@@ -199,15 +199,14 @@
 <span class="sourceLineNo">190</span><a id="line.190">  @Override</a>
 <span class="sourceLineNo">191</span><a id="line.191">  @DoNotCall("Always throws UnsupportedOperationException")</a>
 <span class="sourceLineNo">192</span><a id="line.192">  @CheckForNull</a>
-<span class="sourceLineNo">193</span><a id="line.193">  @SuppressWarnings("nullness") // TODO(cpovirk): Remove after annotating supertype.</a>
-<span class="sourceLineNo">194</span><a id="line.194">  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {</a>
-<span class="sourceLineNo">195</span><a id="line.195">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">196</span><a id="line.196">  }</a>
-<span class="sourceLineNo">197</span><a id="line.197"></a>
-<span class="sourceLineNo">198</span><a id="line.198">  Object readResolve() {</a>
-<span class="sourceLineNo">199</span><a id="line.199">    return isEmpty() ? of() : this;</a>
-<span class="sourceLineNo">200</span><a id="line.200">  }</a>
-<span class="sourceLineNo">201</span><a id="line.201">}</a>
+<span class="sourceLineNo">193</span><a id="line.193">  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {</a>
+<span class="sourceLineNo">194</span><a id="line.194">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">195</span><a id="line.195">  }</a>
+<span class="sourceLineNo">196</span><a id="line.196"></a>
+<span class="sourceLineNo">197</span><a id="line.197">  Object readResolve() {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    return isEmpty() ? of() : this;</a>
+<span class="sourceLineNo">199</span><a id="line.199">  }</a>
+<span class="sourceLineNo">200</span><a id="line.200">}</a>
 
 
 

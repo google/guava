@@ -10525,7 +10525,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="type" type="java.lang.Class&lt;T&gt;"/>
-      <param name="value" type="T"/>
+      <param name="value" type="T extends B"/>
       <doc>
       <![CDATA[Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.
@@ -10542,8 +10542,19 @@
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
+ <p>This class's support for {@code null} requires some explanation: From release 31.0 onward,
+ Guava specifies the nullness of its types through annotations. In the case of {@code
+ ClassToInstanceMap}, it specifies that both the key and value types are restricted to
+ non-nullable types. This specification is reasonable for <i>keys</i>, which must be non-null
+ classes. This is in contrast to the specification for <i>values</i>: Null values <i>are</i>
+ supported by the implementation {@link MutableClassToInstanceMap}, even though that
+ implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can
+ safely suppress any warnings it produces when you write null values into a {@code
+ MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,
+ since nullness checkers will assume that vaules are non-null then, too.
+
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"> {@code
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  ClassToInstanceMap}</a>.
 
  <p>To map a generic type to an instance of that type, use {@link
@@ -31354,8 +31365,11 @@
  ImmutableClassToInstanceMap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"> {@code
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
  ClassToInstanceMap}</a>.
+
+ <p>This implementation <i>does</i> support null values, despite how it is annotated; see
+ discussion at {@link ClassToInstanceMap}.
 
  @author Kevin Bourrillion
  @since 2.0]]>

@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.44">ClassToInstanceMap</a>&lt;B&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.55">ClassToInstanceMap</a>&lt;B&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends B&gt;,&#8203;B&gt;</pre>
 <div class="block">A map, each entry of which maps a Java <a href="http://tinyurl.com/2cmwkz">raw type</a> to an
  instance of that type. In addition to implementing <code>Map</code>, the additional type-safe
@@ -146,7 +146,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  <p>Like any other <code>Map&lt;Class, Object&gt;</code>, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"> <code>
+ <p>This class's support for <code>null</code> requires some explanation: From release 31.0 onward,
+ Guava specifies the nullness of its types through annotations. In the case of <code>
+ ClassToInstanceMap</code>, it specifies that both the key and value types are restricted to
+ non-nullable types. This specification is reasonable for <i>keys</i>, which must be non-null
+ classes. This is in contrast to the specification for <i>values</i>: Null values <i>are</i>
+ supported by the implementation <a href="MutableClassToInstanceMap.html" title="class in com.google.common.collect"><code>MutableClassToInstanceMap</code></a>, even though that
+ implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can
+ safely suppress any warnings it produces when you write null values into a <code>
+ MutableClassToInstanceMap</code>. Just be sure to be prepared for null values when reading from it,
+ since nullness checkers will assume that vaules are non-null then, too.
+
+ <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"><code>
  ClassToInstanceMap</code></a>.
 
  <p>To map a generic type to an instance of that type, use <a href="../reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect"><code>TypeToInstanceMap</code></a> instead.</div>
@@ -239,7 +250,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre class="methodSignature">&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.52">getInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.68">getInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.</div>
@@ -254,8 +266,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <li class="blockList">
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.61">putInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
-                            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual" class="externalLink">@NullableDecl</a>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+&lt;T extends <a href="ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/ClassToInstanceMap.html#line.78">putInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                             T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.</div>
