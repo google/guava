@@ -77,7 +77,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  public void testSneakyThrow() throws Exception {
+  public void testSneakyThrow() {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
           boolean haveBeenCalled;
@@ -190,7 +190,7 @@ public class AbstractIteratorTest extends TestCase {
         new AbstractIterator<Integer>() {
           @Override
           protected Integer computeNext() {
-            boolean unused = hasNext();
+            hasNext();
             return null;
           }
         };
@@ -205,7 +205,7 @@ public class AbstractIteratorTest extends TestCase {
   // hasNext/next), but we'll cop out for now, knowing that
   // next() both start by invoking hasNext() anyway.
 
-  /** Throws a undeclared checked exception. */
+  /** Throws an undeclared checked exception. */
   private static void sneakyThrow(Throwable t) {
     class SneakyThrower<T extends Throwable> {
       @SuppressWarnings("unchecked") // intentionally unsafe for test
