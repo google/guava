@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Benchmarks for {@link ConcurrentHashMultiset}.
@@ -192,7 +192,7 @@ public class ConcurrentHashMultisetBenchmark {
      * @return the nonnegative number of occurrences of the element
      */
     @Override
-    public int count(@NullableDecl Object element) {
+    public int count(@CheckForNull Object element) {
       try {
         return unbox(countMap.get(element));
       } catch (NullPointerException | ClassCastException e) {
@@ -295,7 +295,7 @@ public class ConcurrentHashMultisetBenchmark {
      * @throws IllegalArgumentException if {@code occurrences} is negative
      */
     @Override
-    public int remove(@NullableDecl Object element, int occurrences) {
+    public int remove(@CheckForNull Object element, int occurrences) {
       if (occurrences == 0) {
         return count(element);
       }
@@ -330,7 +330,7 @@ public class ConcurrentHashMultisetBenchmark {
      * @param element the element whose occurrences should all be removed
      * @return the number of occurrences successfully removed, possibly zero
      */
-    private int removeAllOccurrences(@NullableDecl Object element) {
+    private int removeAllOccurrences(@CheckForNull Object element) {
       try {
         return unbox(countMap.remove(element));
       } catch (NullPointerException | ClassCastException e) {
@@ -349,7 +349,7 @@ public class ConcurrentHashMultisetBenchmark {
      * @param occurrences the number of occurrences of {@code element} to remove
      * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
      */
-    public boolean removeExactly(@NullableDecl Object element, int occurrences) {
+    public boolean removeExactly(@CheckForNull Object element, int occurrences) {
       if (occurrences == 0) {
         return true;
       }
@@ -543,7 +543,7 @@ public class ConcurrentHashMultisetBenchmark {
     }
 
     /** We use a special form of unboxing that treats null as zero. */
-    private static int unbox(@NullableDecl Integer i) {
+    private static int unbox(@CheckForNull Integer i) {
       return (i == null) ? 0 : i;
     }
   }

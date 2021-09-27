@@ -35,8 +35,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code BaseEncoding}.
@@ -405,7 +405,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void assertFailsToDecode(
-      BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
+      BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage) {
     // We use this somewhat weird pattern with an enum for each assertion we want to make as a way
     // of dealing with the fact that one of the assertions is @GwtIncompatible but we don't want to
     // have to have duplicate @GwtIncompatible test methods just to make that assertion.
@@ -419,7 +419,7 @@ public class BaseEncodingTest extends TestCase {
     DECODING_STREAM {
       @Override
       void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
+          BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage) {
         // Regression test for case where DecodingException was swallowed by default implementation
         // of
         // InputStream.read(byte[], int, int)
@@ -440,14 +440,14 @@ public class BaseEncodingTest extends TestCase {
     CAN_DECODE {
       @Override
       void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
+          BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage) {
         assertFalse(encoding.canDecode(cannotDecode));
       }
     },
     DECODE {
       @Override
       void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
+          BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage) {
         try {
           encoding.decode(cannotDecode);
           fail("Expected IllegalArgumentException");
@@ -461,7 +461,7 @@ public class BaseEncodingTest extends TestCase {
     DECODE_CHECKED {
       @Override
       void assertFailsToDecode(
-          BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage) {
+          BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage) {
         try {
           encoding.decodeChecked(cannotDecode);
           fail("Expected DecodingException");
@@ -474,7 +474,7 @@ public class BaseEncodingTest extends TestCase {
     };
 
     abstract void assertFailsToDecode(
-        BaseEncoding encoding, String cannotDecode, @NullableDecl String expectedMessage);
+        BaseEncoding encoding, String cannotDecode, @CheckForNull String expectedMessage);
   }
 
   @GwtIncompatible // Reader/Writer

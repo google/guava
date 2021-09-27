@@ -31,8 +31,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.LogRecord;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link Closer}.
@@ -435,7 +435,7 @@ public class CloserTest extends TestCase {
       throw new IOException();
     }
 
-    private TestCloseable(@NullableDecl Throwable throwOnClose) {
+    private TestCloseable(@CheckForNull Throwable throwOnClose) {
       this.throwOnClose = throwOnClose;
     }
 
