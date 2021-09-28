@@ -9,11 +9,11 @@ utilities for concurrency, I/O, hashing, caching, primitives, strings, and more!
 is widely used on most Java projects within Google, and widely used by many
 other companies as well.
 
-Guava comes in two flavors.
+Guava comes in two flavors:
 
 *   The JRE flavor requires JDK 1.8 or higher.
-*   If you need support for JDK 1.7 or Android, use the Android flavor. You can
-    find the Android Guava source in the [`android` directory].
+*   If you need support for Android, use the Android flavor. You can find the
+    Android Guava source in the [`android` directory].
 
 [`android` directory]: https://github.com/google/guava/tree/master/android
 
@@ -21,9 +21,9 @@ Guava comes in two flavors.
 
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
-for use on Android or Java 7 or by any library that wants to be compatible with
-either of those. These flavors are specified in the Maven version field as
-either `31.0.1-jre` or `31.0.1-android`. For more about depending on Guava, see
+for use on Android or by any library that wants to be compatible with Android.
+These flavors are specified in the Maven version field as either `31.0.1-jre` or
+`31.0.1-android`. For more about depending on Guava, see
 [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
