@@ -271,12 +271,6 @@
         <version>${checker-framework.version}</version>
         <classifier>sources</classifier>
       </dependency>
-      <!-- TODO(cpovirk): Remove checker-compat-qual after we finish migrating to type annotations. -->
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>checker-compat-qual</artifactId>
-        <version>2.5.5</version>
-      </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
