@@ -118,7 +118,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Generates fresh instances of types that are different from each other (if possible).
@@ -175,7 +175,7 @@ class FreshValueGenerator {
    *   <li>null if no value can be generated.
    * </ul>
    */
-  @NullableDecl
+  @CheckForNull
   final Object generateFresh(TypeToken<?> type) {
     Object generated = generate(type);
     if (generated != null) {
@@ -184,7 +184,7 @@ class FreshValueGenerator {
     return generated;
   }
 
-  @NullableDecl
+  @CheckForNull
   final <T> T generateFresh(Class<T> type) {
     return Primitives.wrap(type).cast(generateFresh(TypeToken.of(type)));
   }
@@ -299,7 +299,7 @@ class FreshValueGenerator {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof FreshInvocationHandler) {
         FreshInvocationHandler that = (FreshInvocationHandler) obj;
         return identity == that.identity;
@@ -647,29 +647,29 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <E> Iterable<E> generateIterable(@NullableDecl E freshElement) {
+  static <E> Iterable<E> generateIterable(@CheckForNull E freshElement) {
     return generateList(freshElement);
   }
 
   @Generates
-  static <E> Collection<E> generateCollection(@NullableDecl E freshElement) {
+  static <E> Collection<E> generateCollection(@CheckForNull E freshElement) {
     return generateList(freshElement);
   }
 
   @Generates
-  static <E> List<E> generateList(@NullableDecl E freshElement) {
+  static <E> List<E> generateList(@CheckForNull E freshElement) {
     return generateArrayList(freshElement);
   }
 
   @Generates
-  static <E> ArrayList<E> generateArrayList(@NullableDecl E freshElement) {
+  static <E> ArrayList<E> generateArrayList(@CheckForNull E freshElement) {
     ArrayList<E> list = Lists.newArrayList();
     list.add(freshElement);
     return list;
   }
 
   @Generates
-  static <E> LinkedList<E> generateLinkedList(@NullableDecl E freshElement) {
+  static <E> LinkedList<E> generateLinkedList(@CheckForNull E freshElement) {
     LinkedList<E> list = Lists.newLinkedList();
     list.add(freshElement);
     return list;
@@ -686,17 +686,17 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <E> Set<E> generateSet(@NullableDecl E freshElement) {
+  static <E> Set<E> generateSet(@CheckForNull E freshElement) {
     return generateHashSet(freshElement);
   }
 
   @Generates
-  static <E> HashSet<E> generateHashSet(@NullableDecl E freshElement) {
+  static <E> HashSet<E> generateHashSet(@CheckForNull E freshElement) {
     return generateLinkedHashSet(freshElement);
   }
 
   @Generates
-  static <E> LinkedHashSet<E> generateLinkedHashSet(@NullableDecl E freshElement) {
+  static <E> LinkedHashSet<E> generateLinkedHashSet(@CheckForNull E freshElement) {
     LinkedHashSet<E> set = Sets.newLinkedHashSet();
     set.add(freshElement);
     return set;
@@ -731,19 +731,19 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <E> Multiset<E> generateMultiset(@NullableDecl E freshElement) {
+  static <E> Multiset<E> generateMultiset(@CheckForNull E freshElement) {
     return generateHashMultiset(freshElement);
   }
 
   @Generates
-  static <E> HashMultiset<E> generateHashMultiset(@NullableDecl E freshElement) {
+  static <E> HashMultiset<E> generateHashMultiset(@CheckForNull E freshElement) {
     HashMultiset<E> multiset = HashMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
   @Generates
-  static <E> LinkedHashMultiset<E> generateLinkedHashMultiset(@NullableDecl E freshElement) {
+  static <E> LinkedHashMultiset<E> generateLinkedHashMultiset(@CheckForNull E freshElement) {
     LinkedHashMultiset<E> multiset = LinkedHashMultiset.create();
     multiset.add(freshElement);
     return multiset;
@@ -773,18 +773,18 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <K, V> Map<K, V> generateMap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> Map<K, V> generateMap(@CheckForNull K key, @CheckForNull V value) {
     return generateHashdMap(key, value);
   }
 
   @Generates
-  static <K, V> HashMap<K, V> generateHashdMap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> HashMap<K, V> generateHashdMap(@CheckForNull K key, @CheckForNull V value) {
     return generateLinkedHashMap(key, value);
   }
 
   @Generates
   static <K, V> LinkedHashMap<K, V> generateLinkedHashMap(
-      @NullableDecl K key, @NullableDecl V value) {
+      @CheckForNull K key, @CheckForNull V value) {
     LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
     map.put(key, value);
     return map;
@@ -809,19 +809,19 @@ class FreshValueGenerator {
 
   @Generates
   static <K extends Comparable<? super K>, V> SortedMap<K, V> generateSortedMap(
-      K key, @NullableDecl V value) {
+      K key, @CheckForNull V value) {
     return generateNavigableMap(key, value);
   }
 
   @Generates
   static <K extends Comparable<? super K>, V> NavigableMap<K, V> generateNavigableMap(
-      K key, @NullableDecl V value) {
+      K key, @CheckForNull V value) {
     return generateTreeMap(key, value);
   }
 
   @Generates
   static <K extends Comparable<? super K>, V> TreeMap<K, V> generateTreeMap(
-      K key, @NullableDecl V value) {
+      K key, @CheckForNull V value) {
     TreeMap<K, V> map = Maps.newTreeMap();
     map.put(key, value);
     return map;
@@ -834,7 +834,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <K, V> Multimap<K, V> generateMultimap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> Multimap<K, V> generateMultimap(@CheckForNull K key, @CheckForNull V value) {
     return generateListMultimap(key, value);
   }
 
@@ -845,13 +845,13 @@ class FreshValueGenerator {
 
   @Generates
   static <K, V> ListMultimap<K, V> generateListMultimap(
-      @NullableDecl K key, @NullableDecl V value) {
+      @CheckForNull K key, @CheckForNull V value) {
     return generateArrayListMultimap(key, value);
   }
 
   @Generates
   static <K, V> ArrayListMultimap<K, V> generateArrayListMultimap(
-      @NullableDecl K key, @NullableDecl V value) {
+      @CheckForNull K key, @CheckForNull V value) {
     ArrayListMultimap<K, V> multimap = ArrayListMultimap.create();
     multimap.put(key, value);
     return multimap;
@@ -863,13 +863,13 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <K, V> SetMultimap<K, V> generateSetMultimap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> SetMultimap<K, V> generateSetMultimap(@CheckForNull K key, @CheckForNull V value) {
     return generateLinkedHashMultimap(key, value);
   }
 
   @Generates
   static <K, V> HashMultimap<K, V> generateHashMultimap(
-      @NullableDecl K key, @NullableDecl V value) {
+      @CheckForNull K key, @CheckForNull V value) {
     HashMultimap<K, V> multimap = HashMultimap.create();
     multimap.put(key, value);
     return multimap;
@@ -877,7 +877,7 @@ class FreshValueGenerator {
 
   @Generates
   static <K, V> LinkedHashMultimap<K, V> generateLinkedHashMultimap(
-      @NullableDecl K key, @NullableDecl V value) {
+      @CheckForNull K key, @CheckForNull V value) {
     LinkedHashMultimap<K, V> multimap = LinkedHashMultimap.create();
     multimap.put(key, value);
     return multimap;
@@ -889,12 +889,12 @@ class FreshValueGenerator {
   }
 
   @Generates
-  static <K, V> BiMap<K, V> generateBimap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> BiMap<K, V> generateBimap(@CheckForNull K key, @CheckForNull V value) {
     return generateHashBiMap(key, value);
   }
 
   @Generates
-  static <K, V> HashBiMap<K, V> generateHashBiMap(@NullableDecl K key, @NullableDecl V value) {
+  static <K, V> HashBiMap<K, V> generateHashBiMap(@CheckForNull K key, @CheckForNull V value) {
     HashBiMap<K, V> bimap = HashBiMap.create();
     bimap.put(key, value);
     return bimap;
@@ -907,13 +907,13 @@ class FreshValueGenerator {
 
   @Generates
   static <R, C, V> Table<R, C, V> generateTable(
-      @NullableDecl R row, @NullableDecl C column, @NullableDecl V value) {
+      @CheckForNull R row, @CheckForNull C column, @CheckForNull V value) {
     return generateHashBasedTable(row, column, value);
   }
 
   @Generates
   static <R, C, V> HashBasedTable<R, C, V> generateHashBasedTable(
-      @NullableDecl R row, @NullableDecl C column, @NullableDecl V value) {
+      @CheckForNull R row, @CheckForNull C column, @CheckForNull V value) {
     HashBasedTable<R, C, V> table = HashBasedTable.create();
     table.put(row, column, value);
     return table;

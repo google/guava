@@ -30,7 +30,7 @@ import java.util.Queue;
 import java.util.SortedSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An unbounded {@linkplain BlockingQueue blocking queue} that uses the same ordering rules as class
@@ -124,7 +124,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @throws IllegalArgumentException if {@code initialCapacity} is less than 1
    */
   public MonitorBasedPriorityBlockingQueue(
-      int initialCapacity, @NullableDecl Comparator<? super E> comparator) {
+      int initialCapacity, @CheckForNull Comparator<? super E> comparator) {
     q = new PriorityQueue<E>(initialCapacity, comparator);
   }
 
@@ -303,7 +303,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @return {@code true} if this queue changed as a result of the call
    */
   @Override
-  public boolean remove(@NullableDecl Object o) {
+  public boolean remove(@CheckForNull Object o) {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {
@@ -322,7 +322,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @return {@code true} if this queue contains the specified element
    */
   @Override
-  public boolean contains(@NullableDecl Object o) {
+  public boolean contains(@CheckForNull Object o) {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {

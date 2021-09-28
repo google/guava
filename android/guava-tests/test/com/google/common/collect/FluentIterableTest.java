@@ -38,9 +38,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.CheckForNull;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@link FluentIterable}.
@@ -850,7 +850,7 @@ public class FluentIterableTest extends TestCase {
               .uniqueIndex(
                   new Function<Integer, Object>() {
                     @Override
-                    public Object apply(@NullableDecl Integer input) {
+                    public Object apply(@CheckForNull Integer input) {
                       return String.valueOf(input);
                     }
                   });
