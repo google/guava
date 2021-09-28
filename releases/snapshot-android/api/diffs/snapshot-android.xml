@@ -59760,6 +59760,9 @@
     <doc>
     <![CDATA[A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.
 
+ <p>This implementation <i>does</i> support null values, despite how it is annotated; see
+ discussion at {@link TypeToInstanceMap}.
+
  @author Ben Yu
  @since 13.0]]>
     </doc>
@@ -60106,6 +60109,9 @@
 
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
+
+ <p>This class's support for {@code null} requires some explanation. For details, see {@link
+ ClassToInstanceMap}. Its explanation applies equally well to {@code TypeToInstanceMap}.
 
  @param <B> the common supertype that all entries must share; often this is simply {@link Object}
  @author Ben Yu
