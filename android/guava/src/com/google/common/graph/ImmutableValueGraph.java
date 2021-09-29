@@ -93,13 +93,9 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
   private static <N, V> GraphConnections<N, V> connectionsOf(
       final ValueGraph<N, V> graph, final N node) {
     Function<N, V> successorNodeToValueFn =
-        new Function<N, V>() {
-          @Override
-          public V apply(N successorNode) {
+        (N successorNode) ->
             // requireNonNull is safe because the endpoint pair comes from the graph.
-            return requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
-          }
-        };
+            requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
             node, graph.incidentEdges(node), successorNodeToValueFn)

@@ -20,7 +20,6 @@ import static com.google.common.collect.Iterables.transform;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicates;
@@ -57,14 +56,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */
-  private static final Function<Type, String> TYPE_NAME =
-      new Function<Type, String>() {
-        @Override
-        public String apply(Type from) {
-          return JavaVersion.CURRENT.typeName(from);
-        }
-      };
-
   private static final Joiner COMMA_JOINER = Joiner.on(", ").useForNull("null");
 
   /** Returns the array type of {@code componentType}. */
@@ -303,7 +294,7 @@ final class Types {
       return builder
           .append(rawType.getName())
           .append('<')
-          .append(COMMA_JOINER.join(transform(argumentsList, TYPE_NAME)))
+          .append(COMMA_JOINER.join(transform(argumentsList, JavaVersion.CURRENT::typeName)))
           .append('>')
           .toString();
     }

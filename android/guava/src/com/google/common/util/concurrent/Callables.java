@@ -37,13 +37,7 @@ public final class Callables {
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
   public static <T extends @Nullable Object> Callable<T> returning(
       @ParametricNullness final T value) {
-    return new Callable<T>() {
-      @Override
-      @ParametricNullness
-      public T call() {
-        return value;
-      }
-    };
+    return () -> value;
   }
 
   /**
@@ -60,12 +54,7 @@ public final class Callables {
       final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
     checkNotNull(listeningExecutorService);
-    return new AsyncCallable<T>() {
-      @Override
-      public ListenableFuture<T> call() throws Exception {
-        return listeningExecutorService.submit(callable);
-      }
-    };
+    return () -> listeningExecutorService.submit(callable);
   }
 
   /**
@@ -81,19 +70,15 @@ public final class Callables {
       final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
-    return new Callable<T>() {
-      @Override
-      @ParametricNullness
-      public T call() throws Exception {
-        Thread currentThread = Thread.currentThread();
-        String oldName = currentThread.getName();
-        boolean restoreName = trySetName(nameSupplier.get(), currentThread);
-        try {
-          return callable.call();
-        } finally {
-          if (restoreName) {
-            boolean unused = trySetName(oldName, currentThread);
-          }
+    return () -> {
+      Thread currentThread = Thread.currentThread();
+      String oldName = currentThread.getName();
+      boolean restoreName = trySetName(nameSupplier.get(), currentThread);
+      try {
+        return callable.call();
+      } finally {
+        if (restoreName) {
+          boolean unused = trySetName(oldName, currentThread);
         }
       }
     };
@@ -111,18 +96,15 @@ public final class Callables {
   static Runnable threadRenaming(final Runnable task, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(task);
-    return new Runnable() {
-      @Override
-      public void run() {
-        Thread currentThread = Thread.currentThread();
-        String oldName = currentThread.getName();
-        boolean restoreName = trySetName(nameSupplier.get(), currentThread);
-        try {
-          task.run();
-        } finally {
-          if (restoreName) {
-            boolean unused = trySetName(oldName, currentThread);
-          }
+    return () -> {
+      Thread currentThread = Thread.currentThread();
+      String oldName = currentThread.getName();
+      boolean restoreName = trySetName(nameSupplier.get(), currentThread);
+      try {
+        task.run();
+      } finally {
+        if (restoreName) {
+          boolean unused = trySetName(oldName, currentThread);
         }
       }
     };

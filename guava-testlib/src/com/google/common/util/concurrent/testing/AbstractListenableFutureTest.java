@@ -73,16 +73,13 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     // Wait on the future in a separate thread.
     new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  assertSame(Boolean.TRUE, future.get());
-                  successLatch.countDown();
-                } catch (Throwable t) {
-                  t.printStackTrace();
-                  badness[0] = t;
-                }
+            () -> {
+              try {
+                assertSame(Boolean.TRUE, future.get());
+                successLatch.countDown();
+              } catch (Throwable t) {
+                t.printStackTrace();
+                badness[0] = t;
               }
             })
         .start();
@@ -127,16 +124,13 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     // Run cancellation in a separate thread as an extra thread-safety test.
     new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  future.get();
-                } catch (CancellationException expected) {
-                  successLatch.countDown();
-                } catch (Exception ignored) {
-                  // All other errors are ignored, we expect a cancellation.
-                }
+            () -> {
+              try {
+                future.get();
+              } catch (CancellationException expected) {
+                successLatch.countDown();
+              } catch (Exception ignored) {
+                // All other errors are ignored, we expect a cancellation.
               }
             })
         .start();
@@ -160,26 +154,16 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     ExecutorService exec = Executors.newCachedThreadPool();
 
-    future.addListener(
-        new Runnable() {
-          @Override
-          public void run() {
-            listenerLatch.countDown();
-          }
-        },
-        exec);
+    future.addListener(listenerLatch::countDown, exec);
 
     new Thread(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  future.get();
-                } catch (CancellationException expected) {
-                  successLatch.countDown();
-                } catch (Exception ignored) {
-                  // No success latch count down.
-                }
+            () -> {
+              try {
+                future.get();
+              } catch (CancellationException expected) {
+                successLatch.countDown();
+              } catch (Exception ignored) {
+                // No success latch count down.
               }
             })
         .start();
@@ -217,24 +201,10 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
       // Right in the middle start up a thread to close the latch.
       if (i == 10) {
-        new Thread(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    latch.countDown();
-                  }
-                })
-            .start();
+        new Thread(() -> latch.countDown()).start();
       }
 
-      future.addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              listenerLatch.countDown();
-            }
-          },
-          exec);
+      future.addListener(listenerLatch::countDown, exec);
     }
 
     assertSame(Boolean.TRUE, future.get());

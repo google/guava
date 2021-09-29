@@ -380,32 +380,19 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
           Iterators.concat(
               Iterators.transform(
                   predecessors().iterator(),
-                  new Function<N, EndpointPair<N>>() {
-                    @Override
-                    public EndpointPair<N> apply(N predecessor) {
-                      return EndpointPair.ordered(predecessor, thisNode);
-                    }
-                  }),
+                  (N predecessor) -> EndpointPair.ordered(predecessor, thisNode)),
               Iterators.transform(
                   successors().iterator(),
-                  new Function<N, EndpointPair<N>>() {
-                    @Override
-                    public EndpointPair<N> apply(N successor) {
-                      return EndpointPair.ordered(thisNode, successor);
-                    }
-                  }));
+                  (N successor) -> EndpointPair.ordered(thisNode, successor)));
     } else {
       resultWithDoubleSelfLoop =
           Iterators.transform(
               orderedNodeConnections.iterator(),
-              new Function<NodeConnection<N>, EndpointPair<N>>() {
-                @Override
-                public EndpointPair<N> apply(NodeConnection<N> connection) {
-                  if (connection instanceof NodeConnection.Succ) {
-                    return EndpointPair.ordered(thisNode, connection.node);
-                  } else {
-                    return EndpointPair.ordered(connection.node, thisNode);
-                  }
+              (NodeConnection<N> connection) -> {
+                if (connection instanceof NodeConnection.Succ) {
+                  return EndpointPair.ordered(thisNode, connection.node);
+                } else {
+                  return EndpointPair.ordered(connection.node, thisNode);
                 }
               });
     }
