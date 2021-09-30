@@ -257,4 +257,18 @@ public class PeekingIteratorTest extends TestCase {
     } catch (ThrowsAtEndException expected) {
     }
   }
+
+  private static class UniqueObjectIterator extends AbstractIterator<Object> {
+    @Override
+    protected Object computeNext() {
+      return new Object();
+    }
+  }
+
+  public void testPeekingAbstractIteratorDoesntAdvancePrematurely() {
+    Iterator<Object> iterator = new UniqueObjectIterator();
+    PeekingIterator<Object> peeking1 = Iterators.peekingIterator(iterator);
+    PeekingIterator<Object> peeking2 = Iterators.peekingIterator(iterator);
+    assertSame(peeking1.peek(), peeking2.peek());
+  }
 }
