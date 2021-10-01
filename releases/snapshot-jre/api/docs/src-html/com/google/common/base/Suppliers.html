@@ -235,7 +235,7 @@
 <span class="sourceLineNo">226</span><a id="line.226">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
 <span class="sourceLineNo">227</span><a id="line.227">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; memoizeWithExpiration(</a>
 <span class="sourceLineNo">228</span><a id="line.228">      Supplier&lt;T&gt; delegate, long duration, TimeUnit unit) {</a>
-<span class="sourceLineNo">229</span><a id="line.229">    return new ExpiringMemoizingSupplier&lt;T&gt;(delegate, duration, unit);</a>
+<span class="sourceLineNo">229</span><a id="line.229">    return new ExpiringMemoizingSupplier&lt;&gt;(delegate, duration, unit);</a>
 <span class="sourceLineNo">230</span><a id="line.230">  }</a>
 <span class="sourceLineNo">231</span><a id="line.231"></a>
 <span class="sourceLineNo">232</span><a id="line.232">  @VisibleForTesting</a>
@@ -295,7 +295,7 @@
 <span class="sourceLineNo">286</span><a id="line.286">  /** Returns a supplier that always supplies {@code instance}. */</a>
 <span class="sourceLineNo">287</span><a id="line.287">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; ofInstance(</a>
 <span class="sourceLineNo">288</span><a id="line.288">      @ParametricNullness T instance) {</a>
-<span class="sourceLineNo">289</span><a id="line.289">    return new SupplierOfInstance&lt;T&gt;(instance);</a>
+<span class="sourceLineNo">289</span><a id="line.289">    return new SupplierOfInstance&lt;&gt;(instance);</a>
 <span class="sourceLineNo">290</span><a id="line.290">  }</a>
 <span class="sourceLineNo">291</span><a id="line.291"></a>
 <span class="sourceLineNo">292</span><a id="line.292">  private static class SupplierOfInstance&lt;T extends @Nullable Object&gt;</a>
@@ -340,7 +340,7 @@
 <span class="sourceLineNo">331</span><a id="line.331">   */</a>
 <span class="sourceLineNo">332</span><a id="line.332">  public static &lt;T extends @Nullable Object&gt; Supplier&lt;T&gt; synchronizedSupplier(</a>
 <span class="sourceLineNo">333</span><a id="line.333">      Supplier&lt;T&gt; delegate) {</a>
-<span class="sourceLineNo">334</span><a id="line.334">    return new ThreadSafeSupplier&lt;T&gt;(delegate);</a>
+<span class="sourceLineNo">334</span><a id="line.334">    return new ThreadSafeSupplier&lt;&gt;(delegate);</a>
 <span class="sourceLineNo">335</span><a id="line.335">  }</a>
 <span class="sourceLineNo">336</span><a id="line.336"></a>
 <span class="sourceLineNo">337</span><a id="line.337">  private static class ThreadSafeSupplier&lt;T extends @Nullable Object&gt;</a>

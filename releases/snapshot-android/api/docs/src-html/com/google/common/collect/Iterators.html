@@ -575,7 +575,7 @@
 <span class="sourceLineNo">566</span><a id="line.566">   */</a>
 <span class="sourceLineNo">567</span><a id="line.567">  public static &lt;T extends @Nullable Object&gt; Iterator&lt;T&gt; concat(</a>
 <span class="sourceLineNo">568</span><a id="line.568">      Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; inputs) {</a>
-<span class="sourceLineNo">569</span><a id="line.569">    return new ConcatenatedIterator&lt;T&gt;(inputs);</a>
+<span class="sourceLineNo">569</span><a id="line.569">    return new ConcatenatedIterator&lt;&gt;(inputs);</a>
 <span class="sourceLineNo">570</span><a id="line.570">  }</a>
 <span class="sourceLineNo">571</span><a id="line.571"></a>
 <span class="sourceLineNo">572</span><a id="line.572">  /** Concats a varargs array of iterators without making a defensive copy of the array. */</a>
@@ -1083,7 +1083,7 @@
 <span class="sourceLineNo">1074</span><a id="line.1074">    if (length == 0) {</a>
 <span class="sourceLineNo">1075</span><a id="line.1075">      return emptyListIterator();</a>
 <span class="sourceLineNo">1076</span><a id="line.1076">    }</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">    return new ArrayItr&lt;T&gt;(array, offset, length, index);</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    return new ArrayItr&lt;&gt;(array, offset, length, index);</a>
 <span class="sourceLineNo">1078</span><a id="line.1078">  }</a>
 <span class="sourceLineNo">1079</span><a id="line.1079"></a>
 <span class="sourceLineNo">1080</span><a id="line.1080">  private static final class ArrayItr&lt;T extends @Nullable Object&gt;</a>
@@ -1275,7 +1275,7 @@
 <span class="sourceLineNo">1266</span><a id="line.1266">      PeekingImpl&lt;T&gt; peeking = (PeekingImpl&lt;T&gt;) iterator;</a>
 <span class="sourceLineNo">1267</span><a id="line.1267">      return peeking;</a>
 <span class="sourceLineNo">1268</span><a id="line.1268">    }</a>
-<span class="sourceLineNo">1269</span><a id="line.1269">    return new PeekingImpl&lt;T&gt;(iterator);</a>
+<span class="sourceLineNo">1269</span><a id="line.1269">    return new PeekingImpl&lt;&gt;(iterator);</a>
 <span class="sourceLineNo">1270</span><a id="line.1270">  }</a>
 <span class="sourceLineNo">1271</span><a id="line.1271"></a>
 <span class="sourceLineNo">1272</span><a id="line.1272">  /**</a>
@@ -1308,7 +1308,7 @@
 <span class="sourceLineNo">1299</span><a id="line.1299">    checkNotNull(iterators, "iterators");</a>
 <span class="sourceLineNo">1300</span><a id="line.1300">    checkNotNull(comparator, "comparator");</a>
 <span class="sourceLineNo">1301</span><a id="line.1301"></a>
-<span class="sourceLineNo">1302</span><a id="line.1302">    return new MergingIterator&lt;T&gt;(iterators, comparator);</a>
+<span class="sourceLineNo">1302</span><a id="line.1302">    return new MergingIterator&lt;&gt;(iterators, comparator);</a>
 <span class="sourceLineNo">1303</span><a id="line.1303">  }</a>
 <span class="sourceLineNo">1304</span><a id="line.1304"></a>
 <span class="sourceLineNo">1305</span><a id="line.1305">  /**</a>

@@ -177,7 +177,7 @@
 <span class="sourceLineNo">168</span><a id="line.168"></a>
 <span class="sourceLineNo">169</span><a id="line.169">  /** Returns an instance of type token that wraps {@code type}. */</a>
 <span class="sourceLineNo">170</span><a id="line.170">  public static &lt;T&gt; TypeToken&lt;T&gt; of(Class&lt;T&gt; type) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">    return new SimpleTypeToken&lt;T&gt;(type);</a>
+<span class="sourceLineNo">171</span><a id="line.171">    return new SimpleTypeToken&lt;&gt;(type);</a>
 <span class="sourceLineNo">172</span><a id="line.172">  }</a>
 <span class="sourceLineNo">173</span><a id="line.173"></a>
 <span class="sourceLineNo">174</span><a id="line.174">  /** Returns an instance of type token that wraps {@code type}. */</a>
@@ -249,7 +249,7 @@
 <span class="sourceLineNo">240</span><a id="line.240">                ImmutableMap.of(</a>
 <span class="sourceLineNo">241</span><a id="line.241">                    new TypeResolver.TypeVariableKey(typeParam.typeVariable), typeArg.runtimeType));</a>
 <span class="sourceLineNo">242</span><a id="line.242">    // If there's any type error, we'd report now rather than later.</a>
-<span class="sourceLineNo">243</span><a id="line.243">    return new SimpleTypeToken&lt;T&gt;(resolver.resolveType(runtimeType));</a>
+<span class="sourceLineNo">243</span><a id="line.243">    return new SimpleTypeToken&lt;&gt;(resolver.resolveType(runtimeType));</a>
 <span class="sourceLineNo">244</span><a id="line.244">  }</a>
 <span class="sourceLineNo">245</span><a id="line.245"></a>
 <span class="sourceLineNo">246</span><a id="line.246">  /**</a>

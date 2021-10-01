@@ -180,7 +180,7 @@
 <span class="sourceLineNo">171</span><a id="line.171"></a>
 <span class="sourceLineNo">172</span><a id="line.172">  /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */</a>
 <span class="sourceLineNo">173</span><a id="line.173">  public &lt;N1 extends N&gt; MutableGraph&lt;N1&gt; build() {</a>
-<span class="sourceLineNo">174</span><a id="line.174">    return new StandardMutableGraph&lt;N1&gt;(this);</a>
+<span class="sourceLineNo">174</span><a id="line.174">    return new StandardMutableGraph&lt;&gt;(this);</a>
 <span class="sourceLineNo">175</span><a id="line.175">  }</a>
 <span class="sourceLineNo">176</span><a id="line.176"></a>
 <span class="sourceLineNo">177</span><a id="line.177">  GraphBuilder&lt;N&gt; copy() {</a>

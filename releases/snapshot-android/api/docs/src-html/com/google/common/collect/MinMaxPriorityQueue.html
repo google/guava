@@ -140,7 +140,7 @@
 <span class="sourceLineNo">131</span><a id="line.131">   * instead.</a>
 <span class="sourceLineNo">132</span><a id="line.132">   */</a>
 <span class="sourceLineNo">133</span><a id="line.133">  public static &lt;B&gt; Builder&lt;B&gt; orderedBy(Comparator&lt;B&gt; comparator) {</a>
-<span class="sourceLineNo">134</span><a id="line.134">    return new Builder&lt;B&gt;(comparator);</a>
+<span class="sourceLineNo">134</span><a id="line.134">    return new Builder&lt;&gt;(comparator);</a>
 <span class="sourceLineNo">135</span><a id="line.135">  }</a>
 <span class="sourceLineNo">136</span><a id="line.136"></a>
 <span class="sourceLineNo">137</span><a id="line.137">  /**</a>
@@ -225,7 +225,7 @@
 <span class="sourceLineNo">216</span><a id="line.216">     */</a>
 <span class="sourceLineNo">217</span><a id="line.217">    public &lt;T extends B&gt; MinMaxPriorityQueue&lt;T&gt; create(Iterable&lt;? extends T&gt; initialContents) {</a>
 <span class="sourceLineNo">218</span><a id="line.218">      MinMaxPriorityQueue&lt;T&gt; queue =</a>
-<span class="sourceLineNo">219</span><a id="line.219">          new MinMaxPriorityQueue&lt;T&gt;(</a>
+<span class="sourceLineNo">219</span><a id="line.219">          new MinMaxPriorityQueue&lt;&gt;(</a>
 <span class="sourceLineNo">220</span><a id="line.220">              this, initialQueueSize(expectedSize, maximumSize, initialContents));</a>
 <span class="sourceLineNo">221</span><a id="line.221">      for (T element : initialContents) {</a>
 <span class="sourceLineNo">222</span><a id="line.222">        queue.offer(element);</a>
@@ -445,11 +445,11 @@
 <span class="sourceLineNo">436</span><a id="line.436">      // Last element is moved to before index, swapped with trickled element.</a>
 <span class="sourceLineNo">437</span><a id="line.437">      if (changes == null) {</a>
 <span class="sourceLineNo">438</span><a id="line.438">        // The trickled element is still after index.</a>
-<span class="sourceLineNo">439</span><a id="line.439">        return new MoveDesc&lt;E&gt;(actualLastElement, toTrickle);</a>
+<span class="sourceLineNo">439</span><a id="line.439">        return new MoveDesc&lt;&gt;(actualLastElement, toTrickle);</a>
 <span class="sourceLineNo">440</span><a id="line.440">      } else {</a>
 <span class="sourceLineNo">441</span><a id="line.441">        // The trickled element is back before index, but the replaced element</a>
 <span class="sourceLineNo">442</span><a id="line.442">        // has now been moved after index.</a>
-<span class="sourceLineNo">443</span><a id="line.443">        return new MoveDesc&lt;E&gt;(actualLastElement, changes.replaced);</a>
+<span class="sourceLineNo">443</span><a id="line.443">        return new MoveDesc&lt;&gt;(actualLastElement, changes.replaced);</a>
 <span class="sourceLineNo">444</span><a id="line.444">      }</a>
 <span class="sourceLineNo">445</span><a id="line.445">    }</a>
 <span class="sourceLineNo">446</span><a id="line.446">    // Trickled element was after index to begin with, no adjustment needed.</a>
@@ -569,7 +569,7 @@
 <span class="sourceLineNo">560</span><a id="line.560">      }</a>
 <span class="sourceLineNo">561</span><a id="line.561">      // bubble it up the opposite heap</a>
 <span class="sourceLineNo">562</span><a id="line.562">      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) &lt; removeIndex) {</a>
-<span class="sourceLineNo">563</span><a id="line.563">        return new MoveDesc&lt;E&gt;(toTrickle, parent);</a>
+<span class="sourceLineNo">563</span><a id="line.563">        return new MoveDesc&lt;&gt;(toTrickle, parent);</a>
 <span class="sourceLineNo">564</span><a id="line.564">      } else {</a>
 <span class="sourceLineNo">565</span><a id="line.565">        return null;</a>
 <span class="sourceLineNo">566</span><a id="line.566">      }</a>
@@ -824,8 +824,8 @@
 <span class="sourceLineNo">815</span><a id="line.815">        if (moved != null) {</a>
 <span class="sourceLineNo">816</span><a id="line.816">          // Either both are null or neither is, but we check both to satisfy the nullness checker.</a>
 <span class="sourceLineNo">817</span><a id="line.817">          if (forgetMeNot == null || skipMe == null) {</a>
-<span class="sourceLineNo">818</span><a id="line.818">            forgetMeNot = new ArrayDeque&lt;E&gt;();</a>
-<span class="sourceLineNo">819</span><a id="line.819">            skipMe = new ArrayList&lt;E&gt;(3);</a>
+<span class="sourceLineNo">818</span><a id="line.818">            forgetMeNot = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">819</span><a id="line.819">            skipMe = new ArrayList&lt;&gt;(3);</a>
 <span class="sourceLineNo">820</span><a id="line.820">          }</a>
 <span class="sourceLineNo">821</span><a id="line.821">          if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {</a>
 <span class="sourceLineNo">822</span><a id="line.822">            forgetMeNot.add(moved.toTrickle);</a>

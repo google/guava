@@ -405,7 +405,7 @@
 <span class="sourceLineNo">396</span><a id="line.396">    final AtomicReferenceArray&lt;@Nullable ArrayReference&lt;? extends L&gt;&gt; locks;</a>
 <span class="sourceLineNo">397</span><a id="line.397">    final Supplier&lt;L&gt; supplier;</a>
 <span class="sourceLineNo">398</span><a id="line.398">    final int size;</a>
-<span class="sourceLineNo">399</span><a id="line.399">    final ReferenceQueue&lt;L&gt; queue = new ReferenceQueue&lt;L&gt;();</a>
+<span class="sourceLineNo">399</span><a id="line.399">    final ReferenceQueue&lt;L&gt; queue = new ReferenceQueue&lt;&gt;();</a>
 <span class="sourceLineNo">400</span><a id="line.400"></a>
 <span class="sourceLineNo">401</span><a id="line.401">    SmallLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {</a>
 <span class="sourceLineNo">402</span><a id="line.402">      super(stripes);</a>
@@ -425,7 +425,7 @@
 <span class="sourceLineNo">416</span><a id="line.416">        return existing;</a>
 <span class="sourceLineNo">417</span><a id="line.417">      }</a>
 <span class="sourceLineNo">418</span><a id="line.418">      L created = supplier.get();</a>
-<span class="sourceLineNo">419</span><a id="line.419">      ArrayReference&lt;L&gt; newRef = new ArrayReference&lt;L&gt;(created, index, queue);</a>
+<span class="sourceLineNo">419</span><a id="line.419">      ArrayReference&lt;L&gt; newRef = new ArrayReference&lt;&gt;(created, index, queue);</a>
 <span class="sourceLineNo">420</span><a id="line.420">      while (!locks.compareAndSet(index, existingRef, newRef)) {</a>
 <span class="sourceLineNo">421</span><a id="line.421">        // we raced, we need to re-read and try again</a>
 <span class="sourceLineNo">422</span><a id="line.422">        existingRef = locks.get(index);</a>

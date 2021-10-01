@@ -90,7 +90,7 @@
 <span class="sourceLineNo">081</span><a id="line.81">      if (!strong) {</a>
 <span class="sourceLineNo">082</span><a id="line.82">        mapMaker.weakKeys();</a>
 <span class="sourceLineNo">083</span><a id="line.83">      }</a>
-<span class="sourceLineNo">084</span><a id="line.84">      return new InternerImpl&lt;E&gt;(mapMaker);</a>
+<span class="sourceLineNo">084</span><a id="line.84">      return new InternerImpl&lt;&gt;(mapMaker);</a>
 <span class="sourceLineNo">085</span><a id="line.85">    }</a>
 <span class="sourceLineNo">086</span><a id="line.86">  }</a>
 <span class="sourceLineNo">087</span><a id="line.87"></a>
@@ -167,7 +167,7 @@
 <span class="sourceLineNo">158</span><a id="line.158">   * @since 8.0</a>
 <span class="sourceLineNo">159</span><a id="line.159">   */</a>
 <span class="sourceLineNo">160</span><a id="line.160">  public static &lt;E&gt; Function&lt;E, E&gt; asFunction(Interner&lt;E&gt; interner) {</a>
-<span class="sourceLineNo">161</span><a id="line.161">    return new InternerFunction&lt;E&gt;(checkNotNull(interner));</a>
+<span class="sourceLineNo">161</span><a id="line.161">    return new InternerFunction&lt;&gt;(checkNotNull(interner));</a>
 <span class="sourceLineNo">162</span><a id="line.162">  }</a>
 <span class="sourceLineNo">163</span><a id="line.163"></a>
 <span class="sourceLineNo">164</span><a id="line.164">  private static class InternerFunction&lt;E&gt; implements Function&lt;E, E&gt; {</a>

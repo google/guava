@@ -251,7 +251,7 @@
 <span class="sourceLineNo">242</span><a id="line.242">  @Override</a>
 <span class="sourceLineNo">243</span><a id="line.243">  @GwtIncompatible // NavigableSet</a>
 <span class="sourceLineNo">244</span><a id="line.244">  ImmutableSortedSet&lt;C&gt; createDescendingSet() {</a>
-<span class="sourceLineNo">245</span><a id="line.245">    return new DescendingImmutableSortedSet&lt;C&gt;(this);</a>
+<span class="sourceLineNo">245</span><a id="line.245">    return new DescendingImmutableSortedSet&lt;&gt;(this);</a>
 <span class="sourceLineNo">246</span><a id="line.246">  }</a>
 <span class="sourceLineNo">247</span><a id="line.247"></a>
 <span class="sourceLineNo">248</span><a id="line.248">  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */</a>

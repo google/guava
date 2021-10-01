@@ -265,7 +265,7 @@
 <span class="sourceLineNo">256</span><a id="line.256">    }</a>
 <span class="sourceLineNo">257</span><a id="line.257"></a>
 <span class="sourceLineNo">258</span><a id="line.258">    // the stream was longer, so read the rest normally</a>
-<span class="sourceLineNo">259</span><a id="line.259">    Queue&lt;byte[]&gt; bufs = new ArrayDeque&lt;byte[]&gt;(TO_BYTE_ARRAY_DEQUE_SIZE + 2);</a>
+<span class="sourceLineNo">259</span><a id="line.259">    Queue&lt;byte[]&gt; bufs = new ArrayDeque&lt;&gt;(TO_BYTE_ARRAY_DEQUE_SIZE + 2);</a>
 <span class="sourceLineNo">260</span><a id="line.260">    bufs.add(bytes);</a>
 <span class="sourceLineNo">261</span><a id="line.261">    bufs.add(new byte[] {(byte) b});</a>
 <span class="sourceLineNo">262</span><a id="line.262">    return toByteArrayInternal(in, bufs, bytes.length + 1);</a>

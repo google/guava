@@ -177,7 +177,7 @@
 <span class="sourceLineNo">168</span><a id="line.168">   */</a>
 <span class="sourceLineNo">169</span><a id="line.169">  public static &lt;E extends @Nullable Object&gt; Funnel&lt;Iterable&lt;? extends E&gt;&gt; sequentialFunnel(</a>
 <span class="sourceLineNo">170</span><a id="line.170">      Funnel&lt;E&gt; elementFunnel) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">    return new SequentialFunnel&lt;E&gt;(elementFunnel);</a>
+<span class="sourceLineNo">171</span><a id="line.171">    return new SequentialFunnel&lt;&gt;(elementFunnel);</a>
 <span class="sourceLineNo">172</span><a id="line.172">  }</a>
 <span class="sourceLineNo">173</span><a id="line.173"></a>
 <span class="sourceLineNo">174</span><a id="line.174">  private static class SequentialFunnel&lt;E extends @Nullable Object&gt;</a>

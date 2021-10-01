@@ -49,7 +49,7 @@
 <span class="sourceLineNo">040</span><a id="line.40">   * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.</a>
 <span class="sourceLineNo">041</span><a id="line.41">   */</a>
 <span class="sourceLineNo">042</span><a id="line.42">  public static &lt;V extends @Nullable Object&gt; SettableFuture&lt;V&gt; create() {</a>
-<span class="sourceLineNo">043</span><a id="line.43">    return new SettableFuture&lt;V&gt;();</a>
+<span class="sourceLineNo">043</span><a id="line.43">    return new SettableFuture&lt;&gt;();</a>
 <span class="sourceLineNo">044</span><a id="line.44">  }</a>
 <span class="sourceLineNo">045</span><a id="line.45"></a>
 <span class="sourceLineNo">046</span><a id="line.46">  @CanIgnoreReturnValue</a>

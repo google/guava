@@ -97,7 +97,7 @@
 <span class="sourceLineNo">088</span><a id="line.88">    // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)</a>
 <span class="sourceLineNo">089</span><a id="line.89">    // ConcurrentMap implementors. One possibility is to extract most of this class into</a>
 <span class="sourceLineNo">090</span><a id="line.90">    // an AbstractConcurrentMapMultiset.</a>
-<span class="sourceLineNo">091</span><a id="line.91">    return new ConcurrentHashMultiset&lt;E&gt;(new ConcurrentHashMap&lt;E, AtomicInteger&gt;());</a>
+<span class="sourceLineNo">091</span><a id="line.91">    return new ConcurrentHashMultiset&lt;&gt;(new ConcurrentHashMap&lt;E, AtomicInteger&gt;());</a>
 <span class="sourceLineNo">092</span><a id="line.92">  }</a>
 <span class="sourceLineNo">093</span><a id="line.93"></a>
 <span class="sourceLineNo">094</span><a id="line.94">  /**</a>
@@ -130,7 +130,7 @@
 <span class="sourceLineNo">121</span><a id="line.121">   */</a>
 <span class="sourceLineNo">122</span><a id="line.122">  @Beta</a>
 <span class="sourceLineNo">123</span><a id="line.123">  public static &lt;E&gt; ConcurrentHashMultiset&lt;E&gt; create(ConcurrentMap&lt;E, AtomicInteger&gt; countMap) {</a>
-<span class="sourceLineNo">124</span><a id="line.124">    return new ConcurrentHashMultiset&lt;E&gt;(countMap);</a>
+<span class="sourceLineNo">124</span><a id="line.124">    return new ConcurrentHashMultiset&lt;&gt;(countMap);</a>
 <span class="sourceLineNo">125</span><a id="line.125">  }</a>
 <span class="sourceLineNo">126</span><a id="line.126"></a>
 <span class="sourceLineNo">127</span><a id="line.127">  @VisibleForTesting</a>

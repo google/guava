@@ -292,7 +292,7 @@
 <span class="sourceLineNo">283</span><a id="line.283">    checkNotNull(policy);</a>
 <span class="sourceLineNo">284</span><a id="line.284">    @SuppressWarnings("unchecked")</a>
 <span class="sourceLineNo">285</span><a id="line.285">    Map&lt;E, LockGraphNode&gt; lockGraphNodes = (Map&lt;E, LockGraphNode&gt;) getOrCreateNodes(enumClass);</a>
-<span class="sourceLineNo">286</span><a id="line.286">    return new WithExplicitOrdering&lt;E&gt;(policy, lockGraphNodes);</a>
+<span class="sourceLineNo">286</span><a id="line.286">    return new WithExplicitOrdering&lt;&gt;(policy, lockGraphNodes);</a>
 <span class="sourceLineNo">287</span><a id="line.287">  }</a>
 <span class="sourceLineNo">288</span><a id="line.288"></a>
 <span class="sourceLineNo">289</span><a id="line.289">  @SuppressWarnings("unchecked")</a>

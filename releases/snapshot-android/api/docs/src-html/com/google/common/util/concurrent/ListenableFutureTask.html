@@ -68,7 +68,7 @@
 <span class="sourceLineNo">059</span><a id="line.59">   * @since 10.0</a>
 <span class="sourceLineNo">060</span><a id="line.60">   */</a>
 <span class="sourceLineNo">061</span><a id="line.61">  public static &lt;V extends @Nullable Object&gt; ListenableFutureTask&lt;V&gt; create(Callable&lt;V&gt; callable) {</a>
-<span class="sourceLineNo">062</span><a id="line.62">    return new ListenableFutureTask&lt;V&gt;(callable);</a>
+<span class="sourceLineNo">062</span><a id="line.62">    return new ListenableFutureTask&lt;&gt;(callable);</a>
 <span class="sourceLineNo">063</span><a id="line.63">  }</a>
 <span class="sourceLineNo">064</span><a id="line.64"></a>
 <span class="sourceLineNo">065</span><a id="line.65">  /**</a>
@@ -83,7 +83,7 @@
 <span class="sourceLineNo">074</span><a id="line.74">   */</a>
 <span class="sourceLineNo">075</span><a id="line.75">  public static &lt;V extends @Nullable Object&gt; ListenableFutureTask&lt;V&gt; create(</a>
 <span class="sourceLineNo">076</span><a id="line.76">      Runnable runnable, @ParametricNullness V result) {</a>
-<span class="sourceLineNo">077</span><a id="line.77">    return new ListenableFutureTask&lt;V&gt;(runnable, result);</a>
+<span class="sourceLineNo">077</span><a id="line.77">    return new ListenableFutureTask&lt;&gt;(runnable, result);</a>
 <span class="sourceLineNo">078</span><a id="line.78">  }</a>
 <span class="sourceLineNo">079</span><a id="line.79"></a>
 <span class="sourceLineNo">080</span><a id="line.80">  ListenableFutureTask(Callable&lt;V&gt; callable) {</a>

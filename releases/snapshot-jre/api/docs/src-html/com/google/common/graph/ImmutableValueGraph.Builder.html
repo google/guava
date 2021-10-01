@@ -84,7 +84,7 @@
 <span class="sourceLineNo">075</span><a id="line.75"></a>
 <span class="sourceLineNo">076</span><a id="line.76">  @Override</a>
 <span class="sourceLineNo">077</span><a id="line.77">  public ImmutableGraph&lt;N&gt; asGraph() {</a>
-<span class="sourceLineNo">078</span><a id="line.78">    return new ImmutableGraph&lt;N&gt;(this); // safe because the view is effectively immutable</a>
+<span class="sourceLineNo">078</span><a id="line.78">    return new ImmutableGraph&lt;&gt;(this); // safe because the view is effectively immutable</a>
 <span class="sourceLineNo">079</span><a id="line.79">  }</a>
 <span class="sourceLineNo">080</span><a id="line.80"></a>
 <span class="sourceLineNo">081</span><a id="line.81">  private static &lt;N, V&gt; ImmutableMap&lt;N, GraphConnections&lt;N, V&gt;&gt; getNodeConnections(</a>
