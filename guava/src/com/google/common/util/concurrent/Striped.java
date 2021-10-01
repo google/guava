@@ -396,7 +396,7 @@ public abstract class Striped<L> {
     final AtomicReferenceArray<@Nullable ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
-    final ReferenceQueue<L> queue = new ReferenceQueue<L>();
+    final ReferenceQueue<L> queue = new ReferenceQueue<>();
 
     SmallLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
@@ -416,7 +416,7 @@ public abstract class Striped<L> {
         return existing;
       }
       L created = supplier.get();
-      ArrayReference<L> newRef = new ArrayReference<L>(created, index, queue);
+      ArrayReference<L> newRef = new ArrayReference<>(created, index, queue);
       while (!locks.compareAndSet(index, existingRef, newRef)) {
         // we raced, we need to re-read and try again
         existingRef = locks.get(index);

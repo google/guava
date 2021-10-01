@@ -150,7 +150,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     }
 
     private Object readResolve() {
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
 
     private static final long serialVersionUID = 0;
@@ -159,7 +159,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(domain);
+    return new SerializedForm<>(domain);
   }
 
   @GwtIncompatible // NavigableSet

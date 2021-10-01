@@ -54,7 +54,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = new ArrayDeque<E>(maxSize);
+    this.delegate = new ArrayDeque<>(maxSize);
     this.maxSize = maxSize;
   }
 
@@ -65,7 +65,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    * queue.
    */
   public static <E> EvictingQueue<E> create(int maxSize) {
-    return new EvictingQueue<E>(maxSize);
+    return new EvictingQueue<>(maxSize);
   }
 
   /**

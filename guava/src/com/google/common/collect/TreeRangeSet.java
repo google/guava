@@ -48,7 +48,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
   /** Creates an empty {@code TreeRangeSet} instance. */
   public static <C extends Comparable<?>> TreeRangeSet<C> create() {
-    return new TreeRangeSet<C>(new TreeMap<Cut<C>, Range<C>>());
+    return new TreeRangeSet<>(new TreeMap<Cut<C>, Range<C>>());
   }
 
   /** Returns a {@code TreeRangeSet} initialized with the ranges in the specified range set. */
@@ -306,7 +306,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
     private NavigableMap<Cut<C>, Range<C>> subMap(Range<Cut<C>> window) {
       if (window.isConnected(upperBoundWindow)) {
-        return new RangesByUpperBound<C>(rangesByLowerBound, window.intersection(upperBoundWindow));
+        return new RangesByUpperBound<>(rangesByLowerBound, window.intersection(upperBoundWindow));
       } else {
         return ImmutableSortedMap.of();
       }
@@ -470,7 +470,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     private ComplementRangesByLowerBound(
         NavigableMap<Cut<C>, Range<C>> positiveRangesByLowerBound, Range<Cut<C>> window) {
       this.positiveRangesByLowerBound = positiveRangesByLowerBound;
-      this.positiveRangesByUpperBound = new RangesByUpperBound<C>(positiveRangesByLowerBound);
+      this.positiveRangesByUpperBound = new RangesByUpperBound<>(positiveRangesByLowerBound);
       this.complementLowerBoundWindow = window;
     }
 
@@ -479,7 +479,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         return ImmutableSortedMap.of();
       } else {
         subWindow = subWindow.intersection(complementLowerBoundWindow);
-        return new ComplementRangesByLowerBound<C>(positiveRangesByLowerBound, subWindow);
+        return new ComplementRangesByLowerBound<>(positiveRangesByLowerBound, subWindow);
       }
     }
 
@@ -708,14 +708,14 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       this.lowerBoundWindow = checkNotNull(lowerBoundWindow);
       this.restriction = checkNotNull(restriction);
       this.rangesByLowerBound = checkNotNull(rangesByLowerBound);
-      this.rangesByUpperBound = new RangesByUpperBound<C>(rangesByLowerBound);
+      this.rangesByUpperBound = new RangesByUpperBound<>(rangesByLowerBound);
     }
 
     private NavigableMap<Cut<C>, Range<C>> subMap(Range<Cut<C>> window) {
       if (!window.isConnected(lowerBoundWindow)) {
         return ImmutableSortedMap.of();
       } else {
-        return new SubRangeSetRangesByLowerBound<C>(
+        return new SubRangeSetRangesByLowerBound<>(
             lowerBoundWindow.intersection(window), restriction, rangesByLowerBound);
       }
     }

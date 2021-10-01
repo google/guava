@@ -36,12 +36,12 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
 
   /** Returns an empty type to instance map. */
   public static <B> ImmutableTypeToInstanceMap<B> of() {
-    return new ImmutableTypeToInstanceMap<B>(ImmutableMap.<TypeToken<? extends B>, B>of());
+    return new ImmutableTypeToInstanceMap<>(ImmutableMap.<TypeToken<? extends B>, B>of());
   }
 
   /** Returns a new builder. */
   public static <B> Builder<B> builder() {
-    return new Builder<B>();
+    return new Builder<>();
   }
 
   /**
@@ -93,7 +93,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableTypeToInstanceMap<B> build() {
-      return new ImmutableTypeToInstanceMap<B>(mapBuilder.build());
+      return new ImmutableTypeToInstanceMap<>(mapBuilder.build());
     }
   }
 

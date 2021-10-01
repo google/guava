@@ -82,7 +82,7 @@ public final class Predicates {
    * false}.
    */
   public static <T extends @Nullable Object> Predicate<T> not(Predicate<T> predicate) {
-    return new NotPredicate<T>(predicate);
+    return new NotPredicate<>(predicate);
   }
 
   /**
@@ -94,7 +94,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Iterable<? extends Predicate<? super T>> components) {
-    return new AndPredicate<T>(defensiveCopy(components));
+    return new AndPredicate<>(defensiveCopy(components));
   }
 
   /**
@@ -116,7 +116,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new AndPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -128,7 +128,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Iterable<? extends Predicate<? super T>> components) {
-    return new OrPredicate<T>(defensiveCopy(components));
+    return new OrPredicate<>(defensiveCopy(components));
   }
 
   /**
@@ -150,7 +150,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new OrPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new OrPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -213,7 +213,7 @@ public final class Predicates {
    * @param target the collection that may contain the function input
    */
   public static <T extends @Nullable Object> Predicate<T> in(Collection<? extends T> target) {
-    return new InPredicate<T>(target);
+    return new InPredicate<>(target);
   }
 
   /**
@@ -713,7 +713,7 @@ public final class Predicates {
   }
 
   static <T> List<T> defensiveCopy(Iterable<T> iterable) {
-    ArrayList<T> list = new ArrayList<T>();
+    ArrayList<T> list = new ArrayList<>();
     for (T element : iterable) {
       list.add(checkNotNull(element));
     }

@@ -82,7 +82,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @SuppressWarnings("unchecked")
   // Needed to stop Eclipse whining
   private void resetWithHole() {
-    List<E> container = new ArrayList<E>();
+    List<E> container = new ArrayList<>();
     container.addAll(Collections.nCopies(a.getCount(), a.getElement()));
     container.addAll(Collections.nCopies(c.getCount(), c.getElement()));
     super.resetContainer(getSubjectGenerator().create(container.toArray()));

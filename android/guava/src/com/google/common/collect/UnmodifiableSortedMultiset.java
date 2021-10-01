@@ -64,7 +64,7 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   public SortedMultiset<E> descendingMultiset() {
     UnmodifiableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      result = new UnmodifiableSortedMultiset<E>(delegate().descendingMultiset());
+      result = new UnmodifiableSortedMultiset<>(delegate().descendingMultiset());
       result.descendingMultiset = this;
       return descendingMultiset = result;
     }

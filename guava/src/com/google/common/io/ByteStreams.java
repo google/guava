@@ -256,7 +256,7 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    Queue<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
+    Queue<byte[]> bufs = new ArrayDeque<>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
     bufs.add(bytes);
     bufs.add(new byte[] {(byte) b});
     return toByteArrayInternal(in, bufs, bytes.length + 1);

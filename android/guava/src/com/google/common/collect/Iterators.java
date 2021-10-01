@@ -566,7 +566,7 @@ public final class Iterators {
    */
   public static <T extends @Nullable Object> Iterator<T> concat(
       Iterator<? extends Iterator<? extends T>> inputs) {
-    return new ConcatenatedIterator<T>(inputs);
+    return new ConcatenatedIterator<>(inputs);
   }
 
   /** Concats a varargs array of iterators without making a defensive copy of the array. */
@@ -1074,7 +1074,7 @@ public final class Iterators {
     if (length == 0) {
       return emptyListIterator();
     }
-    return new ArrayItr<T>(array, offset, length, index);
+    return new ArrayItr<>(array, offset, length, index);
   }
 
   private static final class ArrayItr<T extends @Nullable Object>
@@ -1266,7 +1266,7 @@ public final class Iterators {
       PeekingImpl<T> peeking = (PeekingImpl<T>) iterator;
       return peeking;
     }
-    return new PeekingImpl<T>(iterator);
+    return new PeekingImpl<>(iterator);
   }
 
   /**
@@ -1299,7 +1299,7 @@ public final class Iterators {
     checkNotNull(iterators, "iterators");
     checkNotNull(comparator, "comparator");
 
-    return new MergingIterator<T>(iterators, comparator);
+    return new MergingIterator<>(iterators, comparator);
   }
 
   /**

@@ -33,12 +33,12 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
   // TODO: expose allow nulls parameter?
 
   public static <E> MinimalCollection<E> of(E... contents) {
-    return new MinimalCollection<E>(Object.class, true, contents);
+    return new MinimalCollection<>(Object.class, true, contents);
   }
 
   // TODO: use this
   public static <E> MinimalCollection<E> ofClassAndContents(Class<? super E> type, E... contents) {
-    return new MinimalCollection<E>(type, true, contents);
+    return new MinimalCollection<>(type, true, contents);
   }
 
   private final E[] contents;

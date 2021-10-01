@@ -72,7 +72,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
   }
 
   @Override
@@ -83,12 +83,12 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
+    return new ImmutableMapKeySet<>(this);
   }
 
   @Override
   ImmutableCollection<V> createValues() {
-    return new ImmutableMapValues<K, V>(this);
+    return new ImmutableMapValues<>(this);
   }
 
   @Override

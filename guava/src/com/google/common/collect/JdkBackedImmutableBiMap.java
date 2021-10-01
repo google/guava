@@ -78,7 +78,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     if (result == null) {
       inverse =
           result =
-              new JdkBackedImmutableBiMap<V, K>(
+              new JdkBackedImmutableBiMap<>(
                   new InverseEntries(), backwardDelegate, forwardDelegate);
       result.inverse = this;
     }
@@ -112,12 +112,12 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
   }
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
+    return new ImmutableMapKeySet<>(this);
   }
 
   @Override

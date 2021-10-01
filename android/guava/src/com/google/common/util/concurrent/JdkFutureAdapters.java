@@ -56,7 +56,7 @@ public final class JdkFutureAdapters {
     if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
     }
-    return new ListenableFutureAdapter<V>(future);
+    return new ListenableFutureAdapter<>(future);
   }
 
   /**
@@ -85,7 +85,7 @@ public final class JdkFutureAdapters {
     if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
     }
-    return new ListenableFutureAdapter<V>(future, executor);
+    return new ListenableFutureAdapter<>(future, executor);
   }
 
   /**

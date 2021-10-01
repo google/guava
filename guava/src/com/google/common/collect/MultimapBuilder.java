@@ -193,7 +193,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
     @Override
     public List<V> get() {
-      return new ArrayList<V>(expectedValuesPerKey);
+      return new ArrayList<>(expectedValuesPerKey);
     }
   }
 
@@ -251,7 +251,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
     @Override
     public SortedSet<V> get() {
-      return new TreeSet<V>(comparator);
+      return new TreeSet<>(comparator);
     }
   }
 

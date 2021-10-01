@@ -226,7 +226,7 @@ public final class Suppliers {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
-    return new ExpiringMemoizingSupplier<T>(delegate, duration, unit);
+    return new ExpiringMemoizingSupplier<>(delegate, duration, unit);
   }
 
   @VisibleForTesting
@@ -286,7 +286,7 @@ public final class Suppliers {
   /** Returns a supplier that always supplies {@code instance}. */
   public static <T extends @Nullable Object> Supplier<T> ofInstance(
       @ParametricNullness T instance) {
-    return new SupplierOfInstance<T>(instance);
+    return new SupplierOfInstance<>(instance);
   }
 
   private static class SupplierOfInstance<T extends @Nullable Object>
@@ -331,7 +331,7 @@ public final class Suppliers {
    */
   public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
       Supplier<T> delegate) {
-    return new ThreadSafeSupplier<T>(delegate);
+    return new ThreadSafeSupplier<>(delegate);
   }
 
   private static class ThreadSafeSupplier<T extends @Nullable Object>

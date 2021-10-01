@@ -49,7 +49,7 @@ public class Helpers {
 
   // Clone of Lists.newArrayList
   public static <E> List<E> copyToList(Iterable<? extends E> elements) {
-    List<E> list = new ArrayList<E>();
+    List<E> list = new ArrayList<>();
     addAll(list, elements);
     return list;
   }
@@ -60,7 +60,7 @@ public class Helpers {
 
   // Clone of Sets.newLinkedHashSet
   public static <E> Set<E> copyToSet(Iterable<? extends E> elements) {
-    Set<E> set = new LinkedHashSet<E>();
+    Set<E> set = new LinkedHashSet<>();
     addAll(set, elements);
     return set;
   }
@@ -410,7 +410,7 @@ public class Helpers {
     if (iterable instanceof List) {
       return (List<E>) iterable;
     }
-    List<E> list = new ArrayList<E>();
+    List<E> list = new ArrayList<>();
     for (E e : iterable) {
       list.add(e);
     }

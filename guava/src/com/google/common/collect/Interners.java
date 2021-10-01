@@ -81,7 +81,7 @@ public final class Interners {
       if (!strong) {
         mapMaker.weakKeys();
       }
-      return new InternerImpl<E>(mapMaker);
+      return new InternerImpl<>(mapMaker);
     }
   }
 
@@ -158,7 +158,7 @@ public final class Interners {
    * @since 8.0
    */
   public static <E> Function<E, E> asFunction(Interner<E> interner) {
-    return new InternerFunction<E>(checkNotNull(interner));
+    return new InternerFunction<>(checkNotNull(interner));
   }
 
   private static class InternerFunction<E> implements Function<E, E> {

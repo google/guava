@@ -59,7 +59,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    * @since 10.0
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(Callable<V> callable) {
-    return new ListenableFutureTask<V>(callable);
+    return new ListenableFutureTask<>(callable);
   }
 
   /**
@@ -74,7 +74,7 @@ public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask
    */
   public static <V extends @Nullable Object> ListenableFutureTask<V> create(
       Runnable runnable, @ParametricNullness V result) {
-    return new ListenableFutureTask<V>(runnable, result);
+    return new ListenableFutureTask<>(runnable, result);
   }
 
   ListenableFutureTask(Callable<V> callable) {

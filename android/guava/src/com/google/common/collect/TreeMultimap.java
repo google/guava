@@ -136,7 +136,7 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
    */
   @Override
   SortedSet<V> createCollection() {
-    return new TreeSet<V>(valueComparator);
+    return new TreeSet<>(valueComparator);
   }
 
   @Override

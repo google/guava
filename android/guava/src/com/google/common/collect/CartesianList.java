@@ -45,7 +45,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
       }
       axesBuilder.add(copy);
     }
-    return new CartesianList<E>(axesBuilder.build());
+    return new CartesianList<>(axesBuilder.build());
   }
 
   CartesianList(ImmutableList<List<E>> axes) {

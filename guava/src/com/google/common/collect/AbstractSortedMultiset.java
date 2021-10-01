@@ -56,7 +56,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   NavigableSet<E> createElementSet() {
-    return new SortedMultisets.NavigableElementSet<E>(this);
+    return new SortedMultisets.NavigableElementSet<>(this);
   }
 
   @Override

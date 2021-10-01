@@ -283,7 +283,7 @@ public class CycleDetectingLockFactory {
     checkNotNull(policy);
     @SuppressWarnings("unchecked")
     Map<E, LockGraphNode> lockGraphNodes = (Map<E, LockGraphNode>) getOrCreateNodes(enumClass);
-    return new WithExplicitOrdering<E>(policy, lockGraphNodes);
+    return new WithExplicitOrdering<>(policy, lockGraphNodes);
   }
 
   @SuppressWarnings("unchecked")

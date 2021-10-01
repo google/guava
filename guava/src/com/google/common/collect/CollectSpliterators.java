@@ -225,7 +225,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfObject<InElementT, OutElementT>(
+    return new FlatMapSpliteratorOfObject<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -247,7 +247,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfInt<InElementT>(
+    return new FlatMapSpliteratorOfInt<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -269,7 +269,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfLong<InElementT>(
+    return new FlatMapSpliteratorOfLong<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 
@@ -291,7 +291,7 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new FlatMapSpliteratorOfDouble<InElementT>(
+    return new FlatMapSpliteratorOfDouble<>(
         null, fromSpliterator, function, topCharacteristics, topSize);
   }
 

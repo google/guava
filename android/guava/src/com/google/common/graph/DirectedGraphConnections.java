@@ -163,13 +163,13 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
         orderedNodeConnections = null;
         break;
       case STABLE:
-        orderedNodeConnections = new ArrayList<NodeConnection<N>>();
+        orderedNodeConnections = new ArrayList<>();
         break;
       default:
         throw new AssertionError(incidentEdgeOrder.type());
     }
 
-    return new DirectedGraphConnections<N, V>(
+    return new DirectedGraphConnections<>(
         /* adjacentNodeValues = */ new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR),
         orderedNodeConnections,
         /* predecessorCount = */ 0,
