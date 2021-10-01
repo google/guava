@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
@@ -115,31 +114,16 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
               Iterators.concat(
                   Iterators.transform(
                       graph.predecessors(node).iterator(),
-                      new Function<N, EndpointPair<N>>() {
-                        @Override
-                        public EndpointPair<N> apply(N predecessor) {
-                          return EndpointPair.ordered(predecessor, node);
-                        }
-                      }),
+                      (N predecessor) -> EndpointPair.ordered(predecessor, node)),
                   Iterators.transform(
                       // filter out 'node' from successors (already covered by predecessors, above)
                       Sets.difference(graph.successors(node), ImmutableSet.of(node)).iterator(),
-                      new Function<N, EndpointPair<N>>() {
-                        @Override
-                        public EndpointPair<N> apply(N successor) {
-                          return EndpointPair.ordered(node, successor);
-                        }
-                      })));
+                      (N successor) -> EndpointPair.ordered(node, successor))));
         } else {
           return Iterators.unmodifiableIterator(
               Iterators.transform(
                   graph.adjacentNodes(node).iterator(),
-                  new Function<N, EndpointPair<N>>() {
-                    @Override
-                    public EndpointPair<N> apply(N adjacentNode) {
-                      return EndpointPair.unordered(node, adjacentNode);
-                    }
-                  }));
+                  (N adjacentNode) -> EndpointPair.unordered(node, adjacentNode)));
         }
       }
     };

@@ -68,8 +68,7 @@ final class TableCollectors {
      */
 
     return Collector.of(
-        () -> new ImmutableTableCollectorState<R, C, V>()
-        /* GWT isn't currently playing nicely with constructor references? */ ,
+        ImmutableTableCollectorState<R, C, V>::new,
         (state, input) ->
             state.put(
                 rowFunction.apply(input),

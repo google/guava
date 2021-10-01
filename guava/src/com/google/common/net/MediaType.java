@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.MoreObjects;
@@ -42,7 +41,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
@@ -792,14 +790,7 @@ public final class MediaType {
   }
 
   private Map<String, ImmutableMultiset<String>> parametersAsMap() {
-    return Maps.transformValues(
-        parameters.asMap(),
-        new Function<Collection<String>, ImmutableMultiset<String>>() {
-          @Override
-          public ImmutableMultiset<String> apply(Collection<String> input) {
-            return ImmutableMultiset.copyOf(input);
-          }
-        });
+    return Maps.transformValues(parameters.asMap(), ImmutableMultiset::copyOf);
   }
 
   /**
@@ -1185,14 +1176,10 @@ public final class MediaType {
       Multimap<String, String> quotedParameters =
           Multimaps.transformValues(
               parameters,
-              new Function<String, String>() {
-                @Override
-                public String apply(String value) {
-                  return (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
+              (String value) ->
+                  (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
                       ? value
-                      : escapeAndQuote(value);
-                }
-              });
+                      : escapeAndQuote(value));
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());
     }
     return builder.toString();

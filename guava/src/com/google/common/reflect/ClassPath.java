@@ -23,7 +23,6 @@ import static java.util.logging.Level.WARNING;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -167,13 +166,7 @@ public final class ClassPath {
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
     return FluentIterable.from(resources)
         .filter(ClassInfo.class)
-        .filter(
-            new Predicate<ClassInfo>() {
-              @Override
-              public boolean apply(ClassInfo info) {
-                return info.isTopLevel();
-              }
-            })
+        .filter(ClassInfo::isTopLevel)
         .toSet();
   }
 

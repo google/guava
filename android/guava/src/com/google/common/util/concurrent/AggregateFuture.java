@@ -138,26 +138,23 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
       for (final ListenableFuture<? extends InputT> future : futures) {
         final int index = i++;
         future.addListener(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  if (future.isCancelled()) {
-                    // Clear futures prior to cancelling children. This sets our own state but lets
-                    // the input futures keep running, as some of them may be used elsewhere.
-                    futures = null;
-                    cancel(false);
-                  } else {
-                    collectValueFromNonCancelledFuture(index, future);
-                  }
-                } finally {
-                  /*
-                   * "null" means: There is no need to access `futures` again during
-                   * `processCompleted` because we're reading each value during a call to
-                   * handleOneInputDone.
-                   */
-                  decrementCountAndMaybeComplete(null);
+            () -> {
+              try {
+                if (future.isCancelled()) {
+                  // Clear futures prior to cancelling children. This sets our own state but lets
+                  // the input futures keep running, as some of them may be used elsewhere.
+                  futures = null;
+                  cancel(false);
+                } else {
+                  collectValueFromNonCancelledFuture(index, future);
                 }
+              } finally {
+                /*
+                 * "null" means: There is no need to access `futures` again during
+                 * `processCompleted` because we're reading each value during a call to
+                 * handleOneInputDone.
+                 */
+                decrementCountAndMaybeComplete(null);
               }
             },
             directExecutor());
@@ -181,13 +178,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
        */
       final ImmutableCollection<? extends Future<? extends InputT>> localFutures =
           collectsValues ? futures : null;
-      Runnable listener =
-          new Runnable() {
-            @Override
-            public void run() {
-              decrementCountAndMaybeComplete(localFutures);
-            }
-          };
+      Runnable listener = () -> decrementCountAndMaybeComplete(localFutures);
       for (ListenableFuture<? extends InputT> future : futures) {
         future.addListener(listener, directExecutor());
       }
