@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import java.util.Collections;
@@ -82,12 +81,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   public Iterator<EndpointPair<N>> incidentEdgeIterator(final N thisNode) {
     return Iterators.transform(
         adjacentNodeValues.keySet().iterator(),
-        new Function<N, EndpointPair<N>>() {
-          @Override
-          public EndpointPair<N> apply(N incidentNode) {
-            return EndpointPair.unordered(thisNode, incidentNode);
-          }
-        });
+        (N incidentNode) -> EndpointPair.unordered(thisNode, incidentNode));
   }
 
   @Override

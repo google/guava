@@ -116,30 +116,15 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
   }
 
   private static <N, E> Function<E, N> sourceNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).source();
-      }
-    };
+    return (E edge) -> network.incidentNodes(edge).source();
   }
 
   private static <N, E> Function<E, N> targetNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).target();
-      }
-    };
+    return (E edge) -> network.incidentNodes(edge).target();
   }
 
   private static <N, E> Function<E, N> adjacentNodeFn(final Network<N, E> network, final N node) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).adjacentNode(node);
-      }
-    };
+    return (E edge) -> network.incidentNodes(edge).adjacentNode(node);
   }
 
   /**

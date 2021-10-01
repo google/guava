@@ -158,6 +158,8 @@
               <version>1.10</version>
             </signature>
             <ignores>
+              <!-- Allow requireNonNull: Android desugaring rewrites it (so it's safe for us to use), and it's useful for null checks. Note that this line allows *all* methods from java.util.Objects. That's the best that we can do with the configuration options that Animal Sniffer offers. -->
+              <ignore>java.util.Objects</ignore>
               <!-- Unsafe isn't part of the documented Java 6 API, but it is available.
                    And in cases where it's not, we have fallbacks. -->
               <ignore>sun.misc.Unsafe</ignore>

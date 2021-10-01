@@ -17,7 +17,6 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ForwardingMapEntry;
 import com.google.common.collect.ForwardingSet;
@@ -161,14 +160,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
     }
 
     private static <K, V> Iterator<Entry<K, V>> transformEntries(Iterator<Entry<K, V>> entries) {
-      return Iterators.transform(
-          entries,
-          new Function<Entry<K, V>, Entry<K, V>>() {
-            @Override
-            public Entry<K, V> apply(Entry<K, V> entry) {
-              return new UnmodifiableEntry<>(entry);
-            }
-          });
+      return Iterators.transform(entries, UnmodifiableEntry::new);
     }
 
     private UnmodifiableEntry(java.util.Map.Entry<K, V> delegate) {

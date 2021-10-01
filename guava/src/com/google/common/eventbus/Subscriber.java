@@ -66,14 +66,11 @@ class Subscriber {
   /** Dispatches {@code event} to this subscriber using the proper executor. */
   final void dispatchEvent(final Object event) {
     executor.execute(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              invokeSubscriberMethod(event);
-            } catch (InvocationTargetException e) {
-              bus.handleSubscriberException(e.getCause(), context(event));
-            }
+        () -> {
+          try {
+            invokeSubscriberMethod(event);
+          } catch (InvocationTargetException e) {
+            bus.handleSubscriberException(e.getCause(), context(event));
           }
         });
   }

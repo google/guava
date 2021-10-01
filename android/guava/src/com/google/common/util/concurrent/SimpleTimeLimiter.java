@@ -93,15 +93,11 @@ public final class SimpleTimeLimiter implements TimeLimiter {
               Object obj, final Method method, @CheckForNull final @Nullable Object[] args)
               throws Throwable {
             Callable<@Nullable Object> callable =
-                new Callable<@Nullable Object>() {
-                  @Override
-                  @CheckForNull
-                  public Object call() throws Exception {
-                    try {
-                      return method.invoke(target, args);
-                    } catch (InvocationTargetException e) {
-                      throw throwCause(e, false /* combineStackTraces */);
-                    }
+                () -> {
+                  try {
+                    return method.invoke(target, args);
+                  } catch (InvocationTargetException e) {
+                    throw throwCause(e, false /* combineStackTraces */);
                   }
                 };
             return callWithTimeout(
