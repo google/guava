@@ -94,19 +94,13 @@
 <span class="sourceLineNo">085</span><a id="line.85">   */</a>
 <span class="sourceLineNo">086</span><a id="line.86">  public abstract String escape(String string);</a>
 <span class="sourceLineNo">087</span><a id="line.87"></a>
-<span class="sourceLineNo">088</span><a id="line.88">  private final Function&lt;String, String&gt; asFunction =</a>
-<span class="sourceLineNo">089</span><a id="line.89">      new Function&lt;String, String&gt;() {</a>
-<span class="sourceLineNo">090</span><a id="line.90">        @Override</a>
-<span class="sourceLineNo">091</span><a id="line.91">        public String apply(String from) {</a>
-<span class="sourceLineNo">092</span><a id="line.92">          return escape(from);</a>
-<span class="sourceLineNo">093</span><a id="line.93">        }</a>
-<span class="sourceLineNo">094</span><a id="line.94">      };</a>
-<span class="sourceLineNo">095</span><a id="line.95"></a>
-<span class="sourceLineNo">096</span><a id="line.96">  /** Returns a {@link Function} that invokes {@link #escape(String)} on this escaper. */</a>
-<span class="sourceLineNo">097</span><a id="line.97">  public final Function&lt;String, String&gt; asFunction() {</a>
-<span class="sourceLineNo">098</span><a id="line.98">    return asFunction;</a>
-<span class="sourceLineNo">099</span><a id="line.99">  }</a>
-<span class="sourceLineNo">100</span><a id="line.100">}</a>
+<span class="sourceLineNo">088</span><a id="line.88">  private final Function&lt;String, String&gt; asFunction = this::escape;</a>
+<span class="sourceLineNo">089</span><a id="line.89"></a>
+<span class="sourceLineNo">090</span><a id="line.90">  /** Returns a {@link Function} that invokes {@link #escape(String)} on this escaper. */</a>
+<span class="sourceLineNo">091</span><a id="line.91">  public final Function&lt;String, String&gt; asFunction() {</a>
+<span class="sourceLineNo">092</span><a id="line.92">    return asFunction;</a>
+<span class="sourceLineNo">093</span><a id="line.93">  }</a>
+<span class="sourceLineNo">094</span><a id="line.94">}</a>
 
 
 

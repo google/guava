@@ -1329,140 +1329,136 @@
 <span class="sourceLineNo">1320</span><a id="line.1320">      // A comparator that's used by the heap, allowing the heap</a>
 <span class="sourceLineNo">1321</span><a id="line.1321">      // to be sorted based on the top of each iterator.</a>
 <span class="sourceLineNo">1322</span><a id="line.1322">      Comparator&lt;PeekingIterator&lt;T&gt;&gt; heapComparator =</a>
-<span class="sourceLineNo">1323</span><a id="line.1323">          new Comparator&lt;PeekingIterator&lt;T&gt;&gt;() {</a>
-<span class="sourceLineNo">1324</span><a id="line.1324">            @Override</a>
-<span class="sourceLineNo">1325</span><a id="line.1325">            public int compare(PeekingIterator&lt;T&gt; o1, PeekingIterator&lt;T&gt; o2) {</a>
-<span class="sourceLineNo">1326</span><a id="line.1326">              return itemComparator.compare(o1.peek(), o2.peek());</a>
-<span class="sourceLineNo">1327</span><a id="line.1327">            }</a>
-<span class="sourceLineNo">1328</span><a id="line.1328">          };</a>
-<span class="sourceLineNo">1329</span><a id="line.1329"></a>
-<span class="sourceLineNo">1330</span><a id="line.1330">      queue = new PriorityQueue&lt;&gt;(2, heapComparator);</a>
-<span class="sourceLineNo">1331</span><a id="line.1331"></a>
-<span class="sourceLineNo">1332</span><a id="line.1332">      for (Iterator&lt;? extends T&gt; iterator : iterators) {</a>
-<span class="sourceLineNo">1333</span><a id="line.1333">        if (iterator.hasNext()) {</a>
-<span class="sourceLineNo">1334</span><a id="line.1334">          queue.add(Iterators.peekingIterator(iterator));</a>
-<span class="sourceLineNo">1335</span><a id="line.1335">        }</a>
-<span class="sourceLineNo">1336</span><a id="line.1336">      }</a>
-<span class="sourceLineNo">1337</span><a id="line.1337">    }</a>
-<span class="sourceLineNo">1338</span><a id="line.1338"></a>
-<span class="sourceLineNo">1339</span><a id="line.1339">    @Override</a>
-<span class="sourceLineNo">1340</span><a id="line.1340">    public boolean hasNext() {</a>
-<span class="sourceLineNo">1341</span><a id="line.1341">      return !queue.isEmpty();</a>
-<span class="sourceLineNo">1342</span><a id="line.1342">    }</a>
-<span class="sourceLineNo">1343</span><a id="line.1343"></a>
-<span class="sourceLineNo">1344</span><a id="line.1344">    @Override</a>
-<span class="sourceLineNo">1345</span><a id="line.1345">    @ParametricNullness</a>
-<span class="sourceLineNo">1346</span><a id="line.1346">    public T next() {</a>
-<span class="sourceLineNo">1347</span><a id="line.1347">      PeekingIterator&lt;T&gt; nextIter = queue.remove();</a>
-<span class="sourceLineNo">1348</span><a id="line.1348">      T next = nextIter.next();</a>
-<span class="sourceLineNo">1349</span><a id="line.1349">      if (nextIter.hasNext()) {</a>
-<span class="sourceLineNo">1350</span><a id="line.1350">        queue.add(nextIter);</a>
-<span class="sourceLineNo">1351</span><a id="line.1351">      }</a>
-<span class="sourceLineNo">1352</span><a id="line.1352">      return next;</a>
-<span class="sourceLineNo">1353</span><a id="line.1353">    }</a>
-<span class="sourceLineNo">1354</span><a id="line.1354">  }</a>
+<span class="sourceLineNo">1323</span><a id="line.1323">          (PeekingIterator&lt;T&gt; o1, PeekingIterator&lt;T&gt; o2) -&gt;</a>
+<span class="sourceLineNo">1324</span><a id="line.1324">              itemComparator.compare(o1.peek(), o2.peek());</a>
+<span class="sourceLineNo">1325</span><a id="line.1325"></a>
+<span class="sourceLineNo">1326</span><a id="line.1326">      queue = new PriorityQueue&lt;&gt;(2, heapComparator);</a>
+<span class="sourceLineNo">1327</span><a id="line.1327"></a>
+<span class="sourceLineNo">1328</span><a id="line.1328">      for (Iterator&lt;? extends T&gt; iterator : iterators) {</a>
+<span class="sourceLineNo">1329</span><a id="line.1329">        if (iterator.hasNext()) {</a>
+<span class="sourceLineNo">1330</span><a id="line.1330">          queue.add(Iterators.peekingIterator(iterator));</a>
+<span class="sourceLineNo">1331</span><a id="line.1331">        }</a>
+<span class="sourceLineNo">1332</span><a id="line.1332">      }</a>
+<span class="sourceLineNo">1333</span><a id="line.1333">    }</a>
+<span class="sourceLineNo">1334</span><a id="line.1334"></a>
+<span class="sourceLineNo">1335</span><a id="line.1335">    @Override</a>
+<span class="sourceLineNo">1336</span><a id="line.1336">    public boolean hasNext() {</a>
+<span class="sourceLineNo">1337</span><a id="line.1337">      return !queue.isEmpty();</a>
+<span class="sourceLineNo">1338</span><a id="line.1338">    }</a>
+<span class="sourceLineNo">1339</span><a id="line.1339"></a>
+<span class="sourceLineNo">1340</span><a id="line.1340">    @Override</a>
+<span class="sourceLineNo">1341</span><a id="line.1341">    @ParametricNullness</a>
+<span class="sourceLineNo">1342</span><a id="line.1342">    public T next() {</a>
+<span class="sourceLineNo">1343</span><a id="line.1343">      PeekingIterator&lt;T&gt; nextIter = queue.remove();</a>
+<span class="sourceLineNo">1344</span><a id="line.1344">      T next = nextIter.next();</a>
+<span class="sourceLineNo">1345</span><a id="line.1345">      if (nextIter.hasNext()) {</a>
+<span class="sourceLineNo">1346</span><a id="line.1346">        queue.add(nextIter);</a>
+<span class="sourceLineNo">1347</span><a id="line.1347">      }</a>
+<span class="sourceLineNo">1348</span><a id="line.1348">      return next;</a>
+<span class="sourceLineNo">1349</span><a id="line.1349">    }</a>
+<span class="sourceLineNo">1350</span><a id="line.1350">  }</a>
+<span class="sourceLineNo">1351</span><a id="line.1351"></a>
+<span class="sourceLineNo">1352</span><a id="line.1352">  private static class ConcatenatedIterator&lt;T extends @Nullable Object&gt; implements Iterator&lt;T&gt; {</a>
+<span class="sourceLineNo">1353</span><a id="line.1353">    /* The last iterator to return an element.  Calls to remove() go to this iterator. */</a>
+<span class="sourceLineNo">1354</span><a id="line.1354">    @CheckForNull private Iterator&lt;? extends T&gt; toRemove;</a>
 <span class="sourceLineNo">1355</span><a id="line.1355"></a>
-<span class="sourceLineNo">1356</span><a id="line.1356">  private static class ConcatenatedIterator&lt;T extends @Nullable Object&gt; implements Iterator&lt;T&gt; {</a>
-<span class="sourceLineNo">1357</span><a id="line.1357">    /* The last iterator to return an element.  Calls to remove() go to this iterator. */</a>
-<span class="sourceLineNo">1358</span><a id="line.1358">    @CheckForNull private Iterator&lt;? extends T&gt; toRemove;</a>
-<span class="sourceLineNo">1359</span><a id="line.1359"></a>
-<span class="sourceLineNo">1360</span><a id="line.1360">    /* The iterator currently returning elements. */</a>
-<span class="sourceLineNo">1361</span><a id="line.1361">    private Iterator&lt;? extends T&gt; iterator;</a>
-<span class="sourceLineNo">1362</span><a id="line.1362"></a>
-<span class="sourceLineNo">1363</span><a id="line.1363">    /*</a>
-<span class="sourceLineNo">1364</span><a id="line.1364">     * We track the "meta iterators," the iterators-of-iterators, below.  Usually, topMetaIterator</a>
-<span class="sourceLineNo">1365</span><a id="line.1365">     * is the only one in use, but if we encounter nested concatenations, we start a deque of</a>
-<span class="sourceLineNo">1366</span><a id="line.1366">     * meta-iterators rather than letting the nesting get arbitrarily deep.  This keeps each</a>
-<span class="sourceLineNo">1367</span><a id="line.1367">     * operation O(1).</a>
-<span class="sourceLineNo">1368</span><a id="line.1368">     */</a>
-<span class="sourceLineNo">1369</span><a id="line.1369"></a>
-<span class="sourceLineNo">1370</span><a id="line.1370">    @CheckForNull private Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; topMetaIterator;</a>
-<span class="sourceLineNo">1371</span><a id="line.1371"></a>
-<span class="sourceLineNo">1372</span><a id="line.1372">    // Only becomes nonnull if we encounter nested concatenations.</a>
-<span class="sourceLineNo">1373</span><a id="line.1373">    @CheckForNull private Deque&lt;Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt;&gt; metaIterators;</a>
-<span class="sourceLineNo">1374</span><a id="line.1374"></a>
-<span class="sourceLineNo">1375</span><a id="line.1375">    ConcatenatedIterator(Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; metaIterator) {</a>
-<span class="sourceLineNo">1376</span><a id="line.1376">      iterator = emptyIterator();</a>
-<span class="sourceLineNo">1377</span><a id="line.1377">      topMetaIterator = checkNotNull(metaIterator);</a>
-<span class="sourceLineNo">1378</span><a id="line.1378">    }</a>
-<span class="sourceLineNo">1379</span><a id="line.1379"></a>
-<span class="sourceLineNo">1380</span><a id="line.1380">    // Returns a nonempty meta-iterator or, if all meta-iterators are empty, null.</a>
-<span class="sourceLineNo">1381</span><a id="line.1381">    @CheckForNull</a>
-<span class="sourceLineNo">1382</span><a id="line.1382">    private Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; getTopMetaIterator() {</a>
-<span class="sourceLineNo">1383</span><a id="line.1383">      while (topMetaIterator == null || !topMetaIterator.hasNext()) {</a>
-<span class="sourceLineNo">1384</span><a id="line.1384">        if (metaIterators != null &amp;&amp; !metaIterators.isEmpty()) {</a>
-<span class="sourceLineNo">1385</span><a id="line.1385">          topMetaIterator = metaIterators.removeFirst();</a>
-<span class="sourceLineNo">1386</span><a id="line.1386">        } else {</a>
-<span class="sourceLineNo">1387</span><a id="line.1387">          return null;</a>
-<span class="sourceLineNo">1388</span><a id="line.1388">        }</a>
-<span class="sourceLineNo">1389</span><a id="line.1389">      }</a>
-<span class="sourceLineNo">1390</span><a id="line.1390">      return topMetaIterator;</a>
-<span class="sourceLineNo">1391</span><a id="line.1391">    }</a>
-<span class="sourceLineNo">1392</span><a id="line.1392"></a>
-<span class="sourceLineNo">1393</span><a id="line.1393">    @Override</a>
-<span class="sourceLineNo">1394</span><a id="line.1394">    public boolean hasNext() {</a>
-<span class="sourceLineNo">1395</span><a id="line.1395">      while (!checkNotNull(iterator).hasNext()) {</a>
-<span class="sourceLineNo">1396</span><a id="line.1396">        // this weird checkNotNull positioning appears required by our tests, which expect</a>
-<span class="sourceLineNo">1397</span><a id="line.1397">        // both hasNext and next to throw NPE if an input iterator is null.</a>
-<span class="sourceLineNo">1398</span><a id="line.1398"></a>
-<span class="sourceLineNo">1399</span><a id="line.1399">        topMetaIterator = getTopMetaIterator();</a>
-<span class="sourceLineNo">1400</span><a id="line.1400">        if (topMetaIterator == null) {</a>
-<span class="sourceLineNo">1401</span><a id="line.1401">          return false;</a>
-<span class="sourceLineNo">1402</span><a id="line.1402">        }</a>
-<span class="sourceLineNo">1403</span><a id="line.1403"></a>
-<span class="sourceLineNo">1404</span><a id="line.1404">        iterator = topMetaIterator.next();</a>
-<span class="sourceLineNo">1405</span><a id="line.1405"></a>
-<span class="sourceLineNo">1406</span><a id="line.1406">        if (iterator instanceof ConcatenatedIterator) {</a>
-<span class="sourceLineNo">1407</span><a id="line.1407">          // Instead of taking linear time in the number of nested concatenations, unpack</a>
-<span class="sourceLineNo">1408</span><a id="line.1408">          // them into the queue</a>
-<span class="sourceLineNo">1409</span><a id="line.1409">          @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">1410</span><a id="line.1410">          ConcatenatedIterator&lt;T&gt; topConcat = (ConcatenatedIterator&lt;T&gt;) iterator;</a>
-<span class="sourceLineNo">1411</span><a id="line.1411">          iterator = topConcat.iterator;</a>
-<span class="sourceLineNo">1412</span><a id="line.1412"></a>
-<span class="sourceLineNo">1413</span><a id="line.1413">          // topConcat.topMetaIterator, then topConcat.metaIterators, then this.topMetaIterator,</a>
-<span class="sourceLineNo">1414</span><a id="line.1414">          // then this.metaIterators</a>
-<span class="sourceLineNo">1415</span><a id="line.1415"></a>
-<span class="sourceLineNo">1416</span><a id="line.1416">          if (this.metaIterators == null) {</a>
-<span class="sourceLineNo">1417</span><a id="line.1417">            this.metaIterators = new ArrayDeque&lt;&gt;();</a>
-<span class="sourceLineNo">1418</span><a id="line.1418">          }</a>
-<span class="sourceLineNo">1419</span><a id="line.1419">          this.metaIterators.addFirst(this.topMetaIterator);</a>
-<span class="sourceLineNo">1420</span><a id="line.1420">          if (topConcat.metaIterators != null) {</a>
-<span class="sourceLineNo">1421</span><a id="line.1421">            while (!topConcat.metaIterators.isEmpty()) {</a>
-<span class="sourceLineNo">1422</span><a id="line.1422">              this.metaIterators.addFirst(topConcat.metaIterators.removeLast());</a>
-<span class="sourceLineNo">1423</span><a id="line.1423">            }</a>
-<span class="sourceLineNo">1424</span><a id="line.1424">          }</a>
-<span class="sourceLineNo">1425</span><a id="line.1425">          this.topMetaIterator = topConcat.topMetaIterator;</a>
-<span class="sourceLineNo">1426</span><a id="line.1426">        }</a>
-<span class="sourceLineNo">1427</span><a id="line.1427">      }</a>
-<span class="sourceLineNo">1428</span><a id="line.1428">      return true;</a>
-<span class="sourceLineNo">1429</span><a id="line.1429">    }</a>
-<span class="sourceLineNo">1430</span><a id="line.1430"></a>
-<span class="sourceLineNo">1431</span><a id="line.1431">    @Override</a>
-<span class="sourceLineNo">1432</span><a id="line.1432">    @ParametricNullness</a>
-<span class="sourceLineNo">1433</span><a id="line.1433">    public T next() {</a>
-<span class="sourceLineNo">1434</span><a id="line.1434">      if (hasNext()) {</a>
-<span class="sourceLineNo">1435</span><a id="line.1435">        toRemove = iterator;</a>
-<span class="sourceLineNo">1436</span><a id="line.1436">        return iterator.next();</a>
-<span class="sourceLineNo">1437</span><a id="line.1437">      } else {</a>
-<span class="sourceLineNo">1438</span><a id="line.1438">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">1439</span><a id="line.1439">      }</a>
-<span class="sourceLineNo">1440</span><a id="line.1440">    }</a>
-<span class="sourceLineNo">1441</span><a id="line.1441"></a>
-<span class="sourceLineNo">1442</span><a id="line.1442">    @Override</a>
-<span class="sourceLineNo">1443</span><a id="line.1443">    public void remove() {</a>
-<span class="sourceLineNo">1444</span><a id="line.1444">      if (toRemove == null) {</a>
-<span class="sourceLineNo">1445</span><a id="line.1445">        throw new IllegalStateException("no calls to next() since the last call to remove()");</a>
-<span class="sourceLineNo">1446</span><a id="line.1446">      }</a>
-<span class="sourceLineNo">1447</span><a id="line.1447">      toRemove.remove();</a>
-<span class="sourceLineNo">1448</span><a id="line.1448">      toRemove = null;</a>
-<span class="sourceLineNo">1449</span><a id="line.1449">    }</a>
-<span class="sourceLineNo">1450</span><a id="line.1450">  }</a>
-<span class="sourceLineNo">1451</span><a id="line.1451"></a>
-<span class="sourceLineNo">1452</span><a id="line.1452">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
-<span class="sourceLineNo">1453</span><a id="line.1453">  static &lt;T extends @Nullable Object&gt; ListIterator&lt;T&gt; cast(Iterator&lt;T&gt; iterator) {</a>
-<span class="sourceLineNo">1454</span><a id="line.1454">    return (ListIterator&lt;T&gt;) iterator;</a>
-<span class="sourceLineNo">1455</span><a id="line.1455">  }</a>
-<span class="sourceLineNo">1456</span><a id="line.1456">}</a>
+<span class="sourceLineNo">1356</span><a id="line.1356">    /* The iterator currently returning elements. */</a>
+<span class="sourceLineNo">1357</span><a id="line.1357">    private Iterator&lt;? extends T&gt; iterator;</a>
+<span class="sourceLineNo">1358</span><a id="line.1358"></a>
+<span class="sourceLineNo">1359</span><a id="line.1359">    /*</a>
+<span class="sourceLineNo">1360</span><a id="line.1360">     * We track the "meta iterators," the iterators-of-iterators, below.  Usually, topMetaIterator</a>
+<span class="sourceLineNo">1361</span><a id="line.1361">     * is the only one in use, but if we encounter nested concatenations, we start a deque of</a>
+<span class="sourceLineNo">1362</span><a id="line.1362">     * meta-iterators rather than letting the nesting get arbitrarily deep.  This keeps each</a>
+<span class="sourceLineNo">1363</span><a id="line.1363">     * operation O(1).</a>
+<span class="sourceLineNo">1364</span><a id="line.1364">     */</a>
+<span class="sourceLineNo">1365</span><a id="line.1365"></a>
+<span class="sourceLineNo">1366</span><a id="line.1366">    @CheckForNull private Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; topMetaIterator;</a>
+<span class="sourceLineNo">1367</span><a id="line.1367"></a>
+<span class="sourceLineNo">1368</span><a id="line.1368">    // Only becomes nonnull if we encounter nested concatenations.</a>
+<span class="sourceLineNo">1369</span><a id="line.1369">    @CheckForNull private Deque&lt;Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt;&gt; metaIterators;</a>
+<span class="sourceLineNo">1370</span><a id="line.1370"></a>
+<span class="sourceLineNo">1371</span><a id="line.1371">    ConcatenatedIterator(Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; metaIterator) {</a>
+<span class="sourceLineNo">1372</span><a id="line.1372">      iterator = emptyIterator();</a>
+<span class="sourceLineNo">1373</span><a id="line.1373">      topMetaIterator = checkNotNull(metaIterator);</a>
+<span class="sourceLineNo">1374</span><a id="line.1374">    }</a>
+<span class="sourceLineNo">1375</span><a id="line.1375"></a>
+<span class="sourceLineNo">1376</span><a id="line.1376">    // Returns a nonempty meta-iterator or, if all meta-iterators are empty, null.</a>
+<span class="sourceLineNo">1377</span><a id="line.1377">    @CheckForNull</a>
+<span class="sourceLineNo">1378</span><a id="line.1378">    private Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; getTopMetaIterator() {</a>
+<span class="sourceLineNo">1379</span><a id="line.1379">      while (topMetaIterator == null || !topMetaIterator.hasNext()) {</a>
+<span class="sourceLineNo">1380</span><a id="line.1380">        if (metaIterators != null &amp;&amp; !metaIterators.isEmpty()) {</a>
+<span class="sourceLineNo">1381</span><a id="line.1381">          topMetaIterator = metaIterators.removeFirst();</a>
+<span class="sourceLineNo">1382</span><a id="line.1382">        } else {</a>
+<span class="sourceLineNo">1383</span><a id="line.1383">          return null;</a>
+<span class="sourceLineNo">1384</span><a id="line.1384">        }</a>
+<span class="sourceLineNo">1385</span><a id="line.1385">      }</a>
+<span class="sourceLineNo">1386</span><a id="line.1386">      return topMetaIterator;</a>
+<span class="sourceLineNo">1387</span><a id="line.1387">    }</a>
+<span class="sourceLineNo">1388</span><a id="line.1388"></a>
+<span class="sourceLineNo">1389</span><a id="line.1389">    @Override</a>
+<span class="sourceLineNo">1390</span><a id="line.1390">    public boolean hasNext() {</a>
+<span class="sourceLineNo">1391</span><a id="line.1391">      while (!checkNotNull(iterator).hasNext()) {</a>
+<span class="sourceLineNo">1392</span><a id="line.1392">        // this weird checkNotNull positioning appears required by our tests, which expect</a>
+<span class="sourceLineNo">1393</span><a id="line.1393">        // both hasNext and next to throw NPE if an input iterator is null.</a>
+<span class="sourceLineNo">1394</span><a id="line.1394"></a>
+<span class="sourceLineNo">1395</span><a id="line.1395">        topMetaIterator = getTopMetaIterator();</a>
+<span class="sourceLineNo">1396</span><a id="line.1396">        if (topMetaIterator == null) {</a>
+<span class="sourceLineNo">1397</span><a id="line.1397">          return false;</a>
+<span class="sourceLineNo">1398</span><a id="line.1398">        }</a>
+<span class="sourceLineNo">1399</span><a id="line.1399"></a>
+<span class="sourceLineNo">1400</span><a id="line.1400">        iterator = topMetaIterator.next();</a>
+<span class="sourceLineNo">1401</span><a id="line.1401"></a>
+<span class="sourceLineNo">1402</span><a id="line.1402">        if (iterator instanceof ConcatenatedIterator) {</a>
+<span class="sourceLineNo">1403</span><a id="line.1403">          // Instead of taking linear time in the number of nested concatenations, unpack</a>
+<span class="sourceLineNo">1404</span><a id="line.1404">          // them into the queue</a>
+<span class="sourceLineNo">1405</span><a id="line.1405">          @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">1406</span><a id="line.1406">          ConcatenatedIterator&lt;T&gt; topConcat = (ConcatenatedIterator&lt;T&gt;) iterator;</a>
+<span class="sourceLineNo">1407</span><a id="line.1407">          iterator = topConcat.iterator;</a>
+<span class="sourceLineNo">1408</span><a id="line.1408"></a>
+<span class="sourceLineNo">1409</span><a id="line.1409">          // topConcat.topMetaIterator, then topConcat.metaIterators, then this.topMetaIterator,</a>
+<span class="sourceLineNo">1410</span><a id="line.1410">          // then this.metaIterators</a>
+<span class="sourceLineNo">1411</span><a id="line.1411"></a>
+<span class="sourceLineNo">1412</span><a id="line.1412">          if (this.metaIterators == null) {</a>
+<span class="sourceLineNo">1413</span><a id="line.1413">            this.metaIterators = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">1414</span><a id="line.1414">          }</a>
+<span class="sourceLineNo">1415</span><a id="line.1415">          this.metaIterators.addFirst(this.topMetaIterator);</a>
+<span class="sourceLineNo">1416</span><a id="line.1416">          if (topConcat.metaIterators != null) {</a>
+<span class="sourceLineNo">1417</span><a id="line.1417">            while (!topConcat.metaIterators.isEmpty()) {</a>
+<span class="sourceLineNo">1418</span><a id="line.1418">              this.metaIterators.addFirst(topConcat.metaIterators.removeLast());</a>
+<span class="sourceLineNo">1419</span><a id="line.1419">            }</a>
+<span class="sourceLineNo">1420</span><a id="line.1420">          }</a>
+<span class="sourceLineNo">1421</span><a id="line.1421">          this.topMetaIterator = topConcat.topMetaIterator;</a>
+<span class="sourceLineNo">1422</span><a id="line.1422">        }</a>
+<span class="sourceLineNo">1423</span><a id="line.1423">      }</a>
+<span class="sourceLineNo">1424</span><a id="line.1424">      return true;</a>
+<span class="sourceLineNo">1425</span><a id="line.1425">    }</a>
+<span class="sourceLineNo">1426</span><a id="line.1426"></a>
+<span class="sourceLineNo">1427</span><a id="line.1427">    @Override</a>
+<span class="sourceLineNo">1428</span><a id="line.1428">    @ParametricNullness</a>
+<span class="sourceLineNo">1429</span><a id="line.1429">    public T next() {</a>
+<span class="sourceLineNo">1430</span><a id="line.1430">      if (hasNext()) {</a>
+<span class="sourceLineNo">1431</span><a id="line.1431">        toRemove = iterator;</a>
+<span class="sourceLineNo">1432</span><a id="line.1432">        return iterator.next();</a>
+<span class="sourceLineNo">1433</span><a id="line.1433">      } else {</a>
+<span class="sourceLineNo">1434</span><a id="line.1434">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">1435</span><a id="line.1435">      }</a>
+<span class="sourceLineNo">1436</span><a id="line.1436">    }</a>
+<span class="sourceLineNo">1437</span><a id="line.1437"></a>
+<span class="sourceLineNo">1438</span><a id="line.1438">    @Override</a>
+<span class="sourceLineNo">1439</span><a id="line.1439">    public void remove() {</a>
+<span class="sourceLineNo">1440</span><a id="line.1440">      if (toRemove == null) {</a>
+<span class="sourceLineNo">1441</span><a id="line.1441">        throw new IllegalStateException("no calls to next() since the last call to remove()");</a>
+<span class="sourceLineNo">1442</span><a id="line.1442">      }</a>
+<span class="sourceLineNo">1443</span><a id="line.1443">      toRemove.remove();</a>
+<span class="sourceLineNo">1444</span><a id="line.1444">      toRemove = null;</a>
+<span class="sourceLineNo">1445</span><a id="line.1445">    }</a>
+<span class="sourceLineNo">1446</span><a id="line.1446">  }</a>
+<span class="sourceLineNo">1447</span><a id="line.1447"></a>
+<span class="sourceLineNo">1448</span><a id="line.1448">  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */</a>
+<span class="sourceLineNo">1449</span><a id="line.1449">  static &lt;T extends @Nullable Object&gt; ListIterator&lt;T&gt; cast(Iterator&lt;T&gt; iterator) {</a>
+<span class="sourceLineNo">1450</span><a id="line.1450">    return (ListIterator&lt;T&gt;) iterator;</a>
+<span class="sourceLineNo">1451</span><a id="line.1451">  }</a>
+<span class="sourceLineNo">1452</span><a id="line.1452">}</a>
 
 
 

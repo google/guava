@@ -159,29 +159,26 @@
 <span class="sourceLineNo">150</span><a id="line.150"></a>
 <span class="sourceLineNo">151</span><a id="line.151">        // TODO(lukes): handle RejectedExecutionException</a>
 <span class="sourceLineNo">152</span><a id="line.152">        adapterExecutor.execute(</a>
-<span class="sourceLineNo">153</span><a id="line.153">            new Runnable() {</a>
-<span class="sourceLineNo">154</span><a id="line.154">              @Override</a>
-<span class="sourceLineNo">155</span><a id="line.155">              public void run() {</a>
-<span class="sourceLineNo">156</span><a id="line.156">                try {</a>
-<span class="sourceLineNo">157</span><a id="line.157">                  /*</a>
-<span class="sourceLineNo">158</span><a id="line.158">                   * Threads from our private pool are never interrupted. Threads from a</a>
-<span class="sourceLineNo">159</span><a id="line.159">                   * user-supplied executor might be, but... what can we do? This is another reason</a>
-<span class="sourceLineNo">160</span><a id="line.160">                   * to return a proper ListenableFuture instead of using listenInPoolThread.</a>
-<span class="sourceLineNo">161</span><a id="line.161">                   */</a>
-<span class="sourceLineNo">162</span><a id="line.162">                  getUninterruptibly(delegate);</a>
-<span class="sourceLineNo">163</span><a id="line.163">                } catch (Throwable e) {</a>
-<span class="sourceLineNo">164</span><a id="line.164">                  // ExecutionException / CancellationException / RuntimeException / Error</a>
-<span class="sourceLineNo">165</span><a id="line.165">                  // The task is presumably done, run the listeners.</a>
-<span class="sourceLineNo">166</span><a id="line.166">                }</a>
-<span class="sourceLineNo">167</span><a id="line.167">                executionList.execute();</a>
-<span class="sourceLineNo">168</span><a id="line.168">              }</a>
-<span class="sourceLineNo">169</span><a id="line.169">            });</a>
-<span class="sourceLineNo">170</span><a id="line.170">      }</a>
-<span class="sourceLineNo">171</span><a id="line.171">    }</a>
-<span class="sourceLineNo">172</span><a id="line.172">  }</a>
-<span class="sourceLineNo">173</span><a id="line.173"></a>
-<span class="sourceLineNo">174</span><a id="line.174">  private JdkFutureAdapters() {}</a>
-<span class="sourceLineNo">175</span><a id="line.175">}</a>
+<span class="sourceLineNo">153</span><a id="line.153">            () -&gt; {</a>
+<span class="sourceLineNo">154</span><a id="line.154">              try {</a>
+<span class="sourceLineNo">155</span><a id="line.155">                /*</a>
+<span class="sourceLineNo">156</span><a id="line.156">                 * Threads from our private pool are never interrupted. Threads from a</a>
+<span class="sourceLineNo">157</span><a id="line.157">                 * user-supplied executor might be, but... what can we do? This is another reason</a>
+<span class="sourceLineNo">158</span><a id="line.158">                 * to return a proper ListenableFuture instead of using listenInPoolThread.</a>
+<span class="sourceLineNo">159</span><a id="line.159">                 */</a>
+<span class="sourceLineNo">160</span><a id="line.160">                getUninterruptibly(delegate);</a>
+<span class="sourceLineNo">161</span><a id="line.161">              } catch (Throwable e) {</a>
+<span class="sourceLineNo">162</span><a id="line.162">                // ExecutionException / CancellationException / RuntimeException / Error</a>
+<span class="sourceLineNo">163</span><a id="line.163">                // The task is presumably done, run the listeners.</a>
+<span class="sourceLineNo">164</span><a id="line.164">              }</a>
+<span class="sourceLineNo">165</span><a id="line.165">              executionList.execute();</a>
+<span class="sourceLineNo">166</span><a id="line.166">            });</a>
+<span class="sourceLineNo">167</span><a id="line.167">      }</a>
+<span class="sourceLineNo">168</span><a id="line.168">    }</a>
+<span class="sourceLineNo">169</span><a id="line.169">  }</a>
+<span class="sourceLineNo">170</span><a id="line.170"></a>
+<span class="sourceLineNo">171</span><a id="line.171">  private JdkFutureAdapters() {}</a>
+<span class="sourceLineNo">172</span><a id="line.172">}</a>
 
 
 
