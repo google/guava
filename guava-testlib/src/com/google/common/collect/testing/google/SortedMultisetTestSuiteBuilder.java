@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
 @GwtIncompatible
 public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<E> {
   public static <E> SortedMultisetTestSuiteBuilder<E> using(TestMultisetGenerator<E> generator) {
-    SortedMultisetTestSuiteBuilder<E> result = new SortedMultisetTestSuiteBuilder<E>();
+    SortedMultisetTestSuiteBuilder<E> result = new SortedMultisetTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }
@@ -187,7 +187,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
                 }
 
                 // the regular values should be visible after filtering
-                List<E> allEntries = new ArrayList<E>();
+                List<E> allEntries = new ArrayList<>();
                 allEntries.addAll(extremeValues);
                 allEntries.addAll(normalValues);
                 SortedMultiset<E> multiset =

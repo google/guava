@@ -38,14 +38,14 @@ import org.junit.Ignore;
 public class CollectionForEachTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(absent = KNOWN_ORDER)
   public void testForEachUnknownOrder() {
-    List<E> elements = new ArrayList<E>();
+    List<E> elements = new ArrayList<>();
     collection.forEach(elements::add);
     Helpers.assertEqualIgnoringOrder(Arrays.asList(createSamplesArray()), elements);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testForEachKnownOrder() {
-    List<E> elements = new ArrayList<E>();
+    List<E> elements = new ArrayList<>();
     collection.forEach(elements::add);
     List<E> expected = Helpers.copyToList(getOrderedElements());
     assertEquals("Different ordered iteration", expected, elements);

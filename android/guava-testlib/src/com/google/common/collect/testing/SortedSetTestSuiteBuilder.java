@@ -34,7 +34,7 @@ import junit.framework.TestSuite;
 @GwtIncompatible
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   public static <E> SortedSetTestSuiteBuilder<E> using(TestSortedSetGenerator<E> generator) {
-    SortedSetTestSuiteBuilder<E> builder = new SortedSetTestSuiteBuilder<E>();
+    SortedSetTestSuiteBuilder<E> builder = new SortedSetTestSuiteBuilder<>();
     builder.usingGenerator(generator);
     return builder;
   }

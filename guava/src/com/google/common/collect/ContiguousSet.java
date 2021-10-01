@@ -242,7 +242,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   @Override
   @GwtIncompatible // NavigableSet
   ImmutableSortedSet<C> createDescendingSet() {
-    return new DescendingImmutableSortedSet<C>(this);
+    return new DescendingImmutableSortedSet<>(this);
   }
 
   /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */

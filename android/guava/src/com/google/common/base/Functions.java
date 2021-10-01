@@ -288,7 +288,7 @@ public final class Functions {
    */
   public static <T extends @Nullable Object> Function<T, Boolean> forPredicate(
       Predicate<T> predicate) {
-    return new PredicateFunction<T>(predicate);
+    return new PredicateFunction<>(predicate);
   }
 
   /** @see Functions#forPredicate */

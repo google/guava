@@ -54,7 +54,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   public NavigableSet<E> elementSet() {
     NavigableSet<E> result = elementSet;
     if (result == null) {
-      return elementSet = new SortedMultisets.NavigableElementSet<E>(this);
+      return elementSet = new SortedMultisets.NavigableElementSet<>(this);
     }
     return result;
   }

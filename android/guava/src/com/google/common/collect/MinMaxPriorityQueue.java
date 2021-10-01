@@ -131,7 +131,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * instead.
    */
   public static <B> Builder<B> orderedBy(Comparator<B> comparator) {
-    return new Builder<B>(comparator);
+    return new Builder<>(comparator);
   }
 
   /**
@@ -216,7 +216,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      */
     public <T extends B> MinMaxPriorityQueue<T> create(Iterable<? extends T> initialContents) {
       MinMaxPriorityQueue<T> queue =
-          new MinMaxPriorityQueue<T>(
+          new MinMaxPriorityQueue<>(
               this, initialQueueSize(expectedSize, maximumSize, initialContents));
       for (T element : initialContents) {
         queue.offer(element);
@@ -436,11 +436,11 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       // Last element is moved to before index, swapped with trickled element.
       if (changes == null) {
         // The trickled element is still after index.
-        return new MoveDesc<E>(actualLastElement, toTrickle);
+        return new MoveDesc<>(actualLastElement, toTrickle);
       } else {
         // The trickled element is back before index, but the replaced element
         // has now been moved after index.
-        return new MoveDesc<E>(actualLastElement, changes.replaced);
+        return new MoveDesc<>(actualLastElement, changes.replaced);
       }
     }
     // Trickled element was after index to begin with, no adjustment needed.
@@ -560,7 +560,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       }
       // bubble it up the opposite heap
       if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) < removeIndex) {
-        return new MoveDesc<E>(toTrickle, parent);
+        return new MoveDesc<>(toTrickle, parent);
       } else {
         return null;
       }
@@ -815,8 +815,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         if (moved != null) {
           // Either both are null or neither is, but we check both to satisfy the nullness checker.
           if (forgetMeNot == null || skipMe == null) {
-            forgetMeNot = new ArrayDeque<E>();
-            skipMe = new ArrayList<E>(3);
+            forgetMeNot = new ArrayDeque<>();
+            skipMe = new ArrayList<>(3);
           }
           if (!foundAndRemovedExactReference(skipMe, moved.toTrickle)) {
             forgetMeNot.add(moved.toTrickle);

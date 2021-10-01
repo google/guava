@@ -161,7 +161,7 @@ public final class DerivedGoogleCollectionGenerators {
       this.mapGenerator = mapGenerator;
       final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
-          new SampleElements<V>(
+          new SampleElements<>(
               mapSamples.e0().getValue(),
               mapSamples.e1().getValue(),
               mapSamples.e2().getValue(),

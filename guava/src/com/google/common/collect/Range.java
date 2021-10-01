@@ -154,7 +154,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
   }
 
   static <C extends Comparable<?>> Range<C> create(Cut<C> lowerBound, Cut<C> upperBound) {
-    return new Range<C>(lowerBound, upperBound);
+    return new Range<>(lowerBound, upperBound);
   }
 
   /**

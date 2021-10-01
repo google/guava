@@ -58,7 +58,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
       // Range would reject our attempt to create (x, x).
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
     return intersectionInCurrentDomain(
         Range.range(
@@ -231,14 +231,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     }
 
     private Object readResolve() {
-      return new RegularContiguousSet<C>(range, domain);
+      return new RegularContiguousSet<>(range, domain);
     }
   }
 
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(range, domain);
+    return new SerializedForm<>(range, domain);
   }
 
   private static final long serialVersionUID = 0;

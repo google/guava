@@ -75,7 +75,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(this); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(this); // safe because the view is effectively immutable
   }
 
   private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(

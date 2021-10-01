@@ -153,7 +153,7 @@ public final class TestingExecutors {
         implements ListenableScheduledFuture<V> {
 
       static <V> NeverScheduledFuture<V> create() {
-        return new NeverScheduledFuture<V>();
+        return new NeverScheduledFuture<>();
       }
 
       @Override

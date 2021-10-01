@@ -71,7 +71,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<E>(entries, this) : result;
+    return (result == null) ? elementSet = new ElementSet<>(entries, this) : result;
   }
 
   @Override

@@ -37,11 +37,11 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
 
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
       AsyncCallable<V> callable) {
-    return new TrustedListenableFutureTask<V>(callable);
+    return new TrustedListenableFutureTask<>(callable);
   }
 
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(Callable<V> callable) {
-    return new TrustedListenableFutureTask<V>(callable);
+    return new TrustedListenableFutureTask<>(callable);
   }
 
   /**
@@ -55,7 +55,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
       Runnable runnable, @ParametricNullness V result) {
-    return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
+    return new TrustedListenableFutureTask<>(Executors.callable(runnable, result));
   }
 
   /*

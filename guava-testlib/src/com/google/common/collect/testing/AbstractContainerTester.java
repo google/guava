@@ -188,7 +188,7 @@ public abstract class AbstractContainerTester<C, E>
     E[] elements = createSamplesArray();
     E duplicate = elements[(elements.length / 2) - 1];
     elements[(elements.length / 2) + 1] = duplicate;
-    return new ArrayWithDuplicate<E>(elements, duplicate);
+    return new ArrayWithDuplicate<>(elements, duplicate);
   }
 
   // Helper methods to improve readability of derived classes
@@ -211,7 +211,7 @@ public abstract class AbstractContainerTester<C, E>
    * requirement {@link com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}.
    */
   protected List<E> getOrderedElements() {
-    List<E> list = new ArrayList<E>();
+    List<E> list = new ArrayList<>();
     for (E e : getSubjectGenerator().order(new ArrayList<E>(getSampleElements()))) {
       list.add(e);
     }

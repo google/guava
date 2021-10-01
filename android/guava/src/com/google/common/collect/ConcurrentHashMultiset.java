@@ -88,7 +88,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)
     // ConcurrentMap implementors. One possibility is to extract most of this class into
     // an AbstractConcurrentMapMultiset.
-    return new ConcurrentHashMultiset<E>(new ConcurrentHashMap<E, AtomicInteger>());
+    return new ConcurrentHashMultiset<>(new ConcurrentHashMap<E, AtomicInteger>());
   }
 
   /**
@@ -121,7 +121,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @Beta
   public static <E> ConcurrentHashMultiset<E> create(ConcurrentMap<E, AtomicInteger> countMap) {
-    return new ConcurrentHashMultiset<E>(countMap);
+    return new ConcurrentHashMultiset<>(countMap);
   }
 
   @VisibleForTesting

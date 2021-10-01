@@ -131,8 +131,7 @@ public class Finalizer implements Runnable {
       PhantomReference<Object> frqReference) {
     this.queue = queue;
 
-    this.finalizableReferenceClassReference =
-        new WeakReference<Class<?>>(finalizableReferenceClass);
+    this.finalizableReferenceClassReference = new WeakReference<>(finalizableReferenceClass);
 
     // Keep track of the FRQ that started us so we know when to stop.
     this.frqReference = frqReference;

@@ -168,7 +168,7 @@ public final class Funnels {
    */
   public static <E extends @Nullable Object> Funnel<Iterable<? extends E>> sequentialFunnel(
       Funnel<E> elementFunnel) {
-    return new SequentialFunnel<E>(elementFunnel);
+    return new SequentialFunnel<>(elementFunnel);
   }
 
   private static class SequentialFunnel<E extends @Nullable Object>

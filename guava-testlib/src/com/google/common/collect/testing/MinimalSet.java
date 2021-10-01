@@ -45,13 +45,13 @@ public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
 
   public static <E> MinimalSet<E> ofClassAndContents(
       Class<? super E> type, E[] emptyArrayForContents, Iterable<? extends E> contents) {
-    List<E> setContents = new ArrayList<E>();
+    List<E> setContents = new ArrayList<>();
     for (E e : contents) {
       if (!setContents.contains(e)) {
         setContents.add(e);
       }
     }
-    return new MinimalSet<E>(type, setContents.toArray(emptyArrayForContents));
+    return new MinimalSet<>(type, setContents.toArray(emptyArrayForContents));
   }
 
   private MinimalSet(Class<? super E> type, E... contents) {

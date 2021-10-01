@@ -168,7 +168,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /** Returns an instance of type token that wraps {@code type}. */
   public static <T> TypeToken<T> of(Class<T> type) {
-    return new SimpleTypeToken<T>(type);
+    return new SimpleTypeToken<>(type);
   }
 
   /** Returns an instance of type token that wraps {@code type}. */
@@ -240,7 +240,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
                 ImmutableMap.of(
                     new TypeResolver.TypeVariableKey(typeParam.typeVariable), typeArg.runtimeType));
     // If there's any type error, we'd report now rather than later.
-    return new SimpleTypeToken<T>(resolver.resolveType(runtimeType));
+    return new SimpleTypeToken<>(resolver.resolveType(runtimeType));
   }
 
   /**

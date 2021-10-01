@@ -171,7 +171,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new StandardMutableGraph<N1>(this);
+    return new StandardMutableGraph<>(this);
   }
 
   GraphBuilder<N> copy() {

@@ -98,7 +98,7 @@ public final class DerivedCollectionGenerators {
       this.mapGenerator = mapGenerator;
       final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
-          new SampleElements<K>(
+          new SampleElements<>(
               mapSamples.e0().getKey(),
               mapSamples.e1().getKey(),
               mapSamples.e2().getKey(),
@@ -205,7 +205,7 @@ public final class DerivedCollectionGenerators {
       this.mapGenerator = mapGenerator;
       final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
-          new SampleElements<V>(
+          new SampleElements<>(
               mapSamples.e0().getValue(),
               mapSamples.e1().getValue(),
               mapSamples.e2().getValue(),

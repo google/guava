@@ -322,8 +322,7 @@ final class Types {
 
   private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
       D genericDeclaration, String name, Type[] bounds) {
-    TypeVariableImpl<D> typeVariableImpl =
-        new TypeVariableImpl<D>(genericDeclaration, name, bounds);
+    TypeVariableImpl<D> typeVariableImpl = new TypeVariableImpl<>(genericDeclaration, name, bounds);
     @SuppressWarnings("unchecked")
     TypeVariable<D> typeVariable =
         Reflection.newProxy(
