@@ -285,7 +285,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     abstract <K extends K0, V extends @Nullable Object> Map<K, Collection<V>> createMap();
 
     /** Uses an {@link ArrayList} to store value collections. */
-    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues() {
+    public <V0 extends @Nullable Object> ListMultimapBuilder<K0, V0> arrayListValues() {
       return arrayListValues(DEFAULT_EXPECTED_VALUES_PER_KEY);
     }
 
@@ -295,32 +295,36 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues(
+    public <V0 extends @Nullable Object> ListMultimapBuilder<K0, V0> arrayListValues(
         final int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
-      return new ListMultimapBuilder<K0, @Nullable Object>() {
+      return new ListMultimapBuilder<K0, V0>() {
+
+        private final Supplier<? extends List<V0>> supplier = new ArrayListSupplier<>(expectedValuesPerKey);
+
         @Override
-        public <K extends K0, V extends @Nullable Object> ListMultimap<K, V> build() {
+        public <K extends K0, V extends V0> ListMultimap<K, V> build() {
           return Multimaps.newListMultimap(
               MultimapBuilderWithKeys.this.<K, V>createMap(),
-              new ArrayListSupplier<V>(expectedValuesPerKey));
+              (Supplier<? extends List<V>>) supplier);
         }
       };
     }
 
     /** Uses a {@link LinkedList} to store value collections. */
-    public ListMultimapBuilder<K0, @Nullable Object> linkedListValues() {
-      return new ListMultimapBuilder<K0, @Nullable Object>() {
+    public <V0 extends @Nullable Object> ListMultimapBuilder<K0, V0> linkedListValues() {
+      return new ListMultimapBuilder<K0, V0>() {
         @Override
-        public <K extends K0, V extends @Nullable Object> ListMultimap<K, V> build() {
+        public <K extends K0, V extends V0> ListMultimap<K, V> build() {
           return Multimaps.newListMultimap(
-              MultimapBuilderWithKeys.this.<K, V>createMap(), LinkedListSupplier.<V>instance());
+              MultimapBuilderWithKeys.this.<K, V>createMap(),
+              LinkedListSupplier.<V>instance());
         }
       };
     }
 
     /** Uses a hash-based {@code Set} to store value collections. */
-    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues() {
+    public <V0 extends @Nullable Object> SetMultimapBuilder<K0, V0> hashSetValues() {
       return hashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);
     }
 
@@ -330,14 +334,17 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues(final int expectedValuesPerKey) {
+    public <V0 extends @Nullable Object> SetMultimapBuilder<K0, V0> hashSetValues(final int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
-      return new SetMultimapBuilder<K0, @Nullable Object>() {
+      return new SetMultimapBuilder<K0, V0>() {
+
+        private final Supplier<? extends Set<V0>> supplier = new HashSetSupplier<>(expectedValuesPerKey);
+
         @Override
-        public <K extends K0, V extends @Nullable Object> SetMultimap<K, V> build() {
+        public <K extends K0, V extends V0> SetMultimap<K, V> build() {
           return Multimaps.newSetMultimap(
               MultimapBuilderWithKeys.this.<K, V>createMap(),
-              new HashSetSupplier<V>(expectedValuesPerKey));
+              (Supplier<? extends Set<V>>) supplier);
         }
       };
     }
@@ -353,15 +360,18 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues(
+    public <V0 extends @Nullable Object> SetMultimapBuilder<K0, V0> linkedHashSetValues(
         final int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
-      return new SetMultimapBuilder<K0, @Nullable Object>() {
+      return new SetMultimapBuilder<K0, V0>() {
+
+        private final Supplier<? extends Set<V0>> supplier = new LinkedHashSetSupplier<>(expectedValuesPerKey);
+
         @Override
-        public <K extends K0, V extends @Nullable Object> SetMultimap<K, V> build() {
+        public <K extends K0, V extends V0> SetMultimap<K, V> build() {
           return Multimaps.newSetMultimap(
               MultimapBuilderWithKeys.this.<K, V>createMap(),
-              new LinkedHashSetSupplier<V>(expectedValuesPerKey));
+              (Supplier<? extends Set<V>>) supplier);
         }
       };
     }
@@ -382,10 +392,14 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
         final Comparator<V0> comparator) {
       checkNotNull(comparator, "comparator");
       return new SortedSetMultimapBuilder<K0, V0>() {
+
+        private final Supplier<? extends SortedSet<V0>> supplier = new TreeSetSupplier<>(comparator);
+
         @Override
         public <K extends K0, V extends V0> SortedSetMultimap<K, V> build() {
           return Multimaps.newSortedSetMultimap(
-              MultimapBuilderWithKeys.this.<K, V>createMap(), new TreeSetSupplier<V>(comparator));
+              MultimapBuilderWithKeys.this.<K, V>createMap(),
+              (Supplier<? extends SortedSet<V>>) supplier);
         }
       };
     }
@@ -395,13 +409,16 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
         final Class<V0> valueClass) {
       checkNotNull(valueClass, "valueClass");
       return new SetMultimapBuilder<K0, V0>() {
+
+        private final Supplier<? extends Set<V0>> supplier = new EnumSetSupplier<V0>(valueClass);
+
         @Override
         public <K extends K0, V extends V0> SetMultimap<K, V> build() {
-          // V must actually be V0, since enums are effectively final
-          // (their subclasses are inaccessible)
-          @SuppressWarnings({"unchecked", "rawtypes"})
-          Supplier<Set<V>> factory = (Supplier) new EnumSetSupplier<V0>(valueClass);
-          return Multimaps.newSetMultimap(MultimapBuilderWithKeys.this.<K, V>createMap(), factory);
+          return Multimaps.newSetMultimap(
+              MultimapBuilderWithKeys.this.<K, V>createMap(),
+              // V must actually be V0, since enums are effectively final
+              // (their subclasses are inaccessible)
+              (Supplier) supplier);
         }
       };
     }
