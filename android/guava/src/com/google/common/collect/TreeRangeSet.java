@@ -368,7 +368,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
        * We want to start the iteration at the first range where the upper bound is in
        * upperBoundWindow.
        */
-      final Iterator<Range<C>> backingItr;
+      Iterator<Range<C>> backingItr;
       if (!upperBoundWindow.hasLowerBound()) {
         backingItr = rangesByLowerBound.values().iterator();
       } else {
@@ -415,7 +415,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       } else {
         candidates = rangesByLowerBound.descendingMap().values();
       }
-      final PeekingIterator<Range<C>> backingItr = Iterators.peekingIterator(candidates.iterator());
+      PeekingIterator<Range<C>> backingItr = Iterators.peekingIterator(candidates.iterator());
       if (backingItr.hasNext()
           && upperBoundWindow.upperBound.isLessThan(backingItr.peek().upperBound)) {
         backingItr.next();
@@ -529,9 +529,8 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       } else {
         positiveRanges = positiveRangesByUpperBound.values();
       }
-      final PeekingIterator<Range<C>> positiveItr =
-          Iterators.peekingIterator(positiveRanges.iterator());
-      final Cut<C> firstComplementRangeLowerBound;
+      PeekingIterator<Range<C>> positiveItr = Iterators.peekingIterator(positiveRanges.iterator());
+      Cut<C> firstComplementRangeLowerBound;
       if (complementLowerBoundWindow.contains(Cut.<C>belowAll())
           && (!positiveItr.hasNext() || positiveItr.peek().lowerBound != Cut.<C>belowAll())) {
         firstComplementRangeLowerBound = Cut.belowAll();
@@ -581,7 +580,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       boolean inclusive =
           complementLowerBoundWindow.hasUpperBound()
               && complementLowerBoundWindow.upperBoundType() == BoundType.CLOSED;
-      final PeekingIterator<Range<C>> positiveItr =
+      PeekingIterator<Range<C>> positiveItr =
           Iterators.peekingIterator(
               positiveRangesByUpperBound
                   .headMap(startingPoint, inclusive)
@@ -600,8 +599,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       } else {
         cut = positiveRangesByLowerBound.higherKey(Cut.<C>belowAll());
       }
-      final Cut<C> firstComplementRangeUpperBound =
-          MoreObjects.firstNonNull(cut, Cut.<C>aboveAll());
+      Cut<C> firstComplementRangeUpperBound = MoreObjects.firstNonNull(cut, Cut.<C>aboveAll());
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         Cut<C> nextComplementRangeUpperBound = firstComplementRangeUpperBound;
 
@@ -786,7 +784,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       if (restriction.isEmpty()) {
         return Iterators.emptyIterator();
       }
-      final Iterator<Range<C>> completeRangeItr;
+      Iterator<Range<C>> completeRangeItr;
       if (lowerBoundWindow.upperBound.isLessThan(restriction.lowerBound)) {
         return Iterators.emptyIterator();
       } else if (lowerBoundWindow.lowerBound.isLessThan(restriction.lowerBound)) {
@@ -803,7 +801,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                 .values()
                 .iterator();
       }
-      final Cut<Cut<C>> upperBoundOnLowerBounds =
+      Cut<Cut<C>> upperBoundOnLowerBounds =
           Ordering.natural()
               .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
@@ -832,7 +830,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       Cut<Cut<C>> upperBoundOnLowerBounds =
           Ordering.natural()
               .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
-      final Iterator<Range<C>> completeRangeItr =
+      Iterator<Range<C>> completeRangeItr =
           rangesByLowerBound
               .headMap(
                   upperBoundOnLowerBounds.endpoint(),

@@ -118,7 +118,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  public Collection<V> get(@ParametricNullness final K key) {
+  public Collection<V> get(@ParametricNullness K key) {
     return filterCollection(unfiltered.get(key), new ValuePredicate(key));
   }
 
@@ -396,7 +396,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
           return FilteredEntryMultimap.this.keySet().size();
         }
 
-        private boolean removeEntriesIf(final Predicate<? super Multiset.Entry<K>> predicate) {
+        private boolean removeEntriesIf(Predicate<? super Multiset.Entry<K>> predicate) {
           return FilteredEntryMultimap.this.removeEntriesIf(
               (Map.Entry<K, Collection<V>> entry) ->
                   predicate.apply(

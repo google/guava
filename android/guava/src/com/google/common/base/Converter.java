@@ -270,7 +270,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * both use cases by using @PolyNull. (By contrast, we can't use @PolyNull for our superinterface
    * (`implements Function<@PolyNull A, @PolyNull B>`), at least as far as I know.)
    */
-  public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
+  public Iterable<B> convertAll(Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
       @Override

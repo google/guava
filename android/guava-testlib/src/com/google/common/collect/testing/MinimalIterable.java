@@ -59,7 +59,7 @@ public final class MinimalIterable<E> implements Iterable<E> {
    * out of the source collection at the time this method is called.
    */
   @SuppressWarnings("unchecked") // Es come in, Es go out
-  public static <E> MinimalIterable<E> from(final Collection<E> elements) {
+  public static <E> MinimalIterable<E> from(Collection<E> elements) {
     return (MinimalIterable) of(elements.toArray());
   }
 

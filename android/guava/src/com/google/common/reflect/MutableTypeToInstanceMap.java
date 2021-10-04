@@ -126,7 +126,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
     private final Entry<K, V> delegate;
 
-    static <K, V> Set<Entry<K, V>> transformEntries(final Set<Entry<K, V>> entries) {
+    static <K, V> Set<Entry<K, V>> transformEntries(Set<Entry<K, V>> entries) {
       return new ForwardingSet<Map.Entry<K, V>>() {
         @Override
         protected Set<Entry<K, V>> delegate() {

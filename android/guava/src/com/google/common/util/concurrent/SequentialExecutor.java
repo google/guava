@@ -96,10 +96,10 @@ final class SequentialExecutor implements Executor {
    * execution of tasks will stop until a call to this method is made.
    */
   @Override
-  public void execute(final Runnable task) {
+  public void execute(Runnable task) {
     checkNotNull(task);
-    final Runnable submittedTask;
-    final long oldRunCount;
+    Runnable submittedTask;
+    long oldRunCount;
     synchronized (queue) {
       // If the worker is already running (or execute() on the delegate returned successfully, and
       // the worker has yet to start) then we don't need to start the worker.

@@ -112,7 +112,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public ImmutableList<E> get(final int index) {
+  public ImmutableList<E> get(int index) {
     checkElementIndex(index, size());
     return new ImmutableList<E>() {
 

@@ -127,7 +127,7 @@ public final class Iterators {
 
   /** Returns an unmodifiable view of {@code iterator}. */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> unmodifiableIterator(
-      final Iterator<? extends T> iterator) {
+      Iterator<? extends T> iterator) {
     checkNotNull(iterator);
     if (iterator instanceof UnmodifiableIterator) {
       @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
@@ -397,7 +397,7 @@ public final class Iterators {
    * should use an explicit {@code break} or be certain that you will eventually remove all the
    * elements.
    */
-  public static <T extends @Nullable Object> Iterator<T> cycle(final Iterable<T> iterable) {
+  public static <T extends @Nullable Object> Iterator<T> cycle(Iterable<T> iterable) {
     checkNotNull(iterable);
     return new Iterator<T>() {
       Iterator<T> iterator = emptyModifiableIterator();
@@ -462,8 +462,7 @@ public final class Iterators {
    *
    * <p>This is mainly just to avoid the intermediate ArrayDeque in ConsumingQueueIterator.
    */
-  private static <I extends Iterator<?>> Iterator<I> consumingForArray(
-      final @Nullable I... elements) {
+  private static <I extends Iterator<?>> Iterator<I> consumingForArray(@Nullable I... elements) {
     return new UnmodifiableIterator<I>() {
       int index = 0;
 
@@ -617,7 +616,7 @@ public final class Iterators {
   }
 
   private static <T extends @Nullable Object> UnmodifiableIterator<List<@Nullable T>> partitionImpl(
-      final Iterator<T> iterator, final int size, final boolean pad) {
+      Iterator<T> iterator, int size, boolean pad) {
     checkNotNull(iterator);
     checkArgument(size > 0);
     return new UnmodifiableIterator<List<@Nullable T>>() {
@@ -658,7 +657,7 @@ public final class Iterators {
    * {@code retainIfTrue}.
    */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> filter(
-      final Iterator<T> unfiltered, final Predicate<? super T> retainIfTrue) {
+      Iterator<T> unfiltered, Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
     checkNotNull(retainIfTrue);
     return new AbstractIterator<T>() {
@@ -817,7 +816,7 @@ public final class Iterators {
    * element.
    */
   public static <F extends @Nullable Object, T extends @Nullable Object> Iterator<T> transform(
-      final Iterator<F> fromIterator, final Function<? super F, ? extends T> function) {
+      Iterator<F> fromIterator, Function<? super F, ? extends T> function) {
     checkNotNull(function);
     return new TransformedIterator<F, T>(fromIterator) {
       @ParametricNullness
@@ -952,7 +951,7 @@ public final class Iterators {
    * @since 3.0
    */
   public static <T extends @Nullable Object> Iterator<T> limit(
-      final Iterator<T> iterator, final int limitSize) {
+      Iterator<T> iterator, int limitSize) {
     checkNotNull(iterator);
     checkArgument(limitSize >= 0, "limit is negative");
     return new Iterator<T>() {
@@ -991,8 +990,7 @@ public final class Iterators {
    * @return an iterator that removes and returns elements from the supplied iterator
    * @since 2.0
    */
-  public static <T extends @Nullable Object> Iterator<T> consumingIterator(
-      final Iterator<T> iterator) {
+  public static <T extends @Nullable Object> Iterator<T> consumingIterator(Iterator<T> iterator) {
     checkNotNull(iterator);
     return new UnmodifiableIterator<T>() {
       @Override
@@ -1052,7 +1050,7 @@ public final class Iterators {
    * {@link ImmutableList#copyOf(Object[])}}, or {@link ImmutableList#of}.
    */
   @SafeVarargs
-  public static <T extends @Nullable Object> UnmodifiableIterator<T> forArray(final T... array) {
+  public static <T extends @Nullable Object> UnmodifiableIterator<T> forArray(T... array) {
     return forArray(array, 0, array.length, 0);
   }
 
@@ -1064,7 +1062,7 @@ public final class Iterators {
    * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.
    */
   static <T extends @Nullable Object> UnmodifiableListIterator<T> forArray(
-      final T[] array, final int offset, int length, int index) {
+      T[] array, int offset, int length, int index) {
     checkArgument(length >= 0);
     int end = offset + length;
 
@@ -1103,7 +1101,7 @@ public final class Iterators {
    * <p>The {@link Iterable} equivalent of this method is {@link Collections#singleton}.
    */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> singletonIterator(
-      @ParametricNullness final T value) {
+      @ParametricNullness T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 
@@ -1135,7 +1133,7 @@ public final class Iterators {
    * return an {@code UnmodifiableIterator} instead of a plain {@code Iterator}.
    */
   public static <T extends @Nullable Object> UnmodifiableIterator<T> forEnumeration(
-      final Enumeration<T> enumeration) {
+      Enumeration<T> enumeration) {
     checkNotNull(enumeration);
     return new UnmodifiableIterator<T>() {
       @Override
@@ -1157,8 +1155,7 @@ public final class Iterators {
    * <p>The {@code Iterable} equivalent of this method is either {@link Collections#enumeration} (if
    * you have a {@link Collection}), or {@code Iterators.asEnumeration(collection.iterator())}.
    */
-  public static <T extends @Nullable Object> Enumeration<T> asEnumeration(
-      final Iterator<T> iterator) {
+  public static <T extends @Nullable Object> Enumeration<T> asEnumeration(Iterator<T> iterator) {
     checkNotNull(iterator);
     return new Enumeration<T>() {
       @Override
@@ -1315,8 +1312,7 @@ public final class Iterators {
     final Queue<PeekingIterator<T>> queue;
 
     public MergingIterator(
-        Iterable<? extends Iterator<? extends T>> iterators,
-        final Comparator<? super T> itemComparator) {
+        Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
       // A comparator that's used by the heap, allowing the heap
       // to be sorted based on the top of each iterator.
       Comparator<PeekingIterator<T>> heapComparator =

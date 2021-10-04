@@ -243,7 +243,7 @@ final class LittleEndianByteArray {
        * which will have an efficient native implementation in JDK 9.
        *
        */
-      final String arch = System.getProperty("os.arch");
+      String arch = System.getProperty("os.arch");
       if ("amd64".equals(arch)) {
         theGetter =
             ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)

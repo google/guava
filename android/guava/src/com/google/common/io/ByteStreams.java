@@ -819,7 +819,7 @@ public final class ByteStreams {
    * either the full amount has been skipped or until the end of the stream is reached, whichever
    * happens first. Returns the total number of bytes skipped.
    */
-  static long skipUpTo(InputStream in, final long n) throws IOException {
+  static long skipUpTo(InputStream in, long n) throws IOException {
     long totalSkipped = 0;
     // A buffer is allocated if skipSafely does not skip any bytes.
     byte[] buf = null;

@@ -135,8 +135,8 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
       // This is not actually a problem, since the foreach only needs this.futures to be non-null
       // at the beginning of the loop.
       int i = 0;
-      for (final ListenableFuture<? extends InputT> future : futures) {
-        final int index = i++;
+      for (ListenableFuture<? extends InputT> future : futures) {
+        int index = i++;
         future.addListener(
             () -> {
               try {
@@ -176,7 +176,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
        * could actually hurt in some cases, as it forces us to keep all inputs in memory until the
        * final input completes.
        */
-      final ImmutableCollection<? extends Future<? extends InputT>> localFutures =
+      ImmutableCollection<? extends Future<? extends InputT>> localFutures =
           collectsValues ? futures : null;
       Runnable listener = () -> decrementCountAndMaybeComplete(localFutures);
       for (ListenableFuture<? extends InputT> future : futures) {

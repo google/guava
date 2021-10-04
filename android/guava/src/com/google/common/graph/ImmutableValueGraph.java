@@ -90,8 +90,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
     return nodeConnections.build();
   }
 
-  private static <N, V> GraphConnections<N, V> connectionsOf(
-      final ValueGraph<N, V> graph, final N node) {
+  private static <N, V> GraphConnections<N, V> connectionsOf(ValueGraph<N, V> graph, N node) {
     Function<N, V> successorNodeToValueFn =
         (N successorNode) ->
             // requireNonNull is safe because the endpoint pair comes from the graph.

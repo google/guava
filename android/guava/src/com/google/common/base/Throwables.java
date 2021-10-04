@@ -406,7 +406,7 @@ public final class Throwables {
   }
 
   @GwtIncompatible // invokeAccessibleNonThrowingMethod
-  private static List<StackTraceElement> jlaStackTrace(final Throwable t) {
+  private static List<StackTraceElement> jlaStackTrace(Throwable t) {
     checkNotNull(t);
     /*
      * TODO(cpovirk): Consider optimizing iterator() to catch IOOBE instead of doing bounds checks.

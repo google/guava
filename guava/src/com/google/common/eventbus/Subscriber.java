@@ -64,7 +64,7 @@ class Subscriber {
   }
 
   /** Dispatches {@code event} to this subscriber using the proper executor. */
-  final void dispatchEvent(final Object event) {
+  final void dispatchEvent(Object event) {
     executor.execute(
         () -> {
           try {

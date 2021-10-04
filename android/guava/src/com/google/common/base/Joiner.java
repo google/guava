@@ -236,7 +236,7 @@ public class Joiner {
    * Returns a joiner with the same behavior as this one, except automatically substituting {@code
    * nullText} for any provided null elements.
    */
-  public Joiner useForNull(final String nullText) {
+  public Joiner useForNull(String nullText) {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
@@ -493,9 +493,7 @@ public class Joiner {
   }
 
   private static Iterable<@Nullable Object> iterable(
-      @CheckForNull final Object first,
-      @CheckForNull final Object second,
-      final @Nullable Object[] rest) {
+      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object[] rest) {
     checkNotNull(rest);
     return new AbstractList<@Nullable Object>() {
       @Override

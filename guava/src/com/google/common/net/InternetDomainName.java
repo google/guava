@@ -163,7 +163,7 @@ public final class InternetDomainName {
    * Otherwise, it finds the first suffix of any type.
    */
   private int findSuffixOfType(Optional<PublicSuffixType> desiredType) {
-    final int partsSize = parts.size();
+    int partsSize = parts.size();
 
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
@@ -217,7 +217,7 @@ public final class InternetDomainName {
    * @return Is the domain name syntactically valid?
    */
   private static boolean validateSyntax(List<String> parts) {
-    final int lastIndex = parts.size() - 1;
+    int lastIndex = parts.size() - 1;
 
     // Validate the last part specially, as it has different syntax rules.
 
