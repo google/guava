@@ -32,7 +32,6 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -334,8 +333,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * UnsupportedOperationException}.
    */
   static <K, V> Entry<K, V> entryOf(K key, V value) {
-    checkEntryNotNull(key, value);
-    return new AbstractMap.SimpleImmutableEntry<>(key, value);
+    return new ImmutableMapEntry<>(key, value);
   }
 
   /**
