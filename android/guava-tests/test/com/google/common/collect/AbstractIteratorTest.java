@@ -250,6 +250,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testCantRemove() {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
