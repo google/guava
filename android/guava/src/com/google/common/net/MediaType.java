@@ -1054,7 +1054,7 @@ public final class MediaType {
         tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
         tokenizer.consumeCharacter('=');
-        final String value;
+        String value;
         if ('"' == tokenizer.previewChar()) {
           tokenizer.consumeCharacter('"');
           StringBuilder valueBuilder = new StringBuilder();

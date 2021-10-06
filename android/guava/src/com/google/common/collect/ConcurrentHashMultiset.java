@@ -449,7 +449,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   @Override
   Set<E> createElementSet() {
-    final Set<E> delegate = countMap.keySet();
+    Set<E> delegate = countMap.keySet();
     return new ForwardingSet<E>() {
       @Override
       protected Set<E> delegate() {
@@ -504,7 +504,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   Iterator<Entry<E>> entryIterator() {
     // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
-    final Iterator<Entry<E>> readOnlyIterator =
+    Iterator<Entry<E>> readOnlyIterator =
         new AbstractIterator<Entry<E>>() {
           private final Iterator<Map.Entry<E, AtomicInteger>> mapEntries =
               countMap.entrySet().iterator();

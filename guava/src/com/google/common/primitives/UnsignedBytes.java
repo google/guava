@@ -365,7 +365,7 @@ public final class UnsignedBytes {
 
       @Override
       public int compare(byte[] left, byte[] right) {
-        final int stride = 8;
+        int stride = 8;
         int minLength = Math.min(left.length, right.length);
         int strideLimit = minLength & ~(stride - 1);
         int i;

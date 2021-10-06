@@ -78,7 +78,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  public Iterator<EndpointPair<N>> incidentEdgeIterator(final N thisNode) {
+  public Iterator<EndpointPair<N>> incidentEdgeIterator(N thisNode) {
     return Iterators.transform(
         adjacentNodeValues.keySet().iterator(),
         (N incidentNode) -> EndpointPair.unordered(thisNode, incidentNode));

@@ -234,7 +234,7 @@ public abstract class Striped<L> {
    * @param permits the number of permits in each semaphore
    * @return a new {@code Striped<Semaphore>}
    */
-  public static Striped<Semaphore> semaphore(int stripes, final int permits) {
+  public static Striped<Semaphore> semaphore(int stripes, int permits) {
     return custom(stripes, () -> new PaddedSemaphore(permits));
   }
 
@@ -246,7 +246,7 @@ public abstract class Striped<L> {
    * @param permits the number of permits in each semaphore
    * @return a new {@code Striped<Semaphore>}
    */
-  public static Striped<Semaphore> lazyWeakSemaphore(int stripes, final int permits) {
+  public static Striped<Semaphore> lazyWeakSemaphore(int stripes, int permits) {
     return lazy(stripes, () -> new Semaphore(permits, false));
   }
 

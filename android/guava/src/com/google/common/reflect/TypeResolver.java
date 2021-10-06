@@ -123,7 +123,7 @@ public final class TypeResolver {
   }
 
   private static void populateTypeMappings(
-      final Map<TypeVariableKey, Type> mappings, final Type from, final Type to) {
+      Map<TypeVariableKey, Type> mappings, Type from, Type to) {
     if (from.equals(to)) {
       return;
     }
@@ -299,8 +299,8 @@ public final class TypeResolver {
       return new TypeTable(builder.build());
     }
 
-    final Type resolve(final TypeVariable<?> var) {
-      final TypeTable unguarded = this;
+    final Type resolve(TypeVariable<?> var) {
+      TypeTable unguarded = this;
       TypeTable guarded =
           new TypeTable() {
             @Override
@@ -414,7 +414,7 @@ public final class TypeResolver {
       visit(t.getUpperBounds());
     }
 
-    private void map(final TypeVariableKey var, final Type arg) {
+    private void map(TypeVariableKey var, Type arg) {
       if (mappings.containsKey(var)) {
         // Mapping already established
         // This is possible when following both superClass -> enclosingClass
@@ -504,7 +504,7 @@ public final class TypeResolver {
       return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);
     }
 
-    private WildcardCapturer forTypeVariable(final TypeVariable<?> typeParam) {
+    private WildcardCapturer forTypeVariable(TypeVariable<?> typeParam) {
       return new WildcardCapturer(id) {
         @Override
         TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {

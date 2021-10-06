@@ -138,8 +138,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createSubMultisetSuite(
-      SortedMultisetTestSuiteBuilder<E> parentBuilder, final Bound from, final Bound to) {
-    final TestMultisetGenerator<E> delegate =
+      SortedMultisetTestSuiteBuilder<E> parentBuilder, Bound from, Bound to) {
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
     Set<Feature<?>> features = new HashSet<>();
@@ -152,15 +152,15 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     }
 
     SortedMultiset<E> emptyMultiset = (SortedMultiset<E>) delegate.create();
-    final Comparator<? super E> comparator = emptyMultiset.comparator();
+    Comparator<? super E> comparator = emptyMultiset.comparator();
     SampleElements<E> samples = delegate.samples();
     @SuppressWarnings("unchecked")
     List<E> samplesList =
         Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
 
     Collections.sort(samplesList, comparator);
-    final E firstInclusive = samplesList.get(0);
-    final E lastInclusive = samplesList.get(samplesList.size() - 1);
+    E firstInclusive = samplesList.get(0);
+    E lastInclusive = samplesList.get(samplesList.size() - 1);
 
     return SortedMultisetTestSuiteBuilder.using(
             new ForwardingTestMultisetGenerator<E>(delegate) {
@@ -234,7 +234,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createDescendingSuite(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
-    final TestMultisetGenerator<E> delegate =
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
     Set<Feature<?>> features = new HashSet<>();
@@ -263,7 +263,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createReserializedSuite(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
-    final TestMultisetGenerator<E> delegate =
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
     Set<Feature<?>> features = new HashSet<>(parentBuilder.getFeatures());

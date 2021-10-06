@@ -96,7 +96,7 @@ public final class DerivedCollectionGenerators {
 
     public MapKeySetGenerator(OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
-      final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
+      SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
           new SampleElements<>(
               mapSamples.e0().getKey(),
@@ -203,7 +203,7 @@ public final class DerivedCollectionGenerators {
     public MapValueCollectionGenerator(
         OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
-      final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
+      SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
           new SampleElements<>(
               mapSamples.e0().getValue(),
@@ -239,14 +239,13 @@ public final class DerivedCollectionGenerators {
     @Override
     public V[] createArray(int length) {
       // noinspection UnnecessaryLocalVariable
-      final V[] vs =
-          ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).createValueArray(length);
+      V[] vs = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).createValueArray(length);
       return vs;
     }
 
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
-      final List<Entry<K, V>> orderedEntries =
+      List<Entry<K, V>> orderedEntries =
           castOrCopyToList(mapGenerator.order(castOrCopyToList(mapGenerator.getSampleElements(5))));
       sort(
           insertionOrder,

@@ -312,9 +312,9 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   /** Overridden column iterator to return columns values in globally sorted order. */
   @Override
   Iterator<C> createColumnKeyIterator() {
-    final Comparator<? super C> comparator = columnComparator();
+    Comparator<? super C> comparator = columnComparator();
 
-    final Iterator<C> merged =
+    Iterator<C> merged =
         Iterators.mergeSorted(
             Iterables.transform(
                 backingMap.values(), (Map<C, V> input) -> input.keySet().iterator()),

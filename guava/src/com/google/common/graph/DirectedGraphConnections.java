@@ -239,8 +239,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       return new AbstractSet<N>() {
         @Override
         public UnmodifiableIterator<N> iterator() {
-          final Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
-          final Set<N> seenNodes = new HashSet<>();
+          Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
+          Set<N> seenNodes = new HashSet<>();
           return new AbstractIterator<N>() {
             @Override
             @CheckForNull
@@ -276,7 +276,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       @Override
       public UnmodifiableIterator<N> iterator() {
         if (orderedNodeConnections == null) {
-          final Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
+          Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
           return new AbstractIterator<N>() {
             @Override
             @CheckForNull
@@ -291,7 +291,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
             }
           };
         } else {
-          final Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
+          Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
           return new AbstractIterator<N>() {
             @Override
             @CheckForNull
@@ -326,7 +326,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       @Override
       public UnmodifiableIterator<N> iterator() {
         if (orderedNodeConnections == null) {
-          final Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
+          Iterator<Entry<N, Object>> entries = adjacentNodeValues.entrySet().iterator();
           return new AbstractIterator<N>() {
             @Override
             @CheckForNull
@@ -341,7 +341,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
             }
           };
         } else {
-          final Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
+          Iterator<NodeConnection<N>> nodeConnections = orderedNodeConnections.iterator();
           return new AbstractIterator<N>() {
             @Override
             @CheckForNull
@@ -371,10 +371,10 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  public Iterator<EndpointPair<N>> incidentEdgeIterator(final N thisNode) {
+  public Iterator<EndpointPair<N>> incidentEdgeIterator(N thisNode) {
     checkNotNull(thisNode);
 
-    final Iterator<EndpointPair<N>> resultWithDoubleSelfLoop;
+    Iterator<EndpointPair<N>> resultWithDoubleSelfLoop;
     if (orderedNodeConnections == null) {
       resultWithDoubleSelfLoop =
           Iterators.concat(
@@ -397,7 +397,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
               });
     }
 
-    final AtomicBoolean alreadySeenSelfLoop = new AtomicBoolean(false);
+    AtomicBoolean alreadySeenSelfLoop = new AtomicBoolean(false);
     return new AbstractIterator<EndpointPair<N>>() {
       @Override
       @CheckForNull

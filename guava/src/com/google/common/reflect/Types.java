@@ -171,7 +171,7 @@ final class Types {
   @CheckForNull
   static Type getComponentType(Type type) {
     checkNotNull(type);
-    final AtomicReference<@Nullable Type> result = new AtomicReference<>();
+    AtomicReference<@Nullable Type> result = new AtomicReference<>();
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> t) {

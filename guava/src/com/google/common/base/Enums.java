@@ -105,7 +105,7 @@ public final class Enums {
    *
    * @since 16.0
    */
-  public static <T extends Enum<T>> Converter<String, T> stringConverter(final Class<T> enumClass) {
+  public static <T extends Enum<T>> Converter<String, T> stringConverter(Class<T> enumClass) {
     return new StringConverter<>(enumClass);
   }
 

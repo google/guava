@@ -78,12 +78,11 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
    * these extreme values rather than relying on their regular sort ordering.
    */
   final TestSuite createSubsetSuite(
-      final FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder,
-      final Bound from,
-      final Bound to) {
-    final TestSortedSetGenerator<E> delegate =
+      Bound from,
+      Bound to) {
+    TestSortedSetGenerator<E> delegate =
         (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>(parentBuilder.getFeatures());

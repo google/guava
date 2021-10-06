@@ -240,7 +240,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
   @Override
   public final String toString() {
     Runnable state = get();
-    final String result;
+    String result;
     if (state == DONE) {
       result = "running=[DONE]";
     } else if (state instanceof Blocker) {

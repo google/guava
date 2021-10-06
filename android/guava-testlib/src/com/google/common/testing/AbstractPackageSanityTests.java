@@ -405,8 +405,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   abstract static class Chopper {
 
-    final Chopper or(final Chopper you) {
-      final Chopper i = this;
+    final Chopper or(Chopper you) {
+      Chopper i = this;
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {
@@ -417,7 +417,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
     abstract Optional<String> chop(String str);
 
-    static Chopper suffix(final String suffix) {
+    static Chopper suffix(String suffix) {
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {

@@ -228,7 +228,7 @@ public final class Escapers {
   }
 
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
-  private static UnicodeEscaper wrap(final CharEscaper escaper) {
+  private static UnicodeEscaper wrap(CharEscaper escaper) {
     return new UnicodeEscaper() {
       @Override
       @CheckForNull

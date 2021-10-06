@@ -68,8 +68,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
 
-    final CountDownLatch successLatch = new CountDownLatch(1);
-    final Throwable[] badness = new Throwable[1];
+    CountDownLatch successLatch = new CountDownLatch(1);
+    Throwable[] badness = new Throwable[1];
 
     // Wait on the future in a separate thread.
     new Thread(
@@ -120,7 +120,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
 
-    final CountDownLatch successLatch = new CountDownLatch(1);
+    CountDownLatch successLatch = new CountDownLatch(1);
 
     // Run cancellation in a separate thread as an extra thread-safety test.
     new Thread(
@@ -149,8 +149,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   public void testListenersNotifiedOnError() throws Exception {
-    final CountDownLatch successLatch = new CountDownLatch(1);
-    final CountDownLatch listenerLatch = new CountDownLatch(1);
+    CountDownLatch successLatch = new CountDownLatch(1);
+    CountDownLatch listenerLatch = new CountDownLatch(1);
 
     ExecutorService exec = Executors.newCachedThreadPool();
 
@@ -193,7 +193,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     ExecutorService exec = Executors.newCachedThreadPool();
 
     int listenerCount = 20;
-    final CountDownLatch listenerLatch = new CountDownLatch(listenerCount);
+    CountDownLatch listenerLatch = new CountDownLatch(listenerCount);
 
     // Test that listeners added both before and after the value is available
     // get called correctly.

@@ -141,7 +141,7 @@ public final class ExecutionSequencer {
    * {@link Callable#call()} will not be invoked.
    */
   public <T extends @Nullable Object> ListenableFuture<T> submit(
-      final Callable<T> callable, Executor executor) {
+      Callable<T> callable, Executor executor) {
     checkNotNull(callable);
     checkNotNull(executor);
     return submitAsync(
@@ -167,11 +167,11 @@ public final class ExecutionSequencer {
    * {@link AsyncCallable#call()} is invoked, {@link AsyncCallable#call()} will not be invoked.
    */
   public <T extends @Nullable Object> ListenableFuture<T> submitAsync(
-      final AsyncCallable<T> callable, final Executor executor) {
+      AsyncCallable<T> callable, Executor executor) {
     checkNotNull(callable);
     checkNotNull(executor);
-    final TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);
-    final AsyncCallable<T> task =
+    TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);
+    AsyncCallable<T> task =
         new AsyncCallable<T>() {
           @Override
           public ListenableFuture<T> call() throws Exception {
@@ -197,15 +197,15 @@ public final class ExecutionSequencer {
      * have completed - namely after oldFuture is done, and taskFuture has either completed or been
      * cancelled before the callable started execution.
      */
-    final SettableFuture<@Nullable Void> newFuture = SettableFuture.create();
+    SettableFuture<@Nullable Void> newFuture = SettableFuture.create();
 
-    final ListenableFuture<@Nullable Void> oldFuture = ref.getAndSet(newFuture);
+    ListenableFuture<@Nullable Void> oldFuture = ref.getAndSet(newFuture);
 
     // Invoke our task once the previous future completes.
-    final TrustedListenableFutureTask<T> taskFuture = TrustedListenableFutureTask.create(task);
+    TrustedListenableFutureTask<T> taskFuture = TrustedListenableFutureTask.create(task);
     oldFuture.addListener(taskFuture, taskExecutor);
 
-    final ListenableFuture<T> outputFuture = Futures.nonCancellationPropagating(taskFuture);
+    ListenableFuture<T> outputFuture = Futures.nonCancellationPropagating(taskFuture);
 
     // newFuture's lifetime is determined by taskFuture, which can't complete before oldFuture
     // unless taskFuture is cancelled, in which case it falls back to oldFuture. This ensures that

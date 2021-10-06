@@ -161,7 +161,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
     if (localInputFuture != null) {
       String message = "inputFuture=[" + localInputFuture + "]";
       if (localTimer != null) {
-        final long delay = localTimer.getDelay(TimeUnit.MILLISECONDS);
+        long delay = localTimer.getDelay(TimeUnit.MILLISECONDS);
         // Negative delays look confusing in an error message
         if (delay > 0) {
           message += ", remaining delay=[" + delay + " ms]";
