@@ -828,7 +828,7 @@
 <span class="sourceLineNo">819</span><a id="line.819">   * either the full amount has been skipped or until the end of the stream is reached, whichever</a>
 <span class="sourceLineNo">820</span><a id="line.820">   * happens first. Returns the total number of bytes skipped.</a>
 <span class="sourceLineNo">821</span><a id="line.821">   */</a>
-<span class="sourceLineNo">822</span><a id="line.822">  static long skipUpTo(InputStream in, final long n) throws IOException {</a>
+<span class="sourceLineNo">822</span><a id="line.822">  static long skipUpTo(InputStream in, long n) throws IOException {</a>
 <span class="sourceLineNo">823</span><a id="line.823">    long totalSkipped = 0;</a>
 <span class="sourceLineNo">824</span><a id="line.824">    // A buffer is allocated if skipSafely does not skip any bytes.</a>
 <span class="sourceLineNo">825</span><a id="line.825">    byte[] buf = null;</a>

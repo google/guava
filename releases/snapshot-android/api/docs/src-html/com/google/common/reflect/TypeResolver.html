@@ -132,7 +132,7 @@
 <span class="sourceLineNo">123</span><a id="line.123">  }</a>
 <span class="sourceLineNo">124</span><a id="line.124"></a>
 <span class="sourceLineNo">125</span><a id="line.125">  private static void populateTypeMappings(</a>
-<span class="sourceLineNo">126</span><a id="line.126">      final Map&lt;TypeVariableKey, Type&gt; mappings, final Type from, final Type to) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">      Map&lt;TypeVariableKey, Type&gt; mappings, Type from, Type to) {</a>
 <span class="sourceLineNo">127</span><a id="line.127">    if (from.equals(to)) {</a>
 <span class="sourceLineNo">128</span><a id="line.128">      return;</a>
 <span class="sourceLineNo">129</span><a id="line.129">    }</a>
@@ -308,8 +308,8 @@
 <span class="sourceLineNo">299</span><a id="line.299">      return new TypeTable(builder.build());</a>
 <span class="sourceLineNo">300</span><a id="line.300">    }</a>
 <span class="sourceLineNo">301</span><a id="line.301"></a>
-<span class="sourceLineNo">302</span><a id="line.302">    final Type resolve(final TypeVariable&lt;?&gt; var) {</a>
-<span class="sourceLineNo">303</span><a id="line.303">      final TypeTable unguarded = this;</a>
+<span class="sourceLineNo">302</span><a id="line.302">    final Type resolve(TypeVariable&lt;?&gt; var) {</a>
+<span class="sourceLineNo">303</span><a id="line.303">      TypeTable unguarded = this;</a>
 <span class="sourceLineNo">304</span><a id="line.304">      TypeTable guarded =</a>
 <span class="sourceLineNo">305</span><a id="line.305">          new TypeTable() {</a>
 <span class="sourceLineNo">306</span><a id="line.306">            @Override</a>
@@ -423,7 +423,7 @@
 <span class="sourceLineNo">414</span><a id="line.414">      visit(t.getUpperBounds());</a>
 <span class="sourceLineNo">415</span><a id="line.415">    }</a>
 <span class="sourceLineNo">416</span><a id="line.416"></a>
-<span class="sourceLineNo">417</span><a id="line.417">    private void map(final TypeVariableKey var, final Type arg) {</a>
+<span class="sourceLineNo">417</span><a id="line.417">    private void map(TypeVariableKey var, Type arg) {</a>
 <span class="sourceLineNo">418</span><a id="line.418">      if (mappings.containsKey(var)) {</a>
 <span class="sourceLineNo">419</span><a id="line.419">        // Mapping already established</a>
 <span class="sourceLineNo">420</span><a id="line.420">        // This is possible when following both superClass -&gt; enclosingClass</a>
@@ -513,7 +513,7 @@
 <span class="sourceLineNo">504</span><a id="line.504">      return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);</a>
 <span class="sourceLineNo">505</span><a id="line.505">    }</a>
 <span class="sourceLineNo">506</span><a id="line.506"></a>
-<span class="sourceLineNo">507</span><a id="line.507">    private WildcardCapturer forTypeVariable(final TypeVariable&lt;?&gt; typeParam) {</a>
+<span class="sourceLineNo">507</span><a id="line.507">    private WildcardCapturer forTypeVariable(TypeVariable&lt;?&gt; typeParam) {</a>
 <span class="sourceLineNo">508</span><a id="line.508">      return new WildcardCapturer(id) {</a>
 <span class="sourceLineNo">509</span><a id="line.509">        @Override</a>
 <span class="sourceLineNo">510</span><a id="line.510">        TypeVariable&lt;?&gt; captureAsTypeVariable(Type[] upperBounds) {</a>

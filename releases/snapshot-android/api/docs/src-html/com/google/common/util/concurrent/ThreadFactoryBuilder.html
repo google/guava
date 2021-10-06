@@ -160,15 +160,15 @@
 <span class="sourceLineNo">151</span><a id="line.151">  // Split out so that the anonymous ThreadFactory can't contain a reference back to the builder.</a>
 <span class="sourceLineNo">152</span><a id="line.152">  // At least, I assume that's why. TODO(cpovirk): Check, and maybe add a test for this.</a>
 <span class="sourceLineNo">153</span><a id="line.153">  private static ThreadFactory doBuild(ThreadFactoryBuilder builder) {</a>
-<span class="sourceLineNo">154</span><a id="line.154">    final String nameFormat = builder.nameFormat;</a>
-<span class="sourceLineNo">155</span><a id="line.155">    final Boolean daemon = builder.daemon;</a>
-<span class="sourceLineNo">156</span><a id="line.156">    final Integer priority = builder.priority;</a>
-<span class="sourceLineNo">157</span><a id="line.157">    final UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;</a>
-<span class="sourceLineNo">158</span><a id="line.158">    final ThreadFactory backingThreadFactory =</a>
+<span class="sourceLineNo">154</span><a id="line.154">    String nameFormat = builder.nameFormat;</a>
+<span class="sourceLineNo">155</span><a id="line.155">    Boolean daemon = builder.daemon;</a>
+<span class="sourceLineNo">156</span><a id="line.156">    Integer priority = builder.priority;</a>
+<span class="sourceLineNo">157</span><a id="line.157">    UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;</a>
+<span class="sourceLineNo">158</span><a id="line.158">    ThreadFactory backingThreadFactory =</a>
 <span class="sourceLineNo">159</span><a id="line.159">        (builder.backingThreadFactory != null)</a>
 <span class="sourceLineNo">160</span><a id="line.160">            ? builder.backingThreadFactory</a>
 <span class="sourceLineNo">161</span><a id="line.161">            : Executors.defaultThreadFactory();</a>
-<span class="sourceLineNo">162</span><a id="line.162">    final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;</a>
+<span class="sourceLineNo">162</span><a id="line.162">    AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;</a>
 <span class="sourceLineNo">163</span><a id="line.163">    return new ThreadFactory() {</a>
 <span class="sourceLineNo">164</span><a id="line.164">      @Override</a>
 <span class="sourceLineNo">165</span><a id="line.165">      public Thread newThread(Runnable runnable) {</a>

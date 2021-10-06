@@ -172,7 +172,7 @@
 <span class="sourceLineNo">163</span><a id="line.163">   * Otherwise, it finds the first suffix of any type.</a>
 <span class="sourceLineNo">164</span><a id="line.164">   */</a>
 <span class="sourceLineNo">165</span><a id="line.165">  private int findSuffixOfType(Optional&lt;PublicSuffixType&gt; desiredType) {</a>
-<span class="sourceLineNo">166</span><a id="line.166">    final int partsSize = parts.size();</a>
+<span class="sourceLineNo">166</span><a id="line.166">    int partsSize = parts.size();</a>
 <span class="sourceLineNo">167</span><a id="line.167"></a>
 <span class="sourceLineNo">168</span><a id="line.168">    for (int i = 0; i &lt; partsSize; i++) {</a>
 <span class="sourceLineNo">169</span><a id="line.169">      String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));</a>
@@ -226,7 +226,7 @@
 <span class="sourceLineNo">217</span><a id="line.217">   * @return Is the domain name syntactically valid?</a>
 <span class="sourceLineNo">218</span><a id="line.218">   */</a>
 <span class="sourceLineNo">219</span><a id="line.219">  private static boolean validateSyntax(List&lt;String&gt; parts) {</a>
-<span class="sourceLineNo">220</span><a id="line.220">    final int lastIndex = parts.size() - 1;</a>
+<span class="sourceLineNo">220</span><a id="line.220">    int lastIndex = parts.size() - 1;</a>
 <span class="sourceLineNo">221</span><a id="line.221"></a>
 <span class="sourceLineNo">222</span><a id="line.222">    // Validate the last part specially, as it has different syntax rules.</a>
 <span class="sourceLineNo">223</span><a id="line.223"></a>

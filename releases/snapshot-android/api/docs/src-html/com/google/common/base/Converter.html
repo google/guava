@@ -279,7 +279,7 @@
 <span class="sourceLineNo">270</span><a id="line.270">   * both use cases by using @PolyNull. (By contrast, we can't use @PolyNull for our superinterface</a>
 <span class="sourceLineNo">271</span><a id="line.271">   * (`implements Function&lt;@PolyNull A, @PolyNull B&gt;`), at least as far as I know.)</a>
 <span class="sourceLineNo">272</span><a id="line.272">   */</a>
-<span class="sourceLineNo">273</span><a id="line.273">  public Iterable&lt;B&gt; convertAll(final Iterable&lt;? extends A&gt; fromIterable) {</a>
+<span class="sourceLineNo">273</span><a id="line.273">  public Iterable&lt;B&gt; convertAll(Iterable&lt;? extends A&gt; fromIterable) {</a>
 <span class="sourceLineNo">274</span><a id="line.274">    checkNotNull(fromIterable, "fromIterable");</a>
 <span class="sourceLineNo">275</span><a id="line.275">    return new Iterable&lt;B&gt;() {</a>
 <span class="sourceLineNo">276</span><a id="line.276">      @Override</a>

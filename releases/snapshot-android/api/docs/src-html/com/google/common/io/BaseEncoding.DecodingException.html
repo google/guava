@@ -185,7 +185,7 @@
 <span class="sourceLineNo">176</span><a id="line.176">   * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.</a>
 <span class="sourceLineNo">177</span><a id="line.177">   */</a>
 <span class="sourceLineNo">178</span><a id="line.178">  @GwtIncompatible // ByteSink,CharSink</a>
-<span class="sourceLineNo">179</span><a id="line.179">  public final ByteSink encodingSink(final CharSink encodedSink) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">  public final ByteSink encodingSink(CharSink encodedSink) {</a>
 <span class="sourceLineNo">180</span><a id="line.180">    checkNotNull(encodedSink);</a>
 <span class="sourceLineNo">181</span><a id="line.181">    return new ByteSink() {</a>
 <span class="sourceLineNo">182</span><a id="line.182">      @Override</a>
@@ -256,7 +256,7 @@
 <span class="sourceLineNo">247</span><a id="line.247">   * CharSource}.</a>
 <span class="sourceLineNo">248</span><a id="line.248">   */</a>
 <span class="sourceLineNo">249</span><a id="line.249">  @GwtIncompatible // ByteSource,CharSource</a>
-<span class="sourceLineNo">250</span><a id="line.250">  public final ByteSource decodingSource(final CharSource encodedSource) {</a>
+<span class="sourceLineNo">250</span><a id="line.250">  public final ByteSource decodingSource(CharSource encodedSource) {</a>
 <span class="sourceLineNo">251</span><a id="line.251">    checkNotNull(encodedSource);</a>
 <span class="sourceLineNo">252</span><a id="line.252">    return new ByteSource() {</a>
 <span class="sourceLineNo">253</span><a id="line.253">      @Override</a>
@@ -597,7 +597,7 @@
 <span class="sourceLineNo">588</span><a id="line.588"></a>
 <span class="sourceLineNo">589</span><a id="line.589">    @GwtIncompatible // Writer,OutputStream</a>
 <span class="sourceLineNo">590</span><a id="line.590">    @Override</a>
-<span class="sourceLineNo">591</span><a id="line.591">    public OutputStream encodingStream(final Writer out) {</a>
+<span class="sourceLineNo">591</span><a id="line.591">    public OutputStream encodingStream(Writer out) {</a>
 <span class="sourceLineNo">592</span><a id="line.592">      checkNotNull(out);</a>
 <span class="sourceLineNo">593</span><a id="line.593">      return new OutputStream() {</a>
 <span class="sourceLineNo">594</span><a id="line.594">        int bitBuffer = 0;</a>
@@ -659,7 +659,7 @@
 <span class="sourceLineNo">650</span><a id="line.650">        bitBuffer &lt;&lt;= 8; // Add additional zero byte in the end.</a>
 <span class="sourceLineNo">651</span><a id="line.651">      }</a>
 <span class="sourceLineNo">652</span><a id="line.652">      // Position of first character is length of bitBuffer minus bitsPerChar.</a>
-<span class="sourceLineNo">653</span><a id="line.653">      final int bitOffset = (len + 1) * 8 - alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">653</span><a id="line.653">      int bitOffset = (len + 1) * 8 - alphabet.bitsPerChar;</a>
 <span class="sourceLineNo">654</span><a id="line.654">      int bitsProcessed = 0;</a>
 <span class="sourceLineNo">655</span><a id="line.655">      while (bitsProcessed &lt; len * 8) {</a>
 <span class="sourceLineNo">656</span><a id="line.656">        int charIndex = (int) (bitBuffer &gt;&gt;&gt; (bitOffset - bitsProcessed)) &amp; alphabet.mask;</a>
@@ -727,7 +727,7 @@
 <span class="sourceLineNo">718</span><a id="line.718">            chunk |= alphabet.decode(chars.charAt(charIdx + charsProcessed++));</a>
 <span class="sourceLineNo">719</span><a id="line.719">          }</a>
 <span class="sourceLineNo">720</span><a id="line.720">        }</a>
-<span class="sourceLineNo">721</span><a id="line.721">        final int minOffset = alphabet.bytesPerChunk * 8 - charsProcessed * alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">721</span><a id="line.721">        int minOffset = alphabet.bytesPerChunk * 8 - charsProcessed * alphabet.bitsPerChar;</a>
 <span class="sourceLineNo">722</span><a id="line.722">        for (int offset = (alphabet.bytesPerChunk - 1) * 8; offset &gt;= minOffset; offset -= 8) {</a>
 <span class="sourceLineNo">723</span><a id="line.723">          target[bytesWritten++] = (byte) ((chunk &gt;&gt;&gt; offset) &amp; 0xFF);</a>
 <span class="sourceLineNo">724</span><a id="line.724">        }</a>
@@ -737,7 +737,7 @@
 <span class="sourceLineNo">728</span><a id="line.728"></a>
 <span class="sourceLineNo">729</span><a id="line.729">    @Override</a>
 <span class="sourceLineNo">730</span><a id="line.730">    @GwtIncompatible // Reader,InputStream</a>
-<span class="sourceLineNo">731</span><a id="line.731">    public InputStream decodingStream(final Reader reader) {</a>
+<span class="sourceLineNo">731</span><a id="line.731">    public InputStream decodingStream(Reader reader) {</a>
 <span class="sourceLineNo">732</span><a id="line.732">      checkNotNull(reader);</a>
 <span class="sourceLineNo">733</span><a id="line.733">      return new InputStream() {</a>
 <span class="sourceLineNo">734</span><a id="line.734">        int bitBuffer = 0;</a>
@@ -1001,7 +1001,7 @@
 <span class="sourceLineNo">992</span><a id="line.992">  }</a>
 <span class="sourceLineNo">993</span><a id="line.993"></a>
 <span class="sourceLineNo">994</span><a id="line.994">  @GwtIncompatible</a>
-<span class="sourceLineNo">995</span><a id="line.995">  static Reader ignoringReader(final Reader delegate, final String toIgnore) {</a>
+<span class="sourceLineNo">995</span><a id="line.995">  static Reader ignoringReader(Reader delegate, String toIgnore) {</a>
 <span class="sourceLineNo">996</span><a id="line.996">    checkNotNull(delegate);</a>
 <span class="sourceLineNo">997</span><a id="line.997">    checkNotNull(toIgnore);</a>
 <span class="sourceLineNo">998</span><a id="line.998">    return new Reader() {</a>
@@ -1027,7 +1027,7 @@
 <span class="sourceLineNo">1018</span><a id="line.1018">  }</a>
 <span class="sourceLineNo">1019</span><a id="line.1019"></a>
 <span class="sourceLineNo">1020</span><a id="line.1020">  static Appendable separatingAppendable(</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">      final Appendable delegate, final String separator, final int afterEveryChars) {</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">      Appendable delegate, String separator, int afterEveryChars) {</a>
 <span class="sourceLineNo">1022</span><a id="line.1022">    checkNotNull(delegate);</a>
 <span class="sourceLineNo">1023</span><a id="line.1023">    checkNotNull(separator);</a>
 <span class="sourceLineNo">1024</span><a id="line.1024">    checkArgument(afterEveryChars &gt; 0);</a>
@@ -1058,135 +1058,133 @@
 <span class="sourceLineNo">1049</span><a id="line.1049">  }</a>
 <span class="sourceLineNo">1050</span><a id="line.1050"></a>
 <span class="sourceLineNo">1051</span><a id="line.1051">  @GwtIncompatible // Writer</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">  static Writer separatingWriter(</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">      final Writer delegate, final String separator, final int afterEveryChars) {</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">    final Appendable separatingAppendable =</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">        separatingAppendable(delegate, separator, afterEveryChars);</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">    return new Writer() {</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">      @Override</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">      public void write(int c) throws IOException {</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">        separatingAppendable.append((char) c);</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">      }</a>
-<span class="sourceLineNo">1061</span><a id="line.1061"></a>
-<span class="sourceLineNo">1062</span><a id="line.1062">      @Override</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">      public void write(char[] chars, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">        throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">      }</a>
-<span class="sourceLineNo">1066</span><a id="line.1066"></a>
-<span class="sourceLineNo">1067</span><a id="line.1067">      @Override</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">      public void flush() throws IOException {</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">        delegate.flush();</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">      }</a>
-<span class="sourceLineNo">1071</span><a id="line.1071"></a>
-<span class="sourceLineNo">1072</span><a id="line.1072">      @Override</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">      public void close() throws IOException {</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">        delegate.close();</a>
-<span class="sourceLineNo">1075</span><a id="line.1075">      }</a>
-<span class="sourceLineNo">1076</span><a id="line.1076">    };</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">  }</a>
-<span class="sourceLineNo">1078</span><a id="line.1078"></a>
-<span class="sourceLineNo">1079</span><a id="line.1079">  static final class SeparatedBaseEncoding extends BaseEncoding {</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">    private final BaseEncoding delegate;</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">    private final String separator;</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">    private final int afterEveryChars;</a>
-<span class="sourceLineNo">1083</span><a id="line.1083"></a>
-<span class="sourceLineNo">1084</span><a id="line.1084">    SeparatedBaseEncoding(BaseEncoding delegate, String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">      this.separator = checkNotNull(separator);</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">      this.afterEveryChars = afterEveryChars;</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">      checkArgument(</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">          afterEveryChars &gt; 0, "Cannot add a separator after every %s chars", afterEveryChars);</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">    }</a>
-<span class="sourceLineNo">1091</span><a id="line.1091"></a>
-<span class="sourceLineNo">1092</span><a id="line.1092">    @Override</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
-<span class="sourceLineNo">1094</span><a id="line.1094">      return delegate.trimTrailingPadding(chars);</a>
-<span class="sourceLineNo">1095</span><a id="line.1095">    }</a>
-<span class="sourceLineNo">1096</span><a id="line.1096"></a>
-<span class="sourceLineNo">1097</span><a id="line.1097">    @Override</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">    int maxEncodedSize(int bytes) {</a>
-<span class="sourceLineNo">1099</span><a id="line.1099">      int unseparatedSize = delegate.maxEncodedSize(bytes);</a>
-<span class="sourceLineNo">1100</span><a id="line.1100">      return unseparatedSize</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">    }</a>
-<span class="sourceLineNo">1103</span><a id="line.1103"></a>
-<span class="sourceLineNo">1104</span><a id="line.1104">    @GwtIncompatible // Writer,OutputStream</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">    @Override</a>
-<span class="sourceLineNo">1106</span><a id="line.1106">    public OutputStream encodingStream(final Writer output) {</a>
-<span class="sourceLineNo">1107</span><a id="line.1107">      return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">    }</a>
-<span class="sourceLineNo">1109</span><a id="line.1109"></a>
-<span class="sourceLineNo">1110</span><a id="line.1110">    @Override</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">      delegate.encodeTo(separatingAppendable(target, separator, afterEveryChars), bytes, off, len);</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">    }</a>
-<span class="sourceLineNo">1114</span><a id="line.1114"></a>
-<span class="sourceLineNo">1115</span><a id="line.1115">    @Override</a>
-<span class="sourceLineNo">1116</span><a id="line.1116">    int maxDecodedSize(int chars) {</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">      return delegate.maxDecodedSize(chars);</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">    }</a>
-<span class="sourceLineNo">1119</span><a id="line.1119"></a>
-<span class="sourceLineNo">1120</span><a id="line.1120">    @Override</a>
-<span class="sourceLineNo">1121</span><a id="line.1121">    public boolean canDecode(CharSequence chars) {</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">      StringBuilder builder = new StringBuilder();</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">      for (int i = 0; i &lt; chars.length(); i++) {</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">        char c = chars.charAt(i);</a>
-<span class="sourceLineNo">1125</span><a id="line.1125">        if (separator.indexOf(c) &lt; 0) {</a>
-<span class="sourceLineNo">1126</span><a id="line.1126">          builder.append(c);</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">        }</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">      }</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">      return delegate.canDecode(builder);</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    }</a>
-<span class="sourceLineNo">1131</span><a id="line.1131"></a>
-<span class="sourceLineNo">1132</span><a id="line.1132">    @Override</a>
-<span class="sourceLineNo">1133</span><a id="line.1133">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">      StringBuilder stripped = new StringBuilder(chars.length());</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">      for (int i = 0; i &lt; chars.length(); i++) {</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">        char c = chars.charAt(i);</a>
-<span class="sourceLineNo">1137</span><a id="line.1137">        if (separator.indexOf(c) &lt; 0) {</a>
-<span class="sourceLineNo">1138</span><a id="line.1138">          stripped.append(c);</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">        }</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">      }</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">      return delegate.decodeTo(target, stripped);</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">    }</a>
-<span class="sourceLineNo">1143</span><a id="line.1143"></a>
-<span class="sourceLineNo">1144</span><a id="line.1144">    @Override</a>
-<span class="sourceLineNo">1145</span><a id="line.1145">    @GwtIncompatible // Reader,InputStream</a>
-<span class="sourceLineNo">1146</span><a id="line.1146">    public InputStream decodingStream(final Reader reader) {</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">      return delegate.decodingStream(ignoringReader(reader, separator));</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">    }</a>
-<span class="sourceLineNo">1149</span><a id="line.1149"></a>
-<span class="sourceLineNo">1150</span><a id="line.1150">    @Override</a>
-<span class="sourceLineNo">1151</span><a id="line.1151">    public BaseEncoding omitPadding() {</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">      return delegate.omitPadding().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">    }</a>
-<span class="sourceLineNo">1154</span><a id="line.1154"></a>
-<span class="sourceLineNo">1155</span><a id="line.1155">    @Override</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">    public BaseEncoding withPadChar(char padChar) {</a>
-<span class="sourceLineNo">1157</span><a id="line.1157">      return delegate.withPadChar(padChar).withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1158</span><a id="line.1158">    }</a>
-<span class="sourceLineNo">1159</span><a id="line.1159"></a>
-<span class="sourceLineNo">1160</span><a id="line.1160">    @Override</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">      throw new UnsupportedOperationException("Already have a separator");</a>
-<span class="sourceLineNo">1163</span><a id="line.1163">    }</a>
-<span class="sourceLineNo">1164</span><a id="line.1164"></a>
-<span class="sourceLineNo">1165</span><a id="line.1165">    @Override</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">    public BaseEncoding upperCase() {</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">      return delegate.upperCase().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1168</span><a id="line.1168">    }</a>
-<span class="sourceLineNo">1169</span><a id="line.1169"></a>
-<span class="sourceLineNo">1170</span><a id="line.1170">    @Override</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">    public BaseEncoding lowerCase() {</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">      return delegate.lowerCase().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1173</span><a id="line.1173">    }</a>
-<span class="sourceLineNo">1174</span><a id="line.1174"></a>
-<span class="sourceLineNo">1175</span><a id="line.1175">    @Override</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">    public String toString() {</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">      return delegate + ".withSeparator(\"" + separator + "\", " + afterEveryChars + ")";</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">    }</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">  }</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">}</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">  static Writer separatingWriter(Writer delegate, String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">    Appendable separatingAppendable = separatingAppendable(delegate, separator, afterEveryChars);</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">    return new Writer() {</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">      @Override</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">      public void write(int c) throws IOException {</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">        separatingAppendable.append((char) c);</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">      }</a>
+<span class="sourceLineNo">1059</span><a id="line.1059"></a>
+<span class="sourceLineNo">1060</span><a id="line.1060">      @Override</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">      public void write(char[] chars, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">        throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">      }</a>
+<span class="sourceLineNo">1064</span><a id="line.1064"></a>
+<span class="sourceLineNo">1065</span><a id="line.1065">      @Override</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">      public void flush() throws IOException {</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">        delegate.flush();</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">      }</a>
+<span class="sourceLineNo">1069</span><a id="line.1069"></a>
+<span class="sourceLineNo">1070</span><a id="line.1070">      @Override</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">      public void close() throws IOException {</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">        delegate.close();</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">      }</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">    };</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">  }</a>
+<span class="sourceLineNo">1076</span><a id="line.1076"></a>
+<span class="sourceLineNo">1077</span><a id="line.1077">  static final class SeparatedBaseEncoding extends BaseEncoding {</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">    private final BaseEncoding delegate;</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">    private final String separator;</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">    private final int afterEveryChars;</a>
+<span class="sourceLineNo">1081</span><a id="line.1081"></a>
+<span class="sourceLineNo">1082</span><a id="line.1082">    SeparatedBaseEncoding(BaseEncoding delegate, String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">      this.separator = checkNotNull(separator);</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">      this.afterEveryChars = afterEveryChars;</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">      checkArgument(</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">          afterEveryChars &gt; 0, "Cannot add a separator after every %s chars", afterEveryChars);</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">    }</a>
+<span class="sourceLineNo">1089</span><a id="line.1089"></a>
+<span class="sourceLineNo">1090</span><a id="line.1090">    @Override</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">      return delegate.trimTrailingPadding(chars);</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">    }</a>
+<span class="sourceLineNo">1094</span><a id="line.1094"></a>
+<span class="sourceLineNo">1095</span><a id="line.1095">    @Override</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">    int maxEncodedSize(int bytes) {</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">      int unseparatedSize = delegate.maxEncodedSize(bytes);</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">      return unseparatedSize</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">    }</a>
+<span class="sourceLineNo">1101</span><a id="line.1101"></a>
+<span class="sourceLineNo">1102</span><a id="line.1102">    @GwtIncompatible // Writer,OutputStream</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">    @Override</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    public OutputStream encodingStream(Writer output) {</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">      return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">    }</a>
+<span class="sourceLineNo">1107</span><a id="line.1107"></a>
+<span class="sourceLineNo">1108</span><a id="line.1108">    @Override</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">      delegate.encodeTo(separatingAppendable(target, separator, afterEveryChars), bytes, off, len);</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">    }</a>
+<span class="sourceLineNo">1112</span><a id="line.1112"></a>
+<span class="sourceLineNo">1113</span><a id="line.1113">    @Override</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">    int maxDecodedSize(int chars) {</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">      return delegate.maxDecodedSize(chars);</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">    }</a>
+<span class="sourceLineNo">1117</span><a id="line.1117"></a>
+<span class="sourceLineNo">1118</span><a id="line.1118">    @Override</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">    public boolean canDecode(CharSequence chars) {</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">      StringBuilder builder = new StringBuilder();</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">      for (int i = 0; i &lt; chars.length(); i++) {</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">        char c = chars.charAt(i);</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">        if (separator.indexOf(c) &lt; 0) {</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">          builder.append(c);</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">        }</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">      }</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">      return delegate.canDecode(builder);</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">    }</a>
+<span class="sourceLineNo">1129</span><a id="line.1129"></a>
+<span class="sourceLineNo">1130</span><a id="line.1130">    @Override</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">      StringBuilder stripped = new StringBuilder(chars.length());</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">      for (int i = 0; i &lt; chars.length(); i++) {</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">        char c = chars.charAt(i);</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">        if (separator.indexOf(c) &lt; 0) {</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">          stripped.append(c);</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">        }</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">      }</a>
+<span class="sourceLineNo">1139</span><a id="line.1139">      return delegate.decodeTo(target, stripped);</a>
+<span class="sourceLineNo">1140</span><a id="line.1140">    }</a>
+<span class="sourceLineNo">1141</span><a id="line.1141"></a>
+<span class="sourceLineNo">1142</span><a id="line.1142">    @Override</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">    @GwtIncompatible // Reader,InputStream</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">    public InputStream decodingStream(Reader reader) {</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">      return delegate.decodingStream(ignoringReader(reader, separator));</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    }</a>
+<span class="sourceLineNo">1147</span><a id="line.1147"></a>
+<span class="sourceLineNo">1148</span><a id="line.1148">    @Override</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    public BaseEncoding omitPadding() {</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">      return delegate.omitPadding().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">    }</a>
+<span class="sourceLineNo">1152</span><a id="line.1152"></a>
+<span class="sourceLineNo">1153</span><a id="line.1153">    @Override</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">    public BaseEncoding withPadChar(char padChar) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">      return delegate.withPadChar(padChar).withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">    }</a>
+<span class="sourceLineNo">1157</span><a id="line.1157"></a>
+<span class="sourceLineNo">1158</span><a id="line.1158">    @Override</a>
+<span class="sourceLineNo">1159</span><a id="line.1159">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1160</span><a id="line.1160">      throw new UnsupportedOperationException("Already have a separator");</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">    }</a>
+<span class="sourceLineNo">1162</span><a id="line.1162"></a>
+<span class="sourceLineNo">1163</span><a id="line.1163">    @Override</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    public BaseEncoding upperCase() {</a>
+<span class="sourceLineNo">1165</span><a id="line.1165">      return delegate.upperCase().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1166</span><a id="line.1166">    }</a>
+<span class="sourceLineNo">1167</span><a id="line.1167"></a>
+<span class="sourceLineNo">1168</span><a id="line.1168">    @Override</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">    public BaseEncoding lowerCase() {</a>
+<span class="sourceLineNo">1170</span><a id="line.1170">      return delegate.lowerCase().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1171</span><a id="line.1171">    }</a>
+<span class="sourceLineNo">1172</span><a id="line.1172"></a>
+<span class="sourceLineNo">1173</span><a id="line.1173">    @Override</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">    public String toString() {</a>
+<span class="sourceLineNo">1175</span><a id="line.1175">      return delegate + ".withSeparator(\"" + separator + "\", " + afterEveryChars + ")";</a>
+<span class="sourceLineNo">1176</span><a id="line.1176">    }</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">  }</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">}</a>
 
 
 

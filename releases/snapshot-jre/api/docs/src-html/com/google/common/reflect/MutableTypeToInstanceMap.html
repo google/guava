@@ -135,7 +135,7 @@
 <span class="sourceLineNo">126</span><a id="line.126"></a>
 <span class="sourceLineNo">127</span><a id="line.127">    private final Entry&lt;K, V&gt; delegate;</a>
 <span class="sourceLineNo">128</span><a id="line.128"></a>
-<span class="sourceLineNo">129</span><a id="line.129">    static &lt;K, V&gt; Set&lt;Entry&lt;K, V&gt;&gt; transformEntries(final Set&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
+<span class="sourceLineNo">129</span><a id="line.129">    static &lt;K, V&gt; Set&lt;Entry&lt;K, V&gt;&gt; transformEntries(Set&lt;Entry&lt;K, V&gt;&gt; entries) {</a>
 <span class="sourceLineNo">130</span><a id="line.130">      return new ForwardingSet&lt;Map.Entry&lt;K, V&gt;&gt;() {</a>
 <span class="sourceLineNo">131</span><a id="line.131">        @Override</a>
 <span class="sourceLineNo">132</span><a id="line.132">        protected Set&lt;Entry&lt;K, V&gt;&gt; delegate() {</a>

@@ -1063,7 +1063,7 @@
 <span class="sourceLineNo">1054</span><a id="line.1054">        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);</a>
 <span class="sourceLineNo">1055</span><a id="line.1055">        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);</a>
 <span class="sourceLineNo">1056</span><a id="line.1056">        tokenizer.consumeCharacter('=');</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">        final String value;</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">        String value;</a>
 <span class="sourceLineNo">1058</span><a id="line.1058">        if ('"' == tokenizer.previewChar()) {</a>
 <span class="sourceLineNo">1059</span><a id="line.1059">          tokenizer.consumeCharacter('"');</a>
 <span class="sourceLineNo">1060</span><a id="line.1060">          StringBuilder valueBuilder = new StringBuilder();</a>

@@ -150,7 +150,7 @@
 <span class="sourceLineNo">141</span><a id="line.141">   * {@link Callable#call()} will not be invoked.</a>
 <span class="sourceLineNo">142</span><a id="line.142">   */</a>
 <span class="sourceLineNo">143</span><a id="line.143">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(</a>
-<span class="sourceLineNo">144</span><a id="line.144">      final Callable&lt;T&gt; callable, Executor executor) {</a>
+<span class="sourceLineNo">144</span><a id="line.144">      Callable&lt;T&gt; callable, Executor executor) {</a>
 <span class="sourceLineNo">145</span><a id="line.145">    checkNotNull(callable);</a>
 <span class="sourceLineNo">146</span><a id="line.146">    checkNotNull(executor);</a>
 <span class="sourceLineNo">147</span><a id="line.147">    return submitAsync(</a>
@@ -176,11 +176,11 @@
 <span class="sourceLineNo">167</span><a id="line.167">   * {@link AsyncCallable#call()} is invoked, {@link AsyncCallable#call()} will not be invoked.</a>
 <span class="sourceLineNo">168</span><a id="line.168">   */</a>
 <span class="sourceLineNo">169</span><a id="line.169">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submitAsync(</a>
-<span class="sourceLineNo">170</span><a id="line.170">      final AsyncCallable&lt;T&gt; callable, final Executor executor) {</a>
+<span class="sourceLineNo">170</span><a id="line.170">      AsyncCallable&lt;T&gt; callable, Executor executor) {</a>
 <span class="sourceLineNo">171</span><a id="line.171">    checkNotNull(callable);</a>
 <span class="sourceLineNo">172</span><a id="line.172">    checkNotNull(executor);</a>
-<span class="sourceLineNo">173</span><a id="line.173">    final TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);</a>
-<span class="sourceLineNo">174</span><a id="line.174">    final AsyncCallable&lt;T&gt; task =</a>
+<span class="sourceLineNo">173</span><a id="line.173">    TaskNonReentrantExecutor taskExecutor = new TaskNonReentrantExecutor(executor, this);</a>
+<span class="sourceLineNo">174</span><a id="line.174">    AsyncCallable&lt;T&gt; task =</a>
 <span class="sourceLineNo">175</span><a id="line.175">        new AsyncCallable&lt;T&gt;() {</a>
 <span class="sourceLineNo">176</span><a id="line.176">          @Override</a>
 <span class="sourceLineNo">177</span><a id="line.177">          public ListenableFuture&lt;T&gt; call() throws Exception {</a>
@@ -206,15 +206,15 @@
 <span class="sourceLineNo">197</span><a id="line.197">     * have completed - namely after oldFuture is done, and taskFuture has either completed or been</a>
 <span class="sourceLineNo">198</span><a id="line.198">     * cancelled before the callable started execution.</a>
 <span class="sourceLineNo">199</span><a id="line.199">     */</a>
-<span class="sourceLineNo">200</span><a id="line.200">    final SettableFuture&lt;@Nullable Void&gt; newFuture = SettableFuture.create();</a>
+<span class="sourceLineNo">200</span><a id="line.200">    SettableFuture&lt;@Nullable Void&gt; newFuture = SettableFuture.create();</a>
 <span class="sourceLineNo">201</span><a id="line.201"></a>
-<span class="sourceLineNo">202</span><a id="line.202">    final ListenableFuture&lt;@Nullable Void&gt; oldFuture = ref.getAndSet(newFuture);</a>
+<span class="sourceLineNo">202</span><a id="line.202">    ListenableFuture&lt;@Nullable Void&gt; oldFuture = ref.getAndSet(newFuture);</a>
 <span class="sourceLineNo">203</span><a id="line.203"></a>
 <span class="sourceLineNo">204</span><a id="line.204">    // Invoke our task once the previous future completes.</a>
-<span class="sourceLineNo">205</span><a id="line.205">    final TrustedListenableFutureTask&lt;T&gt; taskFuture = TrustedListenableFutureTask.create(task);</a>
+<span class="sourceLineNo">205</span><a id="line.205">    TrustedListenableFutureTask&lt;T&gt; taskFuture = TrustedListenableFutureTask.create(task);</a>
 <span class="sourceLineNo">206</span><a id="line.206">    oldFuture.addListener(taskFuture, taskExecutor);</a>
 <span class="sourceLineNo">207</span><a id="line.207"></a>
-<span class="sourceLineNo">208</span><a id="line.208">    final ListenableFuture&lt;T&gt; outputFuture = Futures.nonCancellationPropagating(taskFuture);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    ListenableFuture&lt;T&gt; outputFuture = Futures.nonCancellationPropagating(taskFuture);</a>
 <span class="sourceLineNo">209</span><a id="line.209"></a>
 <span class="sourceLineNo">210</span><a id="line.210">    // newFuture's lifetime is determined by taskFuture, which can't complete before oldFuture</a>
 <span class="sourceLineNo">211</span><a id="line.211">    // unless taskFuture is cancelled, in which case it falls back to oldFuture. This ensures that</a>

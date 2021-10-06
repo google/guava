@@ -243,7 +243,7 @@
 <span class="sourceLineNo">234</span><a id="line.234">   * @param permits the number of permits in each semaphore</a>
 <span class="sourceLineNo">235</span><a id="line.235">   * @return a new {@code Striped&lt;Semaphore&gt;}</a>
 <span class="sourceLineNo">236</span><a id="line.236">   */</a>
-<span class="sourceLineNo">237</span><a id="line.237">  public static Striped&lt;Semaphore&gt; semaphore(int stripes, final int permits) {</a>
+<span class="sourceLineNo">237</span><a id="line.237">  public static Striped&lt;Semaphore&gt; semaphore(int stripes, int permits) {</a>
 <span class="sourceLineNo">238</span><a id="line.238">    return custom(stripes, () -&gt; new PaddedSemaphore(permits));</a>
 <span class="sourceLineNo">239</span><a id="line.239">  }</a>
 <span class="sourceLineNo">240</span><a id="line.240"></a>
@@ -255,7 +255,7 @@
 <span class="sourceLineNo">246</span><a id="line.246">   * @param permits the number of permits in each semaphore</a>
 <span class="sourceLineNo">247</span><a id="line.247">   * @return a new {@code Striped&lt;Semaphore&gt;}</a>
 <span class="sourceLineNo">248</span><a id="line.248">   */</a>
-<span class="sourceLineNo">249</span><a id="line.249">  public static Striped&lt;Semaphore&gt; lazyWeakSemaphore(int stripes, final int permits) {</a>
+<span class="sourceLineNo">249</span><a id="line.249">  public static Striped&lt;Semaphore&gt; lazyWeakSemaphore(int stripes, int permits) {</a>
 <span class="sourceLineNo">250</span><a id="line.250">    return lazy(stripes, () -&gt; new Semaphore(permits, false));</a>
 <span class="sourceLineNo">251</span><a id="line.251">  }</a>
 <span class="sourceLineNo">252</span><a id="line.252"></a>

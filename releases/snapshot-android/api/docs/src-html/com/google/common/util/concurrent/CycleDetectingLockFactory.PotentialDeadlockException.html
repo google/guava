@@ -317,7 +317,7 @@
 <span class="sourceLineNo">308</span><a id="line.308">  static &lt;E extends Enum&lt;E&gt;&gt; Map&lt;E, LockGraphNode&gt; createNodes(Class&lt;E&gt; clazz) {</a>
 <span class="sourceLineNo">309</span><a id="line.309">    EnumMap&lt;E, LockGraphNode&gt; map = Maps.newEnumMap(clazz);</a>
 <span class="sourceLineNo">310</span><a id="line.310">    E[] keys = clazz.getEnumConstants();</a>
-<span class="sourceLineNo">311</span><a id="line.311">    final int numKeys = keys.length;</a>
+<span class="sourceLineNo">311</span><a id="line.311">    int numKeys = keys.length;</a>
 <span class="sourceLineNo">312</span><a id="line.312">    ArrayList&lt;LockGraphNode&gt; nodes = Lists.newArrayListWithCapacity(numKeys);</a>
 <span class="sourceLineNo">313</span><a id="line.313">    // Create a LockGraphNode for each enum value.</a>
 <span class="sourceLineNo">314</span><a id="line.314">    for (E key : keys) {</a>

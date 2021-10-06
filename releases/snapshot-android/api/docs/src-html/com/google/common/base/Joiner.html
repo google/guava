@@ -245,7 +245,7 @@
 <span class="sourceLineNo">236</span><a id="line.236">   * Returns a joiner with the same behavior as this one, except automatically substituting {@code</a>
 <span class="sourceLineNo">237</span><a id="line.237">   * nullText} for any provided null elements.</a>
 <span class="sourceLineNo">238</span><a id="line.238">   */</a>
-<span class="sourceLineNo">239</span><a id="line.239">  public Joiner useForNull(final String nullText) {</a>
+<span class="sourceLineNo">239</span><a id="line.239">  public Joiner useForNull(String nullText) {</a>
 <span class="sourceLineNo">240</span><a id="line.240">    checkNotNull(nullText);</a>
 <span class="sourceLineNo">241</span><a id="line.241">    return new Joiner(this) {</a>
 <span class="sourceLineNo">242</span><a id="line.242">      @Override</a>
@@ -502,31 +502,29 @@
 <span class="sourceLineNo">493</span><a id="line.493">  }</a>
 <span class="sourceLineNo">494</span><a id="line.494"></a>
 <span class="sourceLineNo">495</span><a id="line.495">  private static Iterable&lt;@Nullable Object&gt; iterable(</a>
-<span class="sourceLineNo">496</span><a id="line.496">      @CheckForNull final Object first,</a>
-<span class="sourceLineNo">497</span><a id="line.497">      @CheckForNull final Object second,</a>
-<span class="sourceLineNo">498</span><a id="line.498">      final @Nullable Object[] rest) {</a>
-<span class="sourceLineNo">499</span><a id="line.499">    checkNotNull(rest);</a>
-<span class="sourceLineNo">500</span><a id="line.500">    return new AbstractList&lt;@Nullable Object&gt;() {</a>
-<span class="sourceLineNo">501</span><a id="line.501">      @Override</a>
-<span class="sourceLineNo">502</span><a id="line.502">      public int size() {</a>
-<span class="sourceLineNo">503</span><a id="line.503">        return rest.length + 2;</a>
-<span class="sourceLineNo">504</span><a id="line.504">      }</a>
-<span class="sourceLineNo">505</span><a id="line.505"></a>
-<span class="sourceLineNo">506</span><a id="line.506">      @Override</a>
-<span class="sourceLineNo">507</span><a id="line.507">      @CheckForNull</a>
-<span class="sourceLineNo">508</span><a id="line.508">      public Object get(int index) {</a>
-<span class="sourceLineNo">509</span><a id="line.509">        switch (index) {</a>
-<span class="sourceLineNo">510</span><a id="line.510">          case 0:</a>
-<span class="sourceLineNo">511</span><a id="line.511">            return first;</a>
-<span class="sourceLineNo">512</span><a id="line.512">          case 1:</a>
-<span class="sourceLineNo">513</span><a id="line.513">            return second;</a>
-<span class="sourceLineNo">514</span><a id="line.514">          default:</a>
-<span class="sourceLineNo">515</span><a id="line.515">            return rest[index - 2];</a>
-<span class="sourceLineNo">516</span><a id="line.516">        }</a>
-<span class="sourceLineNo">517</span><a id="line.517">      }</a>
-<span class="sourceLineNo">518</span><a id="line.518">    };</a>
-<span class="sourceLineNo">519</span><a id="line.519">  }</a>
-<span class="sourceLineNo">520</span><a id="line.520">}</a>
+<span class="sourceLineNo">496</span><a id="line.496">      @CheckForNull Object first, @CheckForNull Object second, @Nullable Object[] rest) {</a>
+<span class="sourceLineNo">497</span><a id="line.497">    checkNotNull(rest);</a>
+<span class="sourceLineNo">498</span><a id="line.498">    return new AbstractList&lt;@Nullable Object&gt;() {</a>
+<span class="sourceLineNo">499</span><a id="line.499">      @Override</a>
+<span class="sourceLineNo">500</span><a id="line.500">      public int size() {</a>
+<span class="sourceLineNo">501</span><a id="line.501">        return rest.length + 2;</a>
+<span class="sourceLineNo">502</span><a id="line.502">      }</a>
+<span class="sourceLineNo">503</span><a id="line.503"></a>
+<span class="sourceLineNo">504</span><a id="line.504">      @Override</a>
+<span class="sourceLineNo">505</span><a id="line.505">      @CheckForNull</a>
+<span class="sourceLineNo">506</span><a id="line.506">      public Object get(int index) {</a>
+<span class="sourceLineNo">507</span><a id="line.507">        switch (index) {</a>
+<span class="sourceLineNo">508</span><a id="line.508">          case 0:</a>
+<span class="sourceLineNo">509</span><a id="line.509">            return first;</a>
+<span class="sourceLineNo">510</span><a id="line.510">          case 1:</a>
+<span class="sourceLineNo">511</span><a id="line.511">            return second;</a>
+<span class="sourceLineNo">512</span><a id="line.512">          default:</a>
+<span class="sourceLineNo">513</span><a id="line.513">            return rest[index - 2];</a>
+<span class="sourceLineNo">514</span><a id="line.514">        }</a>
+<span class="sourceLineNo">515</span><a id="line.515">      }</a>
+<span class="sourceLineNo">516</span><a id="line.516">    };</a>
+<span class="sourceLineNo">517</span><a id="line.517">  }</a>
+<span class="sourceLineNo">518</span><a id="line.518">}</a>
 
 
 

@@ -374,7 +374,7 @@
 <span class="sourceLineNo">365</span><a id="line.365"></a>
 <span class="sourceLineNo">366</span><a id="line.366">      @Override</a>
 <span class="sourceLineNo">367</span><a id="line.367">      public int compare(byte[] left, byte[] right) {</a>
-<span class="sourceLineNo">368</span><a id="line.368">        final int stride = 8;</a>
+<span class="sourceLineNo">368</span><a id="line.368">        int stride = 8;</a>
 <span class="sourceLineNo">369</span><a id="line.369">        int minLength = Math.min(left.length, right.length);</a>
 <span class="sourceLineNo">370</span><a id="line.370">        int strideLimit = minLength &amp; ~(stride - 1);</a>
 <span class="sourceLineNo">371</span><a id="line.371">        int i;</a>

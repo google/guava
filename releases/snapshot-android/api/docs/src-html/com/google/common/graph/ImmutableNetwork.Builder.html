@@ -124,15 +124,15 @@
 <span class="sourceLineNo">115</span><a id="line.115">    }</a>
 <span class="sourceLineNo">116</span><a id="line.116">  }</a>
 <span class="sourceLineNo">117</span><a id="line.117"></a>
-<span class="sourceLineNo">118</span><a id="line.118">  private static &lt;N, E&gt; Function&lt;E, N&gt; sourceNodeFn(final Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">118</span><a id="line.118">  private static &lt;N, E&gt; Function&lt;E, N&gt; sourceNodeFn(Network&lt;N, E&gt; network) {</a>
 <span class="sourceLineNo">119</span><a id="line.119">    return (E edge) -&gt; network.incidentNodes(edge).source();</a>
 <span class="sourceLineNo">120</span><a id="line.120">  }</a>
 <span class="sourceLineNo">121</span><a id="line.121"></a>
-<span class="sourceLineNo">122</span><a id="line.122">  private static &lt;N, E&gt; Function&lt;E, N&gt; targetNodeFn(final Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">  private static &lt;N, E&gt; Function&lt;E, N&gt; targetNodeFn(Network&lt;N, E&gt; network) {</a>
 <span class="sourceLineNo">123</span><a id="line.123">    return (E edge) -&gt; network.incidentNodes(edge).target();</a>
 <span class="sourceLineNo">124</span><a id="line.124">  }</a>
 <span class="sourceLineNo">125</span><a id="line.125"></a>
-<span class="sourceLineNo">126</span><a id="line.126">  private static &lt;N, E&gt; Function&lt;E, N&gt; adjacentNodeFn(final Network&lt;N, E&gt; network, final N node) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">  private static &lt;N, E&gt; Function&lt;E, N&gt; adjacentNodeFn(Network&lt;N, E&gt; network, N node) {</a>
 <span class="sourceLineNo">127</span><a id="line.127">    return (E edge) -&gt; network.incidentNodes(edge).adjacentNode(node);</a>
 <span class="sourceLineNo">128</span><a id="line.128">  }</a>
 <span class="sourceLineNo">129</span><a id="line.129"></a>

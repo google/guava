@@ -1104,7 +1104,7 @@
 <span class="sourceLineNo">1095</span><a id="line.1095">  }</a>
 <span class="sourceLineNo">1096</span><a id="line.1096"></a>
 <span class="sourceLineNo">1097</span><a id="line.1097">  private ImmutableSet&lt;Class&lt;? super T&gt;&gt; getRawTypes() {</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">    final ImmutableSet.Builder&lt;Class&lt;?&gt;&gt; builder = ImmutableSet.builder();</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">    ImmutableSet.Builder&lt;Class&lt;?&gt;&gt; builder = ImmutableSet.builder();</a>
 <span class="sourceLineNo">1099</span><a id="line.1099">    new TypeVisitor() {</a>
 <span class="sourceLineNo">1100</span><a id="line.1100">      @Override</a>
 <span class="sourceLineNo">1101</span><a id="line.1101">      void visitTypeVariable(TypeVariable&lt;?&gt; t) {</a>
@@ -1429,7 +1429,7 @@
 <span class="sourceLineNo">1420</span><a id="line.1420">    }</a>
 <span class="sourceLineNo">1421</span><a id="line.1421"></a>
 <span class="sourceLineNo">1422</span><a id="line.1422">    private static &lt;K, V&gt; ImmutableList&lt;K&gt; sortKeysByValue(</a>
-<span class="sourceLineNo">1423</span><a id="line.1423">        final Map&lt;K, V&gt; map, final Comparator&lt;? super V&gt; valueComparator) {</a>
+<span class="sourceLineNo">1423</span><a id="line.1423">        Map&lt;K, V&gt; map, Comparator&lt;? super V&gt; valueComparator) {</a>
 <span class="sourceLineNo">1424</span><a id="line.1424">      Ordering&lt;K&gt; keyOrdering =</a>
 <span class="sourceLineNo">1425</span><a id="line.1425">          new Ordering&lt;K&gt;() {</a>
 <span class="sourceLineNo">1426</span><a id="line.1426">            @Override</a>

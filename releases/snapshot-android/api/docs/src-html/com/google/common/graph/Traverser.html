@@ -105,7 +105,7 @@
 <span class="sourceLineNo">096</span><a id="line.96">   *</a>
 <span class="sourceLineNo">097</span><a id="line.97">   * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.</a>
 <span class="sourceLineNo">098</span><a id="line.98">   */</a>
-<span class="sourceLineNo">099</span><a id="line.99">  public static &lt;N&gt; Traverser&lt;N&gt; forGraph(final SuccessorsFunction&lt;N&gt; graph) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">  public static &lt;N&gt; Traverser&lt;N&gt; forGraph(SuccessorsFunction&lt;N&gt; graph) {</a>
 <span class="sourceLineNo">100</span><a id="line.100">    return new Traverser&lt;N&gt;(graph) {</a>
 <span class="sourceLineNo">101</span><a id="line.101">      @Override</a>
 <span class="sourceLineNo">102</span><a id="line.102">      Traversal&lt;N&gt; newTraversal() {</a>
@@ -187,7 +187,7 @@
 <span class="sourceLineNo">178</span><a id="line.178">   * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most</a>
 <span class="sourceLineNo">179</span><a id="line.179">   *     one path between any two nodes</a>
 <span class="sourceLineNo">180</span><a id="line.180">   */</a>
-<span class="sourceLineNo">181</span><a id="line.181">  public static &lt;N&gt; Traverser&lt;N&gt; forTree(final SuccessorsFunction&lt;N&gt; tree) {</a>
+<span class="sourceLineNo">181</span><a id="line.181">  public static &lt;N&gt; Traverser&lt;N&gt; forTree(SuccessorsFunction&lt;N&gt; tree) {</a>
 <span class="sourceLineNo">182</span><a id="line.182">    if (tree instanceof BaseGraph) {</a>
 <span class="sourceLineNo">183</span><a id="line.183">      checkArgument(((BaseGraph&lt;?&gt;) tree).isDirected(), "Undirected graphs can never be trees.");</a>
 <span class="sourceLineNo">184</span><a id="line.184">    }</a>
@@ -248,7 +248,7 @@
 <span class="sourceLineNo">239</span><a id="line.239">   * @since 24.1</a>
 <span class="sourceLineNo">240</span><a id="line.240">   */</a>
 <span class="sourceLineNo">241</span><a id="line.241">  public final Iterable&lt;N&gt; breadthFirst(Iterable&lt;? extends N&gt; startNodes) {</a>
-<span class="sourceLineNo">242</span><a id="line.242">    final ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">242</span><a id="line.242">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
 <span class="sourceLineNo">243</span><a id="line.243">    return new Iterable&lt;N&gt;() {</a>
 <span class="sourceLineNo">244</span><a id="line.244">      @Override</a>
 <span class="sourceLineNo">245</span><a id="line.245">      public Iterator&lt;N&gt; iterator() {</a>
@@ -303,7 +303,7 @@
 <span class="sourceLineNo">294</span><a id="line.294">   * @since 24.1</a>
 <span class="sourceLineNo">295</span><a id="line.295">   */</a>
 <span class="sourceLineNo">296</span><a id="line.296">  public final Iterable&lt;N&gt; depthFirstPreOrder(Iterable&lt;? extends N&gt; startNodes) {</a>
-<span class="sourceLineNo">297</span><a id="line.297">    final ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">297</span><a id="line.297">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
 <span class="sourceLineNo">298</span><a id="line.298">    return new Iterable&lt;N&gt;() {</a>
 <span class="sourceLineNo">299</span><a id="line.299">      @Override</a>
 <span class="sourceLineNo">300</span><a id="line.300">      public Iterator&lt;N&gt; iterator() {</a>
@@ -358,7 +358,7 @@
 <span class="sourceLineNo">349</span><a id="line.349">   * @since 24.1</a>
 <span class="sourceLineNo">350</span><a id="line.350">   */</a>
 <span class="sourceLineNo">351</span><a id="line.351">  public final Iterable&lt;N&gt; depthFirstPostOrder(Iterable&lt;? extends N&gt; startNodes) {</a>
-<span class="sourceLineNo">352</span><a id="line.352">    final ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
+<span class="sourceLineNo">352</span><a id="line.352">    ImmutableSet&lt;N&gt; validated = validate(startNodes);</a>
 <span class="sourceLineNo">353</span><a id="line.353">    return new Iterable&lt;N&gt;() {</a>
 <span class="sourceLineNo">354</span><a id="line.354">      @Override</a>
 <span class="sourceLineNo">355</span><a id="line.355">      public Iterator&lt;N&gt; iterator() {</a>
@@ -391,7 +391,7 @@
 <span class="sourceLineNo">382</span><a id="line.382">    }</a>
 <span class="sourceLineNo">383</span><a id="line.383"></a>
 <span class="sourceLineNo">384</span><a id="line.384">    static &lt;N&gt; Traversal&lt;N&gt; inGraph(SuccessorsFunction&lt;N&gt; graph) {</a>
-<span class="sourceLineNo">385</span><a id="line.385">      final Set&lt;N&gt; visited = new HashSet&lt;&gt;();</a>
+<span class="sourceLineNo">385</span><a id="line.385">      Set&lt;N&gt; visited = new HashSet&lt;&gt;();</a>
 <span class="sourceLineNo">386</span><a id="line.386">      return new Traversal&lt;N&gt;(graph) {</a>
 <span class="sourceLineNo">387</span><a id="line.387">        @Override</a>
 <span class="sourceLineNo">388</span><a id="line.388">        @CheckForNull</a>
@@ -447,8 +447,8 @@
 <span class="sourceLineNo">438</span><a id="line.438">     * determined by the {@code InsertionOrder} parameter: nieces are placed at the FRONT before</a>
 <span class="sourceLineNo">439</span><a id="line.439">     * aunts for pre-order; while in BFS they are placed at the BACK after aunts.</a>
 <span class="sourceLineNo">440</span><a id="line.440">     */</a>
-<span class="sourceLineNo">441</span><a id="line.441">    private Iterator&lt;N&gt; topDown(Iterator&lt;? extends N&gt; startNodes, final InsertionOrder order) {</a>
-<span class="sourceLineNo">442</span><a id="line.442">      final Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">441</span><a id="line.441">    private Iterator&lt;N&gt; topDown(Iterator&lt;? extends N&gt; startNodes, InsertionOrder order) {</a>
+<span class="sourceLineNo">442</span><a id="line.442">      Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
 <span class="sourceLineNo">443</span><a id="line.443">      horizon.add(startNodes);</a>
 <span class="sourceLineNo">444</span><a id="line.444">      return new AbstractIterator&lt;N&gt;() {</a>
 <span class="sourceLineNo">445</span><a id="line.445">        @Override</a>
@@ -472,8 +472,8 @@
 <span class="sourceLineNo">463</span><a id="line.463">    }</a>
 <span class="sourceLineNo">464</span><a id="line.464"></a>
 <span class="sourceLineNo">465</span><a id="line.465">    final Iterator&lt;N&gt; postOrder(Iterator&lt;? extends N&gt; startNodes) {</a>
-<span class="sourceLineNo">466</span><a id="line.466">      final Deque&lt;N&gt; ancestorStack = new ArrayDeque&lt;&gt;();</a>
-<span class="sourceLineNo">467</span><a id="line.467">      final Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">466</span><a id="line.466">      Deque&lt;N&gt; ancestorStack = new ArrayDeque&lt;&gt;();</a>
+<span class="sourceLineNo">467</span><a id="line.467">      Deque&lt;Iterator&lt;? extends N&gt;&gt; horizon = new ArrayDeque&lt;&gt;();</a>
 <span class="sourceLineNo">468</span><a id="line.468">      horizon.add(startNodes);</a>
 <span class="sourceLineNo">469</span><a id="line.469">      return new AbstractIterator&lt;N&gt;() {</a>
 <span class="sourceLineNo">470</span><a id="line.470">        @Override</a>

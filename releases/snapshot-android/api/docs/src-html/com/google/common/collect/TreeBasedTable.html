@@ -321,9 +321,9 @@
 <span class="sourceLineNo">312</span><a id="line.312">  /** Overridden column iterator to return columns values in globally sorted order. */</a>
 <span class="sourceLineNo">313</span><a id="line.313">  @Override</a>
 <span class="sourceLineNo">314</span><a id="line.314">  Iterator&lt;C&gt; createColumnKeyIterator() {</a>
-<span class="sourceLineNo">315</span><a id="line.315">    final Comparator&lt;? super C&gt; comparator = columnComparator();</a>
+<span class="sourceLineNo">315</span><a id="line.315">    Comparator&lt;? super C&gt; comparator = columnComparator();</a>
 <span class="sourceLineNo">316</span><a id="line.316"></a>
-<span class="sourceLineNo">317</span><a id="line.317">    final Iterator&lt;C&gt; merged =</a>
+<span class="sourceLineNo">317</span><a id="line.317">    Iterator&lt;C&gt; merged =</a>
 <span class="sourceLineNo">318</span><a id="line.318">        Iterators.mergeSorted(</a>
 <span class="sourceLineNo">319</span><a id="line.319">            Iterables.transform(</a>
 <span class="sourceLineNo">320</span><a id="line.320">                backingMap.values(), (Map&lt;C, V&gt; input) -&gt; input.keySet().iterator()),</a>

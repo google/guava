@@ -415,7 +415,7 @@
 <span class="sourceLineNo">406</span><a id="line.406">  }</a>
 <span class="sourceLineNo">407</span><a id="line.407"></a>
 <span class="sourceLineNo">408</span><a id="line.408">  @GwtIncompatible // invokeAccessibleNonThrowingMethod</a>
-<span class="sourceLineNo">409</span><a id="line.409">  private static List&lt;StackTraceElement&gt; jlaStackTrace(final Throwable t) {</a>
+<span class="sourceLineNo">409</span><a id="line.409">  private static List&lt;StackTraceElement&gt; jlaStackTrace(Throwable t) {</a>
 <span class="sourceLineNo">410</span><a id="line.410">    checkNotNull(t);</a>
 <span class="sourceLineNo">411</span><a id="line.411">    /*</a>
 <span class="sourceLineNo">412</span><a id="line.412">     * TODO(cpovirk): Consider optimizing iterator() to catch IOOBE instead of doing bounds checks.</a>

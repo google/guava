@@ -458,7 +458,7 @@
 <span class="sourceLineNo">449</span><a id="line.449"></a>
 <span class="sourceLineNo">450</span><a id="line.450">  @Override</a>
 <span class="sourceLineNo">451</span><a id="line.451">  Set&lt;E&gt; createElementSet() {</a>
-<span class="sourceLineNo">452</span><a id="line.452">    final Set&lt;E&gt; delegate = countMap.keySet();</a>
+<span class="sourceLineNo">452</span><a id="line.452">    Set&lt;E&gt; delegate = countMap.keySet();</a>
 <span class="sourceLineNo">453</span><a id="line.453">    return new ForwardingSet&lt;E&gt;() {</a>
 <span class="sourceLineNo">454</span><a id="line.454">      @Override</a>
 <span class="sourceLineNo">455</span><a id="line.455">      protected Set&lt;E&gt; delegate() {</a>
@@ -513,7 +513,7 @@
 <span class="sourceLineNo">504</span><a id="line.504">  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {</a>
 <span class="sourceLineNo">505</span><a id="line.505">    // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support</a>
 <span class="sourceLineNo">506</span><a id="line.506">    // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.</a>
-<span class="sourceLineNo">507</span><a id="line.507">    final Iterator&lt;Entry&lt;E&gt;&gt; readOnlyIterator =</a>
+<span class="sourceLineNo">507</span><a id="line.507">    Iterator&lt;Entry&lt;E&gt;&gt; readOnlyIterator =</a>
 <span class="sourceLineNo">508</span><a id="line.508">        new AbstractIterator&lt;Entry&lt;E&gt;&gt;() {</a>
 <span class="sourceLineNo">509</span><a id="line.509">          private final Iterator&lt;Map.Entry&lt;E, AtomicInteger&gt;&gt; mapEntries =</a>
 <span class="sourceLineNo">510</span><a id="line.510">              countMap.entrySet().iterator();</a>

@@ -80,9 +80,9 @@
 <span class="sourceLineNo">071</span><a id="line.71">  public static HostSpecifier fromValid(String specifier) {</a>
 <span class="sourceLineNo">072</span><a id="line.72">    // Verify that no port was specified, and strip optional brackets from</a>
 <span class="sourceLineNo">073</span><a id="line.73">    // IPv6 literals.</a>
-<span class="sourceLineNo">074</span><a id="line.74">    final HostAndPort parsedHost = HostAndPort.fromString(specifier);</a>
+<span class="sourceLineNo">074</span><a id="line.74">    HostAndPort parsedHost = HostAndPort.fromString(specifier);</a>
 <span class="sourceLineNo">075</span><a id="line.75">    Preconditions.checkArgument(!parsedHost.hasPort());</a>
-<span class="sourceLineNo">076</span><a id="line.76">    final String host = parsedHost.getHost();</a>
+<span class="sourceLineNo">076</span><a id="line.76">    String host = parsedHost.getHost();</a>
 <span class="sourceLineNo">077</span><a id="line.77"></a>
 <span class="sourceLineNo">078</span><a id="line.78">    // Try to interpret the specifier as an IP address. Note we build</a>
 <span class="sourceLineNo">079</span><a id="line.79">    // the address rather than using the .is* methods because we want to</a>
@@ -102,7 +102,7 @@
 <span class="sourceLineNo">093</span><a id="line.93">    // It is not any kind of IP address; must be a domain name or invalid.</a>
 <span class="sourceLineNo">094</span><a id="line.94"></a>
 <span class="sourceLineNo">095</span><a id="line.95">    // TODO(user): different versions of this for different factories?</a>
-<span class="sourceLineNo">096</span><a id="line.96">    final InternetDomainName domain = InternetDomainName.from(host);</a>
+<span class="sourceLineNo">096</span><a id="line.96">    InternetDomainName domain = InternetDomainName.from(host);</a>
 <span class="sourceLineNo">097</span><a id="line.97"></a>
 <span class="sourceLineNo">098</span><a id="line.98">    if (domain.hasPublicSuffix()) {</a>
 <span class="sourceLineNo">099</span><a id="line.99">      return new HostSpecifier(domain.toString());</a>
@@ -153,7 +153,7 @@
 <span class="sourceLineNo">144</span><a id="line.144">    }</a>
 <span class="sourceLineNo">145</span><a id="line.145"></a>
 <span class="sourceLineNo">146</span><a id="line.146">    if (other instanceof HostSpecifier) {</a>
-<span class="sourceLineNo">147</span><a id="line.147">      final HostSpecifier that = (HostSpecifier) other;</a>
+<span class="sourceLineNo">147</span><a id="line.147">      HostSpecifier that = (HostSpecifier) other;</a>
 <span class="sourceLineNo">148</span><a id="line.148">      return this.canonicalForm.equals(that.canonicalForm);</a>
 <span class="sourceLineNo">149</span><a id="line.149">    }</a>
 <span class="sourceLineNo">150</span><a id="line.150"></a>
