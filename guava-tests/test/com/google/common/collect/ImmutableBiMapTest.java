@@ -721,6 +721,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public static class BiMapSpecificTests extends TestCase {
 
+    @SuppressWarnings("DoNotCall")
     public void testForcePut() {
       BiMap<String, Integer> bimap = ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
       try {

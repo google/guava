@@ -312,6 +312,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertEquals(expectedComplement, rangeSet.complement());
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testAddUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -327,6 +328,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testAddAllUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -342,6 +344,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testRemoveUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
@@ -357,6 +360,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testRemoveAllUnsupported() {
     RangeSet<Integer> rangeSet =
         ImmutableRangeSet.<Integer>builder()
