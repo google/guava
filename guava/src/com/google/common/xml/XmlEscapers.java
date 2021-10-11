@@ -38,7 +38,6 @@ import com.google.common.escape.Escapers;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public class XmlEscapers {
