@@ -585,6 +585,10 @@ public final class Iterators {
    *
    * <p>The returned lists implement {@link java.util.RandomAccess}.
    *
+   * <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
+   * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
+   * OutOfMemoryError}.
+   *
    * @param iterator the iterator to return a partitioned view of
    * @param size the desired size of each partition (the last may be smaller)
    * @return an iterator of immutable lists containing the elements of {@code iterator} divided into
