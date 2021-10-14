@@ -549,6 +549,10 @@ public final class Iterables {
    * <p>Iterators returned by the returned iterable do not support the {@link Iterator#remove()}
    * method. The returned lists implement {@link RandomAccess}, whether or not the input list does.
    *
+   * <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
+   * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
+   * OutOfMemoryError}.
+   *
    * <p><b>Note:</b> if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}
    * instead.
    *
