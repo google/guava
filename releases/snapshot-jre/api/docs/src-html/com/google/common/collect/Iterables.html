@@ -525,575 +525,579 @@
 <span class="sourceLineNo">516</span><a id="line.516">   * &lt;p&gt;Iterators returned by the returned iterable do not support the {@link Iterator#remove()}</a>
 <span class="sourceLineNo">517</span><a id="line.517">   * method. The returned lists implement {@link RandomAccess}, whether or not the input list does.</a>
 <span class="sourceLineNo">518</span><a id="line.518">   *</a>
-<span class="sourceLineNo">519</span><a id="line.519">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}</a>
-<span class="sourceLineNo">520</span><a id="line.520">   * instead.</a>
-<span class="sourceLineNo">521</span><a id="line.521">   *</a>
-<span class="sourceLineNo">522</span><a id="line.522">   * @param iterable the iterable to return a partitioned view of</a>
-<span class="sourceLineNo">523</span><a id="line.523">   * @param size the desired size of each partition (the last may be smaller)</a>
-<span class="sourceLineNo">524</span><a id="line.524">   * @return an iterable of unmodifiable lists containing the elements of {@code iterable} divided</a>
-<span class="sourceLineNo">525</span><a id="line.525">   *     into partitions</a>
-<span class="sourceLineNo">526</span><a id="line.526">   * @throws IllegalArgumentException if {@code size} is nonpositive</a>
-<span class="sourceLineNo">527</span><a id="line.527">   */</a>
-<span class="sourceLineNo">528</span><a id="line.528">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;T&gt;&gt; partition(</a>
-<span class="sourceLineNo">529</span><a id="line.529">      final Iterable&lt;T&gt; iterable, final int size) {</a>
-<span class="sourceLineNo">530</span><a id="line.530">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">531</span><a id="line.531">    checkArgument(size &gt; 0);</a>
-<span class="sourceLineNo">532</span><a id="line.532">    return new FluentIterable&lt;List&lt;T&gt;&gt;() {</a>
-<span class="sourceLineNo">533</span><a id="line.533">      @Override</a>
-<span class="sourceLineNo">534</span><a id="line.534">      public Iterator&lt;List&lt;T&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">535</span><a id="line.535">        return Iterators.partition(iterable.iterator(), size);</a>
-<span class="sourceLineNo">536</span><a id="line.536">      }</a>
-<span class="sourceLineNo">537</span><a id="line.537">    };</a>
-<span class="sourceLineNo">538</span><a id="line.538">  }</a>
-<span class="sourceLineNo">539</span><a id="line.539"></a>
-<span class="sourceLineNo">540</span><a id="line.540">  /**</a>
-<span class="sourceLineNo">541</span><a id="line.541">   * Divides an iterable into unmodifiable sublists of the given size, padding the final iterable</a>
-<span class="sourceLineNo">542</span><a id="line.542">   * with null values if necessary. For example, partitioning an iterable containing {@code [a, b,</a>
-<span class="sourceLineNo">543</span><a id="line.543">   * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer</a>
-<span class="sourceLineNo">544</span><a id="line.544">   * iterable containing two inner lists of three elements each, all in the original order.</a>
-<span class="sourceLineNo">545</span><a id="line.545">   *</a>
-<span class="sourceLineNo">546</span><a id="line.546">   * &lt;p&gt;Iterators returned by the returned iterable do not support the {@link Iterator#remove()}</a>
-<span class="sourceLineNo">547</span><a id="line.547">   * method.</a>
-<span class="sourceLineNo">548</span><a id="line.548">   *</a>
-<span class="sourceLineNo">549</span><a id="line.549">   * @param iterable the iterable to return a partitioned view of</a>
-<span class="sourceLineNo">550</span><a id="line.550">   * @param size the desired size of each partition</a>
-<span class="sourceLineNo">551</span><a id="line.551">   * @return an iterable of unmodifiable lists containing the elements of {@code iterable} divided</a>
-<span class="sourceLineNo">552</span><a id="line.552">   *     into partitions (the final iterable may have trailing null elements)</a>
-<span class="sourceLineNo">553</span><a id="line.553">   * @throws IllegalArgumentException if {@code size} is nonpositive</a>
-<span class="sourceLineNo">554</span><a id="line.554">   */</a>
-<span class="sourceLineNo">555</span><a id="line.555">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;@Nullable T&gt;&gt; paddedPartition(</a>
-<span class="sourceLineNo">556</span><a id="line.556">      final Iterable&lt;T&gt; iterable, final int size) {</a>
-<span class="sourceLineNo">557</span><a id="line.557">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">558</span><a id="line.558">    checkArgument(size &gt; 0);</a>
-<span class="sourceLineNo">559</span><a id="line.559">    return new FluentIterable&lt;List&lt;@Nullable T&gt;&gt;() {</a>
-<span class="sourceLineNo">560</span><a id="line.560">      @Override</a>
-<span class="sourceLineNo">561</span><a id="line.561">      public Iterator&lt;List&lt;@Nullable T&gt;&gt; iterator() {</a>
-<span class="sourceLineNo">562</span><a id="line.562">        return Iterators.paddedPartition(iterable.iterator(), size);</a>
-<span class="sourceLineNo">563</span><a id="line.563">      }</a>
-<span class="sourceLineNo">564</span><a id="line.564">    };</a>
-<span class="sourceLineNo">565</span><a id="line.565">  }</a>
-<span class="sourceLineNo">566</span><a id="line.566"></a>
-<span class="sourceLineNo">567</span><a id="line.567">  /**</a>
-<span class="sourceLineNo">568</span><a id="line.568">   * Returns a view of {@code unfiltered} containing all elements that satisfy the input predicate</a>
-<span class="sourceLineNo">569</span><a id="line.569">   * {@code retainIfTrue}. The returned iterable's iterator does not support {@code remove()}.</a>
-<span class="sourceLineNo">570</span><a id="line.570">   *</a>
-<span class="sourceLineNo">571</span><a id="line.571">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#filter}.</a>
-<span class="sourceLineNo">572</span><a id="line.572">   */</a>
-<span class="sourceLineNo">573</span><a id="line.573">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; filter(</a>
-<span class="sourceLineNo">574</span><a id="line.574">      final Iterable&lt;T&gt; unfiltered, final Predicate&lt;? super T&gt; retainIfTrue) {</a>
-<span class="sourceLineNo">575</span><a id="line.575">    checkNotNull(unfiltered);</a>
-<span class="sourceLineNo">576</span><a id="line.576">    checkNotNull(retainIfTrue);</a>
-<span class="sourceLineNo">577</span><a id="line.577">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">578</span><a id="line.578">      @Override</a>
-<span class="sourceLineNo">579</span><a id="line.579">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">580</span><a id="line.580">        return Iterators.filter(unfiltered.iterator(), retainIfTrue);</a>
-<span class="sourceLineNo">581</span><a id="line.581">      }</a>
-<span class="sourceLineNo">582</span><a id="line.582"></a>
-<span class="sourceLineNo">583</span><a id="line.583">      @Override</a>
-<span class="sourceLineNo">584</span><a id="line.584">      public void forEach(Consumer&lt;? super T&gt; action) {</a>
-<span class="sourceLineNo">585</span><a id="line.585">        checkNotNull(action);</a>
-<span class="sourceLineNo">586</span><a id="line.586">        unfiltered.forEach(</a>
-<span class="sourceLineNo">587</span><a id="line.587">            (@ParametricNullness T a) -&gt; {</a>
-<span class="sourceLineNo">588</span><a id="line.588">              if (retainIfTrue.test(a)) {</a>
-<span class="sourceLineNo">589</span><a id="line.589">                action.accept(a);</a>
-<span class="sourceLineNo">590</span><a id="line.590">              }</a>
-<span class="sourceLineNo">591</span><a id="line.591">            });</a>
-<span class="sourceLineNo">592</span><a id="line.592">      }</a>
-<span class="sourceLineNo">593</span><a id="line.593"></a>
-<span class="sourceLineNo">594</span><a id="line.594">      @Override</a>
-<span class="sourceLineNo">595</span><a id="line.595">      public Spliterator&lt;T&gt; spliterator() {</a>
-<span class="sourceLineNo">596</span><a id="line.596">        return CollectSpliterators.filter(unfiltered.spliterator(), retainIfTrue);</a>
-<span class="sourceLineNo">597</span><a id="line.597">      }</a>
-<span class="sourceLineNo">598</span><a id="line.598">    };</a>
-<span class="sourceLineNo">599</span><a id="line.599">  }</a>
-<span class="sourceLineNo">600</span><a id="line.600"></a>
-<span class="sourceLineNo">601</span><a id="line.601">  /**</a>
-<span class="sourceLineNo">602</span><a id="line.602">   * Returns a view of {@code unfiltered} containing all elements that are of the type {@code</a>
-<span class="sourceLineNo">603</span><a id="line.603">   * desiredType}. The returned iterable's iterator does not support {@code remove()}.</a>
-<span class="sourceLineNo">604</span><a id="line.604">   *</a>
-<span class="sourceLineNo">605</span><a id="line.605">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(type::isInstance).map(type::cast)}.</a>
-<span class="sourceLineNo">606</span><a id="line.606">   * This does perform a little more work than necessary, so another option is to insert an</a>
-<span class="sourceLineNo">607</span><a id="line.607">   * unchecked cast at some later point:</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The current implementation eagerly allocates storage for {@code size} elements.</a>
+<span class="sourceLineNo">520</span><a id="line.520">   * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * OutOfMemoryError}.</a>
+<span class="sourceLineNo">522</span><a id="line.522">   *</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}</a>
+<span class="sourceLineNo">524</span><a id="line.524">   * instead.</a>
+<span class="sourceLineNo">525</span><a id="line.525">   *</a>
+<span class="sourceLineNo">526</span><a id="line.526">   * @param iterable the iterable to return a partitioned view of</a>
+<span class="sourceLineNo">527</span><a id="line.527">   * @param size the desired size of each partition (the last may be smaller)</a>
+<span class="sourceLineNo">528</span><a id="line.528">   * @return an iterable of unmodifiable lists containing the elements of {@code iterable} divided</a>
+<span class="sourceLineNo">529</span><a id="line.529">   *     into partitions</a>
+<span class="sourceLineNo">530</span><a id="line.530">   * @throws IllegalArgumentException if {@code size} is nonpositive</a>
+<span class="sourceLineNo">531</span><a id="line.531">   */</a>
+<span class="sourceLineNo">532</span><a id="line.532">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;T&gt;&gt; partition(</a>
+<span class="sourceLineNo">533</span><a id="line.533">      final Iterable&lt;T&gt; iterable, final int size) {</a>
+<span class="sourceLineNo">534</span><a id="line.534">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">535</span><a id="line.535">    checkArgument(size &gt; 0);</a>
+<span class="sourceLineNo">536</span><a id="line.536">    return new FluentIterable&lt;List&lt;T&gt;&gt;() {</a>
+<span class="sourceLineNo">537</span><a id="line.537">      @Override</a>
+<span class="sourceLineNo">538</span><a id="line.538">      public Iterator&lt;List&lt;T&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">539</span><a id="line.539">        return Iterators.partition(iterable.iterator(), size);</a>
+<span class="sourceLineNo">540</span><a id="line.540">      }</a>
+<span class="sourceLineNo">541</span><a id="line.541">    };</a>
+<span class="sourceLineNo">542</span><a id="line.542">  }</a>
+<span class="sourceLineNo">543</span><a id="line.543"></a>
+<span class="sourceLineNo">544</span><a id="line.544">  /**</a>
+<span class="sourceLineNo">545</span><a id="line.545">   * Divides an iterable into unmodifiable sublists of the given size, padding the final iterable</a>
+<span class="sourceLineNo">546</span><a id="line.546">   * with null values if necessary. For example, partitioning an iterable containing {@code [a, b,</a>
+<span class="sourceLineNo">547</span><a id="line.547">   * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer</a>
+<span class="sourceLineNo">548</span><a id="line.548">   * iterable containing two inner lists of three elements each, all in the original order.</a>
+<span class="sourceLineNo">549</span><a id="line.549">   *</a>
+<span class="sourceLineNo">550</span><a id="line.550">   * &lt;p&gt;Iterators returned by the returned iterable do not support the {@link Iterator#remove()}</a>
+<span class="sourceLineNo">551</span><a id="line.551">   * method.</a>
+<span class="sourceLineNo">552</span><a id="line.552">   *</a>
+<span class="sourceLineNo">553</span><a id="line.553">   * @param iterable the iterable to return a partitioned view of</a>
+<span class="sourceLineNo">554</span><a id="line.554">   * @param size the desired size of each partition</a>
+<span class="sourceLineNo">555</span><a id="line.555">   * @return an iterable of unmodifiable lists containing the elements of {@code iterable} divided</a>
+<span class="sourceLineNo">556</span><a id="line.556">   *     into partitions (the final iterable may have trailing null elements)</a>
+<span class="sourceLineNo">557</span><a id="line.557">   * @throws IllegalArgumentException if {@code size} is nonpositive</a>
+<span class="sourceLineNo">558</span><a id="line.558">   */</a>
+<span class="sourceLineNo">559</span><a id="line.559">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;List&lt;@Nullable T&gt;&gt; paddedPartition(</a>
+<span class="sourceLineNo">560</span><a id="line.560">      final Iterable&lt;T&gt; iterable, final int size) {</a>
+<span class="sourceLineNo">561</span><a id="line.561">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">562</span><a id="line.562">    checkArgument(size &gt; 0);</a>
+<span class="sourceLineNo">563</span><a id="line.563">    return new FluentIterable&lt;List&lt;@Nullable T&gt;&gt;() {</a>
+<span class="sourceLineNo">564</span><a id="line.564">      @Override</a>
+<span class="sourceLineNo">565</span><a id="line.565">      public Iterator&lt;List&lt;@Nullable T&gt;&gt; iterator() {</a>
+<span class="sourceLineNo">566</span><a id="line.566">        return Iterators.paddedPartition(iterable.iterator(), size);</a>
+<span class="sourceLineNo">567</span><a id="line.567">      }</a>
+<span class="sourceLineNo">568</span><a id="line.568">    };</a>
+<span class="sourceLineNo">569</span><a id="line.569">  }</a>
+<span class="sourceLineNo">570</span><a id="line.570"></a>
+<span class="sourceLineNo">571</span><a id="line.571">  /**</a>
+<span class="sourceLineNo">572</span><a id="line.572">   * Returns a view of {@code unfiltered} containing all elements that satisfy the input predicate</a>
+<span class="sourceLineNo">573</span><a id="line.573">   * {@code retainIfTrue}. The returned iterable's iterator does not support {@code remove()}.</a>
+<span class="sourceLineNo">574</span><a id="line.574">   *</a>
+<span class="sourceLineNo">575</span><a id="line.575">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#filter}.</a>
+<span class="sourceLineNo">576</span><a id="line.576">   */</a>
+<span class="sourceLineNo">577</span><a id="line.577">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; filter(</a>
+<span class="sourceLineNo">578</span><a id="line.578">      final Iterable&lt;T&gt; unfiltered, final Predicate&lt;? super T&gt; retainIfTrue) {</a>
+<span class="sourceLineNo">579</span><a id="line.579">    checkNotNull(unfiltered);</a>
+<span class="sourceLineNo">580</span><a id="line.580">    checkNotNull(retainIfTrue);</a>
+<span class="sourceLineNo">581</span><a id="line.581">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">582</span><a id="line.582">      @Override</a>
+<span class="sourceLineNo">583</span><a id="line.583">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">584</span><a id="line.584">        return Iterators.filter(unfiltered.iterator(), retainIfTrue);</a>
+<span class="sourceLineNo">585</span><a id="line.585">      }</a>
+<span class="sourceLineNo">586</span><a id="line.586"></a>
+<span class="sourceLineNo">587</span><a id="line.587">      @Override</a>
+<span class="sourceLineNo">588</span><a id="line.588">      public void forEach(Consumer&lt;? super T&gt; action) {</a>
+<span class="sourceLineNo">589</span><a id="line.589">        checkNotNull(action);</a>
+<span class="sourceLineNo">590</span><a id="line.590">        unfiltered.forEach(</a>
+<span class="sourceLineNo">591</span><a id="line.591">            (@ParametricNullness T a) -&gt; {</a>
+<span class="sourceLineNo">592</span><a id="line.592">              if (retainIfTrue.test(a)) {</a>
+<span class="sourceLineNo">593</span><a id="line.593">                action.accept(a);</a>
+<span class="sourceLineNo">594</span><a id="line.594">              }</a>
+<span class="sourceLineNo">595</span><a id="line.595">            });</a>
+<span class="sourceLineNo">596</span><a id="line.596">      }</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">      @Override</a>
+<span class="sourceLineNo">599</span><a id="line.599">      public Spliterator&lt;T&gt; spliterator() {</a>
+<span class="sourceLineNo">600</span><a id="line.600">        return CollectSpliterators.filter(unfiltered.spliterator(), retainIfTrue);</a>
+<span class="sourceLineNo">601</span><a id="line.601">      }</a>
+<span class="sourceLineNo">602</span><a id="line.602">    };</a>
+<span class="sourceLineNo">603</span><a id="line.603">  }</a>
+<span class="sourceLineNo">604</span><a id="line.604"></a>
+<span class="sourceLineNo">605</span><a id="line.605">  /**</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * Returns a view of {@code unfiltered} containing all elements that are of the type {@code</a>
+<span class="sourceLineNo">607</span><a id="line.607">   * desiredType}. The returned iterable's iterator does not support {@code remove()}.</a>
 <span class="sourceLineNo">608</span><a id="line.608">   *</a>
-<span class="sourceLineNo">609</span><a id="line.609">   * &lt;pre&gt;</a>
-<span class="sourceLineNo">610</span><a id="line.610">   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check</a>
-<span class="sourceLineNo">611</span><a id="line.611">   * ImmutableList&lt;NewType&gt; result =</a>
-<span class="sourceLineNo">612</span><a id="line.612">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}</a>
-<span class="sourceLineNo">613</span><a id="line.613">   * &lt;/pre&gt;</a>
-<span class="sourceLineNo">614</span><a id="line.614">   */</a>
-<span class="sourceLineNo">615</span><a id="line.615">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">616</span><a id="line.616">  @GwtIncompatible // Class.isInstance</a>
-<span class="sourceLineNo">617</span><a id="line.617">  public static &lt;T&gt; Iterable&lt;T&gt; filter(final Iterable&lt;?&gt; unfiltered, final Class&lt;T&gt; desiredType) {</a>
-<span class="sourceLineNo">618</span><a id="line.618">    checkNotNull(unfiltered);</a>
-<span class="sourceLineNo">619</span><a id="line.619">    checkNotNull(desiredType);</a>
-<span class="sourceLineNo">620</span><a id="line.620">    return (Iterable&lt;T&gt;) filter(unfiltered, Predicates.instanceOf(desiredType));</a>
-<span class="sourceLineNo">621</span><a id="line.621">  }</a>
-<span class="sourceLineNo">622</span><a id="line.622"></a>
-<span class="sourceLineNo">623</span><a id="line.623">  /**</a>
-<span class="sourceLineNo">624</span><a id="line.624">   * Returns {@code true} if any element in {@code iterable} satisfies the predicate.</a>
-<span class="sourceLineNo">625</span><a id="line.625">   *</a>
-<span class="sourceLineNo">626</span><a id="line.626">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#anyMatch}.</a>
-<span class="sourceLineNo">627</span><a id="line.627">   */</a>
-<span class="sourceLineNo">628</span><a id="line.628">  public static &lt;T extends @Nullable Object&gt; boolean any(</a>
-<span class="sourceLineNo">629</span><a id="line.629">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
-<span class="sourceLineNo">630</span><a id="line.630">    return Iterators.any(iterable.iterator(), predicate);</a>
-<span class="sourceLineNo">631</span><a id="line.631">  }</a>
-<span class="sourceLineNo">632</span><a id="line.632"></a>
-<span class="sourceLineNo">633</span><a id="line.633">  /**</a>
-<span class="sourceLineNo">634</span><a id="line.634">   * Returns {@code true} if every element in {@code iterable} satisfies the predicate. If {@code</a>
-<span class="sourceLineNo">635</span><a id="line.635">   * iterable} is empty, {@code true} is returned.</a>
-<span class="sourceLineNo">636</span><a id="line.636">   *</a>
-<span class="sourceLineNo">637</span><a id="line.637">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#allMatch}.</a>
-<span class="sourceLineNo">638</span><a id="line.638">   */</a>
-<span class="sourceLineNo">639</span><a id="line.639">  public static &lt;T extends @Nullable Object&gt; boolean all(</a>
-<span class="sourceLineNo">640</span><a id="line.640">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
-<span class="sourceLineNo">641</span><a id="line.641">    return Iterators.all(iterable.iterator(), predicate);</a>
-<span class="sourceLineNo">642</span><a id="line.642">  }</a>
-<span class="sourceLineNo">643</span><a id="line.643"></a>
-<span class="sourceLineNo">644</span><a id="line.644">  /**</a>
-<span class="sourceLineNo">645</span><a id="line.645">   * Returns the first element in {@code iterable} that satisfies the given predicate; use this</a>
-<span class="sourceLineNo">646</span><a id="line.646">   * method only when such an element is known to exist. If it is possible that &lt;i&gt;no&lt;/i&gt; element</a>
-<span class="sourceLineNo">647</span><a id="line.647">   * will match, use {@link #tryFind} or {@link #find(Iterable, Predicate, Object)} instead.</a>
-<span class="sourceLineNo">648</span><a id="line.648">   *</a>
-<span class="sourceLineNo">649</span><a id="line.649">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(predicate).findFirst().get()}</a>
-<span class="sourceLineNo">650</span><a id="line.650">   *</a>
-<span class="sourceLineNo">651</span><a id="line.651">   * @throws NoSuchElementException if no element in {@code iterable} matches the given predicate</a>
-<span class="sourceLineNo">652</span><a id="line.652">   */</a>
-<span class="sourceLineNo">653</span><a id="line.653">  @ParametricNullness</a>
-<span class="sourceLineNo">654</span><a id="line.654">  public static &lt;T extends @Nullable Object&gt; T find(</a>
-<span class="sourceLineNo">655</span><a id="line.655">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
-<span class="sourceLineNo">656</span><a id="line.656">    return Iterators.find(iterable.iterator(), predicate);</a>
-<span class="sourceLineNo">657</span><a id="line.657">  }</a>
-<span class="sourceLineNo">658</span><a id="line.658"></a>
-<span class="sourceLineNo">659</span><a id="line.659">  /**</a>
-<span class="sourceLineNo">660</span><a id="line.660">   * Returns the first element in {@code iterable} that satisfies the given predicate, or {@code</a>
-<span class="sourceLineNo">661</span><a id="line.661">   * defaultValue} if none found. Note that this can usually be handled more naturally using {@code</a>
-<span class="sourceLineNo">662</span><a id="line.662">   * tryFind(iterable, predicate).or(defaultValue)}.</a>
-<span class="sourceLineNo">663</span><a id="line.663">   *</a>
-<span class="sourceLineNo">664</span><a id="line.664">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code</a>
-<span class="sourceLineNo">665</span><a id="line.665">   * stream.filter(predicate).findFirst().orElse(defaultValue)}</a>
-<span class="sourceLineNo">666</span><a id="line.666">   *</a>
-<span class="sourceLineNo">667</span><a id="line.667">   * @since 7.0</a>
-<span class="sourceLineNo">668</span><a id="line.668">   */</a>
-<span class="sourceLineNo">669</span><a id="line.669">  // The signature we really want here is...</a>
-<span class="sourceLineNo">670</span><a id="line.670">  //</a>
-<span class="sourceLineNo">671</span><a id="line.671">  // &lt;T extends @Nullable Object&gt; @JointlyNullable T find(</a>
-<span class="sourceLineNo">672</span><a id="line.672">  //     Iterable&lt;? extends T&gt; iterable,</a>
-<span class="sourceLineNo">673</span><a id="line.673">  //     Predicate&lt;? super T&gt; predicate,</a>
-<span class="sourceLineNo">674</span><a id="line.674">  //     @JointlyNullable T defaultValue);</a>
-<span class="sourceLineNo">675</span><a id="line.675">  //</a>
-<span class="sourceLineNo">676</span><a id="line.676">  // ...where "@JointlyNullable" is similar to @PolyNull but slightly different:</a>
-<span class="sourceLineNo">677</span><a id="line.677">  //</a>
-<span class="sourceLineNo">678</span><a id="line.678">  // - @PolyNull means "@Nullable or @Nonnull"</a>
-<span class="sourceLineNo">679</span><a id="line.679">  //   (That would be unsound for an input Iterable&lt;@Nullable Foo&gt;. So, if we wanted to use</a>
-<span class="sourceLineNo">680</span><a id="line.680">  //   @PolyNull, we would have to restrict this method to non-null &lt;T&gt;. But it has users who pass</a>
-<span class="sourceLineNo">681</span><a id="line.681">  //   iterables with null elements.)</a>
-<span class="sourceLineNo">682</span><a id="line.682">  //</a>
-<span class="sourceLineNo">683</span><a id="line.683">  // - @JointlyNullable means "@Nullable or no annotation"</a>
-<span class="sourceLineNo">684</span><a id="line.684">  @CheckForNull</a>
-<span class="sourceLineNo">685</span><a id="line.685">  public static &lt;T extends @Nullable Object&gt; T find(</a>
-<span class="sourceLineNo">686</span><a id="line.686">      Iterable&lt;? extends T&gt; iterable,</a>
-<span class="sourceLineNo">687</span><a id="line.687">      Predicate&lt;? super T&gt; predicate,</a>
-<span class="sourceLineNo">688</span><a id="line.688">      @CheckForNull T defaultValue) {</a>
-<span class="sourceLineNo">689</span><a id="line.689">    return Iterators.find(iterable.iterator(), predicate, defaultValue);</a>
-<span class="sourceLineNo">690</span><a id="line.690">  }</a>
-<span class="sourceLineNo">691</span><a id="line.691"></a>
-<span class="sourceLineNo">692</span><a id="line.692">  /**</a>
-<span class="sourceLineNo">693</span><a id="line.693">   * Returns an {@link Optional} containing the first element in {@code iterable} that satisfies the</a>
-<span class="sourceLineNo">694</span><a id="line.694">   * given predicate, if such an element exists.</a>
-<span class="sourceLineNo">695</span><a id="line.695">   *</a>
-<span class="sourceLineNo">696</span><a id="line.696">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; avoid using a {@code predicate} that matches {@code null}. If {@code null}</a>
-<span class="sourceLineNo">697</span><a id="line.697">   * is matched in {@code iterable}, a NullPointerException will be thrown.</a>
-<span class="sourceLineNo">698</span><a id="line.698">   *</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(predicate).findFirst()}</a>
-<span class="sourceLineNo">700</span><a id="line.700">   *</a>
-<span class="sourceLineNo">701</span><a id="line.701">   * @since 11.0</a>
-<span class="sourceLineNo">702</span><a id="line.702">   */</a>
-<span class="sourceLineNo">703</span><a id="line.703">  public static &lt;T&gt; Optional&lt;T&gt; tryFind(Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
-<span class="sourceLineNo">704</span><a id="line.704">    return Iterators.tryFind(iterable.iterator(), predicate);</a>
-<span class="sourceLineNo">705</span><a id="line.705">  }</a>
-<span class="sourceLineNo">706</span><a id="line.706"></a>
-<span class="sourceLineNo">707</span><a id="line.707">  /**</a>
-<span class="sourceLineNo">708</span><a id="line.708">   * Returns the index in {@code iterable} of the first element that satisfies the provided {@code</a>
-<span class="sourceLineNo">709</span><a id="line.709">   * predicate}, or {@code -1} if the Iterable has no such elements.</a>
-<span class="sourceLineNo">710</span><a id="line.710">   *</a>
-<span class="sourceLineNo">711</span><a id="line.711">   * &lt;p&gt;More formally, returns the lowest index {@code i} such that {@code</a>
-<span class="sourceLineNo">712</span><a id="line.712">   * predicate.apply(Iterables.get(iterable, i))} returns {@code true}, or {@code -1} if there is no</a>
-<span class="sourceLineNo">713</span><a id="line.713">   * such index.</a>
+<span class="sourceLineNo">609</span><a id="line.609">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(type::isInstance).map(type::cast)}.</a>
+<span class="sourceLineNo">610</span><a id="line.610">   * This does perform a little more work than necessary, so another option is to insert an</a>
+<span class="sourceLineNo">611</span><a id="line.611">   * unchecked cast at some later point:</a>
+<span class="sourceLineNo">612</span><a id="line.612">   *</a>
+<span class="sourceLineNo">613</span><a id="line.613">   * &lt;pre&gt;</a>
+<span class="sourceLineNo">614</span><a id="line.614">   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check</a>
+<span class="sourceLineNo">615</span><a id="line.615">   * ImmutableList&lt;NewType&gt; result =</a>
+<span class="sourceLineNo">616</span><a id="line.616">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}</a>
+<span class="sourceLineNo">617</span><a id="line.617">   * &lt;/pre&gt;</a>
+<span class="sourceLineNo">618</span><a id="line.618">   */</a>
+<span class="sourceLineNo">619</span><a id="line.619">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">620</span><a id="line.620">  @GwtIncompatible // Class.isInstance</a>
+<span class="sourceLineNo">621</span><a id="line.621">  public static &lt;T&gt; Iterable&lt;T&gt; filter(final Iterable&lt;?&gt; unfiltered, final Class&lt;T&gt; desiredType) {</a>
+<span class="sourceLineNo">622</span><a id="line.622">    checkNotNull(unfiltered);</a>
+<span class="sourceLineNo">623</span><a id="line.623">    checkNotNull(desiredType);</a>
+<span class="sourceLineNo">624</span><a id="line.624">    return (Iterable&lt;T&gt;) filter(unfiltered, Predicates.instanceOf(desiredType));</a>
+<span class="sourceLineNo">625</span><a id="line.625">  }</a>
+<span class="sourceLineNo">626</span><a id="line.626"></a>
+<span class="sourceLineNo">627</span><a id="line.627">  /**</a>
+<span class="sourceLineNo">628</span><a id="line.628">   * Returns {@code true} if any element in {@code iterable} satisfies the predicate.</a>
+<span class="sourceLineNo">629</span><a id="line.629">   *</a>
+<span class="sourceLineNo">630</span><a id="line.630">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#anyMatch}.</a>
+<span class="sourceLineNo">631</span><a id="line.631">   */</a>
+<span class="sourceLineNo">632</span><a id="line.632">  public static &lt;T extends @Nullable Object&gt; boolean any(</a>
+<span class="sourceLineNo">633</span><a id="line.633">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
+<span class="sourceLineNo">634</span><a id="line.634">    return Iterators.any(iterable.iterator(), predicate);</a>
+<span class="sourceLineNo">635</span><a id="line.635">  }</a>
+<span class="sourceLineNo">636</span><a id="line.636"></a>
+<span class="sourceLineNo">637</span><a id="line.637">  /**</a>
+<span class="sourceLineNo">638</span><a id="line.638">   * Returns {@code true} if every element in {@code iterable} satisfies the predicate. If {@code</a>
+<span class="sourceLineNo">639</span><a id="line.639">   * iterable} is empty, {@code true} is returned.</a>
+<span class="sourceLineNo">640</span><a id="line.640">   *</a>
+<span class="sourceLineNo">641</span><a id="line.641">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#allMatch}.</a>
+<span class="sourceLineNo">642</span><a id="line.642">   */</a>
+<span class="sourceLineNo">643</span><a id="line.643">  public static &lt;T extends @Nullable Object&gt; boolean all(</a>
+<span class="sourceLineNo">644</span><a id="line.644">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">    return Iterators.all(iterable.iterator(), predicate);</a>
+<span class="sourceLineNo">646</span><a id="line.646">  }</a>
+<span class="sourceLineNo">647</span><a id="line.647"></a>
+<span class="sourceLineNo">648</span><a id="line.648">  /**</a>
+<span class="sourceLineNo">649</span><a id="line.649">   * Returns the first element in {@code iterable} that satisfies the given predicate; use this</a>
+<span class="sourceLineNo">650</span><a id="line.650">   * method only when such an element is known to exist. If it is possible that &lt;i&gt;no&lt;/i&gt; element</a>
+<span class="sourceLineNo">651</span><a id="line.651">   * will match, use {@link #tryFind} or {@link #find(Iterable, Predicate, Object)} instead.</a>
+<span class="sourceLineNo">652</span><a id="line.652">   *</a>
+<span class="sourceLineNo">653</span><a id="line.653">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(predicate).findFirst().get()}</a>
+<span class="sourceLineNo">654</span><a id="line.654">   *</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * @throws NoSuchElementException if no element in {@code iterable} matches the given predicate</a>
+<span class="sourceLineNo">656</span><a id="line.656">   */</a>
+<span class="sourceLineNo">657</span><a id="line.657">  @ParametricNullness</a>
+<span class="sourceLineNo">658</span><a id="line.658">  public static &lt;T extends @Nullable Object&gt; T find(</a>
+<span class="sourceLineNo">659</span><a id="line.659">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
+<span class="sourceLineNo">660</span><a id="line.660">    return Iterators.find(iterable.iterator(), predicate);</a>
+<span class="sourceLineNo">661</span><a id="line.661">  }</a>
+<span class="sourceLineNo">662</span><a id="line.662"></a>
+<span class="sourceLineNo">663</span><a id="line.663">  /**</a>
+<span class="sourceLineNo">664</span><a id="line.664">   * Returns the first element in {@code iterable} that satisfies the given predicate, or {@code</a>
+<span class="sourceLineNo">665</span><a id="line.665">   * defaultValue} if none found. Note that this can usually be handled more naturally using {@code</a>
+<span class="sourceLineNo">666</span><a id="line.666">   * tryFind(iterable, predicate).or(defaultValue)}.</a>
+<span class="sourceLineNo">667</span><a id="line.667">   *</a>
+<span class="sourceLineNo">668</span><a id="line.668">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code</a>
+<span class="sourceLineNo">669</span><a id="line.669">   * stream.filter(predicate).findFirst().orElse(defaultValue)}</a>
+<span class="sourceLineNo">670</span><a id="line.670">   *</a>
+<span class="sourceLineNo">671</span><a id="line.671">   * @since 7.0</a>
+<span class="sourceLineNo">672</span><a id="line.672">   */</a>
+<span class="sourceLineNo">673</span><a id="line.673">  // The signature we really want here is...</a>
+<span class="sourceLineNo">674</span><a id="line.674">  //</a>
+<span class="sourceLineNo">675</span><a id="line.675">  // &lt;T extends @Nullable Object&gt; @JointlyNullable T find(</a>
+<span class="sourceLineNo">676</span><a id="line.676">  //     Iterable&lt;? extends T&gt; iterable,</a>
+<span class="sourceLineNo">677</span><a id="line.677">  //     Predicate&lt;? super T&gt; predicate,</a>
+<span class="sourceLineNo">678</span><a id="line.678">  //     @JointlyNullable T defaultValue);</a>
+<span class="sourceLineNo">679</span><a id="line.679">  //</a>
+<span class="sourceLineNo">680</span><a id="line.680">  // ...where "@JointlyNullable" is similar to @PolyNull but slightly different:</a>
+<span class="sourceLineNo">681</span><a id="line.681">  //</a>
+<span class="sourceLineNo">682</span><a id="line.682">  // - @PolyNull means "@Nullable or @Nonnull"</a>
+<span class="sourceLineNo">683</span><a id="line.683">  //   (That would be unsound for an input Iterable&lt;@Nullable Foo&gt;. So, if we wanted to use</a>
+<span class="sourceLineNo">684</span><a id="line.684">  //   @PolyNull, we would have to restrict this method to non-null &lt;T&gt;. But it has users who pass</a>
+<span class="sourceLineNo">685</span><a id="line.685">  //   iterables with null elements.)</a>
+<span class="sourceLineNo">686</span><a id="line.686">  //</a>
+<span class="sourceLineNo">687</span><a id="line.687">  // - @JointlyNullable means "@Nullable or no annotation"</a>
+<span class="sourceLineNo">688</span><a id="line.688">  @CheckForNull</a>
+<span class="sourceLineNo">689</span><a id="line.689">  public static &lt;T extends @Nullable Object&gt; T find(</a>
+<span class="sourceLineNo">690</span><a id="line.690">      Iterable&lt;? extends T&gt; iterable,</a>
+<span class="sourceLineNo">691</span><a id="line.691">      Predicate&lt;? super T&gt; predicate,</a>
+<span class="sourceLineNo">692</span><a id="line.692">      @CheckForNull T defaultValue) {</a>
+<span class="sourceLineNo">693</span><a id="line.693">    return Iterators.find(iterable.iterator(), predicate, defaultValue);</a>
+<span class="sourceLineNo">694</span><a id="line.694">  }</a>
+<span class="sourceLineNo">695</span><a id="line.695"></a>
+<span class="sourceLineNo">696</span><a id="line.696">  /**</a>
+<span class="sourceLineNo">697</span><a id="line.697">   * Returns an {@link Optional} containing the first element in {@code iterable} that satisfies the</a>
+<span class="sourceLineNo">698</span><a id="line.698">   * given predicate, if such an element exists.</a>
+<span class="sourceLineNo">699</span><a id="line.699">   *</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; avoid using a {@code predicate} that matches {@code null}. If {@code null}</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * is matched in {@code iterable}, a NullPointerException will be thrown.</a>
+<span class="sourceLineNo">702</span><a id="line.702">   *</a>
+<span class="sourceLineNo">703</span><a id="line.703">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.filter(predicate).findFirst()}</a>
+<span class="sourceLineNo">704</span><a id="line.704">   *</a>
+<span class="sourceLineNo">705</span><a id="line.705">   * @since 11.0</a>
+<span class="sourceLineNo">706</span><a id="line.706">   */</a>
+<span class="sourceLineNo">707</span><a id="line.707">  public static &lt;T&gt; Optional&lt;T&gt; tryFind(Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
+<span class="sourceLineNo">708</span><a id="line.708">    return Iterators.tryFind(iterable.iterator(), predicate);</a>
+<span class="sourceLineNo">709</span><a id="line.709">  }</a>
+<span class="sourceLineNo">710</span><a id="line.710"></a>
+<span class="sourceLineNo">711</span><a id="line.711">  /**</a>
+<span class="sourceLineNo">712</span><a id="line.712">   * Returns the index in {@code iterable} of the first element that satisfies the provided {@code</a>
+<span class="sourceLineNo">713</span><a id="line.713">   * predicate}, or {@code -1} if the Iterable has no such elements.</a>
 <span class="sourceLineNo">714</span><a id="line.714">   *</a>
-<span class="sourceLineNo">715</span><a id="line.715">   * @since 2.0</a>
-<span class="sourceLineNo">716</span><a id="line.716">   */</a>
-<span class="sourceLineNo">717</span><a id="line.717">  public static &lt;T extends @Nullable Object&gt; int indexOf(</a>
-<span class="sourceLineNo">718</span><a id="line.718">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
-<span class="sourceLineNo">719</span><a id="line.719">    return Iterators.indexOf(iterable.iterator(), predicate);</a>
-<span class="sourceLineNo">720</span><a id="line.720">  }</a>
-<span class="sourceLineNo">721</span><a id="line.721"></a>
-<span class="sourceLineNo">722</span><a id="line.722">  /**</a>
-<span class="sourceLineNo">723</span><a id="line.723">   * Returns a view containing the result of applying {@code function} to each element of {@code</a>
-<span class="sourceLineNo">724</span><a id="line.724">   * fromIterable}.</a>
-<span class="sourceLineNo">725</span><a id="line.725">   *</a>
-<span class="sourceLineNo">726</span><a id="line.726">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} if {@code fromIterable}'s</a>
-<span class="sourceLineNo">727</span><a id="line.727">   * iterator does. After a successful {@code remove()} call, {@code fromIterable} no longer</a>
-<span class="sourceLineNo">728</span><a id="line.728">   * contains the corresponding element.</a>
+<span class="sourceLineNo">715</span><a id="line.715">   * &lt;p&gt;More formally, returns the lowest index {@code i} such that {@code</a>
+<span class="sourceLineNo">716</span><a id="line.716">   * predicate.apply(Iterables.get(iterable, i))} returns {@code true}, or {@code -1} if there is no</a>
+<span class="sourceLineNo">717</span><a id="line.717">   * such index.</a>
+<span class="sourceLineNo">718</span><a id="line.718">   *</a>
+<span class="sourceLineNo">719</span><a id="line.719">   * @since 2.0</a>
+<span class="sourceLineNo">720</span><a id="line.720">   */</a>
+<span class="sourceLineNo">721</span><a id="line.721">  public static &lt;T extends @Nullable Object&gt; int indexOf(</a>
+<span class="sourceLineNo">722</span><a id="line.722">      Iterable&lt;T&gt; iterable, Predicate&lt;? super T&gt; predicate) {</a>
+<span class="sourceLineNo">723</span><a id="line.723">    return Iterators.indexOf(iterable.iterator(), predicate);</a>
+<span class="sourceLineNo">724</span><a id="line.724">  }</a>
+<span class="sourceLineNo">725</span><a id="line.725"></a>
+<span class="sourceLineNo">726</span><a id="line.726">  /**</a>
+<span class="sourceLineNo">727</span><a id="line.727">   * Returns a view containing the result of applying {@code function} to each element of {@code</a>
+<span class="sourceLineNo">728</span><a id="line.728">   * fromIterable}.</a>
 <span class="sourceLineNo">729</span><a id="line.729">   *</a>
-<span class="sourceLineNo">730</span><a id="line.730">   * &lt;p&gt;If the input {@code Iterable} is known to be a {@code List} or other {@code Collection},</a>
-<span class="sourceLineNo">731</span><a id="line.731">   * consider {@link Lists#transform} and {@link Collections2#transform}.</a>
-<span class="sourceLineNo">732</span><a id="line.732">   *</a>
-<span class="sourceLineNo">733</span><a id="line.733">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#map}</a>
-<span class="sourceLineNo">734</span><a id="line.734">   */</a>
-<span class="sourceLineNo">735</span><a id="line.735">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Iterable&lt;T&gt; transform(</a>
-<span class="sourceLineNo">736</span><a id="line.736">      final Iterable&lt;F&gt; fromIterable, final Function&lt;? super F, ? extends T&gt; function) {</a>
-<span class="sourceLineNo">737</span><a id="line.737">    checkNotNull(fromIterable);</a>
-<span class="sourceLineNo">738</span><a id="line.738">    checkNotNull(function);</a>
-<span class="sourceLineNo">739</span><a id="line.739">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">740</span><a id="line.740">      @Override</a>
-<span class="sourceLineNo">741</span><a id="line.741">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">742</span><a id="line.742">        return Iterators.transform(fromIterable.iterator(), function);</a>
-<span class="sourceLineNo">743</span><a id="line.743">      }</a>
-<span class="sourceLineNo">744</span><a id="line.744"></a>
-<span class="sourceLineNo">745</span><a id="line.745">      @Override</a>
-<span class="sourceLineNo">746</span><a id="line.746">      public void forEach(Consumer&lt;? super T&gt; action) {</a>
-<span class="sourceLineNo">747</span><a id="line.747">        checkNotNull(action);</a>
-<span class="sourceLineNo">748</span><a id="line.748">        fromIterable.forEach((F f) -&gt; action.accept(function.apply(f)));</a>
-<span class="sourceLineNo">749</span><a id="line.749">      }</a>
-<span class="sourceLineNo">750</span><a id="line.750"></a>
-<span class="sourceLineNo">751</span><a id="line.751">      @Override</a>
-<span class="sourceLineNo">752</span><a id="line.752">      public Spliterator&lt;T&gt; spliterator() {</a>
-<span class="sourceLineNo">753</span><a id="line.753">        return CollectSpliterators.map(fromIterable.spliterator(), function);</a>
-<span class="sourceLineNo">754</span><a id="line.754">      }</a>
-<span class="sourceLineNo">755</span><a id="line.755">    };</a>
-<span class="sourceLineNo">756</span><a id="line.756">  }</a>
-<span class="sourceLineNo">757</span><a id="line.757"></a>
-<span class="sourceLineNo">758</span><a id="line.758">  /**</a>
-<span class="sourceLineNo">759</span><a id="line.759">   * Returns the element at the specified position in an iterable.</a>
-<span class="sourceLineNo">760</span><a id="line.760">   *</a>
-<span class="sourceLineNo">761</span><a id="line.761">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(position).findFirst().get()} (throws</a>
-<span class="sourceLineNo">762</span><a id="line.762">   * {@code NoSuchElementException} if out of bounds)</a>
-<span class="sourceLineNo">763</span><a id="line.763">   *</a>
-<span class="sourceLineNo">764</span><a id="line.764">   * @param position position of the element to return</a>
-<span class="sourceLineNo">765</span><a id="line.765">   * @return the element at the specified position in {@code iterable}</a>
-<span class="sourceLineNo">766</span><a id="line.766">   * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to</a>
-<span class="sourceLineNo">767</span><a id="line.767">   *     the size of {@code iterable}</a>
-<span class="sourceLineNo">768</span><a id="line.768">   */</a>
-<span class="sourceLineNo">769</span><a id="line.769">  @ParametricNullness</a>
-<span class="sourceLineNo">770</span><a id="line.770">  public static &lt;T extends @Nullable Object&gt; T get(Iterable&lt;T&gt; iterable, int position) {</a>
-<span class="sourceLineNo">771</span><a id="line.771">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">772</span><a id="line.772">    return (iterable instanceof List)</a>
-<span class="sourceLineNo">773</span><a id="line.773">        ? ((List&lt;T&gt;) iterable).get(position)</a>
-<span class="sourceLineNo">774</span><a id="line.774">        : Iterators.get(iterable.iterator(), position);</a>
-<span class="sourceLineNo">775</span><a id="line.775">  }</a>
-<span class="sourceLineNo">776</span><a id="line.776"></a>
-<span class="sourceLineNo">777</span><a id="line.777">  /**</a>
-<span class="sourceLineNo">778</span><a id="line.778">   * Returns the element at the specified position in an iterable or a default value otherwise.</a>
-<span class="sourceLineNo">779</span><a id="line.779">   *</a>
-<span class="sourceLineNo">780</span><a id="line.780">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code</a>
-<span class="sourceLineNo">781</span><a id="line.781">   * stream.skip(position).findFirst().orElse(defaultValue)} (returns the default value if the index</a>
-<span class="sourceLineNo">782</span><a id="line.782">   * is out of bounds)</a>
+<span class="sourceLineNo">730</span><a id="line.730">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} if {@code fromIterable}'s</a>
+<span class="sourceLineNo">731</span><a id="line.731">   * iterator does. After a successful {@code remove()} call, {@code fromIterable} no longer</a>
+<span class="sourceLineNo">732</span><a id="line.732">   * contains the corresponding element.</a>
+<span class="sourceLineNo">733</span><a id="line.733">   *</a>
+<span class="sourceLineNo">734</span><a id="line.734">   * &lt;p&gt;If the input {@code Iterable} is known to be a {@code List} or other {@code Collection},</a>
+<span class="sourceLineNo">735</span><a id="line.735">   * consider {@link Lists#transform} and {@link Collections2#transform}.</a>
+<span class="sourceLineNo">736</span><a id="line.736">   *</a>
+<span class="sourceLineNo">737</span><a id="line.737">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#map}</a>
+<span class="sourceLineNo">738</span><a id="line.738">   */</a>
+<span class="sourceLineNo">739</span><a id="line.739">  public static &lt;F extends @Nullable Object, T extends @Nullable Object&gt; Iterable&lt;T&gt; transform(</a>
+<span class="sourceLineNo">740</span><a id="line.740">      final Iterable&lt;F&gt; fromIterable, final Function&lt;? super F, ? extends T&gt; function) {</a>
+<span class="sourceLineNo">741</span><a id="line.741">    checkNotNull(fromIterable);</a>
+<span class="sourceLineNo">742</span><a id="line.742">    checkNotNull(function);</a>
+<span class="sourceLineNo">743</span><a id="line.743">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">744</span><a id="line.744">      @Override</a>
+<span class="sourceLineNo">745</span><a id="line.745">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">746</span><a id="line.746">        return Iterators.transform(fromIterable.iterator(), function);</a>
+<span class="sourceLineNo">747</span><a id="line.747">      }</a>
+<span class="sourceLineNo">748</span><a id="line.748"></a>
+<span class="sourceLineNo">749</span><a id="line.749">      @Override</a>
+<span class="sourceLineNo">750</span><a id="line.750">      public void forEach(Consumer&lt;? super T&gt; action) {</a>
+<span class="sourceLineNo">751</span><a id="line.751">        checkNotNull(action);</a>
+<span class="sourceLineNo">752</span><a id="line.752">        fromIterable.forEach((F f) -&gt; action.accept(function.apply(f)));</a>
+<span class="sourceLineNo">753</span><a id="line.753">      }</a>
+<span class="sourceLineNo">754</span><a id="line.754"></a>
+<span class="sourceLineNo">755</span><a id="line.755">      @Override</a>
+<span class="sourceLineNo">756</span><a id="line.756">      public Spliterator&lt;T&gt; spliterator() {</a>
+<span class="sourceLineNo">757</span><a id="line.757">        return CollectSpliterators.map(fromIterable.spliterator(), function);</a>
+<span class="sourceLineNo">758</span><a id="line.758">      }</a>
+<span class="sourceLineNo">759</span><a id="line.759">    };</a>
+<span class="sourceLineNo">760</span><a id="line.760">  }</a>
+<span class="sourceLineNo">761</span><a id="line.761"></a>
+<span class="sourceLineNo">762</span><a id="line.762">  /**</a>
+<span class="sourceLineNo">763</span><a id="line.763">   * Returns the element at the specified position in an iterable.</a>
+<span class="sourceLineNo">764</span><a id="line.764">   *</a>
+<span class="sourceLineNo">765</span><a id="line.765">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(position).findFirst().get()} (throws</a>
+<span class="sourceLineNo">766</span><a id="line.766">   * {@code NoSuchElementException} if out of bounds)</a>
+<span class="sourceLineNo">767</span><a id="line.767">   *</a>
+<span class="sourceLineNo">768</span><a id="line.768">   * @param position position of the element to return</a>
+<span class="sourceLineNo">769</span><a id="line.769">   * @return the element at the specified position in {@code iterable}</a>
+<span class="sourceLineNo">770</span><a id="line.770">   * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to</a>
+<span class="sourceLineNo">771</span><a id="line.771">   *     the size of {@code iterable}</a>
+<span class="sourceLineNo">772</span><a id="line.772">   */</a>
+<span class="sourceLineNo">773</span><a id="line.773">  @ParametricNullness</a>
+<span class="sourceLineNo">774</span><a id="line.774">  public static &lt;T extends @Nullable Object&gt; T get(Iterable&lt;T&gt; iterable, int position) {</a>
+<span class="sourceLineNo">775</span><a id="line.775">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">776</span><a id="line.776">    return (iterable instanceof List)</a>
+<span class="sourceLineNo">777</span><a id="line.777">        ? ((List&lt;T&gt;) iterable).get(position)</a>
+<span class="sourceLineNo">778</span><a id="line.778">        : Iterators.get(iterable.iterator(), position);</a>
+<span class="sourceLineNo">779</span><a id="line.779">  }</a>
+<span class="sourceLineNo">780</span><a id="line.780"></a>
+<span class="sourceLineNo">781</span><a id="line.781">  /**</a>
+<span class="sourceLineNo">782</span><a id="line.782">   * Returns the element at the specified position in an iterable or a default value otherwise.</a>
 <span class="sourceLineNo">783</span><a id="line.783">   *</a>
-<span class="sourceLineNo">784</span><a id="line.784">   * @param position position of the element to return</a>
-<span class="sourceLineNo">785</span><a id="line.785">   * @param defaultValue the default value to return if {@code position} is greater than or equal to</a>
-<span class="sourceLineNo">786</span><a id="line.786">   *     the size of the iterable</a>
-<span class="sourceLineNo">787</span><a id="line.787">   * @return the element at the specified position in {@code iterable} or {@code defaultValue} if</a>
-<span class="sourceLineNo">788</span><a id="line.788">   *     {@code iterable} contains fewer than {@code position + 1} elements.</a>
-<span class="sourceLineNo">789</span><a id="line.789">   * @throws IndexOutOfBoundsException if {@code position} is negative</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * @since 4.0</a>
-<span class="sourceLineNo">791</span><a id="line.791">   */</a>
-<span class="sourceLineNo">792</span><a id="line.792">  @ParametricNullness</a>
-<span class="sourceLineNo">793</span><a id="line.793">  public static &lt;T extends @Nullable Object&gt; T get(</a>
-<span class="sourceLineNo">794</span><a id="line.794">      Iterable&lt;? extends T&gt; iterable, int position, @ParametricNullness T defaultValue) {</a>
-<span class="sourceLineNo">795</span><a id="line.795">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">796</span><a id="line.796">    Iterators.checkNonnegative(position);</a>
-<span class="sourceLineNo">797</span><a id="line.797">    if (iterable instanceof List) {</a>
-<span class="sourceLineNo">798</span><a id="line.798">      List&lt;? extends T&gt; list = Lists.cast(iterable);</a>
-<span class="sourceLineNo">799</span><a id="line.799">      return (position &lt; list.size()) ? list.get(position) : defaultValue;</a>
-<span class="sourceLineNo">800</span><a id="line.800">    } else {</a>
-<span class="sourceLineNo">801</span><a id="line.801">      Iterator&lt;? extends T&gt; iterator = iterable.iterator();</a>
-<span class="sourceLineNo">802</span><a id="line.802">      Iterators.advance(iterator, position);</a>
-<span class="sourceLineNo">803</span><a id="line.803">      return Iterators.getNext(iterator, defaultValue);</a>
-<span class="sourceLineNo">804</span><a id="line.804">    }</a>
-<span class="sourceLineNo">805</span><a id="line.805">  }</a>
-<span class="sourceLineNo">806</span><a id="line.806"></a>
-<span class="sourceLineNo">807</span><a id="line.807">  /**</a>
-<span class="sourceLineNo">808</span><a id="line.808">   * Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.</a>
-<span class="sourceLineNo">809</span><a id="line.809">   * The {@link Iterators} analog to this method is {@link Iterators#getNext}.</a>
-<span class="sourceLineNo">810</span><a id="line.810">   *</a>
-<span class="sourceLineNo">811</span><a id="line.811">   * &lt;p&gt;If no default value is desired (and the caller instead wants a {@link</a>
-<span class="sourceLineNo">812</span><a id="line.812">   * NoSuchElementException} to be thrown), it is recommended that {@code</a>
-<span class="sourceLineNo">813</span><a id="line.813">   * iterable.iterator().next()} is used instead.</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code</a>
+<span class="sourceLineNo">785</span><a id="line.785">   * stream.skip(position).findFirst().orElse(defaultValue)} (returns the default value if the index</a>
+<span class="sourceLineNo">786</span><a id="line.786">   * is out of bounds)</a>
+<span class="sourceLineNo">787</span><a id="line.787">   *</a>
+<span class="sourceLineNo">788</span><a id="line.788">   * @param position position of the element to return</a>
+<span class="sourceLineNo">789</span><a id="line.789">   * @param defaultValue the default value to return if {@code position} is greater than or equal to</a>
+<span class="sourceLineNo">790</span><a id="line.790">   *     the size of the iterable</a>
+<span class="sourceLineNo">791</span><a id="line.791">   * @return the element at the specified position in {@code iterable} or {@code defaultValue} if</a>
+<span class="sourceLineNo">792</span><a id="line.792">   *     {@code iterable} contains fewer than {@code position + 1} elements.</a>
+<span class="sourceLineNo">793</span><a id="line.793">   * @throws IndexOutOfBoundsException if {@code position} is negative</a>
+<span class="sourceLineNo">794</span><a id="line.794">   * @since 4.0</a>
+<span class="sourceLineNo">795</span><a id="line.795">   */</a>
+<span class="sourceLineNo">796</span><a id="line.796">  @ParametricNullness</a>
+<span class="sourceLineNo">797</span><a id="line.797">  public static &lt;T extends @Nullable Object&gt; T get(</a>
+<span class="sourceLineNo">798</span><a id="line.798">      Iterable&lt;? extends T&gt; iterable, int position, @ParametricNullness T defaultValue) {</a>
+<span class="sourceLineNo">799</span><a id="line.799">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">800</span><a id="line.800">    Iterators.checkNonnegative(position);</a>
+<span class="sourceLineNo">801</span><a id="line.801">    if (iterable instanceof List) {</a>
+<span class="sourceLineNo">802</span><a id="line.802">      List&lt;? extends T&gt; list = Lists.cast(iterable);</a>
+<span class="sourceLineNo">803</span><a id="line.803">      return (position &lt; list.size()) ? list.get(position) : defaultValue;</a>
+<span class="sourceLineNo">804</span><a id="line.804">    } else {</a>
+<span class="sourceLineNo">805</span><a id="line.805">      Iterator&lt;? extends T&gt; iterator = iterable.iterator();</a>
+<span class="sourceLineNo">806</span><a id="line.806">      Iterators.advance(iterator, position);</a>
+<span class="sourceLineNo">807</span><a id="line.807">      return Iterators.getNext(iterator, defaultValue);</a>
+<span class="sourceLineNo">808</span><a id="line.808">    }</a>
+<span class="sourceLineNo">809</span><a id="line.809">  }</a>
+<span class="sourceLineNo">810</span><a id="line.810"></a>
+<span class="sourceLineNo">811</span><a id="line.811">  /**</a>
+<span class="sourceLineNo">812</span><a id="line.812">   * Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.</a>
+<span class="sourceLineNo">813</span><a id="line.813">   * The {@link Iterators} analog to this method is {@link Iterators#getNext}.</a>
 <span class="sourceLineNo">814</span><a id="line.814">   *</a>
-<span class="sourceLineNo">815</span><a id="line.815">   * &lt;p&gt;To get the only element in a single-element {@code Iterable}, consider using {@link</a>
-<span class="sourceLineNo">816</span><a id="line.816">   * #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.</a>
-<span class="sourceLineNo">817</span><a id="line.817">   *</a>
-<span class="sourceLineNo">818</span><a id="line.818">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.findFirst().orElse(defaultValue)}</a>
-<span class="sourceLineNo">819</span><a id="line.819">   *</a>
-<span class="sourceLineNo">820</span><a id="line.820">   * @param defaultValue the default value to return if the iterable is empty</a>
-<span class="sourceLineNo">821</span><a id="line.821">   * @return the first element of {@code iterable} or the default value</a>
-<span class="sourceLineNo">822</span><a id="line.822">   * @since 7.0</a>
-<span class="sourceLineNo">823</span><a id="line.823">   */</a>
-<span class="sourceLineNo">824</span><a id="line.824">  @ParametricNullness</a>
-<span class="sourceLineNo">825</span><a id="line.825">  public static &lt;T extends @Nullable Object&gt; T getFirst(</a>
-<span class="sourceLineNo">826</span><a id="line.826">      Iterable&lt;? extends T&gt; iterable, @ParametricNullness T defaultValue) {</a>
-<span class="sourceLineNo">827</span><a id="line.827">    return Iterators.getNext(iterable.iterator(), defaultValue);</a>
-<span class="sourceLineNo">828</span><a id="line.828">  }</a>
-<span class="sourceLineNo">829</span><a id="line.829"></a>
-<span class="sourceLineNo">830</span><a id="line.830">  /**</a>
-<span class="sourceLineNo">831</span><a id="line.831">   * Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with {@link</a>
-<span class="sourceLineNo">832</span><a id="line.832">   * RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.</a>
-<span class="sourceLineNo">833</span><a id="line.833">   *</a>
-<span class="sourceLineNo">834</span><a id="line.834">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Streams#findLast Streams.findLast(stream).get()}</a>
-<span class="sourceLineNo">835</span><a id="line.835">   *</a>
-<span class="sourceLineNo">836</span><a id="line.836">   * @return the last element of {@code iterable}</a>
-<span class="sourceLineNo">837</span><a id="line.837">   * @throws NoSuchElementException if the iterable is empty</a>
-<span class="sourceLineNo">838</span><a id="line.838">   */</a>
-<span class="sourceLineNo">839</span><a id="line.839">  @ParametricNullness</a>
-<span class="sourceLineNo">840</span><a id="line.840">  public static &lt;T extends @Nullable Object&gt; T getLast(Iterable&lt;T&gt; iterable) {</a>
-<span class="sourceLineNo">841</span><a id="line.841">    // TODO(kevinb): Support a concurrently modified collection?</a>
-<span class="sourceLineNo">842</span><a id="line.842">    if (iterable instanceof List) {</a>
-<span class="sourceLineNo">843</span><a id="line.843">      List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
-<span class="sourceLineNo">844</span><a id="line.844">      if (list.isEmpty()) {</a>
-<span class="sourceLineNo">845</span><a id="line.845">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">846</span><a id="line.846">      }</a>
-<span class="sourceLineNo">847</span><a id="line.847">      return getLastInNonemptyList(list);</a>
-<span class="sourceLineNo">848</span><a id="line.848">    }</a>
-<span class="sourceLineNo">849</span><a id="line.849"></a>
-<span class="sourceLineNo">850</span><a id="line.850">    return Iterators.getLast(iterable.iterator());</a>
-<span class="sourceLineNo">851</span><a id="line.851">  }</a>
-<span class="sourceLineNo">852</span><a id="line.852"></a>
-<span class="sourceLineNo">853</span><a id="line.853">  /**</a>
-<span class="sourceLineNo">854</span><a id="line.854">   * Returns the last element of {@code iterable} or {@code defaultValue} if the iterable is empty.</a>
-<span class="sourceLineNo">855</span><a id="line.855">   * If {@code iterable} is a {@link List} with {@link RandomAccess} support, then this operation is</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * guaranteed to be {@code O(1)}.</a>
-<span class="sourceLineNo">857</span><a id="line.857">   *</a>
-<span class="sourceLineNo">858</span><a id="line.858">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code Streams.findLast(stream).orElse(defaultValue)}</a>
-<span class="sourceLineNo">859</span><a id="line.859">   *</a>
-<span class="sourceLineNo">860</span><a id="line.860">   * @param defaultValue the value to return if {@code iterable} is empty</a>
-<span class="sourceLineNo">861</span><a id="line.861">   * @return the last element of {@code iterable} or the default value</a>
-<span class="sourceLineNo">862</span><a id="line.862">   * @since 3.0</a>
-<span class="sourceLineNo">863</span><a id="line.863">   */</a>
-<span class="sourceLineNo">864</span><a id="line.864">  @ParametricNullness</a>
-<span class="sourceLineNo">865</span><a id="line.865">  public static &lt;T extends @Nullable Object&gt; T getLast(</a>
-<span class="sourceLineNo">866</span><a id="line.866">      Iterable&lt;? extends T&gt; iterable, @ParametricNullness T defaultValue) {</a>
-<span class="sourceLineNo">867</span><a id="line.867">    if (iterable instanceof Collection) {</a>
-<span class="sourceLineNo">868</span><a id="line.868">      Collection&lt;? extends T&gt; c = (Collection&lt;? extends T&gt;) iterable;</a>
-<span class="sourceLineNo">869</span><a id="line.869">      if (c.isEmpty()) {</a>
-<span class="sourceLineNo">870</span><a id="line.870">        return defaultValue;</a>
-<span class="sourceLineNo">871</span><a id="line.871">      } else if (iterable instanceof List) {</a>
-<span class="sourceLineNo">872</span><a id="line.872">        return getLastInNonemptyList(Lists.cast(iterable));</a>
-<span class="sourceLineNo">873</span><a id="line.873">      }</a>
-<span class="sourceLineNo">874</span><a id="line.874">    }</a>
-<span class="sourceLineNo">875</span><a id="line.875"></a>
-<span class="sourceLineNo">876</span><a id="line.876">    return Iterators.getLast(iterable.iterator(), defaultValue);</a>
-<span class="sourceLineNo">877</span><a id="line.877">  }</a>
-<span class="sourceLineNo">878</span><a id="line.878"></a>
-<span class="sourceLineNo">879</span><a id="line.879">  @ParametricNullness</a>
-<span class="sourceLineNo">880</span><a id="line.880">  private static &lt;T extends @Nullable Object&gt; T getLastInNonemptyList(List&lt;T&gt; list) {</a>
-<span class="sourceLineNo">881</span><a id="line.881">    return list.get(list.size() - 1);</a>
-<span class="sourceLineNo">882</span><a id="line.882">  }</a>
-<span class="sourceLineNo">883</span><a id="line.883"></a>
-<span class="sourceLineNo">884</span><a id="line.884">  /**</a>
-<span class="sourceLineNo">885</span><a id="line.885">   * Returns a view of {@code iterable} that skips its first {@code numberToSkip} elements. If</a>
-<span class="sourceLineNo">886</span><a id="line.886">   * {@code iterable} contains fewer than {@code numberToSkip} elements, the returned iterable skips</a>
-<span class="sourceLineNo">887</span><a id="line.887">   * all of its elements.</a>
-<span class="sourceLineNo">888</span><a id="line.888">   *</a>
-<span class="sourceLineNo">889</span><a id="line.889">   * &lt;p&gt;Modifications to the underlying {@link Iterable} before a call to {@code iterator()} are</a>
-<span class="sourceLineNo">890</span><a id="line.890">   * reflected in the returned iterator. That is, the iterator skips the first {@code numberToSkip}</a>
-<span class="sourceLineNo">891</span><a id="line.891">   * elements that exist when the {@code Iterator} is created, not when {@code skip()} is called.</a>
+<span class="sourceLineNo">815</span><a id="line.815">   * &lt;p&gt;If no default value is desired (and the caller instead wants a {@link</a>
+<span class="sourceLineNo">816</span><a id="line.816">   * NoSuchElementException} to be thrown), it is recommended that {@code</a>
+<span class="sourceLineNo">817</span><a id="line.817">   * iterable.iterator().next()} is used instead.</a>
+<span class="sourceLineNo">818</span><a id="line.818">   *</a>
+<span class="sourceLineNo">819</span><a id="line.819">   * &lt;p&gt;To get the only element in a single-element {@code Iterable}, consider using {@link</a>
+<span class="sourceLineNo">820</span><a id="line.820">   * #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.</a>
+<span class="sourceLineNo">821</span><a id="line.821">   *</a>
+<span class="sourceLineNo">822</span><a id="line.822">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.findFirst().orElse(defaultValue)}</a>
+<span class="sourceLineNo">823</span><a id="line.823">   *</a>
+<span class="sourceLineNo">824</span><a id="line.824">   * @param defaultValue the default value to return if the iterable is empty</a>
+<span class="sourceLineNo">825</span><a id="line.825">   * @return the first element of {@code iterable} or the default value</a>
+<span class="sourceLineNo">826</span><a id="line.826">   * @since 7.0</a>
+<span class="sourceLineNo">827</span><a id="line.827">   */</a>
+<span class="sourceLineNo">828</span><a id="line.828">  @ParametricNullness</a>
+<span class="sourceLineNo">829</span><a id="line.829">  public static &lt;T extends @Nullable Object&gt; T getFirst(</a>
+<span class="sourceLineNo">830</span><a id="line.830">      Iterable&lt;? extends T&gt; iterable, @ParametricNullness T defaultValue) {</a>
+<span class="sourceLineNo">831</span><a id="line.831">    return Iterators.getNext(iterable.iterator(), defaultValue);</a>
+<span class="sourceLineNo">832</span><a id="line.832">  }</a>
+<span class="sourceLineNo">833</span><a id="line.833"></a>
+<span class="sourceLineNo">834</span><a id="line.834">  /**</a>
+<span class="sourceLineNo">835</span><a id="line.835">   * Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with {@link</a>
+<span class="sourceLineNo">836</span><a id="line.836">   * RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.</a>
+<span class="sourceLineNo">837</span><a id="line.837">   *</a>
+<span class="sourceLineNo">838</span><a id="line.838">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Streams#findLast Streams.findLast(stream).get()}</a>
+<span class="sourceLineNo">839</span><a id="line.839">   *</a>
+<span class="sourceLineNo">840</span><a id="line.840">   * @return the last element of {@code iterable}</a>
+<span class="sourceLineNo">841</span><a id="line.841">   * @throws NoSuchElementException if the iterable is empty</a>
+<span class="sourceLineNo">842</span><a id="line.842">   */</a>
+<span class="sourceLineNo">843</span><a id="line.843">  @ParametricNullness</a>
+<span class="sourceLineNo">844</span><a id="line.844">  public static &lt;T extends @Nullable Object&gt; T getLast(Iterable&lt;T&gt; iterable) {</a>
+<span class="sourceLineNo">845</span><a id="line.845">    // TODO(kevinb): Support a concurrently modified collection?</a>
+<span class="sourceLineNo">846</span><a id="line.846">    if (iterable instanceof List) {</a>
+<span class="sourceLineNo">847</span><a id="line.847">      List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
+<span class="sourceLineNo">848</span><a id="line.848">      if (list.isEmpty()) {</a>
+<span class="sourceLineNo">849</span><a id="line.849">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">850</span><a id="line.850">      }</a>
+<span class="sourceLineNo">851</span><a id="line.851">      return getLastInNonemptyList(list);</a>
+<span class="sourceLineNo">852</span><a id="line.852">    }</a>
+<span class="sourceLineNo">853</span><a id="line.853"></a>
+<span class="sourceLineNo">854</span><a id="line.854">    return Iterators.getLast(iterable.iterator());</a>
+<span class="sourceLineNo">855</span><a id="line.855">  }</a>
+<span class="sourceLineNo">856</span><a id="line.856"></a>
+<span class="sourceLineNo">857</span><a id="line.857">  /**</a>
+<span class="sourceLineNo">858</span><a id="line.858">   * Returns the last element of {@code iterable} or {@code defaultValue} if the iterable is empty.</a>
+<span class="sourceLineNo">859</span><a id="line.859">   * If {@code iterable} is a {@link List} with {@link RandomAccess} support, then this operation is</a>
+<span class="sourceLineNo">860</span><a id="line.860">   * guaranteed to be {@code O(1)}.</a>
+<span class="sourceLineNo">861</span><a id="line.861">   *</a>
+<span class="sourceLineNo">862</span><a id="line.862">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code Streams.findLast(stream).orElse(defaultValue)}</a>
+<span class="sourceLineNo">863</span><a id="line.863">   *</a>
+<span class="sourceLineNo">864</span><a id="line.864">   * @param defaultValue the value to return if {@code iterable} is empty</a>
+<span class="sourceLineNo">865</span><a id="line.865">   * @return the last element of {@code iterable} or the default value</a>
+<span class="sourceLineNo">866</span><a id="line.866">   * @since 3.0</a>
+<span class="sourceLineNo">867</span><a id="line.867">   */</a>
+<span class="sourceLineNo">868</span><a id="line.868">  @ParametricNullness</a>
+<span class="sourceLineNo">869</span><a id="line.869">  public static &lt;T extends @Nullable Object&gt; T getLast(</a>
+<span class="sourceLineNo">870</span><a id="line.870">      Iterable&lt;? extends T&gt; iterable, @ParametricNullness T defaultValue) {</a>
+<span class="sourceLineNo">871</span><a id="line.871">    if (iterable instanceof Collection) {</a>
+<span class="sourceLineNo">872</span><a id="line.872">      Collection&lt;? extends T&gt; c = (Collection&lt;? extends T&gt;) iterable;</a>
+<span class="sourceLineNo">873</span><a id="line.873">      if (c.isEmpty()) {</a>
+<span class="sourceLineNo">874</span><a id="line.874">        return defaultValue;</a>
+<span class="sourceLineNo">875</span><a id="line.875">      } else if (iterable instanceof List) {</a>
+<span class="sourceLineNo">876</span><a id="line.876">        return getLastInNonemptyList(Lists.cast(iterable));</a>
+<span class="sourceLineNo">877</span><a id="line.877">      }</a>
+<span class="sourceLineNo">878</span><a id="line.878">    }</a>
+<span class="sourceLineNo">879</span><a id="line.879"></a>
+<span class="sourceLineNo">880</span><a id="line.880">    return Iterators.getLast(iterable.iterator(), defaultValue);</a>
+<span class="sourceLineNo">881</span><a id="line.881">  }</a>
+<span class="sourceLineNo">882</span><a id="line.882"></a>
+<span class="sourceLineNo">883</span><a id="line.883">  @ParametricNullness</a>
+<span class="sourceLineNo">884</span><a id="line.884">  private static &lt;T extends @Nullable Object&gt; T getLastInNonemptyList(List&lt;T&gt; list) {</a>
+<span class="sourceLineNo">885</span><a id="line.885">    return list.get(list.size() - 1);</a>
+<span class="sourceLineNo">886</span><a id="line.886">  }</a>
+<span class="sourceLineNo">887</span><a id="line.887"></a>
+<span class="sourceLineNo">888</span><a id="line.888">  /**</a>
+<span class="sourceLineNo">889</span><a id="line.889">   * Returns a view of {@code iterable} that skips its first {@code numberToSkip} elements. If</a>
+<span class="sourceLineNo">890</span><a id="line.890">   * {@code iterable} contains fewer than {@code numberToSkip} elements, the returned iterable skips</a>
+<span class="sourceLineNo">891</span><a id="line.891">   * all of its elements.</a>
 <span class="sourceLineNo">892</span><a id="line.892">   *</a>
-<span class="sourceLineNo">893</span><a id="line.893">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} if the iterator of the underlying</a>
-<span class="sourceLineNo">894</span><a id="line.894">   * iterable supports it. Note that it is &lt;i&gt;not&lt;/i&gt; possible to delete the last skipped element by</a>
-<span class="sourceLineNo">895</span><a id="line.895">   * immediately calling {@code remove()} on that iterator, as the {@code Iterator} contract states</a>
-<span class="sourceLineNo">896</span><a id="line.896">   * that a call to {@code remove()} before a call to {@code next()} will throw an {@link</a>
-<span class="sourceLineNo">897</span><a id="line.897">   * IllegalStateException}.</a>
-<span class="sourceLineNo">898</span><a id="line.898">   *</a>
-<span class="sourceLineNo">899</span><a id="line.899">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#skip}</a>
-<span class="sourceLineNo">900</span><a id="line.900">   *</a>
-<span class="sourceLineNo">901</span><a id="line.901">   * @since 3.0</a>
-<span class="sourceLineNo">902</span><a id="line.902">   */</a>
-<span class="sourceLineNo">903</span><a id="line.903">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; skip(</a>
-<span class="sourceLineNo">904</span><a id="line.904">      final Iterable&lt;T&gt; iterable, final int numberToSkip) {</a>
-<span class="sourceLineNo">905</span><a id="line.905">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">906</span><a id="line.906">    checkArgument(numberToSkip &gt;= 0, "number to skip cannot be negative");</a>
-<span class="sourceLineNo">907</span><a id="line.907"></a>
-<span class="sourceLineNo">908</span><a id="line.908">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">909</span><a id="line.909">      @Override</a>
-<span class="sourceLineNo">910</span><a id="line.910">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">911</span><a id="line.911">        if (iterable instanceof List) {</a>
-<span class="sourceLineNo">912</span><a id="line.912">          final List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
-<span class="sourceLineNo">913</span><a id="line.913">          int toSkip = Math.min(list.size(), numberToSkip);</a>
-<span class="sourceLineNo">914</span><a id="line.914">          return list.subList(toSkip, list.size()).iterator();</a>
-<span class="sourceLineNo">915</span><a id="line.915">        }</a>
-<span class="sourceLineNo">916</span><a id="line.916">        final Iterator&lt;T&gt; iterator = iterable.iterator();</a>
-<span class="sourceLineNo">917</span><a id="line.917"></a>
-<span class="sourceLineNo">918</span><a id="line.918">        Iterators.advance(iterator, numberToSkip);</a>
-<span class="sourceLineNo">919</span><a id="line.919"></a>
-<span class="sourceLineNo">920</span><a id="line.920">        /*</a>
-<span class="sourceLineNo">921</span><a id="line.921">         * We can't just return the iterator because an immediate call to its</a>
-<span class="sourceLineNo">922</span><a id="line.922">         * remove() method would remove one of the skipped elements instead of</a>
-<span class="sourceLineNo">923</span><a id="line.923">         * throwing an IllegalStateException.</a>
-<span class="sourceLineNo">924</span><a id="line.924">         */</a>
-<span class="sourceLineNo">925</span><a id="line.925">        return new Iterator&lt;T&gt;() {</a>
-<span class="sourceLineNo">926</span><a id="line.926">          boolean atStart = true;</a>
-<span class="sourceLineNo">927</span><a id="line.927"></a>
-<span class="sourceLineNo">928</span><a id="line.928">          @Override</a>
-<span class="sourceLineNo">929</span><a id="line.929">          public boolean hasNext() {</a>
-<span class="sourceLineNo">930</span><a id="line.930">            return iterator.hasNext();</a>
-<span class="sourceLineNo">931</span><a id="line.931">          }</a>
-<span class="sourceLineNo">932</span><a id="line.932"></a>
-<span class="sourceLineNo">933</span><a id="line.933">          @Override</a>
-<span class="sourceLineNo">934</span><a id="line.934">          @ParametricNullness</a>
-<span class="sourceLineNo">935</span><a id="line.935">          public T next() {</a>
-<span class="sourceLineNo">936</span><a id="line.936">            T result = iterator.next();</a>
-<span class="sourceLineNo">937</span><a id="line.937">            atStart = false; // not called if next() fails</a>
-<span class="sourceLineNo">938</span><a id="line.938">            return result;</a>
-<span class="sourceLineNo">939</span><a id="line.939">          }</a>
-<span class="sourceLineNo">940</span><a id="line.940"></a>
-<span class="sourceLineNo">941</span><a id="line.941">          @Override</a>
-<span class="sourceLineNo">942</span><a id="line.942">          public void remove() {</a>
-<span class="sourceLineNo">943</span><a id="line.943">            checkRemove(!atStart);</a>
-<span class="sourceLineNo">944</span><a id="line.944">            iterator.remove();</a>
-<span class="sourceLineNo">945</span><a id="line.945">          }</a>
-<span class="sourceLineNo">946</span><a id="line.946">        };</a>
-<span class="sourceLineNo">947</span><a id="line.947">      }</a>
-<span class="sourceLineNo">948</span><a id="line.948"></a>
-<span class="sourceLineNo">949</span><a id="line.949">      @Override</a>
-<span class="sourceLineNo">950</span><a id="line.950">      public Spliterator&lt;T&gt; spliterator() {</a>
-<span class="sourceLineNo">951</span><a id="line.951">        if (iterable instanceof List) {</a>
-<span class="sourceLineNo">952</span><a id="line.952">          final List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
-<span class="sourceLineNo">953</span><a id="line.953">          int toSkip = Math.min(list.size(), numberToSkip);</a>
-<span class="sourceLineNo">954</span><a id="line.954">          return list.subList(toSkip, list.size()).spliterator();</a>
-<span class="sourceLineNo">955</span><a id="line.955">        } else {</a>
-<span class="sourceLineNo">956</span><a id="line.956">          return Streams.stream(iterable).skip(numberToSkip).spliterator();</a>
-<span class="sourceLineNo">957</span><a id="line.957">        }</a>
-<span class="sourceLineNo">958</span><a id="line.958">      }</a>
-<span class="sourceLineNo">959</span><a id="line.959">    };</a>
-<span class="sourceLineNo">960</span><a id="line.960">  }</a>
-<span class="sourceLineNo">961</span><a id="line.961"></a>
-<span class="sourceLineNo">962</span><a id="line.962">  /**</a>
-<span class="sourceLineNo">963</span><a id="line.963">   * Returns a view of {@code iterable} containing its first {@code limitSize} elements. If {@code</a>
-<span class="sourceLineNo">964</span><a id="line.964">   * iterable} contains fewer than {@code limitSize} elements, the returned view contains all of its</a>
-<span class="sourceLineNo">965</span><a id="line.965">   * elements. The returned iterable's iterator supports {@code remove()} if {@code iterable}'s</a>
-<span class="sourceLineNo">966</span><a id="line.966">   * iterator does.</a>
-<span class="sourceLineNo">967</span><a id="line.967">   *</a>
-<span class="sourceLineNo">968</span><a id="line.968">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#limit}</a>
-<span class="sourceLineNo">969</span><a id="line.969">   *</a>
-<span class="sourceLineNo">970</span><a id="line.970">   * @param iterable the iterable to limit</a>
-<span class="sourceLineNo">971</span><a id="line.971">   * @param limitSize the maximum number of elements in the returned iterable</a>
-<span class="sourceLineNo">972</span><a id="line.972">   * @throws IllegalArgumentException if {@code limitSize} is negative</a>
-<span class="sourceLineNo">973</span><a id="line.973">   * @since 3.0</a>
-<span class="sourceLineNo">974</span><a id="line.974">   */</a>
-<span class="sourceLineNo">975</span><a id="line.975">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; limit(</a>
-<span class="sourceLineNo">976</span><a id="line.976">      final Iterable&lt;T&gt; iterable, final int limitSize) {</a>
-<span class="sourceLineNo">977</span><a id="line.977">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">978</span><a id="line.978">    checkArgument(limitSize &gt;= 0, "limit is negative");</a>
-<span class="sourceLineNo">979</span><a id="line.979">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">980</span><a id="line.980">      @Override</a>
-<span class="sourceLineNo">981</span><a id="line.981">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">982</span><a id="line.982">        return Iterators.limit(iterable.iterator(), limitSize);</a>
-<span class="sourceLineNo">983</span><a id="line.983">      }</a>
-<span class="sourceLineNo">984</span><a id="line.984"></a>
-<span class="sourceLineNo">985</span><a id="line.985">      @Override</a>
-<span class="sourceLineNo">986</span><a id="line.986">      public Spliterator&lt;T&gt; spliterator() {</a>
-<span class="sourceLineNo">987</span><a id="line.987">        return Streams.stream(iterable).limit(limitSize).spliterator();</a>
-<span class="sourceLineNo">988</span><a id="line.988">      }</a>
-<span class="sourceLineNo">989</span><a id="line.989">    };</a>
-<span class="sourceLineNo">990</span><a id="line.990">  }</a>
-<span class="sourceLineNo">991</span><a id="line.991"></a>
-<span class="sourceLineNo">992</span><a id="line.992">  /**</a>
-<span class="sourceLineNo">993</span><a id="line.993">   * Returns a view of the supplied iterable that wraps each generated {@link Iterator} through</a>
-<span class="sourceLineNo">994</span><a id="line.994">   * {@link Iterators#consumingIterator(Iterator)}.</a>
-<span class="sourceLineNo">995</span><a id="line.995">   *</a>
-<span class="sourceLineNo">996</span><a id="line.996">   * &lt;p&gt;Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from</a>
-<span class="sourceLineNo">997</span><a id="line.997">   * {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link</a>
-<span class="sourceLineNo">998</span><a id="line.998">   * Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be</a>
-<span class="sourceLineNo">999</span><a id="line.999">   * immediately dequeued for return on a subsequent call to {@link Iterator#next()}.</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">   *</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">   * @param iterable the iterable to wrap</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">   * @return a view of the supplied iterable that wraps each generated iterator through {@link</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">   *     Iterators#consumingIterator(Iterator)}; for queues, an iterable that generates iterators</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">   *     that return and consume the queue's elements in queue order</a>
-<span class="sourceLineNo">1005</span><a id="line.1005">   * @see Iterators#consumingIterator(Iterator)</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">   * @since 2.0</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">   */</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; consumingIterable(</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">      final Iterable&lt;T&gt; iterable) {</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">    checkNotNull(iterable);</a>
-<span class="sourceLineNo">1011</span><a id="line.1011"></a>
-<span class="sourceLineNo">1012</span><a id="line.1012">    return new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">      @Override</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">      public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">        return (iterable instanceof Queue)</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">            ? new ConsumingQueueIterator&lt;&gt;((Queue&lt;T&gt;) iterable)</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">            : Iterators.consumingIterator(iterable.iterator());</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">      }</a>
-<span class="sourceLineNo">1019</span><a id="line.1019"></a>
-<span class="sourceLineNo">1020</span><a id="line.1020">      @Override</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">      public String toString() {</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">        return "Iterables.consumingIterable(...)";</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">      }</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">    };</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">  }</a>
-<span class="sourceLineNo">1026</span><a id="line.1026"></a>
-<span class="sourceLineNo">1027</span><a id="line.1027">  // Methods only in Iterables, not in Iterators</a>
-<span class="sourceLineNo">1028</span><a id="line.1028"></a>
-<span class="sourceLineNo">1029</span><a id="line.1029">  /**</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">   * Determines if the given iterable contains no elements.</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">   *</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">   * &lt;p&gt;There is no precise {@link Iterator} equivalent to this method, since one can only ask an</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">   * iterator whether it has any elements &lt;i&gt;remaining&lt;/i&gt; (which one does using {@link</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">   * Iterator#hasNext}).</a>
+<span class="sourceLineNo">893</span><a id="line.893">   * &lt;p&gt;Modifications to the underlying {@link Iterable} before a call to {@code iterator()} are</a>
+<span class="sourceLineNo">894</span><a id="line.894">   * reflected in the returned iterator. That is, the iterator skips the first {@code numberToSkip}</a>
+<span class="sourceLineNo">895</span><a id="line.895">   * elements that exist when the {@code Iterator} is created, not when {@code skip()} is called.</a>
+<span class="sourceLineNo">896</span><a id="line.896">   *</a>
+<span class="sourceLineNo">897</span><a id="line.897">   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} if the iterator of the underlying</a>
+<span class="sourceLineNo">898</span><a id="line.898">   * iterable supports it. Note that it is &lt;i&gt;not&lt;/i&gt; possible to delete the last skipped element by</a>
+<span class="sourceLineNo">899</span><a id="line.899">   * immediately calling {@code remove()} on that iterator, as the {@code Iterator} contract states</a>
+<span class="sourceLineNo">900</span><a id="line.900">   * that a call to {@code remove()} before a call to {@code next()} will throw an {@link</a>
+<span class="sourceLineNo">901</span><a id="line.901">   * IllegalStateException}.</a>
+<span class="sourceLineNo">902</span><a id="line.902">   *</a>
+<span class="sourceLineNo">903</span><a id="line.903">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#skip}</a>
+<span class="sourceLineNo">904</span><a id="line.904">   *</a>
+<span class="sourceLineNo">905</span><a id="line.905">   * @since 3.0</a>
+<span class="sourceLineNo">906</span><a id="line.906">   */</a>
+<span class="sourceLineNo">907</span><a id="line.907">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; skip(</a>
+<span class="sourceLineNo">908</span><a id="line.908">      final Iterable&lt;T&gt; iterable, final int numberToSkip) {</a>
+<span class="sourceLineNo">909</span><a id="line.909">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">910</span><a id="line.910">    checkArgument(numberToSkip &gt;= 0, "number to skip cannot be negative");</a>
+<span class="sourceLineNo">911</span><a id="line.911"></a>
+<span class="sourceLineNo">912</span><a id="line.912">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">913</span><a id="line.913">      @Override</a>
+<span class="sourceLineNo">914</span><a id="line.914">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">915</span><a id="line.915">        if (iterable instanceof List) {</a>
+<span class="sourceLineNo">916</span><a id="line.916">          final List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
+<span class="sourceLineNo">917</span><a id="line.917">          int toSkip = Math.min(list.size(), numberToSkip);</a>
+<span class="sourceLineNo">918</span><a id="line.918">          return list.subList(toSkip, list.size()).iterator();</a>
+<span class="sourceLineNo">919</span><a id="line.919">        }</a>
+<span class="sourceLineNo">920</span><a id="line.920">        final Iterator&lt;T&gt; iterator = iterable.iterator();</a>
+<span class="sourceLineNo">921</span><a id="line.921"></a>
+<span class="sourceLineNo">922</span><a id="line.922">        Iterators.advance(iterator, numberToSkip);</a>
+<span class="sourceLineNo">923</span><a id="line.923"></a>
+<span class="sourceLineNo">924</span><a id="line.924">        /*</a>
+<span class="sourceLineNo">925</span><a id="line.925">         * We can't just return the iterator because an immediate call to its</a>
+<span class="sourceLineNo">926</span><a id="line.926">         * remove() method would remove one of the skipped elements instead of</a>
+<span class="sourceLineNo">927</span><a id="line.927">         * throwing an IllegalStateException.</a>
+<span class="sourceLineNo">928</span><a id="line.928">         */</a>
+<span class="sourceLineNo">929</span><a id="line.929">        return new Iterator&lt;T&gt;() {</a>
+<span class="sourceLineNo">930</span><a id="line.930">          boolean atStart = true;</a>
+<span class="sourceLineNo">931</span><a id="line.931"></a>
+<span class="sourceLineNo">932</span><a id="line.932">          @Override</a>
+<span class="sourceLineNo">933</span><a id="line.933">          public boolean hasNext() {</a>
+<span class="sourceLineNo">934</span><a id="line.934">            return iterator.hasNext();</a>
+<span class="sourceLineNo">935</span><a id="line.935">          }</a>
+<span class="sourceLineNo">936</span><a id="line.936"></a>
+<span class="sourceLineNo">937</span><a id="line.937">          @Override</a>
+<span class="sourceLineNo">938</span><a id="line.938">          @ParametricNullness</a>
+<span class="sourceLineNo">939</span><a id="line.939">          public T next() {</a>
+<span class="sourceLineNo">940</span><a id="line.940">            T result = iterator.next();</a>
+<span class="sourceLineNo">941</span><a id="line.941">            atStart = false; // not called if next() fails</a>
+<span class="sourceLineNo">942</span><a id="line.942">            return result;</a>
+<span class="sourceLineNo">943</span><a id="line.943">          }</a>
+<span class="sourceLineNo">944</span><a id="line.944"></a>
+<span class="sourceLineNo">945</span><a id="line.945">          @Override</a>
+<span class="sourceLineNo">946</span><a id="line.946">          public void remove() {</a>
+<span class="sourceLineNo">947</span><a id="line.947">            checkRemove(!atStart);</a>
+<span class="sourceLineNo">948</span><a id="line.948">            iterator.remove();</a>
+<span class="sourceLineNo">949</span><a id="line.949">          }</a>
+<span class="sourceLineNo">950</span><a id="line.950">        };</a>
+<span class="sourceLineNo">951</span><a id="line.951">      }</a>
+<span class="sourceLineNo">952</span><a id="line.952"></a>
+<span class="sourceLineNo">953</span><a id="line.953">      @Override</a>
+<span class="sourceLineNo">954</span><a id="line.954">      public Spliterator&lt;T&gt; spliterator() {</a>
+<span class="sourceLineNo">955</span><a id="line.955">        if (iterable instanceof List) {</a>
+<span class="sourceLineNo">956</span><a id="line.956">          final List&lt;T&gt; list = (List&lt;T&gt;) iterable;</a>
+<span class="sourceLineNo">957</span><a id="line.957">          int toSkip = Math.min(list.size(), numberToSkip);</a>
+<span class="sourceLineNo">958</span><a id="line.958">          return list.subList(toSkip, list.size()).spliterator();</a>
+<span class="sourceLineNo">959</span><a id="line.959">        } else {</a>
+<span class="sourceLineNo">960</span><a id="line.960">          return Streams.stream(iterable).skip(numberToSkip).spliterator();</a>
+<span class="sourceLineNo">961</span><a id="line.961">        }</a>
+<span class="sourceLineNo">962</span><a id="line.962">      }</a>
+<span class="sourceLineNo">963</span><a id="line.963">    };</a>
+<span class="sourceLineNo">964</span><a id="line.964">  }</a>
+<span class="sourceLineNo">965</span><a id="line.965"></a>
+<span class="sourceLineNo">966</span><a id="line.966">  /**</a>
+<span class="sourceLineNo">967</span><a id="line.967">   * Returns a view of {@code iterable} containing its first {@code limitSize} elements. If {@code</a>
+<span class="sourceLineNo">968</span><a id="line.968">   * iterable} contains fewer than {@code limitSize} elements, the returned view contains all of its</a>
+<span class="sourceLineNo">969</span><a id="line.969">   * elements. The returned iterable's iterator supports {@code remove()} if {@code iterable}'s</a>
+<span class="sourceLineNo">970</span><a id="line.970">   * iterator does.</a>
+<span class="sourceLineNo">971</span><a id="line.971">   *</a>
+<span class="sourceLineNo">972</span><a id="line.972">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Stream#limit}</a>
+<span class="sourceLineNo">973</span><a id="line.973">   *</a>
+<span class="sourceLineNo">974</span><a id="line.974">   * @param iterable the iterable to limit</a>
+<span class="sourceLineNo">975</span><a id="line.975">   * @param limitSize the maximum number of elements in the returned iterable</a>
+<span class="sourceLineNo">976</span><a id="line.976">   * @throws IllegalArgumentException if {@code limitSize} is negative</a>
+<span class="sourceLineNo">977</span><a id="line.977">   * @since 3.0</a>
+<span class="sourceLineNo">978</span><a id="line.978">   */</a>
+<span class="sourceLineNo">979</span><a id="line.979">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; limit(</a>
+<span class="sourceLineNo">980</span><a id="line.980">      final Iterable&lt;T&gt; iterable, final int limitSize) {</a>
+<span class="sourceLineNo">981</span><a id="line.981">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">982</span><a id="line.982">    checkArgument(limitSize &gt;= 0, "limit is negative");</a>
+<span class="sourceLineNo">983</span><a id="line.983">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">984</span><a id="line.984">      @Override</a>
+<span class="sourceLineNo">985</span><a id="line.985">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">986</span><a id="line.986">        return Iterators.limit(iterable.iterator(), limitSize);</a>
+<span class="sourceLineNo">987</span><a id="line.987">      }</a>
+<span class="sourceLineNo">988</span><a id="line.988"></a>
+<span class="sourceLineNo">989</span><a id="line.989">      @Override</a>
+<span class="sourceLineNo">990</span><a id="line.990">      public Spliterator&lt;T&gt; spliterator() {</a>
+<span class="sourceLineNo">991</span><a id="line.991">        return Streams.stream(iterable).limit(limitSize).spliterator();</a>
+<span class="sourceLineNo">992</span><a id="line.992">      }</a>
+<span class="sourceLineNo">993</span><a id="line.993">    };</a>
+<span class="sourceLineNo">994</span><a id="line.994">  }</a>
+<span class="sourceLineNo">995</span><a id="line.995"></a>
+<span class="sourceLineNo">996</span><a id="line.996">  /**</a>
+<span class="sourceLineNo">997</span><a id="line.997">   * Returns a view of the supplied iterable that wraps each generated {@link Iterator} through</a>
+<span class="sourceLineNo">998</span><a id="line.998">   * {@link Iterators#consumingIterator(Iterator)}.</a>
+<span class="sourceLineNo">999</span><a id="line.999">   *</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">   * &lt;p&gt;Note: If {@code iterable} is a {@link Queue}, the returned iterable will get entries from</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">   * {@link Queue#remove()} since {@link Queue}'s iteration order is undefined. Calling {@link</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">   * Iterator#hasNext()} on a generated iterator from the returned iterable may cause an item to be</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">   * immediately dequeued for return on a subsequent call to {@link Iterator#next()}.</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">   *</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">   * @param iterable the iterable to wrap</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">   * @return a view of the supplied iterable that wraps each generated iterator through {@link</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">   *     Iterators#consumingIterator(Iterator)}; for queues, an iterable that generates iterators</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">   *     that return and consume the queue's elements in queue order</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">   * @see Iterators#consumingIterator(Iterator)</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">   * @since 2.0</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">   */</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; consumingIterable(</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">      final Iterable&lt;T&gt; iterable) {</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">    checkNotNull(iterable);</a>
+<span class="sourceLineNo">1015</span><a id="line.1015"></a>
+<span class="sourceLineNo">1016</span><a id="line.1016">    return new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">      @Override</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">      public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">        return (iterable instanceof Queue)</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">            ? new ConsumingQueueIterator&lt;&gt;((Queue&lt;T&gt;) iterable)</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">            : Iterators.consumingIterator(iterable.iterator());</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">      }</a>
+<span class="sourceLineNo">1023</span><a id="line.1023"></a>
+<span class="sourceLineNo">1024</span><a id="line.1024">      @Override</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">      public String toString() {</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">        return "Iterables.consumingIterable(...)";</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">      }</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">    };</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">  }</a>
+<span class="sourceLineNo">1030</span><a id="line.1030"></a>
+<span class="sourceLineNo">1031</span><a id="line.1031">  // Methods only in Iterables, not in Iterators</a>
+<span class="sourceLineNo">1032</span><a id="line.1032"></a>
+<span class="sourceLineNo">1033</span><a id="line.1033">  /**</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">   * Determines if the given iterable contains no elements.</a>
 <span class="sourceLineNo">1035</span><a id="line.1035">   *</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">   *</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">   * @return {@code true} if the iterable contains no elements</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">   */</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">  public static boolean isEmpty(Iterable&lt;?&gt; iterable) {</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">    if (iterable instanceof Collection) {</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">      return ((Collection&lt;?&gt;) iterable).isEmpty();</a>
-<span class="sourceLineNo">1043</span><a id="line.1043">    }</a>
-<span class="sourceLineNo">1044</span><a id="line.1044">    return !iterable.iterator().hasNext();</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">  }</a>
-<span class="sourceLineNo">1046</span><a id="line.1046"></a>
-<span class="sourceLineNo">1047</span><a id="line.1047">  /**</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">   * Returns an iterable over the merged contents of all given {@code iterables}. Equivalent entries</a>
-<span class="sourceLineNo">1049</span><a id="line.1049">   * will not be de-duplicated.</a>
-<span class="sourceLineNo">1050</span><a id="line.1050">   *</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">   * &lt;p&gt;Callers must ensure that the source {@code iterables} are in non-descending order as this</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">   * method does not sort its input.</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">   *</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">   * &lt;p&gt;For any equivalent elements across all {@code iterables}, it is undefined which element is</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">   * returned first.</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">   *</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">   * @since 11.0</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">   */</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">  @Beta</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; mergeSorted(</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; iterables,</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">      final Comparator&lt;? super T&gt; comparator) {</a>
-<span class="sourceLineNo">1063</span><a id="line.1063">    checkNotNull(iterables, "iterables");</a>
-<span class="sourceLineNo">1064</span><a id="line.1064">    checkNotNull(comparator, "comparator");</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">    Iterable&lt;T&gt; iterable =</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">        new FluentIterable&lt;T&gt;() {</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">          @Override</a>
-<span class="sourceLineNo">1068</span><a id="line.1068">          public Iterator&lt;T&gt; iterator() {</a>
-<span class="sourceLineNo">1069</span><a id="line.1069">            return Iterators.mergeSorted(</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">          }</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">        };</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">    return new UnmodifiableIterable&lt;&gt;(iterable);</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">  }</a>
-<span class="sourceLineNo">1075</span><a id="line.1075"></a>
-<span class="sourceLineNo">1076</span><a id="line.1076">  // TODO(user): Is this the best place for this? Move to fluent functions?</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">  // Useful as a public method?</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">  static &lt;T extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">      Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">      @Override</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {</a>
-<span class="sourceLineNo">1083</span><a id="line.1083">        return iterable.iterator();</a>
-<span class="sourceLineNo">1084</span><a id="line.1084">      }</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">    };</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">  }</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">}</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">   * &lt;p&gt;There is no precise {@link Iterator} equivalent to this method, since one can only ask an</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">   * iterator whether it has any elements &lt;i&gt;remaining&lt;/i&gt; (which one does using {@link</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">   * Iterator#hasNext}).</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">   *</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">   *</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">   * @return {@code true} if the iterable contains no elements</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">   */</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">  public static boolean isEmpty(Iterable&lt;?&gt; iterable) {</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">    if (iterable instanceof Collection) {</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">      return ((Collection&lt;?&gt;) iterable).isEmpty();</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">    }</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">    return !iterable.iterator().hasNext();</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">  }</a>
+<span class="sourceLineNo">1050</span><a id="line.1050"></a>
+<span class="sourceLineNo">1051</span><a id="line.1051">  /**</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">   * Returns an iterable over the merged contents of all given {@code iterables}. Equivalent entries</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">   * will not be de-duplicated.</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">   *</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">   * &lt;p&gt;Callers must ensure that the source {@code iterables} are in non-descending order as this</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">   * method does not sort its input.</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">   *</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">   * &lt;p&gt;For any equivalent elements across all {@code iterables}, it is undefined which element is</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">   * returned first.</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">   *</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">   * @since 11.0</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">   */</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">  @Beta</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">  public static &lt;T extends @Nullable Object&gt; Iterable&lt;T&gt; mergeSorted(</a>
+<span class="sourceLineNo">1065</span><a id="line.1065">      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; iterables,</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">      final Comparator&lt;? super T&gt; comparator) {</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">    checkNotNull(iterables, "iterables");</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">    checkNotNull(comparator, "comparator");</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">    Iterable&lt;T&gt; iterable =</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">        new FluentIterable&lt;T&gt;() {</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">          @Override</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">          public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">            return Iterators.mergeSorted(</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">          }</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">        };</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">    return new UnmodifiableIterable&lt;&gt;(iterable);</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">  }</a>
+<span class="sourceLineNo">1079</span><a id="line.1079"></a>
+<span class="sourceLineNo">1080</span><a id="line.1080">  // TODO(user): Is this the best place for this? Move to fluent functions?</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">  // Useful as a public method?</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">  static &lt;T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">      Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">      @Override</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">        return iterable.iterator();</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">      }</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">    };</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">  }</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">}</a>
 
 
 
