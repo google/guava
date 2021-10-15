@@ -513,6 +513,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * deprecated.
      *
      * @throws IllegalArgumentException if duplicate keys were added
+     *     <!-- PUBLIC:begin_intracomment_strip -->
+     * @deprecated Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the
+     *     method will throw an exception if there are duplicate keys.
+     *     <!-- PUBLIC:end_intracomment_strip -->
      */
     public ImmutableMap<K, V> build() {
       return buildOrThrow();
