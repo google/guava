@@ -619,14 +619,14 @@ public class ListsTest extends TestCase {
 
   public void testCartesianProduct_indexOf() {
     List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
-    assertEquals(actual.indexOf(list(1, 3)), 0);
-    assertEquals(actual.indexOf(list(1, 4)), 1);
-    assertEquals(actual.indexOf(list(2, 3)), 2);
-    assertEquals(actual.indexOf(list(2, 4)), 3);
-    assertEquals(actual.indexOf(list(3, 1)), -1);
+    assertEquals(0, actual.indexOf(list(1, 3)));
+    assertEquals(1, actual.indexOf(list(1, 4)));
+    assertEquals(2, actual.indexOf(list(2, 3)));
+    assertEquals(3, actual.indexOf(list(2, 4)));
+    assertEquals(-1, actual.indexOf(list(3, 1)));
 
-    assertEquals(actual.indexOf(list(1)), -1);
-    assertEquals(actual.indexOf(list(1, 1, 1)), -1);
+    assertEquals(-1, actual.indexOf(list(1)));
+    assertEquals(-1, actual.indexOf(list(1, 1, 1)));
   }
 
   public void testCartesianProduct_lastIndexOf() {
