@@ -386,7 +386,7 @@ public class CharMatcherTest extends TestCase {
     assertSame(s, matcher.replaceFrom(s, 'z'));
     assertSame(s, matcher.replaceFrom(s, "ZZ"));
     assertSame(s, matcher.trimFrom(s));
-    assertSame(0, matcher.countIn(s));
+    assertEquals(0, matcher.countIn(s));
   }
 
   private void reallyTestMatchThenNoMatch(CharMatcher matcher, String s) {
