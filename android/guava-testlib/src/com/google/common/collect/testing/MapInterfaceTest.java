@@ -844,8 +844,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
 
-    assertEquals(map, map);
-    assertEquals(makePopulatedMap(), map);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(map.equals(map));
+    assertTrue(makePopulatedMap().equals(map));
     assertFalse(map.equals(Collections.emptyMap()));
     // no-inspection ObjectEqualsNull
     assertFalse(map.equals(null));
@@ -895,8 +896,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
 
-    assertEquals(map, map);
-    assertEquals(makeEmptyMap(), map);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(map.equals(map));
+    assertTrue(makeEmptyMap().equals(map));
     assertEquals(Collections.emptyMap(), map);
     assertFalse(map.equals(Collections.emptySet()));
     // noinspection ObjectEqualsNull

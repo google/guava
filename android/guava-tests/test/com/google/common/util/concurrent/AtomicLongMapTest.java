@@ -52,7 +52,7 @@ public class AtomicLongMapTest extends TestCase {
     Map<String, Long> in = ImmutableMap.of("1", 1L, "2", 2L, "3", 3L);
     AtomicLongMap<String> map = AtomicLongMap.create(in);
     assertFalse(map.isEmpty());
-    assertSame(3, map.size());
+    assertEquals(3, map.size());
     assertTrue(map.containsKey("1"));
     assertTrue(map.containsKey("2"));
     assertTrue(map.containsKey("3"));
@@ -302,7 +302,7 @@ public class AtomicLongMapTest extends TestCase {
     Map<String, Long> in = ImmutableMap.of("1", 1L, "2", 2L, "3", 3L);
     AtomicLongMap<String> map = AtomicLongMap.create();
     assertTrue(map.isEmpty());
-    assertSame(0, map.size());
+    assertEquals(0, map.size());
     assertFalse(map.containsKey("1"));
     assertFalse(map.containsKey("2"));
     assertFalse(map.containsKey("3"));
@@ -312,7 +312,7 @@ public class AtomicLongMapTest extends TestCase {
 
     map.putAll(in);
     assertFalse(map.isEmpty());
-    assertSame(3, map.size());
+    assertEquals(3, map.size());
     assertTrue(map.containsKey("1"));
     assertTrue(map.containsKey("2"));
     assertTrue(map.containsKey("3"));

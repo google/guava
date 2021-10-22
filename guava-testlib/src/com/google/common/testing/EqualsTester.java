@@ -122,7 +122,7 @@ public final class EqualsTester {
       assertTrue(
           item + " must not be Object#equals to an arbitrary object of another class",
           !item.equals(NotAnInstance.EQUAL_TO_NOTHING));
-      assertEquals(item + " must be Object#equals to itself", item, item);
+      assertTrue(item + " must be Object#equals to itself", item.equals(item));
       assertEquals(
           "the Object#hashCode of " + item + " must be consistent",
           item.hashCode(),
