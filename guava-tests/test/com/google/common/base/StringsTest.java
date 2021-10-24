@@ -242,8 +242,7 @@ public class StringsTest extends TestCase {
 
   public void testLenientFormat_badArgumentToString_gwtFriendly() {
     assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
-        .matches(
-            "boiler <.*> plate");
+        .matches("boiler <.*> plate");
   }
 
   private static class ThrowsOnToString {

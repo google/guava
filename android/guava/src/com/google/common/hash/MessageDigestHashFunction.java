@@ -32,10 +32,12 @@ import java.util.Arrays;
  * @author Dimitris Andreou
  */
 @Immutable
+@ElementTypesAreNonnullByDefault
 final class MessageDigestHashFunction extends AbstractHashFunction implements Serializable {
 
   @SuppressWarnings("Immutable") // cloned before each use
   private final MessageDigest prototype;
+
   private final int bytes;
   private final boolean supportsClone;
   private final String toString;

@@ -16,6 +16,7 @@
 
 package com.google.common.net;
 
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
@@ -63,6 +64,8 @@ public final class InternetDomainNameTest extends TestCase {
           "f_a",
           "foo.net.us\uFF61ocm",
           "woo.com.",
+          "8server.shop",
+          "123.cn",
           "a" + DELTA + "b.com",
           ALMOST_TOO_MANY_LEVELS,
           ALMOST_TOO_LONG);

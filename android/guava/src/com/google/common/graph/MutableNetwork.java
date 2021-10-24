@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public interface MutableNetwork<N, E> extends Network<N, E> {
 
   /**
@@ -90,6 +91,7 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    * @throws IllegalArgumentException if the introduction of the edge would violate {@link
    *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
    */
   @CanIgnoreReturnValue
   boolean addEdge(EndpointPair<N> endpoints, E edge);

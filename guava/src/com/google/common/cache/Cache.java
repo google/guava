@@ -18,12 +18,14 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -33,10 +35,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
+ * @param <K> the type of the cache's keys, which are not permitted to be null
+ * @param <V> the type of the cache's values, which are not permitted to be null
  * @author Charles Fry
  * @since 10.0
  */
+@DoNotMock("Use CacheBuilder.newBuilder().build()")
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public interface Cache<K, V> {
 
   /**
@@ -45,7 +51,7 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  @Nullable
+  @CheckForNull
   V getIfPresent(@CompatibleWith("K") Object key);
 
   /**
@@ -102,7 +108,11 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  ImmutableMap<K, V> getAllPresent(Iterable<?> keys);
+  /*
+   * <? extends Object> is mostly the same as <?> to plain Java. But to nullness checkers, they
+   * differ: <? extends Object> means "non-null types," while <?> means "all types."
+   */
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys);
 
   /**
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
@@ -133,12 +143,14 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  void invalidateAll(Iterable<?> keys);
+  // For discussion of <? extends Object>, see getAllPresent.
+  void invalidateAll(Iterable<? extends Object> keys);
 
   /** Discards all entries in the cache. */
   void invalidateAll();
 
   /** Returns the approximate number of entries in this cache. */
+  @CheckReturnValue
   long size();
 
   /**
@@ -152,6 +164,7 @@ public interface Cache<K, V> {
    * all values is returned.
    *
    */
+  @CheckReturnValue
   CacheStats stats();
 
   /**
@@ -162,6 +175,7 @@ public interface Cache<K, V> {
    * concurrent use, but if the cache is modified (including by eviction) after the iterator is
    * created, it is undefined which of the changes (if any) will be reflected in that iterator.
    */
+  @CheckReturnValue
   ConcurrentMap<K, V> asMap();
 
   /**

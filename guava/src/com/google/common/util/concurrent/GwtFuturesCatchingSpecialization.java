@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  * different signatures.
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * This server copy of the class is empty. The corresponding GWT copy contains alternative

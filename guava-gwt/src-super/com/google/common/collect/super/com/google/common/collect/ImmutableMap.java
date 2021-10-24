@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
-import com.google.common.annotations.Beta;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,14 +72,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction,
@@ -120,7 +117,128 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
   }
 
-  // looking for of() with > 5 entries? Use the builder instead.
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9),
+        entryOf(k10, v10));
+  }
+
+  // looking for of() with > 10 entries? Use the builder instead.
+
+  @SafeVarargs
+  public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return new RegularImmutableMap(entries);
+  }
 
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
@@ -189,6 +307,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     public ImmutableMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    public ImmutableMap<K, V> buildOrThrow() {
       if (valueComparator != null) {
         Collections.sort(
             entries, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));

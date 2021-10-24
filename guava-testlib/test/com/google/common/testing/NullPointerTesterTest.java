@@ -54,6 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @author Mick Killianey
  */
+@SuppressWarnings("CheckReturnValue")
 public class NullPointerTesterTest extends TestCase {
 
   /** Non-NPE RuntimeException. */
@@ -392,21 +393,25 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Two-arg method with no Nullable params. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNormal(String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the second param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNullable(String first, @Nullable Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the first param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNormal(@Nullable String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the both params Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNullable(@Nullable String first, @Nullable Integer second) {
       reactToNullParameters(first, second);
     }
@@ -1478,5 +1483,48 @@ public class NullPointerTesterTest extends TestCase {
       return;
     }
     fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());
+  }
+
+  public static class NullBounds<T extends @Nullable Object, U extends T, X> {
+    boolean xWasCalled;
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void x(X x) {
+      xWasCalled = true;
+      checkNotNull(x);
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void t(T t) {
+      fail("Method with parameter <T extends @Nullable Object> should not be called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void u(U u) {
+      fail(
+          "Method with parameter <U extends T> where <T extends @Nullable Object> should not be"
+              + " called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public <A extends @Nullable Object> void a(A a) {
+      fail("Method with parameter <A extends @Nullable Object> should not be called");
+    }
+
+    @SuppressWarnings("unused") // Called by reflection
+    public <A extends B, B extends @Nullable Object> void b(A a) {
+      fail(
+          "Method with parameter <A extends B> where <B extends @Nullable Object> should not be"
+              + " called");
+    }
+  }
+
+  public void testNullBounds() {
+    // NullBounds has methods whose parameters are type variables that have
+    // "extends @Nullable Object" as a bound. This test ensures that NullPointerTester considers
+    // those parameters to be @Nullable, so it won't call the methods.
+    NullBounds<?, ?, ?> nullBounds = new NullBounds<>();
+    new NullPointerTester().testAllPublicInstanceMethods(nullBounds);
+    assertThat(nullBounds.xWasCalled).isTrue();
   }
 }

@@ -139,12 +139,12 @@ public class FeatureUtil {
    */
   static TesterRequirements buildTesterRequirements(Class<?> testerClass)
       throws ConflictingRequirementsException {
-    final TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
+    TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
     Class<?> baseClass = testerClass.getSuperclass();
     if (baseClass == null) {
       return declaredRequirements;
     } else {
-      final TesterRequirements clonedBaseRequirements =
+      TesterRequirements clonedBaseRequirements =
           new TesterRequirements(getTesterRequirements(baseClass));
       return incorporateRequirements(clonedBaseRequirements, declaredRequirements, testerClass);
     }
@@ -176,8 +176,8 @@ public class FeatureUtil {
   private static TesterRequirements buildTesterRequirements(Annotation testerAnnotation)
       throws ConflictingRequirementsException {
     Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
-    final Feature<?>[] presentFeatures;
-    final Feature<?>[] absentFeatures;
+    Feature<?>[] presentFeatures;
+    Feature<?>[] absentFeatures;
     try {
       presentFeatures = (Feature[]) annotationClass.getMethod("value").invoke(testerAnnotation);
       absentFeatures = (Feature[]) annotationClass.getMethod("absent").invoke(testerAnnotation);

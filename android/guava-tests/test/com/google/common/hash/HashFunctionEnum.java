@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+
 /**
  * An enum that contains all of the known hash functions.
  *
@@ -31,6 +32,7 @@ enum HashFunctionEnum {
   MD5(Hashing.md5()),
   MURMUR3_128(Hashing.murmur3_128()),
   MURMUR3_32(Hashing.murmur3_32()),
+  MURMUR3_32_FIXED(Hashing.murmur3_32_fixed()),
   SHA1(Hashing.sha1()),
   SHA256(Hashing.sha256()),
   SHA384(Hashing.sha384()),

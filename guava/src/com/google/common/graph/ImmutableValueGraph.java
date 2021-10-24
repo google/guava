@@ -17,11 +17,13 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 
 /**
@@ -34,14 +36,16 @@ import com.google.errorprone.annotations.Immutable;
  * provided by this class.
  *
  * @author James Sexton
+ * @author Jens Nyman
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
 @Immutable(containerOf = {"N", "V"})
-@SuppressWarnings("Immutable") // Extends ConfigurableValueGraph but uses ImmutableMaps.
-public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
+@SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
+@ElementTypesAreNonnullByDefault
+public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {
     super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
@@ -65,8 +69,13 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
+  }
+
+  @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(this); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(this); // safe because the view is effectively immutable
   }
 
   private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(
@@ -81,19 +90,116 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
     return nodeConnections.build();
   }
 
-  private static <N, V> GraphConnections<N, V> connectionsOf(
-      final ValueGraph<N, V> graph, final N node) {
+  private static <N, V> GraphConnections<N, V> connectionsOf(ValueGraph<N, V> graph, N node) {
     Function<N, V> successorNodeToValueFn =
-        new Function<N, V>() {
-          @Override
-          public V apply(N successorNode) {
-            return graph.edgeValueOrDefault(node, successorNode, null);
-          }
-        };
+        (N successorNode) ->
+            // requireNonNull is safe because the endpoint pair comes from the graph.
+            requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), successorNodeToValueFn))
+            node, graph.incidentEdges(node), successorNodeToValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
+  }
+
+  /**
+   * A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
+   * graphs. Example:
+   *
+   * <pre>{@code
+   * static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =
+   *     ValueGraphBuilder.undirected()
+   *         .<City, Distance>immutable()
+   *         .putEdgeValue(PARIS, BERLIN, kilometers(1060))
+   *         .putEdgeValue(PARIS, BRUSSELS, kilometers(317))
+   *         .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
+   *         .addNode(REYKJAVIK)
+   *         .build();
+   * }</pre>
+   *
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * multiple graphs in series. Each new graph contains all the elements of the ones created before
+   * it.
+   *
+   * @since 28.0
+   */
+  public static class Builder<N, V> {
+
+    private final MutableValueGraph<N, V> mutableValueGraph;
+
+    Builder(ValueGraphBuilder<N, V> graphBuilder) {
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableValueGraph =
+          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
+    }
+
+    /**
+     * Adds {@code node} if it is not already present.
+     *
+     * <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
+     *
+     * @return this {@code Builder} object
+     */
+    @CanIgnoreReturnValue
+    public ImmutableValueGraph.Builder<N, V> addNode(N node) {
+      mutableValueGraph.addNode(node);
+      return this;
+    }
+
+    /**
+     * Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and
+     * sets a value for that edge to {@code value} (overwriting the existing value, if any).
+     *
+     * <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+     * undirected.
+     *
+     * <p>Values do not have to be unique. However, values must be non-null.
+     *
+     * <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
+     * silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
+     *
+     * @return this {@code Builder} object
+     * @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     *     #allowsSelfLoops()}
+     */
+    @CanIgnoreReturnValue
+    public ImmutableValueGraph.Builder<N, V> putEdgeValue(N nodeU, N nodeV, V value) {
+      mutableValueGraph.putEdgeValue(nodeU, nodeV, value);
+      return this;
+    }
+
+    /**
+     * Adds an edge connecting {@code endpoints} if one is not already present, and sets a value for
+     * that edge to {@code value} (overwriting the existing value, if any).
+     *
+     * <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+     * undirected.
+     *
+     * <p>If this graph is directed, {@code endpoints} must be ordered.
+     *
+     * <p>Values do not have to be unique. However, values must be non-null.
+     *
+     * <p>If either or both endpoints are not already present in this graph, this method will
+     * silently {@link #addNode(Object) add} each missing endpoint to the graph.
+     *
+     * @return this {@code Builder} object
+     * @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     *     #allowsSelfLoops()}
+     * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+     */
+    @CanIgnoreReturnValue
+    public ImmutableValueGraph.Builder<N, V> putEdgeValue(EndpointPair<N> endpoints, V value) {
+      mutableValueGraph.putEdgeValue(endpoints, value);
+      return this;
+    }
+
+    /**
+     * Returns a newly-created {@code ImmutableValueGraph} based on the contents of this {@code
+     * Builder}.
+     */
+    public ImmutableValueGraph<N, V> build() {
+      return ImmutableValueGraph.copyOf(mutableValueGraph);
+    }
   }
 }

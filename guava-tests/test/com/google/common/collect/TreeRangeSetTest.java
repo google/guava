@@ -271,6 +271,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     return expected;
   }
 
+
   public void testSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -285,6 +286,19 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  public void testSubRangeSetAdd() {
+    TreeRangeSet<Integer> set = TreeRangeSet.create();
+    Range<Integer> range = Range.closedOpen(0, 5);
+    set.subRangeSet(range).add(range);
+  }
+
+  public void testSubRangeSetReplaceAdd() {
+    TreeRangeSet<Integer> set = TreeRangeSet.create();
+    Range<Integer> range = Range.closedOpen(0, 5);
+    set.add(range);
+    set.subRangeSet(range).add(range);
+  }
+
   public void testComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -295,6 +309,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
 
   public void testSubRangeSetOfComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
@@ -310,6 +325,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
 
   public void testComplementOfSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {

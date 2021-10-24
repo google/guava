@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -65,10 +66,23 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>Any {@link ByteSource} containing text encoded with a specific {@linkplain Charset character
  * encoding} may be viewed as a {@code CharSource} using {@link ByteSource#asCharSource(Charset)}.
  *
+ * <p><b>Note:</b> In general, {@code CharSource} is intended to be used for "file-like" sources
+ * that provide readers that are:
+ *
+ * <ul>
+ *   <li><b>Finite:</b> Many operations, such as {@link #length()} and {@link #read()}, will either
+ *       block indefinitely or fail if the source creates an infinite reader.
+ *   <li><b>Non-destructive:</b> A <i>destructive</i> reader will consume or otherwise alter the
+ *       source as they are read from it. A source that provides such readers will not be reusable,
+ *       and operations that read from the stream (including {@link #length()}, in some
+ *       implementations) will prevent further operations from completing as expected.
+ * </ul>
+ *
  * @since 14.0
  * @author Colin Decker
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class CharSource {
 
   /** Constructor for use by subclasses. */
@@ -295,7 +309,8 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  public @Nullable String readFirstLine() throws IOException {
+  @CheckForNull
+  public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());
@@ -351,7 +366,8 @@ public abstract class CharSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public <T> T readLines(LineProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
     Closer closer = Closer.create();
@@ -563,6 +579,7 @@ public abstract class CharSource {
         Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
 
         @Override
+        @CheckForNull
         protected String computeNext() {
           if (lines.hasNext()) {
             String next = lines.next();
@@ -582,6 +599,7 @@ public abstract class CharSource {
     }
 
     @Override
+    @CheckForNull
     public String readFirstLine() {
       Iterator<String> lines = linesIterator();
       return lines.hasNext() ? lines.next() : null;
@@ -593,7 +611,8 @@ public abstract class CharSource {
     }
 
     @Override
-    public <T> T readLines(LineProcessor<T> processor) throws IOException {
+    @ParametricNullness
+    public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
       Iterator<String> lines = linesIterator();
       while (lines.hasNext()) {
         if (!processor.processLine(lines.next())) {

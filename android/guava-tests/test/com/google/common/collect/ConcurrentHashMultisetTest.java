@@ -20,8 +20,8 @@ import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
 import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

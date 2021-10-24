@@ -146,7 +146,7 @@ public class HashingTest extends TestCase {
   // goodFastHash(128) uses Murmur3_128. Use the same epsilon bounds.
   public void testGoodFastHash128() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(128), 250, 0.20);
-    HashTestUtils.checkAvalanche(Hashing.goodFastHash(128), 250, 0.17);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(128), 500, 0.17);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(128));
     HashTestUtils.checkNoFunnels(Hashing.goodFastHash(128));
     HashTestUtils.assertInvariants(Hashing.goodFastHash(128));
@@ -155,7 +155,7 @@ public class HashingTest extends TestCase {
   // goodFastHash(256) uses Murmur3_128. Use the same epsilon bounds.
   public void testGoodFastHash256() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(256), 250, 0.20);
-    HashTestUtils.checkAvalanche(Hashing.goodFastHash(256), 250, 0.17);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(256), 500, 0.17);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(256));
     HashTestUtils.checkNoFunnels(Hashing.goodFastHash(256));
     HashTestUtils.assertInvariants(Hashing.goodFastHash(256));
@@ -432,6 +432,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.murmur3_32(), EMPTY_STRING, "00000000")
           .put(Hashing.murmur3_32(), TQBFJOTLD, "23f74f2e")
           .put(Hashing.murmur3_32(), TQBFJOTLDP, "fc8bc4d5")
+          .put(Hashing.murmur3_32_fixed(), EMPTY_STRING, "00000000")
+          .put(Hashing.murmur3_32_fixed(), TQBFJOTLD, "23f74f2e")
+          .put(Hashing.murmur3_32_fixed(), TQBFJOTLDP, "fc8bc4d5")
           .put(Hashing.sha1(), EMPTY_STRING, "da39a3ee5e6b4b0d3255bfef95601890afd80709")
           .put(Hashing.sha1(), TQBFJOTLD, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12")
           .put(Hashing.sha1(), TQBFJOTLDP, "408d94384216f890ff7a0c3528e8bed1e0b01621")

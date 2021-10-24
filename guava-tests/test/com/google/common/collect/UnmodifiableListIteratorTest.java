@@ -29,6 +29,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible
 public class UnmodifiableListIteratorTest extends TestCase {
+  @SuppressWarnings("DoNotCall")
   public void testRemove() {
     Iterator<String> iterator = create();
 
@@ -41,6 +42,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testAdd() {
     ListIterator<String> iterator = create();
 
@@ -55,6 +57,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testSet() {
     ListIterator<String> iterator = create();
 

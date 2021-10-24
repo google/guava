@@ -92,6 +92,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testReadLine() throws IOException {
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(data));
     try {

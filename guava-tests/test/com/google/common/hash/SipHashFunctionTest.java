@@ -34,7 +34,7 @@ public class SipHashFunctionTest extends TestCase {
   private static final HashFunction SIP_WITHOUT_KEY = Hashing.sipHash24();
 
   // These constants were originally ported from https://www.131002.net/siphash/siphash24.c. See:
-  // https://github.com/nahi/siphash-java-inline/blob/master/src/test/java/SipHashInlineTest.java
+  // https://github.com/nahi/siphash-java-inline/blob/master/src/test/java/org/jruby/util/SipHashInlineTest.java
   private static final long[] EXPECTED =
       new long[] {
         0x726fdb47dd0e0e31L,

@@ -50,18 +50,22 @@ public class StripedTest extends TestCase {
         Striped.readWriteLock(256),
         Striped.lock(100),
         Striped.lock(256),
-        Striped.custom(100, new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(true);
-          }
-        }),
-        Striped.custom(256, new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(true);
-          }
-        }),
+        Striped.custom(
+            100,
+            new Supplier<Lock>() {
+              @Override
+              public Lock get() {
+                return new ReentrantLock(true);
+              }
+            }),
+        Striped.custom(
+            256,
+            new Supplier<Lock>() {
+              @Override
+              public Lock get() {
+                return new ReentrantLock(true);
+              }
+            }),
         Striped.semaphore(100, 1),
         Striped.semaphore(256, 1));
   }
@@ -125,12 +129,14 @@ public class StripedTest extends TestCase {
     assertTrue(Striped.lazyWeakLock(256).size() == 256);
   }
 
+
   public void testWeakImplementations() {
     for (Striped<?> striped : weakImplementations()) {
       WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
       GcFinalization.awaitClear(weakRef);
     }
   }
+
 
   public void testWeakReadWrite() {
     Striped<ReadWriteLock> striped = Striped.lazyWeakReadWriteLock(1000);
@@ -143,6 +149,7 @@ public class StripedTest extends TestCase {
     assertFalse(writeLock.tryLock());
     readLock.unlock();
   }
+
 
   public void testStrongImplementations() {
     for (Striped<?> striped : strongImplementations()) {

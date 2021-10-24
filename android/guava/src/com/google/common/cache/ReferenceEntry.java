@@ -16,7 +16,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.cache.LocalCache.ValueReference;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An entry in a reference map.
@@ -39,22 +39,24 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * </ul>
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 interface ReferenceEntry<K, V> {
   /** Returns the value reference from this entry. */
+  @CheckForNull
   ValueReference<K, V> getValueReference();
 
   /** Sets the value reference for this entry. */
   void setValueReference(ValueReference<K, V> valueReference);
 
   /** Returns the next entry in the chain. */
-  @NullableDecl
+  @CheckForNull
   ReferenceEntry<K, V> getNext();
 
   /** Returns the entry's hash. */
   int getHash();
 
   /** Returns the key for this entry. */
-  @NullableDecl
+  @CheckForNull
   K getKey();
 
   /*
@@ -64,9 +66,11 @@ interface ReferenceEntry<K, V> {
    */
 
   /** Returns the time that this entry was last accessed, in ns. */
+  @SuppressWarnings("GoodTime")
   long getAccessTime();
 
   /** Sets the entry access time in ns. */
+  @SuppressWarnings("GoodTime") // b/122668874
   void setAccessTime(long time);
 
   /** Returns the next entry in the access queue. */
@@ -87,10 +91,12 @@ interface ReferenceEntry<K, V> {
    * expired from the head of the list.
    */
 
+  @SuppressWarnings("GoodTime")
   /** Returns the time that this entry was last written, in ns. */
   long getWriteTime();
 
   /** Sets the entry write time in ns. */
+  @SuppressWarnings("GoodTime") // b/122668874
   void setWriteTime(long time);
 
   /** Returns the next entry in the write queue. */

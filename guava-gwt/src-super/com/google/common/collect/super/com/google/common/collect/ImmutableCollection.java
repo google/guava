@@ -90,8 +90,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   /** If this collection is backed by an array of its elements in insertion order, returns it. */
-  @Nullable
-  Object[] internalArray() {
+  Object @Nullable [] internalArray() {
     return null;
   }
 
@@ -125,7 +124,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     Builder() {}
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {
-      if (minCapacity < 0) { 
+      if (minCapacity < 0) {
         throw new AssertionError("cannot store more than MAX_VALUE elements");
       }
       // careful of overflow!

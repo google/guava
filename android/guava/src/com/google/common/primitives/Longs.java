@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
@@ -43,6 +43,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Longs {
   private Longs() {}
 
@@ -328,10 +329,10 @@ public final class Longs {
     static {
       byte[] result = new byte[128];
       Arrays.fill(result, (byte) -1);
-      for (int i = 0; i <= 9; i++) {
+      for (int i = 0; i < 10; i++) {
         result['0' + i] = (byte) i;
       }
-      for (int i = 0; i <= 26; i++) {
+      for (int i = 0; i < 26; i++) {
         result['A' + i] = (byte) (10 + i);
         result['a' + i] = (byte) (10 + i);
       }
@@ -357,10 +358,11 @@ public final class Longs {
    * @param string the string representation of a long value
    * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
    *     length of zero or cannot be parsed as a long value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta
-  @NullableDecl
+  @CheckForNull
   public static Long tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -382,10 +384,11 @@ public final class Longs {
    *     {@code string} has a length of zero or cannot be parsed as a long value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
    *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
-  @NullableDecl
+  @CheckForNull
   public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
@@ -687,13 +690,13 @@ public final class Longs {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Long) && Longs.indexOf(array, (Long) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.indexOf(array, (Long) target, start, end);
@@ -705,7 +708,7 @@ public final class Longs {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.lastIndexOf(array, (Long) target, start, end);
@@ -736,7 +739,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

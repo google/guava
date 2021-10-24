@@ -97,6 +97,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(LocalCacheTest.class);
@@ -700,6 +701,7 @@ public class LocalCacheTest extends TestCase {
     assertEquals(1, map.size());
   }
 
+
   public void testCopyEntry_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
@@ -800,6 +802,7 @@ public class LocalCacheTest extends TestCase {
     cache.remove(key);
     checkLogged(e);
   }
+
 
   public void testRemovalListener_replaced_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
@@ -2413,7 +2416,7 @@ public class LocalCacheTest extends TestCase {
         ReferenceEntry<Object, Object> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -2443,7 +2446,7 @@ public class LocalCacheTest extends TestCase {
         ValueReference<Object, Object> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -2471,7 +2474,7 @@ public class LocalCacheTest extends TestCase {
         ReferenceEntry<Object, Object> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
@@ -2502,7 +2505,7 @@ public class LocalCacheTest extends TestCase {
         ValueReference<Object, Object> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {

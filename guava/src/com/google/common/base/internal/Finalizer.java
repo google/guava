@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Thread that finalizes referents. All references should implement {@code
@@ -43,6 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * collected, and this class can detect when the main class loader has been garbage collected and
  * stop itself.
  */
+// no @ElementTypesAreNonNullByDefault for the reasons discussed above
 public class Finalizer implements Runnable {
 
   private static final Logger logger = Logger.getLogger(Finalizer.class.getName());
@@ -116,10 +117,11 @@ public class Finalizer implements Runnable {
   // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
   // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
   // is created, by accessing a private field.
-  private static final @Nullable Constructor<Thread> bigThreadConstructor =
-      getBigThreadConstructor();
+  @CheckForNull
+  private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
 
-  private static final @Nullable Field inheritableThreadLocals =
+  @CheckForNull
+  private static final Field inheritableThreadLocals =
       (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
   /** Constructs a new finalizer thread. */
@@ -129,8 +131,7 @@ public class Finalizer implements Runnable {
       PhantomReference<Object> frqReference) {
     this.queue = queue;
 
-    this.finalizableReferenceClassReference =
-        new WeakReference<Class<?>>(finalizableReferenceClass);
+    this.finalizableReferenceClassReference = new WeakReference<>(finalizableReferenceClass);
 
     // Keep track of the FRQ that started us so we know when to stop.
     this.frqReference = frqReference;
@@ -191,7 +192,8 @@ public class Finalizer implements Runnable {
   }
 
   /** Looks up FinalizableReference.finalizeReferent() method. */
-  private @Nullable Method getFinalizeReferentMethod() {
+  @CheckForNull
+  private Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
       /*
@@ -209,7 +211,8 @@ public class Finalizer implements Runnable {
     }
   }
 
-  private static @Nullable Field getInheritableThreadLocalsField() {
+  @CheckForNull
+  private static Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);
@@ -223,7 +226,8 @@ public class Finalizer implements Runnable {
     }
   }
 
-  private static @Nullable Constructor<Thread> getBigThreadConstructor() {
+  @CheckForNull
+  private static Constructor<Thread> getBigThreadConstructor() {
     try {
       return Thread.class.getConstructor(
           ThreadGroup.class, Runnable.class, String.class, long.class, boolean.class);

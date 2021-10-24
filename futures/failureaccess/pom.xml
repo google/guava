@@ -15,7 +15,7 @@
     Contains
     com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
     InternalFutures. Most users will never need to use this artifact. Its
-    classes is conceptually a part of Guava, but they're in this separate
+    classes are conceptually a part of Guava, but they're in this separate
     artifact so that Android libraries can use them without pulling in all of
     Guava (just as they can use ListenableFuture by depending on the
     listenablefuture artifact).

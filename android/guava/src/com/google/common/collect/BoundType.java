@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public enum BoundType {
   /** The endpoint value <i>is not</i> considered part of the set ("exclusive"). */
   OPEN(false),
@@ -38,9 +39,5 @@ public enum BoundType {
   /** Returns the bound type corresponding to a boolean value for inclusivity. */
   static BoundType forBoolean(boolean inclusive) {
     return inclusive ? CLOSED : OPEN;
-  }
-
-  BoundType flip() {
-    return forBoolean(!inclusive);
   }
 }

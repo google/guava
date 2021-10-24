@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@code UnicodeEscaper} that escapes some set of Java characters using a UTF-8 based percent
@@ -51,6 +52,7 @@ import com.google.common.escape.UnicodeEscaper;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class PercentEscaper extends UnicodeEscaper {
 
   // In some escapers spaces are escaped to '+'
@@ -64,7 +66,7 @@ public final class PercentEscaper extends UnicodeEscaper {
 
   /**
    * An array of flags where for any {@code char c} if {@code safeOctets[c]} is true then {@code c}
-   * should remain unmodified in the output. If {@code c > safeOctets.length} then it should be
+   * should remain unmodified in the output. If {@code c >= safeOctets.length} then it should be
    * escaped.
    */
   private final boolean[] safeOctets;
@@ -155,6 +157,7 @@ public final class PercentEscaper extends UnicodeEscaper {
 
   /** Escapes the given Unicode code point in UTF-8. */
   @Override
+  @CheckForNull
   protected char[] escape(int cp) {
     // We should never get negative values here but if we do it will throw an
     // IndexOutOfBoundsException, so at least it will get spotted.

@@ -21,10 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -35,6 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Immutable(containerOf = "B")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
 
@@ -43,6 +45,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
    *
    * @since 19.0
    */
@@ -58,7 +62,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    */
   public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
     ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
-    return new ImmutableClassToInstanceMap<B>(map);
+    return new ImmutableClassToInstanceMap<>(map);
   }
 
   /**
@@ -66,7 +70,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    * Builder} constructor.
    */
   public static <B> Builder<B> builder() {
-    return new Builder<B>();
+    return new Builder<>();
   }
 
   /**
@@ -131,7 +135,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
       if (map.isEmpty()) {
         return of();
       } else {
-        return new ImmutableClassToInstanceMap<B>(map);
+        return new ImmutableClassToInstanceMap<>(map);
       }
     }
   }
@@ -151,8 +155,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
-      // Eclipse won't compile if we cast to the parameterized type.
-      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap) map;
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) map;
       return cast;
     }
     return new Builder<B>().putAll(map).build();
@@ -171,7 +174,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  public <T extends B> @Nullable T getInstance(Class<T> type) {
+  @CheckForNull
+  public <T extends B> T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }
 
@@ -184,6 +188,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }

@@ -231,6 +231,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return expireWrite || expireAccess;
   }
 
+  @SuppressWarnings("GoodTime")
   private long currentTimeNanos() {
     return ticker.read();
   }
@@ -241,6 +242,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private V load(Object key) throws ExecutionException {
     long startTime = ticker.read();
     V calculatedValue;
@@ -300,6 +302,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return load(key);
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private static class Timestamped<V> {
     private final V value;
     private final Ticker ticker;
@@ -375,8 +378,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    @Nullable
-    public V getIfPresent(Object key) {
+    public @Nullable V getIfPresent(Object key) {
       return localCache.getIfPresent(key);
     }
 
@@ -548,7 +550,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     @Override
     public Entry<K, V> next() {
       if (nextEntry == null) {
-        hasNext();
+        boolean unused = hasNext();
 
         if (nextEntry == null) {
           throw new NoSuchElementException();

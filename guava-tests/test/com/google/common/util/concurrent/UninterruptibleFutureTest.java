@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
-// TODO(azana/cpovirk): Should this be merged into UninterruptiblesTest?
+// TODO(cpovirk): Should this be merged into UninterruptiblesTest?
 /**
  * Unit test for {@link Uninterruptibles#getUninterruptibly}
  *
@@ -97,7 +97,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
     assertFalse(Thread.interrupted());
     try {
-      delayedFuture.get(10000, TimeUnit.MILLISECONDS);
+      delayedFuture.get(20000, TimeUnit.MILLISECONDS);
       fail("expected to be interrupted");
     } catch (InterruptedException expected) {
     } catch (TimeoutException e) {
@@ -115,6 +115,7 @@ public class UninterruptibleFutureTest extends TestCase {
     }
     assertTrue(sleeper.completed);
   }
+
 
   public void testMakeUninterruptible_timeoutPreservedThroughInterruption()
       throws ExecutionException {
@@ -154,25 +155,31 @@ public class UninterruptibleFutureTest extends TestCase {
     }
   }
 
+
   public void testMakeUninterruptible_untimed_uninterrupted() throws Exception {
     runUntimedInterruptsTest(0);
   }
+
 
   public void testMakeUninterruptible_untimed_interrupted() throws Exception {
     runUntimedInterruptsTest(1);
   }
 
+
   public void testMakeUninterruptible_untimed_multiplyInterrupted() throws Exception {
     runUntimedInterruptsTest(38);
   }
+
 
   public void testMakeUninterruptible_timed_uninterrupted() throws Exception {
     runTimedInterruptsTest(0);
   }
 
+
   public void testMakeUninterruptible_timed_interrupted() throws Exception {
     runTimedInterruptsTest(1);
   }
+
 
   public void testMakeUninterruptible_timed_multiplyInterrupted() throws Exception {
     runTimedInterruptsTest(38);
@@ -228,6 +235,7 @@ public class UninterruptibleFutureTest extends TestCase {
     }
   }
 
+
   public void testMakeUninterruptible_timedGetZeroTimeoutAttempted()
       throws TimeoutException, ExecutionException {
     SettableFuture<String> future = SettableFuture.create();
@@ -239,6 +247,7 @@ public class UninterruptibleFutureTest extends TestCase {
      */
     assertEquals(RESULT, getUninterruptibly(future, 0, SECONDS));
   }
+
 
   public void testMakeUninterruptible_timedGetNegativeTimeoutAttempted()
       throws TimeoutException, ExecutionException {

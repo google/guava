@@ -965,7 +965,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(Iterables.elementsEqual(LegacyComparable.VALUES_BACKWARD, set));
   }
 
-  @SuppressWarnings({"deprecation", "static-access"})
+  @SuppressWarnings({"deprecation", "static-access", "DoNotCall"})
   public void testBuilderMethod() {
     try {
       ImmutableSortedSet.builder();
@@ -1079,6 +1079,44 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
           .containsExactlyElementsIn(sortedNumberNames(i + 1, strings.length))
           .inOrder();
     }
+  }
+
+  public void testFloor_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.floor("f")).isNull();
+  }
+
+  public void testFloor_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.floor("f")).isEqualTo("f");
+    assertThat(set.floor("j")).isEqualTo("i");
+    assertThat(set.floor("q")).isEqualTo("k");
+  }
+
+  public void testFloor_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "b", "i", "d", "c", "k"});
+    assertThat(set.floor("a")).isNull();
+  }
+
+  public void testCeiling_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.ceiling("f")).isNull();
+  }
+
+  public void testCeiling_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "f", "i", "d", "c", "k", "p", "c"});
+    assertThat(set.ceiling("f")).isEqualTo("f");
+    assertThat(set.ceiling("h")).isEqualTo("i");
+    assertThat(set.ceiling("a")).isEqualTo("c");
+  }
+
+  public void testCeiling_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.ceiling("l")).isNull();
   }
 
   public void testSubSetExclusiveExclusive() {

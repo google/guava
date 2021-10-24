@@ -21,6 +21,7 @@ import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.primitives.Doubles;
 
 /**
  * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks some
@@ -31,6 +32,7 @@ import com.google.common.annotations.GwtIncompatible;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class PairedStatsAccumulator {
 
   // These fields must satisfy the requirements of PairedStats' constructor as well as those of the
@@ -236,12 +238,6 @@ public final class PairedStatsAccumulator {
   }
 
   private static double ensureInUnitRange(double value) {
-    if (value >= 1.0) {
-      return 1.0;
-    }
-    if (value <= -1.0) {
-      return -1.0;
-    }
-    return value;
+    return Doubles.constrainToRange(value, -1.0, 1.0);
   }
 }

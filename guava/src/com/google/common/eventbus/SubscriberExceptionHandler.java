@@ -14,11 +14,13 @@
 
 package com.google.common.eventbus;
 
+
 /**
  * Handler for exceptions thrown by event subscribers.
  *
  * @since 16.0
  */
+@ElementTypesAreNonnullByDefault
 public interface SubscriberExceptionHandler {
   /** Handles exceptions thrown by subscribers. */
   void handleException(Throwable exception, SubscriberExceptionContext context);

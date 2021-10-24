@@ -17,8 +17,10 @@
 package com.google.common.collect;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -41,6 +43,14 @@ final class Platform {
 
   static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newConcurrentHashSet() {
+    // GWT's ConcurrentHashMap is a wrapper around HashMap, but it rejects null keys, which matches
+    // the behaviour of the non-GWT implementation of newConcurrentHashSet().
+    // On the other hand HashSet might be better for code size if apps aren't
+    // already using Collections.newSetFromMap and ConcurrentHashMap.
+    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
   static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
@@ -98,6 +108,17 @@ final class Platform {
   static int reduceExponentIfGwt(int exponent) {
     return exponent / 2;
   }
+
+  /*
+   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
+   * the client side. There's little practical difference: If it's disabled on the server, it won't
+   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
+   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
+   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
+   * out how to set both properties. It's easier to have to set only one, and it might as well be
+   * the Java property, since Guava already reads another Java property.
+   */
+  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

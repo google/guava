@@ -13,12 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
+
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -41,26 +48,28 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
+@ElementTypesAreNonnullByDefault
+class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
-  /**
-   * Creates an empty {@code CompactLinkedHashMap} instance.
-   */
-  public static <K, V> CompactLinkedHashMap<K, V> create() {
+  /** Creates an empty {@code CompactLinkedHashMap} instance. */
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
 
   /**
-   * Creates a {@code CompactLinkedHashMap} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without growth.
+   * Creates a {@code CompactLinkedHashMap} instance, with a high enough "initial capacity" that it
+   * <i>should</i> hold {@code expectedSize} elements without rebuilding internal data structures.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code CompactLinkedHashMap} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactLinkedHashMap<>(expectedSize);
   }
 
@@ -75,57 +84,79 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient long[] links;
+  @CheckForNull @VisibleForTesting transient long[] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
 
-  /**
-   * Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries.
-   */
+  /** Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int lastEntry;
 
   private final boolean accessOrder;
 
   CompactLinkedHashMap() {
-    this(DEFAULT_SIZE);
+    this(CompactHashing.DEFAULT_SIZE);
   }
 
   CompactLinkedHashMap(int expectedSize) {
-    this(expectedSize, DEFAULT_LOAD_FACTOR, false);
+    this(expectedSize, false);
   }
 
-  CompactLinkedHashMap(int expectedSize, float loadFactor, boolean accessOrder) {
-    super(expectedSize, loadFactor);
+  CompactLinkedHashMap(int expectedSize, boolean accessOrder) {
+    super(expectedSize);
     this.accessOrder = accessOrder;
   }
 
   @Override
-  void init(int expectedSize, float loadFactor) {
-    super.init(expectedSize, loadFactor);
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
-    links = new long[expectedSize];
-    Arrays.fill(links, UNSET);
+  void init(int expectedSize) {
+    super.init(expectedSize);
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
   }
 
+  @Override
+  int allocArrays() {
+    int expectedSize = super.allocArrays();
+    this.links = new long[expectedSize];
+    return expectedSize;
+  }
+
+  @Override
+  Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashMap<K, V>(tableSize, 1.0f, accessOrder);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Map<K, V> convertToHashFloodingResistantImplementation() {
+    Map<K, V> result = super.convertToHashFloodingResistantImplementation();
+    links = null;
+    return result;
+  }
+
+  /*
+   * For discussion of the safety of the following methods for operating on predecessors and
+   * successors, see the comments near the end of CompactHashMap, noting that the methods here call
+   * link(), which is defined at the end of this file.
+   */
+
   private int getPredecessor(int entry) {
-    return (int) (links[entry] >>> 32);
+    return ((int) (link(entry) >>> 32)) - 1;
   }
 
   @Override
   int getSuccessor(int entry) {
-    return (int) links[entry];
+    return ((int) link(entry)) - 1;
   }
 
   private void setSuccessor(int entry, int succ) {
     long succMask = (~0L) >>> 32;
-    links[entry] = (links[entry] & ~succMask) | (succ & succMask);
+    setLink(entry, (link(entry) & ~succMask) | ((succ + 1) & succMask));
   }
 
   private void setPredecessor(int entry, int pred) {
     long predMask = ~0L << 32;
-    links[entry] = (links[entry] & ~predMask) | ((long) pred << 32);
+    setLink(entry, (link(entry) & ~predMask) | ((long) (pred + 1) << 32));
   }
 
   private void setSucceeds(int pred, int succ) {
@@ -134,6 +165,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     } else {
       setSuccessor(pred, succ);
     }
+
     if (succ == ENDPOINT) {
       lastEntry = pred;
     } else {
@@ -142,8 +174,9 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   @Override
-  void insertEntry(int entryIndex, K key, V value, int hash) {
-    super.insertEntry(entryIndex, key, value, hash);
+  void insertEntry(
+      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
+    super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
   }
@@ -156,25 +189,27 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       // ...and insert at the end.
       setSucceeds(lastEntry, index);
       setSucceeds(index, ENDPOINT);
-      modCount++;
+      incrementModCount();
     }
   }
 
   @Override
-  void moveLastEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex, int mask) {
     int srcIndex = size() - 1;
+    super.moveLastEntry(dstIndex, mask);
+
     setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
     if (dstIndex < srcIndex) {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    super.moveLastEntry(dstIndex);
+    setLink(srcIndex, 0);
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    links = Arrays.copyOf(links, newCapacity);
+    links = Arrays.copyOf(requireLinks(), newCapacity);
   }
 
   @Override
@@ -189,8 +224,37 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
 
   @Override
   public void clear() {
-    super.clear();
+    if (needsAllocArrays()) {
+      return;
+    }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
+    if (links != null) {
+      Arrays.fill(links, 0, size(), 0);
+    }
+    super.clear();
   }
+
+  /*
+   * For discussion of the safety of the following methods, see the comments near the end of
+   * CompactHashMap.
+   */
+
+  private long[] requireLinks() {
+    return requireNonNull(links);
+  }
+
+  private long link(int i) {
+    return requireLinks()[i];
+  }
+
+  private void setLink(int i, long value) {
+    requireLinks()[i] = value;
+  }
+
+  /*
+   * We don't define getPredecessor+getSuccessor and setPredecessor+setSuccessor here because
+   * they're defined above -- including logic to add and subtract 1 to map between the values stored
+   * in the predecessor/successor arrays and the indexes in the elements array that they identify.
+   */
 }

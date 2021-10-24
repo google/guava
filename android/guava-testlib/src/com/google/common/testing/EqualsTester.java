@@ -127,6 +127,11 @@ public final class EqualsTester {
           "the Object#hashCode of " + item + " must be consistent",
           item.hashCode(),
           item.hashCode());
+      if (!(item instanceof String)) {
+        assertTrue(
+            item + " must not be Object#equals to its Object#toString representation",
+            !item.equals(item.toString()));
+      }
     }
   }
 

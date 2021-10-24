@@ -47,6 +47,7 @@ import static com.google.common.math.StatsTesting.assertStatsApproxEqual;
 import static com.google.common.math.StatsTesting.assertVerticalLinearTransformation;
 import static com.google.common.math.StatsTesting.createPairedStatsOf;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
@@ -104,10 +105,10 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(values.asIterable(), OTHER_MANY_VALUES);
       double populationCovariance = stats.populationCovariance();
       if (values.hasAnyNonFinite()) {
-        assertThat(populationCovariance).named("population covariance of " + values).isNaN();
+        assertWithMessage("population covariance of " + values).that(populationCovariance).isNaN();
       } else {
-        assertThat(populationCovariance)
-            .named("population covariance of " + values)
+        assertWithMessage("population covariance of " + values)
+            .that(populationCovariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
       }
@@ -169,12 +170,12 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(MANY_VALUES, values.asIterable());
       double pearsonsCorrelationCoefficient = stats.pearsonsCorrelationCoefficient();
       if (values.hasAnyNonFinite()) {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isNaN();
       } else {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isWithin(ALLOWED_ERROR)
             .of(
                 stats.populationCovariance()

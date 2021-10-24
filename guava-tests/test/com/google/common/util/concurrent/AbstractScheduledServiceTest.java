@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.AbstractScheduledService.Schedul
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.util.concurrent.AbstractScheduledService.Cancellable;
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.testing.TestingExecutors;
@@ -28,6 +29,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Delayed;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -98,7 +100,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
     }
-    // An execution exception holds a runtime exception (from throwables.propogate) that holds our
+    // An execution exception holds a runtime exception (from throwables.propagate) that holds our
     // original exception.
     assertEquals(service.runException, service.failureCause());
     assertEquals(Service.State.FAILED, service.state());
@@ -388,7 +390,7 @@ public class AbstractScheduledServiceTest extends TestCase {
 
     public void testFixedRateSchedule() {
       Scheduler schedule = Scheduler.newFixedRateSchedule(initialDelay, delay, unit);
-      Future<?> unused =
+      Cancellable unused =
           schedule.schedule(
               null,
               new ScheduledThreadPoolExecutor(1) {
@@ -396,7 +398,7 @@ public class AbstractScheduledServiceTest extends TestCase {
                 public ScheduledFuture<?> scheduleAtFixedRate(
                     Runnable command, long initialDelay, long period, TimeUnit unit) {
                   assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-                  return null;
+                  return new ThrowingScheduledFuture<>();
                 }
               },
               testRunnable);
@@ -405,7 +407,7 @@ public class AbstractScheduledServiceTest extends TestCase {
 
     public void testFixedDelaySchedule() {
       Scheduler schedule = newFixedDelaySchedule(initialDelay, delay, unit);
-      Future<?> unused =
+      Cancellable unused =
           schedule.schedule(
               null,
               new ScheduledThreadPoolExecutor(10) {
@@ -413,12 +415,31 @@ public class AbstractScheduledServiceTest extends TestCase {
                 public ScheduledFuture<?> scheduleWithFixedDelay(
                     Runnable command, long initialDelay, long delay, TimeUnit unit) {
                   assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-                  return null;
+                  return new ThrowingScheduledFuture<>();
                 }
               },
               testRunnable);
       assertTrue(called);
     }
+
+    private static final class ThrowingScheduledFuture<V> extends ForwardingFuture<V>
+        implements ScheduledFuture<V> {
+      @Override
+      protected Future<V> delegate() {
+        throw new UnsupportedOperationException("test should not care about this");
+      }
+
+      @Override
+      public long getDelay(TimeUnit unit) {
+        throw new UnsupportedOperationException("test should not care about this");
+      }
+
+      @Override
+      public int compareTo(Delayed other) {
+        throw new UnsupportedOperationException("test should not care about this");
+      }
+    }
+
 
     public void testFixedDelayScheduleFarFuturePotentiallyOverflowingScheduleIsNeverReached()
         throws Exception {
@@ -439,6 +460,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       service.stopAsync();
       service.awaitTerminated();
     }
+
 
     public void testCustomSchedulerFarFuturePotentiallyOverflowingScheduleIsNeverReached()
         throws Exception {
@@ -475,6 +497,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       }
     }
 
+
     public void testCustomSchedule_startStop() throws Exception {
       final CyclicBarrier firstBarrier = new CyclicBarrier(2);
       final CyclicBarrier secondBarrier = new CyclicBarrier(2);
@@ -494,7 +517,7 @@ public class AbstractScheduledServiceTest extends TestCase {
             }
           };
       TestCustomScheduler scheduler = new TestCustomScheduler();
-      Future<?> future = scheduler.schedule(null, Executors.newScheduledThreadPool(10), task);
+      Cancellable future = scheduler.schedule(null, Executors.newScheduledThreadPool(10), task);
       firstBarrier.await();
       assertEquals(1, scheduler.scheduleCounter.get());
       secondBarrier.await();
@@ -504,6 +527,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       secondBarrier.await();
       future.cancel(false);
     }
+
 
     public void testCustomSchedulerServiceStop() throws Exception {
       TestAbstractScheduledCustomService service = new TestAbstractScheduledCustomService();
@@ -517,6 +541,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       Thread.sleep(unit.toMillis(3 * delay));
       assertEquals(1, service.numIterations.get());
     }
+
 
     public void testCustomScheduler_deadlock() throws InterruptedException, BrokenBarrierException {
       final CyclicBarrier inGetNextSchedule = new CyclicBarrier(2);
@@ -547,6 +572,7 @@ public class AbstractScheduledServiceTest extends TestCase {
         service.stopAsync();
       }
     }
+
 
     public void testBig() throws Exception {
       TestAbstractScheduledCustomService service =
@@ -606,6 +632,7 @@ public class AbstractScheduledServiceTest extends TestCase {
         };
       }
     }
+
 
     public void testCustomSchedulerFailure() throws Exception {
       TestFailingCustomScheduledService service = new TestFailingCustomScheduledService();

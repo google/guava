@@ -20,10 +20,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -39,6 +39,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -61,6 +62,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
     implements NavigableSet<E>, SortedIterable<E> {
   static final int SPLITERATOR_CHARACTERISTICS =
@@ -75,7 +77,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    *
    * @since 21.0
    */
-  @Beta
   public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
       Comparator<? super E> comparator) {
     return CollectCollectors.toImmutableSortedSet(comparator);
@@ -89,7 +90,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
   }
 
-  /** Returns the empty immutable sorted set. */
+  /**
+   * Returns the empty immutable sorted set.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   public static <E> ImmutableSortedSet<E> of() {
     return (ImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
   }
@@ -572,16 +577,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
   }
 
-  int unsafeCompare(Object a, Object b) {
+  int unsafeCompare(Object a, @CheckForNull Object b) {
     return unsafeCompare(comparator, a, b);
   }
 
-  static int unsafeCompare(Comparator<?> comparator, Object a, Object b) {
+  static int unsafeCompare(Comparator<?> comparator, Object a, @CheckForNull Object b) {
     // Pretend the comparator can compare anything. If it turns out it can't
-    // compare a and b, we should get a CCE on the subsequent line. Only methods
-    // that are spec'd to throw CCE should call this.
-    @SuppressWarnings("unchecked")
-    Comparator<Object> unsafeComparator = (Comparator<Object>) comparator;
+    // compare a and b, we should get a CCE or NPE on the subsequent line. Only methods
+    // that are spec'd to throw CCE and NPE should call this.
+    @SuppressWarnings({"unchecked", "nullness"})
+    Comparator<@Nullable Object> unsafeComparator = (Comparator<@Nullable Object>) comparator;
     return unsafeComparator.compare(a, b);
   }
 
@@ -620,7 +625,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
@@ -670,7 +674,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
@@ -690,20 +693,21 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
+  @CheckForNull
   public E lower(E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
+  @CheckForNull
   public E floor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
+  @CheckForNull
   public E ceiling(E e) {
     return Iterables.getFirst(tailSet(e, true), null);
   }
@@ -711,6 +715,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
+  @CheckForNull
   public E higher(E e) {
     return Iterables.getFirst(tailSet(e, false), null);
   }
@@ -736,6 +741,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final E pollFirst() {
     throw new UnsupportedOperationException();
   }
@@ -751,12 +758,15 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final E pollLast() {
     throw new UnsupportedOperationException();
   }
 
   @GwtIncompatible // NavigableSet
   @LazyInit
+  @CheckForNull
   transient ImmutableSortedSet<E> descendingSet;
 
   /** @since 12.0 */
@@ -807,7 +817,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   public abstract UnmodifiableIterator<E> descendingIterator();
 
   /** Returns the position of an element within the set, or -1 if not present. */
-  abstract int indexOf(@Nullable Object target);
+  abstract int indexOf(@CheckForNull Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,
@@ -832,7 +842,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     private static final long serialVersionUID = 0;
   }
 
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+  private void readObject(ObjectInputStream unused) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

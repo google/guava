@@ -153,6 +153,7 @@ public class SynchronizedQueueTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testHoldsLockOnAllOperations() {
     create().element();
     create().offer("foo");

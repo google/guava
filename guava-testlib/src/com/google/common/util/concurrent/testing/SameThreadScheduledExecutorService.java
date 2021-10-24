@@ -140,11 +140,11 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
 
   @Override
   public <V> ListenableScheduledFuture<V> schedule(
-      final Callable<V> callable, long delay, TimeUnit unit) {
+      Callable<V> callable, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(callable, "callable must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
     ListenableFuture<V> delegateFuture = submit(callable);
-    return new ImmediateScheduledFuture<V>(delegateFuture);
+    return new ImmediateScheduledFuture<>(delegateFuture);
   }
 
   private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>

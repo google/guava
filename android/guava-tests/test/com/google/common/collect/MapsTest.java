@@ -21,6 +21,7 @@ import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -155,8 +156,8 @@ public class MapsTest extends TestCase {
     for (int i = 1; i < size; i++) {
       map1.put(i, null);
     }
-    assertThat(bucketsOf(map1))
-        .named("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding " + size + " elements")
+        .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
 
     /*
@@ -164,8 +165,8 @@ public class MapsTest extends TestCase {
      * once; make sure that passes too.
      */
     map2.putAll(map1);
-    assertThat(bucketsOf(map1))
-        .named("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding " + size + " elements")
+        .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
   }
 
@@ -244,6 +245,8 @@ public class MapsTest extends TestCase {
     assertEquals(original, map);
   }
 
+  // Intentionally using IdentityHashMap to test creation.
+  @SuppressWarnings("IdentityHashMapBoxing")
   public void testIdentityHashMap() {
     IdentityHashMap<Integer, Integer> map = Maps.newIdentityHashMap();
     assertEquals(Collections.emptyMap(), map);

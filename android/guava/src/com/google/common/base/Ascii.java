@@ -37,6 +37,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 7.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Ascii {
 
   private Ascii() {}
@@ -439,7 +440,7 @@ public final class Ascii {
   }
 
   /**
-   * If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character} returns the
+   * If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character}, returns the
    * lowercase equivalent. Otherwise returns the argument.
    */
   public static char toLowerCase(char c) {
@@ -487,7 +488,7 @@ public final class Ascii {
   }
 
   /**
-   * If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character} returns the
+   * If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character}, returns the
    * uppercase equivalent. Otherwise returns the argument.
    */
   public static char toUpperCase(char c) {
@@ -541,7 +542,6 @@ public final class Ascii {
    *   <li>the appropriate truncation indicator may be locale-dependent
    *   <li>it is safe to use non-ASCII characters in the truncation indicator
    * </ul>
-   *
    *
    * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code
    *     truncationIndicator}

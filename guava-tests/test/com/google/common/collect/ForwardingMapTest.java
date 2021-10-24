@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.lang.reflect.Modifier.STATIC;
-import static org.mockito.Mockito.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -231,10 +231,10 @@ public class ForwardingMapTest extends TestCase {
 
     // These are the methods specified by StandardEntrySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
-    verify(map, atLeast(0)).get(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
+    verify(map, atLeast(0)).get(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verifyNoMoreInteractions(map);
   }
@@ -259,9 +259,9 @@ public class ForwardingMapTest extends TestCase {
 
     // These are the methods specified by StandardKeySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
     verifyNoMoreInteractions(map);
@@ -287,7 +287,7 @@ public class ForwardingMapTest extends TestCase {
 
     // These are the methods specified by StandardValues
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsValue(anyObject());
+    verify(map, atLeast(0)).containsValue(any());
     verify(map, atLeast(0)).isEmpty();
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
@@ -329,10 +329,11 @@ public class ForwardingMapTest extends TestCase {
     };
   }
 
-  private static final ImmutableMap<String, String> JUF_METHODS = ImmutableMap.of(
-      "java.util.function.Predicate", "test",
-      "java.util.function.Consumer", "accept",
-      "java.util.function.IntFunction", "apply");
+  private static final ImmutableMap<String, String> JUF_METHODS =
+      ImmutableMap.of(
+          "java.util.function.Predicate", "test",
+          "java.util.function.Consumer", "accept",
+          "java.util.function.IntFunction", "apply");
 
   private static Object getDefaultValue(final TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
@@ -387,8 +388,7 @@ public class ForwardingMapTest extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(
-            cause, method + " with args: " + Arrays.toString(args));
+        throw new InvocationTargetException(cause, method + " with args: " + Arrays.toString(args));
       }
     }
   }

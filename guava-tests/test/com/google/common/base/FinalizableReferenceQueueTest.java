@@ -40,11 +40,13 @@ public class FinalizableReferenceQueueTest extends TestCase {
     frq = null;
   }
 
+
   public void testFinalizeReferentCalled() {
     final MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
 
     GcFinalization.awaitDone(
         new GcFinalization.FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return reference.finalizeReferentCalled;
           }
@@ -70,6 +72,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
    * know that the background thread has stopped and released its strong reference.
    */
   private WeakReference<ReferenceQueue<Object>> queueReference;
+
 
   public void testThatFinalizerStops() {
     weaklyReferenceQueue();

@@ -222,7 +222,7 @@ class StatsTesting {
   static final Stats MANY_VALUES_STATS_VARARGS = Stats.of(1.1, -44.44, 33.33, 555.555, -2.2);
   static final Stats MANY_VALUES_STATS_ITERABLE = Stats.of(MANY_VALUES);
   static final Stats MANY_VALUES_STATS_ITERATOR = Stats.of(MANY_VALUES.iterator());
-  static final Stats MANY_VALUES_STATS_SNAPSHOT;
+  static final Stats MANY_VALUES_STATS_SNAPSHOT = buildManyValuesStatsSnapshot();
   static final Stats LARGE_VALUES_STATS = Stats.of(LARGE_VALUES);
   static final Stats OTHER_MANY_VALUES_STATS = Stats.of(OTHER_MANY_VALUES);
   static final Stats INTEGER_MANY_VALUES_STATS_VARARGS =
@@ -230,20 +230,21 @@ class StatsTesting {
   static final Stats INTEGER_MANY_VALUES_STATS_ITERABLE = Stats.of(INTEGER_MANY_VALUES);
   static final Stats LARGE_INTEGER_VALUES_STATS = Stats.of(LARGE_INTEGER_VALUES);
   static final Stats LONG_MANY_VALUES_STATS_ITERATOR = Stats.of(LONG_MANY_VALUES.iterator());
-  static final Stats LONG_MANY_VALUES_STATS_SNAPSHOT;
+  static final Stats LONG_MANY_VALUES_STATS_SNAPSHOT = buildLongManyValuesStatsSnapshot();
   static final Stats LARGE_LONG_VALUES_STATS = Stats.of(LARGE_LONG_VALUES);
 
-  static {
+  private static Stats buildManyValuesStatsSnapshot() {
     StatsAccumulator accumulator = new StatsAccumulator();
     accumulator.addAll(MANY_VALUES);
-    MANY_VALUES_STATS_SNAPSHOT = accumulator.snapshot();
+    Stats stats = accumulator.snapshot();
     accumulator.add(999.999); // should do nothing to the snapshot
+    return stats;
   }
 
-  static {
+  private static Stats buildLongManyValuesStatsSnapshot() {
     StatsAccumulator accumulator = new StatsAccumulator();
     accumulator.addAll(LONG_MANY_VALUES);
-    LONG_MANY_VALUES_STATS_SNAPSHOT = accumulator.snapshot();
+    return accumulator.snapshot();
   }
 
   static final ImmutableList<Stats> ALL_STATS =
@@ -275,42 +276,43 @@ class StatsTesting {
       createPairedStatsOf(ImmutableList.of(ONE_VALUE), ImmutableList.of(OTHER_ONE_VALUE));
   static final PairedStats TWO_VALUES_PAIRED_STATS =
       createPairedStatsOf(TWO_VALUES, OTHER_TWO_VALUES);
-  static final PairedStats MANY_VALUES_PAIRED_STATS;
+  static final PairedStats MANY_VALUES_PAIRED_STATS = buildManyValuesPairedStats();
   static final PairedStats DUPLICATE_MANY_VALUES_PAIRED_STATS =
       createPairedStatsOf(MANY_VALUES, OTHER_MANY_VALUES);
-  static final PairedStats HORIZONTAL_VALUES_PAIRED_STATS;
-  static final PairedStats VERTICAL_VALUES_PAIRED_STATS;
-  static final PairedStats CONSTANT_VALUES_PAIRED_STATS;
+  static final PairedStats HORIZONTAL_VALUES_PAIRED_STATS = buildHorizontalValuesPairedStats();
+  static final PairedStats VERTICAL_VALUES_PAIRED_STATS = buildVerticalValuesPairedStats();
+  static final PairedStats CONSTANT_VALUES_PAIRED_STATS = buildConstantValuesPairedStats();
 
-  static {
+  private static PairedStats buildManyValuesPairedStats() {
     PairedStatsAccumulator accumulator =
         createFilledPairedStatsAccumulator(MANY_VALUES, OTHER_MANY_VALUES);
-    MANY_VALUES_PAIRED_STATS = accumulator.snapshot();
+    PairedStats stats = accumulator.snapshot();
     accumulator.add(99.99, 9999.9999); // should do nothing to the snapshot
+    return stats;
   }
 
-  static {
+  private static PairedStats buildHorizontalValuesPairedStats() {
     PairedStatsAccumulator accumulator = new PairedStatsAccumulator();
     for (double x : MANY_VALUES) {
       accumulator.add(x, OTHER_ONE_VALUE);
     }
-    HORIZONTAL_VALUES_PAIRED_STATS = accumulator.snapshot();
+    return accumulator.snapshot();
   }
 
-  static {
+  private static PairedStats buildVerticalValuesPairedStats() {
     PairedStatsAccumulator accumulator = new PairedStatsAccumulator();
     for (double y : OTHER_MANY_VALUES) {
       accumulator.add(ONE_VALUE, y);
     }
-    VERTICAL_VALUES_PAIRED_STATS = accumulator.snapshot();
+    return accumulator.snapshot();
   }
 
-  static {
+  private static PairedStats buildConstantValuesPairedStats() {
     PairedStatsAccumulator accumulator = new PairedStatsAccumulator();
     for (int i = 0; i < MANY_VALUES_COUNT; ++i) {
       accumulator.add(ONE_VALUE, OTHER_ONE_VALUE);
     }
-    CONSTANT_VALUES_PAIRED_STATS = accumulator.snapshot();
+    return accumulator.snapshot();
   }
 
   static final ImmutableList<PairedStats> ALL_PAIRED_STATS =
@@ -387,8 +389,8 @@ class StatsTesting {
         .of(x1 + xDelta);
     assertThat(transformation.slope()).isWithin(ALLOWED_ERROR).of(yDelta / xDelta);
     assertThat(transformation.inverse().slope()).isWithin(ALLOWED_ERROR).of(xDelta / yDelta);
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -415,8 +417,8 @@ class StatsTesting {
       fail("Expected IllegalStateException");
     } catch (IllegalStateException expected) {
     }
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -443,8 +445,8 @@ class StatsTesting {
     } catch (IllegalStateException expected) {
     }
     assertThat(transformation.inverse().slope()).isWithin(ALLOWED_ERROR).of(0.0);
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -456,7 +458,7 @@ class StatsTesting {
     assertThat(transformation.isVertical()).isFalse();
     assertThat(transformation.slope()).isNaN();
     assertThat(transformation.transform(0.0)).isNaN();
-    assertThat(transformation.inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation);
   }
 
   /**

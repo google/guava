@@ -25,7 +25,8 @@ import static com.google.common.math.MathTesting.NEGATIVE_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_LONG_CANDIDATES;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.math.BigInteger.valueOf;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -36,6 +37,7 @@ import com.google.common.testing.NullPointerTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.EnumSet;
 import java.util.Random;
 import junit.framework.TestCase;
 
@@ -745,6 +747,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+
   @GwtIncompatible // Slow
   public void testBinomial_exhaustiveNotOverflowing() {
     // Tests all of the inputs to LongMath.binomial that won't cause it to overflow, that weren't
@@ -780,6 +783,7 @@ public class LongMathTest extends TestCase {
       }
     }
   }
+
 
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
@@ -949,7 +953,76 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  private static final long[] roundToDoubleTestCandidates = {
+    0,
+    16,
+    1L << 53,
+    (1L << 53) + 1,
+    (1L << 53) + 2,
+    (1L << 53) + 3,
+    (1L << 53) + 4,
+    1L << 54,
+    (1L << 54) + 1,
+    (1L << 54) + 2,
+    (1L << 54) + 3,
+    (1L << 54) + 4,
+    0x7ffffffffffffe00L, // halfway between 2^63 and next-lower double
+    0x7ffffffffffffe01L, // above + 1
+    0x7ffffffffffffdffL, // above - 1
+    Long.MAX_VALUE - (1L << 11) + 1,
+    Long.MAX_VALUE - 2,
+    Long.MAX_VALUE - 1,
+    Long.MAX_VALUE,
+    -16,
+    -1L << 53,
+    -(1L << 53) - 1,
+    -(1L << 53) - 2,
+    -(1L << 53) - 3,
+    -(1L << 53) - 4,
+    -1L << 54,
+    -(1L << 54) - 1,
+    -(1L << 54) - 2,
+    -(1L << 54) - 3,
+    -(1L << 54) - 4,
+    Long.MIN_VALUE + 2,
+    Long.MIN_VALUE + 1,
+    Long.MIN_VALUE
+  };
+
+  @GwtIncompatible
+  public void testRoundToDoubleAgainstBigInteger() {
+    for (RoundingMode roundingMode : EnumSet.complementOf(EnumSet.of(UNNECESSARY))) {
+      for (long candidate : roundToDoubleTestCandidates) {
+        assertThat(LongMath.roundToDouble(candidate, roundingMode))
+            .isEqualTo(BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), roundingMode));
+      }
+    }
+  }
+
+  @GwtIncompatible
+  public void testRoundToDoubleAgainstBigIntegerUnnecessary() {
+    for (long candidate : roundToDoubleTestCandidates) {
+      Double expectedDouble = null;
+      try {
+        expectedDouble = BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), UNNECESSARY);
+      } catch (ArithmeticException expected) {
+        // do nothing
+      }
+
+      if (expectedDouble != null) {
+        assertThat(LongMath.roundToDouble(candidate, UNNECESSARY)).isEqualTo(expectedDouble);
+      } else {
+        try {
+          LongMath.roundToDouble(candidate, UNNECESSARY);
+          fail("Expected ArithmeticException on roundToDouble(" + candidate + ", UNNECESSARY)");
+        } catch (ArithmeticException expected) {
+          // success
+        }
+      }
+    }
+  }
+
   private static void failFormat(String template, Object... args) {
-    assert_().fail(template, args);
+    assertWithMessage(template, args).fail();
   }
 }

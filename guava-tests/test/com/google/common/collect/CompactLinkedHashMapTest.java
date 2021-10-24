@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -35,23 +36,53 @@ import junit.framework.TestSuite;
 public class CompactLinkedHashMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
-        @Override
-        protected Map<String, String> create(Entry<String, String>[] entries) {
-          Map<String, String> map = CompactLinkedHashMap.create();
-          for (Entry<String, String> entry : entries) {
-            map.put(entry.getKey(), entry.getValue());
-          }
-          return map;
-        }
-      }).named("CompactLinkedHashMap").withFeatures(CollectionSize.ANY,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          MapFeature.GENERAL_PURPOSE,
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER).createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    Map<String, String> map = CompactLinkedHashMap.create();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactLinkedHashMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    CompactLinkedHashMap<String, String> map = CompactLinkedHashMap.create();
+                    map.convertToHashFloodingResistantImplementation();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactLinkedHashMap with flooding resistance")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
     suite.addTestSuite(CompactLinkedHashMapTest.class);
+    suite.addTestSuite(FloodingTest.class);
     return suite;
   }
 
@@ -90,8 +121,8 @@ public class CompactLinkedHashMapTest extends TestCase {
     map.put(4, "b");
     map.put(3, "d");
     map.put(2, "c");
-    map.remove(3);
-    testHasMapEntriesInOrder(map, 1, "a", 4, "b", 2, "c");
+    map.remove(4);
+    testHasMapEntriesInOrder(map, 1, "a", 3, "d", 2, "c");
   }
 
   public void testInsertionOrderAfterRemoveLastEntry() {
@@ -119,8 +150,7 @@ public class CompactLinkedHashMapTest extends TestCase {
     testHasMapEntriesInOrder(map, 1, "a", 4, "b", 3, "d", 2, "c");
   }
 
-  private void testHasMapEntriesInOrder(Map<?, ?> map,
-      Object... alternatingKeysAndValues) {
+  private void testHasMapEntriesInOrder(Map<?, ?> map, Object... alternatingKeysAndValues) {
     List<? extends Entry<?, ?>> entries = Lists.newArrayList(map.entrySet());
     List<Object> keys = Lists.newArrayList(map.keySet());
     List<Object> values = Lists.newArrayList(map.values());
@@ -130,11 +160,54 @@ public class CompactLinkedHashMapTest extends TestCase {
     for (int i = 0; i < map.size(); i++) {
       Object expectedKey = alternatingKeysAndValues[2 * i];
       Object expectedValue = alternatingKeysAndValues[2 * i + 1];
-      Entry<Object, Object> expectedEntry = Maps.immutableEntry(
-          expectedKey, expectedValue);
+      Entry<Object, Object> expectedEntry = Maps.immutableEntry(expectedKey, expectedValue);
       assertEquals(expectedEntry, entries.get(i));
       assertEquals(expectedKey, keys.get(i));
       assertEquals(expectedValue, values.get(i));
+    }
+  }
+
+  public void testAllocArraysDefault() {
+    CompactLinkedHashMap<Integer, String> map = CompactLinkedHashMap.create();
+    assertThat(map.needsAllocArrays()).isTrue();
+    assertThat(map.entries).isNull();
+    assertThat(map.keys).isNull();
+    assertThat(map.values).isNull();
+    assertThat(map.links).isNull();
+
+    map.put(1, Integer.toString(1));
+    assertThat(map.needsAllocArrays()).isFalse();
+    assertThat(map.entries).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.keys).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.values).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.links).hasLength(CompactHashing.DEFAULT_SIZE);
+  }
+
+  public void testAllocArraysExpectedSize() {
+    for (int i = 0; i <= CompactHashing.DEFAULT_SIZE; i++) {
+      CompactLinkedHashMap<Integer, String> map = CompactLinkedHashMap.createWithExpectedSize(i);
+      assertThat(map.needsAllocArrays()).isTrue();
+      assertThat(map.entries).isNull();
+      assertThat(map.keys).isNull();
+      assertThat(map.values).isNull();
+      assertThat(map.links).isNull();
+
+      map.put(1, Integer.toString(1));
+      assertThat(map.needsAllocArrays()).isFalse();
+      int expectedSize = Math.max(1, i);
+      assertThat(map.entries).hasLength(expectedSize);
+      assertThat(map.keys).hasLength(expectedSize);
+      assertThat(map.values).hasLength(expectedSize);
+      assertThat(map.links).hasLength(expectedSize);
+    }
+  }
+
+  public static class FloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
+    public FloodingTest() {
+      super(
+          ImmutableList.of(Construction.mapFromKeys(CompactLinkedHashMap::create)),
+          n -> n * Math.log(n),
+          ImmutableList.of(QueryOp.MAP_GET));
     }
   }
 }

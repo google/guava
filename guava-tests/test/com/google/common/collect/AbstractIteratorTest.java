@@ -137,6 +137,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
+
   @GwtIncompatible // weak references
   public void testFreesNextReference() {
     Iterator<Object> itr =
@@ -249,6 +250,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testCantRemove() {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {

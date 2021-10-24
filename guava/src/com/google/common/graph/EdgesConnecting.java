@@ -23,7 +23,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
@@ -34,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
+@ElementTypesAreNonnullByDefault
 final class EdgesConnecting<E> extends AbstractSet<E> {
 
   private final Map<?, E> nodeToOutEdge;
@@ -58,12 +59,13 @@ final class EdgesConnecting<E> extends AbstractSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object edge) {
+  public boolean contains(@CheckForNull Object edge) {
     E connectingEdge = getConnectingEdge();
     return (connectingEdge != null && connectingEdge.equals(edge));
   }
 
-  private @Nullable E getConnectingEdge() {
+  @CheckForNull
+  private E getConnectingEdge() {
     return nodeToOutEdge.get(targetNode);
   }
 }

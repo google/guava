@@ -109,6 +109,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -163,6 +164,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(Object.class));
     assertEquals(0, ArbitraryInstances.get(Number.class));
     assertEquals(Charsets.UTF_8, ArbitraryInstances.get(Charset.class));
+    assertNotNull(ArbitraryInstances.get(UUID.class));
   }
 
   public void testGet_collections() {

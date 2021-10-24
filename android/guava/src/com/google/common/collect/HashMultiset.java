@@ -16,21 +16,9 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Multiset implementation that uses hashing for key and entry access.
@@ -40,10 +28,11 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
+@ElementTypesAreNonnullByDefault
+public final class HashMultiset<E extends @Nullable Object> extends AbstractMapBasedMultiset<E> {
 
   /** Creates a new, empty {@code HashMultiset} using the default initial capacity. */
-  public static <E> HashMultiset<E> create() {
+  public static <E extends @Nullable Object> HashMultiset<E> create() {
     return create(ObjectCountHashMap.DEFAULT_SIZE);
   }
 
@@ -54,7 +43,7 @@ public class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
    * @param distinctElements the expected number of distinct elements
    * @throws IllegalArgumentException if {@code distinctElements} is negative
    */
-  public static <E> HashMultiset<E> create(int distinctElements) {
+  public static <E extends @Nullable Object> HashMultiset<E> create(int distinctElements) {
     return new HashMultiset<E>(distinctElements);
   }
 
@@ -65,7 +54,8 @@ public class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
    *
    * @param elements the elements that the multiset should contain
    */
-  public static <E> HashMultiset<E> create(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> HashMultiset<E> create(
+      Iterable<? extends E> elements) {
     HashMultiset<E> multiset = create(Multisets.inferDistinctElements(elements));
     Iterables.addAll(multiset, elements);
     return multiset;
@@ -76,8 +66,8 @@ public class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   @Override
-  void init(int distinctElements) {
-    backingMap = new ObjectCountHashMap<>(distinctElements);
+  ObjectCountHashMap<E> newBackingMap(int distinctElements) {
+    return new ObjectCountHashMap<>(distinctElements);
   }
 
   @GwtIncompatible // Not needed in emulated source.

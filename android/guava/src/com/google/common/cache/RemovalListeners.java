@@ -26,6 +26,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class RemovalListeners {
 
   private RemovalListeners() {}
@@ -38,20 +39,10 @@ public final class RemovalListeners {
    * @param executor the executor with which removal notifications are asynchronously executed
    */
   public static <K, V> RemovalListener<K, V> asynchronous(
-      final RemovalListener<K, V> listener, final Executor executor) {
+      RemovalListener<K, V> listener, Executor executor) {
     checkNotNull(listener);
     checkNotNull(executor);
-    return new RemovalListener<K, V>() {
-      @Override
-      public void onRemoval(final RemovalNotification<K, V> notification) {
-        executor.execute(
-            new Runnable() {
-              @Override
-              public void run() {
-                listener.onRemoval(notification);
-              }
-            });
-      }
-    };
+    return (RemovalNotification<K, V> notification) ->
+        executor.execute(() -> listener.onRemoval(notification));
   }
 }

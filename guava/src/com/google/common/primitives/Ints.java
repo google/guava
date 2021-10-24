@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
@@ -44,8 +45,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible
-public final class Ints {
+@GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
+public final class Ints extends IntsMethodsForWeb {
   private Ints() {}
 
   /**
@@ -220,6 +222,8 @@ public final class Ints {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int min(int... array) {
     checkArgument(array.length > 0);
     int min = array[0];
@@ -239,6 +243,8 @@ public final class Ints {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int max(int... array) {
     checkArgument(array.length > 0);
     int max = array[0];
@@ -595,13 +601,13 @@ public final class Ints {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Integer) && Ints.indexOf(array, (Integer) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Integer) {
         int i = Ints.indexOf(array, (Integer) target, start, end);
@@ -613,7 +619,7 @@ public final class Ints {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Integer) {
         int i = Ints.lastIndexOf(array, (Integer) target, start, end);
@@ -644,7 +650,7 @@ public final class Ints {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }
@@ -704,10 +710,12 @@ public final class Ints {
    * @param string the string representation of an integer value
    * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
    *     a length of zero or cannot be parsed as an integer value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
   @Beta
-  public static @Nullable Integer tryParse(String string) {
+  @CheckForNull
+  public static Integer tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -728,10 +736,12 @@ public final class Ints {
    *     {@code string} has a length of zero or cannot be parsed as an integer value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
    *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
-  public static @Nullable Integer tryParse(String string, int radix) {
+  @CheckForNull
+  public static Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {
       return null;

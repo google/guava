@@ -315,9 +315,8 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   }
 
   @CollectionFeature.Require(
-    value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
-    absent = RESTRICTS_ELEMENTS
-  )
+      value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+      absent = RESTRICTS_ELEMENTS)
   public void testSetCount_addNull_nullSupported() {
     assertSetCount(null, 1);
   }

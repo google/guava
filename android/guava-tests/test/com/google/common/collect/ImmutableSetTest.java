@@ -321,6 +321,14 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertNotSame(sortedSet, copy);
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableSet once CollectorTester is usable to java7.
+  public void testToImmutableSet_java7() {
+    ImmutableSet.Builder<String> zis = ImmutableSet.<String>builder().add("a", "b", "a");
+    ImmutableSet.Builder<String> zat = ImmutableSet.<String>builder().add("c", "b", "d", "c");
+    ImmutableSet<String> set = zis.combine(zat).build();
+    assertThat(set).containsExactly("a", "b", "c", "d").inOrder();
+  }
+
   @GwtIncompatible // GWT is single threaded
   public void testCopyOf_threadSafe() {
     verifyThreadSafe();
@@ -365,5 +373,13 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     RegularImmutableSet<String> set = (RegularImmutableSet<String>) builder.build();
     builder.add("baz");
     assertTrue(set.elements != builder.contents);
+  }
+
+  public void testReuseBuilderReducingHashTableSizeWithPowerOfTwoTotalElements() {
+    ImmutableSet.Builder<Object> builder = ImmutableSet.builderWithExpectedSize(6);
+    builder.add(0);
+    ImmutableSet<Object> unused = builder.build();
+    ImmutableSet<Object> subject = builder.add(1).add(2).add(3).build();
+    assertFalse(subject.contains(4));
   }
 }

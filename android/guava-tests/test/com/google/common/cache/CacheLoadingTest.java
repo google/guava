@@ -91,7 +91,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
   private void checkLoggedCause(Throwable t) {
-    assertThat(popLoggedThrowable()).hasCauseThat().isSameAs(t);
+    assertThat(popLoggedThrowable()).hasCauseThat().isSameInstanceAs(t);
   }
 
   private void checkLoggedInvalidLoad() {
@@ -889,7 +889,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object());
       fail();
     } catch (ExecutionError expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -901,7 +901,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (ExecutionError expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(2, stats.missCount());
@@ -929,7 +929,7 @@ public class CacheLoadingTest extends TestCase {
           });
       fail();
     } catch (ExecutionError expected) {
-      assertThat(expected).hasCauseThat().isSameAs(callableError);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(callableError);
     }
     stats = cache.stats();
     assertEquals(3, stats.missCount());
@@ -941,7 +941,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionError expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(4, stats.missCount());
@@ -1122,7 +1122,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionError expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -1145,7 +1145,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object());
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -1157,7 +1157,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(2, stats.missCount());
@@ -1178,7 +1178,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object(), throwing(callableException));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(callableException);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(callableException);
     }
     stats = cache.stats();
     assertEquals(3, stats.missCount());
@@ -1190,7 +1190,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(4, stats.missCount());
@@ -1216,7 +1216,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object());
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(currentThread().interrupted());
     stats = cache.stats();
@@ -1229,7 +1229,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(currentThread().interrupted());
     stats = cache.stats();
@@ -1252,7 +1252,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object(), throwing(callableException));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(callableException);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(callableException);
     }
     assertTrue(currentThread().interrupted());
     stats = cache.stats();
@@ -1265,7 +1265,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(currentThread().interrupted());
     stats = cache.stats();
@@ -1447,7 +1447,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -1471,7 +1471,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(currentThread().interrupted());
     stats = cache.stats();
@@ -1495,7 +1495,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -1507,7 +1507,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(2, stats.missCount());
@@ -1528,7 +1528,7 @@ public class CacheLoadingTest extends TestCase {
       cache.get(new Object(), throwing(callableException));
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(callableException);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(callableException);
     }
     stats = cache.stats();
     assertEquals(3, stats.missCount());
@@ -1540,7 +1540,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(4, stats.missCount());
@@ -1721,7 +1721,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getAll(asList(new Object()));
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(e);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(e);
     }
     stats = cache.stats();
     assertEquals(1, stats.missCount());
@@ -1752,7 +1752,7 @@ public class CacheLoadingTest extends TestCase {
       cache.getUnchecked(1);
       fail();
     } catch (UncheckedExecutionException ue) {
-      assertThat(ue).hasCauseThat().isSameAs(e);
+      assertThat(ue).hasCauseThat().isSameInstanceAs(e);
     }
 
     assertEquals("1", cache.getUnchecked(1));
@@ -1765,6 +1765,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals("2", cache.getUnchecked(2));
     assertEquals(0, removalListener.getCount());
   }
+
 
   public void testReloadAfterValueReclamation() throws InterruptedException, ExecutionException {
     CountingLoader countingLoader = new CountingLoader();
@@ -1866,14 +1867,14 @@ public class CacheLoadingTest extends TestCase {
     } catch (ExecutionException e) {
       fail();
     } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(uee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
     }
 
     try {
       cacheUnchecked.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException caughtUee) {
-      assertThat(caughtUee).hasCauseThat().isSameAs(uee);
+      assertThat(caughtUee).hasCauseThat().isSameInstanceAs(uee);
     }
 
     cacheUnchecked.refresh(new Object());
@@ -1885,21 +1886,21 @@ public class CacheLoadingTest extends TestCase {
     } catch (ExecutionException e) {
       fail();
     } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(uee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
     }
 
     try {
       cacheChecked.get(new Object());
       fail();
     } catch (ExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(ee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(ee);
     }
 
     try {
       cacheChecked.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException caughtUee) {
-      assertThat(caughtUee).hasCauseThat().isSameAs(ee);
+      assertThat(caughtUee).hasCauseThat().isSameInstanceAs(ee);
     }
 
     cacheChecked.refresh(new Object());
@@ -1909,7 +1910,7 @@ public class CacheLoadingTest extends TestCase {
       cacheChecked.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(ee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(ee);
     }
   }
 
@@ -1929,16 +1930,17 @@ public class CacheLoadingTest extends TestCase {
     } catch (ExecutionException e) {
       fail();
     } catch (UncheckedExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(uee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(uee);
     }
 
     try {
       cacheChecked.getAll(asList(new Object()));
       fail();
     } catch (ExecutionException caughtEe) {
-      assertThat(caughtEe).hasCauseThat().isSameAs(ee);
+      assertThat(caughtEe).hasCauseThat().isSameInstanceAs(ee);
     }
   }
+
 
   public void testConcurrentLoading() throws InterruptedException {
     testConcurrentLoading(CacheBuilder.newBuilder());
@@ -1951,6 +1953,7 @@ public class CacheLoadingTest extends TestCase {
     testConcurrentLoadingUncheckedException(builder);
     testConcurrentLoadingCheckedException(builder);
   }
+
 
   public void testConcurrentExpirationLoading() throws InterruptedException {
     testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS));
@@ -2057,7 +2060,7 @@ public class CacheLoadingTest extends TestCase {
       // doConcurrentGet alternates between calling getUnchecked and calling get, but an unchecked
       // exception thrown by the loader is always wrapped as an UncheckedExecutionException.
       assertThat(result.get(i)).isInstanceOf(UncheckedExecutionException.class);
-      assertThat(((UncheckedExecutionException) result.get(i))).hasCauseThat().isSameAs(e);
+      assertThat(((UncheckedExecutionException) result.get(i))).hasCauseThat().isSameInstanceAs(e);
     }
 
     // subsequent calls should call the loader again, not get the old exception
@@ -2103,10 +2106,10 @@ public class CacheLoadingTest extends TestCase {
       int mod = i % 3;
       if (mod == 0 || mod == 2) {
         assertThat(result.get(i)).isInstanceOf(ExecutionException.class);
-        assertThat((ExecutionException) result.get(i)).hasCauseThat().isSameAs(e);
+        assertThat((ExecutionException) result.get(i)).hasCauseThat().isSameInstanceAs(e);
       } else {
         assertThat(result.get(i)).isInstanceOf(UncheckedExecutionException.class);
-        assertThat((UncheckedExecutionException) result.get(i)).hasCauseThat().isSameAs(e);
+        assertThat((UncheckedExecutionException) result.get(i)).hasCauseThat().isSameInstanceAs(e);
       }
     }
 
@@ -2181,6 +2184,7 @@ public class CacheLoadingTest extends TestCase {
     return resultList;
   }
 
+
   public void testAsMapDuringLoading() throws InterruptedException, ExecutionException {
     final CountDownLatch getStartedSignal = new CountDownLatch(2);
     final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
@@ -2239,6 +2243,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
 
+
   public void testInvalidateDuringLoading() throws InterruptedException, ExecutionException {
     // computation starts; invalidate() is called on the key being computed, computation finishes
     final CountDownLatch computationStarted = new CountDownLatch(2);
@@ -2294,6 +2299,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(refreshKey + suffix, map.get(refreshKey));
     assertEquals(2, cache.size());
   }
+
 
   public void testInvalidateAndReloadDuringLoading()
       throws InterruptedException, ExecutionException {
@@ -2366,6 +2372,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(getKey + suffix, map.get(getKey));
     assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
+
 
   public void testExpandDuringLoading() throws InterruptedException {
     final int count = 3;

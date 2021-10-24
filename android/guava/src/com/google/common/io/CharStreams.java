@@ -28,6 +28,8 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with character streams.
@@ -43,8 +45,8 @@ import java.util.List;
  * @author Colin Decker
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class CharStreams {
 
   // 2K chars (4K bytes)
@@ -77,19 +79,19 @@ public final class CharStreams {
       } else {
         return copyReaderToWriter((Reader) from, asWriter(to));
       }
-    } else {
-      checkNotNull(from);
-      checkNotNull(to);
-      long total = 0;
-      CharBuffer buf = createBuffer();
-      while (from.read(buf) != -1) {
-        buf.flip();
-        to.append(buf);
-        total += buf.remaining();
-        buf.clear();
-      }
-      return total;
     }
+
+    checkNotNull(from);
+    checkNotNull(to);
+    long total = 0;
+    CharBuffer buf = createBuffer();
+    while (from.read(buf) != -1) {
+      Java8Compatibility.flip(buf);
+      to.append(buf);
+      total += buf.remaining();
+      Java8Compatibility.clear(buf);
+    }
+    return total;
   }
 
   // TODO(lukes): consider allowing callers to pass in a buffer to use, some callers would be able
@@ -193,6 +195,7 @@ public final class CharStreams {
    * @return a mutable {@link List} containing all the lines
    * @throws IOException if an I/O error occurs
    */
+  @Beta
   public static List<String> readLines(Readable r) throws IOException {
     List<String> result = new ArrayList<>();
     LineReader lineReader = new LineReader(r);
@@ -212,8 +215,11 @@ public final class CharStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
+  @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(Readable readable, LineProcessor<T> processor) throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readLines(
+      Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
     checkNotNull(processor);
 
@@ -233,6 +239,7 @@ public final class CharStreams {
    *
    * @since 20.0
    */
+  @Beta
   @CanIgnoreReturnValue
   public static long exhaust(Readable readable) throws IOException {
     long total = 0;
@@ -240,7 +247,7 @@ public final class CharStreams {
     CharBuffer buf = createBuffer();
     while ((read = readable.read(buf)) != -1) {
       total += read;
-      buf.clear();
+      Java8Compatibility.clear(buf);
     }
     return total;
   }
@@ -254,6 +261,7 @@ public final class CharStreams {
    * @throws EOFException if this stream reaches the end before skipping all the characters
    * @throws IOException if an I/O error occurs
    */
+  @Beta
   public static void skipFully(Reader reader, long n) throws IOException {
     checkNotNull(reader);
     while (n > 0) {
@@ -270,6 +278,7 @@ public final class CharStreams {
    *
    * @since 15.0
    */
+  @Beta
   public static Writer nullWriter() {
     return NullWriter.INSTANCE;
   }
@@ -302,14 +311,13 @@ public final class CharStreams {
     }
 
     @Override
-    public Writer append(CharSequence csq) {
-      checkNotNull(csq);
+    public Writer append(@CheckForNull CharSequence csq) {
       return this;
     }
 
     @Override
-    public Writer append(CharSequence csq, int start, int end) {
-      checkPositionIndexes(start, end, csq.length());
+    public Writer append(@CheckForNull CharSequence csq, int start, int end) {
+      checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }
 
@@ -338,6 +346,7 @@ public final class CharStreams {
    * @param target the object to which output will be sent
    * @return a new Writer object, unless target is a Writer, in which case the target is returned
    */
+  @Beta
   public static Writer asWriter(Appendable target) {
     if (target instanceof Writer) {
       return (Writer) target;

@@ -116,12 +116,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    * @since 19.0
    */
   public static final Predicate<Class<?>> UNDERSCORE_IN_NAME =
-      new Predicate<Class<?>>() {
-        @Override
-        public boolean apply(Class<?> c) {
-          return c.getSimpleName().contains("_");
-        }
-      };
+      (Class<?> c) -> c.getSimpleName().contains("_");
 
   /* The names of the expected method that tests null checks. */
   private static final ImmutableList<String> NULL_TEST_METHOD_NAMES =
@@ -152,12 +147,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private final ClassSanityTester tester = new ClassSanityTester();
   private Visibility visibility = Visibility.PACKAGE;
   private Predicate<Class<?>> classFilter =
-      new Predicate<Class<?>>() {
-        @Override
-        public boolean apply(Class<?> cls) {
-          return visibility.isVisible(cls.getModifiers());
-        }
-      };
+      (Class<?> cls) -> visibility.isVisible(cls.getModifiers());
 
   /**
    * Restricts the sanity tests for public API only. By default, package-private API are also
@@ -415,8 +405,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   abstract static class Chopper {
 
-    final Chopper or(final Chopper you) {
-      final Chopper i = this;
+    final Chopper or(Chopper you) {
+      Chopper i = this;
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {
@@ -427,7 +417,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
     abstract Optional<String> chop(String str);
 
-    static Chopper suffix(final String suffix) {
+    static Chopper suffix(String suffix) {
       return new Chopper() {
         @Override
         Optional<String> chop(String str) {

@@ -42,8 +42,8 @@ Some examples of types of pull requests that are immediately helpful:
 Guidelines for any code contributions:
 
   1. Any significant changes should be accompanied by tests. The project already
-     has good test coverage, so look at some of the existing tests if you're
-     unsure how to go about it.
+     has good test coverage, so look at some existing tests if you're unsure
+     how to go about it.
   2. All contributions must be licensed Apache 2.0 and all files must have a
      copy of the boilerplate license comment (can be copied from an existing
      file).

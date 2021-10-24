@@ -19,13 +19,16 @@ package com.google.common.reflect;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
@@ -39,6 +42,180 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class InvokableTest extends TestCase {
+  // Historically Invokable inherited from java.lang.reflect.AccessibleObject. That's no longer the
+  // case, but we do check that its API still has the same public methods. We exclude some methods
+  // that were added in Java 9 and that people probably weren't calling via Invokable, namely
+  // `boolean canAccess(Object)` and `boolean trySetAccessible()`.
+  public void testApiCompatibleWithAccessibleObject() {
+    ImmutableSet<String> invokableMethods =
+        publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
+    ImmutableSet<String> accesibleObjectMethods =
+        publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
+    assertThat(invokableMethods).containsAtLeastElementsIn(accesibleObjectMethods);
+    Class<?> genericDeclaration;
+    try {
+      genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
+      ImmutableSet<String> genericDeclarationMethods =
+          publicMethodSignatures(genericDeclaration, ImmutableSet.<String>of());
+      assertThat(invokableMethods).containsAtLeastElementsIn(genericDeclarationMethods);
+    } catch (ClassNotFoundException e) {
+      // OK: we're on Java 7, which doesn't have this class
+    }
+  }
+
+  private static ImmutableSet<String> publicMethodSignatures(
+      Class<?> c, ImmutableSet<String> ignore) {
+    ImmutableSet.Builder<String> methods = ImmutableSet.builder();
+    for (Method method : c.getMethods()) {
+      if (Modifier.isStatic(method.getModifiers()) || ignore.contains(method.getName())) {
+        continue;
+      }
+      StringBuilder signature =
+          new StringBuilder()
+              .append(typeName(method.getReturnType()))
+              .append(" ")
+              .append(method.getName())
+              .append("(");
+      String sep = "";
+      for (Class<?> param : method.getParameterTypes()) {
+        signature.append(sep).append(typeName(param));
+        sep = ", ";
+      }
+      methods.add(signature.append(")").toString());
+    }
+    return methods.build();
+  }
+
+  private static String typeName(Class<?> type) {
+    return type.isArray() ? typeName(type.getComponentType()) + "[]" : type.getName();
+  }
+
+  public void testConstructor() throws Exception {
+    Invokable<A, A> invokable = A.constructor();
+    assertTrue(invokable.isPublic());
+    assertFalse(invokable.isPackagePrivate());
+    assertFalse(invokable.isAbstract());
+    assertFalse(invokable.isStatic());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testAbstractMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("abstractMethod");
+    assertTrue(invokable.isPackagePrivate());
+    assertTrue(invokable.isAbstract());
+    assertFalse(invokable.isFinal());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testOverridableMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("overridableMethod");
+    assertTrue(invokable.isPackagePrivate());
+    assertFalse(invokable.isAbstract());
+    assertFalse(invokable.isFinal());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testPrivateMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("privateMethod");
+    assertFalse(invokable.isAbstract());
+    assertTrue(invokable.isPrivate());
+    assertFalse(invokable.isPackagePrivate());
+    assertFalse(invokable.isPublic());
+    assertFalse(invokable.isProtected());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testProtectedMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("protectedMethod");
+    assertFalse(invokable.isAbstract());
+    assertFalse(invokable.isPrivate());
+    assertFalse(invokable.isPackagePrivate());
+    assertFalse(invokable.isFinal());
+    assertFalse(invokable.isPublic());
+    assertTrue(invokable.isProtected());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testFinalMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("publicFinalMethod");
+    assertFalse(invokable.isAbstract());
+    assertFalse(invokable.isPrivate());
+    assertTrue(invokable.isFinal());
+    assertTrue(invokable.isPublic());
+    assertTrue(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  public void testNativeMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("nativeMethod");
+    assertTrue(invokable.isNative());
+    assertTrue(invokable.isPackagePrivate());
+  }
+
+  public void testSynchronizedMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("synchronizedMethod");
+    assertTrue(invokable.isSynchronized());
+  }
+
+  public void testUnannotatedMethod() throws Exception {
+    Invokable<?, Object> invokable = A.method("notAnnotatedMethod");
+    assertFalse(invokable.isAnnotationPresent(Tested.class));
+  }
+
+  @Retention(RetentionPolicy.RUNTIME)
+  private @interface Tested {}
+
+  private abstract static class A {
+    @Tested private boolean privateField;
+    @Tested int packagePrivateField;
+    @Tested protected int protectedField;
+    @Tested public String publicField;
+    @Tested private static Iterable<String> staticField;
+    @Tested private final Object finalField;
+    private volatile char volatileField;
+    private transient long transientField;
+
+    @Tested
+    public A(Object finalField) {
+      this.finalField = finalField;
+    }
+
+    @Tested
+    abstract void abstractMethod();
+
+    @Tested
+    void overridableMethod() {}
+
+    @Tested
+    protected void protectedMethod() {}
+
+    @Tested
+    private void privateMethod() {}
+
+    @Tested
+    public final void publicFinalMethod() {}
+
+    void notAnnotatedMethod() {}
+
+    static Invokable<A, A> constructor() throws Exception {
+      Constructor<A> constructor = A.class.getDeclaredConstructor(Object.class);
+      Invokable<A, A> invokable = Invokable.from(constructor);
+      assertEquals(constructor.getName(), invokable.getName());
+      assertEquals(A.class, invokable.getDeclaringClass());
+      return invokable;
+    }
+
+    static Invokable<?, Object> method(String name, Class<?>... parameterTypes) throws Exception {
+      Invokable<?, Object> invokable =
+          Invokable.from(A.class.getDeclaredMethod(name, parameterTypes));
+      assertEquals(name, invokable.getName());
+      assertEquals(A.class, invokable.getDeclaringClass());
+      return invokable;
+    }
+
+    native void nativeMethod();
+
+    synchronized void synchronizedMethod() {}
+  }
 
   public void testConstructor_returnType() throws Exception {
     assertEquals(Prepender.class, Prepender.constructor().getReturnType().getType());
@@ -74,7 +251,7 @@ public class InvokableTest extends TestCase {
   public void testConstructor_typeParameters() throws Exception {
     TypeVariable<?>[] variables = Prepender.constructor().getTypeParameters();
     assertThat(variables).hasLength(1);
-    assertEquals("A", variables[0].getName());
+    assertEquals("T", variables[0].getName());
   }
 
   public void testConstructor_parameters() throws Exception {
@@ -530,6 +707,9 @@ public class InvokableTest extends TestCase {
 
   public void testEquals() throws Exception {
     new EqualsTester()
+        .addEqualityGroup(A.constructor(), A.constructor())
+        .addEqualityGroup(A.method("privateMethod"), A.method("privateMethod"))
+        .addEqualityGroup(A.method("publicFinalMethod"))
         .addEqualityGroup(Prepender.constructor(), Prepender.constructor())
         .addEqualityGroup(Prepender.constructor(String.class, int.class))
         .addEqualityGroup(Prepender.method("privateMethod"), Prepender.method("privateMethod"))
@@ -562,7 +742,7 @@ public class InvokableTest extends TestCase {
     }
 
     // just for testing
-    private <A> Prepender() {
+    private <T> Prepender() {
       this(null, 0);
     }
 
