@@ -53,6 +53,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -2041,10 +2042,7 @@ public class FuturesTest extends TestCase {
   public void testScheduleAsync_asyncCallable_nullInsteadOfFuture() throws Exception {
     ListenableFuture<?> chainedFuture =
         scheduleAsync(
-            constantAsyncCallable(null),
-            1,
-            TimeUnit.NANOSECONDS,
-            newSingleThreadScheduledExecutor());
+            constantAsyncCallable(null), 1, NANOSECONDS, newSingleThreadScheduledExecutor());
     try {
       chainedFuture.get();
       fail();
@@ -2075,7 +2073,7 @@ public class FuturesTest extends TestCase {
           }
         };
     ListenableFuture<Integer> future =
-        scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, newSingleThreadScheduledExecutor());
+        scheduleAsync(callable, 1, NANOSECONDS, newSingleThreadScheduledExecutor());
     inFunction.await();
     future.cancel(false);
     callableDone.countDown();
@@ -2114,7 +2112,7 @@ public class FuturesTest extends TestCase {
             awaitUninterruptibly(beforeFunction);
           }
         });
-    ListenableFuture<Integer> future = scheduleAsync(callable, 1, TimeUnit.NANOSECONDS, executor);
+    ListenableFuture<Integer> future = scheduleAsync(callable, 1, NANOSECONDS, executor);
     future.cancel(false);
 
     // Unpause the executor.
