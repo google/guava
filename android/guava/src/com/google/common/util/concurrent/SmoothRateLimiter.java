@@ -164,7 +164,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    * Before going into the details of this particular function, let's keep in mind the basics:
    *
    * <ol>
-   *   <li>The state of the RateLimiter (storedPermits) is a vertical line in this figure.
+   *   <li>The state of the RateLimiter (storedPermits) is a horizontal line in this figure.
    *   <li>When the RateLimiter is not used, this goes right (up to maxPermits)
    *   <li>When the RateLimiter is used, this goes left (down to zero), since if we have
    *       storedPermits, we serve from those first
