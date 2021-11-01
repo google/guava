@@ -1696,14 +1696,11 @@ class MapMakerInternalMap<
         if (newValue != null) {
           // Update entry
           put(key, hash, newValue, false);
-          return newValue;
-        } else {
+        } else if (oldValue != null) {
           // Remove entry
-          if (oldValue != null || containsKey(key, hash)) {
-            remove(key, hash);
-          }
-          return null;
+          remove(key, hash);
         }
+        return newValue;
       } finally {
         unlock();
       }
