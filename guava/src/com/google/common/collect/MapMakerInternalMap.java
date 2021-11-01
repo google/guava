@@ -47,6 +47,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BiFunction;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -1686,6 +1688,27 @@ class MapMakerInternalMap<
       }
     }
 
+    V compute(K key, int hash, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      lock();
+      try {
+        V oldValue = get(key, hash);
+        V newValue = remappingFunction.apply(key, oldValue);
+        if (newValue != null) {
+          // Update entry
+          put(key, hash, newValue, false);
+          return newValue;
+        } else {
+          // Remove entry
+          if (oldValue != null || containsKey(key, hash)) {
+            remove(key, hash);
+          }
+          return null;
+        }
+      } finally {
+        unlock();
+      }
+    }
+
     @CanIgnoreReturnValue
     V remove(Object key, int hash) {
       lock();
@@ -2465,6 +2488,14 @@ class MapMakerInternalMap<
     checkNotNull(value);
     int hash = hash(key);
     return segmentFor(hash).replace(key, hash, value);
+  }
+
+  @Override
+  public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    checkNotNull(key);
+    checkNotNull(remappingFunction);
+    int hash = hash(key);
+    return segmentFor(hash).compute(key, hash, remappingFunction);
   }
 
   @Override
