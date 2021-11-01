@@ -1693,10 +1693,12 @@ class MapMakerInternalMap<
       try {
         V oldValue = get(key, hash);
         V newValue = remappingFunction.apply(key, oldValue);
-        if (newValue != null) {
+        if (newValue != null
+            && !map.valueEquivalence().equivalent(oldValue, newValue)) {
           // Update entry
           put(key, hash, newValue, false);
-        } else if (oldValue != null) {
+        } else if (newValue == null
+                   && oldValue != null) {
           // Remove entry
           remove(key, hash);
         }
