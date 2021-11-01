@@ -328,6 +328,15 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.00", "R1.00", "R1.00", "R0.50", "R1.00", "R2.00");
   }
 
+  public void testCanAcquire(){
+    RateLimiter limiter = RateLimiter.create(5, stopwatch);
+    assertTrue(limiter.canAcquire());
+    assertTrue(limiter.tryAcquire());
+    assertFalse(limiter.canAcquire());
+    stopwatch.sleepMillis(300); //make sure there is a permit generated
+    assertTrue(limiter.canAcquire());
+  }
+
   public void testTryAcquire_noWaitAllowed() {
     RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
     assertTrue(limiter.tryAcquire(0, SECONDS));

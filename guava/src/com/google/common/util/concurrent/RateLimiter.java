@@ -427,6 +427,16 @@ public abstract class RateLimiter {
   }
 
   /**
+   * to test if client can get at least one permit or not. NOTE this interface would not reserve any permit.
+   *
+   * @return {@code true} if some permits can be acquired, {@code false} otherwise
+   */
+  public boolean canAcquire() {
+    long nowMicros = stopwatch.readMicros();
+    return canAcquire(nowMicros, 0);
+  }
+
+  /**
    * Reserves next ticket and returns the wait time that the caller must wait for.
    *
    * @return the required wait time, never negative
