@@ -20,24 +20,33 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static javax.annotation.meta.When.UNKNOWN;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import javax.annotation.Nonnull;
-import javax.annotation.meta.TypeQualifierNickname;
 
 /**
- * Marks a "top-level" type-variable usage as (a) a Kotlin platform type when the type argument is
- * non-nullable and (b) nullable when the type argument is nullable. This is the closest we can get
- * to "non-nullable when non-nullable; nullable when nullable" (like the Android <a
+ * Marks a "top-level" type-variable usage as the closest we can get to "non-nullable when
+ * non-nullable; nullable when nullable" (like the Android <a
  * href="https://android.googlesource.com/platform/libcore/+/master/luni/src/main/java/libcore/util/NullFromTypeParam.java">{@code
- * NullFromTypeParam}</a>). We use this to "undo" {@link ElementTypesAreNonnullByDefault}.
+ * NullFromTypeParam}</a>).
+ *
+ * <p>Consumers of this annotation include:
+ *
+ * <ul>
+ *   <li>Kotlin, for which it makes the type-variable usage (a) a Kotlin platform type when the type
+ *       argument is non-nullable and (b) nullable when the type argument is nullable. We use this
+ *       to "undo" {@link ElementTypesAreNonnullByDefault}.
+ *   <li><a href="https://developers.google.com/j2objc">J2ObjC</a>
+ *   <li>{@code NullPointerTester}, at least in the Android backport (where the type-use annotations
+ *       {@code NullPointerTester} would need are not available) and in case of <a
+ *       href="https://bugs.openjdk.java.net/browse/JDK-8202469">JDK-8202469</a>
+ * </ul>
+ *
  */
 @GwtCompatible
 @Retention(RUNTIME)
 @Target({FIELD, METHOD, PARAMETER})
-@TypeQualifierNickname
-@Nonnull(when = UNKNOWN)
+@javax.annotation.meta.TypeQualifierNickname
+@javax.annotation.Nonnull(when = javax.annotation.meta.When.UNKNOWN)
 @interface ParametricNullness {}
