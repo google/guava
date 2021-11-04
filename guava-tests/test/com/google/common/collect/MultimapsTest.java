@@ -667,7 +667,8 @@ public class MultimapsTest extends TestCase {
     assertEquals("[3, 1, 4]", ummodifiable.get(Color.BLUE).toString());
 
     Collection<Integer> collection = multimap.get(Color.BLUE);
-    assertEquals(collection, collection);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(collection.equals(collection));
 
     assertFalse(multimap.keySet() instanceof SortedSet);
     assertFalse(multimap.asMap() instanceof SortedMap);
