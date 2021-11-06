@@ -105,7 +105,23 @@ public class StringsTest extends TestCase {
     } catch (NullPointerException expected) {
     }
   }
+  public void testRepeatCharacter() {
+    char input = '2';
+    assertEquals("", Strings.repeat(input, 0));
+    assertEquals("2", Strings.repeat(input,1));
+    assertEquals("22", Strings.repeat(input,2));
+    assertEquals("222", Strings.repeat(input,3));
 
+    for (int i = 0; i < 100; ++i) {
+      assertEquals(i, Strings.repeat(input, i).length());
+    }
+
+    try {
+      Strings.repeat('x', -1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
   public void testRepeat() {
     String input = "20";
     assertEquals("", Strings.repeat(input, 0));

@@ -136,6 +136,23 @@ public final class Strings {
   }
 
   /**
+   * Returns a string consisting of a specific number of concatenated copies of an input char. For
+   * example, {@code repeat('h', 3)} returns the string {@code "hhh"}.
+   *
+   * <p><b>Java 11+ users:</b> use {@code String.valueOf(character).repeat(count)} instead.
+   *
+   * @param character any char
+   * @param count the number of times to repeat it; a nonnegative integer
+   * @return a string containing {@code string} repeated {@code count} times
+   * @throws IllegalArgumentException if {@code count} is negative
+   */
+  @InlineMe(replacement = "string.repeat(count)")
+  @InlineMeValidationDisabled("Java 11+ API only")
+  public static String repeat(char character, int count) {
+    return repeat(String.valueOf(character), count);
+  }
+
+  /**
    * Returns a string consisting of a specific number of concatenated copies of an input string. For
    * example, {@code repeat("hey", 3)} returns the string {@code "heyheyhey"}.
    *
