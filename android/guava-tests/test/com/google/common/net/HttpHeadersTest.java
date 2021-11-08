@@ -45,6 +45,7 @@ public class HttpHeadersTest extends TestCase {
             .put("SEC_WEBSOCKET_KEY", "Sec-WebSocket-Key")
             .put("SEC_WEBSOCKET_PROTOCOL", "Sec-WebSocket-Protocol")
             .put("SEC_WEBSOCKET_VERSION", "Sec-WebSocket-Version")
+            .put("X_GOOGLE_EOM", "X-Google-EOM")
             .put("X_WEBKIT_CSP", "X-WebKit-CSP")
             .put("X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only")
             .build();
