@@ -448,9 +448,29 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       if (size == 0) {
         return of();
       }
-      sortEntries();
+      if (valueComparator != null) {
+        if (entriesUsed) {
+          alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, 2 * size);
+        }
+        sortEntries(alternatingKeysAndValues, size, valueComparator);
+      }
       entriesUsed = true;
       return new RegularImmutableBiMap<K, V>(alternatingKeysAndValues, size);
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}. This method is inherited from {@link
+     * ImmutableMap.Builder}, but it does not make sense for bimaps.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated This method does not make sense for bimaps and should not be called.
+     * @since NEXT
+     */
+    @DoNotCall
+    @Deprecated
+    @Override
+    public ImmutableBiMap<K, V> buildKeepingLast() {
+      throw new UnsupportedOperationException("Not supported for bimaps");
     }
   }
 

@@ -310,12 +310,25 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return buildOrThrow();
     }
 
-    public ImmutableMap<K, V> buildOrThrow() {
+    private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
       if (valueComparator != null) {
         Collections.sort(
             entries, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
       }
-      return fromEntryList(entries);
+      return fromEntryList(throwIfDuplicateKeys, entries);
+    }
+
+    public ImmutableMap<K, V> buildOrThrow() {
+      return build(/* throwIfDuplicateKeys= */ true);
+    }
+
+    public ImmutableMap<K, V> buildKeepingLast() {
+      if (valueComparator != null) {
+        // Probably not worth supporting this in GWT
+        throw new UnsupportedOperationException(
+            "orderEntriesByValue + buildKeepingLast not supported under GWT");
+      }
+      return build(/* throwIfDuplicateKeys= */ false);
     }
 
     ImmutableMap<K, V> buildJdkBacked() {
@@ -323,8 +336,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  static <K, V> ImmutableMap<K, V> fromEntryList(
+  private static <K, V> ImmutableMap<K, V> fromEntryList(
       Collection<? extends Entry<? extends K, ? extends V>> entries) {
+    return fromEntryList(/* throwIfDuplicateKeys= */ true, entries);
+  }
+
+  private static <K, V> ImmutableMap<K, V> fromEntryList(
+      boolean throwIfDuplicateKeys, Collection<? extends Entry<? extends K, ? extends V>> entries) {
     int size = entries.size();
     switch (size) {
       case 0:
@@ -335,7 +353,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       default:
         @SuppressWarnings("unchecked")
         Entry<K, V>[] entryArray = entries.toArray(new Entry[entries.size()]);
-        return new RegularImmutableMap<K, V>(entryArray);
+        return new RegularImmutableMap<K, V>(throwIfDuplicateKeys, entryArray);
     }
   }
 

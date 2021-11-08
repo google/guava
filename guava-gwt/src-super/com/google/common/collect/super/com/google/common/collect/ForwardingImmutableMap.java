@@ -37,12 +37,12 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @SuppressWarnings("unchecked")
-  ForwardingImmutableMap(Entry<? extends K, ? extends V>... entries) {
+  ForwardingImmutableMap(boolean throwIfDuplicateKeys, Entry<? extends K, ? extends V>... entries) {
     Map<K, V> delegate = Maps.newLinkedHashMap();
     for (Entry<? extends K, ? extends V> entry : entries) {
       K key = checkNotNull(entry.getKey());
       V previous = delegate.put(key, checkNotNull(entry.getValue()));
-      if (previous != null) {
+      if (throwIfDuplicateKeys && previous != null) {
         throw new IllegalArgumentException("duplicate key: " + key);
       }
     }

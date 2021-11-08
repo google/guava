@@ -28,6 +28,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
+import java.util.IdentityHashMap;
 import java.util.function.BiConsumer;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -73,7 +74,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient int mask;
 
   static <K, V> ImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
-    return fromEntryArray(entries.length, entries);
+    return fromEntryArray(entries.length, entries, /* throwIfDuplicateKeys= */ true);
   }
 
   /**
@@ -81,11 +82,26 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * the entries in entryArray with its own entry objects (though they will have the same key/value
    * contents), and may take ownership of entryArray.
    */
-  static <K, V> ImmutableMap<K, V> fromEntryArray(int n, @Nullable Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableMap<K, V> fromEntryArray(
+      int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys) {
     checkPositionIndex(n, entryArray.length);
     if (n == 0) {
-      return (RegularImmutableMap<K, V>) EMPTY;
+      @SuppressWarnings("unchecked") // it has no entries so the type variables don't matter
+      ImmutableMap<K, V> empty = (ImmutableMap<K, V>) EMPTY;
+      return empty;
     }
+    try {
+      return fromEntryArrayCheckingBucketOverflow(n, entryArray, throwIfDuplicateKeys);
+    } catch (BucketOverflowException e) {
+      // probable hash flooding attack, fall back to j.u.HM based implementation and use its
+      // implementation of hash flooding protection
+      return JdkBackedImmutableMap.create(n, entryArray, throwIfDuplicateKeys);
+    }
+  }
+
+  private static <K, V> ImmutableMap<K, V> fromEntryArrayCheckingBucketOverflow(
+      int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys)
+      throws BucketOverflowException {
     /*
      * The cast is safe: n==entryArray.length means that we have filled the whole array with Entry
      * instances, in which case it is safe to cast it from an array of nullable entries to an array
@@ -97,29 +113,85 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     @Nullable ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
     int mask = tableSize - 1;
-    for (int entryIndex = 0; entryIndex < n; entryIndex++) {
+    // If duplicates are allowed, this IdentityHashMap will record the final Entry for each
+    // duplicated key. We will use this final Entry to overwrite earlier slots in the entries array
+    // that have the same key. Then a second pass will remove all but the first of the slots that
+    // have this Entry. The value in the map becomes false when this first entry has been copied, so
+    // we know not to copy the remaining ones.
+    IdentityHashMap<Entry<K, V>, Boolean> duplicates = null;
+    int dupCount = 0;
+    for (int entryIndex = n - 1; entryIndex >= 0; entryIndex--) {
       // requireNonNull is safe because the first `n` elements have been filled in.
       Entry<K, V> entry = requireNonNull(entryArray[entryIndex]);
       K key = entry.getKey();
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      ImmutableMapEntry<K, V> existing = table[tableIndex];
-      // prepend, not append, so the entries can be immutable
+      ImmutableMapEntry<K, V> keyBucketHead = table[tableIndex];
       ImmutableMapEntry<K, V> newEntry =
-          (existing == null)
-              ? makeImmutable(entry, key, value)
-              : new NonTerminalImmutableMapEntry<K, V>(key, value, existing);
+          checkNoConflictInKeyBucket(key, value, keyBucketHead, throwIfDuplicateKeys);
+      if (newEntry == null) {
+        // prepend, not append, so the entries can be immutable
+        newEntry =
+            (keyBucketHead == null)
+                ? makeImmutable(entry, key, value)
+                : new NonTerminalImmutableMapEntry<K, V>(key, value, keyBucketHead);
+      } else {
+        if (duplicates == null) {
+          duplicates = new IdentityHashMap<>();
+        }
+        duplicates.put(newEntry, true);
+        dupCount++;
+        // Make sure we are not overwriting the original entries array, in case we later do
+        // buildOrThrow(). We would want an exception to include two values for the duplicate key.
+        if (entries == entryArray) {
+          entries = entries.clone();
+        }
+      }
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
-      int bucketSize = checkNoConflictInKeyBucket(key, newEntry, existing);
-      if (bucketSize > MAX_HASH_BUCKET_LENGTH) {
-        // probable hash flooding attack, fall back to j.u.HM based implementation and use its
-        // implementation of hash flooding protection
-        return JdkBackedImmutableMap.create(n, entryArray);
+    }
+    if (duplicates != null) {
+      // Explicit type parameters needed here to avoid a problem with nullness inference.
+      entries = RegularImmutableMap.<K, V>removeDuplicates(entries, n, n - dupCount, duplicates);
+      int newTableSize = Hashing.closedTableSize(entries.length, MAX_LOAD_FACTOR);
+      if (newTableSize != tableSize) {
+        return fromEntryArrayCheckingBucketOverflow(
+            entries.length, entries, /* throwIfDuplicateKeys= */ true);
       }
     }
     return new RegularImmutableMap<>(entries, table, mask);
+  }
+
+  /**
+   * Constructs a new entry array where each duplicated key from the original appears only once, at
+   * its first position but with its final value. The {@code duplicates} map is modified.
+   *
+   * @param entries the original array of entries including duplicates
+   * @param n the number of valid entries in {@code entries}
+   * @param newN the expected number of entries once duplicates are removed
+   * @param duplicates a map of canonical {@link Entry} objects for each duplicate key. This map
+   *     will be updated by the method, setting each value to false as soon as the {@link Entry} has
+   *     been included in the new entry array.
+   * @return an array of {@code newN} entries where no key appears more than once.
+   */
+  static <K, V> Entry<K, V>[] removeDuplicates(
+      Entry<K, V>[] entries, int n, int newN, IdentityHashMap<Entry<K, V>, Boolean> duplicates) {
+    Entry<K, V>[] newEntries = createEntryArray(newN);
+    for (int in = 0, out = 0; in < n; in++) {
+      Entry<K, V> entry = entries[in];
+      Boolean status = duplicates.get(entry);
+      // null=>not dup'd; true=>dup'd, first; false=>dup'd, not first
+      if (status != null) {
+        if (status) {
+          duplicates.put(entry, false);
+        } else {
+          continue; // delete this entry; we already copied an earlier one for the same key
+        }
+      }
+      newEntries[out++] = entry;
+    }
+    return newEntries;
   }
 
   /** Makes an entry usable internally by a new ImmutableMap without rereading its contents. */
@@ -142,19 +214,40 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   /**
-   * @return number of entries in this bucket
-   * @throws IllegalArgumentException if another entry in the bucket has the same key
+   * Checks if the given key already appears in the hash chain starting at {@code keyBucketHead}. If
+   * it does not, then null is returned. If it does, then if {@code throwIfDuplicateKeys} is true an
+   * {@code IllegalArgumentException} is thrown, and otherwise the existing {@link Entry} is
+   * returned.
+   *
+   * @throws IllegalArgumentException if another entry in the bucket has the same key and {@code
+   *     throwIfDuplicateKeys} is true
+   * @throws BucketOverflowException if this bucket has too many entries, which may indicate a hash
+   *     flooding attack
    */
   @CanIgnoreReturnValue
-  static int checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @CheckForNull ImmutableMapEntry<?, ?> keyBucketHead) {
+  static <K, V> @Nullable ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
+      Object key,
+      Object newValue,
+      @CheckForNull ImmutableMapEntry<K, V> keyBucketHead,
+      boolean throwIfDuplicateKeys)
+      throws BucketOverflowException {
     int bucketSize = 0;
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
-      checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
-      bucketSize++;
+      if (keyBucketHead.getKey().equals(key)) {
+        if (throwIfDuplicateKeys) {
+          checkNoConflict(/* safe= */ false, "key", keyBucketHead, key + "=" + newValue);
+        } else {
+          return keyBucketHead;
+        }
+      }
+      if (++bucketSize > MAX_HASH_BUCKET_LENGTH) {
+        throw new BucketOverflowException();
+      }
     }
-    return bucketSize;
+    return null;
   }
+
+  static class BucketOverflowException extends Exception {}
 
   @Override
   @CheckForNull

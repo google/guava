@@ -57,6 +57,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -388,6 +390,42 @@ public class ImmutableMapTest extends TestCase {
       }
     }
 
+    @GwtIncompatible // we haven't implemented this
+    public void testBuilder_orderEntriesByValue_keepingLast() {
+      ImmutableMap.Builder<String, Integer> builder =
+          new Builder<String, Integer>()
+              .orderEntriesByValue(Ordering.natural())
+              .put("three", 3)
+              .put("one", 1)
+              .put("five", 5)
+              .put("four", 3)
+              .put("four", 5)
+              .put("four", 4) // this should win because it's last
+              .put("two", 2);
+      assertMapEquals(
+          builder.buildKeepingLast(), "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
+      try {
+        builder.buildOrThrow();
+        fail("Expected exception from duplicate keys");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+
+    @GwtIncompatible // we haven't implemented this
+    public void testBuilder_orderEntriesByValue_keepingLast_builderSizeFieldPreserved() {
+      ImmutableMap.Builder<String, Integer> builder =
+          new Builder<String, Integer>()
+              .orderEntriesByValue(Ordering.natural())
+              .put("one", 1)
+              .put("one", 1);
+      assertMapEquals(builder.buildKeepingLast(), "one", 1);
+      try {
+        builder.buildOrThrow();
+        fail("Expected exception from duplicate keys");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+
     public void testBuilder_withImmutableEntry() {
       ImmutableMap<String, Integer> map =
           new Builder<String, Integer>().put(Maps.immutableEntry("one", 1)).buildOrThrow();
@@ -559,12 +597,91 @@ public class ImmutableMapTest extends TestCase {
       Builder<String, Integer> builder =
           new Builder<String, Integer>()
               .put("one", 1)
-              .put("one", 1); // throwing on this line would be even better
+              .put("one", 1); // throwing on this line might be better but it's too late to change
 
       try {
         builder.buildOrThrow();
         fail();
       } catch (IllegalArgumentException expected) {
+      }
+    }
+
+    public void testBuildKeepingLast_allowsOverwrite() {
+      Builder<Integer, String> builder =
+          new Builder<Integer, String>()
+              .put(1, "un")
+              .put(2, "deux")
+              .put(70, "soixante-dix")
+              .put(70, "septante")
+              .put(70, "seventy")
+              .put(1, "one")
+              .put(2, "two");
+      ImmutableMap<Integer, String> map = builder.buildKeepingLast();
+      assertMapEquals(map, 1, "one", 2, "two", 70, "seventy");
+    }
+
+    // The java7 branch has different code depending on whether the entry indexes fit in a byte,
+    // short, or int. The small table in testBuildKeepingLast_allowsOverwrite will test the byte
+    // case. This method tests the short case.
+    public void testBuildKeepingLast_shortTable() {
+      Builder<Integer, String> builder = ImmutableMap.builder();
+      Map<Integer, String> expected = new LinkedHashMap<>();
+      for (int i = 0; i < 1000; i++) {
+        // Truncate to even key, so we have put(0, "0") then put(0, "1"). Half the entries are
+        // duplicates.
+        Integer key = i & ~1;
+        String value = String.valueOf(i);
+        builder.put(key, value);
+        expected.put(key, value);
+      }
+      ImmutableMap<Integer, String> map = builder.buildKeepingLast();
+      assertThat(map).hasSize(500);
+      assertThat(map).containsExactlyEntriesIn(expected).inOrder();
+    }
+
+    // This method tests the int case.
+    public void testBuildKeepingLast_bigTable() {
+      Builder<Integer, String> builder = ImmutableMap.builder();
+      Map<Integer, String> expected = new LinkedHashMap<>();
+      for (int i = 0; i < 200_000; i++) {
+        // Truncate to even key, so we have put(0, "0") then put(0, "1"). Half the entries are
+        // duplicates.
+        Integer key = i & ~1;
+        String value = String.valueOf(i);
+        builder.put(key, value);
+        expected.put(key, value);
+      }
+      ImmutableMap<Integer, String> map = builder.buildKeepingLast();
+      assertThat(map).hasSize(100_000);
+      assertThat(map).containsExactlyEntriesIn(expected).inOrder();
+    }
+
+    @GwtIncompatible // Pattern, Matcher
+    public void testBuilder_keepingLast_thenOrThrow() {
+      ImmutableMap.Builder<String, Integer> builder =
+          new Builder<String, Integer>()
+              .put("three", 3)
+              .put("one", 1)
+              .put("five", 5)
+              .put("four", 3)
+              .put("four", 5)
+              .put("four", 4) // this should win because it's last
+              .put("two", 2);
+      assertMapEquals(
+          builder.buildKeepingLast(), "three", 3, "one", 1, "five", 5, "four", 4, "two", 2);
+      try {
+        builder.buildOrThrow();
+        fail("Expected exception from duplicate keys");
+      } catch (IllegalArgumentException expected) {
+        // We don't really care which values the exception message contains, but they should be
+        // different from each other. If buildKeepingLast() collapsed duplicates, that might end up
+        // not being true.
+        Pattern pattern =
+            Pattern.compile("Multiple entries with same key: four=(.*) and four=(.*)");
+        assertThat(expected).hasMessageThat().matches(pattern);
+        Matcher matcher = pattern.matcher(expected.getMessage());
+        assertThat(matcher.matches()).isTrue();
+        assertThat(matcher.group(1)).isNotEqualTo(matcher.group(2));
       }
     }
 

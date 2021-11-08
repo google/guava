@@ -743,6 +743,24 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
           return fromEntries(comparator, false, entries, size);
       }
     }
+
+    /**
+     * Throws UnsupportedOperationException. A future version may support this operation. Then the
+     * value for any given key will be the one that was last supplied in a {@code put} operation for
+     * that key.
+     *
+     * @throws UnsupportedOperationException always
+     * @since NEXT
+     * @deprecated This method is not currently implemented, and may never be.
+     */
+    @DoNotCall
+    @Deprecated
+    @Override
+    public final ImmutableSortedMap<K, V> buildKeepingLast() {
+      // TODO(emcmanus): implement
+      throw new UnsupportedOperationException(
+          "ImmutableSortedMap.Builder does not yet implement buildKeepingLast()");
+    }
   }
 
   private final transient RegularImmutableSortedSet<K> keySet;

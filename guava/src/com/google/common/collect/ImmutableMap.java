@@ -33,12 +33,15 @@ import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -363,7 +366,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   static void checkNoConflict(
-      boolean safe, String conflictDescription, Entry<?, ?> entry1, Entry<?, ?> entry2) {
+      boolean safe, String conflictDescription, Object entry1, Object entry2) {
     if (!safe) {
       throw conflictException(conflictDescription, entry1, entry2);
     }
@@ -516,10 +519,55 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return this;
     }
 
-    /*
-     * TODO(kevinb): Should build() and the ImmutableBiMap & ImmutableSortedMap
-     * versions throw an IllegalStateException instead?
-     */
+    private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
+      /*
+       * If entries is full, or if hash flooding is detected, then this implementation may end up
+       * using the entries array directly and writing over the entry objects with non-terminal
+       * entries, but this is safe; if this Builder is used further, it will grow the entries array
+       * (so it can't affect the original array), and future build() calls will always copy any
+       * entry objects that cannot be safely reused.
+       */
+      switch (size) {
+        case 0:
+          return of();
+        case 1:
+          // requireNonNull is safe because the first `size` elements have been filled in.
+          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
+          return of(onlyEntry.getKey(), onlyEntry.getValue());
+        default:
+          break;
+      }
+      // localEntries is an alias for the entries field, except if we end up removing duplicates in
+      // a copy of the entries array. Likewise, localSize is the same as size except in that case.
+      // It's possible to keep using this Builder after calling buildKeepingLast(), so we need to
+      // ensure that its state is not corrupted by removing duplicates that should cause a later
+      // buildOrThrow() to fail, or by changing the size.
+      @Nullable Entry<K, V>[] localEntries;
+      int localSize = size;
+      if (valueComparator == null) {
+        localEntries = entries;
+      } else {
+        if (entriesUsed) {
+          entries = Arrays.copyOf(entries, size);
+        }
+        localEntries = entries;
+        if (!throwIfDuplicateKeys) {
+          // We want to retain only the last-put value for any given key, before sorting.
+          // This could be improved, but orderEntriesByValue is rather rarely used anyway.
+          @SuppressWarnings("nullness") // entries 0..size-1 are non-null
+          Entry<K, V>[] nonNullEntries = (Entry<K, V>[]) localEntries;
+          localEntries = lastEntryForEachKey(nonNullEntries, size);
+          localSize = localEntries.length;
+        }
+        Arrays.sort(
+            localEntries,
+            0,
+            localSize,
+            Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+      }
+      entriesUsed = true;
+      return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);
+    }
 
     /**
      * Returns a newly-created immutable map. The iteration order of the returned map is the order
@@ -546,31 +594,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @since 31.0
      */
     public ImmutableMap<K, V> buildOrThrow() {
-      /*
-       * If entries is full, or if hash flooding is detected, then this implementation may end up
-       * using the entries array directly and writing over the entry objects with non-terminal
-       * entries, but this is safe; if this Builder is used further, it will grow the entries array
-       * (so it can't affect the original array), and future build() calls will always copy any
-       * entry objects that cannot be safely reused.
-       */
-      if (valueComparator != null) {
-        if (entriesUsed) {
-          entries = Arrays.copyOf(entries, size);
-        }
-        Arrays.sort(
-            entries, 0, size, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
-      }
-      switch (size) {
-        case 0:
-          return of();
-        case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(onlyEntry.getKey(), onlyEntry.getValue());
-        default:
-          entriesUsed = true;
-          return RegularImmutableMap.fromEntryArray(size, entries);
-      }
+      return build(true);
+    }
+
+    /**
+     * Returns a newly-created immutable map, using the last value for any key that was added more
+     * than once. The iteration order of the returned map is the order in which entries were
+     * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
+     * entries are sorted by value. If a key was added more than once, it appears in iteration order
+     * based on the first time it was added, again unless {@link #orderEntriesByValue} was called.
+     *
+     * @since NEXT
+     */
+    public ImmutableMap<K, V> buildKeepingLast() {
+      return build(false);
     }
 
     @VisibleForTesting // only for testing JDK backed implementation
@@ -586,8 +623,29 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
           return of(onlyEntry.getKey(), onlyEntry.getValue());
         default:
           entriesUsed = true;
-          return JdkBackedImmutableMap.create(size, entries);
+          return JdkBackedImmutableMap.create(size, entries, /* throwIfDuplicateKeys= */ true);
       }
+    }
+
+    private static <K, V> Entry<K, V>[] lastEntryForEachKey(Entry<K, V>[] entries, int size) {
+      Set<K> seen = new HashSet<>();
+      BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
+      for (int i = size - 1; i >= 0; i--) {
+        if (!seen.add(entries[i].getKey())) {
+          dups.set(i);
+        }
+      }
+      if (dups.isEmpty()) {
+        return entries;
+      }
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
+      for (int inI = 0, outI = 0; inI < size; inI++) {
+        if (!dups.get(inI)) {
+          newEntries[outI++] = entries[inI];
+        }
+      }
+      return newEntries;
     }
   }
 

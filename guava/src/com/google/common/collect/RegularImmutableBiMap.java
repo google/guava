@@ -20,13 +20,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
+import static com.google.common.collect.RegularImmutableMap.MAX_HASH_BUCKET_LENGTH;
 import static com.google.common.collect.RegularImmutableMap.checkNoConflictInKeyBucket;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntry;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.common.collect.RegularImmutableMap.BucketOverflowException;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
@@ -88,11 +89,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       int valueBucket = Hashing.smear(valueHash) & mask;
 
       ImmutableMapEntry<K, V> nextInKeyBucket = keyTable[keyBucket];
-      int keyBucketLength = checkNoConflictInKeyBucket(key, entry, nextInKeyBucket);
       ImmutableMapEntry<K, V> nextInValueBucket = valueTable[valueBucket];
-      int valueBucketLength = checkNoConflictInValueBucket(value, entry, nextInValueBucket);
-      if (keyBucketLength > RegularImmutableMap.MAX_HASH_BUCKET_LENGTH
-          || valueBucketLength > RegularImmutableMap.MAX_HASH_BUCKET_LENGTH) {
+      try {
+        checkNoConflictInKeyBucket(key, value, nextInKeyBucket, /* throwIfDuplicateKeys= */ true);
+        checkNoConflictInValueBucket(value, entry, nextInValueBucket);
+      } catch (BucketOverflowException e) {
         return JdkBackedImmutableBiMap.create(n, entryArray);
       }
       ImmutableMapEntry<K, V> newEntry =
@@ -124,18 +125,20 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // checkNoConflictInKeyBucket is static imported from RegularImmutableMap
 
   /**
-   * @return number of entries in this bucket
    * @throws IllegalArgumentException if another entry in the bucket has the same key
+   * @throws BucketOverflowException if this bucket has too many entries, which may indicate a hash
+   *     flooding attack
    */
-  @CanIgnoreReturnValue
-  private static int checkNoConflictInValueBucket(
-      Object value, Entry<?, ?> entry, @CheckForNull ImmutableMapEntry<?, ?> valueBucketHead) {
+  private static void checkNoConflictInValueBucket(
+      Object value, Entry<?, ?> entry, @CheckForNull ImmutableMapEntry<?, ?> valueBucketHead)
+      throws BucketOverflowException {
     int bucketSize = 0;
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
-      bucketSize++;
+      if (++bucketSize > MAX_HASH_BUCKET_LENGTH) {
+        throw new BucketOverflowException();
+      }
     }
-    return bucketSize;
   }
 
   @Override
