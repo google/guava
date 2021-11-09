@@ -39,7 +39,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * until the {@code Future} it returned is {@linkplain Future#isDone done} (successful, failed, or
  * cancelled).
  *
- * <p>This class has limited support for cancellation and other "early completion":
+ * <p>This class serializes execution of <i>submitted</i> tasks but not any <i>listeners</i> of
+ * those tasks.
+ *
+ * <p>Submitted tasks have a happens-before order as defined in the Java Language Specification.
+ * Tasks execute with the same happens-before order that the function calls to {@link #submit} and
+ * {@link #submitAsync} that submitted those tasks had.
+ *
+ * <p>This class has limited support for cancellation and other "early completions":
  *
  * <ul>
  *   <li>While calls to {@code submit} and {@code submitAsync} return a {@code Future} that can be
@@ -59,9 +66,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *       beware: <i>Your {@code AsyncCallable} should not complete its {@code Future} until it is
  *       safe for the next task to start.</i>
  * </ul>
- *
- * <p>An additional limitation: this class serializes execution of <i>tasks</i> but not any
- * <i>listeners</i> of those tasks.
  *
  * <p>This class is similar to {@link MoreExecutors#newSequentialExecutor}. This class is different
  * in a few ways:
