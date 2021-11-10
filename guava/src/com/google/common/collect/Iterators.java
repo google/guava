@@ -1314,14 +1314,25 @@ public final class Iterators {
    */
   private static class MergingIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
     final Queue<PeekingIterator<T>> queue;
+    final Comparator<? super T> itemComparator;
+    @Nullable
+    PeekingIterator<T> lastUsedIter = null;
 
     public MergingIterator(
-        Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
+            Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
+      this.itemComparator = itemComparator;
       // A comparator that's used by the heap, allowing the heap
       // to be sorted based on the top of each iterator.
-      Comparator<PeekingIterator<T>> heapComparator =
-          (PeekingIterator<T> o1, PeekingIterator<T> o2) ->
-              itemComparator.compare(o1.peek(), o2.peek());
+      Comparator<PeekingIterator<T>> heapComparator = (PeekingIterator<T> o1, PeekingIterator<T> o2) -> {
+        // the exhausted iterators will always have higher priority
+        if (!o1.hasNext()) {
+          return -1;
+        }
+        if (!o2.hasNext()) {
+          return 1;
+        }
+        return this.itemComparator.compare(o1.peek(), o2.peek());
+      };
 
       queue = new PriorityQueue<>(2, heapComparator);
 
@@ -1330,22 +1341,70 @@ public final class Iterators {
           queue.add(Iterators.peekingIterator(iterator));
         }
       }
+
+      // cleanup exhausted iterators
+      while (!queue.isEmpty() && !queue.peek().hasNext()) {
+        queue.remove();
+      }
     }
 
     @Override
     public boolean hasNext() {
-      return !queue.isEmpty();
+      return !queue.isEmpty() || (lastUsedIter != null && lastUsedIter.hasNext());
+    }
+
+    private T nextQueueNotEmpty() {
+      T result;
+
+      PeekingIterator<T> currentIter = queue.remove();
+      T currentNextItem = currentIter.peek();
+
+      if (lastUsedIter != null && lastUsedIter.hasNext()) { // if lastUsedIter has some elements
+        PeekingIterator<T> toBePutBackToQueueIter;
+        T lastUsedIterNextItem = lastUsedIter.peek();
+        // check if the next item will be fetched from the lastUsedIter or the currentIter or not
+        if (itemComparator.compare(lastUsedIterNextItem, currentNextItem) <= 0) {
+          // result is lastUsedIter.peek()
+          result = lastUsedIterNextItem;
+          // the next item is fetched from lastUsedIterNextItem, so put currentIter back to queue to force tree heapify
+          toBePutBackToQueueIter = currentIter;
+        } else {
+          // result is currentIter.peek()
+          result = currentNextItem;
+          // the next item is fetched from currentIter, so put lastUsedIter back to queue to force tree heapify
+          toBePutBackToQueueIter = lastUsedIter;
+          // then updated the lastUsedIter to currentIter
+          lastUsedIter = currentIter;
+        }
+        lastUsedIter.next();
+        if (toBePutBackToQueueIter.hasNext()) {
+          queue.add(toBePutBackToQueueIter);
+        }
+      } else { // just assign lastUsedIter to currentIter
+        result = currentNextItem;
+        lastUsedIter = currentIter;
+        lastUsedIter.next();
+      }
+
+      // cleanup exhausted iterators
+      while (!queue.isEmpty() && !queue.peek().hasNext()) {
+        queue.remove();
+      }
+
+      return result;
     }
 
     @Override
     @ParametricNullness
     public T next() {
-      PeekingIterator<T> nextIter = queue.remove();
-      T next = nextIter.next();
-      if (nextIter.hasNext()) {
-        queue.add(nextIter);
+      if (!queue.isEmpty()) {
+        return nextQueueNotEmpty();
+      } else {
+        if (lastUsedIter == null || !lastUsedIter.hasNext()) {
+          throw new NoSuchElementException();
+        }
+        return lastUsedIter.next();
       }
-      return next;
     }
   }
 
