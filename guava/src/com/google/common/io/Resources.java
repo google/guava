@@ -36,8 +36,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * methods use {@link URL} parameters, they are usually not appropriate for HTTP or other
  * non-classpath resources.
  *
- * <p>All method parameters must be non-null unless documented otherwise.
- *
  * @author Chris Nokleberg
  * @author Ben Yu
  * @author Colin Decker
