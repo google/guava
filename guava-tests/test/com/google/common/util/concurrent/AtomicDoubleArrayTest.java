@@ -14,6 +14,7 @@
 package com.google.common.util.concurrent;
 
 import java.util.Arrays;
+import java.util.function.DoubleUnaryOperator;
 
 /** Unit test for {@link AtomicDoubleArray}. */
 public class AtomicDoubleArrayTest extends JSR166TestCase {
@@ -261,6 +262,160 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     }
   }
 
+  /** tests accumulateAndGet with sum adds given value to current, and returns current value */
+  public void testAccumulateAndGetWithSum() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.accumulateAndGet(i, y, Double::sum);
+          assertBitEquals(x + y, z);
+          assertBitEquals(x + y, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** tests accumulateAndGet with max stores max of given value to current, and returns current value */
+  public void testAccumulateAndGetWithMax() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.accumulateAndGet(i, y, Double::max);
+          double expectedMax = Math.max(x, y);
+          assertBitEquals(expectedMax, z);
+          assertBitEquals(expectedMax, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** tests accumulateAndGet with min stores min of given value to current, and returns current value */
+  public void testAccumulateAndGetWithMin() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.accumulateAndGet(i, y, Double::min);
+          double expectedMin = Math.min(x, y);
+          assertBitEquals(expectedMin, z);
+          assertBitEquals(expectedMin, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** tests getAndAccumulate with sum adds given value to current, and returns current value */
+  public void testGetAndAccumulateWithSum() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.getAndAccumulate(i, y, Double::sum);
+          assertBitEquals(x, z);
+          assertBitEquals(x + y, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** tests getAndAccumulate with max stores max of given value to current, and returns current value */
+  public void testGetAndAccumulateWithMax() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.getAndAccumulate(i, y, Double::max);
+          double expectedMax = Math.max(x, y);
+          assertBitEquals(x, z);
+          assertBitEquals(expectedMax, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** tests getAndAccumulate with min stores min of given value to current, and returns current value */
+  public void testGetAndAccumulateWithMin() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.getAndAccumulate(i, y, Double::min);
+          double expectedMin = Math.min(x, y);
+          assertBitEquals(x, z);
+          assertBitEquals(expectedMin, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** updateAndGet adds given value to current, and returns current value */
+  public void testUpdateAndGetWithSum() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.updateAndGet(i, DoubleUnarySum(y));
+          assertBitEquals(x + y, z);
+          assertBitEquals(x + y, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** updateAndGet subtracts given value to current, and returns current value */
+  public void testUpdateAndGetWithSubtract() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.updateAndGet(i, DoubleUnarySubtract(y));
+          assertBitEquals(x - y, z);
+          assertBitEquals(x - y, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** getAndUpdate adds given value to current, and returns previous value */
+  public void testGetAndUpdateWithSum() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.getAndUpdate(i, DoubleUnarySum(y));
+          assertBitEquals(x, z);
+          assertBitEquals(x + y, aa.get(i));
+        }
+      }
+    }
+  }
+
+  /** getAndUpdate subtracts given value to current, and returns previous value */
+  public void testGetAndUpdateWithSubtract() {
+    AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
+    for (int i : new int[] {0, SIZE - 1}) {
+      for (double x : VALUES) {
+        for (double y : VALUES) {
+          aa.set(i, x);
+          double z = aa.getAndUpdate(i, DoubleUnarySubtract(y));
+          assertBitEquals(x, z);
+          assertBitEquals(x - y, aa.get(i));
+        }
+      }
+    }
+  }
+
   static final long COUNTDOWN = 100000;
 
   class Counter extends CheckedRunnable {
@@ -356,4 +511,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
       assertBitEquals(-0.0, aa.get(i));
     }
   }
+
+  private static DoubleUnaryOperator DoubleUnarySum(double value) { return x -> x + value; }
+  private static DoubleUnaryOperator DoubleUnarySubtract(double value) { return x -> x - value; }
 }
