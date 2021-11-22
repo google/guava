@@ -877,12 +877,15 @@ public class ImmutableMapTest extends TestCase {
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
-    assertEquals(map.size(), alternatingKeysAndValues.length / 2);
-    int i = 0;
-    for (Entry<K, V> entry : map.entrySet()) {
-      assertEquals(alternatingKeysAndValues[i++], entry.getKey());
-      assertEquals(alternatingKeysAndValues[i++], entry.getValue());
+    Map<K, V> expected = new LinkedHashMap<>();
+    for (int i = 0; i < alternatingKeysAndValues.length; i += 2) {
+      @SuppressWarnings("unchecked")
+      K key = (K) alternatingKeysAndValues[i];
+      @SuppressWarnings("unchecked")
+      V value = (V) alternatingKeysAndValues[i + 1];
+      expected.put(key, value);
     }
+    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
 
   private static class IntHolder implements Serializable {
