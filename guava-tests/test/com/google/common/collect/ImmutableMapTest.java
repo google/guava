@@ -897,13 +897,9 @@ public class ImmutableMapTest extends TestCase {
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
-    Map<K, V> expected = new LinkedHashMap<>();
+    Map<Object, Object> expected = new LinkedHashMap<>();
     for (int i = 0; i < alternatingKeysAndValues.length; i += 2) {
-      @SuppressWarnings("unchecked")
-      K key = (K) alternatingKeysAndValues[i];
-      @SuppressWarnings("unchecked")
-      V value = (V) alternatingKeysAndValues[i + 1];
-      expected.put(key, value);
+      expected.put(alternatingKeysAndValues[i], alternatingKeysAndValues[i + 1]);
     }
     assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }

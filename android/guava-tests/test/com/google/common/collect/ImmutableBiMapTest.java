@@ -749,11 +749,11 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
-    int i = 0;
-    for (Entry<K, V> entry : map.entrySet()) {
-      assertEquals(alternatingKeysAndValues[i++], entry.getKey());
-      assertEquals(alternatingKeysAndValues[i++], entry.getValue());
+    Map<Object, Object> expected = new LinkedHashMap<>();
+    for (int i = 0; i < alternatingKeysAndValues.length; i += 2) {
+      expected.put(alternatingKeysAndValues[i], alternatingKeysAndValues[i + 1]);
     }
+    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
 
   /** No-op test so that the class has at least one method, making Maven's test runner happy. */
