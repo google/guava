@@ -1108,10 +1108,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
   /** Releases all threads in the {@link #waiters} list, and clears the list. */
   private void releaseWaiters() {
-    Waiter head;
-    do {
-      head = waiters;
-    } while (!ATOMIC_HELPER.casWaiters(this, head, Waiter.TOMBSTONE));
+    Waiter head = ATOMIC_HELPER.gasWaiters(this, Waiter.TOMBSTONE);
     for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {
       currentWaiter.unpark();
     }
@@ -1129,10 +1126,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     // 2. reverse the linked list, because despite our rather clear contract, people depend on us
     //    executing listeners in the order they were added
     // 3. push all the items onto 'onto' and return the new head of the stack
-    Listener head;
-    do {
-      head = listeners;
-    } while (!ATOMIC_HELPER.casListeners(this, head, Listener.TOMBSTONE));
+    Listener head = ATOMIC_HELPER.gasListeners(this, Listener.TOMBSTONE);
     Listener reversedList = onto;
     while (head != null) {
       Listener tmp = head;
@@ -1301,6 +1295,12 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     abstract boolean casListeners(
         AbstractFuture<?> future, @CheckForNull Listener expect, Listener update);
 
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    abstract Waiter gasWaiters(AbstractFuture<?> future, Waiter update);
+
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    abstract Listener gasListeners(AbstractFuture<?> future, Listener update);
+
     /** Performs a CAS operation on the {@link #value} field. */
     abstract boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update);
   }
@@ -1383,6 +1383,18 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      return (Listener) UNSAFE.getAndSetObject(future, LISTENERS_OFFSET, update);
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      return (Waiter) UNSAFE.getAndSetObject(future, WAITERS_OFFSET, update);
+    }
+
     /** Performs a CAS operation on the {@link #value} field. */
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
@@ -1433,6 +1445,18 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
       return listenersUpdater.compareAndSet(future, expect, update);
     }
 
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      return listenersUpdater.getAndSet(future, update);
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      return waitersUpdater.getAndSet(future, update);
+    }
+
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
@@ -1476,6 +1500,30 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
           return true;
         }
         return false;
+      }
+    }
+
+    /** Performs a GAS operation on the {@link #listeners} field. */
+    @Override
+    Listener gasListeners(AbstractFuture<?> future, Listener update) {
+      synchronized (future) {
+        Listener old = future.listeners;
+        if (old != update) {
+          future.listeners = update;
+        }
+        return old;
+      }
+    }
+
+    /** Performs a GAS operation on the {@link #waiters} field. */
+    @Override
+    Waiter gasWaiters(AbstractFuture<?> future, Waiter update) {
+      synchronized (future) {
+        Waiter old = future.waiters;
+        if (old != update) {
+          future.waiters = update;
+        }
+        return old;
       }
     }
 
