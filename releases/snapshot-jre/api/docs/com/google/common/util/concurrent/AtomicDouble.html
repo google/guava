@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.54">AtomicDouble</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.57">AtomicDouble</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">A <code>double</code> value that may be updated atomically. See the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/atomic/package-summary.html?is-external=true" class="externalLink"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
@@ -223,12 +223,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#accumulateAndGet(double,java.util.function.DoubleBinaryOperator)">accumulateAndGet</a></span>&#8203;(double&nbsp;x,
+                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></th>
+<td class="colLast">
+<div class="block">Atomically updates the current value with the results of applying the given function to the
+ current and given values.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAndGet(double)">addAndGet</a></span>&#8203;(double&nbsp;delta)</code></th>
 <td class="colLast">
 <div class="block">Atomically adds the given value to the current value.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compareAndSet(double,double)">compareAndSet</a></span>&#8203;(double&nbsp;expect,
              double&nbsp;update)</code></th>
@@ -236,14 +245,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <div class="block">Atomically sets the value to the given updated value if the current value is <a href="#bitEquals">bitwise equal</a> to the expected value.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#doubleValue()">doubleValue</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>double</code>.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#floatValue()">floatValue</a></span>()</code></th>
 <td class="colLast">
@@ -251,28 +260,44 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  conversion.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get()">get</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Gets the current value.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndAccumulate(double,java.util.function.DoubleBinaryOperator)">getAndAccumulate</a></span>&#8203;(double&nbsp;x,
+                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></th>
+<td class="colLast">
+<div class="block">Atomically updates the current value with the results of applying the given function to the
+ current and given values.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndAdd(double)">getAndAdd</a></span>&#8203;(double&nbsp;delta)</code></th>
 <td class="colLast">
 <div class="block">Atomically adds the given value to the current value.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndSet(double)">getAndSet</a></span>&#8203;(double&nbsp;newValue)</code></th>
 <td class="colLast">
 <div class="block">Atomically sets to the given value and returns the old value.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAndUpdate(java.util.function.DoubleUnaryOperator)">getAndUpdate</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></th>
+<td class="colLast">
+<div class="block">Atomically updates the current value with the results of applying the given function.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#intValue()">intValue</a></span>()</code></th>
 <td class="colLast">
@@ -280,14 +305,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  conversion.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lazySet(double)">lazySet</a></span>&#8203;(double&nbsp;newValue)</code></th>
 <td class="colLast">
 <div class="block">Eventually sets to the given value.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#longValue()">longValue</a></span>()</code></th>
 <td class="colLast">
@@ -295,21 +320,28 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  conversion.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#set(double)">set</a></span>&#8203;(double&nbsp;newValue)</code></th>
 <td class="colLast">
 <div class="block">Sets to the given value.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the String representation of the current value.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateAndGet(java.util.function.DoubleUnaryOperator)">updateAndGet</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updateFunction)</code></th>
+<td class="colLast">
+<div class="block">Atomically updates the current value with the results of applying the given function.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weakCompareAndSet(double,double)">weakCompareAndSet</a></span>&#8203;(double&nbsp;expect,
                  double&nbsp;update)</code></th>
@@ -354,7 +386,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>AtomicDouble</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.70">AtomicDouble</a>&#8203;(double&nbsp;initialValue)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.73">AtomicDouble</a>&#8203;(double&nbsp;initialValue)</pre>
 <div class="block">Creates a new <code>AtomicDouble</code> with the given initial value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -368,7 +400,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AtomicDouble</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.75">AtomicDouble</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.78">AtomicDouble</a>()</pre>
 <div class="block">Creates a new <code>AtomicDouble</code> with initial value <code>0.0</code>.</div>
 </li>
 </ul>
@@ -388,7 +420,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.84">get</a>()</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.87">get</a>()</pre>
 <div class="block">Gets the current value.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -402,7 +434,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.93">set</a>&#8203;(double&nbsp;newValue)</pre>
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.96">set</a>&#8203;(double&nbsp;newValue)</pre>
 <div class="block">Sets to the given value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -416,7 +448,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>lazySet</h4>
-<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.103">lazySet</a>&#8203;(double&nbsp;newValue)</pre>
+<pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.106">lazySet</a>&#8203;(double&nbsp;newValue)</pre>
 <div class="block">Eventually sets to the given value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -430,7 +462,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getAndSet</h4>
-<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.114">getAndSet</a>&#8203;(double&nbsp;newValue)</pre>
+<pre class="methodSignature">public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.117">getAndSet</a>&#8203;(double&nbsp;newValue)</pre>
 <div class="block">Atomically sets to the given value and returns the old value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -446,7 +478,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>compareAndSet</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.128">compareAndSet</a>&#8203;(double&nbsp;expect,
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.131">compareAndSet</a>&#8203;(double&nbsp;expect,
                                    double&nbsp;update)</pre>
 <div class="block">Atomically sets the value to the given updated value if the current value is <a href="#bitEquals">bitwise equal</a> to the expected value.</div>
 <dl>
@@ -465,7 +497,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>weakCompareAndSet</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.145">weakCompareAndSet</a>&#8203;(double&nbsp;expect,
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.148">weakCompareAndSet</a>&#8203;(double&nbsp;expect,
                                        double&nbsp;update)</pre>
 <div class="block">Atomically sets the value to the given updated value if the current value is <a href="#bitEquals">bitwise equal</a> to the expected value.
 
@@ -488,7 +520,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>getAndAdd</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.156">getAndAdd</a>&#8203;(double&nbsp;delta)</pre>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.159">getAndAdd</a>&#8203;(double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the current value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -505,11 +537,87 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>addAndGet</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.175">addAndGet</a>&#8203;(double&nbsp;delta)</pre>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.170">addAndGet</a>&#8203;(double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the current value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>delta</code> - the value to add</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the updated value</dd>
+</dl>
+</li>
+</ul>
+<a id="getAndAccumulate(double,java.util.function.DoubleBinaryOperator)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAndAccumulate</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.183">getAndAccumulate</a>&#8203;(double&nbsp;x,
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
+<div class="block">Atomically updates the current value with the results of applying the given function to the
+ current and given values.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>x</code> - the update value</dd>
+<dd><code>accumulatorFunction</code> - the accumulator function</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the previous value</dd>
+</dl>
+</li>
+</ul>
+<a id="accumulateAndGet(double,java.util.function.DoubleBinaryOperator)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>accumulateAndGet</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.198">accumulateAndGet</a>&#8203;(double&nbsp;x,
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
+<div class="block">Atomically updates the current value with the results of applying the given function to the
+ current and given values.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>x</code> - the update value</dd>
+<dd><code>accumulatorFunction</code> - the accumulator function</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the updated value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
+<a id="getAndUpdate(java.util.function.DoubleUnaryOperator)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAndUpdate</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.210">getAndUpdate</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updateFunction)</pre>
+<div class="block">Atomically updates the current value with the results of applying the given function.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>updateFunction</code> - the update function</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the previous value</dd>
+</dl>
+</li>
+</ul>
+<a id="updateAndGet(java.util.function.DoubleUnaryOperator)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>updateAndGet</h4>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.229">updateAndGet</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updateFunction)</pre>
+<div class="block">Atomically updates the current value with the results of applying the given function.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>updateFunction</code> - the update function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the updated value</dd>
 </dl>
@@ -521,7 +629,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.193">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.247">toString</a>()</pre>
 <div class="block">Returns the String representation of the current value.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -537,7 +645,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>intValue</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.202">intValue</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.256">intValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as an <code>int</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -555,7 +663,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>longValue</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.211">longValue</a>()</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.265">longValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>long</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -573,7 +681,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>floatValue</h4>
-<pre class="methodSignature">public&nbsp;float&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.220">floatValue</a>()</pre>
+<pre class="methodSignature">public&nbsp;float&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.274">floatValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>float</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -591,7 +699,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>doubleValue</h4>
-<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.226">doubleValue</a>()</pre>
+<pre class="methodSignature">public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.280">doubleValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>double</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
