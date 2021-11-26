@@ -410,10 +410,10 @@ public final class Streams {
    * <pre>{@code
    * mapWithIndex(
    *     Stream.of("a", "b", "c"),
-   *     (str, index) -> str + ":" + index)
+   *     (str, index) -> index + ":" + str)
    * }</pre>
    *
-   * <p>would return {@code Stream.of("a:0", "b:1", "c:2")}.
+   * <p>would return {@code Stream.of("0:a", "1:b", "2:c")}.
    *
    * <p>The resulting stream is <a
    * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
@@ -493,11 +493,11 @@ public final class Streams {
    *
    * <pre>{@code
    * mapWithIndex(
-   *     IntStream.of(0, 1, 2),
-   *     (i, index) -> i + ":" + index)
+   *     IntStream.of(2, 1, 0),
+   *     (elem, index) -> index + ":" + elem)
    * }</pre>
    *
-   * <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+   * <p>...would return {@code Stream.of("0:2", "1:1", "2:0")}.
    *
    * <p>The resulting stream is <a
    * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
@@ -573,11 +573,11 @@ public final class Streams {
    *
    * <pre>{@code
    * mapWithIndex(
-   *     LongStream.of(0, 1, 2),
-   *     (i, index) -> i + ":" + index)
+   *     LongStream.of(2, 1, 0),
+   *     (elem, index) -> index + ":" + elem)
    * }</pre>
    *
-   * <p>...would return {@code Stream.of("0:0", "1:1", "2:2")}.
+   * <p>...would return {@code Stream.of("0:2", "1:1", "2:0")}.
    *
    * <p>The resulting stream is <a
    * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
@@ -653,11 +653,11 @@ public final class Streams {
    *
    * <pre>{@code
    * mapWithIndex(
-   *     DoubleStream.of(0, 1, 2),
-   *     (x, index) -> x + ":" + index)
+   *     DoubleStream.of(2, 1, 0),
+   *     (x, index) -> index + ":" + x)
    * }</pre>
    *
-   * <p>...would return {@code Stream.of("0.0:0", "1.0:1", "2.0:2")}.
+   * <p>...would return {@code Stream.of("0:2.0", "1:1.0", "2:0.0")}.
    *
    * <p>The resulting stream is <a
    * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
