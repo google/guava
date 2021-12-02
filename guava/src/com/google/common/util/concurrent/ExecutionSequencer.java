@@ -423,7 +423,7 @@ public final class ExecutionSequencer {
         Executor queuedExecutor;
         // Intentionally using non-short-circuit operator
         while ((queuedTask = executingTaskQueue.nextTask) != null
-            & (queuedExecutor = executingTaskQueue.nextExecutor) != null) {
+            && (queuedExecutor = executingTaskQueue.nextExecutor) != null) {
           executingTaskQueue.nextTask = null;
           executingTaskQueue.nextExecutor = null;
           queuedExecutor.execute(queuedTask);
