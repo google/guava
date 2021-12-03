@@ -18,6 +18,8 @@
     <checker-framework.version>3.12.0</checker-framework.version>
     <animal.sniffer.version>1.20</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <!-- Empty for all JDKs but 9-12 -->
+    <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -190,6 +192,7 @@
             </additionalOptions>
             <linksource>true</linksource>
             <source>8</source>
+            <additionalJOption>${maven-javadoc-plugin.additionalJOptions}</additionalJOption>
           </configuration>
           <executions>
             <execution>
@@ -382,6 +385,24 @@
             </plugin>
           </plugins>
       </build>
+    </profile>
+    <profile>
+      <!--
+          Passes JDK 9-12-specific `no-module-directories` flag to Javadoc tool,
+          which is required to make symbol search work correctly in the generated
+          pages.
+
+          This flag does not exist on 8 and 13+ (https://bugs.openjdk.java.net/browse/JDK-8215582).
+
+          Consider removing it once our release and test scripts are migrated to a recent JDK (17+).
+       -->
+      <id>javadocs-jdk9-12</id>
+      <activation>
+        <jdk>[9,13)</jdk>
+      </activation>
+      <properties>
+        <maven-javadoc-plugin.additionalJOptions>--no-module-directories</maven-javadoc-plugin.additionalJOptions>
+      </properties>
     </profile>
   </profiles>
 </project>
