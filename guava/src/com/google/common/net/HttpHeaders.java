@@ -28,11 +28,11 @@ import com.google.common.annotations.GwtCompatible;
  *   <li><a href="http://www.ietf.org/rfc/rfc5988.txt">RFC 5988</a>
  * </ul>
  *
- *
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class HttpHeaders {
   private HttpHeaders() {}
 
@@ -73,6 +73,13 @@ public final class HttpHeaders {
   public static final String CONNECTION = "Connection";
   /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
+  /**
+   * The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+   * Cross-Origin-Resource-Policy}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
    * name.
@@ -122,6 +129,13 @@ public final class HttpHeaders {
   public static final String MAX_FORWARDS = "Max-Forwards";
   /** The HTTP {@code Origin} header field name. */
   public static final String ORIGIN = "Origin";
+  /**
+   * The HTTP <a href="https://github.com/WICG/origin-isolation">{@code Origin-Isolation}</a> header
+   * field name.
+   *
+   * @since 30.1
+   */
+  public static final String ORIGIN_ISOLATION = "Origin-Isolation";
   /** The HTTP {@code Proxy-Authorization} header field name. */
   public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";
   /** The HTTP {@code Range} header field name. */
@@ -158,12 +172,22 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
    * Service-Worker}</a> header field name.
+   *
+   * @since 20.0
    */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
   public static final String UPGRADE = "Upgrade";
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
+   * Upgrade-Insecure-Requests}</a> header field name.
+   *
+   * @since 28.1
+   */
+  public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+
   /** The HTTP {@code User-Agent} header field name. */
   public static final String USER_AGENT = "User-Agent";
 
@@ -249,6 +273,27 @@ public final class HttpHeaders {
    * @since 20.0
    */
   public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";
+  /**
+   * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP">{@code
+   * Cross-Origin-Embedder-Policy}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String CROSS_ORIGIN_EMBEDDER_POLICY = "Cross-Origin-Embedder-Policy";
+  /**
+   * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP-RO">{@code
+   * Cross-Origin-Embedder-Policy-Report-Only}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY =
+      "Cross-Origin-Embedder-Policy-Report-Only";
+  /**
+   * The HTTP Cross-Origin-Opener-Policy header field name.
+   *
+   * @since 28.2
+   */
+  public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */
@@ -259,6 +304,12 @@ public final class HttpHeaders {
   public static final String LINK = "Link";
   /** The HTTP {@code Location} header field name. */
   public static final String LOCATION = "Location";
+  /**
+   * The HTTP {@code Keep-Alive} header field name.
+   *
+   * @since 31.0
+   */
+  public static final String KEEP_ALIVE = "Keep-Alive";
   /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
@@ -337,6 +388,45 @@ public final class HttpHeaders {
   public static final String DNT = "DNT";
   /** The HTTP {@code X-Content-Type-Options} header field name. */
   public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-IP}</a> header field name. Header used for VAST requests to provide the IP address of
+   * the device on whose behalf the request is being made.
+   *
+   * @since 31.0
+   */
+  public static final String X_DEVICE_IP = "X-Device-IP";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Referer}</a> header field name. Header used for VAST requests to provide the {@link
+   * #REFERER} header value that the on-behalf-of client would have used when making a request
+   * itself.
+   *
+   * @since 31.0
+   */
+  public static final String X_DEVICE_REFERER = "X-Device-Referer";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Accept-Language}</a> header field name. Header used for VAST requests to provide the
+   * {@link #ACCEPT_LANGUAGE} header value that the on-behalf-of client would have used when making
+   * a request itself.
+   *
+   * @since 31.0
+   */
+  public static final String X_DEVICE_ACCEPT_LANGUAGE = "X-Device-Accept-Language";
+  /**
+   * The HTTP <a
+   * href="https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf">{@code
+   * X-Device-Requested-With}</a> header field name. Header used for VAST requests to provide the
+   * {@link #X_REQUESTED_WITH} header value that the on-behalf-of client would have used when making
+   * a request itself.
+   *
+   * @since 31.0
+   */
+  public static final String X_DEVICE_REQUESTED_WITH = "X-Device-Requested-With";
   /** The HTTP {@code X-Do-Not-Track} header field name. */
   public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";
   /** The HTTP {@code X-Forwarded-For} header field name (superseded by {@code Forwarded}). */
@@ -373,6 +463,12 @@ public final class HttpHeaders {
    * @since 15.0
    */
   @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
+  /**
+   * The HTTP {@code X-Request-ID} header field name.
+   *
+   * @since 30.1
+   */
+  public static final String X_REQUEST_ID = "X-Request-ID";
   /** The HTTP {@code X-Requested-With} header field name. */
   public static final String X_REQUESTED_WITH = "X-Requested-With";
   /** The HTTP {@code X-User-IP} header field name. */
@@ -416,7 +512,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String PURPOSE = "Purpose";
   /**
@@ -424,7 +520,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_PURPOSE = "X-Purpose";
   /**
@@ -432,41 +528,192 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Moz}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_MOZ = "X-Moz";
 
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
-   * field name.
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Device-Memory">{@code
+   * Device-Memory}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String DEVICE_MEMORY = "Device-Memory";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Downlink">{@code
+   * Downlink}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String DOWNLINK = "Downlink";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ECT">{@code
+   * ECT}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String ECT = "ECT";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/RTT">{@code
+   * RTT}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String RTT = "RTT";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Save-Data">{@code
+   * Save-Data}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String SAVE_DATA = "Save-Data";
+
+  /**
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Viewport-Width">{@code
+   * Viewport-Width}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String VIEWPORT_WIDTH = "Viewport-Width";
+
+  /**
+   * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Width">{@code
+   * Width}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String WIDTH = "Width";
+
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/permissions-policy-1/">{@code Permissions-Policy}</a>
+   * header field name.
+   *
+   * @since 31.0
+   */
+  public static final String PERMISSIONS_POLICY = "Permissions-Policy";
+
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/user-preference-media-features-headers/#sec-ch-prefers-color-scheme">{@code
+   * Sec-CH-Prefers-Color-Scheme}</a> header field name.
+   *
+   * <p>This header is experimental.
+   *
+   * @since 31.0
+   */
+  public static final String SEC_CH_PREFERS_COLOR_SCHEME = "Sec-CH-Prefers-Color-Scheme";
+
+  /**
+   * The HTTP <a
+   * href="https://www.rfc-editor.org/rfc/rfc8942#name-the-accept-ch-response-head">{@code
+   * Accept-CH}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String ACCEPT_CH = "Accept-CH";
+  /**
+   * The HTTP <a
+   * href="https://datatracker.ietf.org/doc/html/draft-davidben-http-client-hint-reliability-03.txt#section-3">{@code
+   * Critical-CH}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String CRITICAL_CH = "Critical-CH";
+
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
+   * header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA = "Sec-CH-UA";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-arch">{@code
+   * Sec-CH-UA-Arch}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_ARCH = "Sec-CH-UA-Arch";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-model">{@code
+   * Sec-CH-UA-Model}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform">{@code
+   * Sec-CH-UA-Platform}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-platform-version">{@code
+   * Sec-CH-UA-Platform-Version}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version">{@code
+   * Sec-CH-UA-Full-Version}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile">{@code
+   * Sec-CH-UA-Mobile}</a> header field name.
+   *
+   * @since 30.0
+   */
+  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness">{@code
+   * Sec-CH-UA-Bitness}</a> header field name.
+   *
+   * @since 31.0
+   */
+  public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
+
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Mode}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Site}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-User}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_USER = "Sec-Fetch-User";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Metadata}</a>
+   * header field name.
    *
    * @since 26.0
    */
@@ -492,4 +739,45 @@ public final class HttpHeaders {
    * @since 25.1
    */
   public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
+   * header field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
+   * header field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String CDN_LOOP = "CDN-Loop";
 }

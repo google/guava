@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code Multimap} that cannot hold duplicate key-value pairs. Adding a key-value pair that's
@@ -41,6 +42,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * {@code equals} comparisons. Use caution if mutable objects are used as keys or values in a {@code
  * SetMultimap}.
  *
+ * <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code SetMultimap} in a way
+ * that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
  * Multimap}</a>.
@@ -49,7 +53,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public interface SetMultimap<K, V> extends Multimap<K, V> {
+@ElementTypesAreNonnullByDefault
+public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends Multimap<K, V> {
   /**
    * {@inheritDoc}
    *
@@ -58,7 +64,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * interface.
    */
   @Override
-  Set<V> get(@NullableDecl K key);
+  Set<V> get(@ParametricNullness K key);
 
   /**
    * {@inheritDoc}
@@ -69,7 +75,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  Set<V> removeAll(@NullableDecl Object key);
+  Set<V> removeAll(@CheckForNull Object key);
 
   /**
    * {@inheritDoc}
@@ -82,7 +88,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  Set<V> replaceValues(K key, Iterable<? extends V> values);
+  Set<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values);
 
   /**
    * {@inheritDoc}
@@ -114,5 +120,5 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * empty {@code ListMultimap}.
    */
   @Override
-  boolean equals(@NullableDecl Object obj);
+  boolean equals(@CheckForNull Object obj);
 }

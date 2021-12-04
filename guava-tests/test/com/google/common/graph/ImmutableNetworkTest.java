@@ -46,7 +46,7 @@ public class ImmutableNetworkTest {
         ImmutableNetwork.copyOf(NetworkBuilder.directed().<String, String>build());
     Network<String, String> network2 = ImmutableNetwork.copyOf(network1);
 
-    assertThat(network2).isSameAs(network1);
+    assertThat(network2).isSameInstanceAs(network1);
   }
 
   @Test

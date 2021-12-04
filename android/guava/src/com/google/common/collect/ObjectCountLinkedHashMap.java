@@ -18,18 +18,20 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * ObjectCountLinkedHashMap is an implementation of {@code AbstractObjectCountMap} with insertion
+ * {@code ObjectCountLinkedHashMap} is a subclass of {@code ObjectCountHashMap} with insertion
  * iteration order, and uses arrays to store key objects and count values. Comparing to using a
  * traditional {@code LinkedHashMap} implementation which stores keys and count values as map
  * entries, {@code ObjectCountLinkedHashMap} minimizes object allocation and reduces memory
  * footprint.
  */
 @GwtCompatible(serializable = true, emulated = true)
-class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
+@ElementTypesAreNonnullByDefault
+class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */
-  public static <K> ObjectCountLinkedHashMap<K> create() {
+  static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> create() {
     return new ObjectCountLinkedHashMap<K>();
   }
 
@@ -42,11 +44,17 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K> ObjectCountLinkedHashMap<K> createWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> createWithExpectedSize(
+      int expectedSize) {
     return new ObjectCountLinkedHashMap<K>(expectedSize);
   }
 
   private static final int ENDPOINT = -2;
+
+  /*
+   * The links field is not initialized directly in the constructor, but it's initialized by init(),
+   * which the superconstructor calls.
+   */
 
   /**
    * Contains the link pointers corresponding with the entries, in the range of [0, size()). The
@@ -141,7 +149,7 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   }
 
   @Override
-  void insertEntry(int entryIndex, K key, int value, int hash) {
+  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
     super.insertEntry(entryIndex, key, value, hash);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);

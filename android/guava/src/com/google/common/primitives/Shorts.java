@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -44,7 +44,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Shorts {
+@ElementTypesAreNonnullByDefault
+public final class Shorts extends ShortsMethodsForWeb {
   private Shorts() {}
 
   /**
@@ -218,6 +219,8 @@ public final class Shorts {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static short min(short... array) {
     checkArgument(array.length > 0);
     short min = array[0];
@@ -237,6 +240,8 @@ public final class Shorts {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static short max(short... array) {
     checkArgument(array.length > 0);
     short max = array[0];
@@ -588,13 +593,13 @@ public final class Shorts {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(@NullableDecl Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -606,7 +611,7 @@ public final class Shorts {
     }
 
     @Override
-    public int lastIndexOf(@NullableDecl Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -637,7 +642,7 @@ public final class Shorts {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

@@ -38,6 +38,7 @@ import java.util.concurrent.ExecutionException;
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */
@@ -58,8 +59,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    *
    * @since 11.0
    */
+  /*
+   * <? extends Object> is mostly the same as <?> to plain Java. But to nullness checkers, they
+   * differ: <? extends Object> means "non-null types," while <?> means "all types."
+   */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys) {
     Map<K, V> result = Maps.newLinkedHashMap();
     for (Object key : keys) {
       if (!result.containsKey(key)) {
@@ -103,7 +108,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** @since 11.0 */
   @Override
-  public void invalidateAll(Iterable<?> keys) {
+  // For discussion of <? extends Object>, see getAllPresent.
+  public void invalidateAll(Iterable<? extends Object> keys) {
     for (Object key : keys) {
       invalidate(key);
     }
@@ -238,12 +244,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     @Override
     public CacheStats snapshot() {
       return new CacheStats(
-          hitCount.sum(),
-          missCount.sum(),
-          loadSuccessCount.sum(),
-          loadExceptionCount.sum(),
-          totalLoadTime.sum(),
-          evictionCount.sum());
+          negativeToMaxValue(hitCount.sum()),
+          negativeToMaxValue(missCount.sum()),
+          negativeToMaxValue(loadSuccessCount.sum()),
+          negativeToMaxValue(loadExceptionCount.sum()),
+          negativeToMaxValue(totalLoadTime.sum()),
+          negativeToMaxValue(evictionCount.sum()));
+    }
+
+    /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */
+    private static long negativeToMaxValue(long value) {
+      return (value >= 0) ? value : Long.MAX_VALUE;
     }
 
     /** Increments all counters by the values in {@code other}. */

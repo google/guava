@@ -186,6 +186,7 @@ public class FloatsTest extends TestCase {
     assertEquals(-1, Floats.lastIndexOf(new float[] {NaN, 5f}, NaN));
   }
 
+  @GwtIncompatible
   public void testMax_noArgs() {
     try {
       Floats.max();
@@ -207,6 +208,7 @@ public class FloatsTest extends TestCase {
     assertTrue(Float.isNaN(Floats.max(VALUES)));
   }
 
+  @GwtIncompatible
   public void testMin_noArgs() {
     try {
       Floats.min();

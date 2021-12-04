@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Tests may use this to intercept messages that are logged by the code under test. Example:
@@ -60,7 +60,7 @@ public class TestLogHandler extends Handler {
 
   /** Adds the most recently logged record to our list. */
   @Override
-  public synchronized void publish(@NullableDecl LogRecord record) {
+  public synchronized void publish(@CheckForNull LogRecord record) {
     list.add(record);
   }
 

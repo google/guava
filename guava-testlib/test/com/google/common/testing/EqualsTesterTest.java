@@ -272,6 +272,15 @@ public class EqualsTesterTest extends TestCase {
         .testEquals();
   }
 
+  public void testEqualityBasedOnToString() {
+    try {
+      new EqualsTester().addEqualityGroup(new EqualsBasedOnToString("foo")).testEquals();
+      fail();
+    } catch (AssertionFailedError e) {
+      assertTrue(e.getMessage().contains("toString representation"));
+    }
+  }
+
   private static void assertErrorMessage(Throwable e, String message) {
     // TODO(kevinb): use a Truth assertion here
     if (!e.getMessage().contains(message)) {
@@ -420,6 +429,29 @@ public class EqualsTesterTest extends TestCase {
     @Override
     public String toString() {
       return name;
+    }
+  }
+
+  private static final class EqualsBasedOnToString {
+    private final String s;
+
+    private EqualsBasedOnToString(String s) {
+      this.s = s;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return obj != null && obj.toString().equals(toString());
+    }
+
+    @Override
+    public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override
+    public String toString() {
+      return s;
     }
   }
 }

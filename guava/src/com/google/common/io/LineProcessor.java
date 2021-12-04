@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A callback to be used with the streaming {@code readLines} methods.
@@ -30,7 +31,8 @@ import java.io.IOException;
  */
 @Beta
 @GwtIncompatible
-public interface LineProcessor<T> {
+@ElementTypesAreNonnullByDefault
+public interface LineProcessor<T extends @Nullable Object> {
 
   /**
    * This method will be called once for each line.
@@ -42,5 +44,6 @@ public interface LineProcessor<T> {
   boolean processLine(String line) throws IOException;
 
   /** Return the result of processing all the lines. */
+  @ParametricNullness
   T getResult();
 }

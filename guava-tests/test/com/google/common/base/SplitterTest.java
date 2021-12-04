@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -59,6 +60,12 @@ public class SplitterTest extends TestCase {
   public void testCharacterSimpleSplitToList() {
     String simple = "a,b,c";
     List<String> letters = COMMA_SPLITTER.splitToList(simple);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
+  public void testCharacterSimpleSplitToStream() {
+    String simple = "a,b,c";
+    List<String> letters = COMMA_SPLITTER.splitToStream(simple).collect(toImmutableList());
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
@@ -753,6 +760,18 @@ public class SplitterTest extends TestCase {
   public void testMapSplitter_malformedEntry() {
     try {
       COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  /**
+   * Testing the behavior in https://github.com/google/guava/issues/1900 - this behavior may want to
+   * be changed?
+   */
+  public void testMapSplitter_extraValueDelimiter() {
+    try {
+      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,c=2=");
       fail();
     } catch (IllegalArgumentException expected) {
     }

@@ -123,6 +123,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.UUID;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -141,7 +142,7 @@ import java.util.logging.Logger;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
@@ -205,6 +206,7 @@ public final class ArbitraryInstances {
           .put(Charset.class, Charsets.UTF_8)
           .put(Currency.class, Currency.getInstance(Locale.US))
           .put(Locale.class, Locale.US)
+          .put(UUID.class, UUID.randomUUID())
           // common.base
           .put(CharMatcher.class, CharMatcher.none())
           .put(Joiner.class, Joiner.on(','))
@@ -325,7 +327,7 @@ public final class ArbitraryInstances {
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
-  @NullableDecl
+  @CheckForNull
   private static <T> Class<? extends T> getImplementation(Class<T> type) {
     return (Class<? extends T>) implementations.get(type);
   }
@@ -336,7 +338,7 @@ public final class ArbitraryInstances {
    * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can be
    * determined.
    */
-  @NullableDecl
+  @CheckForNull
   public static <T> T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
     if (defaultValue != null) {
@@ -369,7 +371,14 @@ public final class ArbitraryInstances {
     constructor.setAccessible(true); // accessibility check is too slow
     try {
       return constructor.newInstance();
-    } catch (InstantiationException | IllegalAccessException impossible) {
+      /*
+       * Do not merge the 2 catch blocks below. javac would infer a type of
+       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
+       * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
+       */
+    } catch (InstantiationException impossible) {
+      throw new AssertionError(impossible);
+    } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
       logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());
@@ -377,7 +386,7 @@ public final class ArbitraryInstances {
     }
   }
 
-  @NullableDecl
+  @CheckForNull
   private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
     Field[] fields = type.getDeclaredFields();
     Arrays.sort(fields, BY_FIELD_NAME);

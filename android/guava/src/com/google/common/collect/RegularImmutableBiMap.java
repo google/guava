@@ -18,7 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Bimap with zero or more mappings.
@@ -27,11 +28,12 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@ElementTypesAreNonnullByDefault
 final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();
 
-  private final transient Object keyHashTable;
-  @VisibleForTesting final transient Object[] alternatingKeysAndValues;
+  @CheckForNull private final transient Object keyHashTable;
+  @VisibleForTesting final transient @Nullable Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
   private final transient RegularImmutableBiMap<V, K> inverse;
@@ -47,7 +49,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   /** K-to-V constructor. */
-  RegularImmutableBiMap(Object[] alternatingKeysAndValues, int size) {
+  RegularImmutableBiMap(@Nullable Object[] alternatingKeysAndValues, int size) {
     this.alternatingKeysAndValues = alternatingKeysAndValues;
     this.size = size;
     this.keyOffset = 0;
@@ -62,8 +64,8 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   /** V-to-K constructor. */
   private RegularImmutableBiMap(
-      Object valueHashTable,
-      Object[] alternatingKeysAndValues,
+      @CheckForNull Object valueHashTable,
+      @Nullable Object[] alternatingKeysAndValues,
       int size,
       RegularImmutableBiMap<V, K> inverse) {
     this.keyHashTable = valueHashTable;
@@ -85,9 +87,19 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V get(@NullableDecl Object key) {
-    return (V)
+  @CheckForNull
+  public V get(@CheckForNull Object key) {
+    Object result =
         RegularImmutableMap.get(keyHashTable, alternatingKeysAndValues, size, keyOffset, key);
+    /*
+     * We can't simply cast the result of `RegularImmutableMap.get` to V because of a bug in our
+     * nullness checker (resulting from https://github.com/jspecify/checker-framework/issues/8).
+     */
+    if (result == null) {
+      return null;
+    } else {
+      return (V) result;
+    }
   }
 
   @Override

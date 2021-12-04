@@ -24,6 +24,7 @@ import com.google.errorprone.refaster.annotation.Placeholder;
  * Refaster rules to rewrite usages of {@code com.google.common.collect.TreeTraverser} in terms of
  * {@code com.google.common.graph.Traverser}.
  */
+@SuppressWarnings("DefaultPackage")
 public class TraverserRewrite {
   abstract class TreeTraverserPreOrder<N> {
     @Placeholder

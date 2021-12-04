@@ -26,7 +26,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -224,12 +223,24 @@ public class MapBenchmark {
   }
 
   @Benchmark
+  boolean createPopulateAndRemove(int reps) {
+    boolean dummy = false;
+    for (int i = 1; i < reps; i++) {
+      Map<Element, Element> map = impl.create(values);
+      for (Element value : values) {
+        dummy |= map.remove(value) == null;
+      }
+    }
+    return dummy;
+  }
+
+  @Benchmark
   boolean iterateWithEntrySet(int reps) {
     Map<Element, Element> map = mapToTest;
 
     boolean dummy = false;
     for (int i = 0; i < reps; i++) {
-      for (Entry<Element, Element> entry : map.entrySet()) {
+      for (Map.Entry<Element, Element> entry : map.entrySet()) {
         dummy ^= entry.getKey() != entry.getValue();
       }
     }

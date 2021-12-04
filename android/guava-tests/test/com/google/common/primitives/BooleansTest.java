@@ -299,7 +299,8 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
     List<Boolean> reference = Booleans.asList(ARRAY_FALSE);
     assertEquals(Booleans.asList(ARRAY_FALSE), reference);
-    assertEquals(reference, reference);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(reference.equals(reference));
   }
 
   public void testAsListHashcode() {

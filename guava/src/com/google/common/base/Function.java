@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -41,11 +42,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 @FunctionalInterface
-public interface Function<F, T> extends java.util.function.Function<F, T> {
+@ElementTypesAreNonnullByDefault
+public interface Function<F extends @Nullable Object, T extends @Nullable Object>
+    extends java.util.function.Function<F, T> {
   @Override
   @CanIgnoreReturnValue // TODO(kevinb): remove this
-  @Nullable
-  T apply(@Nullable F input);
+  @ParametricNullness
+  T apply(@ParametricNullness F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
@@ -59,5 +62,5 @@ public interface Function<F, T> extends java.util.function.Function<F, T> {
    * disappear. It is best not to depend on it.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@CheckForNull Object object);
 }

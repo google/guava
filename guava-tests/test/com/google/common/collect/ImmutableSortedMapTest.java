@@ -320,6 +320,7 @@ public class ImmutableSortedMapTest extends TestCase {
       assertMapEquals(map, "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
+    @SuppressWarnings("DoNotCall")
     public void testBuilder_orderEntriesByValueFails() {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       try {
@@ -483,6 +484,136 @@ public class ImmutableSortedMapTest extends TestCase {
           4,
           "one",
           1,
+          "three",
+          3,
+          "two",
+          2);
+      assertMapEquals(
+          ImmutableSortedMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6),
+          "five",
+          5,
+          "four",
+          4,
+          "one",
+          1,
+          "six",
+          6,
+          "three",
+          3,
+          "two",
+          2);
+      assertMapEquals(
+          ImmutableSortedMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7),
+          "five",
+          5,
+          "four",
+          4,
+          "one",
+          1,
+          "seven",
+          7,
+          "six",
+          6,
+          "three",
+          3,
+          "two",
+          2);
+      assertMapEquals(
+          ImmutableSortedMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8),
+          "eight",
+          8,
+          "five",
+          5,
+          "four",
+          4,
+          "one",
+          1,
+          "seven",
+          7,
+          "six",
+          6,
+          "three",
+          3,
+          "two",
+          2);
+      assertMapEquals(
+          ImmutableSortedMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8,
+              "nine", 9),
+          "eight",
+          8,
+          "five",
+          5,
+          "four",
+          4,
+          "nine",
+          9,
+          "one",
+          1,
+          "seven",
+          7,
+          "six",
+          6,
+          "three",
+          3,
+          "two",
+          2);
+      assertMapEquals(
+          ImmutableSortedMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8,
+              "nine", 9,
+              "ten", 10),
+          "eight",
+          8,
+          "five",
+          5,
+          "four",
+          4,
+          "nine",
+          9,
+          "one",
+          1,
+          "seven",
+          7,
+          "six",
+          6,
+          "ten",
+          10,
           "three",
           3,
           "two",
@@ -773,12 +904,11 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
-    assertEquals(map.size(), alternatingKeysAndValues.length / 2);
-    int i = 0;
-    for (Entry<K, V> entry : map.entrySet()) {
-      assertEquals(alternatingKeysAndValues[i++], entry.getKey());
-      assertEquals(alternatingKeysAndValues[i++], entry.getValue());
+    Map<Object, Object> expected = new LinkedHashMap<>();
+    for (int i = 0; i < alternatingKeysAndValues.length; i += 2) {
+      expected.put(alternatingKeysAndValues[i], alternatingKeysAndValues[i + 1]);
     }
+    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
 
   private static class IntHolder implements Serializable {

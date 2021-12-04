@@ -758,6 +758,18 @@ public class SplitterTest extends TestCase {
     }
   }
 
+  /**
+   * Testing the behavior in https://github.com/google/guava/issues/1900 - this behavior may want to
+   * be changed?
+   */
+  public void testMapSplitter_extraValueDelimiter() {
+    try {
+      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,c=2=");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testMapSplitter_orderedResults() {
     Map<String, String> m =
         COMMA_SPLITTER.withKeyValueSeparator(":").split("boy:tom,girl:tina,cat:kitty,dog:tommy");

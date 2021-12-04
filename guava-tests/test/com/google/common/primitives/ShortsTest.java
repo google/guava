@@ -175,6 +175,7 @@ public class ShortsTest extends TestCase {
         3, Shorts.lastIndexOf(new short[] {(short) 2, (short) 3, (short) 2, (short) 3}, (short) 3));
   }
 
+  @GwtIncompatible
   public void testMax_noArgs() {
     try {
       Shorts.max();
@@ -191,6 +192,7 @@ public class ShortsTest extends TestCase {
         Shorts.max((short) 8, (short) 6, (short) 7, (short) 5, (short) 3, (short) 0, (short) 9));
   }
 
+  @GwtIncompatible
   public void testMin_noArgs() {
     try {
       Shorts.min();

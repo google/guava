@@ -50,11 +50,14 @@ public class SegmentBenchmark {
     checkState(segment.table.length() == capacity);
   }
 
+  @SuppressWarnings("GuardedBy")
   @Benchmark
   int time(int reps) {
     int dummy = 0;
     AtomicReferenceArray<ReferenceEntry<Object, Object>> oldTable = segment.table;
     for (int i = 0; i < reps; i++) {
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       segment.expand();
       segment.table = oldTable;
       dummy += segment.count;

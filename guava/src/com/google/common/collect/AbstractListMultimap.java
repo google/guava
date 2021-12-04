@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -33,8 +34,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
-    implements ListMultimap<K, V> {
+@ElementTypesAreNonnullByDefault
+abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -53,12 +55,13 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   }
 
   @Override
-  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+      Collection<E> collection) {
     return Collections.unmodifiableList((List<E>) collection);
   }
 
   @Override
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
+  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     return wrapList(key, (List<V>) collection, null);
   }
 
@@ -72,7 +75,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * Multimap} interface.
    */
   @Override
-  public List<V> get(@Nullable K key) {
+  public List<V> get(@ParametricNullness K key) {
     return (List<V>) super.get(key);
   }
 
@@ -85,7 +88,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(@CheckForNull Object key) {
     return (List<V>) super.removeAll(key);
   }
 
@@ -98,7 +101,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 
@@ -111,7 +114,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
+  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
@@ -133,7 +136,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * in the same order. If the value orderings disagree, the multimaps will not be considered equal.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     return super.equals(object);
   }
 

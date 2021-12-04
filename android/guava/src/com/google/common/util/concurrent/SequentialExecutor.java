@@ -19,17 +19,19 @@ import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunning
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.QUEUED;
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.QUEUING;
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.RUNNING;
+import static java.lang.System.identityHashCode;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
-import com.google.j2objc.annotations.WeakOuter;
+import com.google.j2objc.annotations.RetainedWith;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.CheckForNull;
 
 /**
  * Executor ensuring that all Runnables submitted are executed in order, using the provided
@@ -46,6 +48,7 @@ import java.util.logging.Logger;
  * restarted by a call to {@link #execute}.
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class SequentialExecutor implements Executor {
   private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
 
@@ -79,7 +82,7 @@ final class SequentialExecutor implements Executor {
   @GuardedBy("queue")
   private long workerRunCount = 0;
 
-  private final QueueWorker worker = new QueueWorker();
+  @RetainedWith private final QueueWorker worker = new QueueWorker();
 
   /** Use {@link MoreExecutors#newSequentialExecutor} */
   SequentialExecutor(Executor executor) {
@@ -90,13 +93,13 @@ final class SequentialExecutor implements Executor {
    * Adds a task to the queue and makes sure a worker thread is running.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
+   * execution of tasks will stop until a call to this method is made.
    */
   @Override
-  public void execute(final Runnable task) {
+  public void execute(Runnable task) {
     checkNotNull(task);
-    final Runnable submittedTask;
-    final long oldRunCount;
+    Runnable submittedTask;
+    long oldRunCount;
     synchronized (queue) {
       // If the worker is already running (or execute() on the delegate returned successfully, and
       // the worker has yet to start) then we don't need to start the worker.
@@ -118,6 +121,11 @@ final class SequentialExecutor implements Executor {
             @Override
             public void run() {
               task.run();
+            }
+
+            @Override
+            public String toString() {
+              return task.toString();
             }
           };
       queue.add(submittedTask);
@@ -163,8 +171,9 @@ final class SequentialExecutor implements Executor {
   }
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
-  @WeakOuter
   private final class QueueWorker implements Runnable {
+    @CheckForNull Runnable task;
+
     @Override
     public void run() {
       try {
@@ -196,7 +205,6 @@ final class SequentialExecutor implements Executor {
       boolean hasSetRunning = false;
       try {
         while (true) {
-          Runnable task;
           synchronized (queue) {
             // Choose whether this thread will run or not after acquiring the lock on the first
             // iteration
@@ -227,6 +235,8 @@ final class SequentialExecutor implements Executor {
             task.run();
           } catch (RuntimeException e) {
             log.log(Level.SEVERE, "Exception while executing runnable " + task, e);
+          } finally {
+            task = null;
           }
         }
       } finally {
@@ -238,5 +248,20 @@ final class SequentialExecutor implements Executor {
         }
       }
     }
+
+    @SuppressWarnings("GuardedBy")
+    @Override
+    public String toString() {
+      Runnable currentlyRunning = task;
+      if (currentlyRunning != null) {
+        return "SequentialExecutorWorker{running=" + currentlyRunning + "}";
+      }
+      return "SequentialExecutorWorker{state=" + workerRunningState + "}";
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "SequentialExecutor@" + identityHashCode(this) + "{" + executor + "}";
   }
 }

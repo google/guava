@@ -18,13 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.UnsignedInts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable hash code of arbitrary bit length.
@@ -33,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public abstract class HashCode {
   HashCode() {}
 
@@ -369,7 +368,7 @@ public abstract class HashCode {
    * to protect against <a href="http://en.wikipedia.org/wiki/Timing_attack">timing attacks</a>.
    */
   @Override
-  public final boolean equals(@Nullable Object object) {
+  public final boolean equals(@CheckForNull Object object) {
     if (object instanceof HashCode) {
       HashCode that = (HashCode) object;
       return bits() == that.bits() && equalsSameBits(that);
@@ -402,10 +401,10 @@ public abstract class HashCode {
    * Returns a string containing each byte of {@link #asBytes}, in order, as a two-digit unsigned
    * hexadecimal number in lower case.
    *
-   * <p>Note that if the output is considered to be a single hexadecimal number, this hash code's
-   * bytes are the <i>big-endian</i> representation of that number. This may be surprising since
-   * everything else in the hashing API uniformly treats multibyte values as little-endian. But this
-   * format conveniently matches that of utilities such as the UNIX {@code md5sum} command.
+   * <p>Note that if the output is considered to be a single hexadecimal number, whether this string
+   * is big-endian or little-endian depends on the byte order of {@link #asBytes}. This may be
+   * surprising for implementations of {@code HashCode} that represent the number in big-endian
+   * since everything else in the hashing API uniformly treats multibyte values as little-endian.
    *
    * <p>To create a {@code HashCode} from its string representation, see {@link #fromString}.
    */

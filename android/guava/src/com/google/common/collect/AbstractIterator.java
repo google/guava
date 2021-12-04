@@ -17,11 +17,13 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -61,7 +63,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
 @GwtCompatible
-public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
+@ElementTypesAreNonnullByDefault
+public abstract class AbstractIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */
@@ -81,7 +84,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     FAILED,
   }
 
-  @NullableDecl private T next;
+  @CheckForNull private T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when
@@ -107,6 +110,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
    *     this method. Any further attempts to use the iterator will result in an {@link
    *     IllegalStateException}.
    */
+  @CheckForNull
   protected abstract T computeNext();
 
   /**
@@ -117,6 +121,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
    *     simple statement {@code return endOfData();}
    */
   @CanIgnoreReturnValue
+  @CheckForNull
   protected final T endOfData() {
     state = State.DONE;
     return null;
@@ -148,12 +153,14 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
 
   @CanIgnoreReturnValue // TODO(kak): Should we remove this?
   @Override
+  @ParametricNullness
   public final T next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    T result = next;
+    // Safe because hasNext() ensures that tryToComputeNext() has put a T into `next`.
+    T result = uncheckedCastNullableTToT(next);
     next = null;
     return result;
   }
@@ -165,10 +172,12 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
    * <p>Implementations of {@code AbstractIterator} that wish to expose this functionality should
    * implement {@code PeekingIterator}.
    */
+  @ParametricNullness
   public final T peek() {
     if (!hasNext()) {
       throw new NoSuchElementException();
     }
-    return next;
+    // Safe because hasNext() ensures that tryToComputeNext() has put a T into `next`.
+    return uncheckedCastNullableTToT(next);
   }
 }

@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import javax.annotation.CheckForNull;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -97,6 +98,7 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
@@ -331,13 +333,13 @@ public final class Splitter {
    * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
    * , c , d ")} results in {@code ["a", "b", "c , d"]}.
    *
-   * @param limit the maximum number of items returned
+   * @param maxItems the maximum number of items returned
    * @return a splitter with the desired configuration
    * @since 9.0
    */
-  public Splitter limit(int limit) {
-    checkArgument(limit > 0, "must be greater than zero: %s", limit);
-    return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
+  public Splitter limit(int maxItems) {
+    checkArgument(maxItems > 0, "must be greater than zero: %s", maxItems);
+    return new Splitter(strategy, omitEmptyStrings, trimmer, maxItems);
   }
 
   /**
@@ -547,6 +549,7 @@ public final class Splitter {
       this.toSplit = toSplit;
     }
 
+    @CheckForNull
     @Override
     protected String computeNext() {
       /*

@@ -17,9 +17,10 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An interface for <a
@@ -102,6 +103,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 20.0
  */
 @Beta
+@DoNotMock("Use NetworkBuilder to create a real instance")
+@ElementTypesAreNonnullByDefault
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
@@ -160,6 +163,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   /**
    * Returns the nodes which have an incident edge in common with {@code node} in this network.
    *
+   * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   Set<N> adjacentNodes(N node);
@@ -192,6 +197,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
    * {@code node}.
+   *
+   * <p>This is equal to the union of {@link #inEdges(Object)} and {@link #outEdges(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
@@ -342,7 +349,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @Nullable
+  @CheckForNull
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
@@ -357,7 +364,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @Nullable
+  @CheckForNull
   E edgeConnectingOrNull(EndpointPair<N> endpoints);
 
   /**
@@ -409,7 +416,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code

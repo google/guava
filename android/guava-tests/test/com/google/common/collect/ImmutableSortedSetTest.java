@@ -708,6 +708,30 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(STRING_LENGTH, set.comparator());
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableSortedSet once CollectorTester is usable.
+  public void testToImmutableSortedSet_java7() {
+    // Note that a Collector should generally enforce consistent comparator between builders
+    ImmutableSortedSet.Builder<String> zis =
+        ImmutableSortedSet.<String>naturalOrder().add("c", "b", "c");
+    ImmutableSortedSet.Builder<String> zat =
+        ImmutableSortedSet.<String>naturalOrder().add("a", "b", "d", "c");
+    ImmutableSortedSet<String> sortedSet = zis.combine(zat).build();
+    assertThat(sortedSet).containsExactly("a", "b", "c", "d").inOrder();
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableSortedSet_customComparator once CollectorTester
+  //  is usable to java7.
+  public void testToImmutableSortedSet_customComparator_java7() {
+    // Note that a Collector should generally enforce consistent comparator between builders.
+    // So no tests for non-matching comparator shenanigans.
+    ImmutableSortedSet.Builder<String> zis =
+        ImmutableSortedSet.<String>orderedBy(STRING_LENGTH).add("ccc", "bb", "ccc");
+    ImmutableSortedSet.Builder<String> zat =
+        ImmutableSortedSet.<String>orderedBy(STRING_LENGTH).add("a", "bb", "dddd", "ccc");
+    ImmutableSortedSet<String> sortedSet = zis.combine(zat).build();
+    assertThat(sortedSet).containsExactly("a", "bb", "ccc", "dddd").inOrder();
+  }
+
   public void testEquals_bothDefaultOrdering() {
     SortedSet<String> set = of("a", "b", "c");
     assertEquals(set, Sets.newTreeSet(asList("a", "b", "c")));
@@ -891,7 +915,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(Iterables.elementsEqual(LegacyComparable.VALUES_BACKWARD, set));
   }
 
-  @SuppressWarnings({"deprecation", "static-access"})
+  @SuppressWarnings({"deprecation", "static-access", "DoNotCall"})
   public void testBuilderMethod() {
     try {
       ImmutableSortedSet.builder();
@@ -1003,6 +1027,44 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
           .containsExactlyElementsIn(sortedNumberNames(i + 1, strings.length))
           .inOrder();
     }
+  }
+
+  public void testFloor_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.floor("f")).isNull();
+  }
+
+  public void testFloor_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.floor("f")).isEqualTo("f");
+    assertThat(set.floor("j")).isEqualTo("i");
+    assertThat(set.floor("q")).isEqualTo("k");
+  }
+
+  public void testFloor_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "b", "i", "d", "c", "k"});
+    assertThat(set.floor("a")).isNull();
+  }
+
+  public void testCeiling_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.ceiling("f")).isNull();
+  }
+
+  public void testCeiling_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "f", "i", "d", "c", "k", "p", "c"});
+    assertThat(set.ceiling("f")).isEqualTo("f");
+    assertThat(set.ceiling("h")).isEqualTo("i");
+    assertThat(set.ceiling("a")).isEqualTo("c");
+  }
+
+  public void testCeiling_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.ceiling("l")).isNull();
   }
 
   public void testSubSetExclusiveExclusive() {

@@ -26,7 +26,7 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Helper class for creating {@link CacheBuilder} instances with all combinations of several sets of
@@ -120,7 +120,7 @@ class CacheBuilderFactory {
   private static final Function<Object, Optional<?>> NULLABLE_TO_OPTIONAL =
       new Function<Object, Optional<?>>() {
         @Override
-        public Optional<?> apply(@NullableDecl Object obj) {
+        public Optional<?> apply(@CheckForNull Object obj) {
           return Optional.fromNullable(obj);
         }
       };

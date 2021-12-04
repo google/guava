@@ -32,7 +32,11 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import javax.annotation.CheckForNull;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -60,6 +64,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Stats implements Serializable {
 
   private final long count;
@@ -103,7 +108,8 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Returns statistics over a dataset containing the given values.
+   * Returns statistics over a dataset containing the given values. The iterator will be completely
+   * consumed by this method.
    *
    * @param values a series of values, which will be converted to {@code double} values (this may
    *     cause loss of precision)
@@ -148,6 +154,78 @@ public final class Stats implements Serializable {
     return acummulator.snapshot();
   }
 
+  /**
+   * Returns statistics over a dataset containing the given values. The stream will be completely
+   * consumed by this method.
+   *
+   * <p>If you have a {@code Stream<Double>} rather than a {@code DoubleStream}, you should collect
+   * the values using {@link #toStats()} instead.
+   *
+   * @param values a series of values
+   * @since 28.2
+   */
+  public static Stats of(DoubleStream values) {
+    return values
+        .collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll)
+        .snapshot();
+  }
+
+  /**
+   * Returns statistics over a dataset containing the given values. The stream will be completely
+   * consumed by this method.
+   *
+   * <p>If you have a {@code Stream<Integer>} rather than an {@code IntStream}, you should collect
+   * the values using {@link #toStats()} instead.
+   *
+   * @param values a series of values
+   * @since 28.2
+   */
+  public static Stats of(IntStream values) {
+    return values
+        .collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll)
+        .snapshot();
+  }
+
+  /**
+   * Returns statistics over a dataset containing the given values. The stream will be completely
+   * consumed by this method.
+   *
+   * <p>If you have a {@code Stream<Long>} rather than a {@code LongStream}, you should collect the
+   * values using {@link #toStats()} instead.
+   *
+   * @param values a series of values, which will be converted to {@code double} values (this may
+   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
+   * @since 28.2
+   */
+  public static Stats of(LongStream values) {
+    return values
+        .collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll)
+        .snapshot();
+  }
+
+  /**
+   * Returns a {@link Collector} which accumulates statistics from a {@link java.util.stream.Stream}
+   * of any type of boxed {@link Number} into a {@link Stats}. Use by calling {@code
+   * boxedNumericStream.collect(toStats())}. The numbers will be converted to {@code double} values
+   * (which may cause loss of precision).
+   *
+   * <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
+   * LongStream}, you should use the factory method {@link #of} instead.
+   *
+   * @since 28.2
+   */
+  public static Collector<Number, StatsAccumulator, Stats> toStats() {
+    return Collector.of(
+        StatsAccumulator::new,
+        (a, x) -> a.add(x.doubleValue()),
+        (l, r) -> {
+          l.addAll(r);
+          return l;
+        },
+        StatsAccumulator::snapshot,
+        Collector.Characteristics.UNORDERED);
+  }
+
   /** Returns the number of values. */
   public long count() {
     return count;
@@ -169,8 +247,8 @@ public final class Stats implements Serializable {
    * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
    * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
    *
-   * <p>If you only want to calculate the mean, use {#meanOf} instead of creating a {@link Stats}
-   * instance.
+   * <p>If you only want to calculate the mean, use {@link #meanOf} instead of creating a {@link
+   * Stats} instance.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -339,7 +417,7 @@ public final class Stats implements Serializable {
    * {@code strictfp}-like semantics.)
    */
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == null) {
       return false;
     }
@@ -347,11 +425,11 @@ public final class Stats implements Serializable {
       return false;
     }
     Stats other = (Stats) obj;
-    return (count == other.count)
-        && (doubleToLongBits(mean) == doubleToLongBits(other.mean))
-        && (doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas))
-        && (doubleToLongBits(min) == doubleToLongBits(other.min))
-        && (doubleToLongBits(max) == doubleToLongBits(other.max));
+    return count == other.count
+        && doubleToLongBits(mean) == doubleToLongBits(other.mean)
+        && doubleToLongBits(sumOfSquaresOfDeltas) == doubleToLongBits(other.sumOfSquaresOfDeltas)
+        && doubleToLongBits(min) == doubleToLongBits(other.min)
+        && doubleToLongBits(max) == doubleToLongBits(other.max);
   }
 
   /**

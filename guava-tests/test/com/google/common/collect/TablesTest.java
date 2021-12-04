@@ -18,13 +18,11 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import java.util.stream.Collector;
-import java.util.stream.Stream;
 import junit.framework.TestCase;
 
 /**
@@ -35,66 +33,19 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public class TablesTest extends TestCase {
 
-  public void testToTable() {
+  // The bulk of the toTable tests can be found in TableCollectorsTest.
+  // This gives minimal coverage to the forwarding functions
+  public void testToTableSanityTest() {
     Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
         Tables.toTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue, HashBasedTable::create);
-    Equivalence<Table<String, String, Integer>> equivalence =
-        Equivalence.equals().<Cell<String, String, Integer>>pairwise().onResultOf(Table::cellSet);
-    CollectorTester.of(collector, equivalence)
-        .expectCollects(
-            new ImmutableTable.Builder<String, String, Integer>()
-                .put("one", "uno", 1)
-                .put("two", "dos", 2)
-                .put("three", "tres", 3)
-                .build(),
-            Tables.immutableCell("one", "uno", 1),
-            Tables.immutableCell("two", "dos", 2),
-            Tables.immutableCell("three", "tres", 3));
+    HashBasedTable<String, String, Integer> expected = HashBasedTable.create();
+    expected.put("one", "uno", 1);
+    CollectorTester.of(collector)
+        .expectCollects(HashBasedTable.create())
+        .expectCollects(expected, Tables.immutableCell("one", "uno", 1));
   }
 
-  public void testToTableNullMerge() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        Tables.toTable(
-            Cell::getRowKey,
-            Cell::getColumnKey,
-            Cell::getValue,
-            (Integer v1, Integer v2) -> null,
-            HashBasedTable::create);
-    Equivalence<Table<String, String, Integer>> equivalence =
-        Equivalence.equals().<Cell<String, String, Integer>>pairwise().onResultOf(Table::cellSet);
-    CollectorTester.of(collector, equivalence)
-        .expectCollects(
-            ImmutableTable.of(),
-            Tables.immutableCell("one", "uno", 1),
-            Tables.immutableCell("one", "uno", 2));
-  }
-
-  public void testToTableNullValues() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        Tables.toTable(
-            Cell::getRowKey,
-            Cell::getColumnKey,
-            Cell::getValue,
-            () -> ArrayTable.create(ImmutableList.of("one"), ImmutableList.of("uno")));
-    try {
-      Stream.of(Tables.immutableCell("one", "uno", (Integer) null)).collect(collector);
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
-  }
-
-  public void testToTableConflict() {
-    Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
-        Tables.toTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue, HashBasedTable::create);
-    try {
-      Stream.of(Tables.immutableCell("one", "uno", 1), Tables.immutableCell("one", "uno", 2))
-          .collect(collector);
-      fail("Expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-    }
-  }
-
-  public void testToTableMerging() {
+  public void testToTableMergingSanityTest() {
     Collector<Cell<String, String, Integer>, ?, Table<String, String, Integer>> collector =
         Tables.toTable(
             Cell::getRowKey,
@@ -102,19 +53,12 @@ public class TablesTest extends TestCase {
             Cell::getValue,
             Integer::sum,
             HashBasedTable::create);
-    Equivalence<Table<String, String, Integer>> equivalence =
-        Equivalence.equals().<Cell<String, String, Integer>>pairwise().onResultOf(Table::cellSet);
-    CollectorTester.of(collector, equivalence)
+    HashBasedTable<String, String, Integer> expected = HashBasedTable.create();
+    expected.put("one", "uno", 3);
+    CollectorTester.of(collector)
+        .expectCollects(HashBasedTable.create())
         .expectCollects(
-            new ImmutableTable.Builder<String, String, Integer>()
-                .put("one", "uno", 1)
-                .put("two", "dos", 6)
-                .put("three", "tres", 3)
-                .build(),
-            Tables.immutableCell("one", "uno", 1),
-            Tables.immutableCell("two", "dos", 2),
-            Tables.immutableCell("three", "tres", 3),
-            Tables.immutableCell("two", "dos", 4));
+            expected, Tables.immutableCell("one", "uno", 1), Tables.immutableCell("one", "uno", 2));
   }
 
   @GwtIncompatible // SerializableTester

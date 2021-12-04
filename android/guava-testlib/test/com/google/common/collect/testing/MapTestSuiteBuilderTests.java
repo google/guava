@@ -26,6 +26,11 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.reflect.Reflection;
+import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -36,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -52,6 +58,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
     TestSuite suite = new TestSuite(MapTestSuiteBuilderTests.class.getSimpleName());
     suite.addTest(testsForHashMapNullKeysForbidden());
     suite.addTest(testsForHashMapNullValuesForbidden());
+    suite.addTest(testsForSetUpTearDown());
     return suite;
   }
 
@@ -251,5 +258,90 @@ public final class MapTestSuiteBuilderTests extends TestCase {
         },
         "HashMap w/out null values",
         ALLOWS_NULL_KEYS);
+  }
+
+  /**
+   * Map generator that verifies that {@code setUp()} methods are called in all the test cases. The
+   * {@code setUpRan} parameter is set true by the {@code setUp} that every test case is supposed to
+   * have registered, and set false by the {@code tearDown}. We use a dynamic proxy to intercept all
+   * of the {@code Map} method calls and check that {@code setUpRan} is true.
+   */
+  private static class CheckSetUpHashMapGenerator extends WrappedHashMapGenerator {
+    private final AtomicBoolean setUpRan;
+
+    CheckSetUpHashMapGenerator(AtomicBoolean setUpRan) {
+      this.setUpRan = setUpRan;
+    }
+
+    @Override
+    Map<String, String> wrap(HashMap<String, String> map) {
+      @SuppressWarnings("unchecked")
+      Map<String, String> proxy =
+          Reflection.newProxy(Map.class, new CheckSetUpInvocationHandler(map, setUpRan));
+      return proxy;
+    }
+  }
+
+  /**
+   * Intercepts calls to a {@code Map} to check that {@code setUpRan} is true when they happen. Then
+   * forwards the calls to the underlying {@code Map}.
+   */
+  private static class CheckSetUpInvocationHandler implements InvocationHandler, Serializable {
+    private final Map<String, String> map;
+    private final AtomicBoolean setUpRan;
+
+    CheckSetUpInvocationHandler(Map<String, String> map, AtomicBoolean setUpRan) {
+      this.map = map;
+      this.setUpRan = setUpRan;
+    }
+
+    @Override
+    public Object invoke(Object target, Method method, Object[] args) throws Throwable {
+      assertTrue("setUp should have run", setUpRan.get());
+      try {
+        return method.invoke(map, args);
+      } catch (InvocationTargetException e) {
+        throw e.getCause();
+      } catch (IllegalAccessException e) {
+        throw newLinkageError(e);
+      }
+    }
+  }
+
+  /** Verifies that {@code setUp} and {@code tearDown} are called in all map test cases. */
+  private static Test testsForSetUpTearDown() {
+    final AtomicBoolean setUpRan = new AtomicBoolean();
+    Runnable setUp =
+        new Runnable() {
+          @Override
+          public void run() {
+            assertFalse("previous tearDown should have run before setUp", setUpRan.getAndSet(true));
+          }
+        };
+    Runnable tearDown =
+        new Runnable() {
+          @Override
+          public void run() {
+            assertTrue("setUp should have run", setUpRan.getAndSet(false));
+          }
+        };
+    return MapTestSuiteBuilder.using(new CheckSetUpHashMapGenerator(setUpRan))
+        .named("setUpTearDown")
+        .withFeatures(
+            MapFeature.GENERAL_PURPOSE,
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionSize.ANY)
+        .withSetUp(setUp)
+        .withTearDown(tearDown)
+        .createTestSuite();
+  }
+
+  private static LinkageError newLinkageError(Throwable cause) {
+    LinkageError error = new LinkageError(cause.toString());
+    error.initCause(cause);
+    return error;
   }
 }

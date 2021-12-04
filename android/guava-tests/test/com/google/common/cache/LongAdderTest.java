@@ -14,11 +14,27 @@
 
 package com.google.common.cache;
 
-/**
- * No-op null-pointer test for {@link LongAdder} to override the {@link PackageSanityTests} version,
- * which checks package-private methods that we don't want to have to annotate as {@code Nullable}
- * because we don't want diffs from jsr166e.
- */
-public class LongAdderTest {
+import static com.google.common.truth.Truth.assertThat;
+
+import junit.framework.TestCase;
+
+/** Unit tests for {@link LongAdder}. */
+public class LongAdderTest extends TestCase {
+
+  /**
+   * No-op null-pointer test for {@link LongAdder} to override the {@link PackageSanityTests}
+   * version, which checks package-private methods that we don't want to have to annotate as {@code
+   * Nullable} because we don't want diffs from jsr166e.
+   */
   public void testNulls() {}
+
+  public void testOverflows() {
+    LongAdder longAdder = new LongAdder();
+    longAdder.add(Long.MAX_VALUE);
+    assertThat(longAdder.sum()).isEqualTo(Long.MAX_VALUE);
+    longAdder.add(1);
+    // silently overflows; is this a bug?
+    // See https://github.com/google/guava/issues/3503
+    assertThat(longAdder.sum()).isEqualTo(-9223372036854775808L);
+  }
 }

@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable array of {@code double} values, with an API resembling {@link List}.
@@ -80,6 +80,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @Beta
 @GwtCompatible
 @Immutable
+@ElementTypesAreNonnullByDefault
 public final class ImmutableDoubleArray implements Serializable {
   private static final ImmutableDoubleArray EMPTY = new ImmutableDoubleArray(new double[0]);
 
@@ -265,9 +266,7 @@ public final class ImmutableDoubleArray implements Serializable {
     private void ensureRoomFor(int numberToAdd) {
       int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
-        double[] newArray = new double[expandedCapacity(array.length, newCount)];
-        System.arraycopy(array, 0, newArray, 0, count);
-        this.array = newArray;
+        array = Arrays.copyOf(array, expandedCapacity(array.length, newCount));
       }
     }
 
@@ -439,17 +438,17 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@CheckForNull Object target) {
       return indexOf(target) >= 0;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@CheckForNull Object target) {
       return target instanceof Double ? parent.indexOf((Double) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       return target instanceof Double ? parent.lastIndexOf((Double) target) : -1;
     }
 
@@ -459,7 +458,7 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -499,7 +498,7 @@ public final class ImmutableDoubleArray implements Serializable {
    * values as this one, in the same order. Values are compared as if by {@link Double#equals}.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

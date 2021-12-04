@@ -68,7 +68,7 @@ public class AbstractIdleServiceTest extends TestCase {
         service.startAsync().awaitRunning();
         fail();
       } catch (RuntimeException e) {
-        assertThat(e).hasCauseThat().isSameAs(exception);
+        assertThat(e).hasCauseThat().isSameInstanceAs(exception);
       }
       assertEquals(Service.State.FAILED, service.state());
     }
@@ -87,7 +87,7 @@ public class AbstractIdleServiceTest extends TestCase {
         service.stopAsync().awaitTerminated();
         fail();
       } catch (RuntimeException e) {
-        assertThat(e).hasCauseThat().isSameAs(exception);
+        assertThat(e).hasCauseThat().isSameInstanceAs(exception);
       }
       assertEquals(Service.State.FAILED, service.state());
     }
@@ -117,7 +117,7 @@ public class AbstractIdleServiceTest extends TestCase {
       service.startAsync().awaitRunning();
       fail();
     } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameAs(exception);
+      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
@@ -164,7 +164,7 @@ public class AbstractIdleServiceTest extends TestCase {
       service.stopAsync().awaitTerminated();
       fail();
     } catch (RuntimeException e) {
-      assertThat(e).hasCauseThat().isSameAs(exception);
+      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(1, service.shutDownCalled);

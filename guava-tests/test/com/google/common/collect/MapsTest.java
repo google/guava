@@ -21,6 +21,7 @@ import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -155,8 +156,8 @@ public class MapsTest extends TestCase {
     for (int i = 1; i < size; i++) {
       map1.put(i, null);
     }
-    assertThat(bucketsOf(map1))
-        .named("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding " + size + " elements")
+        .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
 
     /*
@@ -164,8 +165,8 @@ public class MapsTest extends TestCase {
      * once; make sure that passes too.
      */
     map2.putAll(map1);
-    assertThat(bucketsOf(map1))
-        .named("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding " + size + " elements")
+        .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
   }
 
@@ -244,6 +245,8 @@ public class MapsTest extends TestCase {
     assertEquals(original, map);
   }
 
+  // Intentionally using IdentityHashMap to test creation.
+  @SuppressWarnings("IdentityHashMapBoxing")
   public void testIdentityHashMap() {
     IdentityHashMap<Integer, Integer> map = Maps.newIdentityHashMap();
     assertEquals(Collections.emptyMap(), map);
@@ -1150,8 +1153,8 @@ public class MapsTest extends TestCase {
     biMap.put("two", 2);
     Converter<String, Integer> converter = Maps.asConverter(biMap);
 
-    assertSame(1, converter.convert("one"));
-    assertSame(2, converter.convert("two"));
+    assertEquals((Integer) 1, converter.convert("one"));
+    assertEquals((Integer) 2, converter.convert("two"));
     try {
       converter.convert("three");
       fail();
@@ -1160,9 +1163,9 @@ public class MapsTest extends TestCase {
 
     biMap.put("three", 3);
 
-    assertSame(1, converter.convert("one"));
-    assertSame(2, converter.convert("two"));
-    assertSame(3, converter.convert("three"));
+    assertEquals((Integer) 1, converter.convert("one"));
+    assertEquals((Integer) 2, converter.convert("two"));
+    assertEquals((Integer) 3, converter.convert("three"));
   }
 
   public void testAsConverter_withNullMapping() throws Exception {

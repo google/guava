@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
@@ -95,13 +96,13 @@ public class CompactHashMapTest extends TestCase {
 
     map.put(1, "1");
     assertThat(map.needsAllocArrays()).isFalse();
-    assertThat(map.entries).hasLength(CompactHashMap.DEFAULT_SIZE);
-    assertThat(map.keys).hasLength(CompactHashMap.DEFAULT_SIZE);
-    assertThat(map.values).hasLength(CompactHashMap.DEFAULT_SIZE);
+    assertThat(map.entries).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.keys).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.values).hasLength(CompactHashing.DEFAULT_SIZE);
   }
 
   public void testAllocArraysExpectedSize() {
-    for (int i = 0; i <= CompactHashMap.DEFAULT_SIZE; i++) {
+    for (int i = 0; i <= CompactHashing.DEFAULT_SIZE; i++) {
       CompactHashMap<Integer, String> map = CompactHashMap.createWithExpectedSize(i);
       assertThat(map.needsAllocArrays()).isTrue();
       assertThat(map.entries).isNull();

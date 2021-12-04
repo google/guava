@@ -131,6 +131,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
     }
   }
 
+
   public void testFutureCancellableBeforeFunctionCompletion() throws Exception {
     // Set the result in a separate thread since this test runs the function
     // (which will block) in the same thread.

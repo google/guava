@@ -267,6 +267,21 @@ public class CharStreamsTest extends IoTestCase {
     String test = "Test string for NullWriter";
     nullWriter.write(test);
     nullWriter.write(test, 2, 10);
+    nullWriter.append(null);
+    nullWriter.append(null, 0, 4);
+
+    try {
+      nullWriter.append(null, -1, 4);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
+
+    try {
+      nullWriter.append(null, 0, 5);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
+
     // nothing really to assert?
     assertSame(CharStreams.nullWriter(), CharStreams.nullWriter());
   }

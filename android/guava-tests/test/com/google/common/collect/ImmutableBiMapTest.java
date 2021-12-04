@@ -32,6 +32,7 @@ import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGe
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.testing.SerializableTester;
+import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -395,6 +396,136 @@ public class ImmutableBiMapTest extends TestCase {
           "four",
           5,
           "five");
+      assertMapEquals(
+          ImmutableBiMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6),
+          "one",
+          1,
+          "two",
+          2,
+          "three",
+          3,
+          "four",
+          4,
+          "five",
+          5,
+          "six",
+          6);
+      assertMapEquals(
+          ImmutableBiMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7),
+          "one",
+          1,
+          "two",
+          2,
+          "three",
+          3,
+          "four",
+          4,
+          "five",
+          5,
+          "six",
+          6,
+          "seven",
+          7);
+      assertMapEquals(
+          ImmutableBiMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8),
+          "one",
+          1,
+          "two",
+          2,
+          "three",
+          3,
+          "four",
+          4,
+          "five",
+          5,
+          "six",
+          6,
+          "seven",
+          7,
+          "eight",
+          8);
+      assertMapEquals(
+          ImmutableBiMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8,
+              "nine", 9),
+          "one",
+          1,
+          "two",
+          2,
+          "three",
+          3,
+          "four",
+          4,
+          "five",
+          5,
+          "six",
+          6,
+          "seven",
+          7,
+          "eight",
+          8,
+          "nine",
+          9);
+      assertMapEquals(
+          ImmutableBiMap.of(
+              "one", 1,
+              "two", 2,
+              "three", 3,
+              "four", 4,
+              "five", 5,
+              "six", 6,
+              "seven", 7,
+              "eight", 8,
+              "nine", 9,
+              "ten", 10),
+          "one",
+          1,
+          "two",
+          2,
+          "three",
+          3,
+          "four",
+          4,
+          "five",
+          5,
+          "six",
+          6,
+          "seven",
+          7,
+          "eight",
+          8,
+          "nine",
+          9,
+          "ten",
+          10);
     }
 
     public void testOfNullKey() {
@@ -432,6 +563,30 @@ public class ImmutableBiMapTest extends TestCase {
       } catch (IllegalArgumentException expected) {
         assertThat(expected.getMessage()).contains("one");
       }
+    }
+
+    public void testOfEntries() {
+      assertMapEquals(
+          ImmutableBiMap.ofEntries(entry("one", 1), entry("two", 2)), "one", 1, "two", 2);
+    }
+
+    public void testOfEntriesNull() {
+      Entry<Integer, Integer> nullKey = entry(null, 23);
+      try {
+        ImmutableBiMap.ofEntries(nullKey);
+        fail();
+      } catch (NullPointerException expected) {
+      }
+      Entry<Integer, Integer> nullValue = entry(23, null);
+      try {
+        ImmutableBiMap.ofEntries(nullValue);
+        fail();
+      } catch (NullPointerException expected) {
+      }
+    }
+
+    private static <T> Entry<T, T> entry(T key, T value) {
+      return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
     public void testCopyOfEmptyMap() {
@@ -506,10 +661,35 @@ public class ImmutableBiMapTest extends TestCase {
         assertThat(expected.getMessage()).contains("1");
       }
     }
+
+    // TODO(b/172823566): Use mainline testToImmutableBiMap once CollectorTester is usable to java7.
+    public void testToImmutableBiMap_java7_combine() {
+      ImmutableBiMap.Builder<String, Integer> zis =
+          ImmutableBiMap.<String, Integer>builder().put("one", 1);
+      ImmutableBiMap.Builder<String, Integer> zat =
+          ImmutableBiMap.<String, Integer>builder().put("two", 2).put("three", 3);
+      ImmutableBiMap<String, Integer> biMap = zis.combine(zat).build();
+      assertMapEquals(biMap, "one", 1, "two", 2, "three", 3);
+    }
+
+    // TODO(b/172823566): Use mainline testToImmutableBiMap once CollectorTester is usable to java7.
+    public void testToImmutableBiMap_exceptionOnDuplicateKey_java7_combine() {
+      ImmutableBiMap.Builder<String, Integer> zis =
+          ImmutableBiMap.<String, Integer>builder().put("one", 1).put("two", 2);
+      ImmutableBiMap.Builder<String, Integer> zat =
+          ImmutableBiMap.<String, Integer>builder().put("two", 22).put("three", 3);
+      try {
+        zis.combine(zat).build();
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // expected
+      }
+    }
   }
 
   public static class BiMapSpecificTests extends TestCase {
 
+    @SuppressWarnings("DoNotCall")
     public void testForcePut() {
       BiMap<String, Integer> bimap = ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
       try {
@@ -569,10 +749,13 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
-    int i = 0;
-    for (Entry<K, V> entry : map.entrySet()) {
-      assertEquals(alternatingKeysAndValues[i++], entry.getKey());
-      assertEquals(alternatingKeysAndValues[i++], entry.getValue());
+    Map<Object, Object> expected = new LinkedHashMap<>();
+    for (int i = 0; i < alternatingKeysAndValues.length; i += 2) {
+      expected.put(alternatingKeysAndValues[i], alternatingKeysAndValues[i + 1]);
     }
+    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
+
+  /** No-op test so that the class has at least one method, making Maven's test runner happy. */
+  public void testNoop() {}
 }

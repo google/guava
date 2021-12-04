@@ -201,7 +201,7 @@ public class UnmodifiableCollectionTests {
    * @param sampleElement an element of the same type as that contained by {@code multiset}. {@code
    *     multiset} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, final E sampleElement) {
+  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, E sampleElement) {
     Multiset<E> copy = LinkedHashMultiset.create(multiset);
     assertCollectionsAreEquivalent(multiset, copy);
 
@@ -264,7 +264,7 @@ public class UnmodifiableCollectionTests {
    *     multimap} may or may not have {@code sampleValue} as a key.
    */
   public static <K, V> void assertMultimapIsUnmodifiable(
-      Multimap<K, V> multimap, final K sampleKey, final V sampleValue) {
+      Multimap<K, V> multimap, K sampleKey, V sampleValue) {
     List<Entry<K, V>> originalEntries =
         Collections.unmodifiableList(Lists.newArrayList(multimap.entries()));
 

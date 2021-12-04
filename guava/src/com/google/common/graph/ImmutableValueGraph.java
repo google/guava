@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -42,8 +43,9 @@ import com.google.errorprone.annotations.Immutable;
  */
 @Beta
 @Immutable(containerOf = {"N", "V"})
-@SuppressWarnings("Immutable") // Extends ConfigurableValueGraph but uses ImmutableMaps.
-public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
+@SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
+@ElementTypesAreNonnullByDefault
+public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {
     super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
@@ -67,8 +69,13 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
+  }
+
+  @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(this); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(this); // safe because the view is effectively immutable
   }
 
   private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(
@@ -83,18 +90,14 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
     return nodeConnections.build();
   }
 
-  private static <N, V> GraphConnections<N, V> connectionsOf(
-      final ValueGraph<N, V> graph, final N node) {
+  private static <N, V> GraphConnections<N, V> connectionsOf(ValueGraph<N, V> graph, N node) {
     Function<N, V> successorNodeToValueFn =
-        new Function<N, V>() {
-          @Override
-          public V apply(N successorNode) {
-            return graph.edgeValueOrDefault(node, successorNode, null);
-          }
-        };
+        (N successorNode) ->
+            // requireNonNull is safe because the endpoint pair comes from the graph.
+            requireNonNull(graph.edgeValueOrDefault(node, successorNode, null));
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), successorNodeToValueFn))
+            node, graph.incidentEdges(node), successorNodeToValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
   }
@@ -118,14 +121,17 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
    * multiple graphs in series. Each new graph contains all the elements of the ones created before
    * it.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static class Builder<N, V> {
 
     private final MutableValueGraph<N, V> mutableValueGraph;
 
     Builder(ValueGraphBuilder<N, V> graphBuilder) {
-      this.mutableValueGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableValueGraph =
+          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

@@ -29,6 +29,7 @@ import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
@@ -400,6 +401,20 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableSetMultimap once CollectorTester is usable.
+  public void testToImmutableSetMultimap_java7_combine() {
+    ImmutableSetMultimap.Builder<String, Integer> zis =
+        ImmutableSetMultimap.<String, Integer>builder().put("a", 1).put("b", 2);
+    ImmutableSetMultimap.Builder<String, Integer> zat =
+        ImmutableSetMultimap.<String, Integer>builder().put("a", 3).put("c", 4);
+    ImmutableSetMultimap<String, Integer> multimap = zis.combine(zat).build();
+    assertThat(multimap.keySet()).containsExactly("a", "b", "c").inOrder();
+    assertThat(multimap.values()).containsExactly(1, 3, 2, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(1, 3).inOrder();
+    assertThat(multimap.get("b")).containsExactly(2);
+    assertThat(multimap.get("c")).containsExactly(4);
+  }
+
   public void testEmptyMultimapReads() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertFalse(multimap.containsKey("foo"));
@@ -577,5 +592,14 @@ public class ImmutableSetMultimapTest extends TestCase {
         .put("bar", 2)
         .put("foo", 3)
         .build();
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableSetMultimap.class);
+    tester.ignore(ImmutableSetMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of("a", 1));
   }
 }

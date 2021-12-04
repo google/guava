@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -489,6 +490,20 @@ public class TreeRangeMapTest extends TestCase {
     assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), rangeMap.asMapOfRanges());
   }
 
+  public void testPutCoalescingSubmapEmpty() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(0, 1), 1, Range.closedOpen(1, 2), 1),
+        rangeMap.asMapOfRanges());
+
+    RangeMap<Integer, Integer> subRangeMap = rangeMap.subRangeMap(Range.closedOpen(0, 2));
+    subRangeMap.putCoalescing(Range.closedOpen(1, 1), 1); // empty range coalesces connected ranges
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), subRangeMap.asMapOfRanges());
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), rangeMap.asMapOfRanges());
+  }
+
   public void testPutCoalescingComplex() {
     // {[0..1): 1, [1..3): 1, [3..5): 1, [7..10): 2, [12..15): 2, [18..19): 3}
     RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
@@ -524,6 +539,157 @@ public class TreeRangeMapTest extends TestCase {
             .build(),
         rangeMap.asMapOfRanges());
   }
+
+  public void testMergeOntoRangeOverlappingLowerBound() {
+    // {[0..2): 1}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 2), 1);
+
+    rangeMap.merge(Range.closedOpen(1, 3), 2, Integer::sum);
+
+    // {[0..1): 1, [1..2): 3, [2, 3): 2}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 1)
+            .put(Range.closedOpen(1, 2), 3)
+            .put(Range.closedOpen(2, 3), 2)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeOntoRangeOverlappingUpperBound() {
+    // {[1..3): 1}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(1, 3), 1);
+
+    rangeMap.merge(Range.closedOpen(0, 2), 2, Integer::sum);
+
+    // {[0..1): 2, [1..2): 3, [2, 3): 1}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 2)
+            .put(Range.closedOpen(1, 2), 3)
+            .put(Range.closedOpen(2, 3), 1)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeOntoIdenticalRange() {
+    // {[0..1): 1}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+
+    rangeMap.merge(Range.closedOpen(0, 1), 2, Integer::sum);
+
+    // {[0..1): 3}
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 1), 3), rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeOntoSuperRange() {
+    // {[0..3): 1}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 3), 1);
+
+    rangeMap.merge(Range.closedOpen(1, 2), 2, Integer::sum);
+
+    // {[0..1): 1, [1..2): 3, [2..3): 1}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 1)
+            .put(Range.closedOpen(1, 2), 3)
+            .put(Range.closedOpen(2, 3), 1)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeOntoSubRange() {
+    // {[1..2): 1}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+
+    rangeMap.merge(Range.closedOpen(0, 3), 2, Integer::sum);
+
+    // {[0..1): 2, [1..2): 3, [2..3): 2}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 2)
+            .put(Range.closedOpen(1, 2), 3)
+            .put(Range.closedOpen(2, 3), 2)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeOntoDisconnectedRanges() {
+    // {[0..1): 1, [2, 3): 2}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+    rangeMap.put(Range.closedOpen(2, 3), 2);
+
+    rangeMap.merge(Range.closedOpen(0, 3), 3, Integer::sum);
+
+    // {[0..1): 4, [1..2): 3, [2..3): 5}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 4)
+            .put(Range.closedOpen(1, 2), 3)
+            .put(Range.closedOpen(2, 3), 5)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeNullValue() {
+    // {[1..2): 1, [3, 4): 2}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+    rangeMap.put(Range.closedOpen(3, 4), 2);
+
+    rangeMap.merge(Range.closedOpen(0, 5), null, (v1, v2) -> v1 + 1);
+
+    // {[1..2): 2, [3..4): 3}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(1, 2), 2)
+            .put(Range.closedOpen(3, 4), 3)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeWithRemappingFunctionReturningNullValue() {
+    // {[1..2): 1, [3, 4): 2}
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+    rangeMap.put(Range.closedOpen(3, 4), 2);
+
+    rangeMap.merge(Range.closedOpen(0, 5), 3, (v1, v2) -> null);
+
+    // {[0..1): 3, [2..3): 3, [4, 5): 3}
+    assertEquals(
+        new ImmutableMap.Builder<>()
+            .put(Range.closedOpen(0, 1), 3)
+            .put(Range.closedOpen(2, 3), 3)
+            .put(Range.closedOpen(4, 5), 3)
+            .build(),
+        rangeMap.asMapOfRanges());
+  }
+
+  public void testMergeAllRangeTriples() {
+    for (Range<Integer> range1 : RANGES) {
+      for (Range<Integer> range2 : RANGES) {
+        for (Range<Integer> range3 : RANGES) {
+          Map<Integer, Integer> model = Maps.newHashMap();
+          mergeModel(model, range1, 1, Integer::sum);
+          mergeModel(model, range2, 2, Integer::sum);
+          mergeModel(model, range3, 3, Integer::sum);
+          RangeMap<Integer, Integer> test = TreeRangeMap.create();
+          test.merge(range1, 1, Integer::sum);
+          test.merge(range2, 2, Integer::sum);
+          test.merge(range3, 3, Integer::sum);
+          verify(model, test);
+        }
+      }
+    }
+  }
+
 
   public void testSubRangeMapExhaustive() {
     for (Range<Integer> range1 : RANGES) {
@@ -721,6 +887,18 @@ public class TreeRangeMapTest extends TestCase {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       if (range.contains(i)) {
         model.remove(i);
+      }
+    }
+  }
+
+  private static void mergeModel(
+      Map<Integer, Integer> model,
+      Range<Integer> range,
+      int value,
+      BiFunction<? super Integer, ? super Integer, ? extends Integer> remappingFunction) {
+    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
+      if (range.contains(i)) {
+        model.merge(i, value, remappingFunction);
       }
     }
   }

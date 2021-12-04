@@ -159,11 +159,11 @@ public class SynchronizedMapTest extends TestCase {
    */
 
   public void testSize() {
-    create().size();
+    int unused = create().size();
   }
 
   public void testIsEmpty() {
-    create().isEmpty();
+    boolean unused = create().isEmpty();
   }
 
   public void testRemove() {
@@ -175,11 +175,11 @@ public class SynchronizedMapTest extends TestCase {
   }
 
   public void testContainsKey() {
-    create().containsKey(null);
+    boolean unused = create().containsKey(null);
   }
 
   public void testContainsValue() {
-    create().containsValue(null);
+    boolean unused = create().containsValue(null);
   }
 
   public void testGet() {

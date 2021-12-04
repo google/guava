@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -138,7 +139,7 @@ public class ListsImplTest extends TestCase {
     List<Object> unEqualItems =
         Arrays.asList(outOfOrder, diffValue, diffLength, empty, null, new Object());
     for (Object other : unEqualItems) {
-      assertThat(Lists.equalsImpl(base, other)).named("%s", other).isFalse();
+      assertWithMessage("%s", other).that(Lists.equalsImpl(base, other)).isFalse();
     }
   }
 
@@ -167,11 +168,11 @@ public class ListsImplTest extends TestCase {
       int index = indexes.get(i);
       Iterable<String> iterableToAdd = toAdd.get(i);
       boolean expectedChanged = iterableToAdd.iterator().hasNext();
-      assertThat(Lists.addAllImpl(toTest, index, iterableToAdd))
-          .named(format, iterableToAdd, index)
+      assertWithMessage(format, iterableToAdd, index)
+          .that(Lists.addAllImpl(toTest, index, iterableToAdd))
           .isEqualTo(expectedChanged);
-      assertThat(toTest)
-          .named(format, iterableToAdd, index)
+      assertWithMessage(format, iterableToAdd, index)
+          .that(toTest)
           .containsExactlyElementsIn(expected.get(i));
     }
   }
@@ -216,7 +217,7 @@ public class ListsImplTest extends TestCase {
     int index = 0;
     for (Object obj : toTest) {
       String name = "toTest[" + index + "] (" + obj + ")";
-      assertThat(Lists.indexOfImpl(toTest, obj)).named(name).isEqualTo(expected[index]);
+      assertWithMessage(name).that(Lists.indexOfImpl(toTest, obj)).isEqualTo(expected[index]);
       index++;
     }
   }
@@ -225,7 +226,7 @@ public class ListsImplTest extends TestCase {
     int index = 0;
     for (Object obj : toTest) {
       String name = "toTest[" + index + "] (" + obj + ")";
-      assertThat(Lists.lastIndexOfImpl(toTest, obj)).named(name).isEqualTo(expected[index]);
+      assertWithMessage(name).that(Lists.lastIndexOfImpl(toTest, obj)).isEqualTo(expected[index]);
       index++;
     }
   }

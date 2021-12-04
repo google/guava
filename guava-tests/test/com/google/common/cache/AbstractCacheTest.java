@@ -146,6 +146,14 @@ public class AbstractCacheTest extends TestCase {
     assertEquals(27, stats.evictionCount());
   }
 
+  public void testSimpleStatsOverflow() {
+    StatsCounter counter = new SimpleStatsCounter();
+    counter.recordLoadSuccess(Long.MAX_VALUE);
+    counter.recordLoadSuccess(1);
+    CacheStats stats = counter.snapshot();
+    assertEquals(Long.MAX_VALUE, stats.totalLoadTime());
+  }
+
   public void testSimpleStatsIncrementBy() {
     long totalLoadTime = 0;
 

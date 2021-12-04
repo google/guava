@@ -26,6 +26,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.function.Consumer;
+import javax.annotation.CheckForNull;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -68,12 +69,13 @@ import java.util.function.Consumer;
  *     their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
  *     implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
  *     the same lambda function as passed into {@link #using(Function)}.
- *     <p>This class is scheduled to be removed in January 2019.
+ *     <p>This class is scheduled to be removed in October 2019.
  */
-// TODO(b/68134636): Remove by 2019-01
+// TODO(b/68134636): Remove by 2019-10
 @Deprecated
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class TreeTraverser<T> {
 
   /**
@@ -222,6 +224,7 @@ public abstract class TreeTraverser<T> {
     }
 
     @Override
+    @CheckForNull
     protected T computeNext() {
       while (!stack.isEmpty()) {
         PostOrderNode<T> top = stack.getLast();

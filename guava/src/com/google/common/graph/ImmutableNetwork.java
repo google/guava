@@ -45,8 +45,9 @@ import java.util.Map;
  */
 @Beta
 @Immutable(containerOf = {"N", "E"})
-@SuppressWarnings("Immutable") // Extends ConfigurableNetwork but uses ImmutableMaps.
-public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
+@SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
+@ElementTypesAreNonnullByDefault
+public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
     super(
@@ -72,7 +73,7 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
   @Override
   public ImmutableGraph<N> asGraph() {
-    return new ImmutableGraph<N>(super.asGraph()); // safe because the view is effectively immutable
+    return new ImmutableGraph<>(super.asGraph()); // safe because the view is effectively immutable
   }
 
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {
@@ -114,31 +115,16 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
     }
   }
 
-  private static <N, E> Function<E, N> sourceNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).source();
-      }
-    };
+  private static <N, E> Function<E, N> sourceNodeFn(Network<N, E> network) {
+    return (E edge) -> network.incidentNodes(edge).source();
   }
 
-  private static <N, E> Function<E, N> targetNodeFn(final Network<N, E> network) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).target();
-      }
-    };
+  private static <N, E> Function<E, N> targetNodeFn(Network<N, E> network) {
+    return (E edge) -> network.incidentNodes(edge).target();
   }
 
-  private static <N, E> Function<E, N> adjacentNodeFn(final Network<N, E> network, final N node) {
-    return new Function<E, N>() {
-      @Override
-      public N apply(E edge) {
-        return network.incidentNodes(edge).adjacentNode(node);
-      }
-    };
+  private static <N, E> Function<E, N> adjacentNodeFn(Network<N, E> network, N node) {
+    return (E edge) -> network.incidentNodes(edge).adjacentNode(node);
   }
 
   /**
@@ -162,7 +148,7 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
    * multiple networks in series. Each new network contains all the elements of the ones created
    * before it.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static class Builder<N, E> {
 

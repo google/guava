@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.newSequentialExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.collect.ImmutableList;
@@ -188,7 +189,7 @@ public class SequentialExecutorTest extends TestCase {
     // Check that this thread has been marked as interrupted again now that the thread has been
     // returned by SequentialExecutor. Clear the bit while checking so that the test doesn't hose
     // JUnit or some other test case.
-    assertThat(Thread.currentThread().interrupted()).isTrue();
+    assertThat(Thread.interrupted()).isTrue();
   }
 
   public void testInterrupt_doesNotInterruptSubsequentTask() throws Exception {
@@ -215,7 +216,7 @@ public class SequentialExecutorTest extends TestCase {
     // Check that the interruption of a SequentialExecutor's task is restored to the thread once
     // it is yielded. Clear the bit while checking so that the test doesn't hose JUnit or some other
     // test case.
-    assertThat(Thread.currentThread().interrupted()).isTrue();
+    assertThat(Thread.interrupted()).isTrue();
   }
 
   public void testInterrupt_doesNotStopExecution() {
@@ -273,6 +274,7 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(1, numCalls.get());
   }
 
+
   public void testTaskThrowsError() throws Exception {
     class MyError extends Error {}
     final CyclicBarrier barrier = new CyclicBarrier(2);
@@ -311,6 +313,7 @@ public class SequentialExecutorTest extends TestCase {
     }
   }
 
+
   public void testRejectedExecutionThrownWithMultipleCalls() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
     final SettableFuture<?> future = SettableFuture.create();
@@ -347,5 +350,41 @@ public class SequentialExecutorTest extends TestCase {
     } catch (ExecutionException expected) {
       assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
     }
+  }
+
+  public void testToString() {
+    final Runnable[] currentTask = new Runnable[1];
+    final Executor delegate =
+        new Executor() {
+          @Override
+          public void execute(Runnable task) {
+            currentTask[0] = task;
+            task.run();
+            currentTask[0] = null;
+          }
+
+          @Override
+          public String toString() {
+            return "theDelegate";
+          }
+        };
+    Executor sequential1 = newSequentialExecutor(delegate);
+    Executor sequential2 = newSequentialExecutor(delegate);
+    assertThat(sequential1.toString()).contains("theDelegate");
+    assertThat(sequential1.toString()).isNotEqualTo(sequential2.toString());
+    final String[] whileRunningToString = new String[1];
+    sequential1.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            whileRunningToString[0] = "" + currentTask[0];
+          }
+
+          @Override
+          public String toString() {
+            return "my runnable's toString";
+          }
+        });
+    assertThat(whileRunningToString[0]).contains("my runnable's toString");
   }
 }

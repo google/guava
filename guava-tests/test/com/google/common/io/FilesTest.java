@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.io.Files.touch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
@@ -196,7 +195,7 @@ public class FilesTest extends IoTestCase {
     File temp2 = createTempFile();
     Files.write(ASCII, temp2, Charsets.UTF_8);
     Files.copy(temp1, temp2);
-    assertEquals(ASCII, Files.toString(temp1, Charsets.UTF_8));
+    assertEquals(ASCII, Files.toString(temp2, Charsets.UTF_8));
   }
 
   public void testEqual() throws IOException {

@@ -20,11 +20,9 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
@@ -49,6 +47,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
+@ElementTypesAreNonnullByDefault
 public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final int expectedSize;
@@ -101,44 +100,6 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
 
   HashBasedTable(Map<R, Map<C, V>> backingMap, Factory<C, V> factory) {
     super(backingMap, factory);
-  }
-
-  // Overriding so NullPointerTester test passes.
-
-  @Override
-  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
-    return super.contains(rowKey, columnKey);
-  }
-
-  @Override
-  public boolean containsColumn(@NullableDecl Object columnKey) {
-    return super.containsColumn(columnKey);
-  }
-
-  @Override
-  public boolean containsRow(@NullableDecl Object rowKey) {
-    return super.containsRow(rowKey);
-  }
-
-  @Override
-  public boolean containsValue(@NullableDecl Object value) {
-    return super.containsValue(value);
-  }
-
-  @Override
-  public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
-    return super.get(rowKey, columnKey);
-  }
-
-  @Override
-  public boolean equals(@NullableDecl Object obj) {
-    return super.equals(obj);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
-    return super.remove(rowKey, columnKey);
   }
 
   private static final long serialVersionUID = 0;

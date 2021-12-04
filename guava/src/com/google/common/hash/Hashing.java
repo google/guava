@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
+import javax.annotation.CheckForNull;
 import javax.crypto.spec.SecretKeySpec;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
@@ -43,6 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class Hashing {
   /**
    * Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
@@ -93,12 +94,53 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the <a
    * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
+   *
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed(int)} instead.
+   */
+  @Deprecated
+  public static HashFunction murmur3_32(int seed) {
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ false);
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
+   *
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed()} instead.
+   */
+  @Deprecated
+  public static HashFunction murmur3_32() {
+    return Murmur3_32HashFunction.MURMUR3_32;
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
    * algorithm, x86 variant</a> (little-endian variant), using the given seed value.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since 31.0
    */
-  public static HashFunction murmur3_32(int seed) {
-    return new Murmur3_32HashFunction(seed);
+  public static HashFunction murmur3_32_fixed(int seed) {
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
   }
 
   /**
@@ -107,9 +149,14 @@ public final class Hashing {
    * algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since 31.0
    */
-  public static HashFunction murmur3_32() {
-    return Murmur3_32HashFunction.MURMUR3_32;
+  public static HashFunction murmur3_32_fixed() {
+    return Murmur3_32HashFunction.MURMUR3_32_FIXED;
   }
 
   /**
@@ -234,7 +281,6 @@ public final class Hashing {
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * MD5 (128 hash bits) hash function and the given secret key.
    *
-   *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
@@ -248,7 +294,6 @@ public final class Hashing {
    * MD5 (128 hash bits) hash function and a {@link SecretKeySpec} created from the given byte array
    * and the MD5 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -259,7 +304,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-1 (160 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -274,7 +318,6 @@ public final class Hashing {
    * SHA-1 (160 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-1 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -285,7 +328,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-256 (256 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -300,7 +342,6 @@ public final class Hashing {
    * SHA-256 (256 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-256 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -311,7 +352,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-512 (512 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -325,7 +365,6 @@ public final class Hashing {
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-512 (512 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-512 algorithm.
-   *
    *
    * @param key the key material of the secret key
    * @since 20.0
@@ -457,7 +496,6 @@ public final class Hashing {
    *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
    *
-   *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
@@ -491,7 +529,6 @@ public final class Hashing {
    *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}
    *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
-   *
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
@@ -643,7 +680,7 @@ public final class Hashing {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof ConcatenatedHashFunction) {
         ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;
         return Arrays.equals(functions, other.functions);

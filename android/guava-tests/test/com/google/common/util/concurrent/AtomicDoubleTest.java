@@ -13,6 +13,7 @@
 
 package com.google.common.util.concurrent;
 
+
 /** Unit test for {@link AtomicDouble}. */
 public class AtomicDoubleTest extends JSR166TestCase {
 

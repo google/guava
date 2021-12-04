@@ -116,10 +116,10 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
 
   /** Create a suite whose maps are descending views of other maps. */
   private TestSuite createDescendingSuite(
-      final FeatureSpecificTestSuiteBuilder<
+      FeatureSpecificTestSuiteBuilder<
               ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
           parentBuilder) {
-    final TestSortedMapGenerator<K, V> delegate =
+    TestSortedMapGenerator<K, V> delegate =
         (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>();

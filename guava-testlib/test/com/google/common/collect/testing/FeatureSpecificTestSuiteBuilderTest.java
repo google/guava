@@ -27,7 +27,7 @@ import org.junit.Ignore;
 /** @author Max Ross */
 public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
 
-  static boolean testWasRun;
+  private static boolean testWasRun;
 
   @Override
   protected void setUp() throws Exception {
@@ -52,7 +52,7 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
   }
 
   public void testLifecycle() {
-    final boolean setUp[] = {false};
+    boolean[] setUp = {false};
     Runnable setUpRunnable =
         new Runnable() {
           @Override
@@ -61,7 +61,7 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
           }
         };
 
-    final boolean tearDown[] = {false};
+    boolean[] tearDown = {false};
     Runnable tearDownRunnable =
         new Runnable() {
           @Override

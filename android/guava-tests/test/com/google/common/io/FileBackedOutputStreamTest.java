@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+
 import com.google.common.testing.GcFinalization;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.Arrays;
  * @author Chris Nokleberg
  */
 public class FileBackedOutputStreamTest extends IoTestCase {
+
 
   public void testThreshold() throws Exception {
     testThreshold(0, 100, true, false);
@@ -76,6 +78,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     }
   }
 
+
   public void testFinalizeDeletesFile() throws Exception {
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(0, true);
@@ -98,6 +101,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
           }
         });
   }
+
 
   public void testThreshold_resetOnFinalize() throws Exception {
     testThreshold(0, 100, true, true);

@@ -17,22 +17,29 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitTerminationUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterruptibly;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -135,6 +142,63 @@ public class UninterruptiblesTest extends TestCase {
     requestInterruptIn(500);
 
     boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  // Lock.tryLock() tests
+  public void testTryLockTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Lock lock = new ReentrantLock();
+    Thread lockThread = acquireFor(lock, 5, SECONDS);
+
+    boolean lockAcquired = tryLockUninterruptibly(lock, 500, MILLISECONDS);
+
+    assertFalse(lockAcquired);
+    assertAtLeastTimePassed(stopwatch, 500);
+    assertNotInterrupted();
+
+    // finish locking thread
+    lockThread.interrupt();
+  }
+
+  public void testTryLockTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Lock lock = new ReentrantLock();
+    acquireFor(lock, 500, MILLISECONDS);
+
+    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testTryLockInterruptedTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Lock lock = new ReentrantLock();
+    Thread lockThread = acquireFor(lock, 5, SECONDS);
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1000, MILLISECONDS);
+
+    assertFalse(signaledBeforeTimeout);
+    assertAtLeastTimePassed(stopwatch, 1000);
+    assertInterrupted();
+
+    // finish locking thread
+    lockThread.interrupt();
+  }
+
+  public void testTryLockInterruptedTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Lock lock = new ReentrantLock();
+    acquireFor(lock, 1000, MILLISECONDS);
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
 
     assertTrue(signaledBeforeTimeout);
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
@@ -402,6 +466,57 @@ public class UninterruptiblesTest extends TestCase {
     TimedSemaphore semaphore = TimedSemaphore.createWithDelay(LONG_DELAY_MS);
     repeatedlyInterruptTestThread(20, tearDownStack);
     semaphore.tryAcquireUnsuccessfully(10, 70);
+    assertInterrupted();
+  }
+
+  // executor.awaitTermination Testcases
+  public void testTryAwaitTerminationUninterruptiblyDuration_success() {
+    ExecutorService executor = newFixedThreadPool(1);
+    requestInterruptIn(500);
+    executor.execute(new SleepTask(1000));
+    executor.shutdown();
+    assertTrue(awaitTerminationUninterruptibly(executor, Duration.ofMillis(LONG_DELAY_MS)));
+    assertTrue(executor.isTerminated());
+    assertInterrupted();
+  }
+
+  public void testTryAwaitTerminationUninterruptiblyDuration_failure() {
+    ExecutorService executor = newFixedThreadPool(1);
+    requestInterruptIn(500);
+    executor.execute(new SleepTask(10000));
+    executor.shutdown();
+    assertFalse(awaitTerminationUninterruptibly(executor, Duration.ofMillis(1000)));
+    assertFalse(executor.isTerminated());
+    assertInterrupted();
+  }
+
+  public void testTryAwaitTerminationUninterruptiblyLongTimeUnit_success() {
+    ExecutorService executor = newFixedThreadPool(1);
+    requestInterruptIn(500);
+    executor.execute(new SleepTask(1000));
+    executor.shutdown();
+    assertTrue(awaitTerminationUninterruptibly(executor, LONG_DELAY_MS, MILLISECONDS));
+    assertTrue(executor.isTerminated());
+    assertInterrupted();
+  }
+
+  public void testTryAwaitTerminationUninterruptiblyLongTimeUnit_failure() {
+    ExecutorService executor = newFixedThreadPool(1);
+    requestInterruptIn(500);
+    executor.execute(new SleepTask(10000));
+    executor.shutdown();
+    assertFalse(awaitTerminationUninterruptibly(executor, 1000, MILLISECONDS));
+    assertFalse(executor.isTerminated());
+    assertInterrupted();
+  }
+
+  public void testTryAwaitTerminationInfiniteTimeout() {
+    ExecutorService executor = newFixedThreadPool(1);
+    requestInterruptIn(500);
+    executor.execute(new SleepTask(1000));
+    executor.shutdown();
+    awaitTerminationUninterruptibly(executor);
+    assertTrue(executor.isTerminated());
     assertInterrupted();
   }
 
@@ -694,6 +809,15 @@ public class UninterruptiblesTest extends TestCase {
     }
   }
 
+  private static final class SleepTask extends DelayedActionRunnable {
+    SleepTask(long tMinus) {
+      super(tMinus);
+    }
+
+    @Override
+    protected void doAction() {}
+  }
+
   private static void sleepSuccessfully(long sleepMillis) {
     Completion completed = new Completion(sleepMillis - SLEEP_SLACK);
     Uninterruptibles.sleepUninterruptibly(sleepMillis, MILLISECONDS);
@@ -727,6 +851,30 @@ public class UninterruptiblesTest extends TestCase {
 
   private static void requestInterruptIn(long millis) {
     InterruptionUtil.requestInterruptIn(millis, MILLISECONDS);
+  }
+
+  @CanIgnoreReturnValue
+  private static Thread acquireFor(final Lock lock, final long duration, final TimeUnit unit) {
+    final CountDownLatch latch = new CountDownLatch(1);
+    Thread thread =
+        new Thread() {
+          @Override
+          public void run() {
+            lock.lock();
+            latch.countDown();
+            try {
+              Thread.sleep(unit.toMillis(duration));
+            } catch (InterruptedException e) {
+              // simply finish execution
+            } finally {
+              lock.unlock();
+            }
+          }
+        };
+    thread.setDaemon(true);
+    thread.start();
+    awaitUninterruptibly(latch);
+    return thread;
   }
 
   private static class TestCondition implements Condition {

@@ -29,6 +29,7 @@ import java.util.logging.Logger;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Flushables {
   private static final Logger logger = Logger.getLogger(Flushables.class.getName());
 

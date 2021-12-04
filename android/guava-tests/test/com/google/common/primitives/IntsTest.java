@@ -155,6 +155,7 @@ public class IntsTest extends TestCase {
     assertEquals(3, Ints.lastIndexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3));
   }
 
+  @GwtIncompatible
   public void testMax_noArgs() {
     try {
       Ints.max();
@@ -169,6 +170,7 @@ public class IntsTest extends TestCase {
     assertEquals((int) 9, Ints.max((int) 8, (int) 6, (int) 7, (int) 5, (int) 3, (int) 0, (int) 9));
   }
 
+  @GwtIncompatible
   public void testMin_noArgs() {
     try {
       Ints.min();

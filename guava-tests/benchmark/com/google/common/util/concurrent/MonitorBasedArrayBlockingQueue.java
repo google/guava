@@ -36,12 +36,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>This is a classic &quot;bounded buffer&quot;, in which a fixed-sized array holds elements
  * inserted by producers and extracted by consumers. Once created, the capacity cannot be increased.
- * Attempts to <tt>put</tt> an element into a full queue will result in the operation blocking;
- * attempts to <tt>take</tt> an element from an empty queue will similarly block.
+ * Attempts to {@code put} an element into a full queue will result in the operation blocking;
+ * attempts to {@code take} an element from an empty queue will similarly block.
  *
  * <p>This class supports an optional fairness policy for ordering waiting producer and consumer
  * threads. By default, this ordering is not guaranteed. However, a queue constructed with fairness
- * set to <tt>true</tt> grants threads access in FIFO order. Fairness generally decreases throughput
+ * set to {@code true} grants threads access in FIFO order. Fairness generally decreases throughput
  * but reduces variability and avoids starvation.
  *
  * <p>This class and its iterator implement all of the <em>optional</em> methods of the {@link
@@ -139,24 +139,24 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   }
 
   /**
-   * Creates an <tt>MonitorBasedArrayBlockingQueue</tt> with the given (fixed) capacity and default
+   * Creates an {@code MonitorBasedArrayBlockingQueue} with the given (fixed) capacity and default
    * access policy.
    *
    * @param capacity the capacity of this queue
-   * @throws IllegalArgumentException if <tt>capacity</tt> is less than 1
+   * @throws IllegalArgumentException if {@code capacity} is less than 1
    */
   public MonitorBasedArrayBlockingQueue(int capacity) {
     this(capacity, false);
   }
 
   /**
-   * Creates an <tt>MonitorBasedArrayBlockingQueue</tt> with the given (fixed) capacity and the
+   * Creates an {@code MonitorBasedArrayBlockingQueue} with the given (fixed) capacity and the
    * specified access policy.
    *
    * @param capacity the capacity of this queue
-   * @param fair if <tt>true</tt> then queue accesses for threads blocked on insertion or removal,
-   *     are processed in FIFO order; if <tt>false</tt> the access order is unspecified.
-   * @throws IllegalArgumentException if <tt>capacity</tt> is less than 1
+   * @param fair if {@code true} then queue accesses for threads blocked on insertion or removal,
+   *     are processed in FIFO order; if {@code false} the access order is unspecified.
+   * @throws IllegalArgumentException if {@code capacity} is less than 1
    */
   public MonitorBasedArrayBlockingQueue(int capacity, boolean fair) {
     if (capacity <= 0) throw new IllegalArgumentException();
@@ -179,15 +179,15 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   }
 
   /**
-   * Creates an <tt>MonitorBasedArrayBlockingQueue</tt> with the given (fixed) capacity, the
+   * Creates an {@code MonitorBasedArrayBlockingQueue} with the given (fixed) capacity, the
    * specified access policy and initially containing the elements of the given collection, added in
    * traversal order of the collection's iterator.
    *
    * @param capacity the capacity of this queue
-   * @param fair if <tt>true</tt> then queue accesses for threads blocked on insertion or removal,
-   *     are processed in FIFO order; if <tt>false</tt> the access order is unspecified.
+   * @param fair if {@code true} then queue accesses for threads blocked on insertion or removal,
+   *     are processed in FIFO order; if {@code false} the access order is unspecified.
    * @param c the collection of elements to initially contain
-   * @throws IllegalArgumentException if <tt>capacity</tt> is less than <tt>c.size()</tt>, or less
+   * @throws IllegalArgumentException if {@code capacity} is less than {@code c.size()}, or less
    *     than 1.
    * @throws NullPointerException if the specified collection or any of its elements are null
    */
@@ -205,11 +205,11 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   /**
    * Inserts the specified element at the tail of this queue if it is possible to do so immediately
-   * without exceeding the queue's capacity, returning <tt>true</tt> upon success and throwing an
-   * <tt>IllegalStateException</tt> if this queue is full.
+   * without exceeding the queue's capacity, returning {@code true} upon success and throwing an
+   * {@code IllegalStateException} if this queue is full.
    *
    * @param e the element to add
-   * @return <tt>true</tt> (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link Collection#add})
    * @throws IllegalStateException if this queue is full
    * @throws NullPointerException if the specified element is null
    */
@@ -220,7 +220,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   /**
    * Inserts the specified element at the tail of this queue if it is possible to do so immediately
-   * without exceeding the queue's capacity, returning <tt>true</tt> upon success and <tt>false</tt>
+   * without exceeding the queue's capacity, returning {@code true} upon success and {@code false}
    * if this queue is full. This method is generally preferable to method {@link #add}, which can
    * fail to insert an element only by throwing an exception.
    *
@@ -361,11 +361,11 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   /**
    * Returns the number of additional elements that this queue can ideally (in the absence of memory
    * or resource constraints) accept without blocking. This is always equal to the initial capacity
-   * of this queue less the current <tt>size</tt> of this queue.
+   * of this queue less the current {@code size} of this queue.
    *
    * <p>Note that you <em>cannot</em> always tell if an attempt to insert an element will succeed by
-   * inspecting <tt>remainingCapacity</tt> because it may be the case that another thread is about
-   * to insert or remove an element.
+   * inspecting {@code remainingCapacity} because it may be the case that another thread is about to
+   * insert or remove an element.
    */
   @Override
   public int remainingCapacity() {
@@ -380,12 +380,12 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   /**
    * Removes a single instance of the specified element from this queue, if it is present. More
-   * formally, removes an element <tt>e</tt> such that <tt>o.equals(e)</tt>, if this queue contains
-   * one or more such elements. Returns <tt>true</tt> if this queue contained the specified element
+   * formally, removes an element {@code e} such that {@code o.equals(e)}, if this queue contains
+   * one or more such elements. Returns {@code true} if this queue contained the specified element
    * (or equivalently, if this queue changed as a result of the call).
    *
    * @param o element to be removed from this queue, if present
-   * @return <tt>true</tt> if this queue changed as a result of the call
+   * @return {@code true} if this queue changed as a result of the call
    */
   @Override
   public boolean remove(@Nullable Object o) {
@@ -410,12 +410,12 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   }
 
   /**
-   * Returns <tt>true</tt> if this queue contains the specified element. More formally, returns
-   * <tt>true</tt> if and only if this queue contains at least one element <tt>e</tt> such that
-   * <tt>o.equals(e)</tt>.
+   * Returns {@code true} if this queue contains the specified element. More formally, returns
+   * {@code true} if and only if this queue contains at least one element {@code e} such that {@code
+   * o.equals(e)}.
    *
    * @param o object to be checked for containment in this queue
-   * @return <tt>true</tt> if this queue contains the specified element
+   * @return {@code true} if this queue contains the specified element
    */
   @Override
   public boolean contains(@Nullable Object o) {
@@ -474,19 +474,19 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    *
    * <p>If this queue fits in the specified array with room to spare (i.e., the array has more
    * elements than this queue), the element in the array immediately following the end of the queue
-   * is set to <tt>null</tt>.
+   * is set to {@code null}.
    *
    * <p>Like the {@link #toArray()} method, this method acts as bridge between array-based and
    * collection-based APIs. Further, this method allows precise control over the runtime type of the
    * output array, and may, under certain circumstances, be used to save allocation costs.
    *
-   * <p>Suppose <tt>x</tt> is a queue known to contain only strings. The following code can be used
-   * to dump the queue into a newly allocated array of <tt>String</tt>:
+   * <p>Suppose {@code x} is a queue known to contain only strings. The following code can be used
+   * to dump the queue into a newly allocated array of {@code String}:
    *
    * <pre>
    *     String[] y = x.toArray(new String[0]);</pre>
    *
-   * <p>Note that <tt>toArray(new Object[0])</tt> is identical in function to <tt>toArray()</tt>.
+   * <p>Note that {@code toArray(new Object[0])} is identical in function to {@code toArray()}.
    *
    * @param a the array into which the elements of the queue are to be stored, if it is big enough;
    *     otherwise, a new array of the same runtime type is allocated for this purpose
@@ -626,8 +626,8 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   }
 
   /**
-   * Returns an iterator over the elements in this queue in proper sequence. The returned
-   * <tt>Iterator</tt> is a "weakly consistent" iterator that will never throw {@link
+   * Returns an iterator over the elements in this queue in proper sequence. The returned {@code
+   * Iterator} is a "weakly consistent" iterator that will never throw {@link
    * ConcurrentModificationException}, and guarantees to traverse elements as they existed upon
    * construction of the iterator, and may (but is not guaranteed to) reflect any modifications
    * subsequent to construction.

@@ -91,7 +91,8 @@ public class ImmutableDoubleArrayTest extends TestCase {
      * We don't guarantee the same-as property, so we aren't obligated to test it. However, it's
      * useful in testing - when two things are the same then one can't have bugs the other doesn't.
      */
-    assertThat(ImmutableDoubleArray.copyOf(new double[0])).isSameAs(ImmutableDoubleArray.of());
+    assertThat(ImmutableDoubleArray.copyOf(new double[0]))
+        .isSameInstanceAs(ImmutableDoubleArray.of());
   }
 
   public void testCopyOf_array_nonempty() {
@@ -103,7 +104,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testCopyOf_iterable_notCollection_empty() {
     Iterable<Double> iterable = iterable(Collections.<Double>emptySet());
-    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameAs(ImmutableDoubleArray.of());
+    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameInstanceAs(ImmutableDoubleArray.of());
   }
 
   public void testCopyOf_iterable_notCollection_nonempty() {
@@ -115,7 +116,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testCopyOf_iterable_collection_empty() {
     Iterable<Double> iterable = Collections.emptySet();
-    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameAs(ImmutableDoubleArray.of());
+    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameInstanceAs(ImmutableDoubleArray.of());
   }
 
   public void testCopyOf_iterable_collection_nonempty() {
@@ -127,7 +128,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testCopyOf_collection_empty() {
     Collection<Double> iterable = Collections.emptySet();
-    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameAs(ImmutableDoubleArray.of());
+    assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameInstanceAs(ImmutableDoubleArray.of());
   }
 
   public void testCopyOf_collection_nonempty() {
@@ -139,7 +140,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   public void testCopyOf_stream() {
     assertThat(ImmutableDoubleArray.copyOf(DoubleStream.empty()))
-        .isSameAs(ImmutableDoubleArray.of());
+        .isSameInstanceAs(ImmutableDoubleArray.of());
     assertThat(ImmutableDoubleArray.copyOf(DoubleStream.of(0, 1, 3)).asList())
         .containsExactly(0.0, 1.0, 3.0)
         .inOrder();
@@ -367,9 +368,9 @@ public class ImmutableDoubleArrayTest extends TestCase {
     ImmutableDoubleArray iia1 = ImmutableDoubleArray.of(5);
     ImmutableDoubleArray iia3 = ImmutableDoubleArray.of(5, 25, 125);
 
-    assertThat(iia0.subArray(0, 0)).isSameAs(ImmutableDoubleArray.of());
-    assertThat(iia1.subArray(0, 0)).isSameAs(ImmutableDoubleArray.of());
-    assertThat(iia1.subArray(1, 1)).isSameAs(ImmutableDoubleArray.of());
+    assertThat(iia0.subArray(0, 0)).isSameInstanceAs(ImmutableDoubleArray.of());
+    assertThat(iia1.subArray(0, 0)).isSameInstanceAs(ImmutableDoubleArray.of());
+    assertThat(iia1.subArray(1, 1)).isSameInstanceAs(ImmutableDoubleArray.of());
     assertThat(iia1.subArray(0, 1).asList()).containsExactly(5.0);
     assertThat(iia3.subArray(0, 2).asList()).containsExactly(5.0, 25.0).inOrder();
     assertThat(iia3.subArray(1, 3).asList()).containsExactly(25.0, 125.0).inOrder();
@@ -436,9 +437,9 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testSerialization() {
-    assertThat(reserialize(ImmutableDoubleArray.of())).isSameAs(ImmutableDoubleArray.of());
+    assertThat(reserialize(ImmutableDoubleArray.of())).isSameInstanceAs(ImmutableDoubleArray.of());
     assertThat(reserialize(ImmutableDoubleArray.of(0, 1).subArray(1, 1)))
-        .isSameAs(ImmutableDoubleArray.of());
+        .isSameInstanceAs(ImmutableDoubleArray.of());
 
     ImmutableDoubleArray iia = ImmutableDoubleArray.of(0, 1, 3, 6).subArray(1, 3);
     ImmutableDoubleArray iia2 = reserialize(iia);
@@ -448,14 +449,14 @@ public class ImmutableDoubleArrayTest extends TestCase {
 
   private static void assertActuallyTrims(ImmutableDoubleArray iia) {
     ImmutableDoubleArray trimmed = iia.trimmed();
-    assertThat(trimmed).isNotSameAs(iia);
+    assertThat(trimmed).isNotSameInstanceAs(iia);
 
     // Yes, this is apparently how you check array equality in Truth
     assertThat(trimmed.toArray()).isEqualTo(iia.toArray());
   }
 
   private static void assertDoesntActuallyTrim(ImmutableDoubleArray iia) {
-    assertThat(iia.trimmed()).isSameAs(iia);
+    assertThat(iia.trimmed()).isSameInstanceAs(iia);
   }
 
   @GwtIncompatible // suite

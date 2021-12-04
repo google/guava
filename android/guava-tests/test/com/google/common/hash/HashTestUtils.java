@@ -195,8 +195,8 @@ final class HashTestUtils {
         int limit = pos + random.nextInt(value.length - pos + 1);
         for (PrimitiveSink sink : sinks) {
           ByteBuffer buffer = ByteBuffer.wrap(value);
-          buffer.position(pos);
-          buffer.limit(limit);
+          Java8Compatibility.position(buffer, pos);
+          Java8Compatibility.limit(buffer, limit);
           sink.putBytes(buffer);
           assertEquals(limit, buffer.limit());
           assertEquals(limit, buffer.position());
@@ -509,9 +509,9 @@ final class HashTestUtils {
     rng.nextBytes(bytes);
     ByteBuffer littleEndian = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
     ByteBuffer bigEndian = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN);
-    assertEquals(hashFunction.hashBytes(littleEndian), hashFunction.hashBytes(littleEndian));
+    assertEquals(hashFunction.hashBytes(littleEndian), hashFunction.hashBytes(bigEndian));
     assertEquals(ByteOrder.LITTLE_ENDIAN, littleEndian.order());
-    assertEquals(ByteOrder.BIG_ENDIAN, littleEndian.order());
+    assertEquals(ByteOrder.BIG_ENDIAN, bigEndian.order());
   }
 
   static void assertHasherByteBufferPreservesByteOrder(HashFunction hashFunction) {
@@ -522,9 +522,9 @@ final class HashTestUtils {
     ByteBuffer bigEndian = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN);
     assertEquals(
         hashFunction.newHasher().putBytes(littleEndian).hash(),
-        hashFunction.newHasher().putBytes(littleEndian).hash());
+        hashFunction.newHasher().putBytes(bigEndian).hash());
     assertEquals(ByteOrder.LITTLE_ENDIAN, littleEndian.order());
-    assertEquals(ByteOrder.BIG_ENDIAN, littleEndian.order());
+    assertEquals(ByteOrder.BIG_ENDIAN, bigEndian.order());
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {

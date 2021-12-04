@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.EnumSet;
+import javax.annotation.CheckForNull;
 
 /**
  * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.
@@ -29,6 +30,7 @@ import java.util.EnumSet;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   @SuppressWarnings("rawtypes") // necessary to compile against Java 8
   static ImmutableSet asImmutable(EnumSet set) {
@@ -72,7 +74,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return delegate.contains(object);
   }
 
@@ -90,7 +92,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

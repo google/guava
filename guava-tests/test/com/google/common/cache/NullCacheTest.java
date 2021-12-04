@@ -123,7 +123,7 @@ public class NullCacheTest extends TestCase {
       map.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException uee) {
-      assertThat(uee).hasCauseThat().isSameAs(e);
+      assertThat(uee).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(listener.isEmpty());
     checkEmpty(map);

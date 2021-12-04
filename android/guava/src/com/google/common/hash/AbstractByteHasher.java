@@ -32,6 +32,7 @@ import java.nio.ByteOrder;
  * @author Colin Decker
  */
 @CanIgnoreReturnValue
+@ElementTypesAreNonnullByDefault
 abstract class AbstractByteHasher extends AbstractHasher {
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
 
@@ -54,7 +55,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
   protected void update(ByteBuffer b) {
     if (b.hasArray()) {
       update(b.array(), b.arrayOffset() + b.position(), b.remaining());
-      b.position(b.limit());
+      Java8Compatibility.position(b, b.limit());
     } else {
       for (int remaining = b.remaining(); remaining > 0; remaining--) {
         update(b.get());
@@ -67,7 +68,7 @@ abstract class AbstractByteHasher extends AbstractHasher {
     try {
       update(scratch.array(), 0, bytes);
     } finally {
-      scratch.clear();
+      Java8Compatibility.clear(scratch);
     }
     return this;
   }

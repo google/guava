@@ -28,14 +28,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -141,7 +145,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class Ordering<T> implements Comparator<T> {
+@ElementTypesAreNonnullByDefault
+public abstract class Ordering<T extends @Nullable Object> implements Comparator<T> {
   // Natural order
 
   /**
@@ -175,7 +180,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     wraps that comparator
    */
   @GwtCompatible(serializable = true)
-  public static <T> Ordering<T> from(Comparator<T> comparator) {
+  public static <T extends @Nullable Object> Ordering<T> from(Comparator<T> comparator) {
     return (comparator instanceof Ordering)
         ? (Ordering<T>) comparator
         : new ComparatorOrdering<T>(comparator);
@@ -188,7 +193,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   @Deprecated
-  public static <T> Ordering<T> from(Ordering<T> ordering) {
+  public static <T extends @Nullable Object> Ordering<T> from(Ordering<T> ordering) {
     return checkNotNull(ordering);
   }
 
@@ -275,7 +280,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   @SuppressWarnings("unchecked")
-  public static Ordering<Object> allEqual() {
+  public static Ordering<@Nullable Object> allEqual() {
     return AllEqualOrdering.INSTANCE;
   }
 
@@ -308,16 +313,16 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 2.0
    */
   // TODO(kevinb): copy to Comparators, etc.
-  public static Ordering<Object> arbitrary() {
+  public static Ordering<@Nullable Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
   }
 
   private static class ArbitraryOrderingHolder {
-    static final Ordering<Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
+    static final Ordering<@Nullable Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
   }
 
   @VisibleForTesting
-  static class ArbitraryOrdering extends Ordering<Object> {
+  static class ArbitraryOrdering extends Ordering<@Nullable Object> {
 
     private final AtomicInteger counter = new AtomicInteger(0);
     private final ConcurrentMap<Object, Integer> uids =
@@ -339,7 +344,7 @@ public abstract class Ordering<T> implements Comparator<T> {
     }
 
     @Override
-    public int compare(Object left, Object right) {
+    public int compare(@CheckForNull Object left, @CheckForNull Object right) {
       if (left == right) {
         return 0;
       } else if (left == null) {
@@ -411,7 +416,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   // type parameter <S> lets us avoid the extra <String> in statements like:
   // Ordering<String> o = Ordering.<String>natural().nullsFirst();
   @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsFirst() {
+  public <S extends T> Ordering<@Nullable S> nullsFirst() {
     return new NullsFirstOrdering<S>(this);
   }
 
@@ -424,7 +429,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   // type parameter <S> lets us avoid the extra <String> in statements like:
   // Ordering<String> o = Ordering.<String>natural().nullsLast();
   @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsLast() {
+  public <S extends T> Ordering<@Nullable S> nullsLast() {
     return new NullsLastOrdering<S>(this);
   }
 
@@ -442,7 +447,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * can omit the comparator if it is the natural order).
    */
   @GwtCompatible(serializable = true)
-  public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
+  public <F extends @Nullable Object> Ordering<F> onResultOf(Function<F, ? extends T> function) {
     return new ByFunctionOrdering<>(function, this);
   }
 
@@ -488,7 +493,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @param comparators the comparators to try in order
    */
   @GwtCompatible(serializable = true)
-  public static <T> Ordering<T> compound(Iterable<? extends Comparator<? super T>> comparators) {
+  public static <T extends @Nullable Object> Ordering<T> compound(
+      Iterable<? extends Comparator<? super T>> comparators) {
     return new CompoundOrdering<T>(comparators);
   }
 
@@ -524,19 +530,17 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   // Regular instance methods
 
-  // Override to add @NullableDecl
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   @Override
-  public abstract int compare(@NullableDecl T left, @NullableDecl T right);
+  public abstract int compare(@ParametricNullness T left, @ParametricNullness T right);
 
   /**
    * Returns the least of the specified values according to this ordering. If there are multiple
    * least values, the first of those is returned. The iterator will be left exhausted: its {@code
    * hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).min(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied minimum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).min(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param iterator the iterator whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -544,6 +548,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
+  @ParametricNullness
   public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
@@ -560,8 +565,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.min(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied minimum element is returned)
    *
@@ -570,6 +574,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
+  @ParametricNullness
   public <E extends T> E min(Iterable<E> iterable) {
     return min(iterable.iterator());
   }
@@ -581,15 +586,16 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
    * other {@code min} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}
-   * instead (but note that it does not guarantee which tied minimum element is returned).
+   * <p><b>Note:</b> Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code
+   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.
    *
    * @param a value to compare, returned if less than or equal to b.
    * @param b value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E min(@NullableDecl E a, @NullableDecl E b) {
+  @ParametricNullness
+  public <E extends T> E min(@ParametricNullness E a, @ParametricNullness E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
 
@@ -607,7 +613,9 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E min(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
+  @ParametricNullness
+  public <E extends T> E min(
+      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
     for (E r : rest) {
@@ -622,9 +630,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned. The iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).max(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param iterator the iterator whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -632,6 +639,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
+  @ParametricNullness
   public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
@@ -648,8 +656,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.max(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied maximum element is returned)
    *
@@ -658,6 +665,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
+  @ParametricNullness
   public <E extends T> E max(Iterable<E> iterable) {
     return max(iterable.iterator());
   }
@@ -669,15 +677,16 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
    * other {@code max} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b), thisComparator)}
-   * instead (but note that it does not guarantee which tied maximum element is returned).
+   * <p><b>Note:</b> Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code
+   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.
    *
    * @param a value to compare, returned if greater than or equal to b.
    * @param b value to compare.
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E max(@NullableDecl E a, @NullableDecl E b) {
+  @ParametricNullness
+  public <E extends T> E max(@ParametricNullness E a, @ParametricNullness E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
 
@@ -695,7 +704,9 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  public <E extends T> E max(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
+  @ParametricNullness
+  public <E extends T> E max(
+      @ParametricNullness E a, @ParametricNullness E b, @ParametricNullness E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
     for (E r : rest) {
@@ -749,8 +760,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.least(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.least(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
    *     order
@@ -809,8 +820,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.greatest(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
    *     <i>descending order</i>
@@ -860,6 +871,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
+  @SuppressWarnings("nullness") // unsafe, but there's not much we can do about it now
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }
@@ -921,7 +933,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.
    */
   @Deprecated
-  public int binarySearch(List<? extends T> sortedList, @NullableDecl T key) {
+  public int binarySearch(
+      List<? extends T> sortedList, @ParametricNullness T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 

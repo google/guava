@@ -17,12 +17,17 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.CompactHashing.UNSET;
 import static com.google.common.collect.Hashing.smearedHash;
+import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.NullnessCasts.unsafeNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -37,10 +42,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactHashMap is an implementation of a Map. All optional operations (put and remove) are
@@ -66,20 +73,23 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * to prioritize memory over CPU.
  *
  * @author Louis Wasserman
+ * @author Jon Noack
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
+@ElementTypesAreNonnullByDefault
+class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMap<K, V> implements Serializable {
   /*
    * TODO: Make this a drop-in replacement for j.u. versions, actually drop them in, and test the
    * world. Figure out what sort of space-time tradeoff we're actually going to get here with the
-   * *Map variants. Followon optimizations, such as using 16-bit indices for small collections, will
-   * take more work to implement. This class is particularly hard to benchmark, because the benefit
-   * is not only in less allocation, but also having the GC do less work to scan the heap because of
-   * fewer references, which is particularly hard to quantify.
+   * *Map variants. This class is particularly hard to benchmark, because the benefit is not only in
+   * less allocation, but also having the GC do less work to scan the heap because of fewer
+   * references, which is particularly hard to quantify.
    */
 
   /** Creates an empty {@code CompactHashMap} instance. */
-  public static <K, V> CompactHashMap<K, V> create() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactHashMap<K, V> create() {
     return new CompactHashMap<>();
   }
 
@@ -92,67 +102,137 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    *     elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> CompactHashMap<K, V> createWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactHashMap<>(expectedSize);
   }
 
-  private static final float LOAD_FACTOR = 1.0f;
-
-  /** Bitmask that selects the low 32 bits. */
-  private static final long NEXT_MASK = (1L << 32) - 1;
-
-  /** Bitmask that selects the high 32 bits. */
-  private static final long HASH_MASK = ~NEXT_MASK;
-
-  // TODO(user): decide default size
-  static final int DEFAULT_SIZE = 3;
-
-  // used to indicate blank table entries
-  static final int UNSET = -1;
+  private static final Object NOT_FOUND = new Object();
 
   /**
-   * The hashtable. Its values are indexes to the keys, values, and entries arrays.
-   *
-   * <p>Currently, the UNSET value means "null pointer", and any non negative value x is the actual
-   * index.
-   *
-   * <p>Its size must be a power of two.
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
    */
-  @MonotonicNonNullDecl private transient int[] table;
+  @VisibleForTesting(
+      )
+  static final double HASH_FLOODING_FPP = 0.001;
 
   /**
-   * Contains the logical entries, in the range of [0, size()). The high 32 bits of each long is the
-   * smeared hash of the element, whereas the low 32 bits is the "next" pointer (pointing to the
-   * next entry in the bucket chain). The pointers in [size(), entries.length) are all "null"
-   * (UNSET).
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
+   * implementation. Experimentally determined.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient long[] entries;
+  private static final int MAX_HASH_BUCKET_LENGTH = 9;
+
+  // The way the `table`, `entries`, `keys`, and `values` arrays work together is as follows.
+  //
+  // The `table` array always has a size that is a power of 2. The hashcode of a key in the map
+  // is masked in order to correspond to the current table size. For example, if the table size
+  // is 128 then the mask is 127 == 0x7f, keeping the bottom 7 bits of the hash value.
+  // If a key hashes to 0x89abcdef the mask reduces it to 0x89abcdef & 0x7f == 0x6f. We'll call this
+  // the "short hash".
+  //
+  // The `keys`, `values`, and `entries` arrays always have the same size as each other. They can be
+  // seen as fields of an imaginary `Entry` object like this:
+  //
+  // class Entry {
+  //    int hash;
+  //    Entry next;
+  //    K key;
+  //    V value;
+  // }
+  //
+  // The imaginary `hash` and `next` values are combined into a single `int` value in the `entries`
+  // array. The top bits of this value are the remaining bits of the hash value that were not used
+  // in the short hash. We saw that a mask of 0x7f would keep the 7-bit value 0x6f from a full
+  // hashcode of 0x89abcdef. The imaginary `hash` value would then be the remaining top 25 bits,
+  // 0x89abcd80. To this is added (or'd) the `next` value, which is an index within `entries`
+  // (and therefore within `keys` and `values`) of another entry that has the same short hash
+  // value. In our example, it would be another entry for a key whose short hash is also 0x6f.
+  //
+  // Essentially, then, `table[h]` gives us the start of a linked list in `entries`, where every
+  // element of the list has the short hash value h.
+  //
+  // A wrinkle here is that the value 0 (called UNSET in the code) is used as the equivalent of a
+  // null pointer. If `table[h] == 0` that means there are no keys in the map whose short hash is h.
+  // If the `next` bits in `entries[i]` are 0 that means there are no further entries for the given
+  // short hash. But 0 is also a valid index in `entries`, so we add 1 to these indices before
+  // putting them in `table` or in `next` bits, and subtract 1 again when we need an index value.
+  //
+  // The elements of `keys`, `values`, and `entries` are added sequentially, so that elements 0 to
+  // `size() - 1` are used and remaining elements are not. This makes iteration straightforward.
+  // Removing an entry generally involves moving the last element of each array to where the removed
+  // entry was, and adjusting index links accordingly.
+
+  /**
+   * The hashtable object. This can be either:
+   *
+   * <ul>
+   *   <li>a byte[], short[], or int[], with size a power of two, created by
+   *       CompactHashing.createTable, whose values are either
+   *       <ul>
+   *         <li>UNSET, meaning "null pointer"
+   *         <li>one plus an index into the keys, values, and entries arrays
+   *       </ul>
+   *   <li>another java.util.Map delegate implementation. In most modern JDKs, normal java.util hash
+   *       collections intelligently fall back to a binary search tree if hash table collisions are
+   *       detected. Rather than going to all the trouble of reimplementing this ourselves, we
+   *       simply switch over to use the JDK implementation wholesale if probable hash flooding is
+   *       detected, sacrificing the compactness guarantee in very rare cases in exchange for much
+   *       more reliable worst-case behavior.
+   *   <li>null, if no entries have yet been added to the map
+   * </ul>
+   */
+  @CheckForNull private transient Object table;
+
+  /**
+   * Contains the logical entries, in the range of [0, size()). The high bits of each int are the
+   * part of the smeared hash of the key not covered by the hashtable mask, whereas the low bits are
+   * the "next" pointer (pointing to the next entry in the bucket chain), which will always be less
+   * than or equal to the hashtable mask.
+   *
+   * <pre>
+   * hash  = aaaaaaaa
+   * mask  = 00000fff
+   * next  = 00000bbb
+   * entry = aaaaabbb
+   * </pre>
+   *
+   * <p>The pointers in [size(), entries.length) are all "null" (UNSET).
+   */
+  @VisibleForTesting @CheckForNull transient int[] entries;
 
   /**
    * The keys of the entries in the map, in the range of [0, size()). The keys in [size(),
    * keys.length) are all {@code null}.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient Object[] keys;
+  @VisibleForTesting @CheckForNull transient @Nullable Object[] keys;
 
   /**
    * The values of the entries in the map, in the range of [0, size()). The values in [size(),
    * values.length) are all {@code null}.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient Object[] values;
+  @VisibleForTesting @CheckForNull transient @Nullable Object[] values;
 
   /**
-   * Keeps track of modifications of this set, to make it possible to throw
-   * ConcurrentModificationException in the iterator. Note that we choose not to make this volatile,
-   * so we do less of a "best effort" to track such errors, for better performance.
+   * Keeps track of metadata like the number of hash table bits and modifications of this data
+   * structure (to make it possible to throw ConcurrentModificationException in the iterator). Note
+   * that we choose not to make this volatile, so we do less of a "best effort" to track such
+   * errors, for better performance.
+   *
+   * <p>For a new instance, where the arrays above have not yet been allocated, the value of {@code
+   * metadata} is the size that the arrays should be allocated with. Once the arrays have been
+   * allocated, the value of {@code metadata} combines the number of bits in the "short hash", in
+   * its bottom {@value CompactHashing#HASH_TABLE_BITS_MAX_BITS} bits, with a modification count in
+   * the remaining bits that is used to detect concurrent modification during iteration.
    */
-  transient int modCount;
+  private transient int metadata;
 
   /** The number of elements contained in the set. */
   private transient int size;
 
   /** Constructs a new empty instance of {@code CompactHashMap}. */
   CompactHashMap() {
-    init(DEFAULT_SIZE);
+    init(CompactHashing.DEFAULT_SIZE);
   }
 
   /**
@@ -166,56 +246,78 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   /** Pseudoconstructor for serialization support. */
   void init(int expectedSize) {
-    Preconditions.checkArgument(expectedSize >= 0, "Expected size must be non-negative");
-    this.modCount = Math.max(1, expectedSize); // Save expectedSize for use in allocArrays()
+    Preconditions.checkArgument(expectedSize >= 0, "Expected size must be >= 0");
+
+    // Save expectedSize for use in allocArrays()
+    this.metadata = Ints.constrainToRange(expectedSize, 1, CompactHashing.MAX_SIZE);
   }
 
   /** Returns whether arrays need to be allocated. */
+  @VisibleForTesting
   boolean needsAllocArrays() {
     return table == null;
   }
 
   /** Handle lazy allocation of arrays. */
-  void allocArrays() {
+  @CanIgnoreReturnValue
+  int allocArrays() {
     Preconditions.checkState(needsAllocArrays(), "Arrays already allocated");
 
-    int expectedSize = modCount;
-    int buckets = Hashing.closedTableSize(expectedSize, LOAD_FACTOR);
-    this.table = newTable(buckets);
+    int expectedSize = metadata;
+    int buckets = CompactHashing.tableSize(expectedSize);
+    this.table = CompactHashing.createTable(buckets);
+    setHashTableMask(buckets - 1);
 
-    this.entries = newEntries(expectedSize);
+    this.entries = new int[expectedSize];
     this.keys = new Object[expectedSize];
     this.values = new Object[expectedSize];
+
+    return expectedSize;
   }
 
-  private static int[] newTable(int size) {
-    int[] array = new int[size];
-    Arrays.fill(array, UNSET);
-    return array;
+  @SuppressWarnings("unchecked")
+  @VisibleForTesting
+  @CheckForNull
+  Map<K, V> delegateOrNull() {
+    if (table instanceof Map) {
+      return (Map<K, V>) table;
+    }
+    return null;
   }
 
-  private static long[] newEntries(int size) {
-    long[] array = new long[size];
-    Arrays.fill(array, UNSET);
-    return array;
+  Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashMap<>(tableSize, 1.0f);
   }
 
+  @VisibleForTesting
+  @CanIgnoreReturnValue
+  Map<K, V> convertToHashFloodingResistantImplementation() {
+    Map<K, V> newDelegate = createHashFloodingResistantDelegate(hashTableMask() + 1);
+    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
+      newDelegate.put(key(i), value(i));
+    }
+    this.table = newDelegate;
+    this.entries = null;
+    this.keys = null;
+    this.values = null;
+    incrementModCount();
+    return newDelegate;
+  }
+
+  /** Stores the hash table mask as the number of bits needed to represent an index. */
+  private void setHashTableMask(int mask) {
+    int hashTableBits = Integer.SIZE - Integer.numberOfLeadingZeros(mask);
+    metadata =
+        CompactHashing.maskCombine(metadata, hashTableBits, CompactHashing.HASH_TABLE_BITS_MASK);
+  }
+
+  /** Gets the hash table mask using the stored number of hash table bits. */
   private int hashTableMask() {
-    return table.length - 1;
+    return (1 << (metadata & CompactHashing.HASH_TABLE_BITS_MASK)) - 1;
   }
 
-  private static int getHash(long entry) {
-    return (int) (entry >>> 32);
-  }
-
-  /** Returns the index, or UNSET if the pointer is "null" */
-  private static int getNext(long entry) {
-    return (int) entry;
-  }
-
-  /** Returns a new entry value by changing the "next" index of an existing entry */
-  private static long swapNext(long entry, int newNext) {
-    return (HASH_MASK & entry) | (NEXT_MASK & newNext);
+  void incrementModCount() {
+    metadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
   }
 
   /**
@@ -228,72 +330,88 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  @NullableDecl
-  public V put(@NullableDecl K key, @NullableDecl V value) {
+  @CheckForNull
+  public V put(@ParametricNullness K key, @ParametricNullness V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
-    long[] entries = this.entries;
-    Object[] keys = this.keys;
-    Object[] values = this.values;
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.put(key, value);
+    }
+    int[] entries = requireEntries();
+    @Nullable Object[] keys = requireKeys();
+    @Nullable Object[] values = requireValues();
 
-    int hash = smearedHash(key);
-    int tableIndex = hash & hashTableMask();
     int newEntryIndex = this.size; // current size, and pointer to the entry to be appended
-    int next = table[tableIndex];
+    int newSize = newEntryIndex + 1;
+    int hash = smearedHash(key);
+    int mask = hashTableMask();
+    int tableIndex = hash & mask;
+    int next = CompactHashing.tableGet(requireTable(), tableIndex);
     if (next == UNSET) { // uninitialized bucket
-      table[tableIndex] = newEntryIndex;
+      if (newSize > mask) {
+        // Resize and add new entry
+        mask = resizeTable(mask, CompactHashing.newCapacity(mask), hash, newEntryIndex);
+      } else {
+        CompactHashing.tableSet(requireTable(), tableIndex, newEntryIndex + 1);
+      }
     } else {
-      int last;
-      long entry;
+      int entryIndex;
+      int entry;
+      int hashPrefix = CompactHashing.getHashPrefix(hash, mask);
+      int bucketLength = 0;
       do {
-        last = next;
-        entry = entries[next];
-        if (getHash(entry) == hash && Objects.equal(key, keys[next])) {
+        entryIndex = next - 1;
+        entry = entries[entryIndex];
+        if (CompactHashing.getHashPrefix(entry, mask) == hashPrefix
+            && Objects.equal(key, keys[entryIndex])) {
           @SuppressWarnings("unchecked") // known to be a V
-          @NullableDecl
-          V oldValue = (V) values[next];
+          V oldValue = (V) values[entryIndex];
 
-          values[next] = value;
-          accessEntry(next);
+          values[entryIndex] = value;
+          accessEntry(entryIndex);
           return oldValue;
         }
-        next = getNext(entry);
+        next = CompactHashing.getNext(entry, mask);
+        bucketLength++;
       } while (next != UNSET);
-      entries[last] = swapNext(entry, newEntryIndex);
+
+      if (bucketLength >= MAX_HASH_BUCKET_LENGTH) {
+        return convertToHashFloodingResistantImplementation().put(key, value);
+      }
+
+      if (newSize > mask) {
+        // Resize and add new entry
+        mask = resizeTable(mask, CompactHashing.newCapacity(mask), hash, newEntryIndex);
+      } else {
+        entries[entryIndex] = CompactHashing.maskCombine(entry, newEntryIndex + 1, mask);
+      }
     }
-    if (newEntryIndex == Integer.MAX_VALUE) {
-      throw new IllegalStateException("Cannot contain more than Integer.MAX_VALUE elements!");
-    }
-    int newSize = newEntryIndex + 1;
     resizeMeMaybe(newSize);
-    insertEntry(newEntryIndex, key, value, hash);
+    insertEntry(newEntryIndex, key, value, hash, mask);
     this.size = newSize;
-    int oldCapacity = table.length;
-    if (Hashing.needsResizing(newEntryIndex, oldCapacity, LOAD_FACTOR)) {
-      resizeTable(2 * oldCapacity);
-    }
-    modCount++;
+    incrementModCount();
     return null;
   }
 
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(int entryIndex, @NullableDecl K key, @NullableDecl V value, int hash) {
-    this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
-    this.keys[entryIndex] = key;
-    this.values[entryIndex] = value;
+  void insertEntry(
+      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
+    this.setEntry(entryIndex, CompactHashing.maskCombine(hash, UNSET, mask));
+    this.setKey(entryIndex, key);
+    this.setValue(entryIndex, value);
   }
 
   /** Resizes the entries storage if necessary. */
   private void resizeMeMaybe(int newSize) {
-    int entriesSize = entries.length;
+    int entriesSize = requireEntries().length;
     if (newSize > entriesSize) {
-      int newCapacity = entriesSize + Math.max(1, entriesSize >>> 1);
-      if (newCapacity < 0) {
-        newCapacity = Integer.MAX_VALUE;
-      }
+      // 1.5x but round up to nearest odd (this is optimal for memory consumption on Android)
+      int newCapacity =
+          Math.min(CompactHashing.MAX_SIZE, (entriesSize + Math.max(1, entriesSize >>> 1)) | 1);
       if (newCapacity != entriesSize) {
         resizeEntries(newCapacity);
       }
@@ -305,150 +423,186 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * the current capacity.
    */
   void resizeEntries(int newCapacity) {
-    this.keys = Arrays.copyOf(keys, newCapacity);
-    this.values = Arrays.copyOf(values, newCapacity);
-    long[] entries = this.entries;
-    int oldCapacity = entries.length;
-    entries = Arrays.copyOf(entries, newCapacity);
-    if (newCapacity > oldCapacity) {
-      Arrays.fill(entries, oldCapacity, newCapacity, UNSET);
-    }
-    this.entries = entries;
+    this.entries = Arrays.copyOf(requireEntries(), newCapacity);
+    this.keys = Arrays.copyOf(requireKeys(), newCapacity);
+    this.values = Arrays.copyOf(requireValues(), newCapacity);
   }
 
-  private void resizeTable(int newCapacity) { // newCapacity always a power of two
-    int[] newTable = newTable(newCapacity);
-    long[] entries = this.entries;
+  @CanIgnoreReturnValue
+  private int resizeTable(int oldMask, int newCapacity, int targetHash, int targetEntryIndex) {
+    Object newTable = CompactHashing.createTable(newCapacity);
+    int newMask = newCapacity - 1;
 
-    int mask = newTable.length - 1;
-    for (int i = 0; i < size; i++) {
-      long oldEntry = entries[i];
-      int hash = getHash(oldEntry);
-      int tableIndex = hash & mask;
-      int next = newTable[tableIndex];
-      newTable[tableIndex] = i;
-      entries[i] = ((long) hash << 32) | (NEXT_MASK & next);
+    if (targetEntryIndex != UNSET) {
+      // Add target first; it must be last in the chain because its entry hasn't yet been created
+      CompactHashing.tableSet(newTable, targetHash & newMask, targetEntryIndex + 1);
+    }
+
+    Object oldTable = requireTable();
+    int[] entries = requireEntries();
+
+    // Loop over `oldTable` to construct its replacement, ``newTable`. The entries do not move, so
+    // the `keys` and `values` arrays do not need to change. But because the "short hash" now has a
+    // different number of bits, we must rewrite each element of `entries` so that its contribution
+    // to the full hashcode reflects the change, and so that its `next` link corresponds to the new
+    // linked list of entries with the new short hash.
+    for (int oldTableIndex = 0; oldTableIndex <= oldMask; oldTableIndex++) {
+      int oldNext = CompactHashing.tableGet(oldTable, oldTableIndex);
+      // Each element of `oldTable` is the head of a (possibly empty) linked list of elements in
+      // `entries`. The `oldNext` loop is going to traverse that linked list.
+      // We need to rewrite the `next` link of each of the elements so that it is in the appropriate
+      // linked list starting from `newTable`. In general, each element from the old linked list
+      // belongs to a different linked list from `newTable`. We insert each element in turn at the
+      // head of its appropriate `newTable` linked list.
+      while (oldNext != UNSET) {
+        int entryIndex = oldNext - 1;
+        int oldEntry = entries[entryIndex];
+
+        // Rebuild the full 32-bit hash using entry hashPrefix and oldTableIndex ("hashSuffix").
+        int hash = CompactHashing.getHashPrefix(oldEntry, oldMask) | oldTableIndex;
+
+        int newTableIndex = hash & newMask;
+        int newNext = CompactHashing.tableGet(newTable, newTableIndex);
+        CompactHashing.tableSet(newTable, newTableIndex, oldNext);
+        entries[entryIndex] = CompactHashing.maskCombine(hash, newNext, newMask);
+
+        oldNext = CompactHashing.getNext(oldEntry, oldMask);
+      }
     }
 
     this.table = newTable;
+    setHashTableMask(newMask);
+    return newMask;
   }
 
-  private int indexOf(@NullableDecl Object key) {
+  private int indexOf(@CheckForNull Object key) {
     if (needsAllocArrays()) {
       return -1;
     }
     int hash = smearedHash(key);
-    int next = table[hash & hashTableMask()];
-    while (next != UNSET) {
-      long entry = entries[next];
-      if (getHash(entry) == hash && Objects.equal(key, keys[next])) {
-        return next;
-      }
-      next = getNext(entry);
+    int mask = hashTableMask();
+    int next = CompactHashing.tableGet(requireTable(), hash & mask);
+    if (next == UNSET) {
+      return -1;
     }
+    int hashPrefix = CompactHashing.getHashPrefix(hash, mask);
+    do {
+      int entryIndex = next - 1;
+      int entry = entry(entryIndex);
+      if (CompactHashing.getHashPrefix(entry, mask) == hashPrefix
+          && Objects.equal(key, key(entryIndex))) {
+        return entryIndex;
+      }
+      next = CompactHashing.getNext(entry, mask);
+    } while (next != UNSET);
     return -1;
   }
 
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
-    return indexOf(key) != -1;
+  public boolean containsKey(@CheckForNull Object key) {
+    Map<K, V> delegate = delegateOrNull();
+    return (delegate != null) ? delegate.containsKey(key) : indexOf(key) != -1;
   }
 
-  @SuppressWarnings("unchecked") // values only contains Vs
   @Override
-  public V get(@NullableDecl Object key) {
+  @CheckForNull
+  public V get(@CheckForNull Object key) {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.get(key);
+    }
     int index = indexOf(key);
+    if (index == -1) {
+      return null;
+    }
     accessEntry(index);
-    return (index == -1) ? null : (V) values[index];
+    return value(index);
   }
 
   @CanIgnoreReturnValue
+  @SuppressWarnings("unchecked") // known to be a V
   @Override
-  @NullableDecl
-  public V remove(@NullableDecl Object key) {
+  @CheckForNull
+  public V remove(@CheckForNull Object key) {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.remove(key);
+    }
+    Object oldValue = removeHelper(key);
+    return (oldValue == NOT_FOUND) ? null : (V) oldValue;
+  }
+
+  private @Nullable Object removeHelper(@CheckForNull Object key) {
     if (needsAllocArrays()) {
-      return null;
+      return NOT_FOUND;
     }
-    return remove(key, smearedHash(key));
-  }
-
-  @NullableDecl
-  private V remove(@NullableDecl Object key, int hash) {
-    int tableIndex = hash & hashTableMask();
-    int next = table[tableIndex];
-    if (next == UNSET) { // empty bucket
-      return null;
+    int mask = hashTableMask();
+    int index =
+        CompactHashing.remove(
+            key,
+            /* value= */ null,
+            mask,
+            requireTable(),
+            requireEntries(),
+            requireKeys(),
+            /* values= */ null);
+    if (index == -1) {
+      return NOT_FOUND;
     }
-    int last = UNSET;
-    do {
-      if (getHash(entries[next]) == hash && Objects.equal(key, keys[next])) {
-        @SuppressWarnings("unchecked") // values only contains Vs
-        @NullableDecl
-        V oldValue = (V) values[next];
 
-        if (last == UNSET) {
-          // we need to update the root link from table[]
-          table[tableIndex] = getNext(entries[next]);
-        } else {
-          // we need to update the link from the chain
-          entries[last] = swapNext(entries[last], getNext(entries[next]));
-        }
+    Object oldValue = value(index);
 
-        moveLastEntry(next);
-        size--;
-        modCount++;
-        return oldValue;
-      }
-      last = next;
-      next = getNext(entries[next]);
-    } while (next != UNSET);
-    return null;
-  }
+    moveLastEntry(index, mask);
+    size--;
+    incrementModCount();
 
-  @CanIgnoreReturnValue
-  private V removeEntry(int entryIndex) {
-    return remove(keys[entryIndex], getHash(entries[entryIndex]));
+    return oldValue;
   }
 
   /**
    * Moves the last entry in the entry array into {@code dstIndex}, and nulls out its old position.
    */
-  void moveLastEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex, int mask) {
+    Object table = requireTable();
+    int[] entries = requireEntries();
+    @Nullable Object[] keys = requireKeys();
+    @Nullable Object[] values = requireValues();
     int srcIndex = size() - 1;
     if (dstIndex < srcIndex) {
       // move last entry to deleted spot
-      keys[dstIndex] = keys[srcIndex];
+      Object key = keys[srcIndex];
+      keys[dstIndex] = key;
       values[dstIndex] = values[srcIndex];
       keys[srcIndex] = null;
       values[srcIndex] = null;
 
       // move the last entry to the removed spot, just like we moved the element
-      long lastEntry = entries[srcIndex];
-      entries[dstIndex] = lastEntry;
-      entries[srcIndex] = UNSET;
+      entries[dstIndex] = entries[srcIndex];
+      entries[srcIndex] = 0;
 
       // also need to update whoever's "next" pointer was pointing to the last entry place
-      // reusing "tableIndex" and "next"; these variables were no longer needed
-      int tableIndex = getHash(lastEntry) & hashTableMask();
-      int lastNext = table[tableIndex];
-      if (lastNext == srcIndex) {
+      int tableIndex = smearedHash(key) & mask;
+      int next = CompactHashing.tableGet(table, tableIndex);
+      int srcNext = srcIndex + 1;
+      if (next == srcNext) {
         // we need to update the root pointer
-        table[tableIndex] = dstIndex;
+        CompactHashing.tableSet(table, tableIndex, dstIndex + 1);
       } else {
         // we need to update a pointer in an entry
-        int previous;
-        long entry;
+        int entryIndex;
+        int entry;
         do {
-          previous = lastNext;
-          lastNext = getNext(entry = entries[lastNext]);
-        } while (lastNext != srcIndex);
-        // here, entries[previous] points to the old entry location; update it
-        entries[previous] = swapNext(entry, dstIndex);
+          entryIndex = next - 1;
+          entry = entries[entryIndex];
+          next = CompactHashing.getNext(entry, mask);
+        } while (next != srcNext);
+        // here, entries[entryIndex] points to the old entry location; update it
+        entries[entryIndex] = CompactHashing.maskCombine(entry, dstIndex + 1, mask);
       }
     } else {
       keys[dstIndex] = null;
       values[dstIndex] = null;
-      entries[dstIndex] = UNSET;
+      entries[dstIndex] = 0;
     }
   }
 
@@ -469,8 +623,8 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return indexBeforeRemove - 1;
   }
 
-  private abstract class Itr<T> implements Iterator<T> {
-    int expectedModCount = modCount;
+  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
+    int expectedMetadata = metadata;
     int currentIndex = firstEntryIndex();
     int indexToRemove = -1;
 
@@ -479,9 +633,11 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
       return currentIndex >= 0;
     }
 
+    @ParametricNullness
     abstract T getOutput(int entry);
 
     @Override
+    @ParametricNullness
     public T next() {
       checkForConcurrentModification();
       if (!hasNext()) {
@@ -497,20 +653,24 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     public void remove() {
       checkForConcurrentModification();
       checkRemove(indexToRemove >= 0);
-      expectedModCount++;
-      removeEntry(indexToRemove);
+      incrementExpectedModCount();
+      CompactHashMap.this.remove(key(indexToRemove));
       currentIndex = adjustAfterRemove(currentIndex, indexToRemove);
       indexToRemove = -1;
     }
 
+    void incrementExpectedModCount() {
+      expectedMetadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
+    }
+
     private void checkForConcurrentModification() {
-      if (modCount != expectedModCount) {
+      if (metadata != expectedMetadata) {
         throw new ConcurrentModificationException();
       }
     }
   }
 
-  @MonotonicNonNullDecl private transient Set<K> keySetView;
+  @CheckForNull private transient Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -525,23 +685,20 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   class KeySetView extends AbstractSet<K> {
     @Override
     public int size() {
-      return size;
+      return CompactHashMap.this.size();
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@CheckForNull Object o) {
       return CompactHashMap.this.containsKey(o);
     }
 
     @Override
-    public boolean remove(@NullableDecl Object o) {
-      int index = indexOf(o);
-      if (index == -1) {
-        return false;
-      } else {
-        removeEntry(index);
-        return true;
-      }
+    public boolean remove(@CheckForNull Object o) {
+      Map<K, V> delegate = delegateOrNull();
+      return (delegate != null)
+          ? delegate.keySet().remove(o)
+          : CompactHashMap.this.removeHelper(o) != NOT_FOUND;
     }
 
     @Override
@@ -556,16 +713,20 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   Iterator<K> keySetIterator() {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.keySet().iterator();
+    }
     return new Itr<K>() {
-      @SuppressWarnings("unchecked") // keys only contains Ks
       @Override
+      @ParametricNullness
       K getOutput(int entry) {
-        return (K) keys[entry];
+        return key(entry);
       }
     };
   }
 
-  @MonotonicNonNullDecl private transient Set<Entry<K, V>> entrySetView;
+  @CheckForNull private transient Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -581,7 +742,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
     @Override
     public int size() {
-      return size;
+      return CompactHashMap.this.size();
     }
 
     @Override
@@ -595,30 +756,57 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object o) {
-      if (o instanceof Entry) {
+    public boolean contains(@CheckForNull Object o) {
+      Map<K, V> delegate = delegateOrNull();
+      if (delegate != null) {
+        return delegate.entrySet().contains(o);
+      } else if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
-        return index != -1 && Objects.equal(values[index], entry.getValue());
+        return index != -1 && Objects.equal(value(index), entry.getValue());
       }
       return false;
     }
 
     @Override
-    public boolean remove(@NullableDecl Object o) {
-      if (o instanceof Entry) {
+    public boolean remove(@CheckForNull Object o) {
+      Map<K, V> delegate = delegateOrNull();
+      if (delegate != null) {
+        return delegate.entrySet().remove(o);
+      } else if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
-        int index = indexOf(entry.getKey());
-        if (index != -1 && Objects.equal(values[index], entry.getValue())) {
-          removeEntry(index);
-          return true;
+        if (needsAllocArrays()) {
+          return false;
         }
+        int mask = hashTableMask();
+        int index =
+            CompactHashing.remove(
+                entry.getKey(),
+                entry.getValue(),
+                mask,
+                requireTable(),
+                requireEntries(),
+                requireKeys(),
+                requireValues());
+        if (index == -1) {
+          return false;
+        }
+
+        moveLastEntry(index, mask);
+        size--;
+        incrementModCount();
+
+        return true;
       }
       return false;
     }
   }
 
   Iterator<Entry<K, V>> entrySetIterator() {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.entrySet().iterator();
+    }
     return new Itr<Entry<K, V>>() {
       @Override
       Entry<K, V> getOutput(int entry) {
@@ -628,17 +816,17 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-    @NullableDecl private final K key;
+    @ParametricNullness private final K key;
 
     private int lastKnownIndex;
 
-    @SuppressWarnings("unchecked") // keys only contains Ks
     MapEntry(int index) {
-      this.key = (K) keys[index];
+      this.key = key(index);
       this.lastKnownIndex = index;
     }
 
     @Override
+    @ParametricNullness
     public K getKey() {
       return key;
     }
@@ -646,28 +834,48 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     private void updateLastKnownIndex() {
       if (lastKnownIndex == -1
           || lastKnownIndex >= size()
-          || !Objects.equal(key, keys[lastKnownIndex])) {
+          || !Objects.equal(key, key(lastKnownIndex))) {
         lastKnownIndex = indexOf(key);
       }
     }
 
-    @SuppressWarnings("unchecked") // values only contains Vs
     @Override
+    @ParametricNullness
     public V getValue() {
+      Map<K, V> delegate = delegateOrNull();
+      if (delegate != null) {
+        /*
+         * The cast is safe because the entry is present in the map. Or, if it has been removed by a
+         * concurrent modification, behavior is undefined.
+         */
+        return uncheckedCastNullableTToT(delegate.get(key));
+      }
       updateLastKnownIndex();
-      return (lastKnownIndex == -1) ? null : (V) values[lastKnownIndex];
+      /*
+       * If the entry has been removed from the map, we return null, even though that might not be a
+       * valid value. That's the best we can do, short of holding a reference to the most recently
+       * seen value. And while we *could* do that, we aren't required to: Map.Entry explicitly says
+       * that behavior is undefined when the backing map is modified through another API. (It even
+       * permits us to throw IllegalStateException. Maybe we should have done that, but we probably
+       * shouldn't change now for fear of breaking people.)
+       */
+      return (lastKnownIndex == -1) ? unsafeNull() : value(lastKnownIndex);
     }
 
-    @SuppressWarnings("unchecked") // values only contains Vs
     @Override
-    public V setValue(V value) {
+    @ParametricNullness
+    public V setValue(@ParametricNullness V value) {
+      Map<K, V> delegate = delegateOrNull();
+      if (delegate != null) {
+        return uncheckedCastNullableTToT(delegate.put(key, value)); // See discussion in getValue().
+      }
       updateLastKnownIndex();
       if (lastKnownIndex == -1) {
         put(key, value);
-        return null;
+        return unsafeNull(); // See discussion in getValue().
       } else {
-        V old = (V) values[lastKnownIndex];
-        values[lastKnownIndex] = value;
+        V old = value(lastKnownIndex);
+        CompactHashMap.this.setValue(lastKnownIndex, value);
         return old;
       }
     }
@@ -675,25 +883,30 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @Override
   public int size() {
-    return size;
+    Map<K, V> delegate = delegateOrNull();
+    return (delegate != null) ? delegate.size() : size;
   }
 
   @Override
   public boolean isEmpty() {
-    return size == 0;
+    return size() == 0;
   }
 
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@CheckForNull Object value) {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.containsValue(value);
+    }
     for (int i = 0; i < size; i++) {
-      if (Objects.equal(value, values[i])) {
+      if (Objects.equal(value, value(i))) {
         return true;
       }
     }
     return false;
   }
 
-  @MonotonicNonNullDecl private transient Collection<V> valuesView;
+  @CheckForNull private transient Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {
@@ -708,7 +921,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   class ValuesView extends AbstractCollection<V> {
     @Override
     public int size() {
-      return size;
+      return CompactHashMap.this.size();
     }
 
     @Override
@@ -723,11 +936,15 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   Iterator<V> valuesIterator() {
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      return delegate.values().iterator();
+    }
     return new Itr<V>() {
-      @SuppressWarnings("unchecked") // values only contains Vs
       @Override
+      @ParametricNullness
       V getOutput(int entry) {
-        return (V) values[entry];
+        return value(entry);
       }
     };
   }
@@ -740,13 +957,21 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     if (needsAllocArrays()) {
       return;
     }
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      Map<K, V> newDelegate = createHashFloodingResistantDelegate(size());
+      newDelegate.putAll(delegate);
+      this.table = newDelegate;
+      return;
+    }
     int size = this.size;
-    if (size < entries.length) {
+    if (size < requireEntries().length) {
       resizeEntries(size);
     }
-    int minimumTableSize = Hashing.closedTableSize(size, LOAD_FACTOR);
-    if (minimumTableSize < table.length) {
-      resizeTable(minimumTableSize);
+    int minimumTableSize = CompactHashing.tableSize(size);
+    int mask = hashTableMask();
+    if (minimumTableSize < mask) { // smaller table size will always be less than current mask
+      resizeTable(mask, minimumTableSize, UNSET, UNSET);
     }
   }
 
@@ -755,24 +980,31 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     if (needsAllocArrays()) {
       return;
     }
-    modCount++;
-    Arrays.fill(keys, 0, size, null);
-    Arrays.fill(values, 0, size, null);
-    Arrays.fill(table, UNSET);
-    Arrays.fill(entries, 0, size, UNSET);
-    this.size = 0;
+    incrementModCount();
+    Map<K, V> delegate = delegateOrNull();
+    if (delegate != null) {
+      metadata =
+          Ints.constrainToRange(size(), CompactHashing.DEFAULT_SIZE, CompactHashing.MAX_SIZE);
+      delegate.clear(); // invalidate any iterators left over!
+      table = null;
+      size = 0;
+    } else {
+      Arrays.fill(requireKeys(), 0, size, null);
+      Arrays.fill(requireValues(), 0, size, null);
+      CompactHashing.tableClear(requireTable());
+      Arrays.fill(requireEntries(), 0, size, 0);
+      this.size = 0;
+    }
   }
 
-  /**
-   * The serial form currently mimics Android's java.util.HashMap version, e.g. see
-   * http://omapzoom.org/?p=platform/libcore.git;a=blob;f=luni/src/main/java/java/util/HashMap.java
-   */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeInt(size);
-    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
-      stream.writeObject(keys[i]);
-      stream.writeObject(values[i]);
+    stream.writeInt(size());
+    Iterator<Entry<K, V>> entryIterator = entrySetIterator();
+    while (entryIterator.hasNext()) {
+      Entry<K, V> e = entryIterator.next();
+      stream.writeObject(e.getKey());
+      stream.writeObject(e.getValue());
     }
   }
 
@@ -789,5 +1021,67 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
       V value = (V) stream.readObject();
       put(key, value);
     }
+  }
+
+  /*
+   * The following methods are safe to call as long as both of the following hold:
+   *
+   * - allocArrays() has been called. Callers can confirm this by checking needsAllocArrays().
+   *
+   * - The map has not switched to delegating to a java.util implementation to mitigate hash
+   *   flooding. Callers can confirm this by null-checking delegateOrNull().
+   *
+   * In an ideal world, we would document why we know those things are true every time we call these
+   * methods. But that is a bit too painful....
+   */
+
+  private Object requireTable() {
+    return requireNonNull(table);
+  }
+
+  private int[] requireEntries() {
+    return requireNonNull(entries);
+  }
+
+  private @Nullable Object[] requireKeys() {
+    return requireNonNull(keys);
+  }
+
+  private @Nullable Object[] requireValues() {
+    return requireNonNull(values);
+  }
+
+  /*
+   * The following methods are safe to call as long as the conditions in the *previous* comment are
+   * met *and* the index is less than size().
+   *
+   * (The above explains when these methods are safe from a `nullness` perspective. From an
+   * `unchecked` perspective, they're safe because we put only K/V elements into each array.)
+   */
+
+  @SuppressWarnings("unchecked")
+  private K key(int i) {
+    return (K) requireKeys()[i];
+  }
+
+  @SuppressWarnings("unchecked")
+  private V value(int i) {
+    return (V) requireValues()[i];
+  }
+
+  private int entry(int i) {
+    return requireEntries()[i];
+  }
+
+  private void setKey(int i, K key) {
+    requireKeys()[i] = key;
+  }
+
+  private void setValue(int i, V value) {
+    requireValues()[i] = value;
+  }
+
+  private void setEntry(int i, int value) {
+    requireEntries()[i] = value;
   }
 }

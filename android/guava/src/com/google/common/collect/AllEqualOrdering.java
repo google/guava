@@ -19,7 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An ordering that treats all references as equals, even nulls.
@@ -27,27 +28,29 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Emily Soldal
  */
 @GwtCompatible(serializable = true)
-final class AllEqualOrdering extends Ordering<Object> implements Serializable {
+@ElementTypesAreNonnullByDefault
+final class AllEqualOrdering extends Ordering<@Nullable Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 
   @Override
-  public int compare(@NullableDecl Object left, @NullableDecl Object right) {
+  public int compare(@CheckForNull Object left, @CheckForNull Object right) {
     return 0;
   }
 
   @Override
-  public <E> List<E> sortedCopy(Iterable<E> iterable) {
+  public <E extends @Nullable Object> List<E> sortedCopy(Iterable<E> iterable) {
     return Lists.newArrayList(iterable);
   }
 
   @Override
-  public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
+  @SuppressWarnings("nullness") // unsafe: see supertype
+  public <E extends @Nullable Object> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
     return ImmutableList.copyOf(iterable);
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public <S> Ordering<S> reverse() {
+  public <S extends @Nullable Object> Ordering<S> reverse() {
     return (Ordering<S>) this;
   }
 

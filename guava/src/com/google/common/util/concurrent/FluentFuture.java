@@ -15,17 +15,21 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ListenableFuture} that supports fluent chains of operations. For example:
@@ -47,7 +51,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -69,23 +73,28 @@ import java.util.concurrent.TimeoutException;
  * @since 23.0
  */
 @Beta
+@DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
-public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
+@ElementTypesAreNonnullByDefault
+public abstract class FluentFuture<V extends @Nullable Object>
+    extends GwtFluentFutureCatchingSpecialization<V> {
 
   /**
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-  abstract static class TrustedFuture<V> extends FluentFuture<V>
+  abstract static class TrustedFuture<V extends @Nullable Object> extends FluentFuture<V>
       implements AbstractFuture.Trusted<V> {
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
     @CanIgnoreReturnValue
     @Override
+    @ParametricNullness
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);
@@ -122,7 +131,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the
    * original {@code ListenableFuture}.
    */
-  public static <V> FluentFuture<V> from(ListenableFuture<V> future) {
+  public static <V extends @Nullable Object> FluentFuture<V> from(ListenableFuture<V> future) {
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
@@ -132,10 +141,10 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since NEXT
+   * @since 28.0
    */
   @Deprecated
-  public static <V> FluentFuture<V> from(FluentFuture<V> future) {
+  public static <V extends @Nullable Object> FluentFuture<V> from(FluentFuture<V> future) {
     return checkNotNull(future);
   }
 
@@ -253,6 +262,22 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * ({@code this}) will be cancelled and interrupted.
    *
    * @param timeout when to time out the future
+   * @param scheduledExecutor The executor service to enforce the timeout.
+   * @since 28.0
+   */
+  @GwtIncompatible // ScheduledExecutorService
+  public final FluentFuture<V> withTimeout(
+      Duration timeout, ScheduledExecutorService scheduledExecutor) {
+    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
+  }
+
+  /**
+   * Returns a future that delegates to this future but will finish early (via a {@link
+   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.
+   * If the timeout expires, not only will the output future finish, but also the input future
+   * ({@code this}) will be cancelled and interrupted.
+   *
+   * @param timeout when to time out the future
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
@@ -302,7 +327,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    */
-  public final <T> FluentFuture<T> transformAsync(
+  public final <T extends @Nullable Object> FluentFuture<T> transformAsync(
       AsyncFunction<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transformAsync(this, function, executor);
   }
@@ -339,7 +364,8 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    */
-  public final <T> FluentFuture<T> transform(Function<? super V, T> function, Executor executor) {
+  public final <T extends @Nullable Object> FluentFuture<T> transform(
+      Function<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transform(this, function, executor);
   }
 

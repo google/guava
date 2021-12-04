@@ -129,7 +129,7 @@ public final class ForwardingWrapperTester {
 
   private static <T> void testExceptionPropagation(
       Class<T> interfaceType, Method method, Function<? super T, ? extends T> wrapperFunction) {
-    final RuntimeException exception = new RuntimeException();
+    RuntimeException exception = new RuntimeException();
     T proxy =
         Reflection.newProxy(
             interfaceType,
@@ -175,7 +175,7 @@ public final class ForwardingWrapperTester {
 
   private static Object[] getParameterValues(Method method) {
     FreshValueGenerator paramValues = new FreshValueGenerator();
-    final List<Object> passedArgs = Lists.newArrayList();
+    List<Object> passedArgs = Lists.newArrayList();
     for (Class<?> paramType : method.getParameterTypes()) {
       passedArgs.add(paramValues.generateFresh(paramType));
     }

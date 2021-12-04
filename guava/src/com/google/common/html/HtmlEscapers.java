@@ -35,6 +35,7 @@ import com.google.common.escape.Escapers;
  * @since 15.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class HtmlEscapers {
   /**
    * Returns an {@link Escaper} instance that escapes HTML metacharacters as specified by <a

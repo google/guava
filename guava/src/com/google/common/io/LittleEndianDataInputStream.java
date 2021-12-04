@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -40,6 +41,7 @@ import java.io.InputStream;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class LittleEndianDataInputStream extends FilterInputStream implements DataInput {
 
   /**
@@ -54,6 +56,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
   /** This method will throw an {@link UnsupportedOperationException}. */
   @CanIgnoreReturnValue // to skip a line
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public String readLine() {
     throw new UnsupportedOperationException("readLine is not supported");
   }

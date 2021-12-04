@@ -25,7 +25,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Utility methods for working with {@link Enum} instances.
@@ -34,6 +34,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 9.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Enums {
 
   private Enums() {}
@@ -104,8 +105,8 @@ public final class Enums {
    *
    * @since 16.0
    */
-  public static <T extends Enum<T>> Converter<String, T> stringConverter(final Class<T> enumClass) {
-    return new StringConverter<T>(enumClass);
+  public static <T extends Enum<T>> Converter<String, T> stringConverter(Class<T> enumClass) {
+    return new StringConverter<>(enumClass);
   }
 
   private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
@@ -128,7 +129,7 @@ public final class Enums {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof StringConverter) {
         StringConverter<?> that = (StringConverter<?>) object;
         return this.enumClass.equals(that.enumClass);

@@ -393,7 +393,7 @@ class CacheTesting {
 
       ReferenceEntry<?, ?> originalHead = segment.accessQueue.peek();
       @SuppressWarnings("unchecked")
-      ReferenceEntry<Integer, Integer> entry = (ReferenceEntry) originalHead;
+      ReferenceEntry<Integer, Integer> entry = (ReferenceEntry<Integer, Integer>) originalHead;
       operation.accept(entry);
       drainRecencyQueue(segment);
 

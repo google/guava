@@ -30,7 +30,7 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -72,8 +72,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 5.0
  */
 @Beta
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @Immutable
+@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -162,7 +163,7 @@ public final class InternetDomainName {
    * Otherwise, it finds the first suffix of any type.
    */
   private int findSuffixOfType(Optional<PublicSuffixType> desiredType) {
-    final int partsSize = parts.size();
+    int partsSize = parts.size();
 
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
@@ -200,7 +201,6 @@ public final class InternetDomainName {
    *       href="https://tools.ietf.org/html/rfc1123#section-2">RFC 1123</a>.
    * </ul>
    *
-   *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code domain} is not syntactically valid according to
    *     {@link #isValid}
@@ -217,7 +217,7 @@ public final class InternetDomainName {
    * @return Is the domain name syntactically valid?
    */
   private static boolean validateSyntax(List<String> parts) {
-    final int lastIndex = parts.size() - 1;
+    int lastIndex = parts.size() - 1;
 
     // Validate the last part specially, as it has different syntax rules.
 
@@ -237,8 +237,13 @@ public final class InternetDomainName {
 
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
+  private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');
+
+  private static final CharMatcher LETTER_MATCHER =
+      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'));
+
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);
+      DIGIT_MATCHER.or(LETTER_MATCHER).or(DASH_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of a domain name is
@@ -261,7 +266,7 @@ public final class InternetDomainName {
      * GWT claims to support java.lang.Character's char-classification methods, but it actually only
      * works for ASCII. So for now, assume any non-ASCII characters are valid. The only place this
      * seems to be documented is here:
-     * http://osdir.com/ml/GoogleWebToolkitContributors/2010-03/msg00178.html
+     * https://groups.google.com/d/topic/google-web-toolkit-contributors/1UEzsryq1XI
      *
      * <p>ASCII characters in the part are expected to be valid per RFC 1035, with underscore also
      * being allowed due to widespread practice.
@@ -287,7 +292,7 @@ public final class InternetDomainName {
      * address like 127.0.0.1 from looking like a valid domain name.
      */
 
-    if (isFinalPart && CharMatcher.digit().matches(part.charAt(0))) {
+    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
       return false;
     }
 
@@ -349,6 +354,7 @@ public final class InternetDomainName {
    *
    * @since 6.0
    */
+  @CheckForNull
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
   }
@@ -457,6 +463,7 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
+  @CheckForNull
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
   }
@@ -617,7 +624,7 @@ public final class InternetDomainName {
    * version of the same domain name would not be considered equal.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

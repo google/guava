@@ -41,12 +41,12 @@ import junit.framework.TestCase;
 public class FluentFutureTest extends TestCase {
   public void testFromFluentFuture() {
     FluentFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
-    assertThat(FluentFuture.from(f)).isSameAs(f);
+    assertThat(FluentFuture.from(f)).isSameInstanceAs(f);
   }
 
   public void testFromFluentFuturePassingAsNonFluent() {
     ListenableFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
-    assertThat(FluentFuture.from(f)).isSameAs(f);
+    assertThat(FluentFuture.from(f)).isSameInstanceAs(f);
   }
 
   public void testFromNonFluentFuture() throws Exception {
@@ -131,6 +131,7 @@ public class FluentFutureTest extends TestCase {
                 directExecutor());
     assertThat(f.get()).isEqualTo(2);
   }
+
 
   @GwtIncompatible // withTimeout
   public void testWithTimeout() throws Exception {

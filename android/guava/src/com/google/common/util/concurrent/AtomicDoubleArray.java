@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * java.util.concurrent.atomic} package specification for description of the properties of atomic
  * variables.
  *
- * <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ * <p><a id="bitEquals"></a>This class compares primitive {@code double} values in methods such as
  * {@link #compareAndSet} by comparing their bitwise representation using {@link
  * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  * from {@link Double#equals}, as if implemented by:
@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @since 11.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -68,7 +69,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @throws NullPointerException if array is null
    */
   public AtomicDoubleArray(double[] array) {
-    final int len = array.length;
+    int len = array.length;
     long[] longArray = new long[len];
     for (int i = 0; i < len; i++) {
       longArray[i] = doubleToRawLongBits(array[i]);
@@ -96,7 +97,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
   }
 
   /**
-   * Sets the element at position {@code i} to the given value.
+   * Atomically sets the element at position {@code i} to the given value.
    *
    * @param i the index
    * @param newValue the new value

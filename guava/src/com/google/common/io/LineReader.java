@@ -23,9 +23,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -37,13 +37,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class LineReader {
   private final Readable readable;
-  private final @Nullable Reader reader;
+  @CheckForNull private final Reader reader;
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 
-  private final Queue<String> lines = new LinkedList<>();
+  private final Queue<String> lines = new ArrayDeque<>();
   private final LineBuffer lineBuf =
       new LineBuffer() {
         @Override
@@ -68,9 +69,10 @@ public final class LineReader {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // to skip a line
+  @CheckForNull
   public String readLine() throws IOException {
     while (lines.peek() == null) {
-      cbuf.clear();
+      Java8Compatibility.clear(cbuf);
       // The default implementation of Reader#read(CharBuffer) allocates a
       // temporary char[], so we call Reader#read(char[], int, int) instead.
       int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);
