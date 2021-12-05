@@ -262,8 +262,7 @@ public final class ServiceManager implements ServiceManagerBridge {
   @CanIgnoreReturnValue
   public ServiceManager startAsync() {
     for (Service service : services) {
-      State state = service.state();
-      checkState(state == NEW, "Service %s is %s, cannot start it.", service, state);
+      checkState(service.state() == NEW, "Not all services are NEW, cannot start %s", this);
     }
     for (Service service : services) {
       try {
