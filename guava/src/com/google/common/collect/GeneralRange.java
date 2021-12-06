@@ -138,7 +138,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
       checkArgument(
           cmp <= 0, "lowerEndpoint (%s) > upperEndpoint (%s)", lowerEndpoint, upperEndpoint);
       if (cmp == 0) {
-        checkArgument(lowerBoundType != OPEN | upperBoundType != OPEN);
+        checkArgument(lowerBoundType != OPEN || upperBoundType != OPEN);
       }
     }
   }
