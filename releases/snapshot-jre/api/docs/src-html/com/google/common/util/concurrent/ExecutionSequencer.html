@@ -432,7 +432,7 @@
 <span class="sourceLineNo">423</span><a id="line.423">        Executor queuedExecutor;</a>
 <span class="sourceLineNo">424</span><a id="line.424">        // Intentionally using non-short-circuit operator</a>
 <span class="sourceLineNo">425</span><a id="line.425">        while ((queuedTask = executingTaskQueue.nextTask) != null</a>
-<span class="sourceLineNo">426</span><a id="line.426">            &amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {</a>
+<span class="sourceLineNo">426</span><a id="line.426">            &amp;&amp; (queuedExecutor = executingTaskQueue.nextExecutor) != null) {</a>
 <span class="sourceLineNo">427</span><a id="line.427">          executingTaskQueue.nextTask = null;</a>
 <span class="sourceLineNo">428</span><a id="line.428">          executingTaskQueue.nextExecutor = null;</a>
 <span class="sourceLineNo">429</span><a id="line.429">          queuedExecutor.execute(queuedTask);</a>

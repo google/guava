@@ -434,7 +434,7 @@
 <span class="sourceLineNo">425</span><a id="line.425">        // subtracting two nonnegative longs can't overflow</a>
 <span class="sourceLineNo">426</span><a id="line.426">        // cmpRemToHalfDivisor has the same sign as compare(abs(rem), abs(q) / 2).</a>
 <span class="sourceLineNo">427</span><a id="line.427">        if (cmpRemToHalfDivisor == 0) { // exactly on the half mark</a>
-<span class="sourceLineNo">428</span><a id="line.428">          increment = (mode == HALF_UP | (mode == HALF_EVEN &amp; (div &amp; 1) != 0));</a>
+<span class="sourceLineNo">428</span><a id="line.428">          increment = (mode == HALF_UP || (mode == HALF_EVEN &amp;&amp; (div &amp; 1) != 0));</a>
 <span class="sourceLineNo">429</span><a id="line.429">        } else {</a>
 <span class="sourceLineNo">430</span><a id="line.430">          increment = cmpRemToHalfDivisor &gt; 0; // closer to the UP value</a>
 <span class="sourceLineNo">431</span><a id="line.431">        }</a>

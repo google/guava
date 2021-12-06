@@ -744,7 +744,7 @@
 <span class="sourceLineNo">735</span><a id="line.735">   * @throws InterruptedException if interrupted while waiting</a>
 <span class="sourceLineNo">736</span><a id="line.736">   */</a>
 <span class="sourceLineNo">737</span><a id="line.737">  public void waitFor(Guard guard) throws InterruptedException {</a>
-<span class="sourceLineNo">738</span><a id="line.738">    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {</a>
+<span class="sourceLineNo">738</span><a id="line.738">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</a>
 <span class="sourceLineNo">739</span><a id="line.739">      throw new IllegalMonitorStateException();</a>
 <span class="sourceLineNo">740</span><a id="line.740">    }</a>
 <span class="sourceLineNo">741</span><a id="line.741">    if (!guard.isSatisfied()) {</a>
@@ -762,7 +762,7 @@
 <span class="sourceLineNo">753</span><a id="line.753">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
 <span class="sourceLineNo">754</span><a id="line.754">  public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {</a>
 <span class="sourceLineNo">755</span><a id="line.755">    final long timeoutNanos = toSafeNanos(time, unit);</a>
-<span class="sourceLineNo">756</span><a id="line.756">    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {</a>
+<span class="sourceLineNo">756</span><a id="line.756">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</a>
 <span class="sourceLineNo">757</span><a id="line.757">      throw new IllegalMonitorStateException();</a>
 <span class="sourceLineNo">758</span><a id="line.758">    }</a>
 <span class="sourceLineNo">759</span><a id="line.759">    if (guard.isSatisfied()) {</a>
@@ -779,7 +779,7 @@
 <span class="sourceLineNo">770</span><a id="line.770">   * currently occupying this monitor.</a>
 <span class="sourceLineNo">771</span><a id="line.771">   */</a>
 <span class="sourceLineNo">772</span><a id="line.772">  public void waitForUninterruptibly(Guard guard) {</a>
-<span class="sourceLineNo">773</span><a id="line.773">    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {</a>
+<span class="sourceLineNo">773</span><a id="line.773">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</a>
 <span class="sourceLineNo">774</span><a id="line.774">      throw new IllegalMonitorStateException();</a>
 <span class="sourceLineNo">775</span><a id="line.775">    }</a>
 <span class="sourceLineNo">776</span><a id="line.776">    if (!guard.isSatisfied()) {</a>
@@ -796,7 +796,7 @@
 <span class="sourceLineNo">787</span><a id="line.787">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
 <span class="sourceLineNo">788</span><a id="line.788">  public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {</a>
 <span class="sourceLineNo">789</span><a id="line.789">    final long timeoutNanos = toSafeNanos(time, unit);</a>
-<span class="sourceLineNo">790</span><a id="line.790">    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {</a>
+<span class="sourceLineNo">790</span><a id="line.790">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</a>
 <span class="sourceLineNo">791</span><a id="line.791">      throw new IllegalMonitorStateException();</a>
 <span class="sourceLineNo">792</span><a id="line.792">    }</a>
 <span class="sourceLineNo">793</span><a id="line.793">    if (guard.isSatisfied()) {</a>
