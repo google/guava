@@ -686,10 +686,10 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  <pre><code>
  mapWithIndex(
      Stream.of("a", "b", "c"),
-     (str, index) -&gt; str + ":" + index)
+     (e, index) -&gt; index + ":" + e)
  </code></pre>
 
- <p>would return <code>Stream.of("a:0", "b:1", "c:2")</code>.
+ <p>would return <code>Stream.of("0:a", "1:b", "2:c")</code>.
 
  <p>The resulting stream is <a href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
  if and only if <code>stream</code> was efficiently splittable and its underlying spliterator
@@ -715,11 +715,11 @@ public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/c
 
  <pre><code>
  mapWithIndex(
-     IntStream.of(0, 1, 2),
-     (i, index) -&gt; i + ":" + index)
+     IntStream.of(10, 11, 12),
+     (e, index) -&gt; index + ":" + e)
  </code></pre>
 
- <p>...would return <code>Stream.of("0:0", "1:1", "2:2")</code>.
+ <p>...would return <code>Stream.of("0:10", "1:11", "2:12")</code>.
 
  <p>The resulting stream is <a href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
  if and only if <code>stream</code> was efficiently splittable and its underlying spliterator
@@ -745,11 +745,11 @@ public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/c
 
  <pre><code>
  mapWithIndex(
-     LongStream.of(0, 1, 2),
-     (i, index) -&gt; i + ":" + index)
+     LongStream.of(10, 11, 12),
+     (e, index) -&gt; index + ":" + e)
  </code></pre>
 
- <p>...would return <code>Stream.of("0:0", "1:1", "2:2")</code>.
+ <p>...would return <code>Stream.of("0:10", "1:11", "2:12")</code>.
 
  <p>The resulting stream is <a href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
  if and only if <code>stream</code> was efficiently splittable and its underlying spliterator
@@ -775,11 +775,11 @@ public static&nbsp;&lt;R extends <a href="https://checkerframework.org/api/org/c
 
  <pre><code>
  mapWithIndex(
-     DoubleStream.of(0, 1, 2),
-     (x, index) -&gt; x + ":" + index)
+     DoubleStream.of(0.0, 1.0, 2.0)
+     (e, index) -&gt; index + ":" + e)
  </code></pre>
 
- <p>...would return <code>Stream.of("0.0:0", "1.0:1", "2.0:2")</code>.
+ <p>...would return <code>Stream.of("0:0.0", "1:1.0", "2:2.0")</code>.
 
  <p>The resulting stream is <a href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html">efficiently splittable</a>
  if and only if <code>stream</code> was efficiently splittable and its underlying spliterator

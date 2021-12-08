@@ -419,10 +419,10 @@
 <span class="sourceLineNo">410</span><a id="line.410">   * &lt;pre&gt;{@code</a>
 <span class="sourceLineNo">411</span><a id="line.411">   * mapWithIndex(</a>
 <span class="sourceLineNo">412</span><a id="line.412">   *     Stream.of("a", "b", "c"),</a>
-<span class="sourceLineNo">413</span><a id="line.413">   *     (str, index) -&gt; str + ":" + index)</a>
+<span class="sourceLineNo">413</span><a id="line.413">   *     (e, index) -&gt; index + ":" + e)</a>
 <span class="sourceLineNo">414</span><a id="line.414">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">415</span><a id="line.415">   *</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * &lt;p&gt;would return {@code Stream.of("a:0", "b:1", "c:2")}.</a>
+<span class="sourceLineNo">416</span><a id="line.416">   * &lt;p&gt;would return {@code Stream.of("0:a", "1:b", "2:c")}.</a>
 <span class="sourceLineNo">417</span><a id="line.417">   *</a>
 <span class="sourceLineNo">418</span><a id="line.418">   * &lt;p&gt;The resulting stream is &lt;a</a>
 <span class="sourceLineNo">419</span><a id="line.419">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
@@ -502,11 +502,11 @@
 <span class="sourceLineNo">493</span><a id="line.493">   *</a>
 <span class="sourceLineNo">494</span><a id="line.494">   * &lt;pre&gt;{@code</a>
 <span class="sourceLineNo">495</span><a id="line.495">   * mapWithIndex(</a>
-<span class="sourceLineNo">496</span><a id="line.496">   *     IntStream.of(0, 1, 2),</a>
-<span class="sourceLineNo">497</span><a id="line.497">   *     (i, index) -&gt; i + ":" + index)</a>
+<span class="sourceLineNo">496</span><a id="line.496">   *     IntStream.of(10, 11, 12),</a>
+<span class="sourceLineNo">497</span><a id="line.497">   *     (e, index) -&gt; index + ":" + e)</a>
 <span class="sourceLineNo">498</span><a id="line.498">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">499</span><a id="line.499">   *</a>
-<span class="sourceLineNo">500</span><a id="line.500">   * &lt;p&gt;...would return {@code Stream.of("0:0", "1:1", "2:2")}.</a>
+<span class="sourceLineNo">500</span><a id="line.500">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
 <span class="sourceLineNo">501</span><a id="line.501">   *</a>
 <span class="sourceLineNo">502</span><a id="line.502">   * &lt;p&gt;The resulting stream is &lt;a</a>
 <span class="sourceLineNo">503</span><a id="line.503">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
@@ -582,11 +582,11 @@
 <span class="sourceLineNo">573</span><a id="line.573">   *</a>
 <span class="sourceLineNo">574</span><a id="line.574">   * &lt;pre&gt;{@code</a>
 <span class="sourceLineNo">575</span><a id="line.575">   * mapWithIndex(</a>
-<span class="sourceLineNo">576</span><a id="line.576">   *     LongStream.of(0, 1, 2),</a>
-<span class="sourceLineNo">577</span><a id="line.577">   *     (i, index) -&gt; i + ":" + index)</a>
+<span class="sourceLineNo">576</span><a id="line.576">   *     LongStream.of(10, 11, 12),</a>
+<span class="sourceLineNo">577</span><a id="line.577">   *     (e, index) -&gt; index + ":" + e)</a>
 <span class="sourceLineNo">578</span><a id="line.578">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">579</span><a id="line.579">   *</a>
-<span class="sourceLineNo">580</span><a id="line.580">   * &lt;p&gt;...would return {@code Stream.of("0:0", "1:1", "2:2")}.</a>
+<span class="sourceLineNo">580</span><a id="line.580">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</a>
 <span class="sourceLineNo">581</span><a id="line.581">   *</a>
 <span class="sourceLineNo">582</span><a id="line.582">   * &lt;p&gt;The resulting stream is &lt;a</a>
 <span class="sourceLineNo">583</span><a id="line.583">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
@@ -662,11 +662,11 @@
 <span class="sourceLineNo">653</span><a id="line.653">   *</a>
 <span class="sourceLineNo">654</span><a id="line.654">   * &lt;pre&gt;{@code</a>
 <span class="sourceLineNo">655</span><a id="line.655">   * mapWithIndex(</a>
-<span class="sourceLineNo">656</span><a id="line.656">   *     DoubleStream.of(0, 1, 2),</a>
-<span class="sourceLineNo">657</span><a id="line.657">   *     (x, index) -&gt; x + ":" + index)</a>
+<span class="sourceLineNo">656</span><a id="line.656">   *     DoubleStream.of(0.0, 1.0, 2.0)</a>
+<span class="sourceLineNo">657</span><a id="line.657">   *     (e, index) -&gt; index + ":" + e)</a>
 <span class="sourceLineNo">658</span><a id="line.658">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">659</span><a id="line.659">   *</a>
-<span class="sourceLineNo">660</span><a id="line.660">   * &lt;p&gt;...would return {@code Stream.of("0.0:0", "1.0:1", "2.0:2")}.</a>
+<span class="sourceLineNo">660</span><a id="line.660">   * &lt;p&gt;...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.</a>
 <span class="sourceLineNo">661</span><a id="line.661">   *</a>
 <span class="sourceLineNo">662</span><a id="line.662">   * &lt;p&gt;The resulting stream is &lt;a</a>
 <span class="sourceLineNo">663</span><a id="line.663">   * href="http://gee.cs.oswego.edu/dl/html/StreamParallelGuidance.html"&gt;efficiently splittable&lt;/a&gt;</a>
