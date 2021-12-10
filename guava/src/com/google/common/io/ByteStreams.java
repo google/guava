@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -170,13 +172,18 @@ public final class ByteStreams {
    */
   private static byte[] toByteArrayInternal(InputStream in, Queue<byte[]> bufs, int totalLen)
       throws IOException {
-    // Starting with an 8k buffer, double the size of each successive buffer. Buffers are retained
-    // in a deque so that there's no copying between buffers while reading and so all of the bytes
-    // in each new allocated buffer are available for reading from the stream.
-    for (int bufSize = BUFFER_SIZE;
+    // Roughly size to match what has been read already. Some file systems, such as procfs, return 0
+    // as their length. These files are very small, so it's wasteful to allocate an 8KB buffer.
+    int initialBufferSize = min(BUFFER_SIZE, max(128, Integer.highestOneBit(totalLen) * 2));
+    // Starting with an 8k buffer, double the size of each successive buffer. Smaller buffers
+    // quadruple in size until they reach 8k, to minimize the number of small reads for longer
+    // streams. Buffers are retained in a deque so that there's no copying between buffers while
+    // reading and so all of the bytes in each new allocated buffer are available for reading from
+    // the stream.
+    for (int bufSize = initialBufferSize;
         totalLen < MAX_ARRAY_LEN;
-        bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
-      byte[] buf = new byte[Math.min(bufSize, MAX_ARRAY_LEN - totalLen)];
+        bufSize = IntMath.saturatedMultiply(bufSize, bufSize < 4096 ? 4 : 2)) {
+      byte[] buf = new byte[min(bufSize, MAX_ARRAY_LEN - totalLen)];
       bufs.add(buf);
       int off = 0;
       while (off < buf.length) {
@@ -200,11 +207,18 @@ public final class ByteStreams {
   }
 
   private static byte[] combineBuffers(Queue<byte[]> bufs, int totalLen) {
-    byte[] result = new byte[totalLen];
-    int remaining = totalLen;
+    if (bufs.isEmpty()) {
+      return new byte[0];
+    }
+    byte[] result = bufs.remove();
+    if (result.length == totalLen) {
+      return result;
+    }
+    int remaining = totalLen - result.length;
+    result = Arrays.copyOf(result, totalLen);
     while (remaining > 0) {
       byte[] buf = bufs.remove();
-      int bytesToCopy = Math.min(remaining, buf.length);
+      int bytesToCopy = min(remaining, buf.length);
       int resultOffset = totalLen - remaining;
       System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);
       remaining -= bytesToCopy;
