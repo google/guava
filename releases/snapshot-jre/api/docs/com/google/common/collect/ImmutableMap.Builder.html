@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -140,7 +140,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>
-public static class <a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.407">ImmutableMap.Builder</a>&lt;K,&#8203;V&gt;
+public static class <a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.410">ImmutableMap.Builder</a>&lt;K,&#8203;V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for creating immutable map instances, especially <code>public static final</code> maps
  ("constant maps"). Example:
@@ -223,13 +223,21 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildKeepingLast()">buildKeepingLast</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a newly-created immutable map, using the last value for any key that was added more
+ than once.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildOrThrow()">buildOrThrow</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a newly-created immutable map, or throws an exception if any key was added more than
  once.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
 <td class="colLast">
@@ -237,14 +245,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  comparator.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(java.util.Map.Entry)">put</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;entry)</code></th>
 <td class="colLast">
 <div class="block">Adds the given <code>entry</code> to the map, making it immutable if necessary.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>&nbsp;key,
    <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&nbsp;value)</code></th>
@@ -252,14 +260,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds all of the given entries to the built map.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;map)</code></th>
 <td class="colLast">
@@ -296,7 +304,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.418">Builder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.421">Builder</a>()</pre>
 <div class="block">Creates a new builder. The returned builder is equivalent to the builder generated by <a href="ImmutableMap.html#builder()"><code>ImmutableMap.builder()</code></a>.</div>
 </li>
 </ul>
@@ -319,10 +327,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.442">put</a>&#8203;(<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>&nbsp;key,
+public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.445">put</a>&#8203;(<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>&nbsp;key,
                                            <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&nbsp;value)</pre>
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map. Duplicate keys are not allowed,
- and will cause <a href="#build()"><code>build()</code></a> to fail.</div>
+ and will cause <a href="#build(boolean)"><code>build(boolean)</code></a> to fail.</div>
 </li>
 </ul>
 <a id="put(java.util.Map.Entry)">
@@ -332,9 +340,9 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.457">put</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;entry)</pre>
+public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.460">put</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;entry)</pre>
 <div class="block">Adds the given <code>entry</code> to the map, making it immutable if necessary. Duplicate keys are
- not allowed, and will cause <a href="#build()"><code>build()</code></a> to fail.</div>
+ not allowed, and will cause <a href="#build(boolean)"><code>build(boolean)</code></a> to fail.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -348,9 +356,9 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.468">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;map)</pre>
+public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.471">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;map)</pre>
 <div class="block">Associates all of the given map's keys and values in the built map. Duplicate keys are not
- allowed, and will cause <a href="#build()"><code>build()</code></a> to fail.</div>
+ allowed, and will cause <a href="#build(boolean)"><code>build(boolean)</code></a> to fail.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any key or value in <code>map</code> is null</dd>
@@ -365,9 +373,9 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.480">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</pre>
+public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.483">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;? extends <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Adds all of the given entries to the built map. Duplicate keys are not allowed, and will
- cause <a href="#build()"><code>build()</code></a> to fail.</div>
+ cause <a href="#build(boolean)"><code>build(boolean)</code></a> to fail.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any key, value, or entry is null</dd>
@@ -384,7 +392,7 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <h4>orderEntriesByValue</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.502">orderEntriesByValue</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</pre>
+public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.505">orderEntriesByValue</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</pre>
 <div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
  comparator.
 
@@ -404,7 +412,7 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.535">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.583">build</a>()</pre>
 <div class="block">Returns a newly-created immutable map. The iteration order of the returned map is the order
  in which entries were inserted into the builder, unless <a href="#orderEntriesByValue(java.util.Comparator)"><code>orderEntriesByValue(java.util.Comparator&lt;? super V&gt;)</code></a> was
  called, in which case entries are sorted by value.
@@ -421,10 +429,10 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <a id="buildOrThrow()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>buildOrThrow</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.548">buildOrThrow</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.596">buildOrThrow</a>()</pre>
 <div class="block">Returns a newly-created immutable map, or throws an exception if any key was added more than
  once. The iteration order of the returned map is the order in which entries were inserted
  into the builder, unless <a href="#orderEntriesByValue(java.util.Comparator)"><code>orderEntriesByValue(java.util.Comparator&lt;? super V&gt;)</code></a> was called, in which case entries are
@@ -434,6 +442,24 @@ public&nbsp;<a href="ImmutableMap.Builder.html" title="class in com.google.commo
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys were added</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
+</dl>
+</li>
+</ul>
+<a id="buildKeepingLast()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>buildKeepingLast</h4>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,&#8203;<a href="ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.Builder.html#line.609">buildKeepingLast</a>()</pre>
+<div class="block">Returns a newly-created immutable map, using the last value for any key that was added more
+ than once. The iteration order of the returned map is the order in which entries were
+ inserted into the builder, unless <a href="#orderEntriesByValue(java.util.Comparator)"><code>orderEntriesByValue(java.util.Comparator&lt;? super V&gt;)</code></a> was called, in which case
+ entries are sorted by value. If a key was added more than once, it appears in iteration order
+ based on the first time it was added, again unless <a href="#orderEntriesByValue(java.util.Comparator)"><code>orderEntriesByValue(java.util.Comparator&lt;? super V&gt;)</code></a> was called.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>

@@ -139,27 +139,36 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="../ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="../ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.Builder.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.Builder.html#buildKeepingLast()">buildKeepingLast</a></span>()</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method does not make sense for bimaps and should not be called.</div>
+</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="../ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,&#8203;<a href="../ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.Builder.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.Builder.html#buildOrThrow()">buildOrThrow</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a newly-created immutable bimap, or throws an exception if any key or value was added
  more than once.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable bimap containing the given entries.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#copyOf(java.util.Map)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable bimap containing the same entries as <code>map</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>abstract <a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;<a href="../ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>,&#8203;<a href="../ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#inverse()">inverse</a></span>()</code></th>
 <td class="colLast">
@@ -167,14 +176,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  associated key.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of()">of</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the empty bimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1)</code></th>
@@ -182,7 +191,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable bimap containing a single entry.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -192,7 +201,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -204,7 +213,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -218,7 +227,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -234,7 +243,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -252,7 +261,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -272,7 +281,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -294,7 +303,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -318,7 +327,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#of(K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V,K,V)">of</a></span>&#8203;(K&nbsp;k1,
   V&nbsp;v1,
@@ -344,7 +353,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableBiMap.html" title="class in com.google.common.collect">ImmutableBiMap</a>&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableBiMap.</span><code><span class="memberNameLink"><a href="../ImmutableBiMap.html#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
 <td class="colLast">

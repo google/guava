@@ -1,0 +1,3 @@
+OK: com.google.common.collect.ImmutableBiMap.Builder Method buildKeepingLast()
+OK: com.google.common.collect.ImmutableMap.Builder Method buildKeepingLast()
+OK: com.google.common.collect.ImmutableSortedMap.Builder Method buildKeepingLast()

@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":42,"i3":10,"i4":10,"i5":10,"i6":10};
+var data = {"i0":10,"i1":42,"i2":10,"i3":42,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -215,13 +215,22 @@ extends <a href="ImmutableMap.Builder.html" title="class in com.google.common.co
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildKeepingLast()">buildKeepingLast</a></span>()</code></th>
+<td class="colLast">
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method is not currently implemented, and may never be.</div>
+</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildOrThrow()">buildOrThrow</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a newly-created immutable sorted map, or throws an exception if any two keys are
  equal.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;valueComparator)</code></th>
 <td class="colLast">
@@ -230,14 +239,14 @@ extends <a href="ImmutableMap.Builder.html" title="class in com.google.common.co
 </div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(java.util.Map.Entry)">put</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;entry)</code></th>
 <td class="colLast">
 <div class="block">Adds the given <code>entry</code> to the map, making it immutable if necessary.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#put(K,V)">put</a></span>&#8203;(<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>&nbsp;key,
    <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&nbsp;value)</code></th>
@@ -245,14 +254,14 @@ extends <a href="ImmutableMap.Builder.html" title="class in com.google.common.co
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.lang.Iterable)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Adds all the given entries to the built map.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;? extends <a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;map)</code></th>
 <td class="colLast">
@@ -428,7 +437,7 @@ public final&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.
 <a id="buildOrThrow()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>buildOrThrow</h4>
 <pre class="methodSignature">public&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.Builder.html#line.733">buildOrThrow</a>()</pre>
@@ -442,6 +451,30 @@ public final&nbsp;<a href="ImmutableSortedMap.Builder.html" title="class in com.
      might be the keys' natural order)</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
+</dl>
+</li>
+</ul>
+<a id="buildKeepingLast()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>buildKeepingLast</h4>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+public final&nbsp;<a href="ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMap.Builder.html#line.756">buildKeepingLast</a>()</pre>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method is not currently implemented, and may never be.</div>
+</div>
+<div class="block">Throws UnsupportedOperationException. A future version may support this operation. Then the
+ value for any given key will be the one that was last supplied in a <code>put</code> operation for
+ that key.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="ImmutableMap.Builder.html#buildKeepingLast()">buildKeepingLast</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,&#8203;<a href="ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>

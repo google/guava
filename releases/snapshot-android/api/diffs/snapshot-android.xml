@@ -16886,6 +16886,19 @@
  @since 31.0]]>
       </doc>
     </method>
+    <method name="buildKeepingLast" return="com.google.common.collect.ImmutableBiMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="This method does not make sense for bimaps and should not be called.">
+      <doc>
+      <![CDATA[Throws {@link UnsupportedOperationException}. This method is inherited from {@link
+ ImmutableMap.Builder}, but it does not make sense for bimaps.
+
+ @throws UnsupportedOperationException always
+ @deprecated This method does not make sense for bimaps and should not be called.
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A builder for creating immutable bimap instances, especially {@code public static final} bimaps
  ("constant bimaps"). Example:
@@ -18858,6 +18871,20 @@
 
  @throws IllegalArgumentException if duplicate keys were added
  @since 31.0]]>
+      </doc>
+    </method>
+    <method name="buildKeepingLast" return="com.google.common.collect.ImmutableMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created immutable map, using the last value for any key that was added more
+ than once. The iteration order of the returned map is the order in which entries were
+ inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
+ entries are sorted by value. If a key was added more than once, it appears in iteration order
+ based on the first time it was added, again unless {@link #orderEntriesByValue} was called.
+
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -21673,6 +21700,20 @@
  @throws IllegalArgumentException if any two keys are equal according to the comparator (which
      might be the keys' natural order)
  @since 31.0]]>
+      </doc>
+    </method>
+    <method name="buildKeepingLast" return="com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="This method is not currently implemented, and may never be.">
+      <doc>
+      <![CDATA[Throws UnsupportedOperationException. A future version may support this operation. Then the
+ value for any given key will be the one that was last supplied in a {@code put} operation for
+ that key.
+
+ @throws UnsupportedOperationException always
+ @since NEXT
+ @deprecated This method is not currently implemented, and may never be.]]>
       </doc>
     </method>
     <doc>
