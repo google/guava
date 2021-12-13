@@ -658,7 +658,8 @@ public class ImmutableBiMapTest extends TestCase {
         ImmutableBiMap.copyOf(map);
         fail();
       } catch (IllegalArgumentException expected) {
-        assertThat(expected.getMessage()).contains("1");
+        assertThat(expected.getMessage()).containsMatch("1|2");
+        // We don't specify which of the two dups should be reported.
       }
     }
 

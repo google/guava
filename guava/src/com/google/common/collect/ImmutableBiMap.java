@@ -480,6 +480,21 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
       }
     }
 
+    /**
+     * Throws {@link UnsupportedOperationException}. This method is inherited from {@link
+     * ImmutableMap.Builder}, but it does not make sense for bimaps.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated This method does not make sense for bimaps and should not be called.
+     * @since NEXT
+     */
+    @DoNotCall
+    @Deprecated
+    @Override
+    public ImmutableBiMap<K, V> buildKeepingLast() {
+      throw new UnsupportedOperationException("Not supported for bimaps");
+    }
+
     @Override
     @VisibleForTesting
     ImmutableBiMap<K, V> buildJdkBacked() {

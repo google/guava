@@ -55,9 +55,9 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     this.keyOffset = 0;
     int tableSize = (size >= 2) ? ImmutableSet.chooseTableSize(size) : 0;
     this.keyHashTable =
-        RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 0);
+        RegularImmutableMap.createHashTableOrThrow(alternatingKeysAndValues, size, tableSize, 0);
     Object valueHashTable =
-        RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 1);
+        RegularImmutableMap.createHashTableOrThrow(alternatingKeysAndValues, size, tableSize, 1);
     this.inverse =
         new RegularImmutableBiMap<V, K>(valueHashTable, alternatingKeysAndValues, size, this);
   }
