@@ -70,7 +70,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @since 23.0
  */
-@Beta
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
@@ -184,6 +183,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catching(
       Class<X> exceptionType, Function<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catching(this, exceptionType, fallback, executor);
@@ -248,6 +248,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
       Class<X> exceptionType, AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catchingAsync(this, exceptionType, fallback, executor);
@@ -265,6 +266,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    */
   @GwtIncompatible // ScheduledExecutorService
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @Beta
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);
@@ -309,6 +311,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    */
+  @Beta
   public final <T extends @Nullable Object> FluentFuture<T> transformAsync(
       AsyncFunction<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transformAsync(this, function, executor);
@@ -346,6 +349,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    */
+  @Beta
   public final <T extends @Nullable Object> FluentFuture<T> transform(
       Function<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transform(this, function, executor);
