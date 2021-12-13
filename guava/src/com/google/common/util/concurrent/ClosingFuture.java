@@ -36,7 +36,6 @@ import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -190,7 +189,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 30.0
  */
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
-@Beta // @Beta for one release.
 @DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
 @ElementTypesAreNonnullByDefault
 // TODO(dpb): GWT compatibility.
