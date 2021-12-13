@@ -79,120 +79,120 @@
 <span class="sourceLineNo">070</span><a id="line.70"> *</a>
 <span class="sourceLineNo">071</span><a id="line.71"> * @since 23.0</a>
 <span class="sourceLineNo">072</span><a id="line.72"> */</a>
-<span class="sourceLineNo">073</span><a id="line.73">@Beta</a>
-<span class="sourceLineNo">074</span><a id="line.74">@DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")</a>
-<span class="sourceLineNo">075</span><a id="line.75">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">076</span><a id="line.76">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">077</span><a id="line.77">public abstract class FluentFuture&lt;V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">078</span><a id="line.78">    extends GwtFluentFutureCatchingSpecialization&lt;V&gt; {</a>
-<span class="sourceLineNo">079</span><a id="line.79"></a>
-<span class="sourceLineNo">080</span><a id="line.80">  /**</a>
-<span class="sourceLineNo">081</span><a id="line.81">   * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring</a>
-<span class="sourceLineNo">082</span><a id="line.82">   * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.</a>
-<span class="sourceLineNo">083</span><a id="line.83">   */</a>
-<span class="sourceLineNo">084</span><a id="line.84">  abstract static class TrustedFuture&lt;V extends @Nullable Object&gt; extends FluentFuture&lt;V&gt;</a>
-<span class="sourceLineNo">085</span><a id="line.85">      implements AbstractFuture.Trusted&lt;V&gt; {</a>
-<span class="sourceLineNo">086</span><a id="line.86">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">087</span><a id="line.87">    @Override</a>
-<span class="sourceLineNo">088</span><a id="line.88">    @ParametricNullness</a>
-<span class="sourceLineNo">089</span><a id="line.89">    public final V get() throws InterruptedException, ExecutionException {</a>
-<span class="sourceLineNo">090</span><a id="line.90">      return super.get();</a>
-<span class="sourceLineNo">091</span><a id="line.91">    }</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">094</span><a id="line.94">    @Override</a>
-<span class="sourceLineNo">095</span><a id="line.95">    @ParametricNullness</a>
-<span class="sourceLineNo">096</span><a id="line.96">    public final V get(long timeout, TimeUnit unit)</a>
-<span class="sourceLineNo">097</span><a id="line.97">        throws InterruptedException, ExecutionException, TimeoutException {</a>
-<span class="sourceLineNo">098</span><a id="line.98">      return super.get(timeout, unit);</a>
-<span class="sourceLineNo">099</span><a id="line.99">    }</a>
-<span class="sourceLineNo">100</span><a id="line.100"></a>
-<span class="sourceLineNo">101</span><a id="line.101">    @Override</a>
-<span class="sourceLineNo">102</span><a id="line.102">    public final boolean isDone() {</a>
-<span class="sourceLineNo">103</span><a id="line.103">      return super.isDone();</a>
-<span class="sourceLineNo">104</span><a id="line.104">    }</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">    @Override</a>
-<span class="sourceLineNo">107</span><a id="line.107">    public final boolean isCancelled() {</a>
-<span class="sourceLineNo">108</span><a id="line.108">      return super.isCancelled();</a>
-<span class="sourceLineNo">109</span><a id="line.109">    }</a>
-<span class="sourceLineNo">110</span><a id="line.110"></a>
-<span class="sourceLineNo">111</span><a id="line.111">    @Override</a>
-<span class="sourceLineNo">112</span><a id="line.112">    public final void addListener(Runnable listener, Executor executor) {</a>
-<span class="sourceLineNo">113</span><a id="line.113">      super.addListener(listener, executor);</a>
-<span class="sourceLineNo">114</span><a id="line.114">    }</a>
-<span class="sourceLineNo">115</span><a id="line.115"></a>
-<span class="sourceLineNo">116</span><a id="line.116">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">117</span><a id="line.117">    @Override</a>
-<span class="sourceLineNo">118</span><a id="line.118">    public final boolean cancel(boolean mayInterruptIfRunning) {</a>
-<span class="sourceLineNo">119</span><a id="line.119">      return super.cancel(mayInterruptIfRunning);</a>
-<span class="sourceLineNo">120</span><a id="line.120">    }</a>
-<span class="sourceLineNo">121</span><a id="line.121">  }</a>
-<span class="sourceLineNo">122</span><a id="line.122"></a>
-<span class="sourceLineNo">123</span><a id="line.123">  FluentFuture() {}</a>
-<span class="sourceLineNo">124</span><a id="line.124"></a>
-<span class="sourceLineNo">125</span><a id="line.125">  /**</a>
-<span class="sourceLineNo">126</span><a id="line.126">   * Converts the given {@code ListenableFuture} to an equivalent {@code FluentFuture}.</a>
-<span class="sourceLineNo">127</span><a id="line.127">   *</a>
-<span class="sourceLineNo">128</span><a id="line.128">   * &lt;p&gt;If the given {@code ListenableFuture} is already a {@code FluentFuture}, it is returned</a>
-<span class="sourceLineNo">129</span><a id="line.129">   * directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the</a>
-<span class="sourceLineNo">130</span><a id="line.130">   * original {@code ListenableFuture}.</a>
-<span class="sourceLineNo">131</span><a id="line.131">   */</a>
-<span class="sourceLineNo">132</span><a id="line.132">  public static &lt;V extends @Nullable Object&gt; FluentFuture&lt;V&gt; from(ListenableFuture&lt;V&gt; future) {</a>
-<span class="sourceLineNo">133</span><a id="line.133">    return future instanceof FluentFuture</a>
-<span class="sourceLineNo">134</span><a id="line.134">        ? (FluentFuture&lt;V&gt;) future</a>
-<span class="sourceLineNo">135</span><a id="line.135">        : new ForwardingFluentFuture&lt;V&gt;(future);</a>
-<span class="sourceLineNo">136</span><a id="line.136">  }</a>
-<span class="sourceLineNo">137</span><a id="line.137"></a>
-<span class="sourceLineNo">138</span><a id="line.138">  /**</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * Simply returns its argument.</a>
-<span class="sourceLineNo">140</span><a id="line.140">   *</a>
-<span class="sourceLineNo">141</span><a id="line.141">   * @deprecated no need to use this</a>
-<span class="sourceLineNo">142</span><a id="line.142">   * @since 28.0</a>
-<span class="sourceLineNo">143</span><a id="line.143">   */</a>
-<span class="sourceLineNo">144</span><a id="line.144">  @Deprecated</a>
-<span class="sourceLineNo">145</span><a id="line.145">  public static &lt;V extends @Nullable Object&gt; FluentFuture&lt;V&gt; from(FluentFuture&lt;V&gt; future) {</a>
-<span class="sourceLineNo">146</span><a id="line.146">    return checkNotNull(future);</a>
-<span class="sourceLineNo">147</span><a id="line.147">  }</a>
-<span class="sourceLineNo">148</span><a id="line.148"></a>
-<span class="sourceLineNo">149</span><a id="line.149">  /**</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * Returns a {@code Future} whose result is taken from this {@code Future} or, if this {@code</a>
-<span class="sourceLineNo">151</span><a id="line.151">   * Future} fails with the given {@code exceptionType}, from the result provided by the {@code</a>
-<span class="sourceLineNo">152</span><a id="line.152">   * fallback}. {@link Function#apply} is not invoked until the primary input has failed, so if the</a>
-<span class="sourceLineNo">153</span><a id="line.153">   * primary input succeeds, it is never invoked. If, during the invocation of {@code fallback}, an</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * exception is thrown, this exception is used as the result of the output {@code Future}.</a>
-<span class="sourceLineNo">155</span><a id="line.155">   *</a>
-<span class="sourceLineNo">156</span><a id="line.156">   * &lt;p&gt;Usage example:</a>
-<span class="sourceLineNo">157</span><a id="line.157">   *</a>
-<span class="sourceLineNo">158</span><a id="line.158">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * // Falling back to a zero counter in case an exception happens when processing the RPC to fetch</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * // counters.</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * ListenableFuture&lt;Integer&gt; faultTolerantFuture =</a>
-<span class="sourceLineNo">162</span><a id="line.162">   *     fetchCounters().catching(FetchException.class, x -&gt; 0, directExecutor());</a>
-<span class="sourceLineNo">163</span><a id="line.163">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">164</span><a id="line.164">   *</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
-<span class="sourceLineNo">167</span><a id="line.167">   * listeners are also applicable to heavyweight functions passed to this method.</a>
-<span class="sourceLineNo">168</span><a id="line.168">   *</a>
-<span class="sourceLineNo">169</span><a id="line.169">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#exceptionally}. It</a>
-<span class="sourceLineNo">170</span><a id="line.170">   * can also serve some of the use cases of {@link java.util.concurrent.CompletableFuture#handle}</a>
-<span class="sourceLineNo">171</span><a id="line.171">   * and {@link java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link</a>
-<span class="sourceLineNo">172</span><a id="line.172">   * #transform}.</a>
-<span class="sourceLineNo">173</span><a id="line.173">   *</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception</a>
-<span class="sourceLineNo">175</span><a id="line.175">   *     type is matched against the input's exception. "The input's exception" means the cause of</a>
-<span class="sourceLineNo">176</span><a id="line.176">   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a</a>
-<span class="sourceLineNo">177</span><a id="line.177">   *     different kind of exception, that exception itself. To avoid hiding bugs and other</a>
-<span class="sourceLineNo">178</span><a id="line.178">   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code</a>
-<span class="sourceLineNo">179</span><a id="line.179">   *     Throwable.class} in particular.</a>
-<span class="sourceLineNo">180</span><a id="line.180">   * @param fallback the {@link Function} to be called if the input fails with the expected</a>
-<span class="sourceLineNo">181</span><a id="line.181">   *     exception type. The function's argument is the input's exception. "The input's exception"</a>
-<span class="sourceLineNo">182</span><a id="line.182">   *     means the cause of the {@link ExecutionException} thrown by {@code this.get()} or, if</a>
-<span class="sourceLineNo">183</span><a id="line.183">   *     {@code get()} throws a different kind of exception, that exception itself.</a>
-<span class="sourceLineNo">184</span><a id="line.184">   * @param executor the executor that runs {@code fallback} if the input fails</a>
-<span class="sourceLineNo">185</span><a id="line.185">   */</a>
-<span class="sourceLineNo">186</span><a id="line.186">  @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")</a>
+<span class="sourceLineNo">073</span><a id="line.73">@DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")</a>
+<span class="sourceLineNo">074</span><a id="line.74">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">075</span><a id="line.75">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">076</span><a id="line.76">public abstract class FluentFuture&lt;V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">077</span><a id="line.77">    extends GwtFluentFutureCatchingSpecialization&lt;V&gt; {</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  /**</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.</a>
+<span class="sourceLineNo">082</span><a id="line.82">   */</a>
+<span class="sourceLineNo">083</span><a id="line.83">  abstract static class TrustedFuture&lt;V extends @Nullable Object&gt; extends FluentFuture&lt;V&gt;</a>
+<span class="sourceLineNo">084</span><a id="line.84">      implements AbstractFuture.Trusted&lt;V&gt; {</a>
+<span class="sourceLineNo">085</span><a id="line.85">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">086</span><a id="line.86">    @Override</a>
+<span class="sourceLineNo">087</span><a id="line.87">    @ParametricNullness</a>
+<span class="sourceLineNo">088</span><a id="line.88">    public final V get() throws InterruptedException, ExecutionException {</a>
+<span class="sourceLineNo">089</span><a id="line.89">      return super.get();</a>
+<span class="sourceLineNo">090</span><a id="line.90">    }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">093</span><a id="line.93">    @Override</a>
+<span class="sourceLineNo">094</span><a id="line.94">    @ParametricNullness</a>
+<span class="sourceLineNo">095</span><a id="line.95">    public final V get(long timeout, TimeUnit unit)</a>
+<span class="sourceLineNo">096</span><a id="line.96">        throws InterruptedException, ExecutionException, TimeoutException {</a>
+<span class="sourceLineNo">097</span><a id="line.97">      return super.get(timeout, unit);</a>
+<span class="sourceLineNo">098</span><a id="line.98">    }</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">    @Override</a>
+<span class="sourceLineNo">101</span><a id="line.101">    public final boolean isDone() {</a>
+<span class="sourceLineNo">102</span><a id="line.102">      return super.isDone();</a>
+<span class="sourceLineNo">103</span><a id="line.103">    }</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">    @Override</a>
+<span class="sourceLineNo">106</span><a id="line.106">    public final boolean isCancelled() {</a>
+<span class="sourceLineNo">107</span><a id="line.107">      return super.isCancelled();</a>
+<span class="sourceLineNo">108</span><a id="line.108">    }</a>
+<span class="sourceLineNo">109</span><a id="line.109"></a>
+<span class="sourceLineNo">110</span><a id="line.110">    @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">    public final void addListener(Runnable listener, Executor executor) {</a>
+<span class="sourceLineNo">112</span><a id="line.112">      super.addListener(listener, executor);</a>
+<span class="sourceLineNo">113</span><a id="line.113">    }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">116</span><a id="line.116">    @Override</a>
+<span class="sourceLineNo">117</span><a id="line.117">    public final boolean cancel(boolean mayInterruptIfRunning) {</a>
+<span class="sourceLineNo">118</span><a id="line.118">      return super.cancel(mayInterruptIfRunning);</a>
+<span class="sourceLineNo">119</span><a id="line.119">    }</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  FluentFuture() {}</a>
+<span class="sourceLineNo">123</span><a id="line.123"></a>
+<span class="sourceLineNo">124</span><a id="line.124">  /**</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * Converts the given {@code ListenableFuture} to an equivalent {@code FluentFuture}.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * &lt;p&gt;If the given {@code ListenableFuture} is already a {@code FluentFuture}, it is returned</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * original {@code ListenableFuture}.</a>
+<span class="sourceLineNo">130</span><a id="line.130">   */</a>
+<span class="sourceLineNo">131</span><a id="line.131">  public static &lt;V extends @Nullable Object&gt; FluentFuture&lt;V&gt; from(ListenableFuture&lt;V&gt; future) {</a>
+<span class="sourceLineNo">132</span><a id="line.132">    return future instanceof FluentFuture</a>
+<span class="sourceLineNo">133</span><a id="line.133">        ? (FluentFuture&lt;V&gt;) future</a>
+<span class="sourceLineNo">134</span><a id="line.134">        : new ForwardingFluentFuture&lt;V&gt;(future);</a>
+<span class="sourceLineNo">135</span><a id="line.135">  }</a>
+<span class="sourceLineNo">136</span><a id="line.136"></a>
+<span class="sourceLineNo">137</span><a id="line.137">  /**</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * Simply returns its argument.</a>
+<span class="sourceLineNo">139</span><a id="line.139">   *</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * @deprecated no need to use this</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * @since 28.0</a>
+<span class="sourceLineNo">142</span><a id="line.142">   */</a>
+<span class="sourceLineNo">143</span><a id="line.143">  @Deprecated</a>
+<span class="sourceLineNo">144</span><a id="line.144">  public static &lt;V extends @Nullable Object&gt; FluentFuture&lt;V&gt; from(FluentFuture&lt;V&gt; future) {</a>
+<span class="sourceLineNo">145</span><a id="line.145">    return checkNotNull(future);</a>
+<span class="sourceLineNo">146</span><a id="line.146">  }</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">  /**</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * Returns a {@code Future} whose result is taken from this {@code Future} or, if this {@code</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * Future} fails with the given {@code exceptionType}, from the result provided by the {@code</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * fallback}. {@link Function#apply} is not invoked until the primary input has failed, so if the</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * primary input succeeds, it is never invoked. If, during the invocation of {@code fallback}, an</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * exception is thrown, this exception is used as the result of the output {@code Future}.</a>
+<span class="sourceLineNo">154</span><a id="line.154">   *</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * &lt;p&gt;Usage example:</a>
+<span class="sourceLineNo">156</span><a id="line.156">   *</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * // Falling back to a zero counter in case an exception happens when processing the RPC to fetch</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * // counters.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * ListenableFuture&lt;Integer&gt; faultTolerantFuture =</a>
+<span class="sourceLineNo">161</span><a id="line.161">   *     fetchCounters().catching(FetchException.class, x -&gt; 0, directExecutor());</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">163</span><a id="line.163">   *</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * listeners are also applicable to heavyweight functions passed to this method.</a>
+<span class="sourceLineNo">167</span><a id="line.167">   *</a>
+<span class="sourceLineNo">168</span><a id="line.168">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#exceptionally}. It</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * can also serve some of the use cases of {@link java.util.concurrent.CompletableFuture#handle}</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * and {@link java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * #transform}.</a>
+<span class="sourceLineNo">172</span><a id="line.172">   *</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception</a>
+<span class="sourceLineNo">174</span><a id="line.174">   *     type is matched against the input's exception. "The input's exception" means the cause of</a>
+<span class="sourceLineNo">175</span><a id="line.175">   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a</a>
+<span class="sourceLineNo">176</span><a id="line.176">   *     different kind of exception, that exception itself. To avoid hiding bugs and other</a>
+<span class="sourceLineNo">177</span><a id="line.177">   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code</a>
+<span class="sourceLineNo">178</span><a id="line.178">   *     Throwable.class} in particular.</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * @param fallback the {@link Function} to be called if the input fails with the expected</a>
+<span class="sourceLineNo">180</span><a id="line.180">   *     exception type. The function's argument is the input's exception. "The input's exception"</a>
+<span class="sourceLineNo">181</span><a id="line.181">   *     means the cause of the {@link ExecutionException} thrown by {@code this.get()} or, if</a>
+<span class="sourceLineNo">182</span><a id="line.182">   *     {@code get()} throws a different kind of exception, that exception itself.</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * @param executor the executor that runs {@code fallback} if the input fails</a>
+<span class="sourceLineNo">184</span><a id="line.184">   */</a>
+<span class="sourceLineNo">185</span><a id="line.185">  @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")</a>
+<span class="sourceLineNo">186</span><a id="line.186">  @Beta</a>
 <span class="sourceLineNo">187</span><a id="line.187">  public final &lt;X extends Throwable&gt; FluentFuture&lt;V&gt; catching(</a>
 <span class="sourceLineNo">188</span><a id="line.188">      Class&lt;X&gt; exceptionType, Function&lt;? super X, ? extends V&gt; fallback, Executor executor) {</a>
 <span class="sourceLineNo">189</span><a id="line.189">    return (FluentFuture&lt;V&gt;) Futures.catching(this, exceptionType, fallback, executor);</a>
@@ -257,150 +257,154 @@
 <span class="sourceLineNo">248</span><a id="line.248">   * @param executor the executor that runs {@code fallback} if the input fails</a>
 <span class="sourceLineNo">249</span><a id="line.249">   */</a>
 <span class="sourceLineNo">250</span><a id="line.250">  @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")</a>
-<span class="sourceLineNo">251</span><a id="line.251">  public final &lt;X extends Throwable&gt; FluentFuture&lt;V&gt; catchingAsync(</a>
-<span class="sourceLineNo">252</span><a id="line.252">      Class&lt;X&gt; exceptionType, AsyncFunction&lt;? super X, ? extends V&gt; fallback, Executor executor) {</a>
-<span class="sourceLineNo">253</span><a id="line.253">    return (FluentFuture&lt;V&gt;) Futures.catchingAsync(this, exceptionType, fallback, executor);</a>
-<span class="sourceLineNo">254</span><a id="line.254">  }</a>
-<span class="sourceLineNo">255</span><a id="line.255"></a>
-<span class="sourceLineNo">256</span><a id="line.256">  /**</a>
-<span class="sourceLineNo">257</span><a id="line.257">   * Returns a future that delegates to this future but will finish early (via a {@link</a>
-<span class="sourceLineNo">258</span><a id="line.258">   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.</a>
-<span class="sourceLineNo">259</span><a id="line.259">   * If the timeout expires, not only will the output future finish, but also the input future</a>
-<span class="sourceLineNo">260</span><a id="line.260">   * ({@code this}) will be cancelled and interrupted.</a>
-<span class="sourceLineNo">261</span><a id="line.261">   *</a>
-<span class="sourceLineNo">262</span><a id="line.262">   * @param timeout when to time out the future</a>
-<span class="sourceLineNo">263</span><a id="line.263">   * @param unit the time unit of the time parameter</a>
-<span class="sourceLineNo">264</span><a id="line.264">   * @param scheduledExecutor The executor service to enforce the timeout.</a>
-<span class="sourceLineNo">265</span><a id="line.265">   */</a>
-<span class="sourceLineNo">266</span><a id="line.266">  @GwtIncompatible // ScheduledExecutorService</a>
-<span class="sourceLineNo">267</span><a id="line.267">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
-<span class="sourceLineNo">268</span><a id="line.268">  public final FluentFuture&lt;V&gt; withTimeout(</a>
-<span class="sourceLineNo">269</span><a id="line.269">      long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {</a>
-<span class="sourceLineNo">270</span><a id="line.270">    return (FluentFuture&lt;V&gt;) Futures.withTimeout(this, timeout, unit, scheduledExecutor);</a>
-<span class="sourceLineNo">271</span><a id="line.271">  }</a>
-<span class="sourceLineNo">272</span><a id="line.272"></a>
-<span class="sourceLineNo">273</span><a id="line.273">  /**</a>
-<span class="sourceLineNo">274</span><a id="line.274">   * Returns a new {@code Future} whose result is asynchronously derived from the result of this</a>
-<span class="sourceLineNo">275</span><a id="line.275">   * {@code Future}. If the input {@code Future} fails, the returned {@code Future} fails with the</a>
-<span class="sourceLineNo">276</span><a id="line.276">   * same exception (and the function is not invoked).</a>
-<span class="sourceLineNo">277</span><a id="line.277">   *</a>
-<span class="sourceLineNo">278</span><a id="line.278">   * &lt;p&gt;More precisely, the returned {@code Future} takes its result from a {@code Future} produced</a>
-<span class="sourceLineNo">279</span><a id="line.279">   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.</a>
-<span class="sourceLineNo">280</span><a id="line.280">   * Example usage:</a>
-<span class="sourceLineNo">281</span><a id="line.281">   *</a>
-<span class="sourceLineNo">282</span><a id="line.282">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">283</span><a id="line.283">   * FluentFuture&lt;RowKey&gt; rowKeyFuture = FluentFuture.from(indexService.lookUp(query));</a>
-<span class="sourceLineNo">284</span><a id="line.284">   * ListenableFuture&lt;QueryResult&gt; queryFuture =</a>
-<span class="sourceLineNo">285</span><a id="line.285">   *     rowKeyFuture.transformAsync(dataService::readFuture, executor);</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">287</span><a id="line.287">   *</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
-<span class="sourceLineNo">289</span><a id="line.289">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
-<span class="sourceLineNo">290</span><a id="line.290">   * listeners are also applicable to heavyweight functions passed to this method. (Specifically,</a>
-<span class="sourceLineNo">291</span><a id="line.291">   * {@code directExecutor} functions should avoid heavyweight operations inside {@code</a>
-<span class="sourceLineNo">292</span><a id="line.292">   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for</a>
-<span class="sourceLineNo">293</span><a id="line.293">   * completing the returned {@code Future}.)</a>
-<span class="sourceLineNo">294</span><a id="line.294">   *</a>
-<span class="sourceLineNo">295</span><a id="line.295">   * &lt;p&gt;The returned {@code Future} attempts to keep its cancellation state in sync with that of the</a>
-<span class="sourceLineNo">296</span><a id="line.296">   * input future and that of the future returned by the chain function. That is, if the returned</a>
-<span class="sourceLineNo">297</span><a id="line.297">   * {@code Future} is cancelled, it will attempt to cancel the other two, and if either of the</a>
-<span class="sourceLineNo">298</span><a id="line.298">   * other two is cancelled, the returned {@code Future} will receive a callback in which it will</a>
-<span class="sourceLineNo">299</span><a id="line.299">   * attempt to cancel itself.</a>
-<span class="sourceLineNo">300</span><a id="line.300">   *</a>
-<span class="sourceLineNo">301</span><a id="line.301">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#thenCompose} and</a>
-<span class="sourceLineNo">302</span><a id="line.302">   * {@link java.util.concurrent.CompletableFuture#thenComposeAsync}. It can also serve some of the</a>
-<span class="sourceLineNo">303</span><a id="line.303">   * use cases of {@link java.util.concurrent.CompletableFuture#handle} and {@link</a>
-<span class="sourceLineNo">304</span><a id="line.304">   * java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link #catching}.</a>
-<span class="sourceLineNo">305</span><a id="line.305">   *</a>
-<span class="sourceLineNo">306</span><a id="line.306">   * @param function A function to transform the result of this future to the result of the output</a>
-<span class="sourceLineNo">307</span><a id="line.307">   *     future</a>
-<span class="sourceLineNo">308</span><a id="line.308">   * @param executor Executor to run the function in.</a>
-<span class="sourceLineNo">309</span><a id="line.309">   * @return A future that holds result of the function (if the input succeeded) or the original</a>
-<span class="sourceLineNo">310</span><a id="line.310">   *     input's failure (if not)</a>
-<span class="sourceLineNo">311</span><a id="line.311">   */</a>
-<span class="sourceLineNo">312</span><a id="line.312">  public final &lt;T extends @Nullable Object&gt; FluentFuture&lt;T&gt; transformAsync(</a>
-<span class="sourceLineNo">313</span><a id="line.313">      AsyncFunction&lt;? super V, T&gt; function, Executor executor) {</a>
-<span class="sourceLineNo">314</span><a id="line.314">    return (FluentFuture&lt;T&gt;) Futures.transformAsync(this, function, executor);</a>
-<span class="sourceLineNo">315</span><a id="line.315">  }</a>
-<span class="sourceLineNo">316</span><a id="line.316"></a>
-<span class="sourceLineNo">317</span><a id="line.317">  /**</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * Returns a new {@code Future} whose result is derived from the result of this {@code Future}. If</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * this input {@code Future} fails, the returned {@code Future} fails with the same exception (and</a>
-<span class="sourceLineNo">320</span><a id="line.320">   * the function is not invoked). Example usage:</a>
-<span class="sourceLineNo">321</span><a id="line.321">   *</a>
-<span class="sourceLineNo">322</span><a id="line.322">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">323</span><a id="line.323">   * ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =</a>
-<span class="sourceLineNo">324</span><a id="line.324">   *     queryFuture.transform(QueryResult::getRows, executor);</a>
-<span class="sourceLineNo">325</span><a id="line.325">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">326</span><a id="line.326">   *</a>
-<span class="sourceLineNo">327</span><a id="line.327">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
-<span class="sourceLineNo">328</span><a id="line.328">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
-<span class="sourceLineNo">329</span><a id="line.329">   * listeners are also applicable to heavyweight functions passed to this method.</a>
-<span class="sourceLineNo">330</span><a id="line.330">   *</a>
-<span class="sourceLineNo">331</span><a id="line.331">   * &lt;p&gt;The returned {@code Future} attempts to keep its cancellation state in sync with that of the</a>
-<span class="sourceLineNo">332</span><a id="line.332">   * input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel</a>
-<span class="sourceLineNo">333</span><a id="line.333">   * the input, and if the input is cancelled, the returned {@code Future} will receive a callback</a>
-<span class="sourceLineNo">334</span><a id="line.334">   * in which it will attempt to cancel itself.</a>
-<span class="sourceLineNo">335</span><a id="line.335">   *</a>
-<span class="sourceLineNo">336</span><a id="line.336">   * &lt;p&gt;An example use of this method is to convert a serializable object returned from an RPC into</a>
-<span class="sourceLineNo">337</span><a id="line.337">   * a POJO.</a>
+<span class="sourceLineNo">251</span><a id="line.251">  @Beta</a>
+<span class="sourceLineNo">252</span><a id="line.252">  public final &lt;X extends Throwable&gt; FluentFuture&lt;V&gt; catchingAsync(</a>
+<span class="sourceLineNo">253</span><a id="line.253">      Class&lt;X&gt; exceptionType, AsyncFunction&lt;? super X, ? extends V&gt; fallback, Executor executor) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">    return (FluentFuture&lt;V&gt;) Futures.catchingAsync(this, exceptionType, fallback, executor);</a>
+<span class="sourceLineNo">255</span><a id="line.255">  }</a>
+<span class="sourceLineNo">256</span><a id="line.256"></a>
+<span class="sourceLineNo">257</span><a id="line.257">  /**</a>
+<span class="sourceLineNo">258</span><a id="line.258">   * Returns a future that delegates to this future but will finish early (via a {@link</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.</a>
+<span class="sourceLineNo">260</span><a id="line.260">   * If the timeout expires, not only will the output future finish, but also the input future</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * ({@code this}) will be cancelled and interrupted.</a>
+<span class="sourceLineNo">262</span><a id="line.262">   *</a>
+<span class="sourceLineNo">263</span><a id="line.263">   * @param timeout when to time out the future</a>
+<span class="sourceLineNo">264</span><a id="line.264">   * @param unit the time unit of the time parameter</a>
+<span class="sourceLineNo">265</span><a id="line.265">   * @param scheduledExecutor The executor service to enforce the timeout.</a>
+<span class="sourceLineNo">266</span><a id="line.266">   */</a>
+<span class="sourceLineNo">267</span><a id="line.267">  @GwtIncompatible // ScheduledExecutorService</a>
+<span class="sourceLineNo">268</span><a id="line.268">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">269</span><a id="line.269">  @Beta</a>
+<span class="sourceLineNo">270</span><a id="line.270">  public final FluentFuture&lt;V&gt; withTimeout(</a>
+<span class="sourceLineNo">271</span><a id="line.271">      long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {</a>
+<span class="sourceLineNo">272</span><a id="line.272">    return (FluentFuture&lt;V&gt;) Futures.withTimeout(this, timeout, unit, scheduledExecutor);</a>
+<span class="sourceLineNo">273</span><a id="line.273">  }</a>
+<span class="sourceLineNo">274</span><a id="line.274"></a>
+<span class="sourceLineNo">275</span><a id="line.275">  /**</a>
+<span class="sourceLineNo">276</span><a id="line.276">   * Returns a new {@code Future} whose result is asynchronously derived from the result of this</a>
+<span class="sourceLineNo">277</span><a id="line.277">   * {@code Future}. If the input {@code Future} fails, the returned {@code Future} fails with the</a>
+<span class="sourceLineNo">278</span><a id="line.278">   * same exception (and the function is not invoked).</a>
+<span class="sourceLineNo">279</span><a id="line.279">   *</a>
+<span class="sourceLineNo">280</span><a id="line.280">   * &lt;p&gt;More precisely, the returned {@code Future} takes its result from a {@code Future} produced</a>
+<span class="sourceLineNo">281</span><a id="line.281">   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.</a>
+<span class="sourceLineNo">282</span><a id="line.282">   * Example usage:</a>
+<span class="sourceLineNo">283</span><a id="line.283">   *</a>
+<span class="sourceLineNo">284</span><a id="line.284">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * FluentFuture&lt;RowKey&gt; rowKeyFuture = FluentFuture.from(indexService.lookUp(query));</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * ListenableFuture&lt;QueryResult&gt; queryFuture =</a>
+<span class="sourceLineNo">287</span><a id="line.287">   *     rowKeyFuture.transformAsync(dataService::readFuture, executor);</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">289</span><a id="line.289">   *</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">291</span><a id="line.291">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
+<span class="sourceLineNo">292</span><a id="line.292">   * listeners are also applicable to heavyweight functions passed to this method. (Specifically,</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * {@code directExecutor} functions should avoid heavyweight operations inside {@code</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for</a>
+<span class="sourceLineNo">295</span><a id="line.295">   * completing the returned {@code Future}.)</a>
+<span class="sourceLineNo">296</span><a id="line.296">   *</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * &lt;p&gt;The returned {@code Future} attempts to keep its cancellation state in sync with that of the</a>
+<span class="sourceLineNo">298</span><a id="line.298">   * input future and that of the future returned by the chain function. That is, if the returned</a>
+<span class="sourceLineNo">299</span><a id="line.299">   * {@code Future} is cancelled, it will attempt to cancel the other two, and if either of the</a>
+<span class="sourceLineNo">300</span><a id="line.300">   * other two is cancelled, the returned {@code Future} will receive a callback in which it will</a>
+<span class="sourceLineNo">301</span><a id="line.301">   * attempt to cancel itself.</a>
+<span class="sourceLineNo">302</span><a id="line.302">   *</a>
+<span class="sourceLineNo">303</span><a id="line.303">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#thenCompose} and</a>
+<span class="sourceLineNo">304</span><a id="line.304">   * {@link java.util.concurrent.CompletableFuture#thenComposeAsync}. It can also serve some of the</a>
+<span class="sourceLineNo">305</span><a id="line.305">   * use cases of {@link java.util.concurrent.CompletableFuture#handle} and {@link</a>
+<span class="sourceLineNo">306</span><a id="line.306">   * java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link #catching}.</a>
+<span class="sourceLineNo">307</span><a id="line.307">   *</a>
+<span class="sourceLineNo">308</span><a id="line.308">   * @param function A function to transform the result of this future to the result of the output</a>
+<span class="sourceLineNo">309</span><a id="line.309">   *     future</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * @param executor Executor to run the function in.</a>
+<span class="sourceLineNo">311</span><a id="line.311">   * @return A future that holds result of the function (if the input succeeded) or the original</a>
+<span class="sourceLineNo">312</span><a id="line.312">   *     input's failure (if not)</a>
+<span class="sourceLineNo">313</span><a id="line.313">   */</a>
+<span class="sourceLineNo">314</span><a id="line.314">  @Beta</a>
+<span class="sourceLineNo">315</span><a id="line.315">  public final &lt;T extends @Nullable Object&gt; FluentFuture&lt;T&gt; transformAsync(</a>
+<span class="sourceLineNo">316</span><a id="line.316">      AsyncFunction&lt;? super V, T&gt; function, Executor executor) {</a>
+<span class="sourceLineNo">317</span><a id="line.317">    return (FluentFuture&lt;T&gt;) Futures.transformAsync(this, function, executor);</a>
+<span class="sourceLineNo">318</span><a id="line.318">  }</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">  /**</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * Returns a new {@code Future} whose result is derived from the result of this {@code Future}. If</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * this input {@code Future} fails, the returned {@code Future} fails with the same exception (and</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * the function is not invoked). Example usage:</a>
+<span class="sourceLineNo">324</span><a id="line.324">   *</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">326</span><a id="line.326">   * ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =</a>
+<span class="sourceLineNo">327</span><a id="line.327">   *     queryFuture.transform(QueryResult::getRows, executor);</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">329</span><a id="line.329">   *</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * listeners are also applicable to heavyweight functions passed to this method.</a>
+<span class="sourceLineNo">333</span><a id="line.333">   *</a>
+<span class="sourceLineNo">334</span><a id="line.334">   * &lt;p&gt;The returned {@code Future} attempts to keep its cancellation state in sync with that of the</a>
+<span class="sourceLineNo">335</span><a id="line.335">   * input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * the input, and if the input is cancelled, the returned {@code Future} will receive a callback</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * in which it will attempt to cancel itself.</a>
 <span class="sourceLineNo">338</span><a id="line.338">   *</a>
-<span class="sourceLineNo">339</span><a id="line.339">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#thenApply} and</a>
-<span class="sourceLineNo">340</span><a id="line.340">   * {@link java.util.concurrent.CompletableFuture#thenApplyAsync}. It can also serve some of the</a>
-<span class="sourceLineNo">341</span><a id="line.341">   * use cases of {@link java.util.concurrent.CompletableFuture#handle} and {@link</a>
-<span class="sourceLineNo">342</span><a id="line.342">   * java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link #catching}.</a>
-<span class="sourceLineNo">343</span><a id="line.343">   *</a>
-<span class="sourceLineNo">344</span><a id="line.344">   * @param function A Function to transform the results of this future to the results of the</a>
-<span class="sourceLineNo">345</span><a id="line.345">   *     returned future.</a>
-<span class="sourceLineNo">346</span><a id="line.346">   * @param executor Executor to run the function in.</a>
-<span class="sourceLineNo">347</span><a id="line.347">   * @return A future that holds result of the transformation.</a>
-<span class="sourceLineNo">348</span><a id="line.348">   */</a>
-<span class="sourceLineNo">349</span><a id="line.349">  public final &lt;T extends @Nullable Object&gt; FluentFuture&lt;T&gt; transform(</a>
-<span class="sourceLineNo">350</span><a id="line.350">      Function&lt;? super V, T&gt; function, Executor executor) {</a>
-<span class="sourceLineNo">351</span><a id="line.351">    return (FluentFuture&lt;T&gt;) Futures.transform(this, function, executor);</a>
-<span class="sourceLineNo">352</span><a id="line.352">  }</a>
-<span class="sourceLineNo">353</span><a id="line.353"></a>
-<span class="sourceLineNo">354</span><a id="line.354">  /**</a>
-<span class="sourceLineNo">355</span><a id="line.355">   * Registers separate success and failure callbacks to be run when this {@code Future}'s</a>
-<span class="sourceLineNo">356</span><a id="line.356">   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the</a>
-<span class="sourceLineNo">357</span><a id="line.357">   * computation is already complete, immediately.</a>
-<span class="sourceLineNo">358</span><a id="line.358">   *</a>
-<span class="sourceLineNo">359</span><a id="line.359">   * &lt;p&gt;The callback is run on {@code executor}. There is no guaranteed ordering of execution of</a>
-<span class="sourceLineNo">360</span><a id="line.360">   * callbacks, but any callback added through this method is guaranteed to be called once the</a>
-<span class="sourceLineNo">361</span><a id="line.361">   * computation is complete.</a>
+<span class="sourceLineNo">339</span><a id="line.339">   * &lt;p&gt;An example use of this method is to convert a serializable object returned from an RPC into</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * a POJO.</a>
+<span class="sourceLineNo">341</span><a id="line.341">   *</a>
+<span class="sourceLineNo">342</span><a id="line.342">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#thenApply} and</a>
+<span class="sourceLineNo">343</span><a id="line.343">   * {@link java.util.concurrent.CompletableFuture#thenApplyAsync}. It can also serve some of the</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * use cases of {@link java.util.concurrent.CompletableFuture#handle} and {@link</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * java.util.concurrent.CompletableFuture#handleAsync} when used along with {@link #catching}.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   *</a>
+<span class="sourceLineNo">347</span><a id="line.347">   * @param function A Function to transform the results of this future to the results of the</a>
+<span class="sourceLineNo">348</span><a id="line.348">   *     returned future.</a>
+<span class="sourceLineNo">349</span><a id="line.349">   * @param executor Executor to run the function in.</a>
+<span class="sourceLineNo">350</span><a id="line.350">   * @return A future that holds result of the transformation.</a>
+<span class="sourceLineNo">351</span><a id="line.351">   */</a>
+<span class="sourceLineNo">352</span><a id="line.352">  @Beta</a>
+<span class="sourceLineNo">353</span><a id="line.353">  public final &lt;T extends @Nullable Object&gt; FluentFuture&lt;T&gt; transform(</a>
+<span class="sourceLineNo">354</span><a id="line.354">      Function&lt;? super V, T&gt; function, Executor executor) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">    return (FluentFuture&lt;T&gt;) Futures.transform(this, function, executor);</a>
+<span class="sourceLineNo">356</span><a id="line.356">  }</a>
+<span class="sourceLineNo">357</span><a id="line.357"></a>
+<span class="sourceLineNo">358</span><a id="line.358">  /**</a>
+<span class="sourceLineNo">359</span><a id="line.359">   * Registers separate success and failure callbacks to be run when this {@code Future}'s</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the</a>
+<span class="sourceLineNo">361</span><a id="line.361">   * computation is already complete, immediately.</a>
 <span class="sourceLineNo">362</span><a id="line.362">   *</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * &lt;p&gt;Example:</a>
-<span class="sourceLineNo">364</span><a id="line.364">   *</a>
-<span class="sourceLineNo">365</span><a id="line.365">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">366</span><a id="line.366">   * future.addCallback(</a>
-<span class="sourceLineNo">367</span><a id="line.367">   *     new FutureCallback&lt;QueryResult&gt;() {</a>
-<span class="sourceLineNo">368</span><a id="line.368">   *       public void onSuccess(QueryResult result) {</a>
-<span class="sourceLineNo">369</span><a id="line.369">   *         storeInCache(result);</a>
-<span class="sourceLineNo">370</span><a id="line.370">   *       }</a>
-<span class="sourceLineNo">371</span><a id="line.371">   *       public void onFailure(Throwable t) {</a>
-<span class="sourceLineNo">372</span><a id="line.372">   *         reportError(t);</a>
-<span class="sourceLineNo">373</span><a id="line.373">   *       }</a>
-<span class="sourceLineNo">374</span><a id="line.374">   *     }, executor);</a>
-<span class="sourceLineNo">375</span><a id="line.375">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">376</span><a id="line.376">   *</a>
-<span class="sourceLineNo">377</span><a id="line.377">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
-<span class="sourceLineNo">378</span><a id="line.378">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
-<span class="sourceLineNo">379</span><a id="line.379">   * listeners are also applicable to heavyweight callbacks passed to this method.</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * &lt;p&gt;The callback is run on {@code executor}. There is no guaranteed ordering of execution of</a>
+<span class="sourceLineNo">364</span><a id="line.364">   * callbacks, but any callback added through this method is guaranteed to be called once the</a>
+<span class="sourceLineNo">365</span><a id="line.365">   * computation is complete.</a>
+<span class="sourceLineNo">366</span><a id="line.366">   *</a>
+<span class="sourceLineNo">367</span><a id="line.367">   * &lt;p&gt;Example:</a>
+<span class="sourceLineNo">368</span><a id="line.368">   *</a>
+<span class="sourceLineNo">369</span><a id="line.369">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">370</span><a id="line.370">   * future.addCallback(</a>
+<span class="sourceLineNo">371</span><a id="line.371">   *     new FutureCallback&lt;QueryResult&gt;() {</a>
+<span class="sourceLineNo">372</span><a id="line.372">   *       public void onSuccess(QueryResult result) {</a>
+<span class="sourceLineNo">373</span><a id="line.373">   *         storeInCache(result);</a>
+<span class="sourceLineNo">374</span><a id="line.374">   *       }</a>
+<span class="sourceLineNo">375</span><a id="line.375">   *       public void onFailure(Throwable t) {</a>
+<span class="sourceLineNo">376</span><a id="line.376">   *         reportError(t);</a>
+<span class="sourceLineNo">377</span><a id="line.377">   *       }</a>
+<span class="sourceLineNo">378</span><a id="line.378">   *     }, executor);</a>
+<span class="sourceLineNo">379</span><a id="line.379">   * }&lt;/pre&gt;</a>
 <span class="sourceLineNo">380</span><a id="line.380">   *</a>
-<span class="sourceLineNo">381</span><a id="line.381">   * &lt;p&gt;For a more general interface to attach a completion listener, see {@link #addListener}.</a>
-<span class="sourceLineNo">382</span><a id="line.382">   *</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#whenComplete} and</a>
-<span class="sourceLineNo">384</span><a id="line.384">   * {@link java.util.concurrent.CompletableFuture#whenCompleteAsync}. It also serves the use case</a>
-<span class="sourceLineNo">385</span><a id="line.385">   * of {@link java.util.concurrent.CompletableFuture#thenAccept} and {@link</a>
-<span class="sourceLineNo">386</span><a id="line.386">   * java.util.concurrent.CompletableFuture#thenAcceptAsync}.</a>
-<span class="sourceLineNo">387</span><a id="line.387">   *</a>
-<span class="sourceLineNo">388</span><a id="line.388">   * @param callback The callback to invoke when this {@code Future} is completed.</a>
-<span class="sourceLineNo">389</span><a id="line.389">   * @param executor The executor to run {@code callback} when the future completes.</a>
-<span class="sourceLineNo">390</span><a id="line.390">   */</a>
-<span class="sourceLineNo">391</span><a id="line.391">  public final void addCallback(FutureCallback&lt;? super V&gt; callback, Executor executor) {</a>
-<span class="sourceLineNo">392</span><a id="line.392">    Futures.addCallback(this, callback, executor);</a>
-<span class="sourceLineNo">393</span><a id="line.393">  }</a>
-<span class="sourceLineNo">394</span><a id="line.394">}</a>
+<span class="sourceLineNo">381</span><a id="line.381">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">382</span><a id="line.382">   * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * listeners are also applicable to heavyweight callbacks passed to this method.</a>
+<span class="sourceLineNo">384</span><a id="line.384">   *</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * &lt;p&gt;For a more general interface to attach a completion listener, see {@link #addListener}.</a>
+<span class="sourceLineNo">386</span><a id="line.386">   *</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;This method is similar to {@link java.util.concurrent.CompletableFuture#whenComplete} and</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * {@link java.util.concurrent.CompletableFuture#whenCompleteAsync}. It also serves the use case</a>
+<span class="sourceLineNo">389</span><a id="line.389">   * of {@link java.util.concurrent.CompletableFuture#thenAccept} and {@link</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * java.util.concurrent.CompletableFuture#thenAcceptAsync}.</a>
+<span class="sourceLineNo">391</span><a id="line.391">   *</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * @param callback The callback to invoke when this {@code Future} is completed.</a>
+<span class="sourceLineNo">393</span><a id="line.393">   * @param executor The executor to run {@code callback} when the future completes.</a>
+<span class="sourceLineNo">394</span><a id="line.394">   */</a>
+<span class="sourceLineNo">395</span><a id="line.395">  public final void addCallback(FutureCallback&lt;? super V&gt; callback, Executor executor) {</a>
+<span class="sourceLineNo">396</span><a id="line.396">    Futures.addCallback(this, callback, executor);</a>
+<span class="sourceLineNo">397</span><a id="line.397">  }</a>
+<span class="sourceLineNo">398</span><a id="line.398">}</a>
 
 
 
