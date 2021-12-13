@@ -16,7 +16,6 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import javax.annotation.CheckForNull;
@@ -34,7 +33,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 /*
  * A nullable bound would let users create a TypeParameter instance for a parameter with a nullable
