@@ -14,7 +14,6 @@
 
 package com.google.common.net;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -102,7 +101,6 @@ public final class HttpHeaders {
    *
    * @since 17.0
    */
-  @Beta
   public static final String FOLLOW_ONLY_WHEN_PRERENDER_SHOWN = "Follow-Only-When-Prerender-Shown";
   /** The HTTP {@code Host} header field name. */
   public static final String HOST = "Host";
@@ -357,7 +355,7 @@ public final class HttpHeaders {
    *
    * @since 27.1
    */
-  @Beta public static final String SOURCE_MAP = "SourceMap";
+  public static final String SOURCE_MAP = "SourceMap";
 
   /**
    * The HTTP <a href="http://tools.ietf.org/html/rfc6797#section-6.1">{@code
@@ -455,14 +453,14 @@ public final class HttpHeaders {
    *
    * @since 15.0
    */
-  @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
+  public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
   /**
    * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">{@code
    * Public-Key-Pins-Report-Only}</a> header field name.
    *
    * @since 15.0
    */
-  @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
+  public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
   /**
    * The HTTP {@code X-Request-ID} header field name.
    *
@@ -482,7 +480,7 @@ public final class HttpHeaders {
    *
    * @since 24.1
    */
-  @Beta public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
+  public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
   /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
   /**

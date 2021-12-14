@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
@@ -60,7 +59,6 @@ import javax.annotation.CheckForNull;
  * @author Paul Marks
  * @since 10.0
  */
-@Beta
 @Immutable
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
