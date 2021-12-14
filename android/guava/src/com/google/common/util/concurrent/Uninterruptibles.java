@@ -17,7 +17,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Verify.verify;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
@@ -410,7 +409,6 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
-  @Beta
   @GwtIncompatible // concurrency
   public static void awaitTerminationUninterruptibly(ExecutorService executor) {
     // TODO(cpovirk): We could optimize this to avoid calling nanoTime() at all.
@@ -423,7 +421,6 @@ public final class Uninterruptibles {
    *
    * @since 30.0
    */
-  @Beta
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime")
   public static boolean awaitTerminationUninterruptibly(
