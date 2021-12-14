@@ -22,7 +22,6 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
@@ -53,7 +52,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Ben Yu
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public final class ForwardingWrapperTester {
 

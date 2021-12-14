@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
@@ -74,7 +73,6 @@ import java.util.List;
  * @author Jige Yu
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
