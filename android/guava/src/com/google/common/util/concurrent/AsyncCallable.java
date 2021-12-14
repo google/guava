@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -28,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @since 20.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public interface AsyncCallable<V extends @Nullable Object> {
