@@ -131,9 +131,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.44">HostSpecifier</a>
+<pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.43">HostSpecifier</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
  address in IPv4 or IPv6 notation, or a domain name.
@@ -250,7 +249,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>fromValid</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.71">fromValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.69">fromValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)</pre>
 <div class="block">Returns a <code>HostSpecifier</code> built from the provided <code>specifier</code>, which is already
  known to be valid. If the <code>specifier</code> might be invalid, use <a href="#from(java.lang.String)"><code>from(String)</code></a>
  instead.
@@ -275,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.113">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)
+<pre class="methodSignature">public static&nbsp;<a href="HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.111">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)
                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/text/ParseException.html?is-external=true" title="class or interface in java.text" class="externalLink">ParseException</a></pre>
 <div class="block">Attempts to return a <code>HostSpecifier</code> for the given string, throwing an exception if
  parsing fails. Always use this method in preference to <a href="#fromValid(java.lang.String)"><code>fromValid(String)</code></a> for a
@@ -292,7 +291,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.131">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.129">isValid</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;specifier)</pre>
 <div class="block">Determines whether <code>specifier</code> represents a valid <a href="HostSpecifier.html" title="class in com.google.common.net"><code>HostSpecifier</code></a> as described in
  the documentation for <a href="#fromValid(java.lang.String)"><code>fromValid(String)</code></a>.</div>
 </li>
@@ -303,7 +302,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.140">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.138">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;other)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -364,7 +363,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.154">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.152">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -411,7 +410,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.165">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostSpecifier.html#line.163">toString</a>()</pre>
 <div class="block">Returns a string representation of the host specifier suitable for inclusion in a URI. If the
  host specifier is a domain name, the string will be normalized to all lower case. If the
  specifier was an IPv6 address without brackets, brackets are added so that the result will be
