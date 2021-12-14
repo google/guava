@@ -127,10 +127,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
 </dl>
 <hr>
-<pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
 <a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.31">AsyncCallable</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.30">AsyncCallable</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</pre>
 <div class="block">Computes a value, possibly asynchronously. For an example usage and more information, see <a href="Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable,java.util.concurrent.Executor)"><code>Futures.FutureCombiner.callAsync(AsyncCallable, java.util.concurrent.Executor)</code></a>.
 
  <p>Much like <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Callable</code></a>, but returning a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
@@ -189,7 +188,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>call</h4>
-<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.43">call</a>()
+<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.41">call</a>()
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang" class="externalLink">Exception</a></pre>
 <div class="block">Computes a result <code>Future</code>. The output <code>Future</code> need not be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink">done</a>, making <code>AsyncCallable</code> suitable for asynchronous derivations.
 
