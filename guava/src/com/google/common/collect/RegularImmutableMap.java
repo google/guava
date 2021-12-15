@@ -128,20 +128,23 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
       ImmutableMapEntry<K, V> keyBucketHead = table[tableIndex];
-      ImmutableMapEntry<K, V> newEntry =
+      ImmutableMapEntry<K, V> effectiveEntry =
           checkNoConflictInKeyBucket(key, value, keyBucketHead, throwIfDuplicateKeys);
-      if (newEntry == null) {
+      if (effectiveEntry == null) {
         // prepend, not append, so the entries can be immutable
-        newEntry =
+        effectiveEntry =
             (keyBucketHead == null)
                 ? makeImmutable(entry, key, value)
                 : new NonTerminalImmutableMapEntry<K, V>(key, value, keyBucketHead);
-        table[tableIndex] = newEntry;
+        table[tableIndex] = effectiveEntry;
       } else {
+        // We already saw this key, and the first value we saw (going backwards) is the one we are
+        // keeping. So we won't touch table[], but we do still want to add the existing entry that
+        // we found to entries[] so that we will see this key in the right place when iterating.
         if (duplicates == null) {
           duplicates = new IdentityHashMap<>();
         }
-        duplicates.put(newEntry, true);
+        duplicates.put(effectiveEntry, true);
         dupCount++;
         // Make sure we are not overwriting the original entries array, in case we later do
         // buildOrThrow(). We would want an exception to include two values for the duplicate key.
@@ -149,7 +152,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           entries = entries.clone();
         }
       }
-      entries[entryIndex] = newEntry;
+      entries[entryIndex] = effectiveEntry;
     }
     if (duplicates != null) {
       // Explicit type parameters needed here to avoid a problem with nullness inference.
