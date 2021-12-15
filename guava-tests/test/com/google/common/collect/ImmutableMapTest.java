@@ -650,6 +650,20 @@ public class ImmutableMapTest extends TestCase {
       assertMapEquals(map, 1, "one", 2, "two", 70, "seventy");
     }
 
+    public void testBuildKeepingLast_smallTableSameHash() {
+      String key1 = "QED";
+      String key2 = "R&D";
+      assertThat(key1.hashCode()).isEqualTo(key2.hashCode());
+      ImmutableMap<String, Integer> map =
+          ImmutableMap.<String, Integer>builder()
+              .put(key1, 1)
+              .put(key2, 2)
+              .put(key1, 3)
+              .put(key2, 4)
+              .buildKeepingLast();
+      assertMapEquals(map, key1, 3, key2, 4);
+    }
+
     // The java7 branch has different code depending on whether the entry indexes fit in a byte,
     // short, or int. The small table in testBuildKeepingLast_allowsOverwrite will test the byte
     // case. This method tests the short case.
