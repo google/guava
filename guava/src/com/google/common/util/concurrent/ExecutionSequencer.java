@@ -25,7 +25,6 @@ import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -84,7 +83,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @since 26.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class ExecutionSequencer {
 
