@@ -136,6 +136,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             (keyBucketHead == null)
                 ? makeImmutable(entry, key, value)
                 : new NonTerminalImmutableMapEntry<K, V>(key, value, keyBucketHead);
+        table[tableIndex] = newEntry;
       } else {
         if (duplicates == null) {
           duplicates = new IdentityHashMap<>();
@@ -148,7 +149,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           entries = entries.clone();
         }
       }
-      table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
     }
     if (duplicates != null) {
