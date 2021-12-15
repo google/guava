@@ -35,7 +35,6 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
-import com.google.common.cache.LocalCache.AbstractCacheSet;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -3993,7 +3992,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     int hits = 0;
     int misses = 0;
 
-    Map<K, V> result = Maps.newLinkedHashMap();
+    ImmutableMap.Builder<K, V> result = ImmutableMap.builder();
     for (Object key : keys) {
       V value = get(key);
       if (value == null) {
@@ -4008,7 +4007,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
     globalStatsCounter.recordHits(hits);
     globalStatsCounter.recordMisses(misses);
-    return ImmutableMap.copyOf(result);
+    return result.buildKeepingLast();
   }
 
   ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
