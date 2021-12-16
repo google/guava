@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -39,7 +38,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 21.0
  * @author Louis Wasserman
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public final class Comparators {
@@ -121,7 +119,6 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  @Beta
   public static <T extends Comparable<? super T>> T min(T a, T b) {
     return (a.compareTo(b) <= 0) ? a : b;
   }
@@ -141,7 +138,6 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @Beta
   @ParametricNullness
   public static <T extends @Nullable Object> T min(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
@@ -161,7 +157,6 @@ public final class Comparators {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
    * @since 30.0
    */
-  @Beta
   public static <T extends Comparable<? super T>> T max(T a, T b) {
     return (a.compareTo(b) >= 0) ? a : b;
   }
@@ -181,7 +176,6 @@ public final class Comparators {
    *     comparator.
    * @since 30.0
    */
-  @Beta
   @ParametricNullness
   public static <T extends @Nullable Object> T max(
       @ParametricNullness T a, @ParametricNullness T b, Comparator<T> comparator) {
