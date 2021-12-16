@@ -1229,13 +1229,13 @@
 <span class="sourceLineNo">1220</span><a id="line.1220">  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; toMap(</a>
 <span class="sourceLineNo">1221</span><a id="line.1221">      Iterator&lt;K&gt; keys, Function&lt;? super K, V&gt; valueFunction) {</a>
 <span class="sourceLineNo">1222</span><a id="line.1222">    checkNotNull(valueFunction);</a>
-<span class="sourceLineNo">1223</span><a id="line.1223">    // Using LHM instead of a builder so as not to fail on duplicate keys</a>
-<span class="sourceLineNo">1224</span><a id="line.1224">    Map&lt;K, V&gt; builder = newLinkedHashMap();</a>
-<span class="sourceLineNo">1225</span><a id="line.1225">    while (keys.hasNext()) {</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">      K key = keys.next();</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">      builder.put(key, valueFunction.apply(key));</a>
-<span class="sourceLineNo">1228</span><a id="line.1228">    }</a>
-<span class="sourceLineNo">1229</span><a id="line.1229">    return ImmutableMap.copyOf(builder);</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">    ImmutableMap.Builder&lt;K, V&gt; builder = ImmutableMap.builder();</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">    while (keys.hasNext()) {</a>
+<span class="sourceLineNo">1225</span><a id="line.1225">      K key = keys.next();</a>
+<span class="sourceLineNo">1226</span><a id="line.1226">      builder.put(key, valueFunction.apply(key));</a>
+<span class="sourceLineNo">1227</span><a id="line.1227">    }</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">    // Using buildKeepingLast() so as not to fail on duplicate keys</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">    return builder.buildKeepingLast();</a>
 <span class="sourceLineNo">1230</span><a id="line.1230">  }</a>
 <span class="sourceLineNo">1231</span><a id="line.1231"></a>
 <span class="sourceLineNo">1232</span><a id="line.1232">  /**</a>
