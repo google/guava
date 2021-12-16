@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -197,7 +196,6 @@ import javax.annotation.CheckForNull;
  * @author Martin Buchholz
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 @ElementTypesAreNonnullByDefault
@@ -301,7 +299,6 @@ public final class Monitor {
    *
    * @since 10.0
    */
-  @Beta
   public abstract static class Guard {
 
     @Weak final Monitor monitor;
