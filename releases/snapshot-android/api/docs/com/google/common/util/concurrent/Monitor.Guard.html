@@ -135,8 +135,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></dd>
 </dl>
 <hr>
-<pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.304">Monitor.Guard</a>
+<pre>public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.302">Monitor.Guard</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A boolean condition for which a thread may wait. A <code>Guard</code> is associated with a single
  <code>Monitor</code>. The monitor may check the guard at arbitrary times from any thread occupying
@@ -229,7 +228,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Guard</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line.318">Guard</a>&#8203;(<a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a>&nbsp;monitor)</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line.315">Guard</a>&#8203;(<a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a>&nbsp;monitor)</pre>
 </li>
 </ul>
 </li>
@@ -248,7 +247,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isSatisfied</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line.328">isSatisfied</a>()</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line.325">isSatisfied</a>()</pre>
 <div class="block">Evaluates this guard's boolean condition. This method is always called with the associated
  monitor already occupied. Implementations of this method must depend only on state protected
  by the associated monitor, and must not modify that state.</div>
