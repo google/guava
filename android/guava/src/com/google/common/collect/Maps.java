@@ -1220,13 +1220,13 @@ public final class Maps {
   public static <K, V> ImmutableMap<K, V> toMap(
       Iterator<K> keys, Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);
-    // Using LHM instead of a builder so as not to fail on duplicate keys
-    Map<K, V> builder = newLinkedHashMap();
+    ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
     while (keys.hasNext()) {
       K key = keys.next();
       builder.put(key, valueFunction.apply(key));
     }
-    return ImmutableMap.copyOf(builder);
+    // Using buildKeepingLast() so as not to fail on duplicate keys
+    return builder.buildKeepingLast();
   }
 
   /**
