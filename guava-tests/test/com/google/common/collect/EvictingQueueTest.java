@@ -57,14 +57,16 @@ public class EvictingQueueTest extends TestCase {
     try {
       queue.element();
       fail();
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
 
     assertNull(queue.peek());
     assertNull(queue.poll());
     try {
       queue.remove();
       fail();
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
   }
 
   public void testRemainingCapacity_maxSize0() {

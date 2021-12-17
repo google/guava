@@ -29,28 +29,29 @@ import junit.framework.TestSuite;
  * Tests our AtomicHelper fallback strategy in AggregateFutureState.
  *
  * <p>On different platforms AggregateFutureState uses different strategies for its core
- * synchronization primitives.  The strategies are all implemented as subtypes of AtomicHelper and
- * the strategy is selected in the static initializer of AggregateFutureState.  This is convenient
- * and performant but introduces some testing difficulties.   This test exercises the two fallback
+ * synchronization primitives. The strategies are all implemented as subtypes of AtomicHelper and
+ * the strategy is selected in the static initializer of AggregateFutureState. This is convenient
+ * and performant but introduces some testing difficulties. This test exercises the two fallback
  * strategies.
+ *
  * <ul>
- *     <li>SafeAtomicHelper: uses Atomic FieldsUpdaters to implement synchronization
- *     <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
+ *   <li>SafeAtomicHelper: uses Atomic FieldsUpdaters to implement synchronization
+ *   <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
  * </ul>
  *
  * To force selection of our fallback strategies we load {@link AggregateFutureState} (and all of
  * {@code com.google.common.util.concurrent} in degenerate class loaders which make certain platform
- * classes unavailable.  Then we construct a test suite so we can run the normal
- * FuturesTest test methods in these degenerate classloaders.
+ * classes unavailable. Then we construct a test suite so we can run the normal FuturesTest test
+ * methods in these degenerate classloaders.
  */
 
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   /**
-   * This classloader blacklists AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
+   * This classloader disallows AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
    * prevent us from selecting our {@code SafeAtomicHelper} strategy.
    *
-   * Stashing this in a static field avoids loading it over and over again and speeds up test
+   * <p>Stashing this in a static field avoids loading it over and over again and speeds up test
    * execution significantly.
    */
   private static final ClassLoader NO_ATOMIC_FIELD_UPDATER =
@@ -80,7 +81,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     checkHelperVersion(getClass().getClassLoader(), "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_FIELD_UPDATER, "SynchronizedAtomicHelper");
 
-    // Run the corresponding FuturesTest test method in a new classloader that blacklists
+    // Run the corresponding FuturesTest test method in a new classloader that disallows
     // certain core jdk classes.
     ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(NO_ATOMIC_FIELD_UPDATER);
@@ -94,7 +95,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   private void runTestMethod(ClassLoader classLoader) throws Exception {
     Class<?> test = classLoader.loadClass(FuturesTest.class.getName());
-    Object testInstance = test.newInstance();
+    Object testInstance = test.getDeclaredConstructor().newInstance();
     test.getMethod("setUp").invoke(testInstance);
     test.getMethod(getName()).invoke(testInstance);
     test.getMethod("tearDown").invoke(testInstance);
@@ -109,14 +110,14 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
   }
 
-  private static ClassLoader getClassLoader(final Set<String> blacklist) {
+  private static ClassLoader getClassLoader(final Set<String> blocklist) {
     final String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AggregateFutureStateFallbackAtomicHelperTest.class.getClassLoader();
     // we delegate to the current classloader so both loaders agree on classes like TestCase
     return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        if (blacklist.contains(name)) {
+        if (blocklist.contains(name)) {
           throw new ClassNotFoundException("I'm sorry Dave, I'm afraid I can't do that.");
         }
         if (name.startsWith(concurrentPackage)) {

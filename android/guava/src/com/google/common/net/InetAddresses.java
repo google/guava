@@ -17,13 +17,13 @@ package com.google.common.net;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -48,21 +48,16 @@ import javax.annotation.Nullable;
  * <p>Examples of IP addresses and their byte representations:
  *
  * <dl>
- * <dt>The IPv4 loopback address, {@code "127.0.0.1"}.
- * <dd>{@code 7f 00 00 01}
- *
- * <dt>The IPv6 loopback address, {@code "::1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01}
- *
- * <dt>From the IPv6 reserved documentation prefix ({@code 2001:db8::/32}), {@code "2001:db8::1"}.
- * <dd>{@code 20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01}
- *
- * <dt>An IPv6 "IPv4 compatible" (or "compat") address, {@code "::192.168.0.1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01}
- *
- * <dt>An IPv6 "IPv4 mapped" address, {@code "::ffff:192.168.0.1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01}
- *
+ *   <dt>The IPv4 loopback address, {@code "127.0.0.1"}.
+ *   <dd>{@code 7f 00 00 01}
+ *   <dt>The IPv6 loopback address, {@code "::1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01}
+ *   <dt>From the IPv6 reserved documentation prefix ({@code 2001:db8::/32}), {@code "2001:db8::1"}.
+ *   <dd>{@code 20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01}
+ *   <dt>An IPv6 "IPv4 compatible" (or "compat") address, {@code "::192.168.0.1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01}
+ *   <dt>An IPv6 "IPv4 mapped" address, {@code "::ffff:192.168.0.1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01}
  * </dl>
  *
  * <p>A few notes about IPv6 "IPv4 mapped" addresses and their observed use in Java.
@@ -85,25 +80,29 @@ import javax.annotation.Nullable;
  * information on "bogons", including lists of IPv6 bogon space, see:
  *
  * <ul>
- * <li><a target="_parent" href="http://en.wikipedia.org/wiki/Bogon_filtering">http://en.wikipedia.
- * org/wiki/Bogon_filtering</a>
- * <li><a target="_parent" href="http://www.cymru.com/Bogons/ipv6.txt">http://www.cymru.com/Bogons/
- * ipv6.txt</a>
- * <li><a target="_parent" href="http://www.cymru.com/Bogons/v6bogon.html">http://www.cymru.com/
- * Bogons/v6bogon.html</a>
- * <li><a target="_parent" href="http://www.space.net/~gert/RIPE/ipv6-filters.html">http://www.
- * space.net/~gert/RIPE/ipv6-filters.html</a>
+ *   <li><a target="_parent"
+ *       href="http://en.wikipedia.org/wiki/Bogon_filtering">http://en.wikipedia.
+ *       org/wiki/Bogon_filtering</a>
+ *   <li><a target="_parent"
+ *       href="http://www.cymru.com/Bogons/ipv6.txt">http://www.cymru.com/Bogons/ ipv6.txt</a>
+ *   <li><a target="_parent" href="http://www.cymru.com/Bogons/v6bogon.html">http://www.cymru.com/
+ *       Bogons/v6bogon.html</a>
+ *   <li><a target="_parent" href="http://www.space.net/~gert/RIPE/ipv6-filters.html">http://www.
+ *       space.net/~gert/RIPE/ipv6-filters.html</a>
  * </ul>
  *
  * @author Erik Kline
  * @since 5.0
  */
-@Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
-  private static final Splitter IPV4_SPLITTER = Splitter.on('.').limit(IPV4_PART_COUNT);
+  private static final char IPV4_DELIMITER = '.';
+  private static final char IPV6_DELIMITER = ':';
+  private static final CharMatcher IPV4_DELIMITER_MATCHER = CharMatcher.is(IPV4_DELIMITER);
+  private static final CharMatcher IPV6_DELIMITER_MATCHER = CharMatcher.is(IPV6_DELIMITER);
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
 
@@ -131,8 +130,15 @@ public final class InetAddresses {
    *
    * <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
    *
-   * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g.
-   *     {@code "192.168.0.1"} or {@code "2001:db8::1"}
+   * <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
+   *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
+   * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
+   *     "192.168.0.1"} or {@code "2001:db8::1"}
    * @return {@link InetAddress} representing the argument
    * @throws IllegalArgumentException if the argument is not a valid IP string literal
    */
@@ -151,6 +157,11 @@ public final class InetAddresses {
    * Returns {@code true} if the supplied string is a valid IP string literal, {@code false}
    * otherwise.
    *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
    * @param ipString {@code String} to evaluated as an IP string literal
    * @return {@code true} if the argument is a valid IP string literal
    */
@@ -158,11 +169,14 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
-  @Nullable
-  private static byte[] ipStringToBytes(String ipString) {
+  /** Returns {@code null} if unable to parse into a {@code byte[]}. */
+  @CheckForNull
+  private static byte[] ipStringToBytes(String ipStringParam) {
+    String ipString = ipStringParam;
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
     boolean hasDot = false;
+    int percentIndex = -1;
     for (int i = 0; i < ipString.length(); i++) {
       char c = ipString.charAt(i);
       if (c == '.') {
@@ -172,6 +186,9 @@ public final class InetAddresses {
           return null; // Colons must not appear after dots.
         }
         hasColon = true;
+      } else if (c == '%') {
+        percentIndex = i;
+        break; // everything after a '%' is ignored (it's a Scope ID): http://superuser.com/a/99753
       } else if (Character.digit(c, 16) == -1) {
         return null; // Everything else must be a decimal or hex digit.
       }
@@ -185,85 +202,109 @@ public final class InetAddresses {
           return null;
         }
       }
+      if (percentIndex != -1) {
+        ipString = ipString.substring(0, percentIndex);
+      }
       return textToNumericFormatV6(ipString);
     } else if (hasDot) {
+      if (percentIndex != -1) {
+        return null; // Scope IDs are not supported for IPV4
+      }
       return textToNumericFormatV4(ipString);
     }
     return null;
   }
 
-  @Nullable
+  @CheckForNull
   private static byte[] textToNumericFormatV4(String ipString) {
-    byte[] bytes = new byte[IPV4_PART_COUNT];
-    int i = 0;
-    try {
-      for (String octet : IPV4_SPLITTER.split(ipString)) {
-        bytes[i++] = parseOctet(octet);
-      }
-    } catch (NumberFormatException ex) {
-      return null;
+    if (IPV4_DELIMITER_MATCHER.countIn(ipString) + 1 != IPV4_PART_COUNT) {
+      return null; // Wrong number of parts
     }
 
-    return i == IPV4_PART_COUNT ? bytes : null;
+    byte[] bytes = new byte[IPV4_PART_COUNT];
+    int start = 0;
+    // Iterate through the parts of the ip string.
+    // Invariant: start is always the beginning of an octet.
+    for (int i = 0; i < IPV4_PART_COUNT; i++) {
+      int end = ipString.indexOf(IPV4_DELIMITER, start);
+      if (end == -1) {
+        end = ipString.length();
+      }
+      try {
+        bytes[i] = parseOctet(ipString, start, end);
+      } catch (NumberFormatException ex) {
+        return null;
+      }
+      start = end + 1;
+    }
+
+    return bytes;
   }
 
-  @Nullable
+  @CheckForNull
   private static byte[] textToNumericFormatV6(String ipString) {
-    // An address can have [2..8] colons, and N colons make N+1 parts.
-    String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
-    if (parts.length < 3 || parts.length > IPV6_PART_COUNT + 1) {
+    // An address can have [2..8] colons.
+    int delimiterCount = IPV6_DELIMITER_MATCHER.countIn(ipString);
+    if (delimiterCount < 2 || delimiterCount > IPV6_PART_COUNT) {
       return null;
     }
-
-    // Disregarding the endpoints, find "::" with nothing in between.
-    // This indicates that a run of zeroes has been skipped.
-    int skipIndex = -1;
-    for (int i = 1; i < parts.length - 1; i++) {
-      if (parts[i].length() == 0) {
-        if (skipIndex >= 0) {
+    int partsSkipped = IPV6_PART_COUNT - (delimiterCount + 1); // estimate; may be modified later
+    boolean hasSkip = false;
+    // Scan for the appearance of ::, to mark a skip-format IPV6 string and adjust the partsSkipped
+    // estimate.
+    for (int i = 0; i < ipString.length() - 1; i++) {
+      if (ipString.charAt(i) == IPV6_DELIMITER && ipString.charAt(i + 1) == IPV6_DELIMITER) {
+        if (hasSkip) {
           return null; // Can't have more than one ::
         }
-        skipIndex = i;
+        hasSkip = true;
+        partsSkipped++; // :: means we skipped an extra part in between the two delimiters.
+        if (i == 0) {
+          partsSkipped++; // Begins with ::, so we skipped the part preceding the first :
+        }
+        if (i == ipString.length() - 2) {
+          partsSkipped++; // Ends with ::, so we skipped the part after the last :
+        }
       }
     }
-
-    int partsHi; // Number of parts to copy from above/before the "::"
-    int partsLo; // Number of parts to copy from below/after the "::"
-    if (skipIndex >= 0) {
-      // If we found a "::", then check if it also covers the endpoints.
-      partsHi = skipIndex;
-      partsLo = parts.length - skipIndex - 1;
-      if (parts[0].length() == 0 && --partsHi != 0) {
-        return null; // ^: requires ^::
-      }
-      if (parts[parts.length - 1].length() == 0 && --partsLo != 0) {
-        return null; // :$ requires ::$
-      }
-    } else {
-      // Otherwise, allocate the entire address to partsHi. The endpoints
-      // could still be empty, but parseHextet() will check for that.
-      partsHi = parts.length;
-      partsLo = 0;
+    if (ipString.charAt(0) == IPV6_DELIMITER && ipString.charAt(1) != IPV6_DELIMITER) {
+      return null; // ^: requires ^::
+    }
+    if (ipString.charAt(ipString.length() - 1) == IPV6_DELIMITER
+        && ipString.charAt(ipString.length() - 2) != IPV6_DELIMITER) {
+      return null; // :$ requires ::$
+    }
+    if (hasSkip && partsSkipped <= 0) {
+      return null; // :: must expand to at least one '0'
+    }
+    if (!hasSkip && delimiterCount + 1 != IPV6_PART_COUNT) {
+      return null; // Incorrect number of parts
     }
 
-    // If we found a ::, then we must have skipped at least one part.
-    // Otherwise, we must have exactly the right number of parts.
-    int partsSkipped = IPV6_PART_COUNT - (partsHi + partsLo);
-    if (!(skipIndex >= 0 ? partsSkipped >= 1 : partsSkipped == 0)) {
-      return null;
-    }
-
-    // Now parse the hextets into a byte array.
     ByteBuffer rawBytes = ByteBuffer.allocate(2 * IPV6_PART_COUNT);
     try {
-      for (int i = 0; i < partsHi; i++) {
-        rawBytes.putShort(parseHextet(parts[i]));
+      // Iterate through the parts of the ip string.
+      // Invariant: start is always the beginning of a hextet, or the second ':' of the skip
+      // sequence "::"
+      int start = 0;
+      if (ipString.charAt(0) == IPV6_DELIMITER) {
+        start = 1;
       }
-      for (int i = 0; i < partsSkipped; i++) {
-        rawBytes.putShort((short) 0);
-      }
-      for (int i = partsLo; i > 0; i--) {
-        rawBytes.putShort(parseHextet(parts[parts.length - i]));
+      while (start < ipString.length()) {
+        int end = ipString.indexOf(IPV6_DELIMITER, start);
+        if (end == -1) {
+          end = ipString.length();
+        }
+        if (ipString.charAt(start) == IPV6_DELIMITER) {
+          // expand zeroes
+          for (int i = 0; i < partsSkipped; i++) {
+            rawBytes.putShort((short) 0);
+          }
+
+        } else {
+          rawBytes.putShort(parseHextet(ipString, start, end));
+        }
+        start = end + 1;
       }
     } catch (NumberFormatException ex) {
       return null;
@@ -271,7 +312,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  @Nullable
+  @CheckForNull
   private static String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
@@ -285,22 +326,44 @@ public final class InetAddresses {
     return initialPart + penultimate + ":" + ultimate;
   }
 
-  private static byte parseOctet(String ipPart) {
-    // Note: we already verified that this string contains only hex digits.
-    int octet = Integer.parseInt(ipPart);
+  private static byte parseOctet(String ipString, int start, int end) {
+    // Note: we already verified that this string contains only hex digits, but the string may still
+    // contain non-decimal characters.
+    int length = end - start;
+    if (length <= 0 || length > 3) {
+      throw new NumberFormatException();
+    }
     // Disallow leading zeroes, because no clear standard exists on
     // whether these should be interpreted as decimal or octal.
-    if (octet > 255 || (ipPart.startsWith("0") && ipPart.length() > 1)) {
+    if (length > 1 && ipString.charAt(start) == '0') {
+      throw new NumberFormatException();
+    }
+    int octet = 0;
+    for (int i = start; i < end; i++) {
+      octet *= 10;
+      int digit = Character.digit(ipString.charAt(i), 10);
+      if (digit < 0) {
+        throw new NumberFormatException();
+      }
+      octet += digit;
+    }
+    if (octet > 255) {
       throw new NumberFormatException();
     }
     return (byte) octet;
   }
 
-  private static short parseHextet(String ipPart) {
+  // Parse a hextet out of the ipString from start (inclusive) to end (exclusive)
+  private static short parseHextet(String ipString, int start, int end) {
     // Note: we already verified that this string contains only hex digits.
-    int hextet = Integer.parseInt(ipPart, 16);
-    if (hextet > 0xffff) {
+    int length = end - start;
+    if (length <= 0 || length > 4) {
       throw new NumberFormatException();
+    }
+    int hextet = 0;
+    for (int i = start; i < end; i++) {
+      hextet = hextet << 4;
+      hextet |= Character.digit(ipString.charAt(i), 16);
     }
     return (short) hextet;
   }
@@ -308,9 +371,9 @@ public final class InetAddresses {
   /**
    * Convert a byte array into an InetAddress.
    *
-   * {@link InetAddress#getByAddress} is documented as throwing a checked exception
-   * "if IP address is of illegal length." We replace it with an unchecked exception, for use by
-   * callers who already know that addr is an array of length 4 or 16.
+   * <p>{@link InetAddress#getByAddress} is documented as throwing a checked exception "if IP
+   * address is of illegal length." We replace it with an unchecked exception, for use by callers
+   * who already know that addr is an array of length 4 or 16.
    *
    * @param addr the raw 4-byte or 16-byte IP address in big-endian order
    * @return an InetAddress object created from the raw IP address
@@ -421,13 +484,12 @@ public final class InetAddresses {
    * Returns the string representation of an {@link InetAddress} suitable for inclusion in a URI.
    *
    * <p>For IPv4 addresses, this is identical to {@link InetAddress#getHostAddress()}, but for IPv6
-   * addresses it compresses zeroes and surrounds the text with square brackets; for example
-   * {@code "[2001:db8::1]"}.
+   * addresses it compresses zeroes and surrounds the text with square brackets; for example {@code
+   * "[2001:db8::1]"}.
    *
-   * <p>Per section 3.2.2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc3986#section-3.2.2">RFC 3986</a>, a URI
-   * containing an IPv6 string literal is of the form
-   * {@code "http://[2001:db8::1]:8888/index.html"}.
+   * <p>Per section 3.2.2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc3986#section-3.2.2">RFC 3986</a>, a URI containing an IPv6
+   * string literal is of the form {@code "http://[2001:db8::1]:8888/index.html"}.
    *
    * <p>Use of either {@link InetAddresses#toAddrString}, {@link InetAddress#getHostAddress()}, or
    * this method is recommended over {@link InetAddress#toString()} when an IP address string
@@ -448,10 +510,15 @@ public final class InetAddresses {
    * Returns an InetAddress representing the literal IPv4 or IPv6 host portion of a URL, encoded in
    * the format specified by RFC 3986 section 3.2.2.
    *
-   * <p>This function is similar to {@link InetAddresses#forString(String)}, however, it requires
-   * that IPv6 addresses are surrounded by square brackets.
+   * <p>This method is similar to {@link InetAddresses#forString(String)}, however, it requires that
+   * IPv6 addresses are surrounded by square brackets.
    *
-   * <p>This function is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+   * <p>This method is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+   *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * @param hostAddr A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
    * @return an InetAddress representing the address in {@code hostAddr}
@@ -467,7 +534,7 @@ public final class InetAddresses {
     return addr;
   }
 
-  @Nullable
+  @CheckForNull
   private static InetAddress forUriStringNoThrow(String hostAddr) {
     checkNotNull(hostAddr);
 
@@ -495,6 +562,11 @@ public final class InetAddresses {
    * Returns {@code true} if the supplied string is a valid URI IP string literal, {@code false}
    * otherwise.
    *
+   * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
+   * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
+   * want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
+   *
    * @param ipString {@code String} to evaluated as an IP URI host string literal
    * @return {@code true} if the argument is a valid IP URI host
    */
@@ -510,8 +582,8 @@ public final class InetAddresses {
    * string literals as {@code "::192.168.0.1"}, though {@code "::c0a8:1"} is also considered an
    * IPv4 compatible address (and equivalent to {@code "::192.168.0.1"}).
    *
-   * <p>For more on IPv4 compatible addresses see section 2.5.5.1 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1">RFC 4291</a>.
+   * <p>For more on IPv4 compatible addresses see section 2.5.5.1 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1">RFC 4291</a>.
    *
    * <p>NOTE: This method is different from {@link Inet6Address#isIPv4CompatibleAddress} in that it
    * more correctly classifies {@code "::"} and {@code "::1"} as proper IPv6 addresses (which they
@@ -556,8 +628,8 @@ public final class InetAddresses {
    * <p>6to4 addresses begin with the {@code "2002::/16"} prefix. The next 32 bits are the IPv4
    * address of the host to which IPv6-in-IPv4 tunneled packets should be routed.
    *
-   * <p>For more on 6to4 addresses see section 2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc3056#section-2">RFC 3056</a>.
+   * <p>For more on 6to4 addresses see section 2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc3056#section-2">RFC 3056</a>.
    *
    * @param ip {@link Inet6Address} to be examined for 6to4 address format
    * @return {@code true} if the argument is a 6to4 address
@@ -584,16 +656,15 @@ public final class InetAddresses {
    * A simple immutable data class to encapsulate the information to be found in a Teredo address.
    *
    * <p>All of the fields in this class are encoded in various portions of the IPv6 address as part
-   * of the protocol. More protocols details can be found at:
-   * <a target="_parent" href="http://en.wikipedia.org/wiki/Teredo_tunneling">http://en.wikipedia.
+   * of the protocol. More protocols details can be found at: <a target="_parent"
+   * href="http://en.wikipedia.org/wiki/Teredo_tunneling">http://en.wikipedia.
    * org/wiki/Teredo_tunneling</a>.
    *
-   * <p>The RFC can be found here:
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4380">RFC 4380</a>.
+   * <p>The RFC can be found here: <a target="_parent" href="http://tools.ietf.org/html/rfc4380">RFC
+   * 4380</a>.
    *
    * @since 5.0
    */
-  @Beta
   public static final class TeredoInfo {
     private final Inet4Address server;
     private final Inet4Address client;
@@ -611,7 +682,7 @@ public final class InetAddresses {
      */
     // TODO: why is this public?
     public TeredoInfo(
-        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
+        @CheckForNull Inet4Address server, @CheckForNull Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(
@@ -693,8 +764,8 @@ public final class InetAddresses {
    * by concatenating the 24-bit IANA OUI (00-00-5E), the 8-bit hexadecimal value 0xFE, and a 32-bit
    * IPv4 address in network byte order [...]"
    *
-   * <p>For more on ISATAP addresses see section 6.1 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc5214#section-6.1">RFC 5214</a>.
+   * <p>For more on ISATAP addresses see section 6.1 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc5214#section-6.1">RFC 5214</a>.
    *
    * @param ip {@link Inet6Address} to be examined for ISATAP address format
    * @return {@code true} if the argument is an ISATAP address
@@ -782,13 +853,17 @@ public final class InetAddresses {
    * <p>An "IPv4 mapped" address is anything in the range ::ffff:0:0/96 (sometimes written as
    * ::ffff:0.0.0.0/96), with the last 32 bits interpreted as an IPv4 address.
    *
-   * <p>For more on IPv4 mapped addresses see section 2.5.5.2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2">RFC 4291</a>.
+   * <p>For more on IPv4 mapped addresses see section 2.5.5.2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2">RFC 4291</a>.
    *
    * <p>Note: This method takes a {@code String} argument because {@link InetAddress} automatically
    * collapses mapped addresses to IPv4. (It is actually possible to avoid this using one of the
    * obscure {@link Inet6Address} methods, but it would be unwise to depend on such a
    * poorly-documented feature.)
+   *
+   * <p>This method accepts non-ASCII digits. That is consistent with {@link InetAddress}, but not
+   * with various RFCs. If you want to accept ASCII digits only, you can use something like {@code
+   * CharMatcher.ascii().matchesAllOf(ipString)}.
    *
    * @param ipString {@code String} to be examined for embedded IPv4-mapped IPv6 address format
    * @return {@code true} if the argument is a valid "mapped" address
@@ -817,12 +892,17 @@ public final class InetAddresses {
    *
    * <p>HACK: As long as applications continue to use IPv4 addresses for indexing into tables,
    * accounting, et cetera, it may be necessary to <b>coerce</b> IPv6 addresses into IPv4 addresses.
-   * This function does so by hashing the upper 64 bits into {@code 224.0.0.0/3} (64 bits into 29
-   * bits).
+   * This method does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits
+   * into 29 bits):
+   *
+   * <ul>
+   *   <li>If the IPv6 address contains an embedded IPv4 address, the function hashes that.
+   *   <li>Otherwise, it hashes the upper 64 bits of the IPv6 address.
+   * </ul>
    *
    * <p>A "coerced" IPv4 address is equivalent to itself.
    *
-   * <p>NOTE: This function is failsafe for security purposes: ALL IPv6 addresses (except localhost
+   * <p>NOTE: This method is failsafe for security purposes: ALL IPv6 addresses (except localhost
    * (::1)) are hashed to avoid the security risk associated with extracting an embedded IPv4
    * address that might permit elevated privileges.
    *
@@ -855,13 +935,12 @@ public final class InetAddresses {
     if (hasEmbeddedIPv4ClientAddress(ip6)) {
       addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();
     } else {
-
       // Just extract the high 64 bits (assuming the rest is user-modifiable).
       addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();
     }
 
     // Many strategies for hashing are possible. This might suffice for now.
-    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();
+    int coercedHash = Hashing.murmur3_32_fixed().hashLong(addressAsLong).asInt();
 
     // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).
     coercedHash |= 0xe0000000;
@@ -898,6 +977,19 @@ public final class InetAddresses {
   }
 
   /**
+   * Returns a BigInteger representing the address.
+   *
+   * <p>Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.
+   *
+   * @param address {@link InetAddress} to convert
+   * @return {@code BigInteger} representation of the address
+   * @since 28.2
+   */
+  public static BigInteger toBigInteger(InetAddress address) {
+    return new BigInteger(1, address.getAddress());
+  }
+
+  /**
    * Returns an Inet4Address having the integer value specified by the argument.
    *
    * @param address {@code int}, the 32bit integer address to be converted
@@ -908,8 +1000,73 @@ public final class InetAddresses {
   }
 
   /**
-   * Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what
-   * {@link InetAddress#getByAddress} expects).
+   * Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv4 address
+   * @return Inet4Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
+   * @since 28.2
+   */
+  public static Inet4Address fromIPv4BigInteger(BigInteger address) {
+    return (Inet4Address) fromBigInteger(address, false);
+  }
+  /**
+   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv6 address
+   * @return Inet6Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
+   * @since 28.2
+   */
+  public static Inet6Address fromIPv6BigInteger(BigInteger address) {
+    return (Inet6Address) fromBigInteger(address, true);
+  }
+
+  /**
+   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be
+   * constrainted to 32 bits, otherwise it is constrained to 128 bits.
+   *
+   * @param address the address represented as a big integer
+   * @param isIpv6 whether the created address should be IPv4 or IPv6
+   * @return the BigInteger converted to an address
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4
+   *     or IPv6 respectively
+   */
+  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {
+    checkArgument(address.signum() >= 0, "BigInteger must be greater than or equal to 0");
+
+    int numBytes = isIpv6 ? 16 : 4;
+
+    byte[] addressBytes = address.toByteArray();
+    byte[] targetCopyArray = new byte[numBytes];
+
+    int srcPos = Math.max(0, addressBytes.length - numBytes);
+    int copyLength = addressBytes.length - srcPos;
+    int destPos = numBytes - copyLength;
+
+    // Check the extra bytes in the BigInteger are all zero.
+    for (int i = 0; i < srcPos; i++) {
+      if (addressBytes[i] != 0x00) {
+        throw formatIllegalArgumentException(
+            "BigInteger cannot be converted to InetAddress because it has more than %d"
+                + " bytes: %s",
+            numBytes, address);
+      }
+    }
+
+    // Copy the bytes into the least significant positions.
+    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);
+
+    try {
+      return InetAddress.getByAddress(targetCopyArray);
+    } catch (UnknownHostException impossible) {
+      throw new AssertionError(impossible);
+    }
+  }
+
+  /**
+   * Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what {@link
+   * InetAddress#getByAddress} expects).
    *
    * <p>IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.
    *
@@ -981,8 +1138,8 @@ public final class InetAddresses {
    */
   public static boolean isMaximum(InetAddress address) {
     byte[] addr = address.getAddress();
-    for (int i = 0; i < addr.length; i++) {
-      if (addr[i] != (byte) 0xff) {
+    for (byte b : addr) {
+      if (b != (byte) 0xff) {
         return false;
       }
     }

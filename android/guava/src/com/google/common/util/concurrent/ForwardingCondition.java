@@ -19,12 +19,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
 /** Forwarding wrapper around a {@code Condition}. */
+@ElementTypesAreNonnullByDefault
 abstract class ForwardingCondition implements Condition {
   abstract Condition delegate();
 
   @Override
   public void await() throws InterruptedException {
     delegate().await();
+  }
+
+  @Override
+  public boolean await(long time, TimeUnit unit) throws InterruptedException {
+    return delegate().await(time, unit);
   }
 
   @Override
@@ -35,11 +41,6 @@ abstract class ForwardingCondition implements Condition {
   @Override
   public long awaitNanos(long nanosTimeout) throws InterruptedException {
     return delegate().awaitNanos(nanosTimeout);
-  }
-
-  @Override
-  public boolean await(long time, TimeUnit unit) throws InterruptedException {
-    return delegate().await(time, unit);
   }
 
   @Override

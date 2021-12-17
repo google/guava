@@ -21,9 +21,10 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * {@link HashFunction} implementation of SipHash-c-d.
@@ -32,6 +33,8 @@ import javax.annotation.Nullable;
  * @author Jean-Philippe Aumasson
  * @author Daniel J. Bernstein
  */
+@Immutable
+@ElementTypesAreNonnullByDefault
 final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =
       new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
@@ -79,13 +82,10 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object instanceof SipHashFunction) {
       SipHashFunction other = (SipHashFunction) object;
-      return (c == other.c)
-          && (d == other.d)
-          && (k0 == other.k0)
-          && (k1 == other.k1);
+      return (c == other.c) && (d == other.d) && (k0 == other.k0) && (k1 == other.k1);
     }
     return false;
   }
@@ -144,7 +144,7 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
     }
 
     @Override
-    public HashCode makeHash() {
+    protected HashCode makeHash() {
       // End with a byte encoding the positive integer b mod 256.
       finalM ^= b << 56;
       processM(finalM);

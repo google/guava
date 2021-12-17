@@ -24,9 +24,7 @@ import java.io.FilterReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * @author Colin Decker
- */
+/** @author Colin Decker */
 public class TestReader extends FilterReader {
 
   private final TestInputStream in;

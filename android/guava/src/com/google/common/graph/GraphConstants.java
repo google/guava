@@ -16,7 +16,9 @@
 
 package com.google.common.graph;
 
+
 /** A utility class to hold various constants used by the Guava Graph library. */
+@ElementTypesAreNonnullByDefault
 final class GraphConstants {
 
   private GraphConstants() {}
@@ -49,6 +51,8 @@ final class GraphConstants {
       "Cannot call source()/target() on a EndpointPair from an undirected graph. Consider calling "
           + "adjacentNode(node) if you already have a node, or nodeU()/nodeV() if you don't.";
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
+  static final String ENDPOINTS_MISMATCH =
+      "Mismatch: unordered endpoints cannot be used with directed graphs";
 
   /** Singleton edge value for {@link Graph} implementations backed by {@link ValueGraph}s. */
   enum Presence {

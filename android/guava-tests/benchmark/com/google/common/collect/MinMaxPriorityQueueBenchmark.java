@@ -36,7 +36,8 @@ public class MinMaxPriorityQueueBenchmark {
 
   // TODO(kevinb): add 1000000 back when we have the ability to throw
   // NotApplicableException in the expensive comparator case.
-  @Param({"100", "10000"}) private int size;
+  @Param({"100", "10000"})
+  private int size;
 
   @Param private HeapType heap;
 
@@ -44,21 +45,24 @@ public class MinMaxPriorityQueueBenchmark {
 
   private final Random random = new Random();
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     queue = heap.create(comparator.get());
     for (int i = 0; i < size; i++) {
       queue.add(random.nextInt());
     }
   }
 
-  @Benchmark void pollAndAdd(int reps) {
+  @Benchmark
+  void pollAndAdd(int reps) {
     for (int i = 0; i < reps; i++) {
       // TODO(kevinb): precompute random #s?
       queue.add(queue.poll() ^ random.nextInt());
     }
   }
 
-  @Benchmark void populate(int reps) {
+  @Benchmark
+  void populate(int reps) {
     for (int i = 0; i < reps; i++) {
       queue.clear();
       for (int j = 0; j < size; j++) {
@@ -69,12 +73,13 @@ public class MinMaxPriorityQueueBenchmark {
   }
 
   /**
-   * Implementation of the InvertedMinMaxPriorityQueue which forwards all calls to
-   * a MinMaxPriorityQueue, except poll, which is forwarded to pollMax. That way
-   * we can benchmark pollMax using the same code that benchmarks poll.
+   * Implementation of the InvertedMinMaxPriorityQueue which forwards all calls to a
+   * MinMaxPriorityQueue, except poll, which is forwarded to pollMax. That way we can benchmark
+   * pollMax using the same code that benchmarks poll.
    */
-  static final class InvertedMinMaxPriorityQueue <T> extends ForwardingQueue<T> {
+  static final class InvertedMinMaxPriorityQueue<T> extends ForwardingQueue<T> {
     MinMaxPriorityQueue<T> mmHeap;
+
     public InvertedMinMaxPriorityQueue(Comparator<T> comparator) {
       mmHeap = MinMaxPriorityQueue.orderedBy(comparator).create();
     }
@@ -88,22 +93,24 @@ public class MinMaxPriorityQueueBenchmark {
     public T poll() {
       return mmHeap.pollLast();
     }
-
   }
 
   public enum HeapType {
     MIN_MAX {
-      @Override public Queue<Integer> create(Comparator<Integer> comparator) {
+      @Override
+      public Queue<Integer> create(Comparator<Integer> comparator) {
         return MinMaxPriorityQueue.orderedBy(comparator).create();
       }
     },
     PRIORITY_QUEUE {
-      @Override public Queue<Integer> create(Comparator<Integer> comparator) {
+      @Override
+      public Queue<Integer> create(Comparator<Integer> comparator) {
         return new PriorityQueue<>(11, comparator);
       }
     },
     INVERTED_MIN_MAX {
-      @Override public Queue<Integer> create(Comparator<Integer> comparator) {
+      @Override
+      public Queue<Integer> create(Comparator<Integer> comparator) {
         return new InvertedMinMaxPriorityQueue<>(comparator);
       }
     };
@@ -112,8 +119,8 @@ public class MinMaxPriorityQueueBenchmark {
   }
 
   /**
-   * Does a CPU intensive operation on Integer and returns a BigInteger
-   * Used to implement an ordering that spends a lot of cpu.
+   * Does a CPU intensive operation on Integer and returns a BigInteger Used to implement an
+   * ordering that spends a lot of cpu.
    */
   static class ExpensiveComputation implements Function<Integer, BigInteger> {
     @Override
@@ -122,9 +129,10 @@ public class MinMaxPriorityQueueBenchmark {
       // Math.sin is very slow for values outside 4*pi
       // Need to take absolute value to avoid inverting the value.
       for (double i = 0; i < 100; i += 20) {
-        v = v.add(v.multiply(
-            BigInteger.valueOf(
-                ((Double) Math.abs(Math.sin(i) * 10.0)).longValue())));
+        v =
+            v.add(
+                v.multiply(
+                    BigInteger.valueOf(((Double) Math.abs(Math.sin(i) * 10.0)).longValue())));
       }
       return v;
     }
@@ -132,15 +140,18 @@ public class MinMaxPriorityQueueBenchmark {
 
   public enum ComparatorType {
     CHEAP {
-      @Override public Comparator<Integer> get() {
+      @Override
+      public Comparator<Integer> get() {
         return Ordering.natural();
       }
     },
     EXPENSIVE {
-      @Override public Comparator<Integer> get() {
+      @Override
+      public Comparator<Integer> get() {
         return Ordering.natural().onResultOf(new ExpensiveComputation());
       }
     };
+
     public abstract Comparator<Integer> get();
   }
 }

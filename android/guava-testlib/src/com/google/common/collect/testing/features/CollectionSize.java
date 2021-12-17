@@ -26,20 +26,18 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * When describing the features of the collection produced by a given generator
- * (i.e. in a call to {@link
+ * When describing the features of the collection produced by a given generator (i.e. in a call to
+ * {@link
  * com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder#withFeatures(Feature...)}),
- * this annotation specifies each of the different sizes for which a test suite
- * should be built. (In a typical case, the features should include {@link
- * CollectionSize#ANY}.) These semantics are thus a little different
- * from those of other Collection-related features such as {@link
+ * this annotation specifies each of the different sizes for which a test suite should be built. (In
+ * a typical case, the features should include {@link CollectionSize#ANY}.) These semantics are thus
+ * a little different from those of other Collection-related features such as {@link
  * CollectionFeature} or {@link SetFeature}.
- * <p>
- * However, when {@link CollectionSize.Require} is used to annotate a test it
- * behaves normally (i.e. it requires the collection instance under test to be
- * a certain size for the test to run). Note that this means a test should not
- * require more than one CollectionSize, since a particular collection instance
- * can only be one size at once.
+ *
+ * <p>However, when {@link CollectionSize.Require} is used to annotate a test it behaves normally
+ * (i.e. it requires the collection instance under test to be a certain size for the test to run).
+ * Note that this means a test should not require more than one CollectionSize, since a particular
+ * collection instance can only be one size at once.
  *
  * @author George van den Driessche
  */

@@ -31,7 +31,8 @@ public class TestLogHandlerTest extends TestCase {
   private TestLogHandler handler;
   private TearDownStack stack = new TearDownStack();
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
 
     handler = new TestLogHandler();
@@ -41,13 +42,14 @@ public class TestLogHandlerTest extends TestCase {
 
     ExampleClassUnderTest.logger.setUseParentHandlers(false); // optional
 
-    stack.addTearDown(new TearDown() {
-      @Override
-      public void tearDown() throws Exception {
-        ExampleClassUnderTest.logger.setUseParentHandlers(true);
-        ExampleClassUnderTest.logger.removeHandler(handler);
-      }
-    });
+    stack.addTearDown(
+        new TearDown() {
+          @Override
+          public void tearDown() throws Exception {
+            ExampleClassUnderTest.logger.setUseParentHandlers(true);
+            ExampleClassUnderTest.logger.removeHandler(handler);
+          }
+        });
   }
 
   public void test() throws Exception {
@@ -70,7 +72,8 @@ public class TestLogHandlerTest extends TestCase {
     }
   }
 
-  @Override public final void runBare() throws Throwable {
+  @Override
+  public final void runBare() throws Throwable {
     try {
       setUp();
       runTest();
@@ -79,18 +82,18 @@ public class TestLogHandlerTest extends TestCase {
     }
   }
 
-  @Override protected void tearDown() {
+  @Override
+  protected void tearDown() {
     stack.runTearDown();
   }
 
   static final Exception EXCEPTION = new Exception();
 
   static class ExampleClassUnderTest {
-    static final Logger logger
-        = Logger.getLogger(ExampleClassUnderTest.class.getName());
+    static final Logger logger = Logger.getLogger(ExampleClassUnderTest.class.getName());
 
     static void foo() {
-      logger.log(Level.INFO,  "message", EXCEPTION);
+      logger.log(Level.INFO, "message", EXCEPTION);
     }
   }
 }

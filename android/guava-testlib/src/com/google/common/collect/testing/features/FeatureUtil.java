@@ -49,8 +49,9 @@ public class FeatureUtil {
       new HashMap<>();
 
   /**
-   * Given a set of features, add to it all the features directly or indirectly
-   * implied by any of them, and return it.
+   * Given a set of features, add to it all the features directly or indirectly implied by any of
+   * them, and return it.
+   *
    * @param features the set of features to expand
    * @return the same set of features, expanded with all implied features
    */
@@ -68,8 +69,9 @@ public class FeatureUtil {
   }
 
   /**
-   * Given a set of features, return a new set of all features directly or
-   * indirectly implied by any of them.
+   * Given a set of features, return a new set of all features directly or indirectly implied by any
+   * of them.
+   *
    * @param features the set of features whose implications to find
    * @return the implied set of features
    */
@@ -89,11 +91,11 @@ public class FeatureUtil {
 
   /**
    * Get the full set of requirements for a tester class.
+   *
    * @param testerClass a tester class
-   * @return all the constraints implicitly or explicitly required by the class
-   * or any of its superclasses.
-   * @throws ConflictingRequirementsException if the requirements are mutually
-   * inconsistent.
+   * @return all the constraints implicitly or explicitly required by the class or any of its
+   *     superclasses.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
    */
   public static TesterRequirements getTesterRequirements(Class<?> testerClass)
       throws ConflictingRequirementsException {
@@ -109,11 +111,11 @@ public class FeatureUtil {
 
   /**
    * Get the full set of requirements for a tester class.
+   *
    * @param testerMethod a test method of a tester class
-   * @return all the constraints implicitly or explicitly required by the
-   * method, its declaring class, or any of its superclasses.
-   * @throws ConflictingRequirementsException if the requirements are
-   * mutually inconsistent.
+   * @return all the constraints implicitly or explicitly required by the method, its declaring
+   *     class, or any of its superclasses.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
    */
   public static TesterRequirements getTesterRequirements(Method testerMethod)
       throws ConflictingRequirementsException {
@@ -129,20 +131,20 @@ public class FeatureUtil {
 
   /**
    * Construct the full set of requirements for a tester class.
+   *
    * @param testerClass a tester class
-   * @return all the constraints implicitly or explicitly required by the class
-   * or any of its superclasses.
-   * @throws ConflictingRequirementsException if the requirements are mutually
-   * inconsistent.
+   * @return all the constraints implicitly or explicitly required by the class or any of its
+   *     superclasses.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
    */
   static TesterRequirements buildTesterRequirements(Class<?> testerClass)
       throws ConflictingRequirementsException {
-    final TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
+    TesterRequirements declaredRequirements = buildDeclaredTesterRequirements(testerClass);
     Class<?> baseClass = testerClass.getSuperclass();
     if (baseClass == null) {
       return declaredRequirements;
     } else {
-      final TesterRequirements clonedBaseRequirements =
+      TesterRequirements clonedBaseRequirements =
           new TesterRequirements(getTesterRequirements(baseClass));
       return incorporateRequirements(clonedBaseRequirements, declaredRequirements, testerClass);
     }
@@ -150,11 +152,11 @@ public class FeatureUtil {
 
   /**
    * Construct the full set of requirements for a tester method.
+   *
    * @param testerMethod a test method of a tester class
-   * @return all the constraints implicitly or explicitly required by the
-   * method, its declaring class, or any of its superclasses.
-   * @throws ConflictingRequirementsException if the requirements are mutually
-   * inconsistent.
+   * @return all the constraints implicitly or explicitly required by the method, its declaring
+   *     class, or any of its superclasses.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
    */
   static TesterRequirements buildTesterRequirements(Method testerMethod)
       throws ConflictingRequirementsException {
@@ -165,62 +167,17 @@ public class FeatureUtil {
   }
 
   /**
-   * Construct the set of requirements specified by annotations
-   * directly on a tester class or method.
-   * @param classOrMethod a tester class or a test method thereof
-   * @return all the constraints implicitly or explicitly required by
-   *         annotations on the class or method.
-   * @throws ConflictingRequirementsException if the requirements are mutually
-   *         inconsistent.
-   */
-  public static TesterRequirements buildDeclaredTesterRequirements(AnnotatedElement classOrMethod)
-      throws ConflictingRequirementsException {
-    TesterRequirements requirements = new TesterRequirements();
-
-    Iterable<Annotation> testerAnnotations = getTesterAnnotations(classOrMethod);
-    for (Annotation testerAnnotation : testerAnnotations) {
-      TesterRequirements moreRequirements = buildTesterRequirements(testerAnnotation);
-      incorporateRequirements(requirements, moreRequirements, testerAnnotation);
-    }
-
-    return requirements;
-  }
-
-  /**
-   * Find all the tester annotations declared on a tester class or method.
-   * @param classOrMethod a class or method whose tester annotations to find
-   * @return an iterable sequence of tester annotations on the class
-   */
-  public static Iterable<Annotation> getTesterAnnotations(AnnotatedElement classOrMethod) {
-    synchronized (annotationCache) {
-      List<Annotation> annotations = annotationCache.get(classOrMethod);
-      if (annotations == null) {
-        annotations = new ArrayList<>();
-        for (Annotation a : classOrMethod.getDeclaredAnnotations()) {
-          if (a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
-            annotations.add(a);
-          }
-        }
-        annotations = Collections.unmodifiableList(annotations);
-        annotationCache.put(classOrMethod, annotations);
-      }
-      return annotations;
-    }
-  }
-
-  /**
-   * Find all the constraints explicitly or implicitly specified by a single
-   * tester annotation.
+   * Find all the constraints explicitly or implicitly specified by a single tester annotation.
+   *
    * @param testerAnnotation a tester annotation
    * @return the requirements specified by the annotation
-   * @throws ConflictingRequirementsException if the requirements are mutually
-   *         inconsistent.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
    */
   private static TesterRequirements buildTesterRequirements(Annotation testerAnnotation)
       throws ConflictingRequirementsException {
     Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
-    final Feature<?>[] presentFeatures;
-    final Feature<?>[] absentFeatures;
+    Feature<?>[] presentFeatures;
+    Feature<?>[] absentFeatures;
     try {
       presentFeatures = (Feature[]) annotationClass.getMethod("value").invoke(testerAnnotation);
       absentFeatures = (Feature[]) annotationClass.getMethod("absent").invoke(testerAnnotation);
@@ -243,15 +200,59 @@ public class FeatureUtil {
   }
 
   /**
+   * Construct the set of requirements specified by annotations directly on a tester class or
+   * method.
+   *
+   * @param classOrMethod a tester class or a test method thereof
+   * @return all the constraints implicitly or explicitly required by annotations on the class or
+   *     method.
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
+   */
+  public static TesterRequirements buildDeclaredTesterRequirements(AnnotatedElement classOrMethod)
+      throws ConflictingRequirementsException {
+    TesterRequirements requirements = new TesterRequirements();
+
+    Iterable<Annotation> testerAnnotations = getTesterAnnotations(classOrMethod);
+    for (Annotation testerAnnotation : testerAnnotations) {
+      TesterRequirements moreRequirements = buildTesterRequirements(testerAnnotation);
+      incorporateRequirements(requirements, moreRequirements, testerAnnotation);
+    }
+
+    return requirements;
+  }
+
+  /**
+   * Find all the tester annotations declared on a tester class or method.
+   *
+   * @param classOrMethod a class or method whose tester annotations to find
+   * @return an iterable sequence of tester annotations on the class
+   */
+  public static Iterable<Annotation> getTesterAnnotations(AnnotatedElement classOrMethod) {
+    synchronized (annotationCache) {
+      List<Annotation> annotations = annotationCache.get(classOrMethod);
+      if (annotations == null) {
+        annotations = new ArrayList<>();
+        for (Annotation a : classOrMethod.getDeclaredAnnotations()) {
+          if (a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
+            annotations.add(a);
+          }
+        }
+        annotations = Collections.unmodifiableList(annotations);
+        annotationCache.put(classOrMethod, annotations);
+      }
+      return annotations;
+    }
+  }
+
+  /**
    * Incorporate additional requirements into an existing requirements object.
+   *
    * @param requirements the existing requirements object
    * @param moreRequirements more requirements to incorporate
-   * @param source the source of the additional requirements
-   *        (used only for error reporting)
-   * @return the existing requirements object, modified to include the
-   *         additional requirements
-   * @throws ConflictingRequirementsException if the additional requirements
-   *         are inconsistent with the existing requirements
+   * @param source the source of the additional requirements (used only for error reporting)
+   * @return the existing requirements object, modified to include the additional requirements
+   * @throws ConflictingRequirementsException if the additional requirements are inconsistent with
+   *     the existing requirements
    */
   private static TesterRequirements incorporateRequirements(
       TesterRequirements requirements, TesterRequirements moreRequirements, Object source)
@@ -288,10 +289,7 @@ public class FeatureUtil {
     }
   }
 
-  /**
-   * Construct a new {@link java.util.Set} that is the intersection
-   * of the given sets.
-   */
+  /** Construct a new {@link java.util.Set} that is the intersection of the given sets. */
   public static <T> Set<T> intersection(Set<? extends T> set1, Set<? extends T> set2) {
     Set<T> result = Helpers.<T>copyToSet(set1);
     result.retainAll(set2);

@@ -33,24 +33,20 @@ public class TablesTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testImmutableEntrySerialization() {
-    Cell<String, Integer, Character> entry
-        = Tables.immutableCell("foo", 1, 'a');
+    Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');
     SerializableTester.reserializeAndAssert(entry);
   }
 
   public void testImmutableEntryToString() {
-    Cell<String, Integer, Character> entry
-        = Tables.immutableCell("foo", 1, 'a');
+    Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');
     assertEquals("(foo,1)=a", entry.toString());
 
-    Cell<String, Integer, Character> nullEntry
-        = Tables.immutableCell(null, null, null);
+    Cell<String, Integer, Character> nullEntry = Tables.immutableCell(null, null, null);
     assertEquals("(null,null)=null", nullEntry.toString());
   }
 
   public void testEntryEquals() {
-    Cell<String, Integer, Character> entry
-        = Tables.immutableCell("foo", 1, 'a');
+    Cell<String, Integer, Character> entry = Tables.immutableCell("foo", 1, 'a');
 
     new EqualsTester()
         .addEqualityGroup(entry, Tables.immutableCell("foo", 1, 'a'))
@@ -62,8 +58,7 @@ public class TablesTest extends TestCase {
   }
 
   public void testEntryEqualsNull() {
-    Cell<String, Integer, Character> entry
-        = Tables.immutableCell(null, null, null);
+    Cell<String, Integer, Character> entry = Tables.immutableCell(null, null, null);
 
     new EqualsTester()
         .addEqualityGroup(entry, Tables.immutableCell(null, null, null))

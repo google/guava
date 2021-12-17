@@ -31,65 +31,72 @@ public class HostAndPortTest extends TestCase {
 
   public void testFromStringWellFormed() {
     // Well-formed inputs.
-    checkFromStringCase("google.com",           80, "google.com", 80, false);
-    checkFromStringCase("google.com",           80, "google.com", 80, false);
-    checkFromStringCase("192.0.2.1",            82, "192.0.2.1",  82, false);
-    checkFromStringCase("[2001::1]",            84, "2001::1",    84, false);
-    checkFromStringCase("2001::3",              86, "2001::3",    86, false);
-    checkFromStringCase("host:",                80, "host",       80, false);
+    checkFromStringCase("google.com", 80, "google.com", 80, false);
+    checkFromStringCase("google.com", 80, "google.com", 80, false);
+    checkFromStringCase("192.0.2.1", 82, "192.0.2.1", 82, false);
+    checkFromStringCase("[2001::1]", 84, "2001::1", 84, false);
+    checkFromStringCase("2001::3", 86, "2001::3", 86, false);
+    checkFromStringCase("host:", 80, "host", 80, false);
   }
 
   public void testFromStringBadDefaultPort() {
     // Well-formed strings with bad default ports.
-    checkFromStringCase("gmail.com:81",         -1, "gmail.com",  81, true);
-    checkFromStringCase("192.0.2.2:83",         -1, "192.0.2.2",  83, true);
-    checkFromStringCase("[2001::2]:85",         -1, "2001::2",    85, true);
-    checkFromStringCase("goo.gl:65535",      65536, "goo.gl",  65535, true);
+    checkFromStringCase("gmail.com:81", -1, "gmail.com", 81, true);
+    checkFromStringCase("192.0.2.2:83", -1, "192.0.2.2", 83, true);
+    checkFromStringCase("[2001::2]:85", -1, "2001::2", 85, true);
+    checkFromStringCase("goo.gl:65535", 65536, "goo.gl", 65535, true);
     // No port, bad default.
-    checkFromStringCase("google.com",           -1, "google.com", -1, false);
-    checkFromStringCase("192.0.2.1",         65536, "192.0.2.1",  -1, false);
-    checkFromStringCase("[2001::1]",            -1, "2001::1",    -1, false);
-    checkFromStringCase("2001::3",           65536, "2001::3",    -1, false);
+    checkFromStringCase("google.com", -1, "google.com", -1, false);
+    checkFromStringCase("192.0.2.1", 65536, "192.0.2.1", -1, false);
+    checkFromStringCase("[2001::1]", -1, "2001::1", -1, false);
+    checkFromStringCase("2001::3", 65536, "2001::3", -1, false);
   }
 
   public void testFromStringUnusedDefaultPort() {
     // Default port, but unused.
-    checkFromStringCase("gmail.com:81",         77, "gmail.com",  81, true);
-    checkFromStringCase("192.0.2.2:83",         77, "192.0.2.2",  83, true);
-    checkFromStringCase("[2001::2]:85",         77, "2001::2",    85, true);
+    checkFromStringCase("gmail.com:81", 77, "gmail.com", 81, true);
+    checkFromStringCase("192.0.2.2:83", 77, "192.0.2.2", 83, true);
+    checkFromStringCase("[2001::2]:85", 77, "2001::2", 85, true);
+  }
+
+  public void testFromStringNonAsciiDigits() {
+    // Same as testFromStringUnusedDefaultPort but with Gujarati digits for port numbers.
+    checkFromStringCase("gmail.com:૮1", 77, null, -1, false);
+    checkFromStringCase("192.0.2.2:૮૩", 77, null, -1, false);
+    checkFromStringCase("[2001::2]:૮૫", 77, null, -1, false);
   }
 
   public void testFromStringBadPort() {
     // Out-of-range ports.
-    checkFromStringCase("google.com:65536",      1, null,         99, false);
-    checkFromStringCase("google.com:9999999999", 1, null,         99, false);
+    checkFromStringCase("google.com:65536", 1, null, 99, false);
+    checkFromStringCase("google.com:9999999999", 1, null, 99, false);
     // Invalid port parts.
-    checkFromStringCase("google.com:port",       1, null,         99, false);
-    checkFromStringCase("google.com:-25",        1, null,         99, false);
-    checkFromStringCase("google.com:+25",        1, null,         99, false);
-    checkFromStringCase("google.com:25  ",       1, null,         99, false);
-    checkFromStringCase("google.com:25\t",       1, null,         99, false);
-    checkFromStringCase("google.com:0x25 ",      1, null,         99, false);
+    checkFromStringCase("google.com:port", 1, null, 99, false);
+    checkFromStringCase("google.com:-25", 1, null, 99, false);
+    checkFromStringCase("google.com:+25", 1, null, 99, false);
+    checkFromStringCase("google.com:25  ", 1, null, 99, false);
+    checkFromStringCase("google.com:25\t", 1, null, 99, false);
+    checkFromStringCase("google.com:0x25 ", 1, null, 99, false);
   }
 
   public void testFromStringUnparseableNonsense() {
     // Some nonsense that causes parse failures.
-    checkFromStringCase("[goo.gl]",              1, null,         99, false);
-    checkFromStringCase("[goo.gl]:80",           1, null,         99, false);
-    checkFromStringCase("[",                     1, null,         99, false);
-    checkFromStringCase("[]:",                   1, null,         99, false);
-    checkFromStringCase("[]:80",                 1, null,         99, false);
-    checkFromStringCase("[]bad",                 1, null,         99, false);
+    checkFromStringCase("[goo.gl]", 1, null, 99, false);
+    checkFromStringCase("[goo.gl]:80", 1, null, 99, false);
+    checkFromStringCase("[", 1, null, 99, false);
+    checkFromStringCase("[]:", 1, null, 99, false);
+    checkFromStringCase("[]:80", 1, null, 99, false);
+    checkFromStringCase("[]bad", 1, null, 99, false);
   }
 
   public void testFromStringParseableNonsense() {
     // Examples of nonsense that gets through.
-    checkFromStringCase("[[:]]",                86, "[:]",        86, false);
-    checkFromStringCase("x:y:z",                87, "x:y:z",      87, false);
-    checkFromStringCase("",                     88, "",           88, false);
-    checkFromStringCase(":",                    99, "",           99, false);
-    checkFromStringCase(":123",                 -1, "",          123, true);
-    checkFromStringCase("\nOMG\t",              89, "\nOMG\t",    89, false);
+    checkFromStringCase("[[:]]", 86, "[:]", 86, false);
+    checkFromStringCase("x:y:z", 87, "x:y:z", 87, false);
+    checkFromStringCase("", 88, "", 88, false);
+    checkFromStringCase(":", 99, "", 99, false);
+    checkFromStringCase(":123", -1, "", 123, true);
+    checkFromStringCase("\nOMG\t", 89, "\nOMG\t", 89, false);
   }
 
   private static void checkFromStringCase(
@@ -193,15 +200,19 @@ public class HostAndPortTest extends TestCase {
   }
 
   public void testHashCodeAndEquals() {
-    HostAndPort hp1 = HostAndPort.fromString("foo::123");
-    HostAndPort hp2 = HostAndPort.fromString("foo::123");
-    HostAndPort hp3 = HostAndPort.fromString("[foo::123]");
-    HostAndPort hp4 = HostAndPort.fromParts("[foo::123]", 80);
-    HostAndPort hp5 = HostAndPort.fromString("[foo::123]:80");
+    HostAndPort hpNoPort1 = HostAndPort.fromString("foo::123");
+    HostAndPort hpNoPort2 = HostAndPort.fromString("foo::123");
+    HostAndPort hpNoPort3 = HostAndPort.fromString("[foo::123]");
+    HostAndPort hpNoPort4 = HostAndPort.fromHost("[foo::123]");
+    HostAndPort hpNoPort5 = HostAndPort.fromHost("foo::123");
+
+    HostAndPort hpWithPort1 = HostAndPort.fromParts("[foo::123]", 80);
+    HostAndPort hpWithPort2 = HostAndPort.fromParts("foo::123", 80);
+    HostAndPort hpWithPort3 = HostAndPort.fromString("[foo::123]:80");
+
     new EqualsTester()
-        .addEqualityGroup(hp1, hp2)
-        .addEqualityGroup(hp3)
-        .addEqualityGroup(hp4, hp5)
+        .addEqualityGroup(hpNoPort1, hpNoPort2, hpNoPort3, hpNoPort4, hpNoPort5)
+        .addEqualityGroup(hpWithPort1, hpWithPort2, hpWithPort3)
         .testEquals();
   }
 

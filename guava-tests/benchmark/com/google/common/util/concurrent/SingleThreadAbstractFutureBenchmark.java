@@ -29,9 +29,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/**
- * A benchmark that times how long it takes to add a given number of
- */
+/** A benchmark that times how long it takes to add a given number of */
 @VmOptions({"-Xms8g", "-Xmx8g"})
 public class SingleThreadAbstractFutureBenchmark {
   @Param Impl impl;
@@ -39,11 +37,13 @@ public class SingleThreadAbstractFutureBenchmark {
   private final Exception exception = new Exception();
   private Facade<?> notDoneFuture;
 
-  @BeforeExperiment void setUp() throws Exception {
+  @BeforeExperiment
+  void setUp() throws Exception {
     notDoneFuture = impl.newFacade();
   }
 
-  @Benchmark public long timeComplete_Normal(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Normal(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
@@ -57,7 +57,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeComplete_Failure(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Failure(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
@@ -77,7 +78,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeComplete_Cancel(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Cancel(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
@@ -97,7 +99,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeGetWith0Timeout(long reps) throws Exception {
+  @Benchmark
+  public long timeGetWith0Timeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;
     long r = 0;
     for (int i = 0; i < reps; i++) {
@@ -110,7 +113,9 @@ public class SingleThreadAbstractFutureBenchmark {
     }
     return r;
   }
-  @Benchmark public long timeGetWithSmallTimeout(long reps) throws Exception {
+
+  @Benchmark
+  public long timeGetWithSmallTimeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;
     long r = 0;
     for (int i = 0; i < reps; i++) {

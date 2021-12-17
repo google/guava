@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.Comparator;
@@ -31,47 +31,42 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
- * Implementation of {@code Table} whose row keys and column keys are ordered
- * by their natural ordering or by supplied comparators. When constructing a
- * {@code TreeBasedTable}, you may provide comparators for the row keys and
- * the column keys, or you may use natural ordering for both.
+ * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
+ * ordering or by supplied comparators. When constructing a {@code TreeBasedTable}, you may provide
+ * comparators for the row keys and the column keys, or you may use natural ordering for both.
  *
- * <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link
- * #rowMap} method returns a {@link SortedMap}, instead of the {@link Set} and
- * {@link Map} specified by the {@link Table} interface.
- *
- * <p>The views returned by {@link #column}, {@link #columnKeySet()}, and {@link
- * #columnMap()} have iterators that don't support {@code remove()}. Otherwise,
- * all optional operations are supported. Null row keys, columns keys, and
- * values are not supported.
- *
- * <p>Lookups by row key are often faster than lookups by column key, because
- * the data is stored in a {@code Map<R, Map<C, V>>}. A method call like {@code
- * column(columnKey).get(rowKey)} still runs quickly, since the row key is
- * provided. However, {@code column(columnKey).size()} takes longer, since an
- * iteration across all row keys occurs.
- *
- * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
- * row, both {@code row(rowKey)} and {@code rowMap().get(rowKey)} are {@link
- * SortedMap} instances, instead of the {@link Map} specified in the {@link
+ * <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link #rowMap} method
+ * returns a {@link SortedMap}, instead of the {@link Set} and {@link Map} specified by the {@link
  * Table} interface.
  *
- * <p>Note that this implementation is not synchronized. If multiple threads
- * access this table concurrently and one of the threads modifies the table, it
- * must be synchronized externally.
+ * <p>The views returned by {@link #column}, {@link #columnKeySet()}, and {@link #columnMap()} have
+ * iterators that don't support {@code remove()}. Otherwise, all optional operations are supported.
+ * Null row keys, columns keys, and values are not supported.
+ *
+ * <p>Lookups by row key are often faster than lookups by column key, because the data is stored in
+ * a {@code Map<R, Map<C, V>>}. A method call like {@code column(columnKey).get(rowKey)} still runs
+ * quickly, since the row key is provided. However, {@code column(columnKey).size()} takes longer,
+ * since an iteration across all row keys occurs.
+ *
+ * <p>Because a {@code TreeBasedTable} has unique sorted values for a given row, both {@code
+ * row(rowKey)} and {@code rowMap().get(rowKey)} are {@link SortedMap} instances, instead of the
+ * {@link Map} specified in the {@link Table} interface.
+ *
+ * <p>Note that this implementation is not synchronized. If multiple threads access this table
+ * concurrently and one of the threads modifies the table, it must be synchronized externally.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
- * {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
+@ElementTypesAreNonnullByDefault
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
@@ -91,21 +86,19 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   /**
-   * Creates an empty {@code TreeBasedTable} that uses the natural orderings
-   * of both row and column keys.
+   * Creates an empty {@code TreeBasedTable} that uses the natural orderings of both row and column
+   * keys.
    *
-   * <p>The method signature specifies {@code R extends Comparable} with a raw
-   * {@link Comparable}, instead of {@code R extends Comparable<? super R>},
-   * and the same for {@code C}. That's necessary to support classes defined
-   * without generics.
+   * <p>The method signature specifies {@code R extends Comparable} with a raw {@link Comparable},
+   * instead of {@code R extends Comparable<? super R>}, and the same for {@code C}. That's
+   * necessary to support classes defined without generics.
    */
   public static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V> create() {
     return new TreeBasedTable<>(Ordering.natural(), Ordering.natural());
   }
 
   /**
-   * Creates an empty {@code TreeBasedTable} that is ordered by the specified
-   * comparators.
+   * Creates an empty {@code TreeBasedTable} that is ordered by the specified comparators.
    *
    * @param rowComparator the comparator that orders the row keys
    * @param columnComparator the comparator that orders the column keys
@@ -118,8 +111,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   /**
-   * Creates a {@code TreeBasedTable} with the same mappings and sort order
-   * as the specified {@code TreeBasedTable}.
+   * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code
+   * TreeBasedTable}.
    */
   public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
@@ -143,7 +136,11 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    */
   @Deprecated
   public Comparator<? super R> rowComparator() {
-    return rowKeySet().comparator();
+    /*
+     * requireNonNull is safe because the factories require non-null Comparators, which they pass on
+     * to the backing collections.
+     */
+    return requireNonNull(rowKeySet().comparator());
   }
 
   /**
@@ -164,12 +161,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
-   * row, this method returns a {@link SortedMap}, instead of the {@link Map}
-   * specified in the {@link Table} interface.
-   * @since 10.0
-   *     (<a href="https://github.com/google/guava/wiki/Compatibility"
-   *     >mostly source-compatible</a> since 7.0)
+   * <p>Because a {@code TreeBasedTable} has unique sorted values for a given row, this method
+   * returns a {@link SortedMap}, instead of the {@link Map} specified in the {@link Table}
+   * interface.
+   *
+   * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility" >mostly
+   *     source-compatible</a> since 7.0)
    */
   @Override
   public SortedMap<C, V> row(R rowKey) {
@@ -177,14 +174,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @Nullable final C lowerBound;
-    @Nullable final C upperBound;
+    @CheckForNull final C lowerBound;
+    @CheckForNull final C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
+    TreeRow(R rowKey, @CheckForNull C lowerBound, @CheckForNull C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -204,12 +201,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     int compare(Object a, Object b) {
       // pretend we can compare anything
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      Comparator<Object> cmp = (Comparator) comparator();
+      @SuppressWarnings("unchecked")
+      Comparator<Object> cmp = (Comparator<Object>) comparator();
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@Nullable Object o) {
+    boolean rangeContains(@CheckForNull Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);
@@ -235,43 +232,36 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     @Override
     public C firstKey() {
-      SortedMap<C, V> backing = backingRowMap();
-      if (backing == null) {
+      updateBackingRowMapField();
+      if (backingRowMap == null) {
         throw new NoSuchElementException();
       }
-      return backingRowMap().firstKey();
+      return ((SortedMap<C, V>) backingRowMap).firstKey();
     }
 
     @Override
     public C lastKey() {
-      SortedMap<C, V> backing = backingRowMap();
-      if (backing == null) {
+      updateBackingRowMapField();
+      if (backingRowMap == null) {
         throw new NoSuchElementException();
       }
-      return backingRowMap().lastKey();
+      return ((SortedMap<C, V>) backingRowMap).lastKey();
     }
 
-    transient SortedMap<C, V> wholeRow;
+    @CheckForNull transient SortedMap<C, V> wholeRow;
 
-    /*
-     * If the row was previously empty, we check if there's a new row here every
-     * time we're queried.
-     */
-    SortedMap<C, V> wholeRow() {
+    // If the row was previously empty, we check if there's a new row here every time we're queried.
+    void updateWholeRowField() {
       if (wholeRow == null || (wholeRow.isEmpty() && backingMap.containsKey(rowKey))) {
         wholeRow = (SortedMap<C, V>) backingMap.get(rowKey);
       }
-      return wholeRow;
     }
 
     @Override
-    SortedMap<C, V> backingRowMap() {
-      return (SortedMap<C, V>) super.backingRowMap();
-    }
-
-    @Override
+    @CheckForNull
     SortedMap<C, V> computeBackingRowMap() {
-      SortedMap<C, V> map = wholeRow();
+      updateWholeRowField();
+      SortedMap<C, V> map = wholeRow;
       if (map != null) {
         if (lowerBound != null) {
           map = map.tailMap(lowerBound);
@@ -286,7 +276,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     @Override
     void maintainEmptyInvariant() {
-      if (wholeRow() != null && wholeRow.isEmpty()) {
+      updateWholeRowField();
+      if (wholeRow != null && wholeRow.isEmpty()) {
         backingMap.remove(rowKey);
         wholeRow = null;
         backingRowMap = null;
@@ -294,11 +285,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@CheckForNull Object key) {
       return rangeContains(key) && super.containsKey(key);
     }
 
     @Override
+    @CheckForNull
     public V put(C key, V value) {
       checkArgument(rangeContains(checkNotNull(key)));
       return super.put(key, value);
@@ -317,30 +309,22 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     return super.rowMap();
   }
 
-  /**
-   * Overridden column iterator to return columns values in globally sorted
-   * order.
-   */
+  /** Overridden column iterator to return columns values in globally sorted order. */
   @Override
   Iterator<C> createColumnKeyIterator() {
-    final Comparator<? super C> comparator = columnComparator();
+    Comparator<? super C> comparator = columnComparator();
 
-    final Iterator<C> merged =
+    Iterator<C> merged =
         Iterators.mergeSorted(
             Iterables.transform(
-                backingMap.values(),
-                new Function<Map<C, V>, Iterator<C>>() {
-                  @Override
-                  public Iterator<C> apply(Map<C, V> input) {
-                    return input.keySet().iterator();
-                  }
-                }),
+                backingMap.values(), (Map<C, V> input) -> input.keySet().iterator()),
             comparator);
 
     return new AbstractIterator<C>() {
-      C lastValue;
+      @CheckForNull C lastValue;
 
       @Override
+      @CheckForNull
       protected C computeNext() {
         while (merged.hasNext()) {
           C next = merged.next();

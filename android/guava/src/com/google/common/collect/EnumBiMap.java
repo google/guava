@@ -28,25 +28,23 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values
- * are not permitted. An {@code EnumBiMap} and its inverse are both
- * serializable.
+ * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values are not permitted.
+ * An {@code EnumBiMap} and its inverse are both serializable.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">
- * {@code BiMap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
  *
  * @author Mike Bostock
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends AbstractBiMap<K, V> {
   private transient Class<K> keyType;
   private transient Class<V> valueType;
 
   /**
-   * Returns a new, empty {@code EnumBiMap} using the specified key and value
-   * types.
+   * Returns a new, empty {@code EnumBiMap} using the specified key and value types.
    *
    * @param keyType the key type
    * @param valueType the value type
@@ -57,14 +55,13 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
   }
 
   /**
-   * Returns a new bimap with the same mappings as the specified map. If the
-   * specified map is an {@code EnumBiMap}, the new bimap has the same types as
-   * the provided map. Otherwise, the specified map must contain at least one
-   * mapping, in order to determine the key and value types.
+   * Returns a new bimap with the same mappings as the specified map. If the specified map is an
+   * {@code EnumBiMap}, the new bimap has the same types as the provided map. Otherwise, the
+   * specified map must contain at least one mapping, in order to determine the key and value types.
    *
    * @param map the map whose mappings are to be placed in this map
-   * @throws IllegalArgumentException if map is not an {@code EnumBiMap}
-   *     instance and contains no mappings
+   * @throws IllegalArgumentException if map is not an {@code EnumBiMap} instance and contains no
+   *     mappings
    */
   public static <K extends Enum<K>, V extends Enum<V>> EnumBiMap<K, V> create(Map<K, V> map) {
     EnumBiMap<K, V> bimap = create(inferKeyType(map), inferValueType(map));
@@ -73,9 +70,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
   }
 
   private EnumBiMap(Class<K> keyType, Class<V> valueType) {
-    super(
-        WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
-        WellBehavedMap.wrap(new EnumMap<V, K>(valueType)));
+    super(new EnumMap<K, V>(keyType), new EnumMap<V, K>(valueType));
     this.keyType = keyType;
     this.valueType = valueType;
   }
@@ -120,8 +115,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
   }
 
   /**
-   * @serialData the key class, value class, number of entries, first key, first
-   *     value, second key, second value, and so on.
+   * @serialData the key class, value class, number of entries, first key, first value, second key,
+   *     second value, and so on.
    */
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
@@ -137,9 +132,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
     valueType = (Class<V>) stream.readObject();
-    setDelegates(
-        WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
-        WellBehavedMap.wrap(new EnumMap<V, K>(valueType)));
+    setDelegates(new EnumMap<K, V>(keyType), new EnumMap<V, K>(valueType));
     Serialization.populateMap(this, stream);
   }
 

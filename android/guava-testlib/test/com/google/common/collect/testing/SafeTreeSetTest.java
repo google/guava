@@ -85,11 +85,11 @@ public class SafeTreeSetTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
-    Map<String, Integer> map =
-        ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
+    Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     SerializableTester.reserializeAndAssert(map.entrySet());
     SerializableTester.reserializeAndAssert(map.keySet());
-    assertEquals(Lists.newArrayList(map.values()),
+    assertEquals(
+        Lists.newArrayList(map.values()),
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 

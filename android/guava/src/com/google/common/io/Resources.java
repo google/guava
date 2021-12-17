@@ -29,13 +29,12 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with resources in the classpath. Note that even though these
  * methods use {@link URL} parameters, they are usually not appropriate for HTTP or other
  * non-classpath resources.
- *
- * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
  * @author Ben Yu
@@ -44,6 +43,7 @@ import java.util.List;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Resources {
   private Resources() {}
 
@@ -56,9 +56,7 @@ public final class Resources {
     return new UrlByteSource(url);
   }
 
-  /**
-   * A byte source that reads from a URL using {@link URL#openStream()}.
-   */
+  /** A byte source that reads from a URL using {@link URL#openStream()}. */
   private static final class UrlByteSource extends ByteSource {
 
     private final URL url;
@@ -123,8 +121,9 @@ public final class Resources {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(URL url, Charset charset, LineProcessor<T> callback)
-      throws IOException {
+  @ParametricNullness
+  public static <T extends @Nullable Object> T readLines(
+      URL url, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(url, charset).readLines(callback);
   }
 
@@ -132,8 +131,8 @@ public final class Resources {
    * Reads all of the lines from a URL. The lines do not include line-termination characters, but do
    * include other leading and trailing whitespace.
    *
-   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use
-   * {@code Resources.asCharSource(url, charset).readLines()}.
+   * <p>This method returns a mutable {@code List}. For an {@code ImmutableList}, use {@code
+   * Resources.asCharSource(url, charset).readLines()}.
    *
    * @param url the URL to read from
    * @param charset the charset used to decode the input stream; see {@link Charsets} for helpful
@@ -204,6 +203,7 @@ public final class Resources {
    *
    * @throws IllegalArgumentException if the resource is not found
    */
+  @CanIgnoreReturnValue // being used to check if a resource exists
   public static URL getResource(Class<?> contextClass, String resourceName) {
     URL url = contextClass.getResource(resourceName);
     checkArgument(

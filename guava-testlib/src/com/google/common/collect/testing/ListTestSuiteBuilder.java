@@ -52,8 +52,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a List implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a List
+ * implementation.
  *
  * @author George van den Driessche
  */
@@ -92,8 +92,8 @@ public final class ListTestSuiteBuilder<E>
   }
 
   /**
-   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since
-   * lists have an iteration ordering corresponding to the insertion order.
+   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since lists have an
+   * iteration ordering corresponding to the insertion order.
    */
   @Override
   public TestSuite createTestSuite() {
@@ -114,6 +114,8 @@ public final class ListTestSuiteBuilder<E>
               .named(getName() + " reserialized")
               .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
               .suppressing(parentBuilder.getSuppressedTests())
+              .withSetUp(parentBuilder.getSetUp())
+              .withTearDown(parentBuilder.getTearDown())
               .createTestSuite());
     }
     return derivedSuites;
@@ -148,8 +150,7 @@ public final class ListTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeReserializedCollectionFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<>();
-    derivedFeatures.addAll(features);
+    Set<Feature<?>> derivedFeatures = new HashSet<>(features);
     derivedFeatures.remove(SERIALIZABLE);
     derivedFeatures.remove(SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;

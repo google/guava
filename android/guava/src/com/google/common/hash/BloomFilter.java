@@ -33,7 +33,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -41,7 +42,7 @@ import javax.annotation.Nullable;
  * but if it claims that an element is <i>not</i> contained in it, then this is definitely true.
  *
  * <p>If you are unfamiliar with Bloom filters, this nice <a
- * href="http://llimllib.github.com/bloomfilter-tutorial/">tutorial</a> may help you understand how
+ * href="http://llimllib.github.io/bloomfilter-tutorial/">tutorial</a> may help you understand how
  * they work.
  *
  * <p>The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability
@@ -63,7 +64,8 @@ import javax.annotation.Nullable;
  * @since 11.0 (thread-safe since 23.0)
  */
 @Beta
-public final class BloomFilter<T> implements Predicate<T>, Serializable {
+@ElementTypesAreNonnullByDefault
+public final class BloomFilter<T extends @Nullable Object> implements Predicate<T>, Serializable {
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
    *
@@ -76,15 +78,21 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
      *
      * <p>Returns whether any bits changed as a result of this operation.
      */
-    <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+    <T extends @Nullable Object> boolean put(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
      * returns {@code true} if and only if all selected bits are set.
      */
-    <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+    <T extends @Nullable Object> boolean mightContain(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only
@@ -105,9 +113,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   /** The funnel to translate Ts to bytes */
   private final Funnel<? super T> funnel;
 
-  /**
-   * The strategy we employ to map an element T to {@code numHashFunctions} bit indexes.
-   */
+  /** The strategy we employ to map an element T to {@code numHashFunctions} bit indexes. */
   private final Strategy strategy;
 
   /** Creates a BloomFilter. */
@@ -133,10 +139,10 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter,
-   * {@code false} if this is <i>definitely</i> not the case.
+   * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
+   * false} if this is <i>definitely</i> not the case.
    */
-  public boolean mightContain(T object) {
+  public boolean mightContain(@ParametricNullness T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
   }
 
@@ -146,7 +152,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   @Deprecated
   @Override
-  public boolean apply(T input) {
+  public boolean apply(@ParametricNullness T input) {
     return mightContain(input);
   }
 
@@ -162,23 +168,22 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue
-  public boolean put(T object) {
+  public boolean put(@ParametricNullness T object) {
     return strategy.put(object, funnel, numHashFunctions, bits);
   }
 
   /**
-   * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return
-   * {@code true} for an object that has not actually been put in the {@code BloomFilter}.
+   * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return {@code
+   * true} for an object that has not actually been put in the {@code BloomFilter}.
    *
-   * <p>Ideally, this number should be close to the {@code fpp} parameter passed in
-   * {@linkplain #create(Funnel, int, double)}, or smaller. If it is significantly higher, it is
-   * usually the case that too many elements (more than expected) have been put in the
-   * {@code BloomFilter}, degenerating it.
+   * <p>Ideally, this number should be close to the {@code fpp} parameter passed in {@linkplain
+   * #create(Funnel, int, double)}, or smaller. If it is significantly higher, it is usually the
+   * case that too many elements (more than expected) have been put in the {@code BloomFilter},
+   * degenerating it.
    *
    * @since 14.0 (since 11.0 as expectedFalsePositiveProbability())
    */
   public double expectedFpp() {
-    // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
     return Math.pow((double) bits.bitCount() / bitSize(), numHashFunctions);
   }
 
@@ -204,9 +209,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
         -Math.log1p(-fractionOfBitsSet) * bitSize / numHashFunctions, RoundingMode.HALF_UP);
   }
 
-  /**
-   * Returns the number of bits in the underlying bit array.
-   */
+  /** Returns the number of bits in the underlying bit array. */
   @VisibleForTesting
   long bitSize() {
     return bits.bitSize();
@@ -229,11 +232,11 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public boolean isCompatible(BloomFilter<T> that) {
     checkNotNull(that);
-    return (this != that)
-        && (this.numHashFunctions == that.numHashFunctions)
-        && (this.bitSize() == that.bitSize())
-        && (this.strategy.equals(that.strategy))
-        && (this.funnel.equals(that.funnel));
+    return this != that
+        && this.numHashFunctions == that.numHashFunctions
+        && this.bitSize() == that.bitSize()
+        && this.strategy.equals(that.strategy)
+        && this.funnel.equals(that.funnel);
   }
 
   /**
@@ -272,7 +275,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }
@@ -292,58 +295,58 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter} with the expected number of insertions and
-   * expected false positive probability.
+   * Creates a {@link BloomFilter} with the expected number of insertions and expected false
+   * positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter} will be serializable if the provided
-   * {@code Funnel<T>} is.
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
-   * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter}; must be positive
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(
+  public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, int expectedInsertions, double fpp) {
     return create(funnel, (long) expectedInsertions, fpp);
   }
 
   /**
-   * Creates a {@link BloomFilter} with the expected number of insertions and
-   * expected false positive probability.
+   * Creates a {@link BloomFilter} with the expected number of insertions and expected false
+   * positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter} will be serializable if the provided
-   * {@code Funnel<T>} is.
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
-   * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter}; must be positive
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    * @since 19.0
    */
-  public static <T> BloomFilter<T> create(
+  public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {
     return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);
   }
 
   @VisibleForTesting
-  static <T> BloomFilter<T> create(
+  static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp, Strategy strategy) {
     checkNotNull(funnel);
     checkArgument(
@@ -370,49 +373,51 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@link BloomFilter} with the expected number of insertions and a
-   * default expected false positive probability of 3%.
+   * Creates a {@link BloomFilter} with the expected number of insertions and a default expected
+   * false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter} will be serializable if the provided
-   * {@code Funnel<T>} is.
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
-   * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter}; must be positive
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(Funnel<? super T> funnel, int expectedInsertions) {
+  public static <T extends @Nullable Object> BloomFilter<T> create(
+      Funnel<? super T> funnel, int expectedInsertions) {
     return create(funnel, (long) expectedInsertions);
   }
 
   /**
-   * Creates a {@link BloomFilter} with the expected number of insertions and a
-   * default expected false positive probability of 3%.
+   * Creates a {@link BloomFilter} with the expected number of insertions and a default expected
+   * false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements than specified,
    * will result in its saturation, and a sharp deterioration of its false positive probability.
    *
-   * <p>The constructed {@code BloomFilter} will be serializable if the provided
-   * {@code Funnel<T>} is.
+   * <p>The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel<T>}
+   * is.
    *
    * <p>It is recommended that the funnel be implemented as a Java enum. This has the benefit of
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
-   * @param expectedInsertions the number of expected insertions to the constructed
-   *     {@code BloomFilter}; must be positive
+   * @param expectedInsertions the number of expected insertions to the constructed {@code
+   *     BloomFilter}; must be positive
    * @return a {@code BloomFilter}
    * @since 19.0
    */
-  public static <T> BloomFilter<T> create(Funnel<? super T> funnel, long expectedInsertions) {
+  public static <T extends @Nullable Object> BloomFilter<T> create(
+      Funnel<? super T> funnel, long expectedInsertions) {
     return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions
   }
 
@@ -432,7 +437,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * Computes the optimal k (number of hashes per element inserted in Bloom filter), given the
    * expected insertions and total number of bits in the Bloom filter.
    *
-   * See http://en.wikipedia.org/wiki/File:Bloom_filter_fp_probability.svg for the formula.
+   * <p>See http://en.wikipedia.org/wiki/File:Bloom_filter_fp_probability.svg for the formula.
    *
    * @param n expected insertions (must be positive)
    * @param m total number of bits in Bloom filter (must be positive)
@@ -447,7 +452,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * Computes m (total bits of Bloom filter) which is expected to achieve, for the specified
    * expected insertions, the required false positive probability.
    *
-   * See http://en.wikipedia.org/wiki/Bloom_filter#Probability_of_false_positives for the formula.
+   * <p>See http://en.wikipedia.org/wiki/Bloom_filter#Probability_of_false_positives for the
+   * formula.
    *
    * @param n expected insertions (must be positive)
    * @param p false positive rate (must be 0 < p < 1)
@@ -464,7 +470,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     return new SerialForm<T>(this);
   }
 
-  private static class SerialForm<T> implements Serializable {
+  private static class SerialForm<T extends @Nullable Object> implements Serializable {
     final long[] data;
     final int numHashFunctions;
     final Funnel<? super T> funnel;
@@ -507,18 +513,18 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a
-   * {@code BloomFilter}.
+   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+   * BloomFilter}.
    *
-   * The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
+   * <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
    * <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
    * the original Bloom filter!
    *
    * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
    *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
    */
-  public static <T> BloomFilter<T> readFrom(InputStream in, Funnel<? super T> funnel)
-      throws IOException {
+  public static <T extends @Nullable Object> BloomFilter<T> readFrom(
+      InputStream in, Funnel<? super T> funnel) throws IOException {
     checkNotNull(in, "InputStream");
     checkNotNull(funnel, "Funnel");
     int strategyOrdinal = -1;

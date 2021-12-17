@@ -22,9 +22,8 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 
 /**
- * Tests representing the contract of {@link SortedMap}. Concrete subclasses of
- * this base class test conformance of concrete {@link SortedMap} subclasses to
- * that contract.
+ * Tests representing the contract of {@link SortedMap}. Concrete subclasses of this base class test
+ * conformance of concrete {@link SortedMap} subclasses to that contract.
  *
  * @author Jared Levy
  */
@@ -57,7 +56,7 @@ public abstract class SortedMapInterfaceTest<K, V> extends MapInterfaceTest<K, V
   }
 
   public void testTailMapWriteThrough() {
-    final SortedMap<K, V> map;
+    SortedMap<K, V> map;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -83,7 +82,7 @@ public abstract class SortedMapInterfaceTest<K, V> extends MapInterfaceTest<K, V
   }
 
   public void testTailMapRemoveThrough() {
-    final SortedMap<K, V> map;
+    SortedMap<K, V> map;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
@@ -106,7 +105,7 @@ public abstract class SortedMapInterfaceTest<K, V> extends MapInterfaceTest<K, V
   }
 
   public void testTailMapClearThrough() {
-    final SortedMap<K, V> map;
+    SortedMap<K, V> map;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {

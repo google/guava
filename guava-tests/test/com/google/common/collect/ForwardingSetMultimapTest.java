@@ -31,11 +31,14 @@ public class ForwardingSetMultimapTest extends TestCase {
   @SuppressWarnings("rawtypes")
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(SetMultimap.class, new Function<SetMultimap, SetMultimap>() {
-          @Override public SetMultimap apply(SetMultimap delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            SetMultimap.class,
+            new Function<SetMultimap, SetMultimap>() {
+              @Override
+              public SetMultimap apply(SetMultimap delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -49,7 +52,8 @@ public class ForwardingSetMultimapTest extends TestCase {
 
   private static <K, V> SetMultimap<K, V> wrap(final SetMultimap<K, V> delegate) {
     return new ForwardingSetMultimap<K, V>() {
-      @Override protected SetMultimap<K, V> delegate() {
+      @Override
+      protected SetMultimap<K, V> delegate() {
         return delegate;
       }
     };

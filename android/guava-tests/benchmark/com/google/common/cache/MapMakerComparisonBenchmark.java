@@ -42,19 +42,22 @@ public class MapMakerComparisonBenchmark {
     cacheNoStats.put(TEST_KEY, TEST_VALUE);
   }
 
-  @Benchmark void concurrentHashMap(int rep) {
+  @Benchmark
+  void concurrentHashMap(int rep) {
     for (int i = 0; i < rep; i++) {
       map.get(TEST_KEY);
     }
   }
 
-  @Benchmark void cacheBuilder_stats(int rep) {
+  @Benchmark
+  void cacheBuilder_stats(int rep) {
     for (int i = 0; i < rep; i++) {
       cache.getIfPresent(TEST_KEY);
     }
   }
 
-  @Benchmark void cacheBuilder(int rep) {
+  @Benchmark
+  void cacheBuilder(int rep) {
     for (int i = 0; i < rep; i++) {
       cacheNoStats.getIfPresent(TEST_KEY);
     }

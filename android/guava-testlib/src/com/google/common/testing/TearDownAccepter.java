@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -26,6 +27,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0
  */
 @Beta
+@DoNotMock("Implement with a lambda")
 @GwtCompatible
 public interface TearDownAccepter {
   /**
@@ -33,8 +35,7 @@ public interface TearDownAccepter {
    *
    * <p>In JUnit4 language, that means as an {@code @After}.
    *
-   * <p>In JUnit3 language, that means during the
-   * {@link junit.framework.TestCase#tearDown()} step.
+   * <p>In JUnit3 language, that means during the {@link junit.framework.TestCase#tearDown()} step.
    */
   void addTearDown(TearDown tearDown);
 }

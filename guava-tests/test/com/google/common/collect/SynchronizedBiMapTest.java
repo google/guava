@@ -40,32 +40,37 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
 
   public static TestSuite suite() {
     TestSuite suite = new TestSuite(SynchronizedBiMapTest.class);
-    suite.addTest(BiMapTestSuiteBuilder.using(new SynchTestingBiMapGenerator())
-        .named("Synchronized.biMap[TestBiMap]")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
-        .createTestSuite());
-    suite.addTest(BiMapTestSuiteBuilder.using(new SynchronizedHashBiMapGenerator())
-        .named("synchronizedBiMap[HashBiMap]")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.SERIALIZABLE)
-        .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
-        .createTestSuite());
+    suite.addTest(
+        BiMapTestSuiteBuilder.using(new SynchTestingBiMapGenerator())
+            .named("Synchronized.biMap[TestBiMap]")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            .createTestSuite());
+    suite.addTest(
+        BiMapTestSuiteBuilder.using(new SynchronizedHashBiMapGenerator())
+            .named("synchronizedBiMap[HashBiMap]")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.SERIALIZABLE)
+            .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
+            .createTestSuite());
     return suite;
   }
 
-  @Override protected <K, V> BiMap<K, V> create() {
+  @Override
+  protected <K, V> BiMap<K, V> create() {
     TestBiMap<K, V> inner = new TestBiMap<>(HashBiMap.<K, V>create(), mutex);
     BiMap<K, V> outer = Synchronized.biMap(inner, mutex);
     return outer;
@@ -124,7 +129,8 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
       delegate.replaceAll(function);
     }
 
-    @Override public Set<V> values() {
+    @Override
+    public Set<V> values() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.values();
     }
@@ -144,7 +150,8 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     assertSame(mutex, ((SynchronizedBiMap<?, ?>) inverse).mutex);
   }
 
-  @Override public void testValues() {
+  @Override
+  public void testValues() {
     BiMap<String, Integer> map = create();
     Set<Integer> values = map.values();
     assertTrue(values instanceof SynchronizedSet);

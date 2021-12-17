@@ -38,7 +38,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
   public void testWriteLittleEndian() throws IOException {
 
     /* Write out various test values in LITTLE ENDIAN FORMAT */
-    out.write(new byte[] { -100, 100 });
+    out.write(new byte[] {-100, 100});
     out.writeBoolean(true);
     out.writeBoolean(false);
     out.writeByte(100);

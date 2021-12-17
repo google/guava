@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongUnaryOperator;
+import javax.annotation.CheckForNull;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -37,23 +38,24 @@ import java.util.function.LongUnaryOperator;
  * {@code K}. If a key has not yet been associated with a value, its implicit value is zero.
  *
  * <p>Most methods in this class treat absent values and zero values identically, as individually
- * documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty},
- * {@link #asMap}, and {@link #toString}.
+ * documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty}, {@link
+ * #asMap}, and {@link #toString}.
  *
  * <p>Instances of this class may be used by multiple threads concurrently. All operations are
  * atomic unless otherwise noted.
  *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- * {@link com.google.common.collect.Multiset} such as
- * {@link com.google.common.collect.ConcurrentHashMultiset} instead.
+ * {@link com.google.common.collect.Multiset} such as {@link
+ * com.google.common.collect.ConcurrentHashMultiset} instead.
  *
- * <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
+ * <p><b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
  *
  * @author Charles Fry
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, Long> map;
 
@@ -61,16 +63,12 @@ public final class AtomicLongMap<K> implements Serializable {
     this.map = checkNotNull(map);
   }
 
-  /**
-   * Creates an {@code AtomicLongMap}.
-   */
+  /** Creates an {@code AtomicLongMap}. */
   public static <K> AtomicLongMap<K> create() {
     return new AtomicLongMap<K>(new ConcurrentHashMap<>());
   }
 
-  /**
-   * Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}.
-   */
+  /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */
   public static <K> AtomicLongMap<K> create(Map<? extends K, ? extends Long> m) {
     AtomicLongMap<K> result = create();
     result.putAll(m);
@@ -136,9 +134,9 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Updates the value currently associated with {@code key} with the specified function,
-   * and returns the new value.  If there is not currently a value associated with {@code key},
-   * the function is applied to {@code 0L}.
+   * Updates the value currently associated with {@code key} with the specified function, and
+   * returns the new value. If there is not currently a value associated with {@code key}, the
+   * function is applied to {@code 0L}.
    *
    * @since 21.0
    */
@@ -150,9 +148,9 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Updates the value currently associated with {@code key} with the specified function,
-   * and returns the old value.  If there is not currently a value associated with {@code key},
-   * the function is applied to {@code 0L}.
+   * Updates the value currently associated with {@code key} with the specified function, and
+   * returns the old value. If there is not currently a value associated with {@code key}, the
+   * function is applied to {@code 0L}.
    *
    * @since 21.0
    */
@@ -171,10 +169,10 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Updates the value currently associated with {@code key} by combining it with {@code x}
-   * via the specified accumulator function, returning the new value.  The previous value
-   * associated with {@code key} (or zero, if there is none) is passed as the first argument
-   * to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
+   * Updates the value currently associated with {@code key} by combining it with {@code x} via the
+   * specified accumulator function, returning the new value. The previous value associated with
+   * {@code key} (or zero, if there is none) is passed as the first argument to {@code
+   * accumulatorFunction}, and {@code x} is passed as the second argument.
    *
    * @since 21.0
    */
@@ -185,10 +183,10 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Updates the value currently associated with {@code key} by combining it with {@code x}
-   * via the specified accumulator function, returning the old value.  The previous value
-   * associated with {@code key} (or zero, if there is none) is passed as the first argument
-   * to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
+   * Updates the value currently associated with {@code key} by combining it with {@code x} via the
+   * specified accumulator function, returning the old value. The previous value associated with
+   * {@code key} (or zero, if there is none) is passed as the first argument to {@code
+   * accumulatorFunction}, and {@code x} is passed as the second argument.
    *
    * @since 21.0
    */
@@ -218,13 +216,21 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Removes and returns the value associated with {@code key}. If {@code key} is not
-   * in the map, this method has no effect and returns zero.
+   * Removes and returns the value associated with {@code key}. If {@code key} is not in the map,
+   * this method has no effect and returns zero.
    */
   @CanIgnoreReturnValue
   public long remove(K key) {
     Long result = map.remove(key);
     return (result == null) ? 0L : result.longValue();
+  }
+
+  /**
+   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
+   * otherwise, this method returns false.
+   */
+  boolean remove(K key, long value) {
+    return map.remove(key, value);
   }
 
   /**
@@ -241,8 +247,8 @@ public final class AtomicLongMap<K> implements Serializable {
   /**
    * Removes all mappings from this map whose values are zero.
    *
-   * <p>This method is not atomic: the map may be visible in intermediate states, where some
-   * of the zero values have been removed and others have not.
+   * <p>This method is not atomic: the map may be visible in intermediate states, where some of the
+   * zero values have been removed and others have not.
    */
   public void removeAllZeros() {
     map.values().removeIf(x -> x == 0);
@@ -257,11 +263,9 @@ public final class AtomicLongMap<K> implements Serializable {
     return map.values().stream().mapToLong(Long::longValue).sum();
   }
 
-  private transient Map<K, Long> asMap;
+  @CheckForNull private transient Map<K, Long> asMap;
 
-  /**
-   * Returns a live, read-only view of the map backing this {@code AtomicLongMap}.
-   */
+  /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
     Map<K, Long> result = asMap;
     return (result == null) ? asMap = createAsMap() : result;
@@ -271,24 +275,20 @@ public final class AtomicLongMap<K> implements Serializable {
     return Collections.unmodifiableMap(map);
   }
 
-  /**
-   * Returns true if this map contains a mapping for the specified key.
-   */
+  /** Returns true if this map contains a mapping for the specified key. */
   public boolean containsKey(Object key) {
     return map.containsKey(key);
   }
 
   /**
-   * Returns the number of key-value mappings in this map. If the map contains more than
-   * {@code Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.
+   * Returns the number of key-value mappings in this map. If the map contains more than {@code
+   * Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.
    */
   public int size() {
     return map.size();
   }
 
-  /**
-   * Returns {@code true} if this map contains no key-value mappings.
-   */
+  /** Returns {@code true} if this map contains no key-value mappings. */
   public boolean isEmpty() {
     return map.isEmpty();
   }
@@ -310,8 +310,8 @@ public final class AtomicLongMap<K> implements Serializable {
 
   /**
    * If {@code key} is not already associated with a value or if {@code key} is associated with
-   * zero, associate it with {@code newValue}. Returns the previous value associated with
-   * {@code key}, or zero if there was no mapping for {@code key}.
+   * zero, associate it with {@code newValue}. Returns the previous value associated with {@code
+   * key}, or zero if there was no mapping for {@code key}.
    */
   long putIfAbsent(K key, long newValue) {
     AtomicBoolean noValue = new AtomicBoolean(false);
@@ -330,12 +330,11 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces
-   * {@code expectedOldValue} with {@code newValue} and returns true; otherwise, this method
-   * returns false.
+   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces {@code
+   * expectedOldValue} with {@code newValue} and returns true; otherwise, this method returns false.
    *
-   * <p>If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)}
-   * is currently in the map, or if {@code key} is not in the map at all.
+   * <p>If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)} is
+   * currently in the map, or if {@code key} is not in the map at all.
    */
   boolean replace(K key, long expectedOldValue, long newValue) {
     if (expectedOldValue == 0L) {
@@ -343,13 +342,5 @@ public final class AtomicLongMap<K> implements Serializable {
     } else {
       return map.replace(key, expectedOldValue, newValue);
     }
-  }
-
-  /**
-   * If {@code (key, value)} is currently in the map, this method removes it and returns
-   * true; otherwise, this method returns false.
-   */
-  boolean remove(K key, long value) {
-    return map.remove(key, value);
   }
 }

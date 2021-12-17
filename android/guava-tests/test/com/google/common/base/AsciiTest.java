@@ -29,11 +29,11 @@ import junit.framework.TestCase;
 public class AsciiTest extends TestCase {
 
   /**
-   * The Unicode points {@code 00c1} and {@code 00e1} are the upper- and
-   * lowercase forms of A-with-acute-accent, {@code Á} and {@code á}.
+   * The Unicode points {@code 00c1} and {@code 00e1} are the upper- and lowercase forms of
+   * A-with-acute-accent, {@code Á} and {@code á}.
    */
-  private static final String IGNORED =
-      "`10-=~!@#$%^&*()_+[]\\{}|;':\",./<>?'\u00c1\u00e1\n";
+  private static final String IGNORED = "`10-=~!@#$%^&*()_+[]\\{}|;':\",./<>?'\u00c1\u00e1\n";
+
   private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
   private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -54,8 +54,8 @@ public class AsciiTest extends TestCase {
   public void testCharsIgnored() {
     for (char c : IGNORED.toCharArray()) {
       String str = String.valueOf(c);
-      assertTrue(str, c == Ascii.toLowerCase(c));
-      assertTrue(str, c == Ascii.toUpperCase(c));
+      assertEquals(str, c, Ascii.toLowerCase(c));
+      assertEquals(str, c, Ascii.toUpperCase(c));
       assertFalse(str, Ascii.isLowerCase(c));
       assertFalse(str, Ascii.isUpperCase(c));
     }
@@ -98,26 +98,29 @@ public class AsciiTest extends TestCase {
   }
 
   public void testTruncateIllegalArguments() {
-    String truncated = null;
     try {
-      truncated = Ascii.truncate("foobar", 2, "...");
+      Ascii.truncate("foobar", 2, "...");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
-      truncated = Ascii.truncate("foobar", 8, "1234567890");
+      Ascii.truncate("foobar", 8, "1234567890");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "...");
+      Ascii.truncate("foobar", -1, "...");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "");
+      Ascii.truncate("foobar", -1, "");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testEqualsIgnoreCase() {
@@ -144,7 +147,7 @@ public class AsciiTest extends TestCase {
 
     // The Unicode point {@code 00df} is the lowercase form of sharp-S (ß), whose uppercase is "SS".
     assertEquals("PASSWORD", "pa\u00dfword".toUpperCase()); // [*]
-    assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD"));  // [*]
+    assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD")); // [*]
     assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
   }
 }

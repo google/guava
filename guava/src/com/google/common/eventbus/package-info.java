@@ -19,8 +19,8 @@
  * registration. It is <em>not</em> a general-purpose publish-subscribe system, nor is it intended
  * for interprocess communication.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
  *
  * <h2>One-Minute Guide</h2>
  *
@@ -29,83 +29,84 @@
  * <h3>For Listeners</h3>
  *
  * <p>To listen for a specific flavor of event (say, a CustomerChangeEvent)...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> implement an interface defined with the event
- *     &mdash; such as CustomerChangeEventListener.
- * <li><strong>...with EventBus:</strong> create a method that accepts CustomerChangeEvent as its
- *     sole argument, and mark it with the {@link com.google.common.eventbus.Subscribe}
- *     annotation.
+ *   <li><strong>...in traditional Java events:</strong> implement an interface defined with the
+ *       event &mdash; such as CustomerChangeEventListener.
+ *   <li><strong>...with EventBus:</strong> create a method that accepts CustomerChangeEvent as its
+ *       sole argument, and mark it with the {@link com.google.common.eventbus.Subscribe}
+ *       annotation.
  * </ul>
  *
  * <p>To register your listener methods with the event producers...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> pass your object to each producer's
- *     {@code registerCustomerChangeEventListener} method. These methods are rarely defined in
- *     common interfaces, so in addition to knowing every possible producer, you must also know its
- *     type.
- * <li><strong>...with EventBus:</strong> pass your object to the
- *     {@link com.google.common.eventbus.EventBus#register(Object)} method on an EventBus. You'll
- *     need to make sure that your object shares an EventBus instance with the event producers.
+ *   <li><strong>...in traditional Java events:</strong> pass your object to each producer's {@code
+ *       registerCustomerChangeEventListener} method. These methods are rarely defined in common
+ *       interfaces, so in addition to knowing every possible producer, you must also know its type.
+ *   <li><strong>...with EventBus:</strong> pass your object to the {@link
+ *       com.google.common.eventbus.EventBus#register(Object)} method on an EventBus. You'll need to
+ *       make sure that your object shares an EventBus instance with the event producers.
  * </ul>
  *
  * <p>To listen for a common event supertype (such as EventObject or Object)...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> not easy.
- * <li><strong>...with EventBus:</strong> events are automatically dispatched to listeners of any
- *     supertype, allowing listeners for interface types or "wildcard listeners" for Object.
+ *   <li><strong>...in traditional Java events:</strong> not easy.
+ *   <li><strong>...with EventBus:</strong> events are automatically dispatched to listeners of any
+ *       supertype, allowing listeners for interface types or "wildcard listeners" for Object.
  * </ul>
  *
  * <p>To listen for and detect events that were dispatched without listeners...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> add code to each event-dispatching method
- *     (perhaps using AOP).
- * <li><strong>...with EventBus:</strong> subscribe to {@link com.google.common.eventbus.DeadEvent}.
- *     The EventBus will notify you of any events that were posted but not delivered. (Handy for
- *     debugging.)
+ *   <li><strong>...in traditional Java events:</strong> add code to each event-dispatching method
+ *       (perhaps using AOP).
+ *   <li><strong>...with EventBus:</strong> subscribe to {@link
+ *       com.google.common.eventbus.DeadEvent}. The EventBus will notify you of any events that were
+ *       posted but not delivered. (Handy for debugging.)
  * </ul>
  *
  * <h3>For Producers</h3>
  *
  * <p>To keep track of listeners to your events...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> write code to manage a list of listeners to
- *     your object, including synchronization, or use a utility class like EventListenerList.
- * <li><strong>...with EventBus:</strong> EventBus does this for you.
+ *   <li><strong>...in traditional Java events:</strong> write code to manage a list of listeners to
+ *       your object, including synchronization, or use a utility class like EventListenerList.
+ *   <li><strong>...with EventBus:</strong> EventBus does this for you.
  * </ul>
  *
  * <p>To dispatch an event to listeners...
+ *
  * <ul>
- * <li><strong>...in traditional Java events:</strong> write a method to dispatch events to each
- *     event listener, including error isolation and (if desired) asynchronicity.
- * <li><strong>...with EventBus:</strong> pass the event object to an EventBus's
- *     {@link com.google.common.eventbus.EventBus#post(Object)} method.
+ *   <li><strong>...in traditional Java events:</strong> write a method to dispatch events to each
+ *       event listener, including error isolation and (if desired) asynchronicity.
+ *   <li><strong>...with EventBus:</strong> pass the event object to an EventBus's {@link
+ *       com.google.common.eventbus.EventBus#post(Object)} method.
  * </ul>
  *
  * <h2>Glossary</h2>
  *
  * <p>The EventBus system and code use the following terms to discuss event distribution:
+ *
  * <dl>
- *
- * <dt>Event
- * <dd>Any object that may be <em>posted</em> to a bus.
- *
- * <dt>Subscribing
- * <dd>The act of registering a <em>listener</em> with an EventBus, so that its
- *     <em>subscriber methods</em> will receive events.
- *
- * <dt>Listener
- * <dd>An object that wishes to receive events, by exposing <em>subscriber methods</em>.
- *
- * <dt>Subscriber method
- * <dd>A public method that the EventBus should use to deliver <em>posted</em> events. Subscriber
- *     methods are marked by the {@link com.google.common.eventbus.Subscribe} annotation.
- *
- * <dt>Posting an event
- * <dd>Making the event available to any <em>listeners</em> through the EventBus.
- *
+ *   <dt>Event
+ *   <dd>Any object that may be <em>posted</em> to a bus.
+ *   <dt>Subscribing
+ *   <dd>The act of registering a <em>listener</em> with an EventBus, so that its <em>subscriber
+ *       methods</em> will receive events.
+ *   <dt>Listener
+ *   <dd>An object that wishes to receive events, by exposing <em>subscriber methods</em>.
+ *   <dt>Subscriber method
+ *   <dd>A public method that the EventBus should use to deliver <em>posted</em> events. Subscriber
+ *       methods are marked by the {@link com.google.common.eventbus.Subscribe} annotation.
+ *   <dt>Posting an event
+ *   <dd>Making the event available to any <em>listeners</em> through the EventBus.
  * </dl>
  *
  * <h2>FAQ</h2>
+ *
  * <h3>Why must I create my own Event Bus, rather than using a singleton?</h3>
  *
  * <p>The Event Bus doesn't specify how you use it; there's nothing stopping your application from
@@ -129,35 +130,39 @@
  *
  * <p>Traditional Java Events use a listener interface which typically sports only a handful of
  * methods -- typically one. This has a number of disadvantages:
+ *
  * <ul>
- * <li>Any one class can only implement a single response to a given event.
- * <li>Listener interface methods may conflict.
- * <li>The method must be named after the event (e.g. {@code handleChangeEvent}), rather than its
- *     purpose (e.g. {@code recordChangeInJournal}).
- * <li>Each event usually has its own interface, without a common parent interface for a family of
- *     events (e.g. all UI events).
+ *   <li>Any one class can only implement a single response to a given event.
+ *   <li>Listener interface methods may conflict.
+ *   <li>The method must be named after the event (e.g. {@code handleChangeEvent}), rather than its
+ *       purpose (e.g. {@code recordChangeInJournal}).
+ *   <li>Each event usually has its own interface, without a common parent interface for a family of
+ *       events (e.g. all UI events).
  * </ul>
  *
  * <p>The difficulties in implementing this cleanly has given rise to a pattern, particularly common
  * in Swing apps, of using tiny anonymous classes to implement event listener interfaces.
  *
- * <p>Compare these two cases: <pre>   {@code
- *   class ChangeRecorder {
- *     void setCustomer(Customer cust) {
- *       cust.addChangeListener(new ChangeListener() {
- *         void customerChanged(ChangeEvent e) {
- *           recordChange(e.getChange());
- *         }
- *       };
- *     }
- *   }
+ * <p>Compare these two cases:
  *
- *   // Class is typically registered by the container.
- *   class EventBusChangeRecorder {
- *    }{@code @Subscribe void recordCustomerChange(ChangeEvent e) {
- *       recordChange(e.getChange());
- *     }
- *   }}</pre>
+ * <pre>{@code
+ * class ChangeRecorder {
+ *   void setCustomer(Customer cust) {
+ *     cust.addChangeListener(new ChangeListener() {
+ *       void customerChanged(ChangeEvent e) {
+ *         recordChange(e.getChange());
+ *       }
+ *     };
+ *   }
+ * }
+ *
+ * // Class is typically registered by the container.
+ * class EventBusChangeRecorder {
+ *  }{@code @Subscribe void recordCustomerChange(ChangeEvent e) {
+ *     recordChange(e.getChange());
+ *   }
+ * }
+ * }</pre>
  *
  * <p>The intent is actually clearer in the second case: there's less noise code, and the event
  * subscriber has a clear and meaningful name.
@@ -167,10 +172,13 @@
  * <p>Some have proposed a generic {@code Subscriber<T>} interface for EventBus listeners. This runs
  * into issues with Java's use of type erasure, not to mention problems in usability.
  *
- * <p>Let's say the interface looked something like the following: <pre>   {@code
- *   interface Subscriber<T> {
- *     void handleEvent(T event);
- *   }}</pre>
+ * <p>Let's say the interface looked something like the following:
+ *
+ * <pre>{@code
+ * interface Subscriber<T> {
+ *   void handleEvent(T event);
+ * }
+ * }</pre>
  *
  * <p>Due to erasure, no single class can implement a generic interface more than once with
  * different type parameters. This is a giant step backwards from traditional Java Events, where
@@ -233,8 +241,8 @@
  * code you don't control.)
  *
  * <p>To handle such events, register a subscriber method for the {@code DeadEvent} class. Whenever
- * EventBus receives an event with no registered subscribers, it will turn it into a
- * {@code DeadEvent} and pass it your way -- allowing you to log it or otherwise recover.
+ * EventBus receives an event with no registered subscribers, it will turn it into a {@code
+ * DeadEvent} and pass it your way -- allowing you to log it or otherwise recover.
  *
  * <h3>How do I test event listeners and their subscriber methods?</h3>
  *
@@ -245,5 +253,5 @@
 @ParametersAreNonnullByDefault
 package com.google.common.eventbus;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;

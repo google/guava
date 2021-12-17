@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A class to allow {@link ValueGraph} implementations to be backed by a provided delegate. This is
@@ -26,9 +26,10 @@ import javax.annotation.Nullable;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
+@ElementTypesAreNonnullByDefault
 abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
-  protected abstract ValueGraph<N, V> delegate();
+  abstract ValueGraph<N, V> delegate();
 
   @Override
   public Set<N> nodes() {
@@ -57,6 +58,11 @@ abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
   @Override
   public ElementOrder<N> nodeOrder() {
     return delegate().nodeOrder();
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return delegate().incidentEdgeOrder();
   }
 
   @Override
@@ -95,8 +101,19 @@ abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  @Nullable
-  public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    return delegate().hasEdgeConnecting(endpoints);
+  }
+
+  @Override
+  @CheckForNull
+  public V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue) {
     return delegate().edgeValueOrDefault(nodeU, nodeV, defaultValue);
+  }
+
+  @Override
+  @CheckForNull
+  public V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue) {
+    return delegate().edgeValueOrDefault(endpoints, defaultValue);
   }
 }

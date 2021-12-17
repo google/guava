@@ -57,8 +57,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a {@code Multimap} implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a {@code Multimap}
+ * implementation.
  *
  * @author Louis Wasserman
  */
@@ -101,8 +101,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
   @Override
   protected List<TestSuite> createDerivedSuites(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     // TODO: Once invariant support is added, supply invariants to each of the
     // derived suites, to check that mutations to the derived collections are
@@ -117,6 +116,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
               .withFeatures(computeReserializedMultimapFeatures(parentBuilder.getFeatures()))
               .named(parentBuilder.getName() + " reserialized")
               .suppressing(parentBuilder.getSuppressedTests())
+              .withSetUp(parentBuilder.getSetUp())
+              .withTearDown(parentBuilder.getTearDown())
               .createTestSuite());
     }
 
@@ -125,6 +126,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
             .withFeatures(computeAsMapFeatures(parentBuilder.getFeatures()))
             .named(parentBuilder.getName() + ".asMap")
             .suppressing(parentBuilder.getSuppressedTests())
+            .withSetUp(parentBuilder.getSetUp())
+            .withTearDown(parentBuilder.getTearDown())
             .createTestSuite());
 
     derivedSuites.add(computeEntriesTestSuite(parentBuilder));
@@ -137,8 +140,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
   }
 
   TestSuite computeValuesTestSuite(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return CollectionTestSuiteBuilder.using(
             new ValuesGenerator<K, V, M>(parentBuilder.getSubjectGenerator()))
@@ -149,32 +151,33 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
   }
 
   TestSuite computeEntriesTestSuite(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return CollectionTestSuiteBuilder.using(
             new EntriesGenerator<K, V, M>(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeEntriesFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".entries")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 
   TestSuite computeMultimapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return CollectionTestSuiteBuilder.using(
             new MultimapGetGenerator<K, V, M>(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeMultimapGetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".get[key]")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 
   TestSuite computeMultimapAsMapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     Set<Feature<?>> features = computeMultimapAsMapGetFeatures(parentBuilder.getFeatures());
     if (Collections.disjoint(features, EnumSet.allOf(CollectionSize.class))) {
@@ -185,19 +188,22 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
           .withFeatures(features)
           .named(parentBuilder.getName() + ".asMap[].get[key]")
           .suppressing(parentBuilder.getSuppressedTests())
+          .withSetUp(parentBuilder.getSetUp())
+          .withTearDown(parentBuilder.getTearDown())
           .createTestSuite();
     }
   }
 
   TestSuite computeKeysTestSuite(
-      FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return MultisetTestSuiteBuilder.using(
             new KeysGenerator<K, V, M>(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeKeysFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".keys")
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 
@@ -548,8 +554,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
       implements TestCollectionGenerator<V> {
     final OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator;
 
-    public MultimapGetGenerator(
-        OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator) {
+    public MultimapGetGenerator(OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator) {
       this.multimapGenerator = multimapGenerator;
     }
 

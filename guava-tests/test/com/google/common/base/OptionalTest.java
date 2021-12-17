@@ -85,6 +85,7 @@ public final class OptionalTest extends TestCase {
     assertFalse(Optional.absent().isPresent());
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testIsPresent_yes() {
     assertTrue(Optional.of("training").isPresent());
   }
@@ -102,6 +103,7 @@ public final class OptionalTest extends TestCase {
     assertEquals("training", Optional.of("training").get());
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_T_present() {
     assertEquals("a", Optional.of("a").or("default"));
   }
@@ -110,6 +112,7 @@ public final class OptionalTest extends TestCase {
     assertEquals("default", Optional.absent().or("default"));
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_supplier_present() {
     assertEquals("a", Optional.of("a").or(Suppliers.ofInstance("fallback")));
   }
@@ -128,11 +131,13 @@ public final class OptionalTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_nullSupplier_present() {
     Supplier<String> nullSupplier = Suppliers.ofInstance(null);
     assertEquals("a", Optional.of("a").or(nullSupplier));
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOr_Optional_present() {
     assertEquals(Optional.of("a"), Optional.of("a").or(Optional.of("fallback")));
   }
@@ -141,6 +146,7 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("fallback"), Optional.absent().or(Optional.of("fallback")));
   }
 
+  @SuppressWarnings("OptionalOfRedundantMethod") // Unit tests for Optional
   public void testOrNull_present() {
     assertEquals("a", Optional.of("a").orNull());
   }
@@ -206,13 +212,16 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testTransform_absent_functionReturnsNull() {
-    assertEquals(Optional.absent(),
-        Optional.absent().transform(
-          new Function<Object, Object>() {
-            @Override public Object apply(Object input) {
-              return null;
-            }
-          }));
+    assertEquals(
+        Optional.absent(),
+        Optional.absent()
+            .transform(
+                new Function<Object, Object>() {
+                  @Override
+                  public Object apply(Object input) {
+                    return null;
+                  }
+                }));
   }
 
   public void testEqualsAndHashCode() {
@@ -238,8 +247,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testPresentInstances_allAbsent() {
-    List<Optional<Object>> optionals =
-        ImmutableList.of(Optional.absent(), Optional.absent());
+    List<Optional<Object>> optionals = ImmutableList.of(Optional.absent(), Optional.absent());
     assertThat(Optional.presentInstances(optionals)).isEmpty();
   }
 
@@ -261,7 +269,7 @@ public final class OptionalTest extends TestCase {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).containsExactly(2).inOrder();
+    assertThat(onlyPresent).containsExactly(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {
@@ -303,7 +311,7 @@ public final class OptionalTest extends TestCase {
     // Sadly, the following is what users will have to do in some circumstances.
 
     @SuppressWarnings("unchecked") // safe covariant cast
-    Optional<Number> first = (Optional) numbers.first();
+    Optional<Number> first = (Optional<Number>) numbers.first();
     Number value = first.or(0.5); // fine
   }
 

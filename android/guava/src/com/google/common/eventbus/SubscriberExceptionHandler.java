@@ -11,16 +11,17 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.eventbus;
+
 
 /**
  * Handler for exceptions thrown by event subscribers.
  *
  * @since 16.0
  */
+@ElementTypesAreNonnullByDefault
 public interface SubscriberExceptionHandler {
-  /**
-   * Handles exceptions thrown by subscribers.
-   */
+  /** Handles exceptions thrown by subscribers. */
   void handleException(Throwable exception, SubscriberExceptionContext context);
 }

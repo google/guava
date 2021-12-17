@@ -31,11 +31,14 @@ public class ForwardingMultimapTest extends TestCase {
   @SuppressWarnings("rawtypes")
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(Multimap.class, new Function<Multimap, Multimap>() {
-          @Override public Multimap apply(Multimap delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            Multimap.class,
+            new Function<Multimap, Multimap>() {
+              @Override
+              public Multimap apply(Multimap delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -49,7 +52,8 @@ public class ForwardingMultimapTest extends TestCase {
 
   private static <K, V> Multimap<K, V> wrap(final Multimap<K, V> delegate) {
     return new ForwardingMultimap<K, V>() {
-      @Override protected Multimap<K, V> delegate() {
+      @Override
+      protected Multimap<K, V> delegate() {
         return delegate;
       }
     };

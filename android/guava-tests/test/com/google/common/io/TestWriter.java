@@ -23,9 +23,7 @@ import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-/**
- * @author Colin Decker
- */
+/** @author Colin Decker */
 public class TestWriter extends FilterWriter {
 
   private final TestOutputStream out;

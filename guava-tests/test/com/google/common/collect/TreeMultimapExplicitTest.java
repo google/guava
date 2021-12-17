@@ -38,8 +38,8 @@ import junit.framework.TestCase;
 public class TreeMultimapExplicitTest extends TestCase {
 
   /**
-   * Compare strings lengths, and if the lengths are equal compare the strings.
-   * A {@code null} is less than any non-null value.
+   * Compare strings lengths, and if the lengths are equal compare the strings. A {@code null} is
+   * less than any non-null value.
    */
   private enum StringLength implements Comparator<String> {
     COMPARATOR;
@@ -60,23 +60,18 @@ public class TreeMultimapExplicitTest extends TestCase {
     }
   }
 
-  /**
-   * Decreasing integer values. A {@code null} comes before any non-null value.
-   */
+  /** Decreasing integer values. A {@code null} comes before any non-null value. */
   private static final Comparator<Integer> DECREASING_INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
 
   private SetMultimap<String, Integer> create() {
-    return TreeMultimap.create(
-        StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
+    return TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
   }
 
-  /**
-   * Create and populate a {@code TreeMultimap} with explicit comparators.
-   */
+  /** Create and populate a {@code TreeMultimap} with explicit comparators. */
   private TreeMultimap<String, Integer> createPopulate() {
-    TreeMultimap<String, Integer> multimap = TreeMultimap.create(
-        StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
+    TreeMultimap<String, Integer> multimap =
+        TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
     multimap.put("google", 2);
     multimap.put("google", 6);
     multimap.put(null, 3);
@@ -87,12 +82,10 @@ public class TreeMultimapExplicitTest extends TestCase {
     return multimap;
   }
 
-  /**
-   * Test that a TreeMultimap created from another uses the natural ordering.
-   */
+  /** Test that a TreeMultimap created from another uses the natural ordering. */
   public void testMultimapCreateFromTreeMultimap() {
-    TreeMultimap<String, Integer> tree = TreeMultimap.create(
-        StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
+    TreeMultimap<String, Integer> tree =
+        TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
     tree.put("google", 2);
     tree.put("google", 6);
     tree.put("tree", 0);
@@ -116,8 +109,7 @@ public class TreeMultimapExplicitTest extends TestCase {
     multimap.putAll("foo", Arrays.asList(-1, 2, 4));
     multimap.putAll("bar", Arrays.asList(2, 3));
     multimap.put("foo", 1);
-    assertEquals("{bar=[3, 2, 1], foo=[4, 3, 2, 1, -1]}",
-        multimap.toString());
+    assertEquals("{bar=[3, 2, 1], foo=[4, 3, 2, 1, -1]}", multimap.toString());
   }
 
   public void testGetComparator() {
@@ -140,8 +132,7 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   public void testOrderedAsMapEntries() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    Iterator<Entry<String, Collection<Integer>>> iterator =
-        multimap.asMap().entrySet().iterator();
+    Iterator<Entry<String, Collection<Integer>>> iterator = multimap.asMap().entrySet().iterator();
     Entry<String, Collection<Integer>> entry = iterator.next();
     assertEquals(null, entry.getKey());
     assertThat(entry.getValue()).containsExactly(7, 3, 1);
@@ -155,14 +146,16 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   public void testOrderedEntries() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    assertThat(multimap.entries()).containsExactly(
-        Maps.immutableEntry((String) null, 7),
-        Maps.immutableEntry((String) null, 3),
-        Maps.immutableEntry((String) null, 1),
-        Maps.immutableEntry("tree", (Integer) null),
-        Maps.immutableEntry("tree", 0),
-        Maps.immutableEntry("google", 6),
-        Maps.immutableEntry("google", 2)).inOrder();
+    assertThat(multimap.entries())
+        .containsExactly(
+            Maps.immutableEntry((String) null, 7),
+            Maps.immutableEntry((String) null, 3),
+            Maps.immutableEntry((String) null, 1),
+            Maps.immutableEntry("tree", (Integer) null),
+            Maps.immutableEntry("tree", 0),
+            Maps.immutableEntry("google", 6),
+            Maps.immutableEntry("google", 2))
+        .inOrder();
   }
 
   public void testOrderedValues() {
@@ -173,8 +166,7 @@ public class TreeMultimapExplicitTest extends TestCase {
   public void testComparator() {
     TreeMultimap<String, Integer> multimap = createPopulate();
     assertEquals(DECREASING_INT_COMPARATOR, multimap.get("foo").comparator());
-    assertEquals(DECREASING_INT_COMPARATOR,
-        multimap.get("missing").comparator());
+    assertEquals(DECREASING_INT_COMPARATOR, multimap.get("missing").comparator());
   }
 
   public void testMultimapComparators() {
@@ -207,8 +199,7 @@ public class TreeMultimapExplicitTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    TreeMultimap<String, Integer> copy
-        = SerializableTester.reserializeAndAssert(multimap);
+    TreeMultimap<String, Integer> copy = SerializableTester.reserializeAndAssert(multimap);
     assertThat(copy.values()).containsExactly(7, 3, 1, null, 0, 6, 2).inOrder();
     assertThat(copy.keySet()).containsExactly(null, "tree", "google").inOrder();
     assertEquals(multimap.keyComparator(), copy.keyComparator());

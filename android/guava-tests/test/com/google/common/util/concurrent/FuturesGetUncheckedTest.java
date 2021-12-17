@@ -28,18 +28,20 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 
-/**
- * Unit tests for {@link Futures#getUnchecked(Future)}.
- */
+/** Unit tests for {@link Futures#getUnchecked(Future)}. */
+@GwtCompatible(emulated = true)
 public class FuturesGetUncheckedTest extends TestCase {
   public void testGetUnchecked_success() {
     assertEquals("foo", getUnchecked(immediateFuture("foo")));
   }
 
+  @GwtIncompatible // Thread.interrupt
   public void testGetUnchecked_interrupted() {
     Thread.currentThread().interrupt();
     try {

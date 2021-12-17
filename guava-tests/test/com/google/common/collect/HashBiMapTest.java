@@ -55,27 +55,30 @@ public class HashBiMapTest extends TestCase {
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
-      .named("HashBiMap")
-      .withFeatures(CollectionSize.ANY,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          CollectionFeature.KNOWN_ORDER,
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.ALLOWS_ANY_NULL_QUERIES,
-          MapFeature.GENERAL_PURPOSE)
-      .createTestSuite());
+    suite.addTest(
+        BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
+            .named("HashBiMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE)
+            .createTestSuite());
     suite.addTestSuite(HashBiMapTest.class);
     return suite;
   }
 
   public void testMapConstructor() {
     /* Test with non-empty Map. */
-    Map<String, String> map = ImmutableMap.of(
-        "canada", "dollar",
-        "chile", "peso",
-        "switzerland", "franc");
+    Map<String, String> map =
+        ImmutableMap.of(
+            "canada", "dollar",
+            "chile", "peso",
+            "switzerland", "franc");
     HashBiMap<String, String> bimap = HashBiMap.create(map);
     assertEquals("dollar", bimap.get("canada"));
     assertEquals("canada", bimap.inverse().get("dollar"));
@@ -133,10 +136,12 @@ public class HashBiMapTest extends TestCase {
     map.put("foo", 1);
     map.put("bar", 2);
     map.put("quux", 3);
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("foo", 1),
-        Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("quux", 3)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(
+            Maps.immutableEntry("foo", 1),
+            Maps.immutableEntry("bar", 2),
+            Maps.immutableEntry("quux", 3))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterRemoveFirst() {
@@ -146,9 +151,9 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.remove("foo");
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("quux", 3)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 3))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterRemoveMiddle() {
@@ -158,9 +163,9 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.remove("bar");
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("foo", 1),
-        Maps.immutableEntry("quux", 3)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry("foo", 1), Maps.immutableEntry("quux", 3))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterRemoveLast() {
@@ -170,9 +175,9 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.remove("quux");
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("foo", 1),
-        Maps.immutableEntry("bar", 2)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry("foo", 1), Maps.immutableEntry("bar", 2))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterForcePut() {
@@ -182,9 +187,9 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.forcePut("quux", 1);
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("quux", 1)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 1))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterInverseForcePut() {
@@ -194,9 +199,9 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.inverse().forcePut(1, "quux");
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("quux", 1)).inOrder();
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 1))
+        .inOrder();
   }
 
   public void testInverseInsertionOrderAfterInverse() {
@@ -216,16 +221,38 @@ public class HashBiMapTest extends TestCase {
     map.put("quux", 3);
 
     map.inverse().forcePut(1, "quux");
-    assertThat(map.inverse().entrySet()).containsExactly(
-        Maps.immutableEntry(2, "bar"),
-        Maps.immutableEntry(1, "quux")).inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(Maps.immutableEntry(2, "bar"), Maps.immutableEntry(1, "quux"))
+        .inOrder();
   }
 
-  public void testInverseEntrySetValue() {
+  public void testInverseInsertionOrderAfterInverseForcePutPresentKey() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+    map.put("nab", 4);
+
+    map.inverse().forcePut(4, "bar");
+    assertThat(map.entrySet())
+        .containsExactly(
+            Maps.immutableEntry("foo", 1),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("quux", 3))
+        .inOrder();
+  }
+
+  public void testInverseEntrySetValueNewKey() {
     BiMap<Integer, String> map = HashBiMap.create();
-    map.put(1, "one");
-    Entry<String, Integer> inverseEntry = Iterables.getOnlyElement(map.inverse().entrySet());
-    inverseEntry.setValue(2);
-    assertEquals(Integer.valueOf(2), inverseEntry.getValue());
+    map.put(1, "a");
+    map.put(2, "b");
+    Iterator<Entry<String, Integer>> inverseEntryItr = map.inverse().entrySet().iterator();
+    Entry<String, Integer> entry = inverseEntryItr.next();
+    entry.setValue(3);
+    assertEquals(Maps.immutableEntry("b", 2), inverseEntryItr.next());
+    assertFalse(inverseEntryItr.hasNext());
+    assertThat(map.entrySet())
+        .containsExactly(Maps.immutableEntry(2, "b"), Maps.immutableEntry(3, "a"))
+        .inOrder();
   }
 }

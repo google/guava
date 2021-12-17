@@ -1,0 +1,52 @@
+# TODO(user): Resolve cycles
+
+NAMESPACE com.google.common.collect.testing
+NAMESPACE com.google.common.collect.testing.google
+NAMESPACE com.google.common.escape
+NAMESPACE com.google.common.escape.testing
+NAMESPACE com.google.common.io
+NAMESPACE com.google.common.net
+NAMESPACE com.google.common.testing
+
+# Allow our dependencies for now.
+NAMESPACE junit.framework
+NAMESPACE org.junit
+
+# ***** REAL CYCLES *****
+# Cycle exists until future completes
+FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.ExecutionSequencer.TaskNonReentrantExecutor
+
+# ***** FALSE POSITIVES *****
+
+# The Runnable type is so generic that it produces too many false positives.
+TYPE java.lang.Runnable
+
+FIELD com.google.common.base.Converter.reverse
+FIELD com.google.common.collect.AbstractBiMap.EntrySet.iterator.$.entry com.google.common.collect.AbstractBiMap.EntrySet.iterator.$.next.$
+FIELD com.google.common.collect.AbstractMapBasedMultimap.map
+FIELD com.google.common.collect.AbstractMultimap.asMap com.google.common.collect.AbstractMapBasedMultimap.NavigableAsMap
+FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collect.LinkedListMultimap.get.$
+FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collect.Multimaps.MapMultimap.get.$
+FIELD com.google.common.collect.AbstractMultiset.entrySet com.google.common.collect.FilteredEntryMultimap.Keys.entrySet.$
+FIELD com.google.common.collect.ConcurrentHashMultiset.countMap
+FIELD com.google.common.collect.ImmutableMultiset.asList
+FIELD com.google.common.collect.ImmutableRangeMap.ranges
+FIELD com.google.common.collect.ImmutableRangeSet.ranges
+FIELD com.google.common.collect.ImmutableSet.asList
+FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
+FIELD com.google.common.collect.Sets.SubSet.inputSet
+FIELD com.google.common.collect.SingletonImmutableBiMap.inverse
+FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
+FIELD com.google.common.collect.TreeTraverser.PreOrderIterator.stack
+FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor.$
+FIELD com.google.common.util.concurrent.AbstractService.listeners
+# NonReentrantExecutor is not exposed to this field
+FIELD com.google.common.util.concurrent.ExecutionSequencer.ThreadConfinedTaskQueue.nextExecutor com.google.common.util.concurrent.ExecutionSequencer.TaskNonReentrantExecutor
+# Real cycle, but the runningState field is null'ed on completion of the future.
+FIELD com.google.common.util.concurrent.AggregateFuture.runningState
+FIELD java.util.AbstractMap.keySet com.google.common.collect.AbstractMapBasedMultimap.NavigableKeySet
+FIELD java.util.AbstractMap.keySet com.google.common.collect.Maps.FilteredEntryNavigableMap.navigableKeySet.$
+FIELD java.util.AbstractMap.keySet com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.keySet.$
+FIELD java.util.AbstractMap.values com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
+OUTER com.google.common.collect.StandardTable.Row
+OUTER com.google.common.collect.TreeBasedTable.TreeRow

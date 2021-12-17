@@ -29,6 +29,7 @@ import java.nio.ByteOrder;
  */
 // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
 @CanIgnoreReturnValue
+@ElementTypesAreNonnullByDefault
 abstract class AbstractStreamingHasher extends AbstractHasher {
   /** Buffer via which we pass data to the hash algorithm (the implementor) */
   private final ByteBuffer buffer;
@@ -52,8 +53,8 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
 
   /**
    * Constructor for use by subclasses. This hasher instance will process chunks of the specified
-   * size, using an internal buffer of {@code bufferSize} size, which must be a multiple of
-   * {@code chunkSize}.
+   * size, using an internal buffer of {@code bufferSize} size, which must be a multiple of {@code
+   * chunkSize}.
    *
    * @param chunkSize the number of bytes available per {@link #process(ByteBuffer)} invocation;
    *     must be at least 4
@@ -70,9 +71,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
     this.chunkSize = chunkSize;
   }
 
-  /**
-   * Processes the available bytes of the buffer (at most {@code chunk} bytes).
-   */
+  /** Processes the available bytes of the buffer (at most {@code chunk} bytes). */
   protected abstract void process(ByteBuffer bb);
 
   /**
@@ -82,13 +81,13 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
    * <p>This implementation simply pads with zeros and delegates to {@link #process(ByteBuffer)}.
    */
   protected void processRemaining(ByteBuffer bb) {
-    bb.position(bb.limit()); // move at the end
-    bb.limit(chunkSize + 7); // get ready to pad with longs
+    Java8Compatibility.position(bb, bb.limit()); // move at the end
+    Java8Compatibility.limit(bb, chunkSize + 7); // get ready to pad with longs
     while (bb.position() < chunkSize) {
       bb.putLong(0);
     }
-    bb.limit(chunkSize);
-    bb.flip();
+    Java8Compatibility.limit(bb, chunkSize);
+    Java8Compatibility.flip(bb);
     process(bb);
   }
 
@@ -181,18 +180,18 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   @Override
   public final HashCode hash() {
     munch();
-    buffer.flip();
+    Java8Compatibility.flip(buffer);
     if (buffer.remaining() > 0) {
       processRemaining(buffer);
-      buffer.position(buffer.limit());
+      Java8Compatibility.position(buffer, buffer.limit());
     }
     return makeHash();
   }
 
   /**
-   * Computes a hash code based on the data that have been provided to this hasher.  This is called
-   * after all chunks are handled with {@link #process} and any leftover bytes that did not make
-   * a complete chunk are handled with {@link #processRemaining}.
+   * Computes a hash code based on the data that have been provided to this hasher. This is called
+   * after all chunks are handled with {@link #process} and any leftover bytes that did not make a
+   * complete chunk are handled with {@link #processRemaining}.
    */
   protected abstract HashCode makeHash();
 
@@ -205,7 +204,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   private void munch() {
-    buffer.flip();
+    Java8Compatibility.flip(buffer);
     while (buffer.remaining() >= chunkSize) {
       // we could limit the buffer to ensure process() does not read more than
       // chunkSize number of bytes, but we trust the implementations

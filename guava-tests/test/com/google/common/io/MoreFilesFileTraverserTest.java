@@ -19,8 +19,11 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
+import com.google.common.jimfs.Configuration;
+import com.google.common.jimfs.Jimfs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import junit.framework.TestCase;
 
@@ -36,12 +39,13 @@ public class MoreFilesFileTraverserTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rootDir = Files.createTempDir().toPath();
+    rootDir = Jimfs.newFileSystem(Configuration.unix()).getPath("/tmp");
+    Files.createDirectory(rootDir);
   }
 
   @Override
   public void tearDown() throws IOException {
-    MoreFiles.deleteRecursively(rootDir);
+    rootDir.getFileSystem().close();
   }
 
   public void testFileTraverser_emptyDirectory() throws Exception {
@@ -104,16 +108,16 @@ public class MoreFilesFileTraverserTest extends TestCase {
   }
 
   @CanIgnoreReturnValue
-  private Path newDir(String name) {
+  private Path newDir(String name) throws IOException {
     Path dir = rootDir.resolve(name);
-    dir.toFile().mkdir();
+    Files.createDirectory(dir);
     return dir;
   }
 
   @CanIgnoreReturnValue
   private Path newFile(String name) throws IOException {
     Path file = rootDir.resolve(name);
-    file.toFile().createNewFile();
+    MoreFiles.touch(file);
     return file;
   }
 }

@@ -50,7 +50,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
 
   private void initializeData(DataOutputStream out) throws IOException {
     /* Write out various test values NORMALLY */
-    out.write(new byte[] { -100, 100 });
+    out.write(new byte[] {-100, 100});
     out.writeBoolean(true);
     out.writeBoolean(false);
     out.writeByte(100);
@@ -88,16 +88,18 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     try {
       in.readUnsignedShort();
       fail();
-    } catch (EOFException expected) {}
+    } catch (EOFException expected) {
+    }
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testReadLine() throws IOException {
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(data));
     try {
       in.readLine();
       fail();
     } catch (UnsupportedOperationException expected) {
-      assertThat(expected).hasMessage("readLine is not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("readLine is not supported");
     }
   }
 
@@ -129,7 +131,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     DataOutputStream out = new DataOutputStream(baos);
 
     /* Write out various test values NORMALLY */
-    out.write(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}); // 10 bytes of junk to skip
+    out.write(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}); // 10 bytes of junk to skip
     initializeData(out);
 
     byte[] data = baos.toByteArray();

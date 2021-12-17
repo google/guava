@@ -26,36 +26,47 @@ import com.google.caliper.Param;
  * @author Mike Cripps
  */
 public class StringsRepeatBenchmark {
-  @Param({"1", "5", "25", "125"}) int count;
-  @Param({"1", "10"}) int length;
+  @Param({"1", "5", "25", "125"})
+  int count;
+
+  @Param({"1", "10"})
+  int length;
 
   private String originalString;
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     originalString = Strings.repeat("x", length);
   }
 
-  @Benchmark void oldRepeat(int reps) {
+  @Benchmark
+  void oldRepeat(long reps) {
     for (int i = 0; i < reps; i++) {
       String x = oldRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {
-        throw new RuntimeException("Wrong length: "+x);
+        throw new RuntimeException("Wrong length: " + x);
       }
     }
   }
-  @Benchmark void mikeRepeat(int reps) {
+
+  private static String oldRepeat(String string, int count) {
+    // If this multiplication overflows, a NegativeArraySizeException or
+    // OutOfMemoryError is not far behind
+    final int len = string.length();
+    final int size = len * count;
+    char[] array = new char[size];
+    for (int i = 0; i < size; i += len) {
+      string.getChars(0, len, array, i);
+    }
+    return new String(array);
+  }
+
+  @Benchmark
+  void mikeRepeat(long reps) {
     for (int i = 0; i < reps; i++) {
       String x = mikeRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {
-        throw new RuntimeException("Wrong length: "+x);
-      }
-    }
-  }
-  @Benchmark void martinRepeat(int reps) {
-    for (int i = 0; i < reps; i++) {
-      String x = martinRepeat(originalString, count);
-      if (x.length() != (originalString.length() * count)) {
-        throw new RuntimeException("Wrong length: "+x);
+        throw new RuntimeException("Wrong length: " + x);
       }
     }
   }
@@ -71,7 +82,7 @@ public class StringsRepeatBenchmark {
     int pos = 0;
     while (count != 0) {
       if ((count & 1) != 0) {
-        System.arraycopy(strCopy, 0, array, pos,strCopyLen);
+        System.arraycopy(strCopy, 0, array, pos, strCopyLen);
         pos += strCopyLen;
       }
       count >>= 1;
@@ -83,16 +94,14 @@ public class StringsRepeatBenchmark {
     return new String(array);
   }
 
-  private static String oldRepeat(String string, int count) {
-    // If this multiplication overflows, a NegativeArraySizeException or
-    // OutOfMemoryError is not far behind
-    final int len = string.length();
-    final int size = len * count;
-    char[] array = new char[size];
-    for (int i = 0; i < size; i+=len) {
-      string.getChars(0, len, array, i);
+  @Benchmark
+  void martinRepeat(long reps) {
+    for (int i = 0; i < reps; i++) {
+      String x = martinRepeat(originalString, count);
+      if (x.length() != (originalString.length() * count)) {
+        throw new RuntimeException("Wrong length: " + x);
+      }
     }
-    return new String(array);
   }
 
   private static String martinRepeat(String string, int count) {

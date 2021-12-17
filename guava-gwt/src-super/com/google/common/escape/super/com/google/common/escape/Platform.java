@@ -16,9 +16,7 @@
 
 package com.google.common.escape;
 
-/**
- * @author Jesse Wilson
- */
+/** @author Jesse Wilson */
 final class Platform {
 
   private static final char[] CHAR_BUFFER = new char[1024];

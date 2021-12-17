@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import org.junit.Ignore;
 
 /**
  * Tests {@link java.util.Set#hashCode}.
@@ -32,6 +33,7 @@ import java.util.Collection;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   public void testHashCode() {
     int expectedHashCode = 0;
@@ -63,9 +65,8 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instances for the test methods in this class
-   * which call {@code hashCode()} on the set values so that set tests on
-   * unhashable objects can suppress it with
+   * Returns the {@link Method} instances for the test methods in this class which call {@code
+   * hashCode()} on the set values so that set tests on unhashable objects can suppress it with
    * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
   @GwtIncompatible // reflection

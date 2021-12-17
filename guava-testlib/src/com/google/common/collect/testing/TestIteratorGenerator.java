@@ -23,7 +23,6 @@ import java.util.Iterator;
  * Creates iterators to be tested.
  *
  * @param <E> the element type of the iterator.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

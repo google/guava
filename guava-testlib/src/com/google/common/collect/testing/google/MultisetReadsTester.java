@@ -24,15 +24,16 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.testing.features.CollectionSize;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests multiset-specific read operations.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
+ * A generic JUnit test which tests multiset-specific read operations. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
  *
  * @author Jared Levy
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionSize.Require(absent = ZERO)

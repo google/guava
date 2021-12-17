@@ -49,7 +49,8 @@ public class BigIntegerMathRoundingBenchmark {
     }
   }
 
-  @Benchmark int log2(int reps) {
+  @Benchmark
+  int log2(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -58,7 +59,8 @@ public class BigIntegerMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark int log10(int reps) {
+  @Benchmark
+  int log10(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -67,7 +69,8 @@ public class BigIntegerMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark int sqrt(int reps) {
+  @Benchmark
+  int sqrt(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -76,11 +79,22 @@ public class BigIntegerMathRoundingBenchmark {
     return tmp;
   }
 
-  @Benchmark int divide(int reps) {
+  @Benchmark
+  int divide(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
       tmp += BigIntegerMath.divide(nonzero1[j], nonzero2[j], mode).intValue();
+    }
+    return tmp;
+  }
+
+  @Benchmark
+  long roundToDouble(int reps) {
+    long tmp = 0;
+    for (int i = 0; i < reps; i++) {
+      int j = i & ARRAY_MASK;
+      tmp += Double.doubleToRawLongBits(BigIntegerMath.roundToDouble(nonzero1[j], mode));
     }
     return tmp;
   }

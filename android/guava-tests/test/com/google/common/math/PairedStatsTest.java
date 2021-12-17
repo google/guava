@@ -47,6 +47,7 @@ import static com.google.common.math.StatsTesting.assertStatsApproxEqual;
 import static com.google.common.math.StatsTesting.assertVerticalLinearTransformation;
 import static com.google.common.math.StatsTesting.createPairedStatsOf;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
@@ -57,8 +58,8 @@ import java.nio.ByteOrder;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link PairedStats}. This tests instances created by
- * {@link PairedStatsAccumulator#snapshot}.
+ * Tests for {@link PairedStats}. This tests instances created by {@link
+ * PairedStatsAccumulator#snapshot}.
  *
  * @author Pete Gillin
  */
@@ -104,10 +105,10 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(values.asIterable(), OTHER_MANY_VALUES);
       double populationCovariance = stats.populationCovariance();
       if (values.hasAnyNonFinite()) {
-        assertThat(populationCovariance).named("population covariance of " + values).isNaN();
+        assertWithMessage("population covariance of " + values).that(populationCovariance).isNaN();
       } else {
-        assertThat(populationCovariance)
-            .named("population covariance of " + values)
+        assertWithMessage("population covariance of " + values)
+            .that(populationCovariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
       }
@@ -169,12 +170,12 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(MANY_VALUES, values.asIterable());
       double pearsonsCorrelationCoefficient = stats.pearsonsCorrelationCoefficient();
       if (values.hasAnyNonFinite()) {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isNaN();
       } else {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isWithin(ALLOWED_ERROR)
             .of(
                 stats.populationCovariance()
@@ -263,10 +264,8 @@ public class PairedStatsTest extends TestCase {
             new PairedStats(OTHER_MANY_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
         .addEqualityGroup(
             new PairedStats(MANY_VALUES_STATS_ITERABLE, MANY_VALUES_STATS_ITERABLE, 1.23))
-        .addEqualityGroup(
-            new PairedStats(TWO_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
-        .addEqualityGroup(
-            new PairedStats(MANY_VALUES_STATS_ITERABLE, ONE_VALUE_STATS, 1.23))
+        .addEqualityGroup(new PairedStats(TWO_VALUES_STATS, MANY_VALUES_STATS_ITERABLE, 1.23))
+        .addEqualityGroup(new PairedStats(MANY_VALUES_STATS_ITERABLE, ONE_VALUE_STATS, 1.23))
         .addEqualityGroup(
             new PairedStats(MANY_VALUES_STATS_ITERABLE, MANY_VALUES_STATS_ITERABLE, 1.234))
         .testEquals();
@@ -312,7 +311,7 @@ public class PairedStatsTest extends TestCase {
   }
 
   public void testFromByteArray_withEmptyArrayInputThrowsIllegalArgumentException() {
-   try {
+    try {
       PairedStats.fromByteArray(new byte[0]);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
@@ -321,24 +320,26 @@ public class PairedStatsTest extends TestCase {
 
   public void testFromByteArray_withTooLongArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
-    byte[] tooLongByteArray = ByteBuffer.allocate(buffer.length + 2)
-        .order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer)
-        .putChar('.')
-        .array();
-      try {
-        PairedStats.fromByteArray(tooLongByteArray);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+    byte[] tooLongByteArray =
+        ByteBuffer.allocate(buffer.length + 2)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer)
+            .putChar('.')
+            .array();
+    try {
+      PairedStats.fromByteArray(tooLongByteArray);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testFromByteArrayWithTooShortArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
-    byte[] tooShortByteArray = ByteBuffer.allocate(buffer.length - 1)
-        .order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer, 0, buffer.length - 1)
-        .array();
+    byte[] tooShortByteArray =
+        ByteBuffer.allocate(buffer.length - 1)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer, 0, buffer.length - 1)
+            .array();
     try {
       PairedStats.fromByteArray(tooShortByteArray);
       fail("Expected IllegalArgumentException");

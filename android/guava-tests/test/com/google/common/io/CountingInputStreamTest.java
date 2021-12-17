@@ -30,7 +30,8 @@ import java.io.InputStream;
 public class CountingInputStreamTest extends IoTestCase {
   private CountingInputStream counter;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
     counter = new CountingInputStream(new ByteArrayInputStream(new byte[20]));
   }
@@ -93,7 +94,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not set");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
     }
   }
 
@@ -104,7 +105,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
     }
   }
 

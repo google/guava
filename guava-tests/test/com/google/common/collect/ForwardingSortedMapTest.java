@@ -43,55 +43,65 @@ import junit.framework.TestSuite;
  * @author Robert KonigsbergSortedMapFeature
  */
 public class ForwardingSortedMapTest extends TestCase {
-  static class StandardImplForwardingSortedMap<K, V>
-      extends ForwardingSortedMap<K, V> {
+  static class StandardImplForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
     private final SortedMap<K, V> backingSortedMap;
 
     StandardImplForwardingSortedMap(SortedMap<K, V> backingSortedMap) {
       this.backingSortedMap = backingSortedMap;
     }
 
-    @Override protected SortedMap<K, V> delegate() {
+    @Override
+    protected SortedMap<K, V> delegate() {
       return backingSortedMap;
     }
 
-    @Override public boolean containsKey(Object key) {
+    @Override
+    public boolean containsKey(Object key) {
       return standardContainsKey(key);
     }
 
-    @Override public boolean containsValue(Object value) {
+    @Override
+    public boolean containsValue(Object value) {
       return standardContainsValue(value);
     }
 
-    @Override public void putAll(Map<? extends K, ? extends V> map) {
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
       standardPutAll(map);
     }
 
-    @Override public V remove(Object object) {
+    @Override
+    public V remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public Set<K> keySet() {
+    @Override
+    public Set<K> keySet() {
       return new StandardKeySet();
     }
 
-    @Override public Collection<V> values() {
+    @Override
+    public Collection<V> values() {
       return new StandardValues();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public Set<Entry<K, V>> entrySet() {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
@@ -100,15 +110,18 @@ public class ForwardingSortedMapTest extends TestCase {
       };
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return standardIsEmpty();
     }
 
-    @Override public SortedMap<K, V> subMap(K fromKey, K toKey) {
+    @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
       return standardSubMap(fromKey, toKey);
     }
   }
@@ -191,11 +204,14 @@ public class ForwardingSortedMapTest extends TestCase {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(SortedMap.class, new Function<SortedMap, SortedMap>() {
-          @Override public SortedMap apply(SortedMap delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            SortedMap.class,
+            new Function<SortedMap, SortedMap>() {
+              @Override
+              public SortedMap apply(SortedMap delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -209,7 +225,8 @@ public class ForwardingSortedMapTest extends TestCase {
 
   private static <K, V> SortedMap<K, V> wrap(final SortedMap<K, V> delegate) {
     return new ForwardingSortedMap<K, V>() {
-      @Override protected SortedMap<K, V> delegate() {
+      @Override
+      protected SortedMap<K, V> delegate() {
         return delegate;
       }
     };

@@ -31,6 +31,7 @@ import java.nio.charset.Charset;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Charsets {
   private Charsets() {}
 

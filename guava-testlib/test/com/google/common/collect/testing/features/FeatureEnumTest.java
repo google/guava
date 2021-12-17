@@ -25,46 +25,46 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 /**
- * Since annotations have some reusability issues that force copy and paste
- * all over the place, it's worth having a test to ensure that all our Feature
- * enums have their annotations correctly set up.
+ * Since annotations have some reusability issues that force copy and paste all over the place, it's
+ * worth having a test to ensure that all our Feature enums have their annotations correctly set up.
  *
  * @author George van den Driessche
  */
 public class FeatureEnumTest extends TestCase {
-  private static void assertGoodTesterAnnotation(
-      Class<? extends Annotation> annotationClass) {
+  private static void assertGoodTesterAnnotation(Class<? extends Annotation> annotationClass) {
     assertNotNull(
-        rootLocaleFormat("%s must be annotated with @TesterAnnotation.",
-            annotationClass),
+        rootLocaleFormat("%s must be annotated with @TesterAnnotation.", annotationClass),
         annotationClass.getAnnotation(TesterAnnotation.class));
-    final Retention retentionPolicy =
-        annotationClass.getAnnotation(Retention.class);
+    final Retention retentionPolicy = annotationClass.getAnnotation(Retention.class);
     assertNotNull(
         rootLocaleFormat("%s must have a @Retention annotation.", annotationClass),
         retentionPolicy);
     assertEquals(
         rootLocaleFormat("%s must have RUNTIME RetentionPolicy.", annotationClass),
-        RetentionPolicy.RUNTIME, retentionPolicy.value());
+        RetentionPolicy.RUNTIME,
+        retentionPolicy.value());
     assertNotNull(
         rootLocaleFormat("%s must be inherited.", annotationClass),
         annotationClass.getAnnotation(Inherited.class));
 
-    for (String propertyName : new String[]{"value", "absent"}) {
+    for (String propertyName : new String[] {"value", "absent"}) {
       Method method = null;
       try {
         method = annotationClass.getMethod(propertyName);
       } catch (NoSuchMethodException e) {
-        fail(rootLocaleFormat("%s must have a property named '%s'.",
-            annotationClass, propertyName));
+        fail(
+            rootLocaleFormat("%s must have a property named '%s'.", annotationClass, propertyName));
       }
       final Class<?> returnType = method.getReturnType();
-      assertTrue(rootLocaleFormat("%s.%s() must return an array.",
-          annotationClass, propertyName),
+      assertTrue(
+          rootLocaleFormat("%s.%s() must return an array.", annotationClass, propertyName),
           returnType.isArray());
-      assertSame(rootLocaleFormat("%s.%s() must return an array of %s.",
-          annotationClass, propertyName, annotationClass.getDeclaringClass()),
-          annotationClass.getDeclaringClass(), returnType.getComponentType());
+      assertSame(
+          rootLocaleFormat(
+              "%s.%s() must return an array of %s.",
+              annotationClass, propertyName, annotationClass.getDeclaringClass()),
+          annotationClass.getDeclaringClass(),
+          returnType.getComponentType());
     }
   }
 
@@ -78,14 +78,19 @@ public class FeatureEnumTest extends TestCase {
         if (containedClass.isAnnotation()) {
           assertGoodTesterAnnotation(asAnnotation(containedClass));
         } else {
-          fail(rootLocaleFormat("Feature enum %s contains a class named "
-              + "'Require' but it is not an annotation.", featureEnumClass));
+          fail(
+              rootLocaleFormat(
+                  "Feature enum %s contains a class named "
+                      + "'Require' but it is not an annotation.",
+                  featureEnumClass));
         }
         return;
       }
     }
-    fail(rootLocaleFormat("Feature enum %s should contain an "
-        + "annotation named 'Require'.", featureEnumClass));
+    fail(
+        rootLocaleFormat(
+            "Feature enum %s should contain an " + "annotation named 'Require'.",
+            featureEnumClass));
   }
 
   @SuppressWarnings("unchecked")
@@ -93,8 +98,7 @@ public class FeatureEnumTest extends TestCase {
     if (clazz.isAnnotation()) {
       return (Class<? extends Annotation>) clazz;
     } else {
-      throw new IllegalArgumentException(
-          rootLocaleFormat("%s is not an annotation.", clazz));
+      throw new IllegalArgumentException(rootLocaleFormat("%s is not an annotation.", clazz));
     }
   }
 

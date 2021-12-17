@@ -20,12 +20,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -34,8 +33,9 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  @Weak private final ImmutableMap<K, V> map;
+  private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;
@@ -63,12 +63,13 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     };
   }
 
-  @Override public Spliterator<V> spliterator() {
+  @Override
+  public Spliterator<V> spliterator() {
     return CollectSpliterators.map(map.entrySet().spliterator(), Entry::getValue);
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 
@@ -100,13 +101,9 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     map.forEach((k, v) -> action.accept(v));
   }
 
+  // No longer used for new writes, but kept so that old data can still be read.
   @GwtIncompatible // serialization
-  @Override
-  Object writeReplace() {
-    return new SerializedForm<V>(map);
-  }
-
-  @GwtIncompatible // serialization
+  @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 

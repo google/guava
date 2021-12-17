@@ -32,9 +32,7 @@ import java.io.ObjectOutputStream;
  */
 @GwtCompatible(emulated = true)
 final class Platform {
-  /**
-   * Serializes and deserializes the specified object.
-   */
+  /** Serializes and deserializes the specified object. */
   @SuppressWarnings("unchecked")
   static <T> T reserialize(T object) {
     checkNotNull(object);
@@ -42,8 +40,7 @@ final class Platform {
     try {
       ObjectOutputStream out = new ObjectOutputStream(bytes);
       out.writeObject(object);
-      ObjectInputStream in = new ObjectInputStream(
-          new ByteArrayInputStream(bytes.toByteArray()));
+      ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
       return (T) in.readObject();
     } catch (IOException | ClassNotFoundException e) {
       throw new RuntimeException(e);

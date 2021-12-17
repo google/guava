@@ -19,8 +19,8 @@ package com.google.common.collect;
 import java.util.Set;
 
 /**
- * GWT emulation of {@link ImmutableEnumSet}.  The type parameter is not bounded
- * by {@code Enum<E>} to avoid code-size bloat.
+ * GWT emulation of {@link ImmutableEnumSet}. The type parameter is not bounded by {@code Enum<E>}
+ * to avoid code-size bloat.
  *
  * @author Hayward Chan
  */

@@ -25,6 +25,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
  * Tester for {@code Multimap.toString()}.
@@ -32,6 +33,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapToStringTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(ZERO)
   @CollectionFeature.Require(absent = NON_STANDARD_TOSTRING)

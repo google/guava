@@ -33,6 +33,7 @@ import java.math.BigInteger;
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 final class DoubleUtils {
   private DoubleUtils() {}
 
@@ -56,9 +57,7 @@ final class DoubleUtils {
 
   static final int EXPONENT_BIAS = 1023;
 
-  /**
-   * The implicit 1 bit that is omitted in significands of normal doubles.
-   */
+  /** The implicit 1 bit that is omitted in significands of normal doubles. */
   static final long IMPLICIT_BIT = SIGNIFICAND_MASK + 1;
 
   static long getSignificand(double d) {
@@ -66,9 +65,7 @@ final class DoubleUtils {
     int exponent = getExponent(d);
     long bits = doubleToRawLongBits(d);
     bits &= SIGNIFICAND_MASK;
-    return (exponent == MIN_EXPONENT - 1)
-        ? bits << 1
-        : bits | IMPLICIT_BIT;
+    return (exponent == MIN_EXPONENT - 1) ? bits << 1 : bits | IMPLICIT_BIT;
   }
 
   static boolean isFinite(double d) {
@@ -120,7 +117,7 @@ final class DoubleUtils {
     boolean increment =
         (twiceSignifFloor & 1) != 0 && ((signifFloor & 1) != 0 || absX.getLowestSetBit() < shift);
     long signifRounded = increment ? signifFloor + 1 : signifFloor;
-    long bits = (long) ((exponent + EXPONENT_BIAS)) << SIGNIFICAND_BITS;
+    long bits = (long) (exponent + EXPONENT_BIAS) << SIGNIFICAND_BITS;
     bits += signifRounded;
     /*
      * If signifRounded == 2^53, we'd need to set all of the significand bits to zero and add 1 to
@@ -132,18 +129,11 @@ final class DoubleUtils {
     return longBitsToDouble(bits);
   }
 
-  /**
-   * Returns its argument if it is non-negative, zero if it is negative.
-   */
+  /** Returns its argument if it is non-negative, zero if it is negative. */
   static double ensureNonNegative(double value) {
     checkArgument(!isNaN(value));
-    if (value > 0.0) {
-      return value;
-    } else {
-      return 0.0;
-    }
+    return Math.max(value, 0.0);
   }
 
-  @VisibleForTesting
-  static final long ONE_BITS = 0x3ff0000000000000L;
+  @VisibleForTesting static final long ONE_BITS = 0x3ff0000000000000L;
 }

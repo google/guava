@@ -29,21 +29,25 @@ public class ForwardingObjectTest extends TestCase {
 
   public void testEqualsReflexive() {
     final Object delegate = new Object();
-    ForwardingObject forward = new ForwardingObject() {
-      @Override protected Object delegate() {
-        return delegate;
-      }
-    };
+    ForwardingObject forward =
+        new ForwardingObject() {
+          @Override
+          protected Object delegate() {
+            return delegate;
+          }
+        };
     new EqualsTester().addEqualityGroup(forward).testEquals();
   }
 
   public void testEqualsSymmetric() {
     final Set<String> delegate = Sets.newHashSet("foo");
-    ForwardingObject forward = new ForwardingObject() {
-      @Override protected Object delegate() {
-        return delegate;
-      }
-    };
+    ForwardingObject forward =
+        new ForwardingObject() {
+          @Override
+          protected Object delegate() {
+            return delegate;
+          }
+        };
     assertEquals(forward.equals(delegate), delegate.equals(forward));
   }
 }

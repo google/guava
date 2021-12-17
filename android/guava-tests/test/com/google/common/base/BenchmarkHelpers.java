@@ -26,6 +26,7 @@ class BenchmarkHelpers {
           + "\u1680\u2028\u2029\u205f\u3000\u2000\u2001\u2002\u2003\u2004\u2005"
           + "\u2006\u2007\u2008\u2009\u200a";
   private static final String ASCII_CHARACTERS;
+
   static {
     int spaceInAscii = 32;
     int sevenBitAsciiMax = 128;
@@ -37,6 +38,7 @@ class BenchmarkHelpers {
   }
 
   private static final String ALL_DIGITS;
+
   static {
     StringBuilder sb = new StringBuilder();
     String zeros =
@@ -51,9 +53,7 @@ class BenchmarkHelpers {
     ALL_DIGITS = sb.toString();
   }
 
-  /**
-   * Sample CharMatcher instances for benchmarking.
-   */
+  /** Sample CharMatcher instances for benchmarking. */
   public enum SampleMatcherConfig {
     WHITESPACE(CharMatcher.whitespace(), WHITESPACE_CHARACTERS),
     HASH(CharMatcher.is('#'), "#"),
@@ -62,11 +62,15 @@ class BenchmarkHelpers {
     ALL_DIGIT(CharMatcher.digit(), ALL_DIGITS),
     OPS_5("+-*/%"),
     HEX_16(CharMatcher.inRange('0', '9').or(CharMatcher.inRange('A', 'F')), "0123456789ABCDEF"),
-    HEX_22(CharMatcher.inRange('0', '9')
-        .or(CharMatcher.inRange('A', 'F')).or(CharMatcher.inRange('a', 'f')),
+    HEX_22(
+        CharMatcher.inRange('0', '9')
+            .or(CharMatcher.inRange('A', 'F'))
+            .or(CharMatcher.inRange('a', 'f')),
         "0123456789ABCDEFabcdef"),
-    GERMAN_59(CharMatcher.inRange('a', 'z')
-        .or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.anyOf("äöüßÄÖÜ")),
+    GERMAN_59(
+        CharMatcher.inRange('a', 'z')
+            .or(CharMatcher.inRange('A', 'Z'))
+            .or(CharMatcher.anyOf("äöüßÄÖÜ")),
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZäöüßÄÖÜ");
 
     public final CharMatcher matcher;

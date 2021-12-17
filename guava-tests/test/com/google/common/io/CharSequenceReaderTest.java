@@ -35,11 +35,12 @@ public class CharSequenceReaderTest extends TestCase {
     assertReadsCorrectly("abc");
     assertReadsCorrectly("abcde");
     assertReadsCorrectly("abcdefghijkl");
-    assertReadsCorrectly(""
-        + "abcdefghijklmnopqrstuvwxyz\n"
-        + "ABCDEFGHIJKLMNOPQRSTUVWXYZ\r"
-        + "0123456789\r\n"
-        + "!@#$%^&*()-=_+\t[]{};':\",./<>?\\| ");
+    assertReadsCorrectly(
+        ""
+            + "abcdefghijklmnopqrstuvwxyz\n"
+            + "ABCDEFGHIJKLMNOPQRSTUVWXYZ\r"
+            + "0123456789\r\n"
+            + "!@#$%^&*()-=_+\t[]{};':\",./<>?\\| ");
   }
 
   public void testMarkAndReset() throws IOException {
@@ -210,7 +211,7 @@ public class CharSequenceReaderTest extends TestCase {
     reader = new CharSequenceReader(charSequence);
     CharBuffer buf2 = CharBuffer.allocate(expected.length());
     assertEquals(expected.length() == 0 ? -1 : expected.length(), reader.read(buf2));
-    buf2.flip();
+    Java8Compatibility.flip(buf2);
     assertEquals(expected, buf2.toString());
     assertFullyRead(reader);
 
@@ -219,9 +220,9 @@ public class CharSequenceReaderTest extends TestCase {
     buf2 = CharBuffer.allocate(5);
     builder = new StringBuilder();
     while (reader.read(buf2) != -1) {
-      buf2.flip();
+      Java8Compatibility.flip(buf2);
       builder.append(buf2);
-      buf2.clear();
+      Java8Compatibility.clear(buf2);
     }
     assertEquals(expected, builder.toString());
     assertFullyRead(reader);

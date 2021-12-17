@@ -30,14 +30,15 @@ import com.google.common.annotations.VisibleForTesting;
  * to unsigned arithmetic in all cases except:
  *
  * <ul>
- * <li>comparisons (signed values can be negative)
- * <li>division (avoided here)
- * <li>shifting (right shift must be unsigned)
+ *   <li>comparisons (signed values can be negative)
+ *   <li>division (avoided here)
+ *   <li>shifting (right shift must be unsigned)
  * </ul>
  *
  * @author Kyle Maddison
  * @author Geoff Pike
  */
+@ElementTypesAreNonnullByDefault
 final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
   static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
 
@@ -169,7 +170,7 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
    * Compute an 8-byte hash of a byte array of length greater than 64 bytes.
    */
   private static long hashLength65Plus(byte[] bytes, int offset, int length) {
-    final int seed = 81;
+    int seed = 81;
     // For strings over 64 bytes we loop. Internal state consists of 56 bytes: v, w, x, y, and z.
     long x = seed;
     @SuppressWarnings("ConstantOverflow")

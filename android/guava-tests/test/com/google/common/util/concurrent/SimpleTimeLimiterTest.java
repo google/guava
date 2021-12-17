@@ -38,7 +38,7 @@ import junit.framework.TestCase;
 public class SimpleTimeLimiterTest extends TestCase {
 
   private static final long DELAY_MS = 50;
-  private static final long ENOUGH_MS = 500;
+  private static final long ENOUGH_MS = 10000;
   private static final long NOT_ENOUGH_MS = 5;
 
   private static final String GOOD_CALLABLE_RESULT = "good callable result";
@@ -260,6 +260,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   @SuppressWarnings("serial")
   private static class SampleException extends Exception {}
+
   @SuppressWarnings("serial")
   private static class SampleRuntimeException extends RuntimeException {}
 

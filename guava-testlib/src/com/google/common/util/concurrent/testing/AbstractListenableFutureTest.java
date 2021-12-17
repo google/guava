@@ -30,8 +30,8 @@ import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
 /**
- * Abstract test case parent for anything implementing {@link ListenableFuture}.
- * Tests the two get methods and the addListener method.
+ * Abstract test case parent for anything implementing {@link ListenableFuture}. Tests the two get
+ * methods and the addListener method.
  *
  * @author Sven Mawson
  * @since 10.0
@@ -58,37 +58,31 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     latch.countDown();
   }
 
-  /**
-   * Constructs a listenable future with a value available after the latch
-   * has counted down.
-   */
+  /** Constructs a listenable future with a value available after the latch has counted down. */
   protected abstract <V> ListenableFuture<V> createListenableFuture(
       V value, Exception except, CountDownLatch waitOn);
 
-  /**
-   * Tests that the {@link Future#get()} method blocks until a value is
-   * available.
-   */
+  /** Tests that the {@link Future#get()} method blocks until a value is available. */
   public void testGetBlocksUntilValueAvailable() throws Throwable {
 
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
 
-    final CountDownLatch successLatch = new CountDownLatch(1);
-    final Throwable[] badness = new Throwable[1];
+    CountDownLatch successLatch = new CountDownLatch(1);
+    Throwable[] badness = new Throwable[1];
 
     // Wait on the future in a separate thread.
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          assertSame(Boolean.TRUE, future.get());
-          successLatch.countDown();
-        } catch (Throwable t) {
-          t.printStackTrace();
-          badness[0] = t;
-        }
-      }}).start();
+    new Thread(
+            () -> {
+              try {
+                assertSame(Boolean.TRUE, future.get());
+                successLatch.countDown();
+              } catch (Throwable t) {
+                t.printStackTrace();
+                badness[0] = t;
+              }
+            })
+        .start();
 
     // Release the future value.
     latch.countDown();
@@ -103,12 +97,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     assertFalse(future.isCancelled());
   }
 
-  /**
-   * Tests that the {@link Future#get(long, TimeUnit)} method times out
-   * correctly.
-   */
-  public void testTimeoutOnGetWorksCorrectly() throws InterruptedException,
-      ExecutionException {
+  /** Tests that the {@link Future#get(long, TimeUnit)} method times out correctly. */
+  public void testTimeoutOnGetWorksCorrectly() throws InterruptedException, ExecutionException {
 
     // The task thread waits for the latch, so we expect a timeout here.
     try {
@@ -123,28 +113,27 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   /**
    * Tests that a canceled future throws a cancellation exception.
    *
-   * This method checks the cancel, isCancelled, and isDone methods.
+   * <p>This method checks the cancel, isCancelled, and isDone methods.
    */
   public void testCanceledFutureThrowsCancellation() throws Exception {
 
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
 
-    final CountDownLatch successLatch = new CountDownLatch(1);
+    CountDownLatch successLatch = new CountDownLatch(1);
 
     // Run cancellation in a separate thread as an extra thread-safety test.
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          future.get();
-        } catch (CancellationException expected) {
-          successLatch.countDown();
-        } catch (Exception ignored) {
-          // All other errors are ignored, we expect a cancellation.
-        }
-      }
-    }).start();
+    new Thread(
+            () -> {
+              try {
+                future.get();
+              } catch (CancellationException expected) {
+                successLatch.countDown();
+              } catch (Exception ignored) {
+                // All other errors are ignored, we expect a cancellation.
+              }
+            })
+        .start();
 
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
@@ -160,30 +149,24 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   public void testListenersNotifiedOnError() throws Exception {
-    final CountDownLatch successLatch = new CountDownLatch(1);
-    final CountDownLatch listenerLatch = new CountDownLatch(1);
+    CountDownLatch successLatch = new CountDownLatch(1);
+    CountDownLatch listenerLatch = new CountDownLatch(1);
 
     ExecutorService exec = Executors.newCachedThreadPool();
 
-    future.addListener(new Runnable() {
-      @Override
-      public void run() {
-        listenerLatch.countDown();
-      }
-    }, exec);
+    future.addListener(listenerLatch::countDown, exec);
 
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          future.get();
-        } catch (CancellationException expected) {
-          successLatch.countDown();
-        } catch (Exception ignored) {
-          // No success latch count down.
-        }
-      }
-    }).start();
+    new Thread(
+            () -> {
+              try {
+                future.get();
+              } catch (CancellationException expected) {
+                successLatch.countDown();
+              } catch (Exception ignored) {
+                // No success latch count down.
+              }
+            })
+        .start();
 
     future.cancel(true);
 
@@ -200,10 +183,9 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   /**
-   * Tests that all listeners complete, even if they were added before or after
-   * the future was finishing.  Also acts as a concurrency test to make sure the
-   * locking is done correctly when a future is finishing so that no listeners
-   * can be lost.
+   * Tests that all listeners complete, even if they were added before or after the future was
+   * finishing. Also acts as a concurrency test to make sure the locking is done correctly when a
+   * future is finishing so that no listeners can be lost.
    */
   public void testAllListenersCompleteSuccessfully()
       throws InterruptedException, ExecutionException {
@@ -211,7 +193,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     ExecutorService exec = Executors.newCachedThreadPool();
 
     int listenerCount = 20;
-    final CountDownLatch listenerLatch = new CountDownLatch(listenerCount);
+    CountDownLatch listenerLatch = new CountDownLatch(listenerCount);
 
     // Test that listeners added both before and after the value is available
     // get called correctly.
@@ -219,20 +201,10 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
       // Right in the middle start up a thread to close the latch.
       if (i == 10) {
-        new Thread(new Runnable() {
-          @Override
-          public void run() {
-            latch.countDown();
-          }
-        }).start();
+        new Thread(() -> latch.countDown()).start();
       }
 
-      future.addListener(new Runnable() {
-        @Override
-        public void run() {
-          listenerLatch.countDown();
-        }
-      }, exec);
+      future.addListener(listenerLatch::countDown, exec);
     }
 
     assertSame(Boolean.TRUE, future.get());

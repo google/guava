@@ -20,8 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 public class SynchronizedTableTest extends AbstractTableTest {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {
@@ -35,7 +34,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@CheckForNull Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.equals(o);
     }
@@ -59,7 +58,7 @@ public class SynchronizedTableTest extends AbstractTableTest {
     }
 
     @Override
-    public boolean containsValue(@Nullable Object value) {
+    public boolean containsValue(@CheckForNull Object value) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.containsValue(value);
     }

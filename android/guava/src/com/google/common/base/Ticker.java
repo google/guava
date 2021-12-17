@@ -14,9 +14,7 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A time source; returns a time value representing the number of nanoseconds elapsed since some
@@ -29,18 +27,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility">mostly
  *     source-compatible</a> since 9.0)
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class Ticker {
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected Ticker() {}
 
-  /**
-   * Returns the number of nanoseconds elapsed since this ticker's fixed point of reference.
-   */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
+  /** Returns the number of nanoseconds elapsed since this ticker's fixed point of reference. */
   public abstract long read();
 
   /**

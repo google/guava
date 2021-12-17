@@ -25,9 +25,10 @@ import java.util.Random;
  * Benchmarks for comparing the various {@link HashFunction functions} that we provide.
  *
  * <p>Parameters for the benchmark are:
+ *
  * <ul>
- * <li>size: The length of the byte array to hash.
- * <li>hashFunctionEnum: The {@link HashFunction} to use for hashing.
+ *   <li>size: The length of the byte array to hash.
+ *   <li>hashFunctionEnum: The {@link HashFunction} to use for hashing.
  * </ul>
  *
  * @author Kurt Alfred Kluever
@@ -44,12 +45,14 @@ public class HashFunctionBenchmark {
 
   private byte[] testBytes;
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     testBytes = new byte[size];
     random.nextBytes(testBytes);
   }
 
-  @Benchmark int hasher(int reps) {
+  @Benchmark
+  int hasher(int reps) {
     HashFunction hashFunction = hashFunctionEnum.getHashFunction();
     int result = 37;
     for (int i = 0; i < reps; i++) {
@@ -58,7 +61,8 @@ public class HashFunctionBenchmark {
     return result;
   }
 
-  @Benchmark int hashFunction(int reps) {
+  @Benchmark
+  int hashFunction(int reps) {
     HashFunction hashFunction = hashFunctionEnum.getHashFunction();
     int result = 37;
     for (int i = 0; i < reps; i++) {
@@ -67,7 +71,8 @@ public class HashFunctionBenchmark {
     return result;
   }
 
-  @Benchmark int hashFunctionWithOffset(int reps) {
+  @Benchmark
+  int hashFunctionWithOffset(int reps) {
     HashFunction hashFunction = hashFunctionEnum.getHashFunction();
     int result = 37;
     for (int i = 0; i < reps; i++) {

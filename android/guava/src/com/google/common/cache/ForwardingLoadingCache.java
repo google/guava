@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
- * more methods to modify the behavior of the backing cache as desired per the
- * <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ * more methods to modify the behavior of the backing cache as desired per the <a
+ * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * <p>Note that {@link #get}, {@link #getUnchecked}, and {@link #apply} all expose the same
  * underlying functionality, so should probably be overridden as a group.
@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutionException;
  * @since 11.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
     implements LoadingCache<K, V> {
 

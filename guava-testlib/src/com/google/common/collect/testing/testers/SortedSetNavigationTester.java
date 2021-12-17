@@ -27,15 +27,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests operations on a SortedSet. Can't be
- * invoked directly; please see {@code SortedSetTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a SortedSet. Can't be invoked directly; please see
+ * {@code SortedSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private SortedSet<E> sortedSet;

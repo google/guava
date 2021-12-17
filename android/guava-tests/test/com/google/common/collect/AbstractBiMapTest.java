@@ -28,10 +28,11 @@ public class AbstractBiMapTest extends TestCase {
 
   // The next two tests verify that map entries are not accessed after they're
   // removed, since IdentityHashMap throws an exception when that occurs.
+  @SuppressWarnings("IdentityHashMapBoxing") // explicitly testing IdentityHashMap
   public void testIdentityKeySetIteratorRemove() {
-    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
-        new IdentityHashMap<Integer, String>(),
-        new IdentityHashMap<String, Integer>()) {};
+    BiMap<Integer, String> bimap =
+        new AbstractBiMap<Integer, String>(
+            new IdentityHashMap<Integer, String>(), new IdentityHashMap<String, Integer>()) {};
     bimap.put(1, "one");
     bimap.put(2, "two");
     bimap.put(3, "three");
@@ -45,10 +46,11 @@ public class AbstractBiMapTest extends TestCase {
     assertEquals(1, bimap.inverse().size());
   }
 
+  @SuppressWarnings("IdentityHashMapBoxing") // explicitly testing IdentityHashMap
   public void testIdentityEntrySetIteratorRemove() {
-    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
-        new IdentityHashMap<Integer, String>(),
-        new IdentityHashMap<String, Integer>()) {};
+    BiMap<Integer, String> bimap =
+        new AbstractBiMap<Integer, String>(
+            new IdentityHashMap<Integer, String>(), new IdentityHashMap<String, Integer>()) {};
     bimap.put(1, "one");
     bimap.put(2, "two");
     bimap.put(3, "three");

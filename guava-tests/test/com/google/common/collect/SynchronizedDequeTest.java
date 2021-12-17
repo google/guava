@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
@@ -31,7 +32,7 @@ public class SynchronizedDequeTest extends TestCase {
   protected Deque<String> create() {
     TestDeque<String> inner = new TestDeque<>();
     Deque<String> outer = Synchronized.deque(inner, inner.mutex);
-    outer.add("foo");  // necessary because we try to remove elements later on
+    outer.add("foo"); // necessary because we try to remove elements later on
     return outer;
   }
 
@@ -55,6 +56,12 @@ public class SynchronizedDequeTest extends TestCase {
     public E remove() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.remove();
+    }
+
+    @Override
+    public boolean remove(Object object) {
+      assertTrue(Thread.holdsLock(mutex));
+      return delegate.remove(object);
     }
 
     @Override
@@ -104,12 +111,6 @@ public class SynchronizedDequeTest extends TestCase {
     public boolean add(E element) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.add(element);
-    }
-
-    @Override
-    public boolean remove(Object object) {
-      assertTrue(Thread.holdsLock(mutex));
-      return delegate.remove(object);
     }
 
     @Override
@@ -253,6 +254,7 @@ public class SynchronizedDequeTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testHoldsLockOnAllOperations() {
     create().element();
     create().offer("foo");
@@ -264,7 +266,7 @@ public class SynchronizedDequeTest extends TestCase {
     create().clear();
     create().contains("foo");
     create().containsAll(ImmutableList.of("foo"));
-    create().equals(ImmutableList.of("foo"));
+    create().equals(new ArrayDeque<>(ImmutableList.of("foo")));
     create().hashCode();
     create().isEmpty();
     create().iterator();
@@ -273,7 +275,7 @@ public class SynchronizedDequeTest extends TestCase {
     create().retainAll(ImmutableList.of("foo"));
     create().size();
     create().toArray();
-    create().toArray(new String[] { "foo" });
+    create().toArray(new String[] {"foo"});
     create().addFirst("e");
     create().addLast("e");
     create().offerFirst("e");

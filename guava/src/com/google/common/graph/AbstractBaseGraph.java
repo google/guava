@@ -16,15 +16,20 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -35,6 +40,7 @@ import javax.annotation.Nullable;
  * @author James Sexton
  * @param <N> Node parameter type
  */
+@ElementTypesAreNonnullByDefault
 abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
   /**
@@ -69,19 +75,56 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         return Ints.saturatedCast(edgeCount());
       }
 
+      @Override
+      public boolean remove(@CheckForNull Object o) {
+        throw new UnsupportedOperationException();
+      }
+
       // Mostly safe: We check contains(u) before calling successors(u), so we perform unsafe
       // operations only in weird cases like checking for an EndpointPair<ArrayList> in a
       // Graph<LinkedList>.
       @SuppressWarnings("unchecked")
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(@CheckForNull Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
         EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
-        return isDirected() == endpointPair.isOrdered()
+        return isOrderingCompatible(endpointPair)
             && nodes().contains(endpointPair.nodeU())
             && successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());
+      }
+    };
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.unordered();
+  }
+
+  @Override
+  public Set<EndpointPair<N>> incidentEdges(N node) {
+    checkNotNull(node);
+    checkArgument(nodes().contains(node), "Node %s is not an element of this graph.", node);
+    return new IncidentEdgeSet<N>(this, node) {
+      @Override
+      public UnmodifiableIterator<EndpointPair<N>> iterator() {
+        if (graph.isDirected()) {
+          return Iterators.unmodifiableIterator(
+              Iterators.concat(
+                  Iterators.transform(
+                      graph.predecessors(node).iterator(),
+                      (N predecessor) -> EndpointPair.ordered(predecessor, node)),
+                  Iterators.transform(
+                      // filter out 'node' from successors (already covered by predecessors, above)
+                      Sets.difference(graph.successors(node), ImmutableSet.of(node)).iterator(),
+                      (N successor) -> EndpointPair.ordered(node, successor))));
+        } else {
+          return Iterators.unmodifiableIterator(
+              Iterators.transform(
+                  graph.adjacentNodes(node).iterator(),
+                  (N adjacentNode) -> EndpointPair.unordered(node, adjacentNode)));
+        }
       }
     };
   }
@@ -112,5 +155,29 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    checkNotNull(endpoints);
+    if (!isOrderingCompatible(endpoints)) {
+      return false;
+    }
+    N nodeU = endpoints.nodeU();
+    N nodeV = endpoints.nodeV();
+    return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  /**
+   * Throws {@code IllegalArgumentException} if the ordering of {@code endpoints} is not compatible
+   * with the directionality of this graph.
+   */
+  protected final void validateEndpoints(EndpointPair<?> endpoints) {
+    checkNotNull(endpoints);
+    checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);
+  }
+
+  protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
+    return endpoints.isOrdered() || !this.isDirected();
   }
 }

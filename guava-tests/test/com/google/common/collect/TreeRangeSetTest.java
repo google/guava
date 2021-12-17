@@ -140,7 +140,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
           break;
         }
       }
-      assertEquals(rangeSet + " was incorrect on intersects(" + query + ")", expectIntersect,
+      assertEquals(
+          rangeSet + " was incorrect on intersects(" + query + ")",
+          expectIntersect,
           rangeSet.intersects(query));
     }
   }
@@ -156,7 +158,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         }
       }
 
-      assertEquals(rangeSet + " was incorrect on encloses(" + query + ")", expectEnclose,
+      assertEquals(
+          rangeSet + " was incorrect on encloses(" + query + ")",
+          expectEnclose,
           rangeSet.encloses(query));
       assertEquals(
           rangeSet + " was incorrect on enclosesAll([" + query + "])",
@@ -267,6 +271,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     return expected;
   }
 
+
   public void testSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -281,6 +286,19 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  public void testSubRangeSetAdd() {
+    TreeRangeSet<Integer> set = TreeRangeSet.create();
+    Range<Integer> range = Range.closedOpen(0, 5);
+    set.subRangeSet(range).add(range);
+  }
+
+  public void testSubRangeSetReplaceAdd() {
+    TreeRangeSet<Integer> set = TreeRangeSet.create();
+    Range<Integer> range = Range.closedOpen(0, 5);
+    set.add(range);
+    set.subRangeSet(range).add(range);
+  }
+
   public void testComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
       for (Range<Integer> range2 : QUERY_RANGES) {
@@ -291,6 +309,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
 
   public void testSubRangeSetOfComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
@@ -306,6 +325,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
+
 
   public void testComplementOfSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {
@@ -333,7 +353,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         for (Range<Integer> range : rangeSet.asRanges()) {
           expectedRangesByUpperBound.put(range.upperBound, range);
         }
-        testNavigationAgainstExpected(expectedRangesByUpperBound,
+        testNavigationAgainstExpected(
+            expectedRangesByUpperBound,
             new TreeRangeSet.RangesByUpperBound<Integer>(rangeSet.rangesByLowerBound),
             CUTS_TO_TEST);
       }
@@ -486,7 +507,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
                     if ((bLow == bHigh && bLowType == OPEN && bHighType == OPEN) || bLow > bHigh) {
                       continue;
                     }
-                    doPairTest(range(aLow, aLowType, aHigh, aHighType),
+                    doPairTest(
+                        range(aLow, aLowType, aHigh, aHighType),
                         range(bLow, bLowType, bHigh, bHighType));
                   }
                 }
@@ -558,9 +580,11 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.remove(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges())
-        .containsExactly(Range.lessThan(3), Range.closed(4, 6)).inOrder();
+        .containsExactly(Range.lessThan(3), Range.closed(4, 6))
+        .inOrder();
     assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.closedOpen(3, 4), Range.greaterThan(6)).inOrder();
+        .containsExactly(Range.closedOpen(3, 4), Range.greaterThan(6))
+        .inOrder();
   }
 
   public void testRemoveNoOverlap() {
@@ -644,9 +668,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     RangeSet<Integer> rangeSet = TreeRangeSet.create();
     rangeSet.add(Range.closed(3, 10));
     rangeSet.addAll(Arrays.asList(Range.open(1, 3), Range.closed(5, 8), Range.closed(9, 11)));
-    assertThat(rangeSet.asRanges())
-        .containsExactly(Range.openClosed(1, 11))
-        .inOrder();
+    assertThat(rangeSet.asRanges()).containsExactly(Range.openClosed(1, 11)).inOrder();
   }
 
   public void testRemoveAll() {

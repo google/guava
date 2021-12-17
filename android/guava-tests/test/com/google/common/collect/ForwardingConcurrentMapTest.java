@@ -27,11 +27,11 @@ import junit.framework.TestCase;
  */
 public class ForwardingConcurrentMapTest extends TestCase {
 
-  private static class TestMap
-      extends ForwardingConcurrentMap<String, Integer> {
+  private static class TestMap extends ForwardingConcurrentMap<String, Integer> {
     final ConcurrentMap<String, Integer> delegate = new ConcurrentHashMap<>();
 
-    @Override protected ConcurrentMap<String, Integer> delegate() {
+    @Override
+    protected ConcurrentMap<String, Integer> delegate() {
       return delegate;
     }
   }

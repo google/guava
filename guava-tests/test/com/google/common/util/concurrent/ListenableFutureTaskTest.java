@@ -42,17 +42,18 @@ public class ListenableFutureTaskTest extends TestCase {
   protected volatile boolean throwException = false;
 
   protected final ListenableFutureTask<Integer> task =
-      ListenableFutureTask.create(new Callable<Integer>() {
-    @Override
-    public Integer call() throws Exception {
-      runLatch.countDown();
-      taskLatch.await();
-      if (throwException) {
-        throw new IllegalStateException("Fail");
-      }
-      return 25;
-    }
-  });
+      ListenableFutureTask.create(
+          new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+              runLatch.countDown();
+              taskLatch.await();
+              if (throwException) {
+                throw new IllegalStateException("Fail");
+              }
+              return 25;
+            }
+          });
 
   @Override
   protected void setUp() throws Exception {
@@ -60,12 +61,14 @@ public class ListenableFutureTaskTest extends TestCase {
 
     exec = Executors.newCachedThreadPool();
 
-    task.addListener(new Runnable() {
-      @Override
-      public void run() {
-        listenerLatch.countDown();
-      }
-    }, directExecutor());
+    task.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            listenerLatch.countDown();
+          }
+        },
+        directExecutor());
   }
 
   @Override
@@ -76,6 +79,7 @@ public class ListenableFutureTaskTest extends TestCase {
 
     super.tearDown();
   }
+
 
   public void testListenerDoesNotRunUntilTaskCompletes() throws Exception {
 
@@ -101,6 +105,7 @@ public class ListenableFutureTaskTest extends TestCase {
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
   }
+
 
   public void testListenerCalledOnException() throws Exception {
     throwException = true;
@@ -136,6 +141,7 @@ public class ListenableFutureTaskTest extends TestCase {
     // Make sure we didn't run anything.
     assertEquals(1, runLatch.getCount());
   }
+
 
   public void testListenerCalledOnCancelFromRunning() throws Exception {
     exec.execute(task);

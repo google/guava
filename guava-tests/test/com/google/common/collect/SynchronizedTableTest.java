@@ -20,8 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class SynchronizedTableTest extends AbstractTableTest {
   private static final class TestTable<R, C, V> implements Table<R, C, V>, Serializable {

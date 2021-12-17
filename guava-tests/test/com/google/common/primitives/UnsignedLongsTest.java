@@ -70,9 +70,10 @@ public class UnsignedLongsTest extends TestCase {
   public void testMax() {
     assertEquals(LEAST, UnsignedLongs.max(LEAST));
     assertEquals(GREATEST, UnsignedLongs.max(GREATEST));
-    assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.max(
-        0x5a4316b8c153ac4dL, 8L, 100L,
-        0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
+    assertEquals(
+        0xff1a618b7f65ea12L,
+        UnsignedLongs.max(
+            0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
 
   public void testMin_noArgs() {
@@ -86,22 +87,24 @@ public class UnsignedLongsTest extends TestCase {
   public void testMin() {
     assertEquals(LEAST, UnsignedLongs.min(LEAST));
     assertEquals(GREATEST, UnsignedLongs.min(GREATEST));
-    assertEquals(0L, UnsignedLongs.min(
-        0x5a4316b8c153ac4dL, 8L, 100L,
-        0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
+    assertEquals(
+        0L,
+        UnsignedLongs.min(
+            0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
 
   public void testLexicographicalComparator() {
-    List<long[]> ordered = Arrays.asList(
-        new long[] {},
-        new long[] {LEAST},
-        new long[] {LEAST, LEAST},
-        new long[] {LEAST, (long) 1},
-        new long[] {(long) 1},
-        new long[] {(long) 1, LEAST},
-        new long[] {GREATEST, GREATEST - (long) 1},
-        new long[] {GREATEST, GREATEST},
-        new long[] {GREATEST, GREATEST, GREATEST});
+    List<long[]> ordered =
+        Arrays.asList(
+            new long[] {},
+            new long[] {LEAST},
+            new long[] {LEAST, LEAST},
+            new long[] {LEAST, (long) 1},
+            new long[] {(long) 1},
+            new long[] {(long) 1, LEAST},
+            new long[] {GREATEST, GREATEST - (long) 1},
+            new long[] {GREATEST, GREATEST},
+            new long[] {GREATEST, GREATEST, GREATEST});
 
     Comparator<long[]> comparator = UnsignedLongs.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
@@ -120,17 +123,17 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(Arrays.equals(expected, input));
   }
 
+  static void testSort(long[] input, int from, int to, long[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedLongs.sort(input, from, to);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
   public void testSortIndexed() {
     testSort(new long[] {}, 0, 0, new long[] {});
     testSort(new long[] {2}, 0, 1, new long[] {2});
     testSort(new long[] {2, 1, 0}, 0, 2, new long[] {1, 2, 0});
     testSort(new long[] {2, GREATEST, 1, LEAST}, 1, 4, new long[] {2, LEAST, 1, GREATEST});
-  }
-
-  static void testSort(long[] input, int from, int to, long[] expected) {
-    input = Arrays.copyOf(input, input.length);
-    UnsignedLongs.sort(input, from, to);
-    assertTrue(Arrays.equals(expected, input));
   }
 
   public void testSortDescending() {
@@ -141,19 +144,6 @@ public class UnsignedLongsTest extends TestCase {
     testSortDescending(
         new long[] {GREATEST - 1, 1, GREATEST - 2, 2},
         new long[] {GREATEST - 1, GREATEST - 2, 2, 1});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new long[] {}, 0, 0, new long[] {});
-    testSortDescending(new long[] {1}, 0, 1, new long[] {1});
-    testSortDescending(new long[] {1, 2}, 0, 2, new long[] {2, 1});
-    testSortDescending(new long[] {1, 3, 1}, 0, 2, new long[] {3, 1, 1});
-    testSortDescending(new long[] {1, 3, 1}, 0, 1, new long[] {1, 3, 1});
-    testSortDescending(
-        new long[] {GREATEST - 1, 1, GREATEST - 2, 2},
-        1,
-        3,
-        new long[] {GREATEST - 1, GREATEST - 2, 1, 2});
   }
 
   private static void testSortDescending(long[] input, long[] expectedOutput) {
@@ -167,6 +157,19 @@ public class UnsignedLongsTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     UnsignedLongs.sortDescending(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new long[] {}, 0, 0, new long[] {});
+    testSortDescending(new long[] {1}, 0, 1, new long[] {1});
+    testSortDescending(new long[] {1, 2}, 0, 2, new long[] {2, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 2, new long[] {3, 1, 1});
+    testSortDescending(new long[] {1, 3, 1}, 0, 1, new long[] {1, 3, 1});
+    testSortDescending(
+        new long[] {GREATEST - 1, 1, GREATEST - 2, 2},
+        1,
+        3,
+        new long[] {GREATEST - 1, GREATEST - 2, 1, 2});
   }
 
   public void testDivide() {
@@ -183,8 +186,8 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(4, UnsignedLongs.remainder(14, 5));
     assertEquals(0, UnsignedLongs.remainder(0, 50));
     assertEquals(1, UnsignedLongs.remainder(0xfffffffffffffffeL, 0xfffffffffffffffdL));
-    assertEquals(0xfffffffffffffffdL,
-        UnsignedLongs.remainder(0xfffffffffffffffdL, 0xfffffffffffffffeL));
+    assertEquals(
+        0xfffffffffffffffdL, UnsignedLongs.remainder(0xfffffffffffffffdL, 0xfffffffffffffffeL));
     assertEquals(65534L, UnsignedLongs.remainder(0xfffffffffffffffeL, 65535));
     assertEquals(0, UnsignedLongs.remainder(0xfffffffffffffffeL, 2));
     assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
@@ -198,9 +201,11 @@ public class UnsignedLongsTest extends TestCase {
       long dividend = r.nextLong();
       long divisor = r.nextLong();
       // Test that the Euclidean property is preserved:
-      assertEquals(0,
-          dividend - (divisor * UnsignedLongs.divide(dividend, divisor)
-          + UnsignedLongs.remainder(dividend, divisor)));
+      assertEquals(
+          0,
+          dividend
+              - (divisor * UnsignedLongs.divide(dividend, divisor)
+                  + UnsignedLongs.remainder(dividend, divisor)));
     }
   }
 
@@ -327,7 +332,7 @@ public class UnsignedLongsTest extends TestCase {
       "5a4316b8c153ac4d",
       "6cf78a4b139a4e2a"
     };
-    int[] bases = { 2, 5, 7, 8, 10, 16 };
+    int[] bases = {2, 5, 7, 8, 10, 16};
     for (int base : bases) {
       for (String x : tests) {
         BigInteger xValue = new BigInteger(x, 16);
@@ -341,11 +346,11 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals("", UnsignedLongs.join(","));
     assertEquals("1", UnsignedLongs.join(",", 1));
     assertEquals("1,2", UnsignedLongs.join(",", 1, 2));
-    assertEquals("18446744073709551615,9223372036854775808",
-        UnsignedLongs.join(",", -1, Long.MIN_VALUE));
+    assertEquals(
+        "18446744073709551615,9223372036854775808", UnsignedLongs.join(",", -1, Long.MIN_VALUE));
     assertEquals("123", UnsignedLongs.join("", 1, 2, 3));
-    assertEquals("184467440737095516159223372036854775808",
-        UnsignedLongs.join("", -1, Long.MIN_VALUE));
+    assertEquals(
+        "184467440737095516159223372036854775808", UnsignedLongs.join("", -1, Long.MIN_VALUE));
   }
 
   @GwtIncompatible // NullPointerTester

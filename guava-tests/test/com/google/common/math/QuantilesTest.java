@@ -20,6 +20,7 @@ import static com.google.common.math.Quantiles.median;
 import static com.google.common.math.Quantiles.percentiles;
 import static com.google.common.math.Quantiles.quartiles;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -35,12 +36,13 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Quantiles}.
@@ -87,32 +89,31 @@ public class QuantilesTest extends TestCase {
    * each other or identical non-finite values.
    */
   private static final Correspondence<Double, Double> QUANTILE_CORRESPONDENCE =
-      new Correspondence<Double, Double>() {
-
-        @Override
-        public boolean compare(@Nullable Double actual, @Nullable Double expected) {
-          // Test for equality to allow non-finite values to match; otherwise, use the finite test.
-          return actual.equals(expected)
-              || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
-        }
-
-        @Override
-        public String toString() {
-          return "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE;
-        }
-      };
+      Correspondence.from(
+          new BinaryPredicate<Double, Double>() {
+            @Override
+            public boolean apply(@Nullable Double actual, @Nullable Double expected) {
+              // Test for equality to allow non-finite values to match; otherwise, use the finite
+              // test.
+              return actual.equals(expected)
+                  || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
+            }
+          },
+          "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE);
 
   // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
 
-  /**
-   * The squares of the 16 integers from 0 to 15, in an arbitrary order.
-   */
-  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES = ImmutableList.of(25.0, 100.0,
-      0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0, 196.0);
-  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS = ImmutableList.of(25L, 100L,
-      0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
-  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS = ImmutableList.of(25, 100,
-      0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
+  /** The squares of the 16 integers from 0 to 15, in an arbitrary order. */
+  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES =
+      ImmutableList.of(
+          25.0, 100.0, 0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0,
+          196.0);
+
+  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS =
+      ImmutableList.of(
+          25L, 100L, 0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
+  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS =
+      ImmutableList.of(25, 100, 0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
   private static final double SIXTEEN_SQUARES_MIN = 0.0;
   private static final double SIXTEEN_SQUARES_DECILE_1 = 0.5 * (1.0 + 4.0);
   private static final double SIXTEEN_SQUARES_QUARTILE_1 = 0.25 * 9.0 + 0.75 * 16.0;
@@ -238,7 +239,7 @@ public class QuantilesTest extends TestCase {
     // This test is the same as testScale_indexes_varargs_compute_doubleCollection except that the
     // array of indexes to be calculated is modified between the calls to indexes and compute: since
     // the contract is that it is snapshotted, this shouldn't make any difference to the result.
-    int[] indexes = { 0, 10, 5, 1, 8, 10 };
+    int[] indexes = {0, 10, 5, 1, 8, 10};
     ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(indexes);
     indexes[0] = 3;
     assertThat(intermediate.compute(SIXTEEN_SQUARES_DOUBLES))
@@ -253,7 +254,7 @@ public class QuantilesTest extends TestCase {
 
   public void testScale_indexes_largeVarargs_compute_doubleCollection() {
     int scale = Integer.MAX_VALUE;
-    int otherIndex = (Integer.MAX_VALUE - 1) / 3;  // this divides exactly
+    int otherIndex = (Integer.MAX_VALUE - 1) / 3; // this divides exactly
     // For the otherIndex calculation, we have q=Integer.MAX_VALUE, k=(Integer.MAX_VALUE-1)/3, and
     // N=16. Therefore k*(N-1)/q = 5-5/Integer.MAX_VALUE, which has floor 4 and fractional part
     // (1-5/Integer.MAX_VALUE).
@@ -287,6 +288,18 @@ public class QuantilesTest extends TestCase {
             5, SIXTEEN_SQUARES_MEDIAN,
             1, SIXTEEN_SQUARES_DECILE_1,
             8, SIXTEEN_SQUARES_DECILE_8);
+  }
+
+  public void testScale_indexes_varargs_compute_indexOrderIsMaintained() {
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8)
+        .inOrder();
   }
 
   public void testScale_indexes_varargs_compute_doubleVarargs() {
@@ -390,8 +403,13 @@ public class QuantilesTest extends TestCase {
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NEGATIVE_INFINITY =
       ImmutableList.of(3.0, 5.0, NEGATIVE_INFINITY, 1.0, 4.0, 2.0);
   private static final ImmutableList<Double> NEGATIVE_INFINITY_AND_FIVE_POSITIVE_INFINITIES =
-      ImmutableList.of(POSITIVE_INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_INFINITY,
-          POSITIVE_INFINITY, POSITIVE_INFINITY);
+      ImmutableList.of(
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          NEGATIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY);
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NAN =
       ImmutableList.of(3.0, 5.0, NaN, 1.0, 4.0, 2.0);
 
@@ -502,8 +520,8 @@ public class QuantilesTest extends TestCase {
 
   public void testPercentiles_index_compute_doubleCollection() {
     for (int index = 0; index <= 100; index++) {
-      assertThat(percentiles().index(index).compute(PSEUDORANDOM_DATASET))
-          .named("quantile at index " + index)
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).compute(PSEUDORANDOM_DATASET))
           .isWithin(ALLOWED_ERROR)
           .of(expectedLargeDatasetPercentile(index));
     }
@@ -514,8 +532,8 @@ public class QuantilesTest extends TestCase {
     // Assert that the computation gives the correct result for all possible percentiles.
     for (int index = 0; index <= 100; index++) {
       double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-      assertThat(percentiles().index(index).computeInPlace(dataset))
-          .named("quantile at index " + index)
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).computeInPlace(dataset))
           .isWithin(ALLOWED_ERROR)
           .of(expectedLargeDatasetPercentile(index));
     }
@@ -734,6 +752,15 @@ public class QuantilesTest extends TestCase {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
     try {
       intermediate.computeInPlace(new double[] {});
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testScale_indexes_indexes_computeInPlace_empty() {
+    int[] emptyIndexes = {};
+    try {
+      Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }

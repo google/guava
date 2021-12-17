@@ -18,9 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Multiset implementation that uses hashing for key and entry access.
@@ -30,65 +28,46 @@ import java.io.ObjectOutputStream;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
+@ElementTypesAreNonnullByDefault
+public final class HashMultiset<E extends @Nullable Object> extends AbstractMapBasedMultiset<E> {
 
-  /**
-   * Creates a new, empty {@code HashMultiset} using the default initial
-   * capacity.
-   */
-  public static <E> HashMultiset<E> create() {
-    return new HashMultiset<E>();
+  /** Creates a new, empty {@code HashMultiset} using the default initial capacity. */
+  public static <E extends @Nullable Object> HashMultiset<E> create() {
+    return create(ObjectCountHashMap.DEFAULT_SIZE);
   }
 
   /**
-   * Creates a new, empty {@code HashMultiset} with the specified expected
-   * number of distinct elements.
+   * Creates a new, empty {@code HashMultiset} with the specified expected number of distinct
+   * elements.
    *
    * @param distinctElements the expected number of distinct elements
    * @throws IllegalArgumentException if {@code distinctElements} is negative
    */
-  public static <E> HashMultiset<E> create(int distinctElements) {
+  public static <E extends @Nullable Object> HashMultiset<E> create(int distinctElements) {
     return new HashMultiset<E>(distinctElements);
   }
 
   /**
    * Creates a new {@code HashMultiset} containing the specified elements.
    *
-   * <p>This implementation is highly efficient when {@code elements} is itself
-   * a {@link Multiset}.
+   * <p>This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
    *
    * @param elements the elements that the multiset should contain
    */
-  public static <E> HashMultiset<E> create(Iterable<? extends E> elements) {
+  public static <E extends @Nullable Object> HashMultiset<E> create(
+      Iterable<? extends E> elements) {
     HashMultiset<E> multiset = create(Multisets.inferDistinctElements(elements));
     Iterables.addAll(multiset, elements);
     return multiset;
   }
 
-  private HashMultiset() {
-    super(new ObjectCountHashMap<E>());
+  HashMultiset(int distinctElements) {
+    super(distinctElements);
   }
 
-  private HashMultiset(int distinctElements) {
-    super(new ObjectCountHashMap<E>(distinctElements));
-  }
-
-  /**
-   * @serialData the number of distinct elements, the first element, its count,
-   *     the second element, its count, and so on
-   */
-  @GwtIncompatible // java.io.ObjectOutputStream
-  private void writeObject(ObjectOutputStream stream) throws IOException {
-    stream.defaultWriteObject();
-    Serialization.writeMultiset(this, stream);
-  }
-
-  @GwtIncompatible // java.io.ObjectInputStream
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-    stream.defaultReadObject();
-    int distinctElements = Serialization.readCount(stream);
-    setBackingMap(new ObjectCountHashMap<E>());
-    Serialization.populateMultiset(this, stream, distinctElements);
+  @Override
+  ObjectCountHashMap<E> newBackingMap(int distinctElements) {
+    return new ObjectCountHashMap<>(distinctElements);
   }
 
   @GwtIncompatible // Not needed in emulated source.

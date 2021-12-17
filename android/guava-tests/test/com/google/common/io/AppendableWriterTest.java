@@ -34,26 +34,31 @@ public class AppendableWriterTest extends IoTestCase {
     boolean closed;
     StringBuilder result = new StringBuilder();
 
-    @Override public Appendable append(CharSequence csq) {
+    @Override
+    public Appendable append(CharSequence csq) {
       result.append(csq);
       return this;
     }
 
-    @Override public Appendable append(char c) {
+    @Override
+    public Appendable append(char c) {
       result.append(c);
       return this;
     }
 
-    @Override public Appendable append(CharSequence csq, int start, int end) {
+    @Override
+    public Appendable append(CharSequence csq, int start, int end) {
       result.append(csq, start, end);
       return this;
     }
 
-    @Override public void flush() {
+    @Override
+    public void flush() {
       flushed = true;
     }
 
-    @Override public void close() {
+    @Override
+    public void close() {
       closed = true;
     }
   }

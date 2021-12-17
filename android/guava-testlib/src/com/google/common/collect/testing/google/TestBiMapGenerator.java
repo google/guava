@@ -27,8 +27,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface TestBiMapGenerator<K, V>
-    extends TestContainerGenerator<BiMap<K, V>, Entry<K, V>> {
+public interface TestBiMapGenerator<K, V> extends TestContainerGenerator<BiMap<K, V>, Entry<K, V>> {
   K[] createKeyArray(int length);
 
   V[] createValueArray(int length);

@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.errorprone.annotations.RequiredModifiers;
 import java.lang.annotation.ElementType;
@@ -33,28 +34,28 @@ import javax.lang.model.element.Modifier;
 /**
  * Tester of subtyping relationships between two types.
  *
- * Tests should inherit from this class, and declare subtyping relationship with public methods
+ * <p>Tests should inherit from this class, and declare subtyping relationship with public methods
  * annotated by {@link TestSubtype}.
  *
  * <p>These declaration methods rely on Java static type checking to make sure what we want to
  * assert as subtypes are really subtypes according to javac. For example:
- * <pre>   {@code
  *
- *   class MySubtypeTests extends SubtypeTester {
- *     @TestSubtype(suppressGetSubtype = true, suppressGetSupertype = true)
- *     public <T> Iterable<? extends T> listIsSubtypeOfIterable(List<T> list) {
- *       return isSubtype(list);
- *     }
- *
- *     @TestSubtype
- *     public List<String> intListIsNotSubtypeOfStringList(List<Integer> intList) {
- *       return notSubtype(intList);
- *     }
+ * <pre>{@code
+ * class MySubtypeTests extends SubtypeTester {
+ *   @TestSubtype(suppressGetSubtype = true, suppressGetSupertype = true)
+ *   public <T> Iterable<? extends T> listIsSubtypeOfIterable(List<T> list) {
+ *     return isSubtype(list);
  *   }
  *
- *   public void testMySubtypes() throws Exception {
- *     new MySubtypeTests().testAllDeclarations();
+ *   @TestSubtype
+ *   public List<String> intListIsNotSubtypeOfStringList(List<Integer> intList) {
+ *     return notSubtype(intList);
  *   }
+ * }
+ *
+ * public void testMySubtypes() throws Exception {
+ *   new MySubtypeTests().testAllDeclarations();
+ * }
  * }</pre>
  *
  * The calls to {@link #isSubtype} and {@link #notSubtype} tells the framework what assertions need
@@ -84,15 +85,14 @@ abstract class SubtypeTester implements Cloneable {
     Type returnType = method.getGenericReturnType();
     Type paramType = getOnlyParameterType();
     TestSubtype spec = method.getAnnotation(TestSubtype.class);
-    assertThat(TypeToken.of(paramType).isSubtypeOf(returnType))
-        .named("%s is subtype of %s", paramType, returnType)
+    assertWithMessage("%s is subtype of %s", paramType, returnType)
+        .that(TypeToken.of(paramType).isSubtypeOf(returnType))
         .isTrue();
-    assertThat(TypeToken.of(returnType).isSupertypeOf(paramType))
-        .named("%s is supertype of %s", returnType, paramType)
+    assertWithMessage("%s is supertype of %s", returnType, paramType)
+        .that(TypeToken.of(returnType).isSupertypeOf(paramType))
         .isTrue();
     if (!spec.suppressGetSubtype()) {
-      assertThat(getSubtype(returnType, TypeToken.of(paramType).getRawType()))
-          .isEqualTo(paramType);
+      assertThat(getSubtype(returnType, TypeToken.of(paramType).getRawType())).isEqualTo(paramType);
     }
     if (!spec.suppressGetSupertype()) {
       assertThat(getSupertype(paramType, TypeToken.of(returnType).getRawType()))
@@ -109,11 +109,11 @@ abstract class SubtypeTester implements Cloneable {
     Type returnType = method.getGenericReturnType();
     Type paramType = getOnlyParameterType();
     TestSubtype spec = method.getAnnotation(TestSubtype.class);
-    assertThat(TypeToken.of(paramType).isSubtypeOf(returnType))
-        .named("%s is subtype of %s", paramType, returnType)
+    assertWithMessage("%s is subtype of %s", paramType, returnType)
+        .that(TypeToken.of(paramType).isSubtypeOf(returnType))
         .isFalse();
-    assertThat(TypeToken.of(returnType).isSupertypeOf(paramType))
-        .named("%s is supertype of %s", returnType, paramType)
+    assertWithMessage("%s is supertype of %s", returnType, paramType)
+        .that(TypeToken.of(returnType).isSupertypeOf(paramType))
         .isFalse();
     if (!spec.suppressGetSubtype()) {
       try {
@@ -137,11 +137,14 @@ abstract class SubtypeTester implements Cloneable {
   final void testAllDeclarations() throws Exception {
     checkState(method == null);
     Method[] methods = getClass().getMethods();
-    Arrays.sort(methods, new Comparator<Method>() {
-      @Override public int compare(Method a, Method b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
+    Arrays.sort(
+        methods,
+        new Comparator<Method>() {
+          @Override
+          public int compare(Method a, Method b) {
+            return a.getName().compareTo(b.getName());
+          }
+        });
     for (Method method : methods) {
       if (method.isAnnotationPresent(TestSubtype.class)) {
         method.setAccessible(true);

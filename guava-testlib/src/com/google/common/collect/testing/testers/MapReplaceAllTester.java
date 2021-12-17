@@ -30,22 +30,23 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code replaceAll()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code replaceAll()} operations on a map. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   private SampleElements<K> keys() {
-    return new SampleElements<K>(k0(), k1(), k2(), k3(), k4());
+    return new SampleElements<>(k0(), k1(), k2(), k3(), k4());
   }
 
   private SampleElements<V> values() {
-    return new SampleElements<V>(v0(), v1(), v2(), v3(), v4());
+    return new SampleElements<>(v0(), v1(), v2(), v3(), v4());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)

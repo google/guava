@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Reserializes the sets created by another test set generator.
  *
- * TODO: make CollectionTestSuiteBuilder test reserialized collections
+ * <p>TODO: make CollectionTestSuiteBuilder test reserialized collections
  *
  * @author Jesse Wilson
  */
@@ -42,7 +42,7 @@ public class ReserializingTestCollectionGenerator<E> implements TestCollectionGe
 
   public static <E> ReserializingTestCollectionGenerator<E> newInstance(
       TestCollectionGenerator<E> delegate) {
-    return new ReserializingTestCollectionGenerator<E>(delegate);
+    return new ReserializingTestCollectionGenerator<>(delegate);
   }
 
   @Override

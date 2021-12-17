@@ -31,16 +31,17 @@ import com.google.common.collect.testing.features.ListFeature;
 import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code add(int, Object)} operations on a
- * list. Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code add(int, Object)} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
@@ -150,9 +151,8 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testAddAtIndex_nullSupported()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
+   * Returns the {@link Method} instance for {@link #testAddAtIndex_nullSupported()} so that tests
+   * can suppress it. See {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
   @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {

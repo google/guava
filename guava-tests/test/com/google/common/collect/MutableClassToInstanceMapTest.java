@@ -70,20 +70,18 @@ public class MutableClassToInstanceMapTest extends TestCase {
 
   private ClassToInstanceMap<Number> map;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     map = MutableClassToInstanceMap.create();
   }
 
   public void testConstraint() {
 
     /**
-     * We'll give ourselves a pass on testing all the possible ways of
-     * breaking the constraint, because we know that newClassMap() is
-     * implemented using ConstrainedMap which is itself well-tested.
-     * A purist would object to this, but what can I say, we're dirty
-     * cheaters.
+     * We'll give ourselves a pass on testing all the possible ways of breaking the constraint,
+     * because we know that newClassMap() is implemented using ConstrainedMap which is itself
+     * well-tested. A purist would object to this, but what can I say, we're dirty cheaters.
      */
-
     map.put(Integer.class, new Integer(5));
     try {
       map.put(Double.class, new Long(42));

@@ -23,29 +23,29 @@ import java.io.Reader;
 import java.io.StringReader;
 import junit.framework.TestCase;
 
-/**
- * @author ricebin
- */
+/** @author ricebin */
 public class MultiReaderTest extends TestCase {
 
   public void testOnlyOneOpen() throws Exception {
     String testString = "abcdefgh";
     final CharSource source = newCharSource(testString);
     final int[] counter = new int[1];
-    CharSource reader = new CharSource() {
-      @Override
-      public Reader openStream() throws IOException {
-        if (counter[0]++ != 0) {
-          throw new IllegalStateException("More than one source open");
-        }
-        return new FilterReader(source.openStream()) {
-          @Override public void close() throws IOException {
-            super.close();
-            counter[0]--;
+    CharSource reader =
+        new CharSource() {
+          @Override
+          public Reader openStream() throws IOException {
+            if (counter[0]++ != 0) {
+              throw new IllegalStateException("More than one source open");
+            }
+            return new FilterReader(source.openStream()) {
+              @Override
+              public void close() throws IOException {
+                super.close();
+                counter[0]--;
+              }
+            };
           }
         };
-      }
-    };
     Reader joinedReader = CharSource.concat(reader, reader, reader).openStream();
     String result = CharStreams.toString(joinedReader);
     assertEquals(testString.length() * 3, result.length());
@@ -84,8 +84,7 @@ public class MultiReaderTest extends TestCase {
   public void testSkip() throws Exception {
     String begin = "abcde";
     String end = "fghij";
-    Reader joinedReader =
-        CharSource.concat(newCharSource(begin), newCharSource(end)).openStream();
+    Reader joinedReader = CharSource.concat(newCharSource(begin), newCharSource(end)).openStream();
 
     String expected = begin + end;
     assertEquals(expected.charAt(0), joinedReader.read());
@@ -106,5 +105,4 @@ public class MultiReaderTest extends TestCase {
     assertEquals(0, joinedReader.skip(0));
     assertEquals('a', joinedReader.read());
   }
-
 }

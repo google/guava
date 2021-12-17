@@ -27,31 +27,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 @GwtCompatible(emulated = true)
 class TestingRemovalListeners {
 
-  /**
-   * Returns a new no-op {@code RemovalListener}.
-   */
+  /** Returns a new no-op {@code RemovalListener}. */
   static <K, V> NullRemovalListener<K, V> nullRemovalListener() {
     return new NullRemovalListener<>();
   }
 
-  /**
-   * Type-inferring factory method for creating a {@link QueuingRemovalListener}.
-   */
+  /** Type-inferring factory method for creating a {@link QueuingRemovalListener}. */
   @GwtIncompatible // ConcurrentLinkedQueue
   static <K, V> QueuingRemovalListener<K, V> queuingRemovalListener() {
     return new QueuingRemovalListener<>();
   }
 
-  /**
-   * Type-inferring factory method for creating a {@link CountingRemovalListener}.
-   */
+  /** Type-inferring factory method for creating a {@link CountingRemovalListener}. */
   static <K, V> CountingRemovalListener<K, V> countingRemovalListener() {
     return new CountingRemovalListener<>();
   }
 
-  /**
-   * {@link RemovalListener} that adds all {@link RemovalNotification} objects to a queue.
-   */
+  /** {@link RemovalListener} that adds all {@link RemovalNotification} objects to a queue. */
   @GwtIncompatible // ConcurrentLinkedQueue
   static class QueuingRemovalListener<K, V> extends ConcurrentLinkedQueue<RemovalNotification<K, V>>
       implements RemovalListener<K, V> {
@@ -93,9 +85,7 @@ class TestingRemovalListeners {
     }
   }
 
-  /**
-   * No-op {@link RemovalListener}.
-   */
+  /** No-op {@link RemovalListener}. */
   static class NullRemovalListener<K, V> implements RemovalListener<K, V> {
     @Override
     public void onRemoval(RemovalNotification<K, V> notification) {}

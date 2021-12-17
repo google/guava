@@ -21,10 +21,10 @@ import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
@@ -40,15 +40,23 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Graph} interface.
+ *   <li>Test cases related to whether the graph is directed or undirected.
+ *   <li>Test cases related to the specific implementation of the {@link Graph} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
 public abstract class AbstractGraphTest {
-  MutableGraph<Integer> graph;
+
+  Graph<Integer> graph;
+
+  /**
+   * The same reference as {@link #graph}, except as a mutable graph. This field is null in case
+   * {@link #createGraph()} didn't return a mutable graph.
+   */
+  MutableGraph<Integer> graphAsMutableGraph;
+
   static final Integer N1 = 1;
   static final Integer N2 = 2;
   static final Integer N3 = 3;
@@ -66,50 +74,36 @@ public abstract class AbstractGraphTest {
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
 
   /** Creates and returns an instance of the graph to be tested. */
-  public abstract MutableGraph<Integer> createGraph();
+  abstract Graph<Integer> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable
-   * graph implementations, this method should add {@code n} to the graph builder and build a new
-   * graph with the current builder state.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * graph implementations, this method should replace {@link #graph} with a new graph that includes
+   * this node.
    */
-  @CanIgnoreReturnValue
-  protected boolean addNode(Integer n) {
-    return graph.addNode(n);
-  }
+  abstract void addNode(Integer n);
 
   /**
    * A proxy method that adds the edge {@code e} to the graph being tested. In case of Immutable
-   * graph implementations, this method should add {@code e} to the graph builder and build a new
-   * graph with the current builder state.
-   *
-   * <p>This method should be used in tests of specific implementations if you want to ensure
-   * uniform behavior (including side effects) with how edges are added elsewhere in the tests. For
-   * example, the existing implementations of this method explicitly add the supplied nodes to the
-   * graph, and then call {@code graph.addEdge()} to connect the edge to the nodes; this is not part
-   * of the contract of {@code graph.addEdge()} and is done for convenience. In cases where you want
-   * to avoid such side effects (e.g., if you're testing what happens in your implementation if you
-   * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
-   * method.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * graph implementations, this method should replace {@link #graph} with a new graph that includes
+   * this edge.
    */
-  @CanIgnoreReturnValue
-  protected boolean putEdge(Integer n1, Integer n2) {
-    graph.addNode(n1);
-    graph.addNode(n2);
-    return graph.putEdge(n1, n2);
+  abstract void putEdge(Integer n1, Integer n2);
+
+  final boolean graphIsMutable() {
+    return graphAsMutableGraph != null;
   }
 
   @Before
-  public void init() {
+  public final void init() {
     graph = createGraph();
+    if (graph instanceof MutableGraph) {
+      graphAsMutableGraph = (MutableGraph<Integer>) graph;
+    }
   }
 
   @After
-  public void validateGraphState() {
+  public final void validateGraphState() {
     validateGraph(graph);
   }
 
@@ -156,12 +150,22 @@ public abstract class AbstractGraphTest {
       for (N predecessor : sanityCheckSet(graph.predecessors(node))) {
         assertThat(graph.successors(predecessor)).contains(node);
         assertThat(graph.hasEdgeConnecting(predecessor, node)).isTrue();
+        assertThat(graph.incidentEdges(node)).contains(EndpointPair.of(graph, predecessor, node));
       }
 
       for (N successor : sanityCheckSet(graph.successors(node))) {
         allEndpointPairs.add(EndpointPair.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
         assertThat(graph.hasEdgeConnecting(node, successor)).isTrue();
+        assertThat(graph.incidentEdges(node)).contains(EndpointPair.of(graph, node, successor));
+      }
+
+      for (EndpointPair<N> endpoints : sanityCheckSet(graph.incidentEdges(node))) {
+        if (graph.isDirected()) {
+          assertThat(graph.hasEdgeConnecting(endpoints.source(), endpoints.target())).isTrue();
+        } else {
+          assertThat(graph.hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV())).isTrue();
+        }
       }
     }
 
@@ -197,6 +201,13 @@ public abstract class AbstractGraphTest {
    */
   @Test
   public abstract void successors_checkReturnedSetMutability();
+
+  /**
+   * Verifies that the {@code Set} returned by {@code incidentEdges} has the expected mutability
+   * property (see the {@code Graph} documentation for more information).
+   */
+  @Test
+  public abstract void incidentEdges_checkReturnedSetMutability();
 
   @Test
   public void nodes_oneNode() {
@@ -265,6 +276,22 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
+  public void incidentEdges_noIncidentEdges() {
+    addNode(N1);
+    assertThat(graph.incidentEdges(N1)).isEmpty();
+  }
+
+  @Test
+  public void incidentEdges_nodeNotInGraph() {
+    try {
+      graph.incidentEdges(NODE_NOT_IN_GRAPH);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
   public void degree_oneEdge() {
     putEdge(N1, N2);
     assertThat(graph.degree(N1)).isEqualTo(1);
@@ -321,24 +348,30 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void addNode_newNode() {
-    assertThat(addNode(N1)).isTrue();
+    assume().that(graphIsMutable()).isTrue();
+
+    assertThat(graphAsMutableGraph.addNode(N1)).isTrue();
     assertThat(graph.nodes()).contains(N1);
   }
 
   @Test
   public void addNode_existingNode() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
-    assertThat(addNode(N1)).isFalse();
+    assertThat(graphAsMutableGraph.addNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Test
   public void removeNode_existingNode() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     putEdge(N4, N1);
-    assertThat(graph.removeNode(N1)).isTrue();
-    assertThat(graph.removeNode(N1)).isFalse();
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
+    assertThat(graphAsMutableGraph.removeNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactly(N2, N4);
     assertThat(graph.adjacentNodes(N2)).isEmpty();
     assertThat(graph.adjacentNodes(N4)).isEmpty();
@@ -346,32 +379,38 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeNode_antiparallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     putEdge(N2, N1);
 
-    assertThat(graph.removeNode(N1)).isTrue();
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).containsExactly(N2);
     assertThat(graph.edges()).isEmpty();
 
-    assertThat(graph.removeNode(N2)).isTrue();
+    assertThat(graphAsMutableGraph.removeNode(N2)).isTrue();
     assertThat(graph.nodes()).isEmpty();
     assertThat(graph.edges()).isEmpty();
   }
 
   @Test
   public void removeNode_nodeNotPresent() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
-    assertThat(graph.removeNode(NODE_NOT_IN_GRAPH)).isFalse();
+    assertThat(graphAsMutableGraph.removeNode(NODE_NOT_IN_GRAPH)).isFalse();
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Test
   public void removeNode_queryAfterRemoval() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     @SuppressWarnings("unused")
     Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
-    assertThat(graph.removeNode(N1)).isTrue();
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
     try {
       graph.adjacentNodes(N1);
       fail(ERROR_NODE_NOT_IN_GRAPH);
@@ -382,36 +421,45 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeEdge_existingEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N2);
     assertThat(graph.predecessors(N2)).containsExactly(N1);
-    assertThat(graph.removeEdge(N1, N2)).isTrue();
-    assertThat(graph.removeEdge(N1, N2)).isFalse();
+    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isTrue();
+    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isFalse();
     assertThat(graph.successors(N1)).isEmpty();
     assertThat(graph.predecessors(N2)).isEmpty();
   }
 
   @Test
   public void removeEdge_oneOfMany() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     putEdge(N1, N3);
     putEdge(N1, N4);
-    assertThat(graph.removeEdge(N1, N3)).isTrue();
+    assertThat(graphAsMutableGraph.removeEdge(N1, N3)).isTrue();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2, N4);
   }
 
   @Test
   public void removeEdge_nodeNotPresent() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
-    assertThat(graph.removeEdge(N1, NODE_NOT_IN_GRAPH)).isFalse();
+    assertThat(graphAsMutableGraph.removeEdge(N1, NODE_NOT_IN_GRAPH)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }
 
   @Test
   public void removeEdge_edgeNotPresent() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     addNode(N3);
-    assertThat(graph.removeEdge(N1, N3)).isFalse();
+
+    assertThat(graphAsMutableGraph.removeEdge(N1, N3)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }
 }

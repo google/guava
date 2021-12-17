@@ -32,15 +32,18 @@ import junit.framework.TestCase;
  * @author Martin Buchholz
  */
 public class ThreadFactoryBuilderTest extends TestCase {
-  private final Runnable monitoredRunnable = new Runnable() {
-    @Override public void run() {
-      completed = true;
-    }
-  };
+  private final Runnable monitoredRunnable =
+      new Runnable() {
+        @Override
+        public void run() {
+          completed = true;
+        }
+      };
 
   private static final UncaughtExceptionHandler UNCAUGHT_EXCEPTION_HANDLER =
       new UncaughtExceptionHandler() {
-        @Override public void uncaughtException(Thread t, Throwable e) {
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
           // No-op
         }
       };
@@ -48,22 +51,22 @@ public class ThreadFactoryBuilderTest extends TestCase {
   private ThreadFactoryBuilder builder;
   private volatile boolean completed = false;
 
-  @Override public void setUp() {
+  @Override
+  public void setUp() {
     builder = new ThreadFactoryBuilder();
   }
+
 
   public void testThreadFactoryBuilder_defaults() throws InterruptedException {
     ThreadFactory threadFactory = builder.build();
     Thread thread = threadFactory.newThread(monitoredRunnable);
     checkThreadPoolName(thread, 1);
 
-    Thread defaultThread =
-        Executors.defaultThreadFactory().newThread(monitoredRunnable);
+    Thread defaultThread = Executors.defaultThreadFactory().newThread(monitoredRunnable);
     assertEquals(defaultThread.isDaemon(), thread.isDaemon());
     assertEquals(defaultThread.getPriority(), thread.getPriority());
     assertSame(defaultThread.getThreadGroup(), thread.getThreadGroup());
-    assertSame(defaultThread.getUncaughtExceptionHandler(),
-        thread.getUncaughtExceptionHandler());
+    assertSame(defaultThread.getUncaughtExceptionHandler(), thread.getUncaughtExceptionHandler());
 
     assertFalse(completed);
     thread.start();
@@ -82,33 +85,32 @@ public class ThreadFactoryBuilderTest extends TestCase {
     ThreadFactory threadFactory2 = builder.build();
     Thread thread3 = threadFactory2.newThread(monitoredRunnable);
     checkThreadPoolName(thread3, 1);
-    assertThat(
-        thread2.getName().substring(0, thread.getName().lastIndexOf('-')))
-        .isNotEqualTo(
-            thread3.getName().substring(0, thread.getName().lastIndexOf('-')));
+    assertThat(thread2.getName().substring(0, thread.getName().lastIndexOf('-')))
+        .isNotEqualTo(thread3.getName().substring(0, thread.getName().lastIndexOf('-')));
   }
 
   private static void checkThreadPoolName(Thread thread, int threadId) {
     assertThat(thread.getName()).matches("^pool-\\d+-thread-" + threadId + "$");
   }
 
+
   public void testNameFormatWithPercentS_custom() {
     String format = "super-duper-thread-%s";
     ThreadFactory factory = builder.setNameFormat(format).build();
     for (int i = 0; i < 11; i++) {
-      assertEquals(rootLocaleFormat(format, i),
-          factory.newThread(monitoredRunnable).getName());
+      assertEquals(rootLocaleFormat(format, i), factory.newThread(monitoredRunnable).getName());
     }
   }
+
 
   public void testNameFormatWithPercentD_custom() {
     String format = "super-duper-thread-%d";
     ThreadFactory factory = builder.setNameFormat(format).build();
     for (int i = 0; i < 11; i++) {
-      assertEquals(rootLocaleFormat(format, i),
-          factory.newThread(monitoredRunnable).getName());
+      assertEquals(rootLocaleFormat(format, i), factory.newThread(monitoredRunnable).getName());
     }
   }
+
 
   public void testDaemon_false() {
     ThreadFactory factory = builder.setDaemon(false).build();
@@ -116,11 +118,13 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertFalse(thread.isDaemon());
   }
 
+
   public void testDaemon_true() {
     ThreadFactory factory = builder.setDaemon(true).build();
     Thread thread = factory.newThread(monitoredRunnable);
     assertTrue(thread.isDaemon());
   }
+
 
   public void testPriority_custom() {
     for (int i = Thread.MIN_PRIORITY; i <= Thread.MAX_PRIORITY; i++) {
@@ -146,11 +150,17 @@ public class ThreadFactoryBuilderTest extends TestCase {
     }
   }
 
+
   public void testUncaughtExceptionHandler_custom() {
-    assertEquals(UNCAUGHT_EXCEPTION_HANDLER,
-        builder.setUncaughtExceptionHandler(UNCAUGHT_EXCEPTION_HANDLER).build()
-        .newThread(monitoredRunnable).getUncaughtExceptionHandler());
+    assertEquals(
+        UNCAUGHT_EXCEPTION_HANDLER,
+        builder
+            .setUncaughtExceptionHandler(UNCAUGHT_EXCEPTION_HANDLER)
+            .build()
+            .newThread(monitoredRunnable)
+            .getUncaughtExceptionHandler());
   }
+
 
   public void testBuildMutateBuild() {
     ThreadFactory factory1 = builder.setPriority(1).build();
@@ -163,41 +173,44 @@ public class ThreadFactoryBuilderTest extends TestCase {
 
   public void testBuildTwice() {
     ThreadFactory unused;
-    unused = builder.build();  // this is allowed
-    unused = builder.build();  // this is *also* allowed
+    unused = builder.build(); // this is allowed
+    unused = builder.build(); // this is *also* allowed
   }
+
 
   public void testBuildMutate() {
     ThreadFactory factory1 = builder.setPriority(1).build();
     assertEquals(1, factory1.newThread(monitoredRunnable).getPriority());
 
-    builder.setPriority(2);  // change the state of the builder
+    builder.setPriority(2); // change the state of the builder
     assertEquals(1, factory1.newThread(monitoredRunnable).getPriority());
   }
+
 
   public void testThreadFactory() throws InterruptedException {
     final String THREAD_NAME = "ludicrous speed";
     final int THREAD_PRIORITY = 1;
     final boolean THREAD_DAEMON = false;
-    ThreadFactory backingThreadFactory = new ThreadFactory() {
-      @Override public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r);
-        thread.setName(THREAD_NAME);
-        thread.setPriority(THREAD_PRIORITY);
-        thread.setDaemon(THREAD_DAEMON);
-        thread.setUncaughtExceptionHandler(UNCAUGHT_EXCEPTION_HANDLER);
-        return thread;
-      }
-    };
+    ThreadFactory backingThreadFactory =
+        new ThreadFactory() {
+          @Override
+          public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName(THREAD_NAME);
+            thread.setPriority(THREAD_PRIORITY);
+            thread.setDaemon(THREAD_DAEMON);
+            thread.setUncaughtExceptionHandler(UNCAUGHT_EXCEPTION_HANDLER);
+            return thread;
+          }
+        };
 
-    Thread thread = builder.setThreadFactory(backingThreadFactory).build()
-        .newThread(monitoredRunnable);
+    Thread thread =
+        builder.setThreadFactory(backingThreadFactory).build().newThread(monitoredRunnable);
 
     assertEquals(THREAD_NAME, thread.getName());
     assertEquals(THREAD_PRIORITY, thread.getPriority());
     assertEquals(THREAD_DAEMON, thread.isDaemon());
-    assertSame(UNCAUGHT_EXCEPTION_HANDLER,
-        thread.getUncaughtExceptionHandler());
+    assertSame(UNCAUGHT_EXCEPTION_HANDLER, thread.getUncaughtExceptionHandler());
     assertSame(Thread.State.NEW, thread.getState());
 
     assertFalse(completed);

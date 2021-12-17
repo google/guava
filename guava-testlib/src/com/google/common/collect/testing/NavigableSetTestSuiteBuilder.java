@@ -34,13 +34,13 @@ import java.util.SortedSet;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a NavigableSet implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a NavigableSet
+ * implementation.
  */
 @GwtIncompatible
 public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBuilder<E> {
   public static <E> NavigableSetTestSuiteBuilder<E> using(TestSortedSetGenerator<E> generator) {
-    NavigableSetTestSuiteBuilder<E> builder = new NavigableSetTestSuiteBuilder<E>();
+    NavigableSetTestSuiteBuilder<E> builder = new NavigableSetTestSuiteBuilder<>();
     builder.usingGenerator(generator);
     return builder;
   }
@@ -97,14 +97,11 @@ public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBui
     return using(new NavigableSetSubsetTestSetGenerator<E>(delegate, to, from));
   }
 
-  /**
-   * Create a suite whose maps are descending views of other maps.
-   */
+  /** Create a suite whose maps are descending views of other maps. */
   private TestSuite createDescendingSuite(
-      final FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder) {
-    final TestSetGenerator<E> delegate =
+    TestSetGenerator<E> delegate =
         (TestSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>();
@@ -126,7 +123,7 @@ public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBui
 
               @Override
               public Iterable<E> order(List<E> insertionOrder) {
-                List<E> list = new ArrayList<E>();
+                List<E> list = new ArrayList<>();
                 for (E e : delegate.order(insertionOrder)) {
                   list.add(e);
                 }

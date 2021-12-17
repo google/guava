@@ -43,8 +43,7 @@ final class Platform {
   // TODO: Consolidate different copies in one single place.
   static String format(String template, Object... args) {
     // start substituting the arguments into the '%s' placeholders
-    StringBuilder builder = new StringBuilder(
-        template.length() + 16 * args.length);
+    StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
     int templateStart = 0;
     int i = 0;
     while (i < args.length) {

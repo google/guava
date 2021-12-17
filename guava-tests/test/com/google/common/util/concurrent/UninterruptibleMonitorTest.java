@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+
 /**
  * Tests for {@link Monitor}'s uninterruptible methods.
  *
@@ -27,5 +28,4 @@ public class UninterruptibleMonitorTest extends MonitorTestCase {
   public UninterruptibleMonitorTest() {
     super(false);
   }
-
 }

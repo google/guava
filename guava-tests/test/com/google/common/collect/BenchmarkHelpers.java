@@ -42,11 +42,13 @@ final class BenchmarkHelpers {
   /** So far, this is the best way to test various implementations of {@link Set} subclasses. */
   public interface CollectionsImplEnum {
     <E extends Comparable<E>> Collection<E> create(Collection<E> contents);
+
     String name();
   }
 
   public interface MapsImplEnum {
     <K extends Comparable<K>, V> Map<K, V> create(Map<K, V> contents);
+
     String name();
   }
 
@@ -374,8 +376,8 @@ final class BenchmarkHelpers {
       }
     };
 
-    abstract <R extends Comparable<R>, C extends Comparable<C>, V>
-        Table<R, C, V> create(Table<R, C, V> contents);
+    abstract <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+        Table<R, C, V> contents);
   }
 
   public enum InternerImpl implements InternerImplEnum {

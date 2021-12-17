@@ -19,7 +19,6 @@ package com.google.common.cache;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
 /**
@@ -29,12 +28,14 @@ import com.google.common.cache.LocalCache.Segment;
  */
 public class ChainBenchmark {
 
-  @Param({"1", "2", "3", "4", "5", "6"}) int length;
+  @Param({"1", "2", "3", "4", "5", "6"})
+  int length;
 
   private Segment<Object, Object> segment;
   private ReferenceEntry<Object, Object> head;
   private ReferenceEntry<Object, Object> chain;
 
+  @SuppressWarnings("GuardedBy")
   @BeforeExperiment
   void setUp() {
     LocalCache<Object, Object> cache =
@@ -43,6 +44,8 @@ public class ChainBenchmark {
     chain = null;
     for (int i = 0; i < length; i++) {
       Object key = new Object();
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       chain = segment.newEntry(key, cache.hash(key), chain);
       if (i == 0) {
         head = chain;
@@ -50,9 +53,13 @@ public class ChainBenchmark {
     }
   }
 
-  @Benchmark int time(int reps) {
+  @SuppressWarnings("GuardedBy")
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       segment.removeEntryFromChain(chain, head);
       dummy += segment.count;
     }

@@ -43,7 +43,7 @@ public class LongArrayAsListTest extends TestCase {
   private static List<Long> asList(Long[] values) {
     long[] temp = new long[values.length];
     for (int i = 0; i < values.length; i++) {
-      temp[i] = checkNotNull(values[i]);  // checkNotNull for GWT (do not optimize).
+      temp[i] = checkNotNull(values[i]); // checkNotNull for GWT (do not optimize).
     }
     return Longs.asList(temp);
   }
@@ -52,28 +52,24 @@ public class LongArrayAsListTest extends TestCase {
   public static Test suite() {
     List<ListTestSuiteBuilder<Long>> builders =
         ImmutableList.of(
-            ListTestSuiteBuilder.using(new LongsAsListGenerator())
-                .named("Longs.asList"),
-
+            ListTestSuiteBuilder.using(new LongsAsListGenerator()).named("Longs.asList"),
             ListTestSuiteBuilder.using(new LongsAsListHeadSubListGenerator())
                 .named("Longs.asList, head subList"),
-
             ListTestSuiteBuilder.using(new LongsAsListTailSubListGenerator())
                 .named("Longs.asList, tail subList"),
-
             ListTestSuiteBuilder.using(new LongsAsListMiddleSubListGenerator())
-                .named("Longs.asList, middle subList")
-            );
+                .named("Longs.asList, middle subList"));
 
     TestSuite suite = new TestSuite();
     for (ListTestSuiteBuilder<Long> builder : builders) {
       suite.addTest(
           builder
-          .withFeatures(CollectionSize.ONE,
-                        CollectionSize.SEVERAL,
-                        CollectionFeature.RESTRICTS_ELEMENTS,
-                        ListFeature.SUPPORTS_SET)
-          .createTestSuite());
+              .withFeatures(
+                  CollectionSize.ONE,
+                  CollectionSize.SEVERAL,
+                  CollectionFeature.RESTRICTS_ELEMENTS,
+                  ListFeature.SUPPORTS_SET)
+              .createTestSuite());
     }
     return suite;
   }
@@ -82,13 +78,15 @@ public class LongArrayAsListTest extends TestCase {
   // public named classes with a public default constructor.
 
   public static final class LongsAsListGenerator extends TestLongListGenerator {
-    @Override protected List<Long> create(Long[] elements) {
+    @Override
+    protected List<Long> create(Long[] elements) {
       return asList(elements);
     }
   }
 
   public static final class LongsAsListHeadSubListGenerator extends TestLongListGenerator {
-    @Override protected List<Long> create(Long[] elements) {
+    @Override
+    protected List<Long> create(Long[] elements) {
       Long[] suffix = {Long.MIN_VALUE, Long.MAX_VALUE};
       Long[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -96,7 +94,8 @@ public class LongArrayAsListTest extends TestCase {
   }
 
   public static final class LongsAsListTailSubListGenerator extends TestLongListGenerator {
-    @Override protected List<Long> create(Long[] elements) {
+    @Override
+    protected List<Long> create(Long[] elements) {
       Long[] prefix = {(long) 86, (long) 99};
       Long[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -104,7 +103,8 @@ public class LongArrayAsListTest extends TestCase {
   }
 
   public static final class LongsAsListMiddleSubListGenerator extends TestLongListGenerator {
-    @Override protected List<Long> create(Long[] elements) {
+    @Override
+    protected List<Long> create(Long[] elements) {
       Long[] prefix = {Long.MIN_VALUE, Long.MAX_VALUE};
       Long[] suffix = {(long) 86, (long) 99};
       Long[] all = concat(concat(prefix, elements), suffix);
@@ -119,8 +119,7 @@ public class LongArrayAsListTest extends TestCase {
     return result;
   }
 
-  public static abstract class TestLongListGenerator
-      implements TestListGenerator<Long> {
+  public abstract static class TestLongListGenerator implements TestListGenerator<Long> {
     @Override
     public SampleElements<Long> samples() {
       return new SampleLongs();
@@ -137,8 +136,8 @@ public class LongArrayAsListTest extends TestCase {
     }
 
     /**
-     * Creates a new collection containing the given elements; implement this
-     * method instead of {@link #create(Object...)}.
+     * Creates a new collection containing the given elements; implement this method instead of
+     * {@link #create(Object...)}.
      */
     protected abstract List<Long> create(Long[] elements);
 

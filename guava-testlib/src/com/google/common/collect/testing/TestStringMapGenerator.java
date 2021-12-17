@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Implementation helper for {@link TestMapGenerator} for use with maps of
- * strings.
+ * Implementation helper for {@link TestMapGenerator} for use with maps of strings.
  *
  * @author Chris Povirk
  * @author Jared Levy

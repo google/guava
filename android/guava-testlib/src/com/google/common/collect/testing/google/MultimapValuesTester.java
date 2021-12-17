@@ -28,6 +28,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Tester for {@code Multimap.values}.
@@ -35,6 +36,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapValuesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testValues() {
     List<V> expected = Lists.newArrayList();

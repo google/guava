@@ -15,29 +15,29 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.CollectPreconditions.checkRemove;
-import static com.google.common.collect.Hashing.smearedHash;
+import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static com.google.common.collect.NullnessCasts.unsafeNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
-import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A
@@ -52,14 +52,13 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
-public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
-    implements BiMap<K, V>, Serializable {
+@GwtCompatible
+@ElementTypesAreNonnullByDefault
+public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMap<K, V> implements BiMap<K, V>, Serializable {
 
-  /**
-   * Returns a new, empty {@code HashBiMap} with the default initial capacity (16).
-   */
-  public static <K, V> HashBiMap<K, V> create() {
+  /** Returns a new, empty {@code HashBiMap} with the default initial capacity (16). */
+  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create() {
     return create(16);
   }
 
@@ -69,7 +68,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
    * @param expectedSize the expected number of entries
    * @throws IllegalArgumentException if the specified expected size is negative
    */
-  public static <K, V> HashBiMap<K, V> create(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create(
+      int expectedSize) {
     return new HashBiMap<>(expectedSize);
   }
 
@@ -77,321 +77,78 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
    * Constructs a new bimap containing initial values from {@code map}. The bimap is created with an
    * initial capacity sufficient to hold the mappings in the specified map.
    */
-  public static <K, V> HashBiMap<K, V> create(Map<? extends K, ? extends V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create(
+      Map<? extends K, ? extends V> map) {
     HashBiMap<K, V> bimap = create(map.size());
     bimap.putAll(map);
     return bimap;
   }
 
-  private static final class BiEntry<K, V> extends ImmutableEntry<K, V> {
-    final int keyHash;
-    final int valueHash;
+  private static final int ABSENT = -1;
+  private static final int ENDPOINT = -2;
 
-    @Nullable BiEntry<K, V> nextInKToVBucket;
-    @Nullable BiEntry<K, V> nextInVToKBucket;
+  /** Maps an "entry" to the key of that entry. */
+  transient @Nullable K[] keys;
+  /** Maps an "entry" to the value of that entry. */
+  transient @Nullable V[] values;
 
-    @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
-    @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
-
-    BiEntry(K key, int keyHash, V value, int valueHash) {
-      super(key, value);
-      this.keyHash = keyHash;
-      this.valueHash = valueHash;
-    }
-  }
-
-  private static final double LOAD_FACTOR = 1.0;
-
-  private transient BiEntry<K, V>[] hashTableKToV;
-  private transient BiEntry<K, V>[] hashTableVToK;
-  private transient BiEntry<K, V> firstInKeyInsertionOrder;
-  private transient BiEntry<K, V> lastInKeyInsertionOrder;
-  private transient int size;
-  private transient int mask;
-  private transient int modCount;
+  transient int size;
+  transient int modCount;
+  /** Maps a bucket to the "entry" of its first element. */
+  private transient int[] hashTableKToV;
+  /** Maps a bucket to the "entry" of its first element. */
+  private transient int[] hashTableVToK;
+  /** Maps an "entry" to the "entry" that follows it in its bucket. */
+  private transient int[] nextInBucketKToV;
+  /** Maps an "entry" to the "entry" that follows it in its bucket. */
+  private transient int[] nextInBucketVToK;
+  /** The "entry" of the first element in insertion order. */
+  private transient int firstInInsertionOrder;
+  /** The "entry" of the last element in insertion order. */
+  private transient int lastInInsertionOrder;
+  /** Maps an "entry" to the "entry" that precedes it in insertion order. */
+  private transient int[] prevInInsertionOrder;
+  /** Maps an "entry" to the "entry" that follows it in insertion order. */
+  private transient int[] nextInInsertionOrder;
 
   private HashBiMap(int expectedSize) {
     init(expectedSize);
   }
 
-  private void init(int expectedSize) {
-    checkNonnegative(expectedSize, "expectedSize");
-    int tableSize = Hashing.closedTableSize(expectedSize, LOAD_FACTOR);
-    this.hashTableKToV = createTable(tableSize);
-    this.hashTableVToK = createTable(tableSize);
-    this.firstInKeyInsertionOrder = null;
-    this.lastInKeyInsertionOrder = null;
-    this.size = 0;
-    this.mask = tableSize - 1;
-    this.modCount = 0;
-  }
-
-  /**
-   * Finds and removes {@code entry} from the bucket linked lists in both the
-   * key-to-value direction and the value-to-key direction.
-   */
-  private void delete(BiEntry<K, V> entry) {
-    int keyBucket = entry.keyHash & mask;
-    BiEntry<K, V> prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableKToV[keyBucket];
-        true;
-        bucketEntry = bucketEntry.nextInKToVBucket) {
-      if (bucketEntry == entry) {
-        if (prevBucketEntry == null) {
-          hashTableKToV[keyBucket] = entry.nextInKToVBucket;
-        } else {
-          prevBucketEntry.nextInKToVBucket = entry.nextInKToVBucket;
-        }
-        break;
-      }
-      prevBucketEntry = bucketEntry;
-    }
-
-    int valueBucket = entry.valueHash & mask;
-    prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket];
-        true;
-        bucketEntry = bucketEntry.nextInVToKBucket) {
-      if (bucketEntry == entry) {
-        if (prevBucketEntry == null) {
-          hashTableVToK[valueBucket] = entry.nextInVToKBucket;
-        } else {
-          prevBucketEntry.nextInVToKBucket = entry.nextInVToKBucket;
-        }
-        break;
-      }
-      prevBucketEntry = bucketEntry;
-    }
-
-    if (entry.prevInKeyInsertionOrder == null) {
-      firstInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
-    } else {
-      entry.prevInKeyInsertionOrder.nextInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
-    }
-
-    if (entry.nextInKeyInsertionOrder == null) {
-      lastInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
-    } else {
-      entry.nextInKeyInsertionOrder.prevInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
-    }
-
-    size--;
-    modCount++;
-  }
-
-  private void insert(BiEntry<K, V> entry, @Nullable BiEntry<K, V> oldEntryForKey) {
-    int keyBucket = entry.keyHash & mask;
-    entry.nextInKToVBucket = hashTableKToV[keyBucket];
-    hashTableKToV[keyBucket] = entry;
-
-    int valueBucket = entry.valueHash & mask;
-    entry.nextInVToKBucket = hashTableVToK[valueBucket];
-    hashTableVToK[valueBucket] = entry;
-
-    if (oldEntryForKey == null) {
-      entry.prevInKeyInsertionOrder = lastInKeyInsertionOrder;
-      entry.nextInKeyInsertionOrder = null;
-      if (lastInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = entry;
-      } else {
-        lastInKeyInsertionOrder.nextInKeyInsertionOrder = entry;
-      }
-      lastInKeyInsertionOrder = entry;
-    } else {
-      entry.prevInKeyInsertionOrder = oldEntryForKey.prevInKeyInsertionOrder;
-      if (entry.prevInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = entry;
-      } else {
-        entry.prevInKeyInsertionOrder.nextInKeyInsertionOrder = entry;
-      }
-      entry.nextInKeyInsertionOrder = oldEntryForKey.nextInKeyInsertionOrder;
-      if (entry.nextInKeyInsertionOrder == null) {
-        lastInKeyInsertionOrder = entry;
-      } else {
-        entry.nextInKeyInsertionOrder.prevInKeyInsertionOrder = entry;
-      }
-    }
-
-    size++;
-    modCount++;
-  }
-
-  private BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
-    for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
-        entry != null;
-        entry = entry.nextInKToVBucket) {
-      if (keyHash == entry.keyHash && Objects.equal(key, entry.key)) {
-        return entry;
-      }
-    }
-    return null;
-  }
-
-  private BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
-    for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
-        entry != null;
-        entry = entry.nextInVToKBucket) {
-      if (valueHash == entry.valueHash && Objects.equal(value, entry.value)) {
-        return entry;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public boolean containsKey(@Nullable Object key) {
-    return seekByKey(key, smearedHash(key)) != null;
-  }
-
-  @Override
-  public boolean containsValue(@Nullable Object value) {
-    return seekByValue(value, smearedHash(value)) != null;
-  }
-
-  @Nullable
-  @Override
-  public V get(@Nullable Object key) {
-    return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public V put(@Nullable K key, @Nullable V value) {
-    return put(key, value, false);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public V forcePut(@Nullable K key, @Nullable V value) {
-    return put(key, value, true);
-  }
-
-  private V put(@Nullable K key, @Nullable V value, boolean force) {
-    int keyHash = smearedHash(key);
-    int valueHash = smearedHash(value);
-
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForKey != null
-        && valueHash == oldEntryForKey.valueHash
-        && Objects.equal(value, oldEntryForKey.value)) {
-      return value;
-    }
-
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
-    if (oldEntryForValue != null) {
-      if (force) {
-        delete(oldEntryForValue);
-      } else {
-        throw new IllegalArgumentException("value already present: " + value);
-      }
-    }
-
-    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
-    if (oldEntryForKey != null) {
-      delete(oldEntryForKey);
-      insert(newEntry, oldEntryForKey);
-      oldEntryForKey.prevInKeyInsertionOrder = null;
-      oldEntryForKey.nextInKeyInsertionOrder = null;
-      rehashIfNecessary();
-      return oldEntryForKey.value;
-    } else {
-      insert(newEntry, null);
-      rehashIfNecessary();
-      return null;
-    }
-  }
-
-  @Nullable
-  private K putInverse(@Nullable V value, @Nullable K key, boolean force) {
-    int valueHash = smearedHash(value);
-    int keyHash = smearedHash(key);
-
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForValue != null
-        && keyHash == oldEntryForValue.keyHash
-        && Objects.equal(key, oldEntryForValue.key)) {
-      return key;
-    } else if (oldEntryForKey != null && !force) {
-      throw new IllegalArgumentException("key already present: " + key);
-    }
-
-    /*
-     * The ordering here is important: if we deleted the key entry and then the value entry,
-     * the key entry's prev or next pointer might point to the dead value entry, and when we
-     * put the new entry in the key entry's position in iteration order, it might invalidate
-     * the linked list.
-     */
-
-    if (oldEntryForValue != null) {
-      delete(oldEntryForValue);
-    }
-
-    if (oldEntryForKey != null) {
-      delete(oldEntryForKey);
-    }
-
-    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
-    insert(newEntry, oldEntryForKey);
-
-    if (oldEntryForKey != null) {
-      oldEntryForKey.prevInKeyInsertionOrder = null;
-      oldEntryForKey.nextInKeyInsertionOrder = null;
-    }
-    if (oldEntryForValue != null) {
-      oldEntryForValue.prevInKeyInsertionOrder = null;
-      oldEntryForValue.nextInKeyInsertionOrder = null;
-    }
-    rehashIfNecessary();
-    return Maps.keyOrNull(oldEntryForValue);
-  }
-
-  private void rehashIfNecessary() {
-    BiEntry<K, V>[] oldKToV = hashTableKToV;
-    if (Hashing.needsResizing(size, oldKToV.length, LOAD_FACTOR)) {
-      int newTableSize = oldKToV.length * 2;
-
-      this.hashTableKToV = createTable(newTableSize);
-      this.hashTableVToK = createTable(newTableSize);
-      this.mask = newTableSize - 1;
-      this.size = 0;
-
-      for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
-          entry != null;
-          entry = entry.nextInKeyInsertionOrder) {
-        insert(entry, entry);
-      }
-      this.modCount++;
-    }
-  }
-
   @SuppressWarnings("unchecked")
-  private BiEntry<K, V>[] createTable(int length) {
-    return new BiEntry[length];
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public V remove(@Nullable Object key) {
-    BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
-    if (entry == null) {
-      return null;
-    } else {
-      delete(entry);
-      entry.prevInKeyInsertionOrder = null;
-      entry.nextInKeyInsertionOrder = null;
-      return entry.value;
-    }
-  }
-
-  @Override
-  public void clear() {
+  void init(int expectedSize) {
+    CollectPreconditions.checkNonnegative(expectedSize, "expectedSize");
+    int tableSize = Hashing.closedTableSize(expectedSize, 1.0);
     size = 0;
-    Arrays.fill(hashTableKToV, null);
-    Arrays.fill(hashTableVToK, null);
-    firstInKeyInsertionOrder = null;
-    lastInKeyInsertionOrder = null;
-    modCount++;
+
+    keys = (K[]) new Object[expectedSize];
+    values = (V[]) new Object[expectedSize];
+
+    hashTableKToV = createFilledWithAbsent(tableSize);
+    hashTableVToK = createFilledWithAbsent(tableSize);
+    nextInBucketKToV = createFilledWithAbsent(expectedSize);
+    nextInBucketVToK = createFilledWithAbsent(expectedSize);
+
+    firstInInsertionOrder = ENDPOINT;
+    lastInInsertionOrder = ENDPOINT;
+
+    prevInInsertionOrder = createFilledWithAbsent(expectedSize);
+    nextInInsertionOrder = createFilledWithAbsent(expectedSize);
+  }
+
+  /** Returns an int array of the specified size, filled with ABSENT. */
+  private static int[] createFilledWithAbsent(int size) {
+    int[] array = new int[size];
+    Arrays.fill(array, ABSENT);
+    return array;
+  }
+
+  /** Equivalent to {@code Arrays.copyOf(array, newSize)}, save that the new elements are ABSENT. */
+  private static int[] expandAndFillWithAbsent(int[] array, int newSize) {
+    int oldSize = array.length;
+    int[] result = Arrays.copyOf(array, newSize);
+    Arrays.fill(result, oldSize, newSize, ABSENT);
+    return result;
   }
 
   @Override
@@ -399,305 +156,977 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return size;
   }
 
-  abstract class Itr<T> implements Iterator<T> {
-    BiEntry<K, V> next = firstInKeyInsertionOrder;
-    BiEntry<K, V> toRemove = null;
-    int expectedModCount = modCount;
+  /**
+   * Ensures that all of the internal structures in the HashBiMap are ready for this many elements.
+   */
+  private void ensureCapacity(int minCapacity) {
+    if (nextInBucketKToV.length < minCapacity) {
+      int oldCapacity = nextInBucketKToV.length;
+      int newCapacity = ImmutableCollection.Builder.expandedCapacity(oldCapacity, minCapacity);
 
-    @Override
-    public boolean hasNext() {
-      if (modCount != expectedModCount) {
-        throw new ConcurrentModificationException();
-      }
-      return next != null;
+      keys = Arrays.copyOf(keys, newCapacity);
+      values = Arrays.copyOf(values, newCapacity);
+      nextInBucketKToV = expandAndFillWithAbsent(nextInBucketKToV, newCapacity);
+      nextInBucketVToK = expandAndFillWithAbsent(nextInBucketVToK, newCapacity);
+      prevInInsertionOrder = expandAndFillWithAbsent(prevInInsertionOrder, newCapacity);
+      nextInInsertionOrder = expandAndFillWithAbsent(nextInInsertionOrder, newCapacity);
     }
 
-    @Override
-    public T next() {
-      if (!hasNext()) {
-        throw new NoSuchElementException();
+    if (hashTableKToV.length < minCapacity) {
+      int newTableSize = Hashing.closedTableSize(minCapacity, 1.0);
+      hashTableKToV = createFilledWithAbsent(newTableSize);
+      hashTableVToK = createFilledWithAbsent(newTableSize);
+
+      for (int entryToRehash = 0; entryToRehash < size; entryToRehash++) {
+        int keyHash = Hashing.smearedHash(keys[entryToRehash]);
+        int keyBucket = bucket(keyHash);
+        nextInBucketKToV[entryToRehash] = hashTableKToV[keyBucket];
+        hashTableKToV[keyBucket] = entryToRehash;
+
+        int valueHash = Hashing.smearedHash(values[entryToRehash]);
+        int valueBucket = bucket(valueHash);
+        nextInBucketVToK[entryToRehash] = hashTableVToK[valueBucket];
+        hashTableVToK[valueBucket] = entryToRehash;
       }
-
-      BiEntry<K, V> entry = next;
-      next = entry.nextInKeyInsertionOrder;
-      toRemove = entry;
-      return output(entry);
     }
+  }
 
-    @Override
-    public void remove() {
-      if (modCount != expectedModCount) {
-        throw new ConcurrentModificationException();
+  /**
+   * Returns the bucket (in either the K-to-V or V-to-K tables) where elements with the specified
+   * hash could be found, if present, or could be inserted.
+   */
+  private int bucket(int hash) {
+    return hash & (hashTableKToV.length - 1);
+  }
+
+  /** Given a key, returns the index of the entry in the tables, or ABSENT if not found. */
+  int findEntryByKey(@CheckForNull Object key) {
+    return findEntryByKey(key, Hashing.smearedHash(key));
+  }
+
+  /**
+   * Given a key and its hash, returns the index of the entry in the tables, or ABSENT if not found.
+   */
+  int findEntryByKey(@CheckForNull Object key, int keyHash) {
+    return findEntry(key, keyHash, hashTableKToV, nextInBucketKToV, keys);
+  }
+
+  /** Given a value, returns the index of the entry in the tables, or ABSENT if not found. */
+  int findEntryByValue(@CheckForNull Object value) {
+    return findEntryByValue(value, Hashing.smearedHash(value));
+  }
+
+  /**
+   * Given a value and its hash, returns the index of the entry in the tables, or ABSENT if not
+   * found.
+   */
+  int findEntryByValue(@CheckForNull Object value, int valueHash) {
+    return findEntry(value, valueHash, hashTableVToK, nextInBucketVToK, values);
+  }
+
+  int findEntry(
+      @CheckForNull Object o,
+      int oHash,
+      int[] hashTable,
+      int[] nextInBucket,
+      @Nullable Object[] array) {
+    for (int entry = hashTable[bucket(oHash)]; entry != ABSENT; entry = nextInBucket[entry]) {
+      if (Objects.equal(array[entry], o)) {
+        return entry;
       }
-      checkRemove(toRemove != null);
-      delete(toRemove);
-      expectedModCount = modCount;
-      toRemove = null;
     }
-
-    abstract T output(BiEntry<K, V> entry);
+    return ABSENT;
   }
 
   @Override
-  public Set<K> keySet() {
-    return new KeySet();
+  public boolean containsKey(@CheckForNull Object key) {
+    return findEntryByKey(key) != ABSENT;
   }
 
-  @WeakOuter
-  private final class KeySet extends Maps.KeySet<K, V> {
+  /**
+   * Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
+   * equivalently, if this inverse view contains a key that is equal to {@code value}).
+   *
+   * <p>Due to the property that values in a BiMap are unique, this will tend to execute in
+   * faster-than-linear time.
+   *
+   * @param value the object to search for in the values of this BiMap
+   * @return true if a mapping exists from a key to the specified value
+   */
+  @Override
+  public boolean containsValue(@CheckForNull Object value) {
+    return findEntryByValue(value) != ABSENT;
+  }
+
+  @Override
+  @CheckForNull
+  public V get(@CheckForNull Object key) {
+    int entry = findEntryByKey(key);
+    return (entry == ABSENT) ? null : values[entry];
+  }
+
+  @CheckForNull
+  K getInverse(@CheckForNull Object value) {
+    int entry = findEntryByValue(value);
+    return (entry == ABSENT) ? null : keys[entry];
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  @CheckForNull
+  public V put(@ParametricNullness K key, @ParametricNullness V value) {
+    return put(key, value, false);
+  }
+
+  @CheckForNull
+  V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
+    int keyHash = Hashing.smearedHash(key);
+    int entryForKey = findEntryByKey(key, keyHash);
+    if (entryForKey != ABSENT) {
+      V oldValue = values[entryForKey];
+      if (Objects.equal(oldValue, value)) {
+        return value;
+      } else {
+        replaceValueInEntry(entryForKey, value, force);
+        return oldValue;
+      }
+    }
+
+    int valueHash = Hashing.smearedHash(value);
+    int valueEntry = findEntryByValue(value, valueHash);
+    if (force) {
+      if (valueEntry != ABSENT) {
+        removeEntryValueHashKnown(valueEntry, valueHash);
+      }
+    } else {
+      checkArgument(valueEntry == ABSENT, "Value already present: %s", value);
+    }
+
+    ensureCapacity(size + 1);
+    keys[size] = key;
+    values[size] = value;
+
+    insertIntoTableKToV(size, keyHash);
+    insertIntoTableVToK(size, valueHash);
+
+    setSucceeds(lastInInsertionOrder, size);
+    setSucceeds(size, ENDPOINT);
+    size++;
+    modCount++;
+    return null;
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  @CheckForNull
+  public V forcePut(@ParametricNullness K key, @ParametricNullness V value) {
+    return put(key, value, true);
+  }
+
+  @CanIgnoreReturnValue
+  @CheckForNull
+  K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {
+    int valueHash = Hashing.smearedHash(value);
+    int entryForValue = findEntryByValue(value, valueHash);
+    if (entryForValue != ABSENT) {
+      K oldKey = keys[entryForValue];
+      if (Objects.equal(oldKey, key)) {
+        return key;
+      } else {
+        replaceKeyInEntry(entryForValue, key, force);
+        return oldKey;
+      }
+    }
+
+    int predecessor = lastInInsertionOrder;
+    int keyHash = Hashing.smearedHash(key);
+    int keyEntry = findEntryByKey(key, keyHash);
+    if (force) {
+      if (keyEntry != ABSENT) {
+        predecessor = prevInInsertionOrder[keyEntry];
+        removeEntryKeyHashKnown(keyEntry, keyHash);
+      }
+    } else {
+      checkArgument(keyEntry == ABSENT, "Key already present: %s", key);
+    }
+
+    // insertion point for new entry is after predecessor
+    // note predecessor must still be a valid entry: either we deleted an entry that was *not*
+    // predecessor, or we didn't delete anything
+
+    ensureCapacity(size + 1);
+    keys[size] = key;
+    values[size] = value;
+
+    insertIntoTableKToV(size, keyHash);
+    insertIntoTableVToK(size, valueHash);
+
+    int successor =
+        (predecessor == ENDPOINT) ? firstInInsertionOrder : nextInInsertionOrder[predecessor];
+    setSucceeds(predecessor, size);
+    setSucceeds(size, successor);
+    size++;
+    modCount++;
+    return null;
+  }
+
+  /**
+   * Updates the pointers of the insertion order linked list so that {@code next} follows {@code
+   * prev}. {@code ENDPOINT} represents either the first or last entry in the entire map (as
+   * appropriate).
+   */
+  private void setSucceeds(int prev, int next) {
+    if (prev == ENDPOINT) {
+      firstInInsertionOrder = next;
+    } else {
+      nextInInsertionOrder[prev] = next;
+    }
+    if (next == ENDPOINT) {
+      lastInInsertionOrder = prev;
+    } else {
+      prevInInsertionOrder[next] = prev;
+    }
+  }
+
+  /**
+   * Updates the K-to-V hash table to include the entry at the specified index, which is assumed to
+   * have not yet been added.
+   */
+  private void insertIntoTableKToV(int entry, int keyHash) {
+    checkArgument(entry != ABSENT);
+    int keyBucket = bucket(keyHash);
+    nextInBucketKToV[entry] = hashTableKToV[keyBucket];
+    hashTableKToV[keyBucket] = entry;
+  }
+
+  /**
+   * Updates the V-to-K hash table to include the entry at the specified index, which is assumed to
+   * have not yet been added.
+   */
+  private void insertIntoTableVToK(int entry, int valueHash) {
+    checkArgument(entry != ABSENT);
+    int valueBucket = bucket(valueHash);
+    nextInBucketVToK[entry] = hashTableVToK[valueBucket];
+    hashTableVToK[valueBucket] = entry;
+  }
+
+  /**
+   * Updates the K-to-V hash table to remove the entry at the specified index, which is assumed to
+   * be present. Does not update any other data structures.
+   */
+  private void deleteFromTableKToV(int entry, int keyHash) {
+    checkArgument(entry != ABSENT);
+    int keyBucket = bucket(keyHash);
+
+    if (hashTableKToV[keyBucket] == entry) {
+      hashTableKToV[keyBucket] = nextInBucketKToV[entry];
+      nextInBucketKToV[entry] = ABSENT;
+      return;
+    }
+
+    int prevInBucket = hashTableKToV[keyBucket];
+    for (int entryInBucket = nextInBucketKToV[prevInBucket];
+        entryInBucket != ABSENT;
+        entryInBucket = nextInBucketKToV[entryInBucket]) {
+      if (entryInBucket == entry) {
+        nextInBucketKToV[prevInBucket] = nextInBucketKToV[entry];
+        nextInBucketKToV[entry] = ABSENT;
+        return;
+      }
+      prevInBucket = entryInBucket;
+    }
+    throw new AssertionError("Expected to find entry with key " + keys[entry]);
+  }
+
+  /**
+   * Updates the V-to-K hash table to remove the entry at the specified index, which is assumed to
+   * be present. Does not update any other data structures.
+   */
+  private void deleteFromTableVToK(int entry, int valueHash) {
+    checkArgument(entry != ABSENT);
+    int valueBucket = bucket(valueHash);
+
+    if (hashTableVToK[valueBucket] == entry) {
+      hashTableVToK[valueBucket] = nextInBucketVToK[entry];
+      nextInBucketVToK[entry] = ABSENT;
+      return;
+    }
+
+    int prevInBucket = hashTableVToK[valueBucket];
+    for (int entryInBucket = nextInBucketVToK[prevInBucket];
+        entryInBucket != ABSENT;
+        entryInBucket = nextInBucketVToK[entryInBucket]) {
+      if (entryInBucket == entry) {
+        nextInBucketVToK[prevInBucket] = nextInBucketVToK[entry];
+        nextInBucketVToK[entry] = ABSENT;
+        return;
+      }
+      prevInBucket = entryInBucket;
+    }
+    throw new AssertionError("Expected to find entry with value " + values[entry]);
+  }
+
+  /**
+   * Updates the specified entry to point to the new value: removes the old value from the V-to-K
+   * mapping and puts the new one in. The entry does not move in the insertion order of the bimap.
+   */
+  private void replaceValueInEntry(int entry, @ParametricNullness V newValue, boolean force) {
+    checkArgument(entry != ABSENT);
+    int newValueHash = Hashing.smearedHash(newValue);
+    int newValueIndex = findEntryByValue(newValue, newValueHash);
+    if (newValueIndex != ABSENT) {
+      if (force) {
+        removeEntryValueHashKnown(newValueIndex, newValueHash);
+        if (entry == size) { // this entry got moved to newValueIndex
+          entry = newValueIndex;
+        }
+      } else {
+        throw new IllegalArgumentException("Value already present in map: " + newValue);
+      }
+    }
+    // we do *not* update insertion order, and it isn't a structural modification!
+    deleteFromTableVToK(entry, Hashing.smearedHash(values[entry]));
+    values[entry] = newValue;
+    insertIntoTableVToK(entry, newValueHash);
+  }
+
+  /**
+   * Updates the specified entry to point to the new value: removes the old value from the V-to-K
+   * mapping and puts the new one in. The entry is moved to the end of the insertion order, or to
+   * the position of the new key if it was previously present.
+   */
+  private void replaceKeyInEntry(int entry, @ParametricNullness K newKey, boolean force) {
+    checkArgument(entry != ABSENT);
+    int newKeyHash = Hashing.smearedHash(newKey);
+    int newKeyIndex = findEntryByKey(newKey, newKeyHash);
+
+    int newPredecessor = lastInInsertionOrder;
+    int newSuccessor = ENDPOINT;
+    if (newKeyIndex != ABSENT) {
+      if (force) {
+        newPredecessor = prevInInsertionOrder[newKeyIndex];
+        newSuccessor = nextInInsertionOrder[newKeyIndex];
+        removeEntryKeyHashKnown(newKeyIndex, newKeyHash);
+        if (entry == size) { // this entry got moved to newKeyIndex
+          entry = newKeyIndex;
+        }
+      } else {
+        throw new IllegalArgumentException("Key already present in map: " + newKey);
+      }
+    }
+    if (newPredecessor == entry) {
+      newPredecessor = prevInInsertionOrder[entry];
+    } else if (newPredecessor == size) {
+      newPredecessor = newKeyIndex;
+    }
+
+    if (newSuccessor == entry) {
+      newSuccessor = nextInInsertionOrder[entry];
+    } else if (newSuccessor == size) {
+      newSuccessor = newKeyIndex;
+    }
+
+    int oldPredecessor = prevInInsertionOrder[entry];
+    int oldSuccessor = nextInInsertionOrder[entry];
+    setSucceeds(oldPredecessor, oldSuccessor); // remove from insertion order linked list
+
+    deleteFromTableKToV(entry, Hashing.smearedHash(keys[entry]));
+    keys[entry] = newKey;
+    insertIntoTableKToV(entry, Hashing.smearedHash(newKey));
+
+    // insert into insertion order linked list, usually at the end
+    setSucceeds(newPredecessor, entry);
+    setSucceeds(entry, newSuccessor);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  @CheckForNull
+  public V remove(@CheckForNull Object key) {
+    int keyHash = Hashing.smearedHash(key);
+    int entry = findEntryByKey(key, keyHash);
+    if (entry == ABSENT) {
+      return null;
+    } else {
+      V value = values[entry];
+      removeEntryKeyHashKnown(entry, keyHash);
+      return value;
+    }
+  }
+
+  @CheckForNull
+  K removeInverse(@CheckForNull Object value) {
+    int valueHash = Hashing.smearedHash(value);
+    int entry = findEntryByValue(value, valueHash);
+    if (entry == ABSENT) {
+      return null;
+    } else {
+      K key = keys[entry];
+      removeEntryValueHashKnown(entry, valueHash);
+      return key;
+    }
+  }
+
+  /** Removes the entry at the specified index with no additional data. */
+  void removeEntry(int entry) {
+    removeEntryKeyHashKnown(entry, Hashing.smearedHash(keys[entry]));
+  }
+
+  /** Removes the entry at the specified index, given the hash of its key and value. */
+  private void removeEntry(int entry, int keyHash, int valueHash) {
+    checkArgument(entry != ABSENT);
+    deleteFromTableKToV(entry, keyHash);
+    deleteFromTableVToK(entry, valueHash);
+
+    int oldPredecessor = prevInInsertionOrder[entry];
+    int oldSuccessor = nextInInsertionOrder[entry];
+    setSucceeds(oldPredecessor, oldSuccessor);
+
+    moveEntryToIndex(size - 1, entry);
+    keys[size - 1] = null;
+    values[size - 1] = null;
+    size--;
+    modCount++;
+  }
+
+  /** Removes the entry at the specified index, given the hash of its key. */
+  void removeEntryKeyHashKnown(int entry, int keyHash) {
+    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));
+  }
+
+  /** Removes the entry at the specified index, given the hash of its value. */
+  void removeEntryValueHashKnown(int entry, int valueHash) {
+    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);
+  }
+
+  /**
+   * Moves the entry previously positioned at {@code src} to {@code dest}. Assumes the entry
+   * previously at {@code src} has already been removed from the data structures.
+   */
+  private void moveEntryToIndex(int src, int dest) {
+    if (src == dest) {
+      return;
+    }
+    int predecessor = prevInInsertionOrder[src];
+    int successor = nextInInsertionOrder[src];
+    setSucceeds(predecessor, dest);
+    setSucceeds(dest, successor);
+
+    K key = keys[src];
+    V value = values[src];
+
+    keys[dest] = key;
+    values[dest] = value;
+
+    // update pointers in hashTableKToV
+    int keyHash = Hashing.smearedHash(key);
+    int keyBucket = bucket(keyHash);
+    if (hashTableKToV[keyBucket] == src) {
+      hashTableKToV[keyBucket] = dest;
+    } else {
+      int prevInBucket = hashTableKToV[keyBucket];
+      for (int entryInBucket = nextInBucketKToV[prevInBucket];
+          /* should never reach end */ ;
+          entryInBucket = nextInBucketKToV[entryInBucket]) {
+        if (entryInBucket == src) {
+          nextInBucketKToV[prevInBucket] = dest;
+          break;
+        }
+        prevInBucket = entryInBucket;
+      }
+    }
+    nextInBucketKToV[dest] = nextInBucketKToV[src];
+    nextInBucketKToV[src] = ABSENT;
+
+    // update pointers in hashTableVToK
+    int valueHash = Hashing.smearedHash(value);
+    int valueBucket = bucket(valueHash);
+    if (hashTableVToK[valueBucket] == src) {
+      hashTableVToK[valueBucket] = dest;
+    } else {
+      int prevInBucket = hashTableVToK[valueBucket];
+      for (int entryInBucket = nextInBucketVToK[prevInBucket];
+          /* should never reach end*/ ;
+          entryInBucket = nextInBucketVToK[entryInBucket]) {
+        if (entryInBucket == src) {
+          nextInBucketVToK[prevInBucket] = dest;
+          break;
+        }
+        prevInBucket = entryInBucket;
+      }
+    }
+    nextInBucketVToK[dest] = nextInBucketVToK[src];
+    nextInBucketVToK[src] = ABSENT;
+  }
+
+  @Override
+  public void clear() {
+    Arrays.fill(keys, 0, size, null);
+    Arrays.fill(values, 0, size, null);
+    Arrays.fill(hashTableKToV, ABSENT);
+    Arrays.fill(hashTableVToK, ABSENT);
+    Arrays.fill(nextInBucketKToV, 0, size, ABSENT);
+    Arrays.fill(nextInBucketVToK, 0, size, ABSENT);
+    Arrays.fill(prevInInsertionOrder, 0, size, ABSENT);
+    Arrays.fill(nextInInsertionOrder, 0, size, ABSENT);
+    size = 0;
+    firstInInsertionOrder = ENDPOINT;
+    lastInInsertionOrder = ENDPOINT;
+    modCount++;
+  }
+
+  /** Shared supertype of keySet, values, entrySet, and inverse.entrySet. */
+  abstract static class View<
+          K extends @Nullable Object, V extends @Nullable Object, T extends @Nullable Object>
+      extends AbstractSet<T> {
+    final HashBiMap<K, V> biMap;
+
+    View(HashBiMap<K, V> biMap) {
+      this.biMap = biMap;
+    }
+
+    @ParametricNullness
+    abstract T forEntry(int entry);
+
+    @Override
+    public Iterator<T> iterator() {
+      return new Iterator<T>() {
+        private int index = biMap.firstInInsertionOrder;
+        private int indexToRemove = ABSENT;
+        private int expectedModCount = biMap.modCount;
+
+        // Calls to setValue on inverse entries can move already-visited entries to the end.
+        // Make sure we don't visit those.
+        private int remaining = biMap.size;
+
+        private void checkForComodification() {
+          if (biMap.modCount != expectedModCount) {
+            throw new ConcurrentModificationException();
+          }
+        }
+
+        @Override
+        public boolean hasNext() {
+          checkForComodification();
+          return index != ENDPOINT && remaining > 0;
+        }
+
+        @Override
+        @ParametricNullness
+        public T next() {
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
+          T result = forEntry(index);
+          indexToRemove = index;
+          index = biMap.nextInInsertionOrder[index];
+          remaining--;
+          return result;
+        }
+
+        @Override
+        public void remove() {
+          checkForComodification();
+          CollectPreconditions.checkRemove(indexToRemove != ABSENT);
+          biMap.removeEntry(indexToRemove);
+          if (index == biMap.size) {
+            index = indexToRemove;
+          }
+          indexToRemove = ABSENT;
+          expectedModCount = biMap.modCount;
+        }
+      };
+    }
+
+    @Override
+    public int size() {
+      return biMap.size;
+    }
+
+    @Override
+    public void clear() {
+      biMap.clear();
+    }
+  }
+
+  private transient Set<K> keySet;
+
+  @Override
+  public Set<K> keySet() {
+    Set<K> result = keySet;
+    return (result == null) ? keySet = new KeySet() : result;
+  }
+
+  final class KeySet extends View<K, V, K> {
     KeySet() {
       super(HashBiMap.this);
     }
 
     @Override
-    public Iterator<K> iterator() {
-      return new Itr<K>() {
-        @Override
-        K output(BiEntry<K, V> entry) {
-          return entry.key;
-        }
-      };
+    @ParametricNullness
+    K forEntry(int entry) {
+      // The cast is safe because we call forEntry only for indexes that contain entries.
+      return uncheckedCastNullableTToT(keys[entry]);
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
-      BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
-      if (entry == null) {
-        return false;
-      } else {
-        delete(entry);
-        entry.prevInKeyInsertionOrder = null;
-        entry.nextInKeyInsertionOrder = null;
+    public boolean contains(@CheckForNull Object o) {
+      return HashBiMap.this.containsKey(o);
+    }
+
+    @Override
+    public boolean remove(@CheckForNull Object o) {
+      int oHash = Hashing.smearedHash(o);
+      int entry = findEntryByKey(o, oHash);
+      if (entry != ABSENT) {
+        removeEntryKeyHashKnown(entry, oHash);
         return true;
+      } else {
+        return false;
       }
     }
   }
 
+  private transient Set<V> valueSet;
+
   @Override
   public Set<V> values() {
-    return inverse().keySet();
+    Set<V> result = valueSet;
+    return (result == null) ? valueSet = new ValueSet() : result;
   }
+
+  final class ValueSet extends View<K, V, V> {
+    ValueSet() {
+      super(HashBiMap.this);
+    }
+
+    @Override
+    @ParametricNullness
+    V forEntry(int entry) {
+      // The cast is safe because we call forEntry only for indexes that contain entries.
+      return uncheckedCastNullableTToT(values[entry]);
+    }
+
+    @Override
+    public boolean contains(@CheckForNull Object o) {
+      return HashBiMap.this.containsValue(o);
+    }
+
+    @Override
+    public boolean remove(@CheckForNull Object o) {
+      int oHash = Hashing.smearedHash(o);
+      int entry = findEntryByValue(o, oHash);
+      if (entry != ABSENT) {
+        removeEntryValueHashKnown(entry, oHash);
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  private transient Set<Entry<K, V>> entrySet;
 
   @Override
-  Iterator<Entry<K, V>> entryIterator() {
-    return new Itr<Entry<K, V>>() {
-      @Override
-      Entry<K, V> output(BiEntry<K, V> entry) {
-        return new MapEntry(entry);
-      }
-
-      class MapEntry extends AbstractMapEntry<K, V> {
-        BiEntry<K, V> delegate;
-
-        MapEntry(BiEntry<K, V> entry) {
-          this.delegate = entry;
-        }
-
-        @Override
-        public K getKey() {
-          return delegate.key;
-        }
-
-        @Override
-        public V getValue() {
-          return delegate.value;
-        }
-
-        @Override
-        public V setValue(V value) {
-          V oldValue = delegate.value;
-          int valueHash = smearedHash(value);
-          if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
-            return value;
-          }
-          checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
-          delete(delegate);
-          BiEntry<K, V> newEntry = new BiEntry<>(delegate.key, delegate.keyHash, value, valueHash);
-          insert(newEntry, delegate);
-          delegate.prevInKeyInsertionOrder = null;
-          delegate.nextInKeyInsertionOrder = null;
-          expectedModCount = modCount;
-          if (toRemove == delegate) {
-            toRemove = newEntry;
-          }
-          delegate = newEntry;
-          return oldValue;
-        }
-      }
-    };
+  public Set<Entry<K, V>> entrySet() {
+    Set<Entry<K, V>> result = entrySet;
+    return (result == null) ? entrySet = new EntrySet() : result;
   }
 
-  @RetainedWith
-  private transient BiMap<V, K> inverse;
+  final class EntrySet extends View<K, V, Entry<K, V>> {
+    EntrySet() {
+      super(HashBiMap.this);
+    }
+
+    @Override
+    public boolean contains(@CheckForNull Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> e = (Entry<?, ?>) o;
+        Object k = e.getKey();
+        Object v = e.getValue();
+        int eIndex = findEntryByKey(k);
+        return eIndex != ABSENT && Objects.equal(v, values[eIndex]);
+      }
+      return false;
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public boolean remove(@CheckForNull Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> e = (Entry<?, ?>) o;
+        Object k = e.getKey();
+        Object v = e.getValue();
+        int kHash = Hashing.smearedHash(k);
+        int eIndex = findEntryByKey(k, kHash);
+        if (eIndex != ABSENT && Objects.equal(v, values[eIndex])) {
+          removeEntryKeyHashKnown(eIndex, kHash);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    @Override
+    Entry<K, V> forEntry(int entry) {
+      return new EntryForKey(entry);
+    }
+  }
+
+  /**
+   * An {@code Entry} implementation that attempts to follow its key around the map -- that is, if
+   * the key is moved, deleted, or reinserted, it will account for that -- while not doing any extra
+   * work if the key has not moved. One quirk: The {@link #getValue()} method can return {@code
+   * null} even for a map which supposedly does not contain null elements, if the key is not present
+   * when {@code getValue()} is called.
+   */
+  final class EntryForKey extends AbstractMapEntry<K, V> {
+    @ParametricNullness final K key;
+    int index;
+
+    EntryForKey(int index) {
+      // The cast is safe because we call forEntry only for indexes that contain entries.
+      this.key = uncheckedCastNullableTToT(keys[index]);
+      this.index = index;
+    }
+
+    void updateIndex() {
+      if (index == ABSENT || index > size || !Objects.equal(keys[index], key)) {
+        index = findEntryByKey(key);
+      }
+    }
+
+    @Override
+    @ParametricNullness
+    public K getKey() {
+      return key;
+    }
+
+    @Override
+    @ParametricNullness
+    public V getValue() {
+      updateIndex();
+      /*
+       * If the entry has been removed from the map, we return null, even though that might not be a
+       * valid value. That's the best we can do, short of holding a reference to the most recently
+       * seen value. And while we *could* do that, we aren't required to: Map.Entry explicitly says
+       * that behavior is undefined when the backing map is modified through another API. (It even
+       * permits us to throw IllegalStateException. Maybe we should have done that, but we probably
+       * shouldn't change now for fear of breaking people.)
+       *
+       * If the entry is still in the map, then updateIndex ensured that `index` points to the right
+       * element. Because that element is present, uncheckedCastNullableTToT is safe.
+       */
+      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(values[index]);
+    }
+
+    @Override
+    @ParametricNullness
+    public V setValue(@ParametricNullness V value) {
+      updateIndex();
+      if (index == ABSENT) {
+        HashBiMap.this.put(key, value);
+        return unsafeNull(); // See the discussion in getValue().
+      }
+      /*
+       * The cast is safe because updateIndex found the entry for this key. (If it hadn't, then we
+       * would have returned above.) Thus, we know that it and its corresponding value are in
+       * position `index`.
+       */
+      V oldValue = uncheckedCastNullableTToT(values[index]);
+      if (Objects.equal(oldValue, value)) {
+        return value;
+      }
+      replaceValueInEntry(index, value, false);
+      return oldValue;
+    }
+  }
+
+  @LazyInit @RetainedWith @CheckForNull private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
-    return (inverse == null) ? inverse = new Inverse() : inverse;
+    BiMap<V, K> result = inverse;
+    return (result == null) ? inverse = new Inverse<K, V>(this) : result;
   }
 
-  private final class Inverse extends AbstractMap<V, K> implements BiMap<V, K>, Serializable {
-    BiMap<K, V> forward() {
-      return HashBiMap.this;
+  static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<V, K> implements BiMap<V, K>, Serializable {
+    private final HashBiMap<K, V> forward;
+
+    Inverse(HashBiMap<K, V> forward) {
+      this.forward = forward;
     }
 
     @Override
     public int size() {
-      return size;
+      return forward.size;
     }
 
     @Override
-    public void clear() {
-      forward().clear();
+    public boolean containsKey(@CheckForNull Object key) {
+      return forward.containsValue(key);
     }
 
     @Override
-    public boolean containsKey(@Nullable Object value) {
-      return forward().containsValue(value);
+    @CheckForNull
+    public K get(@CheckForNull Object key) {
+      return forward.getInverse(key);
     }
 
     @Override
-    public K get(@Nullable Object value) {
-      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
+    public boolean containsValue(@CheckForNull Object value) {
+      return forward.containsKey(value);
     }
 
     @Override
-    public K put(@Nullable V value, @Nullable K key) {
-      return putInverse(value, key, false);
+    @CanIgnoreReturnValue
+    @CheckForNull
+    public K put(@ParametricNullness V value, @ParametricNullness K key) {
+      return forward.putInverse(value, key, false);
     }
 
     @Override
-    public K forcePut(@Nullable V value, @Nullable K key) {
-      return putInverse(value, key, true);
-    }
-
-    @Override
-    public K remove(@Nullable Object value) {
-      BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
-      if (entry == null) {
-        return null;
-      } else {
-        delete(entry);
-        entry.prevInKeyInsertionOrder = null;
-        entry.nextInKeyInsertionOrder = null;
-        return entry.key;
-      }
+    @CanIgnoreReturnValue
+    @CheckForNull
+    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
+      return forward.putInverse(value, key, true);
     }
 
     @Override
     public BiMap<K, V> inverse() {
-      return forward();
+      return forward;
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    @CheckForNull
+    public K remove(@CheckForNull Object value) {
+      return forward.removeInverse(value);
+    }
+
+    @Override
+    public void clear() {
+      forward.clear();
     }
 
     @Override
     public Set<V> keySet() {
-      return new InverseKeySet();
-    }
-
-    @WeakOuter
-    private final class InverseKeySet extends Maps.KeySet<V, K> {
-      InverseKeySet() {
-        super(Inverse.this);
-      }
-
-      @Override
-      public boolean remove(@Nullable Object o) {
-        BiEntry<K, V> entry = seekByValue(o, smearedHash(o));
-        if (entry == null) {
-          return false;
-        } else {
-          delete(entry);
-          return true;
-        }
-      }
-
-      @Override
-      public Iterator<V> iterator() {
-        return new Itr<V>() {
-          @Override
-          V output(BiEntry<K, V> entry) {
-            return entry.value;
-          }
-        };
-      }
+      return forward.values();
     }
 
     @Override
     public Set<K> values() {
-      return forward().keySet();
+      return forward.keySet();
     }
+
+    private transient Set<Entry<V, K>> inverseEntrySet;
 
     @Override
     public Set<Entry<V, K>> entrySet() {
-      return new Maps.EntrySet<V, K>() {
-
-        @Override
-        Map<V, K> map() {
-          return Inverse.this;
-        }
-
-        @Override
-        public Iterator<Entry<V, K>> iterator() {
-          return new Itr<Entry<V, K>>() {
-            @Override
-            Entry<V, K> output(BiEntry<K, V> entry) {
-              return new InverseEntry(entry);
-            }
-
-            class InverseEntry extends AbstractMapEntry<V, K> {
-              BiEntry<K, V> delegate;
-
-              InverseEntry(BiEntry<K, V> entry) {
-                this.delegate = entry;
-              }
-
-              @Override
-              public V getKey() {
-                return delegate.value;
-              }
-
-              @Override
-              public K getValue() {
-                return delegate.key;
-              }
-
-              @Override
-              public K setValue(K key) {
-                K oldKey = delegate.key;
-                int keyHash = smearedHash(key);
-                if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
-                  return key;
-                }
-                checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
-                delete(delegate);
-                BiEntry<K, V> newEntry =
-                    new BiEntry<>(key, keyHash, delegate.value, delegate.valueHash);
-                delegate = newEntry;
-                insert(newEntry, null);
-                expectedModCount = modCount;
-                // This is safe because entries can only get bumped up to earlier in the iteration,
-                // so they can't get revisited.
-                return oldKey;
-              }
-            }
-          };
-        }
-      };
+      Set<Entry<V, K>> result = inverseEntrySet;
+      return (result == null) ? inverseEntrySet = new InverseEntrySet<K, V>(forward) : result;
     }
 
-    Object writeReplace() {
-      return new InverseSerializedForm<>(HashBiMap.this);
+    @GwtIncompatible("serialization")
+    private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+      in.defaultReadObject();
+      this.forward.inverse = this;
     }
   }
 
-  private static final class InverseSerializedForm<K, V> implements Serializable {
-    private final HashBiMap<K, V> bimap;
-
-    InverseSerializedForm(HashBiMap<K, V> bimap) {
-      this.bimap = bimap;
+  static class InverseEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends View<K, V, Entry<V, K>> {
+    InverseEntrySet(HashBiMap<K, V> biMap) {
+      super(biMap);
     }
 
-    Object readResolve() {
-      return bimap.inverse();
+    @Override
+    public boolean contains(@CheckForNull Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> e = (Entry<?, ?>) o;
+        Object v = e.getKey();
+        Object k = e.getValue();
+        int eIndex = biMap.findEntryByValue(v);
+        return eIndex != ABSENT && Objects.equal(biMap.keys[eIndex], k);
+      }
+      return false;
+    }
+
+    @Override
+    public boolean remove(@CheckForNull Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> e = (Entry<?, ?>) o;
+        Object v = e.getKey();
+        Object k = e.getValue();
+        int vHash = Hashing.smearedHash(v);
+        int eIndex = biMap.findEntryByValue(v, vHash);
+        if (eIndex != ABSENT && Objects.equal(biMap.keys[eIndex], k)) {
+          biMap.removeEntryValueHashKnown(eIndex, vHash);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    @Override
+    Entry<V, K> forEntry(int entry) {
+      return new EntryForValue<K, V>(biMap, entry);
+    }
+  }
+
+  /**
+   * An {@code Entry} implementation that attempts to follow its value around the map -- that is, if
+   * the value is moved, deleted, or reinserted, it will account for that -- while not doing any
+   * extra work if the value has not moved.
+   */
+  static final class EntryForValue<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMapEntry<V, K> {
+    final HashBiMap<K, V> biMap;
+    @ParametricNullness final V value;
+    int index;
+
+    EntryForValue(HashBiMap<K, V> biMap, int index) {
+      this.biMap = biMap;
+      // The cast is safe because we call forEntry only for indexes that contain entries.
+      this.value = uncheckedCastNullableTToT(biMap.values[index]);
+      this.index = index;
+    }
+
+    private void updateIndex() {
+      if (index == ABSENT || index > biMap.size || !Objects.equal(value, biMap.values[index])) {
+        index = biMap.findEntryByValue(value);
+      }
+    }
+
+    @Override
+    @ParametricNullness
+    public V getKey() {
+      return value;
+    }
+
+    @Override
+    @ParametricNullness
+    public K getValue() {
+      updateIndex();
+      // For discussion of unsafeNull() and uncheckedCastNullableTToT(), see EntryForKey.getValue().
+      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(biMap.keys[index]);
+    }
+
+    @Override
+    @ParametricNullness
+    public K setValue(@ParametricNullness K key) {
+      updateIndex();
+      if (index == ABSENT) {
+        biMap.putInverse(value, key, false);
+        return unsafeNull(); // see EntryForKey.setValue()
+      }
+      K oldKey = uncheckedCastNullableTToT(biMap.keys[index]); // see EntryForKey.setValue()
+      if (Objects.equal(oldKey, key)) {
+        return key;
+      }
+      biMap.replaceKeyInEntry(index, key, false);
+      return oldKey;
     }
   }
 
@@ -713,11 +1142,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    init(16);
     int size = Serialization.readCount(stream);
+    init(16); // resist hostile attempts to allocate gratuitous heap
     Serialization.populateMap(this, stream, size);
   }
-
-  @GwtIncompatible // Not needed in emulated source
-  private static final long serialVersionUID = 0;
 }

@@ -29,7 +29,8 @@ import com.google.common.testing.EqualsTester;
 public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableTable<Character, Integer, String> INSTANCE = ImmutableTable.of();
 
-  @Override Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
+  @Override
+  Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
     return ImmutableSet.of(INSTANCE);
   }
 

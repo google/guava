@@ -25,16 +25,17 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code get} operations on a map. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code get} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_yes() {

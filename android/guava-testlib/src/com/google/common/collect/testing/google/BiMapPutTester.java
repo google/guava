@@ -27,9 +27,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /** Tester for {@code BiMap.put} and {@code BiMap.forcePut}. */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
 
   @SuppressWarnings("unchecked")

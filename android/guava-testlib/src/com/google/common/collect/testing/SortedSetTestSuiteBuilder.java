@@ -28,13 +28,13 @@ import java.util.List;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a SortedSet implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a SortedSet
+ * implementation.
  */
 @GwtIncompatible
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   public static <E> SortedSetTestSuiteBuilder<E> using(TestSortedSetGenerator<E> generator) {
-    SortedSetTestSuiteBuilder<E> builder = new SortedSetTestSuiteBuilder<E>();
+    SortedSetTestSuiteBuilder<E> builder = new SortedSetTestSuiteBuilder<>();
     builder.usingGenerator(generator);
     return builder;
   }
@@ -74,21 +74,18 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   /**
    * Creates a suite whose set has some elements filtered out of view.
    *
-   * <p>Because the set may be ascending or descending, this test must derive
-   * the relative order of these extreme values rather than relying on their
-   * regular sort ordering.
+   * <p>Because the set may be ascending or descending, this test must derive the relative order of
+   * these extreme values rather than relying on their regular sort ordering.
    */
   final TestSuite createSubsetSuite(
-      final FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder,
-      final Bound from,
-      final Bound to) {
-    final TestSortedSetGenerator<E> delegate =
+      Bound from,
+      Bound to) {
+    TestSortedSetGenerator<E> delegate =
         (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
-    List<Feature<?>> features = new ArrayList<>();
-    features.addAll(parentBuilder.getFeatures());
+    List<Feature<?>> features = new ArrayList<>(parentBuilder.getFeatures());
     features.remove(CollectionFeature.ALLOWS_NULL_VALUES);
     features.add(CollectionFeature.SUBSET_VIEW);
 
@@ -96,6 +93,8 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
         .named(parentBuilder.getName() + " subSet " + from + "-" + to)
         .withFeatures(features)
         .suppressing(parentBuilder.getSuppressedTests())
+        .withSetUp(parentBuilder.getSetUp())
+        .withTearDown(parentBuilder.getTearDown())
         .createTestSuite();
   }
 

@@ -29,6 +29,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -40,26 +41,27 @@ import java.math.RoundingMode;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in
- * {@link IntMath} and {@link BigIntegerMath} respectively. For other common operations on
- * {@code long} values, see {@link com.google.common.primitives.Longs}.
+ * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link
+ * IntMath} and {@link BigIntegerMath} respectively. For other common operations on {@code long}
+ * values, see {@link com.google.common.primitives.Longs}.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
   @VisibleForTesting static final long MAX_SIGNED_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
-   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to
    * {@code checkedPow(2, log2(x, CEILING))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
-   * @throws ArithmeticException of the next-higher power of two is not representable as a
-   *         {@code long}, i.e. when {@code x > 2^62}
+   * @throws ArithmeticException of the next-higher power of two is not representable as a {@code
+   *     long}, i.e. when {@code x > 2^62}
    * @since 20.0
    */
   @Beta
@@ -72,8 +74,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
-   * {@code checkedPow(2, log2(x, FLOOR))}.
+   * Returns the largest power of two less than or equal to {@code x}. This is equivalent to {@code
+   * checkedPow(2, log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
@@ -90,8 +92,8 @@ public final class LongMath {
   /**
    * Returns {@code true} if {@code x} represents a power of two.
    *
-   * <p>This differs from {@code Long.bitCount(x) == 1}, because
-   * {@code Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
+   * <p>This differs from {@code Long.bitCount(x) == 1}, because {@code
+   * Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
    */
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
@@ -304,8 +306,8 @@ public final class LongMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
-   *     {@code sqrt(x)} is not an integer
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   *     sqrt(x)} is not an integer
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -373,8 +375,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified
-   * {@code RoundingMode}.
+   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code
+   * RoundingMode}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
@@ -423,7 +425,7 @@ public final class LongMath {
         // subtracting two nonnegative longs can't overflow
         // cmpRemToHalfDivisor has the same sign as compare(abs(rem), abs(q) / 2).
         if (cmpRemToHalfDivisor == 0) { // exactly on the half mark
-          increment = (mode == HALF_UP | (mode == HALF_EVEN & (div & 1) != 0));
+          increment = (mode == HALF_UP || (mode == HALF_EVEN && (div & 1) != 0));
         } else {
           increment = cmpRemToHalfDivisor > 0; // closer to the UP value
         }
@@ -435,18 +437,18 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
-   * {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %
+   * m}, which might be negative.
    *
    * <p>For example:
    *
-   * <pre> {@code
-   *
+   * <pre>{@code
    * mod(7, 4) == 3
    * mod(-7, 4) == 1
    * mod(-1, 4) == 3
    * mod(-8, 4) == 0
-   * mod(8, 4) == 0}</pre>
+   * mod(8, 4) == 0
+   * }</pre>
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -459,18 +461,18 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
-   * {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %
+   * m}, which might be negative.
    *
    * <p>For example:
    *
-   * <pre> {@code
-   *
+   * <pre>{@code
    * mod(7, 4) == 3
    * mod(-7, 4) == 1
    * mod(-1, 4) == 3
    * mod(-8, 4) == 0
-   * mod(8, 4) == 0}</pre>
+   * mod(8, 4) == 0
+   * }</pre>
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -486,8 +488,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if
-   * {@code a == 0 && b == 0}.
+   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if {@code a == 0 && b ==
+   * 0}.
    *
    * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
    */
@@ -544,7 +546,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   public static long checkedAdd(long a, long b) {
     long result = a + b;
-    checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0);
+    checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0, "checkedAdd", a, b);
     return result;
   }
 
@@ -556,7 +558,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
-    checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0);
+    checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0, "checkedSubtract", a, b);
     return result;
   }
 
@@ -565,7 +567,6 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
-  @GwtIncompatible // TODO
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
     int leadingZeros =
@@ -586,18 +587,18 @@ public final class LongMath {
     if (leadingZeros > Long.SIZE + 1) {
       return a * b;
     }
-    checkNoOverflow(leadingZeros >= Long.SIZE);
-    checkNoOverflow(a >= 0 | b != Long.MIN_VALUE);
+    checkNoOverflow(leadingZeros >= Long.SIZE, "checkedMultiply", a, b);
+    checkNoOverflow(a >= 0 | b != Long.MIN_VALUE, "checkedMultiply", a, b);
     long result = a * b;
-    checkNoOverflow(a == 0 || result / a == b);
+    checkNoOverflow(a == 0 || result / a == b, "checkedMultiply", a, b);
     return result;
   }
 
   /**
    * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
    *
-   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
-   *     {@code long} arithmetic
+   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
+   *     long} arithmetic
    */
   @GwtIncompatible // TODO
   public static long checkedPow(long b, int k) {
@@ -611,10 +612,10 @@ public final class LongMath {
         case (-1):
           return ((k & 1) == 0) ? 1 : -1;
         case 2:
-          checkNoOverflow(k < Long.SIZE - 1);
+          checkNoOverflow(k < Long.SIZE - 1, "checkedPow", b, k);
           return 1L << k;
         case (-2):
-          checkNoOverflow(k < Long.SIZE);
+          checkNoOverflow(k < Long.SIZE, "checkedPow", b, k);
           return ((k & 1) == 0) ? (1L << k) : (-1L << k);
         default:
           throw new AssertionError();
@@ -633,7 +634,8 @@ public final class LongMath {
           }
           k >>= 1;
           if (k > 0) {
-            checkNoOverflow(-FLOOR_SQRT_MAX_LONG <= b && b <= FLOOR_SQRT_MAX_LONG);
+            checkNoOverflow(
+                -FLOOR_SQRT_MAX_LONG <= b && b <= FLOOR_SQRT_MAX_LONG, "checkedPow", b, k);
             b *= b;
           }
       }
@@ -865,9 +867,7 @@ public final class LongMath {
     }
   }
 
-  /**
-   * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
-   */
+  /** Returns (x * numerator / denominator), which is assumed to come out to an integral value. */
   static long multiplyFraction(long x, long numerator, long denominator) {
     if (x == 1) {
       return numerator / denominator;
@@ -984,15 +984,15 @@ public final class LongMath {
    * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.
    */
   private static final int SIEVE_30 =
-      ~((1 << 1) | (1 << 7) | (1 << 11) | (1 << 13)
-          | (1 << 17) | (1 << 19) | (1 << 23) | (1 << 29));
+      ~((1 << 1) | (1 << 7) | (1 << 11) | (1 << 13) | (1 << 17) | (1 << 19) | (1 << 23)
+          | (1 << 29));
 
   /**
-   * Returns {@code true} if {@code n} is a
-   * <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+   * Returns {@code true} if {@code n} is a <a
+   * href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
    * than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
-   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
-   * be factored into smaller positive integers).
+   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i> be
+   * factored into smaller positive integers).
    *
    * <p>To test larger numbers, use {@link BigInteger#isProbablePrime}.
    *
@@ -1006,8 +1006,29 @@ public final class LongMath {
       checkNonNegative("n", n);
       return false;
     }
-    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
-      return true;
+    if (n < 66) {
+      // Encode all primes less than 66 into mask without 0 and 1.
+      long mask =
+          (1L << (2 - 2))
+              | (1L << (3 - 2))
+              | (1L << (5 - 2))
+              | (1L << (7 - 2))
+              | (1L << (11 - 2))
+              | (1L << (13 - 2))
+              | (1L << (17 - 2))
+              | (1L << (19 - 2))
+              | (1L << (23 - 2))
+              | (1L << (29 - 2))
+              | (1L << (31 - 2))
+              | (1L << (37 - 2))
+              | (1L << (41 - 2))
+              | (1L << (43 - 2))
+              | (1L << (47 - 2))
+              | (1L << (53 - 2))
+              | (1L << (59 - 2))
+              | (1L << (61 - 2));
+      // Look up n within the mask.
+      return ((mask >> ((int) n - 2)) & 1) != 0;
     }
 
     if ((SIEVE_30 & (1 << (n % 30))) != 0) {
@@ -1071,10 +1092,10 @@ public final class LongMath {
       @Override
       long mulMod(long a, long b, long m) {
         /*
-         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to
-         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself, and
-         * adding another enum constant hurts performance further -- I suspect because bimorphic
-         * implementation is a sweet spot for the JVM.
+         * lowasser, 2015-Feb-12: Benchmarks suggest that changing this to UnsignedLongs.remainder
+         * and increasing the threshold to 2^32 doesn't pay for itself, and adding another enum
+         * constant hurts performance further -- I suspect because bimorphic implementation is a
+         * sweet spot for the JVM.
          */
         return (a * b) % m;
       }
@@ -1084,18 +1105,14 @@ public final class LongMath {
         return (a * a) % m;
       }
     },
-    /**
-     * Works for all nonnegative signed longs.
-     */
+    /** Works for all nonnegative signed longs. */
     LARGE {
       /** Returns (a + b) mod m. Precondition: {@code 0 <= a}, {@code b < m < 2^63}. */
       private long plusMod(long a, long b, long m) {
         return (a >= m - b) ? (a + b - m) : (a + b);
       }
 
-      /**
-       * Returns (a * 2^32) mod m. a may be any unsigned long.
-       */
+      /** Returns (a * 2^32) mod m. a may be any unsigned long. */
       private long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
         do {
@@ -1131,10 +1148,7 @@ public final class LongMath {
         // result < 2^63 again
         result += aLo * bHi; // aLo * bHi < 2^63, result < 2^64
         result = times2ToThe32Mod(result, m); // result < m < 2^63
-        return plusMod(
-            result,
-            UnsignedLongs.remainder(aLo * bLo /* < 2^64 */, m),
-            m);
+        return plusMod(result, UnsignedLongs.remainder(aLo * bLo /* < 2^64 */, m), m);
       }
 
       @Override
@@ -1157,10 +1171,7 @@ public final class LongMath {
         // hiLo < 2^63
         result += hiLo; // result < 2^64
         result = times2ToThe32Mod(result, m); // result < m < 2^63
-        return plusMod(
-            result,
-            UnsignedLongs.remainder(aLo * aLo /* < 2^64 */, m),
-            m);
+        return plusMod(result, UnsignedLongs.remainder(aLo * aLo /* < 2^64 */, m), m);
       }
     };
 
@@ -1170,19 +1181,13 @@ public final class LongMath {
       return ((n <= FLOOR_SQRT_MAX_LONG) ? SMALL : LARGE).testWitness(base, n);
     }
 
-    /**
-     * Returns a * b mod m.
-     */
+    /** Returns a * b mod m. */
     abstract long mulMod(long a, long b, long m);
 
-    /**
-     * Returns a^2 mod m.
-     */
+    /** Returns a^2 mod m. */
     abstract long squareMod(long a, long m);
 
-    /**
-     * Returns a^p mod m.
-     */
+    /** Returns a^p mod m. */
     private long powMod(long a, long p, long m) {
       long res = 1;
       for (; p != 0; p >>= 1) {
@@ -1194,9 +1199,7 @@ public final class LongMath {
       return res;
     }
 
-    /**
-     * Returns true if n is a strong probable prime relative to the specified base.
-     */
+    /** Returns true if n is a strong probable prime relative to the specified base. */
     private boolean testWitness(long base, long n) {
       int r = Long.numberOfTrailingZeros(n - 1);
       long d = (n - 1) >> r;
@@ -1221,6 +1224,126 @@ public final class LongMath {
       }
       return true;
     }
+  }
+
+  /**
+   * Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}
+   * is precisely representable as a {@code double}, its {@code double} value will be returned;
+   * otherwise, the rounding will choose between the two nearest representable values with {@code
+   * mode}.
+   *
+   * <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+   * default rounding mode: if the two nearest representable values are equally near, the one with
+   * the least significant bit zero is chosen. (In such cases, both of the nearest representable
+   * values are even integers; this method returns the one that is a multiple of a greater power of
+   * two.)
+   *
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   *     is not precisely representable as a {@code double}
+   * @since 30.0
+   */
+  @SuppressWarnings("deprecation")
+  @GwtIncompatible
+  public static double roundToDouble(long x, RoundingMode mode) {
+    // Logic adapted from ToDoubleRounder.
+    double roundArbitrarily = (double) x;
+    long roundArbitrarilyAsLong = (long) roundArbitrarily;
+    int cmpXToRoundArbitrarily;
+
+    if (roundArbitrarilyAsLong == Long.MAX_VALUE) {
+      /*
+       * For most values, the conversion from roundArbitrarily to roundArbitrarilyAsLong is
+       * lossless. In that case we can compare x to roundArbitrarily using Longs.compare(x,
+       * roundArbitrarilyAsLong). The exception is for values where the conversion to double rounds
+       * up to give roundArbitrarily equal to 2^63, so the conversion back to long overflows and
+       * roundArbitrarilyAsLong is Long.MAX_VALUE. (This is the only way this condition can occur as
+       * otherwise the conversion back to long pads with zero bits.) In this case we know that
+       * roundArbitrarily > x. (This is important when x == Long.MAX_VALUE ==
+       * roundArbitrarilyAsLong.)
+       */
+      cmpXToRoundArbitrarily = -1;
+    } else {
+      cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+    }
+
+    switch (mode) {
+      case UNNECESSARY:
+        checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
+        return roundArbitrarily;
+      case FLOOR:
+        return (cmpXToRoundArbitrarily >= 0)
+            ? roundArbitrarily
+            : DoubleUtils.nextDown(roundArbitrarily);
+      case CEILING:
+        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+      case DOWN:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        }
+      case UP:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        }
+      case HALF_DOWN:
+      case HALF_UP:
+      case HALF_EVEN:
+        {
+          long roundFloor;
+          double roundFloorAsDouble;
+          long roundCeiling;
+          double roundCeilingAsDouble;
+
+          if (cmpXToRoundArbitrarily >= 0) {
+            roundFloorAsDouble = roundArbitrarily;
+            roundFloor = roundArbitrarilyAsLong;
+            roundCeilingAsDouble = Math.nextUp(roundArbitrarily);
+            roundCeiling = (long) Math.ceil(roundCeilingAsDouble);
+          } else {
+            roundCeilingAsDouble = roundArbitrarily;
+            roundCeiling = roundArbitrarilyAsLong;
+            roundFloorAsDouble = DoubleUtils.nextDown(roundArbitrarily);
+            roundFloor = (long) Math.floor(roundFloorAsDouble);
+          }
+
+          long deltaToFloor = x - roundFloor;
+          long deltaToCeiling = roundCeiling - x;
+
+          if (roundCeiling == Long.MAX_VALUE) {
+            // correct for Long.MAX_VALUE as discussed above: roundCeilingAsDouble must be 2^63, but
+            // roundCeiling is 2^63-1.
+            deltaToCeiling++;
+          }
+
+          int diff = Longs.compare(deltaToFloor, deltaToCeiling);
+          if (diff < 0) { // closer to floor
+            return roundFloorAsDouble;
+          } else if (diff > 0) { // closer to ceiling
+            return roundCeilingAsDouble;
+          }
+          // halfway between the representable values; do the half-whatever logic
+          switch (mode) {
+            case HALF_EVEN:
+              return ((DoubleUtils.getSignificand(roundFloorAsDouble) & 1L) == 0)
+                  ? roundFloorAsDouble
+                  : roundCeilingAsDouble;
+            case HALF_DOWN:
+              return (x >= 0) ? roundFloorAsDouble : roundCeilingAsDouble;
+            case HALF_UP:
+              return (x >= 0) ? roundCeilingAsDouble : roundFloorAsDouble;
+            default:
+              throw new AssertionError("impossible");
+          }
+        }
+    }
+    throw new AssertionError("impossible");
   }
 
   private LongMath() {}

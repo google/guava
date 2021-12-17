@@ -26,9 +26,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * A wrapper around {@code TreeSet} that aggressively checks to see if elements
- * are mutually comparable. This implementation passes the navigable set test
- * suites.
+ * A wrapper around {@code TreeSet} that aggressively checks to see if elements are mutually
+ * comparable. This implementation passes the navigable set test suites.
  *
  * @author Louis Wasserman
  */
@@ -118,7 +117,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> descendingSet() {
-    return new SafeTreeSet<E>(delegate.descendingSet());
+    return new SafeTreeSet<>(delegate.descendingSet());
   }
 
   @Override
@@ -138,7 +137,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.headSet(checkValid(toElement), inclusive));
+    return new SafeTreeSet<>(delegate.headSet(checkValid(toElement), inclusive));
   }
 
   @Override
@@ -199,7 +198,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   @Override
   public NavigableSet<E> subSet(
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-    return new SafeTreeSet<E>(
+    return new SafeTreeSet<>(
         delegate.subSet(
             checkValid(fromElement), fromInclusive, checkValid(toElement), toInclusive));
   }
@@ -216,7 +215,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement), inclusive));
+    return new SafeTreeSet<>(delegate.tailSet(checkValid(fromElement), inclusive));
   }
 
   @Override

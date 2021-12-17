@@ -46,29 +46,27 @@ public class LineBufferTest extends IoTestCase {
     bufferHelper("\r\r", "\r", "\r");
     bufferHelper("\ra\r\n\n\r\r", "\r", "a\r\n", "\n", "\r", "\r");
     bufferHelper("no newlines at all", "no newlines at all");
-    bufferHelper("two lines\nbut no newline at end",
-        "two lines\n", "but no newline at end");
-    bufferHelper("\nempty first line\nno newline at end",
-        "\n", "empty first line\n", "no newline at end");
-    bufferHelper("three\rlines\rno newline at end",
-        "three\r", "lines\r", "no newline at end");
-    bufferHelper("mixed\nline\rendings\r\n",
-        "mixed\n", "line\r", "endings\r\n");
+    bufferHelper("two lines\nbut no newline at end", "two lines\n", "but no newline at end");
+    bufferHelper(
+        "\nempty first line\nno newline at end", "\n", "empty first line\n", "no newline at end");
+    bufferHelper("three\rlines\rno newline at end", "three\r", "lines\r", "no newline at end");
+    bufferHelper("mixed\nline\rendings\r\n", "mixed\n", "line\r", "endings\r\n");
   }
 
-  private static final int[] CHUNK_SIZES = { 1, 2, 3, Integer.MAX_VALUE };
+  private static final int[] CHUNK_SIZES = {1, 2, 3, Integer.MAX_VALUE};
 
-  private static void bufferHelper(String input, String... expect)
-      throws IOException {
+  private static void bufferHelper(String input, String... expect) throws IOException {
 
     List<String> expectProcess = Arrays.asList(expect);
-    List<String> expectRead = Lists.transform(expectProcess,
-        new Function<String, String>() {
-          @Override
-          public String apply(String value) {
-            return value.replaceAll("[\\r\\n]", "");
-          }
-        });
+    List<String> expectRead =
+        Lists.transform(
+            expectProcess,
+            new Function<String, String>() {
+              @Override
+              public String apply(String value) {
+                return value.replaceAll("[\\r\\n]", "");
+              }
+            });
 
     for (int chunk : CHUNK_SIZES) {
       chunk = Math.max(1, Math.min(chunk, input.length()));
@@ -79,14 +77,15 @@ public class LineBufferTest extends IoTestCase {
     }
   }
 
-  private static List<String> bufferHelper(String input, int chunk)
-      throws IOException {
+  private static List<String> bufferHelper(String input, int chunk) throws IOException {
     final List<String> lines = Lists.newArrayList();
-    LineBuffer lineBuf = new LineBuffer() {
-      @Override protected void handleLine(String line, String end) {
-        lines.add(line + end);
-      }
-    };
+    LineBuffer lineBuf =
+        new LineBuffer() {
+          @Override
+          protected void handleLine(String line, String end) {
+            lines.add(line + end);
+          }
+        };
     char[] chars = input.toCharArray();
     int off = 0;
     while (off < chars.length) {
@@ -98,8 +97,7 @@ public class LineBufferTest extends IoTestCase {
     return lines;
   }
 
-  private static List<String> readUsingJava(String input, int chunk)
-      throws IOException {
+  private static List<String> readUsingJava(String input, int chunk) throws IOException {
     BufferedReader r = new BufferedReader(getChunkedReader(input, chunk));
     List<String> lines = Lists.newArrayList();
     String line;
@@ -110,11 +108,10 @@ public class LineBufferTest extends IoTestCase {
     return lines;
   }
 
-  private static List<String> readUsingReader(String input, int chunk,
-      boolean asReader) throws IOException {
-    Readable readable = asReader
-        ? getChunkedReader(input, chunk)
-        : getChunkedReadable(input, chunk);
+  private static List<String> readUsingReader(String input, int chunk, boolean asReader)
+      throws IOException {
+    Readable readable =
+        asReader ? getChunkedReader(input, chunk) : getChunkedReadable(input, chunk);
     LineReader r = new LineReader(readable);
     List<String> lines = Lists.newArrayList();
     String line;
@@ -137,8 +134,8 @@ public class LineBufferTest extends IoTestCase {
 
   private static Reader getChunkedReader(String input, final int chunk) {
     return new FilterReader(new StringReader(input)) {
-      @Override public int read(char[] cbuf, int off, int len)
-          throws IOException {
+      @Override
+      public int read(char[] cbuf, int off, int len) throws IOException {
         return super.read(cbuf, off, Math.min(chunk, len));
       }
     };

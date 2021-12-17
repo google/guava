@@ -23,15 +23,16 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.CheckForNull;
 
 /**
- * Implementation of {@link ImmutableSet} backed by a non-empty {@link
- * java.util.EnumSet}.
+ * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.
  *
  * @author Jared Levy
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   @SuppressWarnings("rawtypes") // necessary to compile against Java 8
   static ImmutableSet asImmutable(EnumSet set) {
@@ -85,7 +86,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return delegate.contains(object);
   }
 
@@ -103,7 +104,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }
@@ -118,8 +119,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return true;
   }
 
-  @LazyInit
-  private transient int hashCode;
+  @LazyInit private transient int hashCode;
 
   @Override
   public int hashCode() {

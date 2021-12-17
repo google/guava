@@ -33,6 +33,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
 import java.util.Collections;
+import org.junit.Ignore;
 
 /**
  * Tests for {@link Multimap#get(Object)}.
@@ -40,6 +41,7 @@ import java.util.Collections;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testGetEmpty() {
     Collection<V> result = multimap().get(k3());

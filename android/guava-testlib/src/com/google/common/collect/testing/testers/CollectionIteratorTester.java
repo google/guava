@@ -19,9 +19,11 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -37,18 +39,19 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code iterator} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code iterator} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   public void testIterator() {
-    List<E> iteratorElements = new ArrayList<E>();
+    List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
@@ -57,12 +60,23 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testIterationOrdering() {
-    List<E> iteratorElements = new ArrayList<E>();
+    List<E> iteratorElements = new ArrayList<>();
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
     List<E> expected = Helpers.copyToList(getOrderedElements());
     assertEquals("Different ordered iteration", expected, iteratorElements);
+  }
+
+  @CollectionFeature.Require(ALLOWS_NULL_VALUES)
+  @CollectionSize.Require(absent = ZERO)
+  public void testIterator_nullElement() {
+    initCollectionWithNullElement();
+    List<E> iteratorElements = new ArrayList<>();
+    for (E element : collection) { // uses iterator()
+      iteratorElements.add(element);
+    }
+    Helpers.assertEqualIgnoringOrder(asList(createArrayWithNullElement()), iteratorElements);
   }
 
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)

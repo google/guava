@@ -29,22 +29,38 @@ import com.google.common.testing.SerializableTester;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableTableTest extends AbstractTableReadTest {
-  @Override protected Table<String, Integer, Character> create(Object... data) {
-    ImmutableTable.Builder<String, Integer, Character> builder =
-        ImmutableTable.builder();
+  @Override
+  protected Table<String, Integer, Character> create(Object... data) {
+    ImmutableTable.Builder<String, Integer, Character> builder = ImmutableTable.builder();
     for (int i = 0; i < data.length; i = i + 3) {
-      builder.put((String) data[i], (Integer) data[i + 1],
-          (Character) data[i + 2]);
+      builder.put((String) data[i], (Integer) data[i + 1], (Character) data[i + 2]);
     }
     return builder.build();
+  }
+
+  // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+  public void testToImmutableTable_java7_combine() {
+    ImmutableTable.Builder<String, String, Integer> zis =
+        ImmutableTable.<String, String, Integer>builder().put("one", "uno", 1).put("two", "dos", 2);
+    ImmutableTable.Builder<String, String, Integer> zat =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "eins", 1)
+            .put("two", "twei", 2);
+    ImmutableTable<String, String, Integer> table = zis.combine(zat).build();
+    ImmutableTable<String, String, Integer> expected =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "uno", 1)
+            .put("two", "dos", 2)
+            .put("one", "eins", 1)
+            .put("two", "twei", 2)
+            .build();
+    assertThat(table).isEqualTo(expected);
   }
 
   public void testBuilder() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of(), builder.build());
-    assertEquals(ImmutableTable.of('a', 1, "foo"), builder
-        .put('a', 1, "foo")
-        .build());
+    assertEquals(ImmutableTable.of('a', 1, "foo"), builder.put('a', 1, "foo").build());
     Table<Character, Integer, String> expectedTable = HashBasedTable.create();
     expectedTable.put('a', 1, "foo");
     expectedTable.put('b', 1, "bar");
@@ -52,16 +68,13 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     Table<Character, Integer, String> otherTable = HashBasedTable.create();
     otherTable.put('b', 1, "bar");
     otherTable.put('a', 2, "baz");
-    assertEquals(expectedTable, builder
-        .putAll(otherTable)
-        .build());
+    assertEquals(expectedTable, builder.putAll(otherTable).build());
   }
 
   public void testBuilder_withImmutableCell() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    assertEquals(ImmutableTable.of('a', 1, "foo"), builder
-        .put(Tables.immutableCell('a', 1, "foo"))
-        .build());
+    assertEquals(
+        ImmutableTable.of('a', 1, "foo"), builder.put(Tables.immutableCell('a', 1, "foo")).build());
   }
 
   public void testBuilder_withImmutableCellAndNullContents() {
@@ -97,13 +110,18 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     holder.string = "foo";
     Table.Cell<Character, Integer, String> mutableCell =
         new Tables.AbstractCell<Character, Integer, String>() {
-          @Override public Character getRowKey() {
+          @Override
+          public Character getRowKey() {
             return 'K';
           }
-          @Override public Integer getColumnKey() {
+
+          @Override
+          public Integer getColumnKey() {
             return 42;
           }
-          @Override public String getValue() {
+
+          @Override
+          public String getValue() {
             return holder.string;
           }
         };
@@ -158,14 +176,12 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertEquals(original, copy);
     validateViewOrdering(original, copy);
 
-    Table<R, C, V> built
-        = ImmutableTable.<R, C, V>builder().putAll(original).build();
+    Table<R, C, V> built = ImmutableTable.<R, C, V>builder().putAll(original).build();
     assertEquals(original, built);
     validateViewOrdering(original, built);
   }
 
-  private static <R, C, V> void validateViewOrdering(
-      Table<R, C, V> original, Table<R, C, V> copy) {
+  private static <R, C, V> void validateViewOrdering(Table<R, C, V> original, Table<R, C, V> copy) {
     assertThat(copy.cellSet()).containsExactlyElementsIn(original.cellSet()).inOrder();
     assertThat(copy.rowKeySet()).containsExactlyElementsIn(original.rowKeySet()).inOrder();
     assertThat(copy.values()).containsExactlyElementsIn(original.values()).inOrder();
@@ -182,8 +198,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     // Even though rowKeySet, columnKeySet, and cellSet have the same
     // iteration ordering, row has an inconsistent ordering.
     assertThat(table.row('b').keySet()).containsExactly(1, 2).inOrder();
-    assertThat(ImmutableTable.copyOf(table).row('b').keySet())
-        .containsExactly(2, 1).inOrder();
+    assertThat(ImmutableTable.copyOf(table).row('b').keySet()).containsExactly(2, 1).inOrder();
   }
 
   public void testCopyOfSparse() {
@@ -218,12 +233,13 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     table.put('b', 2, "foo");
     table.put('b', 1, "bar");
     table.put('a', 2, "baz");
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
-    Table<Character, Integer, String> copy
-        = builder.orderRowsBy(Ordering.natural())
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    Table<Character, Integer, String> copy =
+        builder
+            .orderRowsBy(Ordering.natural())
             .orderColumnsBy(Ordering.natural())
-            .putAll(table).build();
+            .putAll(table)
+            .build();
     assertThat(copy.rowKeySet()).containsExactly('a', 'b').inOrder();
     assertThat(copy.columnKeySet()).containsExactly(1, 2).inOrder();
     assertThat(copy.values()).containsExactly("baz", "bar", "foo").inOrder();
@@ -231,8 +247,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_orderRowsAndColumnsBy_sparse() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.natural());
     builder.orderColumnsBy(Ordering.natural());
     builder.put('x', 2, "foo");
@@ -247,15 +262,15 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     Table<Character, Integer, String> table = builder.build();
     assertThat(table.rowKeySet()).containsExactly('b', 'c', 'e', 'r', 'x').inOrder();
     assertThat(table.columnKeySet()).containsExactly(0, 1, 2, 3, 4, 5, 7).inOrder();
-    assertThat(table.values()).containsExactly("cat", "axe", "baz", "tub",
-        "dog", "bar", "foo", "foo", "bar").inOrder();
+    assertThat(table.values())
+        .containsExactly("cat", "axe", "baz", "tub", "dog", "bar", "foo", "foo", "bar")
+        .inOrder();
     assertThat(table.row('c').keySet()).containsExactly(0, 3).inOrder();
     assertThat(table.column(5).keySet()).containsExactly('e', 'x').inOrder();
   }
 
   public void testBuilder_orderRowsAndColumnsBy_dense() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.natural());
     builder.orderColumnsBy(Ordering.natural());
     builder.put('c', 3, "foo");
@@ -269,15 +284,15 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     Table<Character, Integer, String> table = builder.build();
     assertThat(table.rowKeySet()).containsExactly('a', 'b', 'c').inOrder();
     assertThat(table.columnKeySet()).containsExactly(1, 2, 3).inOrder();
-    assertThat(table.values()).containsExactly("baz", "bar", "foo", "dog",
-        "cat", "baz", "bar", "foo").inOrder();
+    assertThat(table.values())
+        .containsExactly("baz", "bar", "foo", "dog", "cat", "baz", "bar", "foo")
+        .inOrder();
     assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
     assertThat(table.column(1).keySet()).containsExactly('a', 'b', 'c').inOrder();
   }
 
   public void testBuilder_orderRowsBy_sparse() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.natural());
     builder.put('x', 2, "foo");
     builder.put('r', 1, "bar");
@@ -294,8 +309,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_orderRowsBy_dense() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.natural());
     builder.put('c', 3, "foo");
     builder.put('c', 2, "bar");
@@ -311,8 +325,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_orderColumnsBy_sparse() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderColumnsBy(Ordering.natural());
     builder.put('x', 2, "foo");
     builder.put('r', 1, "bar");
@@ -329,8 +342,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   public void testBuilder_orderColumnsBy_dense() {
-    ImmutableTable.Builder<Character, Integer, String> builder
-        = ImmutableTable.builder();
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderColumnsBy(Ordering.natural());
     builder.put('c', 3, "foo");
     builder.put('c', 2, "bar");

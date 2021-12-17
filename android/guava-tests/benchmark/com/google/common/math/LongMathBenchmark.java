@@ -49,12 +49,12 @@ public class LongMathBenchmark {
       factorialArguments[i] = RANDOM_SOURCE.nextInt(30);
       binomialArguments[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
       int k = binomialArguments[i][1];
-      binomialArguments[i][0] =
-          RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials[k] - k) + k;
+      binomialArguments[i][0] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials[k] - k) + k;
     }
   }
 
-  @Benchmark int pow(int reps) {
+  @Benchmark
+  int pow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -63,7 +63,8 @@ public class LongMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int mod(int reps) {
+  @Benchmark
+  int mod(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -72,7 +73,8 @@ public class LongMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int gCD(int reps) {
+  @Benchmark
+  int gCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -81,7 +83,8 @@ public class LongMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int factorial(int reps) {
+  @Benchmark
+  int factorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -90,7 +93,8 @@ public class LongMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int binomial(int reps) {
+  @Benchmark
+  int binomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -99,7 +103,8 @@ public class LongMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int isPrime(int reps) {
+  @Benchmark
+  int isPrime(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

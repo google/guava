@@ -25,9 +25,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-/**
- * Methods factored out so that they can be emulated differently in GWT.
- */
+/** Methods factored out so that they can be emulated differently in GWT. */
 final class TestPlatform {
   static void verifyGetOnPendingFuture(Future<?> future) {
     try {
@@ -35,7 +33,7 @@ final class TestPlatform {
       fail();
     } catch (Exception e) {
       assertThat(e).isInstanceOf(IllegalStateException.class);
-      assertThat(e).hasMessage("Cannot get() on a pending future.");
+      assertThat(e).hasMessageThat().isEqualTo("Cannot get() on a pending future.");
     }
   }
 
@@ -45,7 +43,7 @@ final class TestPlatform {
       fail();
     } catch (Exception e) {
       assertThat(e).isInstanceOf(IllegalStateException.class);
-      assertThat(e).hasMessage("Cannot get() on a pending future.");
+      assertThat(e).hasMessageThat().isEqualTo("Cannot get() on a pending future.");
     }
   }
 

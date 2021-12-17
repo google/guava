@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -29,7 +30,6 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
@@ -38,7 +38,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
@@ -50,6 +49,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
@@ -62,7 +62,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.concurrent.GuardedBy;
 
 /**
  * A manager for monitoring and controlling a set of {@linkplain Service services}. This class
@@ -77,7 +76,8 @@ import javax.annotation.concurrent.GuardedBy;
  * when appropriate and {@link #awaitHealthy} will still work as expected.
  *
  * <p>Here is a simple example of how to use a {@code ServiceManager} to start a server.
- * <pre>   {@code
+ *
+ * <pre>{@code
  * class Server {
  *   public static void main(String[] args) {
  *     Set<Service> services = ...;
@@ -108,7 +108,8 @@ import javax.annotation.concurrent.GuardedBy;
  *     });
  *     manager.startAsync();  // start all the services asynchronously
  *   }
- * }}</pre>
+ * }
+ * }</pre>
  *
  * <p>This class uses the ServiceManager's methods to start all of its services, to respond to
  * service failure and to ensure that when the JVM is shutting down all the services are stopped.
@@ -116,9 +117,9 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Luke Sandberg
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
-public final class ServiceManager {
+@ElementTypesAreNonnullByDefault
+public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
       new ListenerCallQueue.Event<Listener>() {
@@ -147,22 +148,21 @@ public final class ServiceManager {
 
   /**
    * A listener for the aggregate state changes of the services that are under management. Users
-   * that need to listen to more fine-grained events (such as when each particular
-   * {@linkplain Service service} starts, or terminates), should attach {@linkplain Service.Listener
-   * service listeners} to each individual service.
+   * that need to listen to more fine-grained events (such as when each particular {@linkplain
+   * Service service} starts, or terminates), should attach {@linkplain Service.Listener service
+   * listeners} to each individual service.
    *
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 14.0)
    */
-  @Beta // Should come out of Beta when ServiceManager does
   public abstract static class Listener {
     /**
      * Called when the service initially becomes healthy.
      *
-     * <p>This will be called at most once after all the services have entered the
-     * {@linkplain State#RUNNING running} state. If any services fail during start up or
-     * {@linkplain State#FAILED fail}/{@linkplain State#TERMINATED terminate} before all other
-     * services have started {@linkplain State#RUNNING running} then this method will not be called.
+     * <p>This will be called at most once after all the services have entered the {@linkplain
+     * State#RUNNING running} state. If any services fail during start up or {@linkplain
+     * State#FAILED fail}/{@linkplain State#TERMINATED terminate} before all other services have
+     * started {@linkplain State#RUNNING running} then this method will not be called.
      */
     public void healthy() {}
 
@@ -183,18 +183,18 @@ public final class ServiceManager {
   /**
    * An encapsulation of all of the state that is accessed by the {@linkplain ServiceListener
    * service listeners}. This is extracted into its own object so that {@link ServiceListener} could
-   * be made {@code static} and its instances can be safely constructed and added in the
-   * {@link ServiceManager} constructor without having to close over the partially constructed
-   * {@link ServiceManager} instance (i.e. avoid leaking a pointer to {@code this}).
+   * be made {@code static} and its instances can be safely constructed and added in the {@link
+   * ServiceManager} constructor without having to close over the partially constructed {@link
+   * ServiceManager} instance (i.e. avoid leaking a pointer to {@code this}).
    */
   private final ServiceManagerState state;
+
   private final ImmutableList<Service> services;
 
   /**
    * Constructs a new instance for managing the given services.
    *
    * @param services The services to manage
-   *
    * @throws IllegalArgumentException if not all services are {@linkplain State#NEW new} or if there
    *     are any duplicate services.
    */
@@ -240,34 +240,15 @@ public final class ServiceManager {
    * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
    * logged.
    *
-   * <p>For fast, lightweight listeners that would be safe to execute in any thread, consider
-   * calling {@link #addListener(Listener)}.
+   * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
+   * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation.
    *
    * @param listener the listener to run when the manager changes state
    * @param executor the executor in which the listeners callback methods will be run.
    */
   public void addListener(Listener listener, Executor executor) {
     state.addListener(listener, executor);
-  }
-
-  /**
-   * Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The
-   * listener will not have previous state changes replayed, so it is suggested that listeners are
-   * added before any of the managed services are {@linkplain Service#startAsync started}.
-   *
-   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
-   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
-   * invoked in the same order as the underlying service enters those states. Additionally, at most
-   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
-   * may execute concurrently, and listeners may execute in an order different from the one in which
-   * they were registered.
-   *
-   * <p>RuntimeExceptions thrown by a listener will be caught and logged.
-   *
-   * @param listener the listener to run when the manager changes state
-   */
-  public void addListener(Listener listener) {
-    state.addListener(listener, directExecutor());
   }
 
   /**
@@ -281,8 +262,7 @@ public final class ServiceManager {
   @CanIgnoreReturnValue
   public ServiceManager startAsync() {
     for (Service service : services) {
-      State state = service.state();
-      checkState(state == NEW, "Service %s is %s, cannot start it.", service, state);
+      checkState(service.state() == NEW, "Not all services are NEW, cannot start %s", this);
     }
     for (Service service : services) {
       try {
@@ -322,6 +302,7 @@ public final class ServiceManager {
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
    *     become {@linkplain #isHealthy() healthy}.
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public void awaitHealthy(long timeout, TimeUnit unit) throws TimeoutException {
     state.awaitHealthy(timeout, unit);
   }
@@ -342,8 +323,8 @@ public final class ServiceManager {
 
   /**
    * Waits for the all the services to reach a terminal state. After this method returns all
-   * services will either be {@linkplain Service.State#TERMINATED terminated} or
-   * {@linkplain Service.State#FAILED failed}.
+   * services will either be {@linkplain Service.State#TERMINATED terminated} or {@linkplain
+   * Service.State#FAILED failed}.
    */
   public void awaitStopped() {
     state.awaitStopped();
@@ -358,6 +339,7 @@ public final class ServiceManager {
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have stopped within the deadline
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public void awaitStopped(long timeout, TimeUnit unit) throws TimeoutException {
     state.awaitStopped(timeout, unit);
   }
@@ -382,8 +364,11 @@ public final class ServiceManager {
    *
    * <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
    * correspond to a point in time view of the services.
+   *
+   * @since 29.0 (present with return type {@code ImmutableMultimap} since 14.0)
    */
-  public ImmutableMultimap<State, Service> servicesByState() {
+  @Override
+  public ImmutableSetMultimap<State, Service> servicesByState() {
     return state.servicesByState();
   }
 
@@ -466,9 +451,7 @@ public final class ServiceManager {
       }
     }
 
-    /**
-     * Controls how long to wait for all services to reach a terminal state.
-     */
+    /** Controls how long to wait for all services to reach a terminal state. */
     final Monitor.Guard stoppedGuard = new StoppedGuard();
 
     @WeakOuter
@@ -499,8 +482,8 @@ public final class ServiceManager {
     }
 
     /**
-     * Attempts to start the timer immediately prior to the service being started via
-     * {@link Service#startAsync()}.
+     * Attempts to start the timer immediately prior to the service being started via {@link
+     * Service#startAsync()}.
      */
     void tryStartTiming(Service service) {
       monitor.enter();
@@ -589,7 +572,7 @@ public final class ServiceManager {
       }
     }
 
-    ImmutableMultimap<State, Service> servicesByState() {
+    ImmutableSetMultimap<State, Service> servicesByState() {
       ImmutableSetMultimap.Builder<State, Service> builder = ImmutableSetMultimap.builder();
       monitor.enter();
       try {
@@ -612,9 +595,9 @@ public final class ServiceManager {
         // N.B. There will only be an entry in the map if the service has started
         for (Entry<Service, Stopwatch> entry : startupTimers.entrySet()) {
           Service service = entry.getKey();
-          Stopwatch stopWatch = entry.getValue();
-          if (!stopWatch.isRunning() && !(service instanceof NoOpService)) {
-            loadTimes.add(Maps.immutableEntry(service, stopWatch.elapsed(MILLISECONDS)));
+          Stopwatch stopwatch = entry.getValue();
+          if (!stopwatch.isRunning() && !(service instanceof NoOpService)) {
+            loadTimes.add(Maps.immutableEntry(service, stopwatch.elapsed(MILLISECONDS)));
           }
         }
       } finally {
@@ -637,11 +620,12 @@ public final class ServiceManager {
      * Updates the state with the given service transition.
      *
      * <p>This method performs the main logic of ServiceManager in the following steps.
+     *
      * <ol>
-     * <li>Update the {@link #servicesByState()}
-     * <li>Update the {@link #startupTimers}
-     * <li>Based on the new state queue listeners to run
-     * <li>Run the listeners (outside of the lock)
+     *   <li>Update the {@link #servicesByState()}
+     *   <li>Update the {@link #startupTimers}
+     *   <li>Based on the new state queue listeners to run
+     *   <li>Run the listeners (outside of the lock)
      * </ol>
      */
     void transitionService(final Service service, State from, State to) {

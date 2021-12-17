@@ -23,10 +23,13 @@ import com.google.common.base.Optional;
  *
  * @author James Sexton
  */
+@ElementTypesAreNonnullByDefault
 abstract class AbstractGraphBuilder<N> {
   final boolean directed;
   boolean allowsSelfLoops = false;
   ElementOrder<N> nodeOrder = ElementOrder.insertion();
+  ElementOrder<N> incidentEdgeOrder = ElementOrder.unordered();
+
   Optional<Integer> expectedNodeCount = Optional.absent();
 
   /**

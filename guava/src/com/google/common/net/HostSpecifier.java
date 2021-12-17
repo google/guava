@@ -14,12 +14,11 @@
 
 package com.google.common.net;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import java.net.InetAddress;
 import java.text.ParseException;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -35,14 +34,14 @@ import javax.annotation.Nullable;
  *
  * <p>If you know that a given string represents a numeric IP address, use {@link InetAddresses} to
  * obtain and manipulate a {@link java.net.InetAddress} instance from it rather than using this
- * class. Similarly, if you know that a given string represents a domain name, use
- * {@link InternetDomainName} rather than this class.
+ * class. Similarly, if you know that a given string represents a domain name, use {@link
+ * InternetDomainName} rather than this class.
  *
  * @author Craig Berry
  * @since 5.0
  */
-@Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class HostSpecifier {
 
   private final String canonicalForm;
@@ -57,11 +56,12 @@ public final class HostSpecifier {
    * instead.
    *
    * <p>The specifier must be in one of these formats:
+   *
    * <ul>
-   * <li>A domain name, like {@code google.com}
-   * <li>A IPv4 address string, like {@code 127.0.0.1}
-   * <li>An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or
-   *     {@code 2001:db8::1}
+   *   <li>A domain name, like {@code google.com}
+   *   <li>A IPv4 address string, like {@code 127.0.0.1}
+   *   <li>An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or {@code
+   *       2001:db8::1}
    * </ul>
    *
    * @throws IllegalArgumentException if the specifier is not valid.
@@ -69,9 +69,9 @@ public final class HostSpecifier {
   public static HostSpecifier fromValid(String specifier) {
     // Verify that no port was specified, and strip optional brackets from
     // IPv6 literals.
-    final HostAndPort parsedHost = HostAndPort.fromString(specifier);
+    HostAndPort parsedHost = HostAndPort.fromString(specifier);
     Preconditions.checkArgument(!parsedHost.hasPort());
-    final String host = parsedHost.getHost();
+    String host = parsedHost.getHost();
 
     // Try to interpret the specifier as an IP address. Note we build
     // the address rather than using the .is* methods because we want to
@@ -91,7 +91,7 @@ public final class HostSpecifier {
     // It is not any kind of IP address; must be a domain name or invalid.
 
     // TODO(user): different versions of this for different factories?
-    final InternetDomainName domain = InternetDomainName.from(host);
+    InternetDomainName domain = InternetDomainName.from(host);
 
     if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.toString());
@@ -136,13 +136,13 @@ public final class HostSpecifier {
   }
 
   @Override
-  public boolean equals(@Nullable Object other) {
+  public boolean equals(@CheckForNull Object other) {
     if (this == other) {
       return true;
     }
 
     if (other instanceof HostSpecifier) {
-      final HostSpecifier that = (HostSpecifier) other;
+      HostSpecifier that = (HostSpecifier) other;
       return this.canonicalForm.equals(that.canonicalForm);
     }
 

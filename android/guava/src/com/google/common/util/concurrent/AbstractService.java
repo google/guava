@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.Service.State.RUNNING;
 import static com.google.common.util.concurrent.Service.State.STARTING;
 import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -30,12 +31,12 @@ import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.CheckForNull;
 
 /**
  * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}
@@ -47,8 +48,8 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Luke Sandberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
       new ListenerCallQueue.Event<Listener>() {
@@ -81,6 +82,8 @@ public abstract class AbstractService implements Service {
 
   private static final ListenerCallQueue.Event<Listener> TERMINATED_FROM_NEW_EVENT =
       terminatedEvent(NEW);
+  private static final ListenerCallQueue.Event<Listener> TERMINATED_FROM_STARTING_EVENT =
+      terminatedEvent(STARTING);
   private static final ListenerCallQueue.Event<Listener> TERMINATED_FROM_RUNNING_EVENT =
       terminatedEvent(RUNNING);
   private static final ListenerCallQueue.Event<Listener> TERMINATED_FROM_STOPPING_EVENT =
@@ -168,7 +171,7 @@ public abstract class AbstractService implements Service {
 
     @Override
     public boolean isSatisfied() {
-      return state().isTerminal();
+      return state().compareTo(TERMINATED) >= 0;
     }
   }
 
@@ -211,9 +214,31 @@ public abstract class AbstractService implements Service {
    * <p>This method should return promptly; prefer to do work on a different thread where it is
    * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
    * called multiple times.
+   *
+   * <p>If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not
+   * invoked immediately. Instead, it will be deferred until after the service is {@link
+   * State#RUNNING}. Services that need to cancel startup work can override {@link #doCancelStart}.
    */
   @ForOverride
   protected abstract void doStop();
+
+  /**
+   * This method is called by {@link #stopAsync} when the service is still starting (i.e. {@link
+   * #startAsync} has been called but {@link #notifyStarted} has not). Subclasses can override the
+   * method to cancel pending work and then call {@link #notifyStopped} to stop the service.
+   *
+   * <p>This method should return promptly; prefer to do work on a different thread where it is
+   * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
+   * called multiple times.
+   *
+   * <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which is the
+   * external state observable by the caller of {@link #stopAsync}.
+   *
+   * @since 27.0
+   */
+  @Beta
+  @ForOverride
+  protected void doCancelStart() {}
 
   @CanIgnoreReturnValue
   @Override
@@ -249,6 +274,7 @@ public abstract class AbstractService implements Service {
           case STARTING:
             snapshot = new StateSnapshot(STARTING, true, null);
             enqueueStoppingEvent(STARTING);
+            doCancelStart();
             break;
           case RUNNING:
             snapshot = new StateSnapshot(STOPPING);
@@ -260,8 +286,6 @@ public abstract class AbstractService implements Service {
           case FAILED:
             // These cases are impossible due to the if statement above.
             throw new AssertionError("isStoppable is incorrectly implemented, saw: " + previous);
-          default:
-            throw new AssertionError("Unexpected state: " + previous);
         }
       } catch (Throwable shutdownFailure) {
         notifyFailed(shutdownFailure);
@@ -384,25 +408,28 @@ public abstract class AbstractService implements Service {
 
   /**
    * Implementing classes should invoke this method once their service has stopped. It will cause
-   * the service to transition from {@link State#STOPPING} to {@link State#TERMINATED}.
+   * the service to transition from {@link State#STARTING} or {@link State#STOPPING} to {@link
+   * State#TERMINATED}.
    *
-   * @throws IllegalStateException if the service is neither {@link State#STOPPING} nor {@link
-   *     State#RUNNING}.
+   * @throws IllegalStateException if the service is not one of {@link State#STOPPING}, {@link
+   *     State#STARTING}, or {@link State#RUNNING}.
    */
   protected final void notifyStopped() {
     monitor.enter();
     try {
-      // We check the internal state of the snapshot instead of state() directly so we don't allow
-      // notifyStopped() to be called while STARTING, even if stop() has already been called.
-      State previous = snapshot.state;
-      if (previous != STOPPING && previous != RUNNING) {
-        IllegalStateException failure =
-            new IllegalStateException("Cannot notifyStopped() when the service is " + previous);
-        notifyFailed(failure);
-        throw failure;
+      State previous = state();
+      switch (previous) {
+        case NEW:
+        case TERMINATED:
+        case FAILED:
+          throw new IllegalStateException("Cannot notifyStopped() when the service is " + previous);
+        case RUNNING:
+        case STARTING:
+        case STOPPING:
+          snapshot = new StateSnapshot(TERMINATED);
+          enqueueTerminatedEvent(previous);
+          break;
       }
-      snapshot = new StateSnapshot(TERMINATED);
-      enqueueTerminatedEvent(previous);
     } finally {
       monitor.leave();
       dispatchListenerEvents();
@@ -433,8 +460,6 @@ public abstract class AbstractService implements Service {
         case FAILED:
           // Do nothing
           break;
-        default:
-          throw new AssertionError("Unexpected state: " + previous);
       }
     } finally {
       monitor.leave();
@@ -452,17 +477,13 @@ public abstract class AbstractService implements Service {
     return snapshot.externalState();
   }
 
-  /**
-   * @since 14.0
-   */
+  /** @since 14.0 */
   @Override
   public final Throwable failureCause() {
     return snapshot.failureCause();
   }
 
-  /**
-   * @since 13.0
-   */
+  /** @since 13.0 */
   @Override
   public final void addListener(Listener listener, Executor executor) {
     listeners.addListener(listener, executor);
@@ -506,16 +527,17 @@ public abstract class AbstractService implements Service {
       case NEW:
         listeners.enqueue(TERMINATED_FROM_NEW_EVENT);
         break;
+      case STARTING:
+        listeners.enqueue(TERMINATED_FROM_STARTING_EVENT);
+        break;
       case RUNNING:
         listeners.enqueue(TERMINATED_FROM_RUNNING_EVENT);
         break;
       case STOPPING:
         listeners.enqueue(TERMINATED_FROM_STOPPING_EVENT);
         break;
-      case STARTING:
       case TERMINATED:
       case FAILED:
-      default:
         throw new AssertionError();
     }
   }
@@ -548,29 +570,27 @@ public abstract class AbstractService implements Service {
      */
     final State state;
 
-    /**
-     * If true, the user requested a shutdown while the service was still starting up.
-     */
+    /** If true, the user requested a shutdown while the service was still starting up. */
     final boolean shutdownWhenStartupFinishes;
 
     /**
      * The exception that caused this service to fail. This will be {@code null} unless the service
      * has failed.
      */
-    @Nullable final Throwable failure;
+    @CheckForNull final Throwable failure;
 
     StateSnapshot(State internalState) {
       this(internalState, false, null);
     }
 
     StateSnapshot(
-        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {
+        State internalState, boolean shutdownWhenStartupFinishes, @CheckForNull Throwable failure) {
       checkArgument(
           !shutdownWhenStartupFinishes || internalState == STARTING,
           "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",
           internalState);
       checkArgument(
-          !(failure != null ^ internalState == FAILED),
+          (failure != null) == (internalState == FAILED),
           "A failure cause should be set if and only if the state is failed.  Got %s and %s "
               + "instead.",
           internalState,
@@ -595,7 +615,8 @@ public abstract class AbstractService implements Service {
           state == FAILED,
           "failureCause() is only valid if the service has failed, service is %s",
           state);
-      return failure;
+      // requireNonNull is safe because the constructor requires a non-null cause with state=FAILED.
+      return requireNonNull(failure);
     }
   }
 }

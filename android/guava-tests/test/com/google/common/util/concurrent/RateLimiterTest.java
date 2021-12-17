@@ -79,11 +79,13 @@ public class RateLimiterTest extends TestCase {
     try {
       limiter.setRate(0.0);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       limiter.setRate(-10.0);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testAcquireParameterValidation() {
@@ -122,19 +124,19 @@ public class RateLimiterTest extends TestCase {
 
   public void testSimpleWithWait() {
     RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
-    limiter.acquire();          // R0.00
-    stopwatch.sleepMillis(200);    // U0.20, we are ready for the next request...
-    limiter.acquire();          // R0.00, ...which is granted immediately
-    limiter.acquire();          // R0.20
+    limiter.acquire(); // R0.00
+    stopwatch.sleepMillis(200); // U0.20, we are ready for the next request...
+    limiter.acquire(); // R0.00, ...which is granted immediately
+    limiter.acquire(); // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
   public void testSimpleAcquireReturnValues() {
     RateLimiter limiter = RateLimiter.create(5.0, stopwatch);
-    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00
-    stopwatch.sleepMillis(200);                     // U0.20, we are ready for the next request...
-    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00, ...which is granted immediately
-    assertEquals(0.2, limiter.acquire(), EPSILON);  // R0.20
+    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00
+    stopwatch.sleepMillis(200); // U0.20, we are ready for the next request...
+    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00, ...which is granted immediately
+    assertEquals(0.2, limiter.acquire(), EPSILON); // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
@@ -158,8 +160,8 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire(1); // R0.00, concluding a burst of 5 permits
 
     limiter.acquire(); // R0.20, capacity exhausted
-    assertEvents("U1.00", "U1.00",
-        "R0.00", "R0.00", "R0.00", "R0.00", // first request and burst
+    assertEvents(
+        "U1.00", "U1.00", "R0.00", "R0.00", "R0.00", "R0.00", // first request and burst
         "R0.20");
   }
 
@@ -386,8 +388,7 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire();
     assertEvents(
         "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
-        "R0.00",
-        "R0.00", // Now comes the free request.
+        "R0.00", "R0.00", // Now comes the free request.
         "R0.50", // Now it's 0.5 seconds per request.
         "R0.50");
 
@@ -408,8 +409,7 @@ public class RateLimiterTest extends TestCase {
     }
     assertEvents(
         "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
-        "R0.00",
-        "R0.00", // Now comes the free request.
+        "R0.00", "R0.00", // Now comes the free request.
         "R0.50", // Now it's 0.5 seconds per request.
         "R0.50");
   }
@@ -445,12 +445,12 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * Make sure that bursts can never go above 1-second-worth-of-work for the current
-   * rate, even when we change the rate.
+   * Make sure that bursts can never go above 1-second-worth-of-work for the current rate, even when
+   * we change the rate.
    */
   public void testWeNeverGetABurstMoreThanOneSec() {
     RateLimiter limiter = RateLimiter.create(1.0, stopwatch);
-    int[] rates = { 1000, 1, 10, 1000000, 10, 1};
+    int[] rates = {1000, 1, 10, 1000000, 10, 1};
     for (int rate : rates) {
       int oneSecWorthOfWork = rate;
       stopwatch.sleepMillis(rate * 1000);
@@ -465,17 +465,16 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * This neat test shows that no matter what weights we use in our requests, if we push X
-   * amount of permits in a cool state, where X = rate * timeToCoolDown, and we have
-   * specified a timeToWarmUp() period, it will cost as the prescribed amount of time. E.g.,
-   * calling [acquire(5), acquire(1)] takes exactly the same time as
-   * [acquire(2), acquire(3), acquire(1)].
+   * This neat test shows that no matter what weights we use in our requests, if we push X amount of
+   * permits in a cool state, where X = rate * timeToCoolDown, and we have specified a
+   * timeToWarmUp() period, it will cost as the prescribed amount of time. E.g., calling
+   * [acquire(5), acquire(1)] takes exactly the same time as [acquire(2), acquire(3), acquire(1)].
    */
   public void testTimeToWarmUpIsHonouredEvenWithWeights() {
     Random random = new Random();
     int warmupPermits = 10;
-    double[] coldFactorsToTest = { 2.0, 3.0, 10.0 };
-    double[] qpsToTest = { 4.0, 2.0, 1.0, 0.5, 0.1 };
+    double[] coldFactorsToTest = {2.0, 3.0, 10.0};
+    double[] qpsToTest = {4.0, 2.0, 1.0, 0.5, 0.1};
     for (int trial = 0; trial < 100; trial++) {
       for (double coldFactor : coldFactorsToTest) {
         for (double qps : qpsToTest) {
@@ -491,10 +490,11 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester()
-        .setDefault(SleepingStopwatch.class, stopwatch)
-        .setDefault(int.class, 1)
-        .setDefault(double.class, 1.0d);
+    NullPointerTester tester =
+        new NullPointerTester()
+            .setDefault(SleepingStopwatch.class, stopwatch)
+            .setDefault(int.class, 1)
+            .setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
     tester.testInstanceMethods(RateLimiter.create(5.0, stopwatch), Visibility.PACKAGE);
   }
@@ -524,9 +524,8 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * The stopwatch gathers events and presents them as strings.
-   * R0.6 means a delay of 0.6 seconds caused by the (R)ateLimiter
-   * U1.0 means the (U)ser caused the stopwatch to sleep for a second.
+   * The stopwatch gathers events and presents them as strings. R0.6 means a delay of 0.6 seconds
+   * caused by the (R)ateLimiter U1.0 means the (U)ser caused the stopwatch to sleep for a second.
    */
   static class FakeStopwatch extends SleepingStopwatch {
     long instant = 0L;

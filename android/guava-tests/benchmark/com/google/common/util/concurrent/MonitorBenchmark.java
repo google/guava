@@ -29,8 +29,12 @@ import java.util.concurrent.BlockingQueue;
  */
 public class MonitorBenchmark {
 
-  @Param({"10", "100", "1000"}) int capacity;
-  @Param({"Array", "Priority"}) String queueType;
+  @Param({"10", "100", "1000"})
+  int capacity;
+
+  @Param({"Array", "Priority"})
+  String queueType;
+
   @Param boolean useMonitor;
 
   private BlockingQueue<String> queue;
@@ -51,7 +55,8 @@ public class MonitorBenchmark {
     }
   }
 
-  @Benchmark void addsAndRemoves(int reps) {
+  @Benchmark
+  void addsAndRemoves(int reps) {
     int capacity = this.capacity;
     BlockingQueue<String> queue = this.queue;
     String[] strings = this.strings;

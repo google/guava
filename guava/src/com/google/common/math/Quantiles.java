@@ -27,34 +27,37 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Provides a fluent API for calculating
- * <a href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
+ * Provides a fluent API for calculating <a
+ * href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
  *
  * <h3>Examples</h3>
  *
  * <p>To compute the median:
- * <pre>   {@code
  *
- *   double myMedian = median().compute(myDataset);}</pre>
+ * <pre>{@code
+ * double myMedian = median().compute(myDataset);
+ * }</pre>
  *
  * where {@link #median()} has been statically imported.
  *
  * <p>To compute the 99th percentile:
- * <pre>   {@code
  *
- *   double myPercentile99 = percentiles().index(99).compute(myDataset);}</pre>
+ * <pre>{@code
+ * double myPercentile99 = percentiles().index(99).compute(myDataset);
+ * }</pre>
  *
  * where {@link #percentiles()} has been statically imported.
  *
  * <p>To compute median and the 90th and 99th percentiles:
- * <pre>   {@code
  *
- *   Map<Integer, Double> myPercentiles =
- *       percentiles().indexes(50, 90, 99).compute(myDataset);}</pre>
+ * <pre>{@code
+ * Map<Integer, Double> myPercentiles =
+ *     percentiles().indexes(50, 90, 99).compute(myDataset);
+ * }</pre>
  *
  * where {@link #percentiles()} has been statically imported: {@code myPercentiles} maps the keys
  * 50, 90, and 99, to their corresponding quantile values.
@@ -63,8 +66,8 @@ import java.util.Map;
  * arbitrary q-quantiles, use {@link #scale scale(q)}.
  *
  * <p>These examples all take a copy of your dataset. If you have a double array, you are okay with
- * it being arbitrarily reordered, and you want to avoid that copy, you can use
- * {@code computeInPlace} instead of {@code compute}.
+ * it being arbitrarily reordered, and you want to avoid that copy, you can use {@code
+ * computeInPlace} instead of {@code compute}.
  *
  * <h3>Definition and notes on interpolation</h3>
  *
@@ -73,26 +76,26 @@ import java.util.Map;
  * (unless there are {@link Double#NaN NaN} values, see below); otherwise, the result is the average
  * of the values which would appear at the indexes floor(x) and ceil(x) weighted by (1-frac(x)) and
  * frac(x) respectively. This is the same definition as used by Excel and by S, it is the Type 7
- * definition in
- * <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">R</a>, and it is
- * described by
- * <a href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">
+ * definition in <a
+ * href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">R</a>, and it is
+ * described by <a
+ * href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">
  * wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
  * uniform distribution on [0,1]."
  *
  * <h3>Handling of non-finite values</h3>
  *
- * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are
- * {@link Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get
- * from sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or
- * {@link java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and
- * selecting the required value(s). Those methods would sort {@link Double#NaN NaN} as if it is
- * greater than any other value and place them at the end of the dataset, even after
- * {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
+ * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
+ * Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
+ * sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or {@link
+ * java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and selecting
+ * the required value(s). Those methods would sort {@link Double#NaN NaN} as if it is greater than
+ * any other value and place them at the end of the dataset, even after {@link
+ * Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
  *
- * <p>Otherwise, {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and
- * {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY} sort to the beginning and the end of the
- * dataset, as you would expect.
+ * <p>Otherwise, {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link
+ * Double#POSITIVE_INFINITY POSITIVE_INFINITY} sort to the beginning and the end of the dataset, as
+ * you would expect.
  *
  * <p>If required to do a weighted average between an infinity and a finite value, or between an
  * infinite value and itself, the infinite value is returned. If required to do a weighted average
@@ -115,35 +118,30 @@ import java.util.Map;
  *
  * <p>When calling {@link ScaleAndIndex#compute} (in {@linkplain ScaleAndIndexes#compute either
  * form}), the memory requirement is 8*N bytes for the copy of the dataset plus an overhead which is
- * independent of N (but depends on the quantiles being computed). When calling
- * {@link ScaleAndIndex#computeInPlace computeInPlace} (in
- * {@linkplain ScaleAndIndexes#computeInPlace either form}), only the overhead is required. The
- * number of object allocations is independent of N in both cases.
+ * independent of N (but depends on the quantiles being computed). When calling {@link
+ * ScaleAndIndex#computeInPlace computeInPlace} (in {@linkplain ScaleAndIndexes#computeInPlace
+ * either form}), only the overhead is required. The number of object allocations is independent of
+ * N in both cases.
  *
  * @author Pete Gillin
  * @since 20.0
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Quantiles {
 
-  /**
-   * Specifies the computation of a median (i.e. the 1st 2-quantile).
-   */
+  /** Specifies the computation of a median (i.e. the 1st 2-quantile). */
   public static ScaleAndIndex median() {
     return scale(2).index(1);
   }
 
-  /**
-   * Specifies the computation of quartiles (i.e. 4-quantiles).
-   */
+  /** Specifies the computation of quartiles (i.e. 4-quantiles). */
   public static Scale quartiles() {
     return scale(4);
   }
 
-  /**
-   * Specifies the computation of percentiles (i.e. 100-quantiles).
-   */
+  /** Specifies the computation of percentiles (i.e. 100-quantiles). */
   public static Scale percentiles() {
     return scale(100);
   }
@@ -189,6 +187,7 @@ public final class Quantiles {
      * @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
+     * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(int... indexes) {
       return new ScaleAndIndexes(scale, indexes.clone());
@@ -201,6 +200,7 @@ public final class Quantiles {
      * @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
+     * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
       return new ScaleAndIndexes(scale, Ints.toArray(indexes));
@@ -321,6 +321,7 @@ public final class Quantiles {
       for (int index : indexes) {
         checkIndex(index, scale);
       }
+      checkArgument(indexes.length > 0, "Indexes must be a non empty array");
       this.scale = scale;
       this.indexes = indexes;
     }
@@ -331,8 +332,10 @@ public final class Quantiles {
      * @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      *     cast to doubles (with any associated lost of precision), and which will not be mutated by
      *     this call (it is copied instead)
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     *     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     *     map are ordered by quantile index in the same order they were passed to the {@code
+     *     indexes} method.
      */
     public Map<Integer, Double> compute(Collection<? extends Number> dataset) {
       return computeInPlace(Doubles.toArray(dataset));
@@ -343,8 +346,10 @@ public final class Quantiles {
      *
      * @param dataset the dataset to do the calculation on, which must be non-empty, which will not
      *     be mutated by this call (it is copied instead)
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     *     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     *     map are ordered by quantile index in the same order they were passed to the {@code
+     *     indexes} method.
      */
     public Map<Integer, Double> compute(double... dataset) {
       return computeInPlace(dataset.clone());
@@ -356,8 +361,10 @@ public final class Quantiles {
      * @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      *     cast to doubles (with any associated lost of precision), and which will not be mutated by
      *     this call (it is copied instead)
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     *     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     *     map are ordered by quantile index in the same order they were passed to the {@code
+     *     indexes} method.
      */
     public Map<Integer, Double> compute(long... dataset) {
       return computeInPlace(longsToDoubles(dataset));
@@ -368,8 +375,10 @@ public final class Quantiles {
      *
      * @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      *     cast to doubles, and which will not be mutated by this call (it is copied instead)
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     *     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     *     map are ordered by quantile index in the same order they were passed to the {@code
+     *     indexes} method.
      */
     public Map<Integer, Double> compute(int... dataset) {
       return computeInPlace(intsToDoubles(dataset));
@@ -380,13 +389,15 @@ public final class Quantiles {
      *
      * @param dataset the dataset to do the calculation on, which must be non-empty, and which will
      *     be arbitrarily reordered by this method call
-     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     *     the values the corresponding quantile values
+     * @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     *     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     *     map are ordered by quantile index in the same order that the indexes were passed to the
+     *     {@code indexes} method.
      */
     public Map<Integer, Double> computeInPlace(double... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
       if (containsNaN(dataset)) {
-        Map<Integer, Double> nanMap = new HashMap<>();
+        Map<Integer, Double> nanMap = new LinkedHashMap<>();
         for (int index : indexes) {
           nanMap.put(index, NaN);
         }
@@ -425,7 +436,7 @@ public final class Quantiles {
       sort(requiredSelections, 0, requiredSelectionsCount);
       selectAllInPlace(
           requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);
-      Map<Integer, Double> ret = new HashMap<>();
+      Map<Integer, Double> ret = new LinkedHashMap<>();
       for (int i = 0; i < indexes.length; i++) {
         int quotient = quotients[i];
         int remainder = remainders[i];
@@ -440,9 +451,7 @@ public final class Quantiles {
     }
   }
 
-  /**
-   * Returns whether any of the values in {@code dataset} are {@code NaN}.
-   */
+  /** Returns whether any of the values in {@code dataset} are {@code NaN}. */
   private static boolean containsNaN(double... dataset) {
     for (double value : dataset) {
       if (Double.isNaN(value)) {
@@ -501,14 +510,17 @@ public final class Quantiles {
   /**
    * Performs an in-place selection to find the element which would appear at a given index in a
    * dataset if it were sorted. The following preconditions should hold:
+   *
    * <ul>
-   * <li>{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};
-   * <li>{@code required} should be in the range [{@code from}, {@code to}];
-   * <li>all the values with indexes in the range [0, {@code from}) should be less than or equal to
-   * all the values with indexes in the range [{@code from}, {@code to}];
-   * <li>all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be
-   * greater than or equal to all the values with indexes in the range [{@code from}, {@code to}].
+   *   <li>{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};
+   *   <li>{@code required} should be in the range [{@code from}, {@code to}];
+   *   <li>all the values with indexes in the range [0, {@code from}) should be less than or equal
+   *       to all the values with indexes in the range [{@code from}, {@code to}];
+   *   <li>all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be
+   *       greater than or equal to all the values with indexes in the range [{@code from}, {@code
+   *       to}].
    * </ul>
+   *
    * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such
    * that all the values with indexes in the range [{@code from}, {@code required}) are less than or
    * equal to the value with index {@code required}, and all the values with indexes in the range
@@ -546,12 +558,12 @@ public final class Quantiles {
   }
 
   /**
-   * Performs a partition operation on the slice of {@code array} with elements in the range
-   * [{@code from}, {@code to}]. Uses the median of {@code from}, {@code to}, and the midpoint
-   * between them as a pivot. Returns the index which the slice is partitioned around, i.e. if it
-   * returns {@code ret} then we know that the values with indexes in [{@code from}, {@code ret})
-   * are less than or equal to the value at {@code ret} and the values with indexes in ({@code ret},
-   * {@code to}] are greater than or equal to that.
+   * Performs a partition operation on the slice of {@code array} with elements in the range [{@code
+   * from}, {@code to}]. Uses the median of {@code from}, {@code to}, and the midpoint between them
+   * as a pivot. Returns the index which the slice is partitioned around, i.e. if it returns {@code
+   * ret} then we know that the values with indexes in [{@code from}, {@code ret}) are less than or
+   * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
+   * greater than or equal to that.
    */
   private static int partition(double[] array, int from, int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
@@ -601,10 +613,9 @@ public final class Quantiles {
   }
 
   /**
-   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes
-   * {@code allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}].
-   * These indexes must be sorted in the array and must all be in the range [{@code from},
-   * {@code to}].
+   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes {@code
+   * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
+   * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
   private static void selectAllInPlace(
       int[] allRequired, int requiredFrom, int requiredTo, double[] array, int from, int to) {
@@ -679,9 +690,7 @@ public final class Quantiles {
     }
   }
 
-  /**
-   * Swaps the values at {@code i} and {@code j} in {@code array}.
-   */
+  /** Swaps the values at {@code i} and {@code j} in {@code array}. */
   private static void swap(double[] array, int i, int j) {
     double temp = array[i];
     array[i] = array[j];

@@ -19,9 +19,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 
 /**
- * Package-protected abstract class that implements the line reading algorithm used by
- * {@link LineReader}. Line separators are per {@link java.io.BufferedReader}: line feed, carriage
- * return, or carriage return followed immediately by a linefeed.
+ * Package-protected abstract class that implements the line reading algorithm used by {@link
+ * LineReader}. Line separators are per {@link java.io.BufferedReader}: line feed, carriage return,
+ * or carriage return followed immediately by a linefeed.
  *
  * <p>Subclasses must implement {@link #handleLine}, call {@link #add} to pass character data, and
  * call {@link #finish} at the end of stream.
@@ -30,6 +30,7 @@ import java.io.IOException;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 abstract class LineBuffer {
   /** Holds partial line contents. */
   private StringBuilder line = new StringBuilder();
@@ -85,9 +86,7 @@ abstract class LineBuffer {
   /** Called when a line is complete. */
   @CanIgnoreReturnValue
   private boolean finishLine(boolean sawNewline) throws IOException {
-    String separator = sawReturn
-        ? (sawNewline ? "\r\n" : "\r")
-        : (sawNewline ? "\n" : "");
+    String separator = sawReturn ? (sawNewline ? "\r\n" : "\r") : (sawNewline ? "\n" : "");
     handleLine(line.toString(), separator);
     line = new StringBuilder();
     sawReturn = false;

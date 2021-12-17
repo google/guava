@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.Immutable;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,15 +27,15 @@ import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
  * utilities.
  *
- * <p>A comparison of the various hash functions can be found
- * <a href="http://goo.gl/jS7HH">here</a>.
+ * <p>A comparison of the various hash functions can be found <a
+ * href="http://goo.gl/jS7HH">here</a>.
  *
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
@@ -43,6 +43,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @since 11.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class Hashing {
   /**
    * Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
@@ -87,33 +88,80 @@ public final class Hashing {
    * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
    * dependent on the hash codes they produce will fail sooner.
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
-   * algorithm, x86 variant</a> (little-endian variant), using the given seed value.
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed(int)} instead.
    */
+  @Deprecated
   public static HashFunction murmur3_32(int seed) {
-    return new Murmur3_32HashFunction(seed);
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ false);
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
-   * algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value, <b>with a known
+   * bug</b> as described in the deprecation text.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   * <p>The C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A), which however does not
+   * have the bug.
+   *
+   * @deprecated This implementation produces incorrect hash values from the {@link
+   *     HashFunction#hashString} method if the string contains non-BMP characters. Use {@link
+   *     #murmur3_32_fixed()} instead.
    */
+  @Deprecated
   public static HashFunction murmur3_32() {
     return Murmur3_32HashFunction.MURMUR3_32;
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using the given seed value.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since 31.0
+   */
+  public static HashFunction murmur3_32_fixed(int seed) {
+    return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+   * algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   *
+   * <p>This method is called {@code murmur3_32_fixed} because it fixes a bug in the {@code
+   * HashFunction} returned by the original {@code murmur3_32} method.
+   *
+   * @since 31.0
+   */
+  public static HashFunction murmur3_32_fixed() {
+    return Murmur3_32HashFunction.MURMUR3_32_FIXED;
+  }
+
+  /**
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
    * algorithm, x64 variant</a> (little-endian variant), using the given seed value.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
@@ -123,8 +171,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
+   * Returns a hash function implementing the <a
+   * href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
    * algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
@@ -233,7 +281,6 @@ public final class Hashing {
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * MD5 (128 hash bits) hash function and the given secret key.
    *
-   *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
@@ -247,7 +294,6 @@ public final class Hashing {
    * MD5 (128 hash bits) hash function and a {@link SecretKeySpec} created from the given byte array
    * and the MD5 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -258,7 +304,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-1 (160 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -273,7 +318,6 @@ public final class Hashing {
    * SHA-1 (160 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-1 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -284,7 +328,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-256 (256 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -299,7 +342,6 @@ public final class Hashing {
    * SHA-256 (256 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-256 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -310,7 +352,6 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
    * SHA-512 (512 hash bits) hash function and the given secret key.
-   *
    *
    * @param key the secret key
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
@@ -325,7 +366,6 @@ public final class Hashing {
    * SHA-512 (512 hash bits) hash function and a {@link SecretKeySpec} created from the given byte
    * array and the SHA-512 algorithm.
    *
-   *
    * @param key the key material of the secret key
    * @since 20.0
    */
@@ -336,9 +376,7 @@ public final class Hashing {
   private static String hmacToString(String methodName, Key key) {
     return String.format(
         "Hashing.%s(Key[algorithm=%s, format=%s])",
-        methodName,
-        key.getAlgorithm(),
-        key.getFormat());
+        methodName, key.getAlgorithm(), key.getFormat());
   }
 
   /**
@@ -387,7 +425,8 @@ public final class Hashing {
     return ChecksumType.ADLER_32.hashFunction;
   }
 
-  enum ChecksumType implements Supplier<Checksum> {
+  @Immutable
+  enum ChecksumType implements ImmutableSupplier<Checksum> {
     CRC_32("Hashing.crc32()") {
       @Override
       public Checksum get() {
@@ -417,8 +456,8 @@ public final class Hashing {
    *
    * <p>FarmHash fingerprints are encoded by {@link HashCode#asBytes} in little-endian order. This
    * means {@link HashCode#asLong} is guaranteed to return the same value that
-   * farmhash::Fingerprint64() would for the same input (when compared using
-   * {@link com.google.common.primitives.UnsignedLongs}'s encoding of 64-bit unsigned numbers).
+   * farmhash::Fingerprint64() would for the same input (when compared using {@link
+   * com.google.common.primitives.UnsignedLongs}'s encoding of 64-bit unsigned numbers).
    *
    * <p>This function is best understood as a <a
    * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
@@ -436,27 +475,26 @@ public final class Hashing {
    * consistentHash(h, n)} equals:
    *
    * <ul>
-   * <li>{@code n - 1}, with approximate probability {@code 1/n}
-   * <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
+   *   <li>{@code n - 1}, with approximate probability {@code 1/n}
+   *   <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
    * </ul>
    *
    * <p>This method is suitable for the common use case of dividing work among buckets that meet the
    * following conditions:
    *
    * <ul>
-   * <li>You want to assign the same fraction of inputs to each bucket.
-   * <li>When you reduce the number of buckets, you can accept that the most recently added buckets
-   * will be removed first. More concretely, if you are dividing traffic among tasks, you can
-   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and {@code
-   * consistentHash} will handle it. If, however, you are dividing traffic among servers {@code
-   * alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
-   * servers offline, {@code consistentHash} will be a poor fit: It provides no way for you to
-   * specify which of the three buckets is disappearing. Thus, if your buckets change from {@code
-   * [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old {@code alpha}
-   * traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}, rather than
-   * letting {@code bravo} keep its traffic.
+   *   <li>You want to assign the same fraction of inputs to each bucket.
+   *   <li>When you reduce the number of buckets, you can accept that the most recently added
+   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,
+   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and
+   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among
+   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to
+   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides
+   *       no way for you to specify which of the three buckets is disappearing. Thus, if your
+   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will
+   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}
+   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
-   *
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
@@ -471,27 +509,26 @@ public final class Hashing {
    * n)} equals:
    *
    * <ul>
-   * <li>{@code n - 1}, with approximate probability {@code 1/n}
-   * <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
+   *   <li>{@code n - 1}, with approximate probability {@code 1/n}
+   *   <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
    * </ul>
    *
    * <p>This method is suitable for the common use case of dividing work among buckets that meet the
    * following conditions:
    *
    * <ul>
-   * <li>You want to assign the same fraction of inputs to each bucket.
-   * <li>When you reduce the number of buckets, you can accept that the most recently added buckets
-   * will be removed first. More concretely, if you are dividing traffic among tasks, you can
-   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and {@code
-   * consistentHash} will handle it. If, however, you are dividing traffic among servers {@code
-   * alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
-   * servers offline, {@code consistentHash} will be a poor fit: It provides no way for you to
-   * specify which of the three buckets is disappearing. Thus, if your buckets change from {@code
-   * [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old {@code alpha}
-   * traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}, rather than
-   * letting {@code bravo} keep its traffic.
+   *   <li>You want to assign the same fraction of inputs to each bucket.
+   *   <li>When you reduce the number of buckets, you can accept that the most recently added
+   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,
+   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and
+   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among
+   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to
+   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides
+   *       no way for you to specify which of the three buckets is disappearing. Thus, if your
+   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will
+   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}
+   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.
    * </ul>
-   *
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
@@ -562,9 +599,7 @@ public final class Hashing {
     return HashCode.fromBytesNoCopy(resultBytes);
   }
 
-  /**
-   * Checks that the passed argument is positive, and ceils it to a multiple of 32.
-   */
+  /** Checks that the passed argument is positive, and ceils it to a multiple of 32. */
   static int checkPositiveAndMakeMultipleOf32(int bits) {
     checkArgument(bits > 0, "Number of bits must be positive");
     return (bits + 31) & ~31;
@@ -612,25 +647,21 @@ public final class Hashing {
   }
 
   private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
-    private final int bits;
 
     private ConcatenatedHashFunction(HashFunction... functions) {
       super(functions);
-      int bitSum = 0;
       for (HashFunction function : functions) {
-        bitSum += function.bits();
         checkArgument(
             function.bits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
             function.bits(),
             function);
       }
-      this.bits = bitSum;
     }
 
     @Override
     HashCode makeHash(Hasher[] hashers) {
-      byte[] bytes = new byte[bits / 8];
+      byte[] bytes = new byte[bits() / 8];
       int i = 0;
       for (Hasher hasher : hashers) {
         HashCode newHash = hasher.hash();
@@ -641,11 +672,15 @@ public final class Hashing {
 
     @Override
     public int bits() {
-      return bits;
+      int bitSum = 0;
+      for (HashFunction function : functions) {
+        bitSum += function.bits();
+      }
+      return bitSum;
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof ConcatenatedHashFunction) {
         ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;
         return Arrays.equals(functions, other.functions);
@@ -655,7 +690,7 @@ public final class Hashing {
 
     @Override
     public int hashCode() {
-      return Arrays.hashCode(functions) * 31 + bits;
+      return Arrays.hashCode(functions);
     }
   }
 
@@ -672,7 +707,7 @@ public final class Hashing {
 
     public double nextDouble() {
       state = 2862933555777941757L * state + 1;
-      return ((double) ((int) (state >>> 33) + 1)) / (0x1.0p31);
+      return ((double) ((int) (state >>> 33) + 1)) / 0x1.0p31;
     }
   }
 

@@ -28,15 +28,16 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.AssertionFailedError;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@link Map#computeIfPresent}. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@link Map#computeIfPresent}. Can't be invoked directly; please
+ * see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapComputeIfPresentTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(SUPPORTS_PUT)

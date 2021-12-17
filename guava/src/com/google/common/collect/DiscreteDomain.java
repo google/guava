@@ -25,26 +25,26 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
+import javax.annotation.CheckForNull;
 
 /**
- * A descriptor for a <i>discrete</i> {@code Comparable} domain such as all
- * {@link Integer} instances. A discrete domain is one that supports the three basic
- * operations: {@link #next}, {@link #previous} and {@link #distance}, according
- * to their specifications. The methods {@link #minValue} and {@link #maxValue}
- * should also be overridden for bounded types.
+ * A descriptor for a <i>discrete</i> {@code Comparable} domain such as all {@link Integer}
+ * instances. A discrete domain is one that supports the three basic operations: {@link #next},
+ * {@link #previous} and {@link #distance}, according to their specifications. The methods {@link
+ * #minValue} and {@link #maxValue} should also be overridden for bounded types.
  *
- * <p>A discrete domain always represents the <i>entire</i> set of values of its
- * type; it cannot represent partial domains such as "prime integers" or
- * "strings of length 5."
+ * <p>A discrete domain always represents the <i>entire</i> set of values of its type; it cannot
+ * represent partial domains such as "prime integers" or "strings of length 5."
  *
  * <p>See the Guava User Guide section on <a href=
- * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">
- * {@code DiscreteDomain}</a>.
+ * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains"> {@code
+ * DiscreteDomain}</a>.
  *
  * @author Kevin Bourrillion
  * @since 10.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
@@ -58,23 +58,25 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   private static final class IntegerDomain extends DiscreteDomain<Integer> implements Serializable {
     private static final IntegerDomain INSTANCE = new IntegerDomain();
-    
+
     IntegerDomain() {
       super(true);
     }
 
     @Override
+    @CheckForNull
     public Integer next(Integer value) {
       int i = value;
       return (i == Integer.MAX_VALUE) ? null : i + 1;
     }
 
     @Override
+    @CheckForNull
     public Integer previous(Integer value) {
       int i = value;
       return (i == Integer.MIN_VALUE) ? null : i - 1;
     }
-    
+
     @Override
     Integer offset(Integer origin, long distance) {
       checkNonnegative(distance, "distance");
@@ -119,18 +121,20 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
   private static final class LongDomain extends DiscreteDomain<Long> implements Serializable {
     private static final LongDomain INSTANCE = new LongDomain();
-    
+
     LongDomain() {
       super(true);
     }
 
     @Override
+    @CheckForNull
     public Long next(Long value) {
       long l = value;
       return (l == Long.MAX_VALUE) ? null : l + 1;
     }
 
     @Override
+    @CheckForNull
     public Long previous(Long value) {
       long l = value;
       return (l == Long.MIN_VALUE) ? null : l - 1;
@@ -232,7 +236,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   final boolean supportsFastOffset;
 
   /** Constructor for use by subclasses. */
@@ -246,66 +250,67 @@ public abstract class DiscreteDomain<C extends Comparable> {
   }
 
   /**
-   * Returns, conceptually, "origin + distance", or equivalently, the result of calling
-   * {@link #next} on {@code origin} {@code distance} times.
+   * Returns, conceptually, "origin + distance", or equivalently, the result of calling {@link
+   * #next} on {@code origin} {@code distance} times.
    */
   C offset(C origin, long distance) {
+    C current = origin;
     checkNonnegative(distance, "distance");
     for (long i = 0; i < distance; i++) {
-      origin = next(origin);
+      current = next(current);
+      if (current == null) {
+        throw new IllegalArgumentException(
+            "overflowed computing offset(" + origin + ", " + distance + ")");
+      }
     }
-    return origin;
+    return current;
   }
 
   /**
-   * Returns the unique least value of type {@code C} that is greater than
-   * {@code value}, or {@code null} if none exists. Inverse operation to {@link
-   * #previous}.
+   * Returns the unique least value of type {@code C} that is greater than {@code value}, or {@code
+   * null} if none exists. Inverse operation to {@link #previous}.
    *
    * @param value any value of type {@code C}
-   * @return the least value greater than {@code value}, or {@code null} if
-   *     {@code value} is {@code maxValue()}
+   * @return the least value greater than {@code value}, or {@code null} if {@code value} is {@code
+   *     maxValue()}
    */
+  @CheckForNull
   public abstract C next(C value);
 
   /**
-   * Returns the unique greatest value of type {@code C} that is less than
-   * {@code value}, or {@code null} if none exists. Inverse operation to {@link
-   * #next}.
+   * Returns the unique greatest value of type {@code C} that is less than {@code value}, or {@code
+   * null} if none exists. Inverse operation to {@link #next}.
    *
    * @param value any value of type {@code C}
-   * @return the greatest value less than {@code value}, or {@code null} if
-   *     {@code value} is {@code minValue()}
+   * @return the greatest value less than {@code value}, or {@code null} if {@code value} is {@code
+   *     minValue()}
    */
+  @CheckForNull
   public abstract C previous(C value);
 
   /**
-   * Returns a signed value indicating how many nested invocations of {@link
-   * #next} (if positive) or {@link #previous} (if negative) are needed to reach
-   * {@code end} starting from {@code start}. For example, if {@code end =
-   * next(next(next(start)))}, then {@code distance(start, end) == 3} and {@code
-   * distance(end, start) == -3}. As well, {@code distance(a, a)} is always
-   * zero.
+   * Returns a signed value indicating how many nested invocations of {@link #next} (if positive) or
+   * {@link #previous} (if negative) are needed to reach {@code end} starting from {@code start}.
+   * For example, if {@code end = next(next(next(start)))}, then {@code distance(start, end) == 3}
+   * and {@code distance(end, start) == -3}. As well, {@code distance(a, a)} is always zero.
    *
-   * <p>Note that this function is necessarily well-defined for any discrete
-   * type.
+   * <p>Note that this function is necessarily well-defined for any discrete type.
    *
-   * @return the distance as described above, or {@link Long#MIN_VALUE} or
-   *     {@link Long#MAX_VALUE} if the distance is too small or too large,
-   *     respectively.
+   * @return the distance as described above, or {@link Long#MIN_VALUE} or {@link Long#MAX_VALUE} if
+   *     the distance is too small or too large, respectively.
    */
   public abstract long distance(C start, C end);
 
   /**
-   * Returns the minimum value of type {@code C}, if it has one. The minimum
-   * value is the unique value for which {@link Comparable#compareTo(Object)}
-   * never returns a positive value for any input of type {@code C}.
+   * Returns the minimum value of type {@code C}, if it has one. The minimum value is the unique
+   * value for which {@link Comparable#compareTo(Object)} never returns a positive value for any
+   * input of type {@code C}.
    *
    * <p>The default implementation throws {@code NoSuchElementException}.
    *
    * @return the minimum value of type {@code C}; never null
-   * @throws NoSuchElementException if the type has no (practical) minimum
-   *     value; for example, {@link java.math.BigInteger}
+   * @throws NoSuchElementException if the type has no (practical) minimum value; for example,
+   *     {@link java.math.BigInteger}
    */
   @CanIgnoreReturnValue
   public C minValue() {
@@ -313,15 +318,15 @@ public abstract class DiscreteDomain<C extends Comparable> {
   }
 
   /**
-   * Returns the maximum value of type {@code C}, if it has one. The maximum
-   * value is the unique value for which {@link Comparable#compareTo(Object)}
-   * never returns a negative value for any input of type {@code C}.
+   * Returns the maximum value of type {@code C}, if it has one. The maximum value is the unique
+   * value for which {@link Comparable#compareTo(Object)} never returns a negative value for any
+   * input of type {@code C}.
    *
    * <p>The default implementation throws {@code NoSuchElementException}.
    *
    * @return the maximum value of type {@code C}; never null
-   * @throws NoSuchElementException if the type has no (practical) maximum
-   *     value; for example, {@link java.math.BigInteger}
+   * @throws NoSuchElementException if the type has no (practical) maximum value; for example,
+   *     {@link java.math.BigInteger}
    */
   @CanIgnoreReturnValue
   public C maxValue() {

@@ -15,28 +15,23 @@
  */
 package com.google.common.collect;
 
-import static com.google.common.collect.CollectPreconditions.checkRemove;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Multiset.Entry;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * ObjectCountLinkedHashMap is an implementation of {@code AbstractObjectCountMap} with insertion
+ * {@code ObjectCountLinkedHashMap} is a subclass of {@code ObjectCountHashMap} with insertion
  * iteration order, and uses arrays to store key objects and count values. Comparing to using a
  * traditional {@code LinkedHashMap} implementation which stores keys and count values as map
  * entries, {@code ObjectCountLinkedHashMap} minimizes object allocation and reduces memory
  * footprint.
  */
 @GwtCompatible(serializable = true, emulated = true)
-class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
+@ElementTypesAreNonnullByDefault
+class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */
-  public static <K> ObjectCountLinkedHashMap<K> create() {
+  static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> create() {
     return new ObjectCountLinkedHashMap<K>();
   }
 
@@ -49,11 +44,17 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K> ObjectCountLinkedHashMap<K> createWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> createWithExpectedSize(
+      int expectedSize) {
     return new ObjectCountLinkedHashMap<K>(expectedSize);
   }
 
   private static final int ENDPOINT = -2;
+
+  /*
+   * The links field is not initialized directly in the constructor, but it's initialized by init(),
+   * which the superconstructor calls.
+   */
 
   /**
    * Contains the link pointers corresponding with the entries, in the range of [0, size()). The
@@ -84,7 +85,7 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
     super(expectedSize, loadFactor);
   }
 
-  ObjectCountLinkedHashMap(AbstractObjectCountMap<K> map) {
+  ObjectCountLinkedHashMap(ObjectCountHashMap<K> map) {
     init(map.size(), DEFAULT_LOAD_FACTOR);
     for (int i = map.firstIndex(); i != -1; i = map.nextIndex(i)) {
       put(map.getKey(i), map.getValue(i));
@@ -109,6 +110,11 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   int nextIndex(int index) {
     int result = getSuccessor(index);
     return (result == ENDPOINT) ? -1 : result;
+  }
+
+  @Override
+  int nextIndexAfterRemove(int oldNextIndex, int removedIndex) {
+    return (oldNextIndex == size()) ? removedIndex : oldNextIndex;
   }
 
   private int getPredecessor(int entry) {
@@ -143,7 +149,7 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   }
 
   @Override
-  void insertEntry(int entryIndex, K key, int value, int hash) {
+  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
     super.insertEntry(entryIndex, key, value, hash);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
@@ -163,91 +169,9 @@ class ObjectCountLinkedHashMap<K> extends ObjectCountHashMap<K> {
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
+    int oldCapacity = links.length;
     links = Arrays.copyOf(links, newCapacity);
-  }
-
-  private abstract class LinkedItr<T> implements Iterator<T> {
-    private int nextEntry = firstEntry;
-    private int toRemove = UNSET;
-    private int expectedModCount = modCount;
-
-    private void checkForConcurrentModification() {
-      if (modCount != expectedModCount) {
-        throw new ConcurrentModificationException();
-      }
-    }
-
-    @Override
-    public boolean hasNext() {
-      return nextEntry != ENDPOINT;
-    }
-
-    abstract T getOutput(int entry);
-
-    @Override
-    public T next() {
-      checkForConcurrentModification();
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-      T result = getOutput(nextEntry);
-      toRemove = nextEntry;
-      nextEntry = getSuccessor(nextEntry);
-      return result;
-    }
-
-    @Override
-    public void remove() {
-      checkForConcurrentModification();
-      checkRemove(toRemove != UNSET);
-      ObjectCountLinkedHashMap.this.remove(keys[toRemove]);
-      if (nextEntry >= size()) {
-        nextEntry = toRemove;
-      }
-      expectedModCount = modCount;
-      toRemove = UNSET;
-    }
-  }
-
-  @Override
-  Set<K> createKeySet() {
-    return new KeySetView() {
-      @Override
-      public Object[] toArray() {
-        return ObjectArrays.toArrayImpl(this);
-      }
-
-      @Override
-      public <T> T[] toArray(T[] a) {
-        return ObjectArrays.toArrayImpl(this, a);
-      }
-
-      @Override
-      public Iterator<K> iterator() {
-        return new LinkedItr<K>() {
-          @SuppressWarnings("unchecked") // keys only contains Ks
-          @Override
-          K getOutput(int entry) {
-            return (K) keys[entry];
-          }
-        };
-      }
-    };
-  }
-
-  @Override
-  Set<Entry<K>> createEntrySet() {
-    return new EntrySetView() {
-      @Override
-      public Iterator<Entry<K>> iterator() {
-        return new LinkedItr<Entry<K>>() {
-          @Override
-          Entry<K> getOutput(int entry) {
-            return new MapEntry(entry);
-          }
-        };
-      }
-    };
+    Arrays.fill(links, oldCapacity, newCapacity, UNSET);
   }
 
   @Override

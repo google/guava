@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
@@ -31,6 +32,7 @@ import junit.framework.TestCase;
  *
  * @author Louis Wasserman
  */
+@GwtCompatible
 public class TopKSelectorTest extends TestCase {
 
   public void testNegativeK() {
@@ -118,5 +120,14 @@ public class TopKSelectorTest extends TestCase {
     }
     assertThat(top.topK()).containsExactlyElementsIn(Collections.nCopies(k, 0));
     assertThat(compareCalls[0]).isAtMost(10L * n * IntMath.log2(k, RoundingMode.CEILING));
+  }
+
+  public void testExceedMaxIteration() {
+    /*
+     * Bug #5692 occurred when TopKSelector called Arrays.sort incorrectly.
+     */
+    TopKSelector<Integer> top = TopKSelector.least(7);
+    top.offerAll(Ints.asList(5, 7, 6, 2, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0));
+    assertThat(top.topK()).isEqualTo(Ints.asList(0, 0, 0, 0, 0, 0, 0));
   }
 }

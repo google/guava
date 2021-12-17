@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
@@ -56,6 +57,12 @@ public class SynchronizedQueueTest extends TestCase {
     public E remove() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.remove();
+    }
+
+    @Override
+    public boolean remove(Object object) {
+      assertTrue(Thread.holdsLock(mutex));
+      return delegate.remove(object);
     }
 
     @Override
@@ -108,12 +115,6 @@ public class SynchronizedQueueTest extends TestCase {
     }
 
     @Override
-    public boolean remove(Object object) {
-      assertTrue(Thread.holdsLock(mutex));
-      return delegate.remove(object);
-    }
-
-    @Override
     public boolean containsAll(Collection<?> collection) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.containsAll(collection);
@@ -152,6 +153,7 @@ public class SynchronizedQueueTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testHoldsLockOnAllOperations() {
     create().element();
     create().offer("foo");
@@ -163,7 +165,7 @@ public class SynchronizedQueueTest extends TestCase {
     create().clear();
     create().contains("foo");
     create().containsAll(ImmutableList.of("foo"));
-    create().equals(ImmutableList.of("foo"));
+    create().equals(new ArrayDeque<>(ImmutableList.of("foo")));
     create().hashCode();
     create().isEmpty();
     create().iterator();
@@ -172,6 +174,6 @@ public class SynchronizedQueueTest extends TestCase {
     create().retainAll(ImmutableList.of("foo"));
     create().size();
     create().toArray();
-    create().toArray(new String[] { "foo" });
+    create().toArray(new String[] {"foo"});
   }
 }

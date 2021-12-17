@@ -16,25 +16,23 @@
 
 package com.google.common.io;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static java.lang.Integer.parseInt;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.io.Closer.LoggingSuppressor;
 import com.google.common.testing.TestLogHandler;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.LogRecord;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Closer}.
@@ -52,28 +50,7 @@ public class CloserTest extends TestCase {
 
   @AndroidIncompatible // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
   public void testCreate() {
-    Closer closer = Closer.create();
-    int versionNumber = parseInt(javaVersion());
-    if (versionNumber < 7) {
-      assertThat(closer.suppressor).isInstanceOf(Closer.LoggingSuppressor.class);
-    } else {
-      assertThat(closer.suppressor).isInstanceOf(Closer.SuppressingSuppressor.class);
-    }
-  }
-
-  @AndroidIncompatible // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
-  private static String javaVersion() {
-    String javaVersion = System.getProperty("java.version");
-    List<String> parts = Splitter.on('.').splitToList(javaVersion);
-    // Format varies by version: http://openjdk.java.net/jeps/223
-    if (parts.size() == 1) {
-      // Java 9 style: majorversion-foo
-      String major = getOnlyElement(parts);
-      return major.replaceFirst("-.*", "");
-    } else {
-      // pre-Java 8 style: 1.majorversion
-      return parts.get(1);
-    }
+    assertThat(Closer.create().suppressor).isInstanceOf(Closer.SuppressingSuppressor.class);
   }
 
   public void testNoExceptionsThrown() throws IOException {
@@ -315,7 +292,8 @@ public class CloserTest extends TestCase {
       TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(new RuntimeException()));
       try {
         throw closer.rethrow(new IOException("thrown"), IOException.class);
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+      }
 
       assertTrue(logHandler.getStoredLogRecords().isEmpty());
 
@@ -334,12 +312,11 @@ public class CloserTest extends TestCase {
   }
 
   public static void testSuppressingSuppressorIfPossible() throws IOException {
+    Closer closer = Closer.create();
     // can't test the JDK7 suppressor when not running on JDK7
-    if (!Closer.SuppressingSuppressor.isAvailable()) {
+    if (closer.suppressor instanceof LoggingSuppressor) {
       return;
     }
-
-    Closer closer = new Closer(new Closer.SuppressingSuppressor());
 
     IOException thrownException = new IOException();
     IOException c1Exception = new IOException();
@@ -392,9 +369,7 @@ public class CloserTest extends TestCase {
     assertEquals(ImmutableList.copyOf(expected), suppressor.suppressions);
   }
 
-  /**
-   * Suppressor that records suppressions.
-   */
+  /** Suppressor that records suppressions. */
   private static class TestSuppressor implements Closer.Suppressor {
 
     private final List<Suppression> suppressions = Lists.newArrayList();
@@ -405,9 +380,7 @@ public class CloserTest extends TestCase {
     }
   }
 
-  /**
-   * Record of a call to suppress.
-   */
+  /** Record of a call to suppress. */
   private static class Suppression {
     private final Closeable closeable;
     private final Throwable thrown;

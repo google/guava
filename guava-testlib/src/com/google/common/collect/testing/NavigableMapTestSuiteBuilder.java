@@ -34,8 +34,8 @@ import java.util.SortedMap;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a NavigableMap implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a NavigableMap
+ * implementation.
  */
 @GwtIncompatible
 public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilder<K, V> {
@@ -114,14 +114,12 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
     return subSuiteUsing(new NavigableMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 
-  /**
-   * Create a suite whose maps are descending views of other maps.
-   */
+  /** Create a suite whose maps are descending views of other maps. */
   private TestSuite createDescendingSuite(
-      final FeatureSpecificTestSuiteBuilder<
+      FeatureSpecificTestSuiteBuilder<
               ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
           parentBuilder) {
-    final TestSortedMapGenerator<K, V> delegate =
+    TestSortedMapGenerator<K, V> delegate =
         (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<>();

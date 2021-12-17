@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -22,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link ExecutorService} that returns {@link ListenableFuture} instances. To create an instance
@@ -31,14 +33,18 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Povirk
  * @since 10.0
  */
+@DoNotMock(
+    "Use TestingExecutors.sameThreadScheduledExecutor, or wrap a real Executor from "
+        + "java.util.concurrent.Executors with MoreExecutors.listeningDecorator")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface ListeningExecutorService extends ExecutorService {
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T> ListenableFuture<T> submit(Callable<T> task);
+  <T extends @Nullable Object> ListenableFuture<T> submit(Callable<T> task);
 
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
@@ -52,14 +58,17 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T> ListenableFuture<T> submit(Runnable task, T result);
+  <T extends @Nullable Object> ListenableFuture<T> submit(
+      Runnable task, @ParametricNullness T result);
 
   /**
    * {@inheritDoc}
    *
    * <p>All elements in the returned list must be {@link ListenableFuture} instances. The easiest
    * way to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe)
-   * cast:<pre>
+   * cast:
+   *
+   * <pre>
    *   {@code @SuppressWarnings("unchecked") // guaranteed by invokeAll contract}
    *   {@code List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks);}
    * </pre>
@@ -71,7 +80,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws NullPointerException if any task is null
    */
   @Override
-  <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+  <T extends @Nullable Object> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
       throws InterruptedException;
 
   /**
@@ -79,7 +88,9 @@ public interface ListeningExecutorService extends ExecutorService {
    *
    * <p>All elements in the returned list must be {@link ListenableFuture} instances. The easiest
    * way to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe)
-   * cast:<pre>
+   * cast:
+   *
+   * <pre>
    *   {@code @SuppressWarnings("unchecked") // guaranteed by invokeAll contract}
    *   {@code List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks, timeout, unit);}
    * </pre>
@@ -92,7 +103,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws NullPointerException if any task is null
    */
   @Override
-  <T> List<Future<T>> invokeAll(
+  <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException;
 }

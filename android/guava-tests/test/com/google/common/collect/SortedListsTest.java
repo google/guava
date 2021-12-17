@@ -34,8 +34,12 @@ public class SortedListsTest extends TestCase {
 
   private static final ImmutableList<Integer> LIST_WITHOUT_DUPS = ImmutableList.of(1, 2, 4, 8);
 
-  void assertModelAgrees(List<Integer> list, Integer key, int answer,
-      KeyPresentBehavior presentBehavior, KeyAbsentBehavior absentBehavior) {
+  void assertModelAgrees(
+      List<Integer> list,
+      Integer key,
+      int answer,
+      KeyPresentBehavior presentBehavior,
+      KeyAbsentBehavior absentBehavior) {
     switch (presentBehavior) {
       case FIRST_PRESENT:
         if (list.contains(key)) {
@@ -94,9 +98,12 @@ public class SortedListsTest extends TestCase {
     for (KeyPresentBehavior presentBehavior : KeyPresentBehavior.values()) {
       for (KeyAbsentBehavior absentBehavior : KeyAbsentBehavior.values()) {
         for (int key = 0; key <= 10; key++) {
-          assertModelAgrees(LIST_WITHOUT_DUPS, key,
+          assertModelAgrees(
+              LIST_WITHOUT_DUPS,
+              key,
               SortedLists.binarySearch(LIST_WITHOUT_DUPS, key, presentBehavior, absentBehavior),
-              presentBehavior, absentBehavior);
+              presentBehavior,
+              absentBehavior);
         }
       }
     }
@@ -106,9 +113,12 @@ public class SortedListsTest extends TestCase {
     for (KeyPresentBehavior presentBehavior : KeyPresentBehavior.values()) {
       for (KeyAbsentBehavior absentBehavior : KeyAbsentBehavior.values()) {
         for (int key = 0; key <= 10; key++) {
-          assertModelAgrees(LIST_WITH_DUPS, key,
+          assertModelAgrees(
+              LIST_WITH_DUPS,
+              key,
               SortedLists.binarySearch(LIST_WITH_DUPS, key, presentBehavior, absentBehavior),
-              presentBehavior, absentBehavior);
+              presentBehavior,
+              absentBehavior);
         }
       }
     }

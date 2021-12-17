@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded
- * by {@code Enum<E>} to avoid code-size bloat.
+ * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded by {@code Enum<E>}
+ * to avoid code-size bloat.
  *
  * @author Hayward Chan
  */
@@ -36,7 +36,7 @@ final class ImmutableEnumMap<K, V> extends ForwardingImmutableMap<K, V> {
     return new ImmutableEnumMap<K, V>(map);
   }
 
-  ImmutableEnumMap(Map<? extends K, ? extends V> delegate) {
-    super(WellBehavedMap.wrap(delegate));
+  private ImmutableEnumMap(Map<? extends K, ? extends V> delegate) {
+    super(delegate);
   }
 }

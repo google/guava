@@ -27,8 +27,7 @@ import junit.framework.TestCase;
 @GwtCompatible
 public abstract class AbstractImmutableTableTest extends TestCase {
 
-  abstract Iterable<ImmutableTable<Character, Integer, String>>
-      getTestInstances();
+  abstract Iterable<ImmutableTable<Character, Integer, String>> getTestInstances();
 
   public final void testClear() {
     for (Table<Character, Integer, String> testInstance : getTestInstances()) {

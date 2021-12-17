@@ -27,10 +27,7 @@ import java.util.Locale;
 @GwtCompatible
 final class Platform {
 
-  /**
-   * Format the template with args, only supports the placeholder
-   * {@code %s}.
-   */
+  /** Format the template with args, only supports the placeholder {@code %s}. */
   static String format(String template, Object... args) {
     return String.format(Locale.ROOT, template, args);
   }

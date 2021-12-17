@@ -21,21 +21,23 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 
 /**
- * List returned by {@link ImmutableCollection#asList} that delegates {@code contains} checks
- * to the backing collection.
+ * List returned by {@link ImmutableCollection#asList} that delegates {@code contains} checks to the
+ * backing collection.
  *
  * @author Jared Levy
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
+@ElementTypesAreNonnullByDefault
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
 
   @Override
-  public boolean contains(Object target) {
+  public boolean contains(@CheckForNull Object target) {
     // The collection's contains() is at least as fast as ImmutableList's
     // and is often faster.
     return delegateCollection().contains(target);
@@ -56,9 +58,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
     return delegateCollection().isPartialView();
   }
 
-  /**
-   * Serialized form that leads to the same performance as the original list.
-   */
+  /** Serialized form that leads to the same performance as the original list. */
   @GwtIncompatible // serialization
   static class SerializedForm implements Serializable {
     final ImmutableCollection<?> collection;

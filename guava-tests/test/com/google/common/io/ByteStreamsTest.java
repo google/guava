@@ -46,11 +46,11 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     WritableByteChannel outChannel = Channels.newChannel(out);
 
-    ReadableByteChannel inChannel =
-        Channels.newChannel(new ByteArrayInputStream(expected));
+    ReadableByteChannel inChannel = Channels.newChannel(new ByteArrayInputStream(expected));
     ByteStreams.copy(inChannel, outChannel);
-    assertEquals(expected, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(expected);
   }
+
 
   public void testCopyFileChannel() throws IOException {
     final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
@@ -58,24 +58,18 @@ public class ByteStreamsTest extends IoTestCase {
     WritableByteChannel outChannel = Channels.newChannel(out);
 
     File testFile = createTempFile();
-    FileOutputStream fos = new FileOutputStream(testFile);
     byte[] dummyData = newPreFilledByteArray(chunkSize);
-    try {
+    try (FileOutputStream fos = new FileOutputStream(testFile)) {
       for (int i = 0; i < 500; i++) {
         fos.write(dummyData);
       }
-    } finally {
-      fos.close();
     }
-    ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel();
-    try {
+    try (ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel()) {
       ByteStreams.copy(inChannel, outChannel);
-    } finally {
-      inChannel.close();
     }
     byte[] actual = out.toByteArray();
     for (int i = 0; i < 500 * chunkSize; i += chunkSize) {
-      assertEquals(dummyData, Arrays.copyOfRange(actual, i, i + chunkSize));
+      assertThat(Arrays.copyOfRange(actual, i, i + chunkSize)).isEqualTo(dummyData);
     }
   }
 
@@ -85,56 +79,56 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.readFully(newTestStream(10), null, 0, 10);
       fail("expected exception");
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
     }
 
     try {
       ByteStreams.readFully(null, b, 0, 10);
       fail("expected exception");
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, -1, 10);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 0, -1);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 0, -1);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 2, 10);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(5), b, 0, 10);
       fail("expected exception");
-    } catch (EOFException e) {
+    } catch (EOFException expected) {
     }
 
     Arrays.fill(b, (byte) 0);
     ByteStreams.readFully(newTestStream(10), b, 0, 0);
-    assertEquals(new byte[10], b);
+    assertThat(b).isEqualTo(new byte[10]);
 
     Arrays.fill(b, (byte) 0);
     ByteStreams.readFully(newTestStream(10), b, 0, 10);
-    assertEquals(newPreFilledByteArray(10), b);
+    assertThat(b).isEqualTo(newPreFilledByteArray(10));
 
     Arrays.fill(b, (byte) 0);
     ByteStreams.readFully(newTestStream(10), b, 0, 5);
-    assertEquals(new byte[]{0, 1, 2, 3, 4, 0, 0, 0, 0, 0}, b);
+    assertThat(b).isEqualTo(new byte[] {0, 1, 2, 3, 4, 0, 0, 0, 0, 0});
   }
 
   public void testSkipFully() throws IOException {
@@ -147,19 +141,17 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       skipHelper(101, 0, new ByteArrayInputStream(bytes));
       fail("expected exception");
-    } catch (EOFException e) {
+    } catch (EOFException expected) {
     }
   }
 
-  private static void skipHelper(long n, int expect, InputStream in)
-      throws IOException {
+  private static void skipHelper(long n, int expect, InputStream in) throws IOException {
     ByteStreams.skipFully(in, n);
     assertEquals(expect, in.read());
     in.close();
   }
 
-  private static final byte[] bytes =
-      new byte[] { 0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10 };
+  private static final byte[] bytes = new byte[] {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
 
   public void testNewDataInput_empty() {
     byte[] b = new byte[0];
@@ -186,7 +178,7 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     byte[] actual = new byte[bytes.length];
     in.readFully(actual);
-    assertEquals(bytes, actual);
+    assertThat(actual).isEqualTo(bytes);
   }
 
   public void testNewDataInput_readFullyAndThenSome() {
@@ -196,7 +188,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readFully(actual);
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -211,8 +203,9 @@ public class ByteStreamsTest extends IoTestCase {
   }
 
   public void testNewDataInput_readLine() {
-    ByteArrayDataInput in = ByteStreams.newDataInput(
-        "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
+    ByteArrayDataInput in =
+        ByteStreams.newDataInput(
+            "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
     assertEquals("This is a line", in.readLine());
     assertEquals("This too", in.readLine());
     assertEquals("and this", in.readLine());
@@ -270,27 +263,27 @@ public class ByteStreamsTest extends IoTestCase {
 
   public void testNewDataInput_readByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
-    for (int i = 0; i < bytes.length; i++) {
-      assertEquals(bytes[i], in.readByte());
+    for (byte aByte : bytes) {
+      assertEquals(aByte, in.readByte());
     }
     try {
       in.readByte();
       fail("expected exception");
-    } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+    } catch (IllegalStateException expected) {
+      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
   public void testNewDataInput_readUnsignedByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
-    for (int i = 0; i < bytes.length; i++) {
-      assertEquals(bytes[i], in.readUnsignedByte());
+    for (byte aByte : bytes) {
+      assertEquals(aByte, in.readUnsignedByte());
     }
     try {
       in.readUnsignedByte();
       fail("expected exception");
-    } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+    } catch (IllegalStateException expected) {
+      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -325,40 +318,40 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeInt(0x12345678);
     out.writeInt(0x76543210);
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_sized() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput(4);
     out.writeInt(0x12345678);
     out.writeInt(0x76543210);
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_writeLong() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeLong(0x1234567876543210L);
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_writeByteArray() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.write(bytes);
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_writeByte() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.write(0x12);
     out.writeByte(0x34);
-    assertEquals(new byte[] {0x12, 0x34}, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(new byte[] {0x12, 0x34});
   }
 
   public void testNewDataOutput_writeByteOffset() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.write(bytes, 4, 2);
     byte[] expected = {bytes[4], bytes[5]};
-    assertEquals(expected, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
   public void testNewDataOutput_writeBoolean() {
@@ -366,13 +359,13 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeBoolean(true);
     out.writeBoolean(false);
     byte[] expected = {(byte) 1, (byte) 0};
-    assertEquals(expected, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
   public void testNewDataOutput_writeChar() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeChar('a');
-    assertEquals(new byte[] {0, 97}, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(new byte[] {0, 97});
   }
 
   // Hardcoded because of Android problems. See testUtf16Expected.
@@ -384,44 +377,44 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeChars("r\u00C9sum\u00C9");
     // need to remove byte order mark before comparing
     byte[] expected = Arrays.copyOfRange(utf16ExpectedWithBom, 2, 14);
-    assertEquals(expected, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
   @AndroidIncompatible // https://code.google.com/p/android/issues/detail?id=196848
   public void testUtf16Expected() {
     byte[] hardcodedExpected = utf16ExpectedWithBom;
     byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_16);
-    assertEquals(hardcodedExpected, computedExpected);
+    assertThat(computedExpected).isEqualTo(hardcodedExpected);
   }
 
   public void testNewDataOutput_writeUTF() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeUTF("r\u00C9sum\u00C9");
-    byte[] expected ="r\u00C9sum\u00C9".getBytes(Charsets.UTF_8);
+    byte[] expected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_8);
     byte[] actual = out.toByteArray();
     // writeUTF writes the length of the string in 2 bytes
     assertEquals(0, actual[0]);
     assertEquals(expected.length, actual[1]);
-    assertEquals(expected, Arrays.copyOfRange(actual, 2, actual.length));
+    assertThat(Arrays.copyOfRange(actual, 2, actual.length)).isEqualTo(expected);
   }
 
   public void testNewDataOutput_writeShort() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeShort(0x1234);
-    assertEquals(new byte[] {0x12, 0x34}, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(new byte[] {0x12, 0x34});
   }
 
   public void testNewDataOutput_writeDouble() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeDouble(Double.longBitsToDouble(0x1234567876543210L));
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_writeFloat() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeFloat(Float.intBitsToFloat(0x12345678));
     out.writeFloat(Float.intBitsToFloat(0x76543210));
-    assertEquals(bytes, out.toByteArray());
+    assertThat(out.toByteArray()).isEqualTo(bytes);
   }
 
   public void testNewDataOutput_BAOS() {
@@ -429,31 +422,66 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataOutput out = ByteStreams.newDataOutput(baos);
     out.writeInt(0x12345678);
     assertEquals(4, baos.size());
-    assertEquals(new byte[] {0x12, 0x34, 0x56, 0x78}, baos.toByteArray());
+    assertThat(baos.toByteArray()).isEqualTo(new byte[] {0x12, 0x34, 0x56, 0x78});
+  }
+
+  private static final byte[] PRE_FILLED_100 = newPreFilledByteArray(100);
+
+  public void testToByteArray() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
+  }
+
+  public void testToByteArray_emptyStream() throws IOException {
+    InputStream in = newTestStream(0);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertThat(b).isEqualTo(new byte[0]);
+  }
+
+  public void testToByteArray_largeStream() throws IOException {
+    // well, large enough to require multiple buffers
+    byte[] expected = newPreFilledByteArray(10000000);
+    InputStream in = new ByteArrayInputStream(expected);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertThat(b).isEqualTo(expected);
   }
 
   public void testToByteArray_withSize_givenCorrectSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 100);
-    assertEquals(100, b.length);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenSmallerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 80);
-    assertEquals(100, b.length);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenLargerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 120);
-    assertEquals(100, b.length);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenSizeZero() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 0);
-    assertEquals(100, b.length);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
+  }
+
+  public void testToByteArray_withSize_givenSizeOneSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    // this results in toByteArrayInternal being called when the stream is actually exhausted
+    byte[] b = ByteStreams.toByteArray(in, 99);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
+  }
+
+  public void testToByteArray_withSize_givenSizeTwoSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in, 98);
+    assertThat(b).isEqualTo(PRE_FILLED_100);
   }
 
   public void testExhaust() throws IOException {
@@ -475,28 +503,28 @@ public class ByteStreamsTest extends IoTestCase {
   private static class SlowSkipper extends FilterInputStream {
     private final long max;
 
-    public SlowSkipper(InputStream in, long max) {
+    SlowSkipper(InputStream in, long max) {
       super(in);
       this.max = max;
     }
 
-    @Override public long skip(long n) throws IOException {
+    @Override
+    public long skip(long n) throws IOException {
       return super.skip(Math.min(max, n));
     }
   }
 
   public void testReadBytes() throws IOException {
     final byte[] array = newPreFilledByteArray(1000);
-    assertEquals(array, ByteStreams.readBytes(
-      new ByteArrayInputStream(array), new TestByteProcessor()));
+    assertThat(ByteStreams.readBytes(new ByteArrayInputStream(array), new TestByteProcessor()))
+        .isEqualTo(array);
   }
 
-  private class TestByteProcessor implements ByteProcessor<byte[]> {
+  private static class TestByteProcessor implements ByteProcessor<byte[]> {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     @Override
-    public boolean processBytes(byte[] buf, int off, int len)
-        throws IOException {
+    public boolean processBytes(byte[] buf, int off, int len) {
       out.write(buf, off, len);
       return true;
     }
@@ -509,14 +537,15 @@ public class ByteStreamsTest extends IoTestCase {
 
   public void testByteProcessorStopEarly() throws IOException {
     byte[] array = newPreFilledByteArray(10000);
-    assertEquals((Integer) 42,
-        ByteStreams.readBytes(new ByteArrayInputStream(array),
+    assertEquals(
+        (Integer) 42,
+        ByteStreams.readBytes(
+            new ByteArrayInputStream(array),
             new ByteProcessor<Integer>() {
               @Override
               public boolean processBytes(byte[] buf, int off, int len) {
-                assertEquals(
-                    copyOfRange(buf, off, off + len),
-                    newPreFilledByteArray(8192));
+                assertThat(newPreFilledByteArray(8192))
+                    .isEqualTo(Arrays.copyOfRange(buf, off, off + len));
                 return false;
               }
 
@@ -617,7 +646,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not set");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
     }
   }
 
@@ -628,7 +657,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
     }
   }
 
@@ -642,18 +671,5 @@ public class ByteStreamsTest extends IoTestCase {
     public boolean markSupported() {
       return false;
     }
-  }
-
-  private static byte[] copyOfRange(byte[] in, int from, int to) {
-    byte[] out = new byte[to - from];
-    for (int i = 0; i < to - from; i++) {
-      out[i] = in[from + i];
-    }
-    return out;
-  }
-
-  // TODO(cpovirk): Inline this.
-  private static void assertEquals(byte[] expected, byte[] actual) {
-    assertThat(actual).isEqualTo(expected);
   }
 }

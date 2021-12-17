@@ -16,25 +16,25 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
-import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Implementations of {@code Futures.transform*}.
- */
+/** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
-abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.TrustedFuture<O>
-    implements Runnable {
-  static <I, O> ListenableFuture<O> create(
+@ElementTypesAreNonnullByDefault
+@SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
+abstract class AbstractTransformFuture<
+        I extends @Nullable Object, O extends @Nullable Object, F, T extends @Nullable Object>
+    extends FluentFuture.TrustedFuture<O> implements Runnable {
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -44,7 +44,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     return output;
   }
 
-  static <I, O> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input, Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
     TransformFuture<I, O> output = new TransformFuture<>(input, function);
@@ -56,8 +56,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @Nullable ListenableFuture<? extends I> inputFuture;
-  @Nullable F function;
+  @CheckForNull ListenableFuture<? extends I> inputFuture;
+  @CheckForNull F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -72,7 +72,13 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
       return;
     }
     inputFuture = null;
-    function = null;
+
+    if (localInputFuture.isCancelled()) {
+      @SuppressWarnings("unchecked")
+      boolean unused =
+          setFuture((ListenableFuture<O>) localInputFuture); // Respects cancellation cause setting
+      return;
+    }
 
     /*
      * Any of the setException() calls below can fail if the output Future is cancelled between now
@@ -82,11 +88,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
      *
      * Contrast this to the situation we have if setResult() throws, a situation described below.
      */
-
     I sourceResult;
     try {
       sourceResult = getDone(localInputFuture);
     } catch (CancellationException e) {
+      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture. This
+      // code should be unreachable with correctly implemented Futures.
       // Cancel this future and return.
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of
       // mayInterruptIfRunning is irrelevant.
@@ -113,14 +120,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     T transformResult;
     try {
       transformResult = doTransform(localFunction, sourceResult);
-    } catch (UndeclaredThrowableException e) {
-      // Set the cause of the exception as this future's exception.
-      setException(e.getCause());
-      return;
     } catch (Throwable t) {
       // This exception is irrelevant in this thread, but useful for the client.
       setException(t);
       return;
+    } finally {
+      function = null;
     }
 
     /*
@@ -164,12 +169,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  @Nullable
-  abstract T doTransform(F function, @Nullable I result) throws Exception;
+  @ParametricNullness
+  abstract T doTransform(F function, @ParametricNullness I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(@Nullable T result);
+  abstract void setResult(@ParametricNullness T result);
 
   @Override
   protected final void afterDone() {
@@ -179,20 +184,29 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   }
 
   @Override
+  @CheckForNull
   protected String pendingToString() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
-    if (localInputFuture != null && localFunction != null) {
-      return "inputFuture=[" + localInputFuture + "], function=[" + localFunction + "]";
+    String superString = super.pendingToString();
+    String resultString = "";
+    if (localInputFuture != null) {
+      resultString = "inputFuture=[" + localInputFuture + "], ";
+    }
+    if (localFunction != null) {
+      return resultString + "function=[" + localFunction + "]";
+    } else if (superString != null) {
+      return resultString + superString;
     }
     return null;
   }
 
   /**
-   * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and
-   * {@link #setFuture(ListenableFuture)}.
+   * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and {@link
+   * #setFuture(ListenableFuture)}.
    */
-  private static final class AsyncTransformFuture<I, O>
+  private static final class AsyncTransformFuture<
+          I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<
           I, O, AsyncFunction<? super I, ? extends O>, ListenableFuture<? extends O>> {
     AsyncTransformFuture(
@@ -202,12 +216,14 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
     @Override
     ListenableFuture<? extends O> doTransform(
-        AsyncFunction<? super I, ? extends O> function, @Nullable I input) throws Exception {
+        AsyncFunction<? super I, ? extends O> function, @ParametricNullness I input)
+        throws Exception {
       ListenableFuture<? extends O> outputFuture = function.apply(input);
       checkNotNull(
           outputFuture,
           "AsyncFunction.apply returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          function);
       return outputFuture;
     }
 
@@ -218,10 +234,10 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   }
 
   /**
-   * An {@link AbstractTransformFuture} that delegates to a {@link Function} and
-   * {@link #set(Object)}.
+   * An {@link AbstractTransformFuture} that delegates to a {@link Function} and {@link
+   * #set(Object)}.
    */
-  private static final class TransformFuture<I, O>
+  private static final class TransformFuture<I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<I, O, Function<? super I, ? extends O>, O> {
     TransformFuture(
         ListenableFuture<? extends I> inputFuture, Function<? super I, ? extends O> function) {
@@ -229,14 +245,13 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     }
 
     @Override
-    @Nullable
-    O doTransform(Function<? super I, ? extends O> function, @Nullable I input) {
+    @ParametricNullness
+    O doTransform(Function<? super I, ? extends O> function, @ParametricNullness I input) {
       return function.apply(input);
-      // TODO(lukes): move the UndeclaredThrowable catch block here?
     }
 
     @Override
-    void setResult(@Nullable O result) {
+    void setResult(@ParametricNullness O result) {
       set(result);
     }
   }

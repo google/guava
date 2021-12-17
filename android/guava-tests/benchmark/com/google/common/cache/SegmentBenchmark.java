@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
@@ -32,7 +31,8 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  */
 public class SegmentBenchmark {
 
-  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"}) int capacity;
+  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})
+  int capacity;
 
   private Segment<Object, Object> segment;
 
@@ -50,10 +50,14 @@ public class SegmentBenchmark {
     checkState(segment.table.length() == capacity);
   }
 
-  @Benchmark int time(int reps) {
+  @SuppressWarnings("GuardedBy")
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     AtomicReferenceArray<ReferenceEntry<Object, Object>> oldTable = segment.table;
     for (int i = 0; i < reps; i++) {
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       segment.expand();
       segment.table = oldTable;
       dummy += segment.count;

@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A simplistic set which implements the bare minimum so that it can be used in
- * tests without relying on any specific Set implementations. Slow. Explicitly
- * allows null elements so that they can be used in the testers.
+ * A simplistic set which implements the bare minimum so that it can be used in tests without
+ * relying on any specific Set implementations. Slow. Explicitly allows null elements so that they
+ * can be used in the testers.
  *
  * @author Regina O'Dell
  */
@@ -45,13 +45,13 @@ public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
 
   public static <E> MinimalSet<E> ofClassAndContents(
       Class<? super E> type, E[] emptyArrayForContents, Iterable<? extends E> contents) {
-    List<E> setContents = new ArrayList<E>();
+    List<E> setContents = new ArrayList<>();
     for (E e : contents) {
       if (!setContents.contains(e)) {
         setContents.add(e);
       }
     }
-    return new MinimalSet<E>(type, setContents.toArray(emptyArrayForContents));
+    return new MinimalSet<>(type, setContents.toArray(emptyArrayForContents));
   }
 
   private MinimalSet(Class<? super E> type, E... contents) {

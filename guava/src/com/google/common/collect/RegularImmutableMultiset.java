@@ -17,13 +17,15 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
+import java.util.Arrays;
 import java.util.Collection;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -31,70 +33,112 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(emulated = true, serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@ElementTypesAreNonnullByDefault
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
-  static final RegularImmutableMultiset<Object> EMPTY =
-      new RegularImmutableMultiset<>(ImmutableList.<Entry<Object>>of());
+  private static final ImmutableEntry<?>[] EMPTY_ARRAY = new ImmutableEntry<?>[0];
+  static final ImmutableMultiset<Object> EMPTY = create(ImmutableList.<Entry<Object>>of());
 
-  private final transient Multisets.ImmutableEntry<E>[] entries;
-  private final transient Multisets.ImmutableEntry<E>[] hashTable;
+  static <E> ImmutableMultiset<E> create(Collection<? extends Entry<? extends E>> entries) {
+    int distinct = entries.size();
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ImmutableEntry<E>[] entryArray = new ImmutableEntry[distinct];
+    if (distinct == 0) {
+      return new RegularImmutableMultiset<>(entryArray, EMPTY_ARRAY, 0, 0, ImmutableSet.of());
+    }
+    int tableSize = Hashing.closedTableSize(distinct, MAX_LOAD_FACTOR);
+    int mask = tableSize - 1;
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Nullable
+    ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
+
+    int index = 0;
+    int hashCode = 0;
+    long size = 0;
+    for (Entry<? extends E> entryWithWildcard : entries) {
+      @SuppressWarnings("unchecked") // safe because we only read from it
+      Entry<E> entry = (Entry<E>) entryWithWildcard;
+      E element = checkNotNull(entry.getElement());
+      int count = entry.getCount();
+      int hash = element.hashCode();
+      int bucket = Hashing.smear(hash) & mask;
+      ImmutableEntry<E> bucketHead = hashTable[bucket];
+      ImmutableEntry<E> newEntry;
+      if (bucketHead == null) {
+        boolean canReuseEntry =
+            entry instanceof ImmutableEntry && !(entry instanceof NonTerminalEntry);
+        newEntry =
+            canReuseEntry ? (ImmutableEntry<E>) entry : new ImmutableEntry<E>(element, count);
+      } else {
+        newEntry = new NonTerminalEntry<E>(element, count, bucketHead);
+      }
+      hashCode += hash ^ count;
+      entryArray[index++] = newEntry;
+      hashTable[bucket] = newEntry;
+      size += count;
+    }
+
+    return hashFloodingDetected(hashTable)
+        ? JdkBackedImmutableMultiset.create(ImmutableList.asImmutableList(entryArray))
+        : new RegularImmutableMultiset<E>(
+            entryArray, hashTable, Ints.saturatedCast(size), hashCode, null);
+  }
+
+  private static boolean hashFloodingDetected(@Nullable ImmutableEntry<?>[] hashTable) {
+    for (int i = 0; i < hashTable.length; i++) {
+      int bucketLength = 0;
+      for (ImmutableEntry<?> entry = hashTable[i]; entry != null; entry = entry.nextInBucket()) {
+        bucketLength++;
+        if (bucketLength > MAX_HASH_BUCKET_LENGTH) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Closed addressing tends to perform well even with high load factors. Being conservative here
+   * ensures that the table is still likely to be relatively sparse (hence it misses fast) while
+   * saving space.
+   */
+  @VisibleForTesting static final double MAX_LOAD_FACTOR = 1.0;
+
+  /**
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
+   */
+  @VisibleForTesting static final double HASH_FLOODING_FPP = 0.001;
+
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
+   * implementation. Experimentally determined.
+   */
+  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 9;
+
+  private final transient ImmutableEntry<E>[] entries;
+  private final transient @Nullable ImmutableEntry<?>[] hashTable;
   private final transient int size;
   private final transient int hashCode;
 
-  @LazyInit
-  private transient ImmutableSet<E> elementSet;
+  @LazyInit @CheckForNull private transient ImmutableSet<E> elementSet;
 
-  RegularImmutableMultiset(Collection<? extends Entry<? extends E>> entries) {
-    int distinct = entries.size();
-    @SuppressWarnings("unchecked")
-    Multisets.ImmutableEntry<E>[] entryArray = new Multisets.ImmutableEntry[distinct];
-    if (distinct == 0) {
-      this.entries = entryArray;
-      this.hashTable = null;
-      this.size = 0;
-      this.hashCode = 0;
-      this.elementSet = ImmutableSet.of();
-    } else {
-      int tableSize = Hashing.closedTableSize(distinct, 1.0);
-      int mask = tableSize - 1;
-      @SuppressWarnings("unchecked")
-      Multisets.ImmutableEntry<E>[] hashTable = new Multisets.ImmutableEntry[tableSize];
-
-      int index = 0;
-      int hashCode = 0;
-      long size = 0;
-      for (Entry<? extends E> entry : entries) {
-        E element = checkNotNull(entry.getElement());
-        int count = entry.getCount();
-        int hash = element.hashCode();
-        int bucket = Hashing.smear(hash) & mask;
-        Multisets.ImmutableEntry<E> bucketHead = hashTable[bucket];
-        Multisets.ImmutableEntry<E> newEntry;
-        if (bucketHead == null) {
-          boolean canReuseEntry =
-              entry instanceof Multisets.ImmutableEntry && !(entry instanceof NonTerminalEntry);
-          newEntry =
-              canReuseEntry
-                  ? (Multisets.ImmutableEntry<E>) entry
-                  : new Multisets.ImmutableEntry<E>(element, count);
-        } else {
-          newEntry = new NonTerminalEntry<E>(element, count, bucketHead);
-        }
-        hashCode += hash ^ count;
-        entryArray[index++] = newEntry;
-        hashTable[bucket] = newEntry;
-        size += count;
-      }
-      this.entries = entryArray;
-      this.hashTable = hashTable;
-      this.size = Ints.saturatedCast(size);
-      this.hashCode = hashCode;
-    }
+  private RegularImmutableMultiset(
+      ImmutableEntry<E>[] entries,
+      @Nullable ImmutableEntry<?>[] hashTable,
+      int size,
+      int hashCode,
+      @CheckForNull ImmutableSet<E> elementSet) {
+    this.entries = entries;
+    this.hashTable = hashTable;
+    this.size = size;
+    this.hashCode = hashCode;
+    this.elementSet = elementSet;
   }
 
-  private static final class NonTerminalEntry<E> extends Multisets.ImmutableEntry<E> {
-    private final Multisets.ImmutableEntry<E> nextInBucket;
+  private static final class NonTerminalEntry<E> extends ImmutableEntry<E> {
+    private final ImmutableEntry<E> nextInBucket;
 
     NonTerminalEntry(E element, int count, ImmutableEntry<E> nextInBucket) {
       super(element, count);
@@ -113,14 +157,14 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
-    Multisets.ImmutableEntry<E>[] hashTable = this.hashTable;
-    if (element == null || hashTable == null) {
+  public int count(@CheckForNull Object element) {
+    @Nullable ImmutableEntry<?>[] hashTable = this.hashTable;
+    if (element == null || hashTable.length == 0) {
       return 0;
     }
     int hash = Hashing.smearedHash(element);
     int mask = hashTable.length - 1;
-    for (Multisets.ImmutableEntry<E> entry = hashTable[hash & mask];
+    for (ImmutableEntry<?> entry = hashTable[hash & mask];
         entry != null;
         entry = entry.nextInBucket()) {
       if (Objects.equal(element, entry.getElement())) {
@@ -138,31 +182,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet() : result;
-  }
-
-  @WeakOuter
-  private final class ElementSet extends ImmutableSet.Indexed<E> {
-
-    @Override
-    E get(int index) {
-      return entries[index].getElement();
-    }
-
-    @Override
-    public boolean contains(@Nullable Object object) {
-      return RegularImmutableMultiset.this.contains(object);
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-
-    @Override
-    public int size() {
-      return entries.length;
-    }
+    return (result == null) ? elementSet = new ElementSet<E>(Arrays.asList(entries), this) : result;
   }
 
   @Override

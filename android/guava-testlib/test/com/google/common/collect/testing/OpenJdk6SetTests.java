@@ -29,8 +29,8 @@ import java.util.Set;
 import junit.framework.Test;
 
 /**
- * Tests the {@link Set} implementations of {@link java.util}, suppressing
- * tests that trip known OpenJDK 6 bugs.
+ * Tests the {@link Set} implementations of {@link java.util}, suppressing tests that trip known
+ * OpenJDK 6 bugs.
  *
  * @author Kevin Bourrillion
  */
@@ -39,16 +39,16 @@ public class OpenJdk6SetTests extends TestsForSetsInJavaUtil {
     return new OpenJdk6SetTests().allTests();
   }
 
-  @Override protected Collection<Method> suppressForTreeSetNatural() {
+  @Override
+  protected Collection<Method> suppressForTreeSetNatural() {
     return Arrays.asList(
         getAddNullUnsupportedMethod(),
         getAddAllNullUnsupportedMethod(),
         getCreateWithNullUnsupportedMethod());
   }
 
-  @Override protected Collection<Method> suppressForCheckedSet() {
-    return Arrays.asList(
-        getAddNullSupportedMethod(),
-        getAddSupportedNullPresentMethod());
+  @Override
+  protected Collection<Method> suppressForCheckedSet() {
+    return Arrays.asList(getAddNullSupportedMethod(), getAddSupportedNullPresentMethod());
   }
 }

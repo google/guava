@@ -49,13 +49,12 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
   private static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
   private static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
-  private static final Iterable<Integer> ITERABLE_NULL_NULL
-      = Arrays.asList((Integer) null, null);
+  private static final Iterable<Integer> ITERABLE_NULL_NULL = Arrays.asList((Integer) null, null);
   private static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
   private static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
   private static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
-  private static final Iterable<Integer> ITERABLE_FOUR_NULLS
-      = Arrays.asList((Integer) null, null, null, null);
+  private static final Iterable<Integer> ITERABLE_FOUR_NULLS =
+      Arrays.asList((Integer) null, null, null, null);
 
   public void testNoSpecialNullBehavior() {
     checkNoOutput(J, ITERABLE_);
@@ -160,20 +159,23 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  private static final Appendable NASTY_APPENDABLE = new Appendable() {
-    @Override
-    public Appendable append(CharSequence csq) throws IOException {
-      throw new IOException();
-    }
-    @Override
-    public Appendable append(CharSequence csq, int start, int end) throws IOException {
-      throw new IOException();
-    }
-    @Override
-    public Appendable append(char c) throws IOException {
-      throw new IOException();
-    }
-  };
+  private static final Appendable NASTY_APPENDABLE =
+      new Appendable() {
+        @Override
+        public Appendable append(CharSequence csq) throws IOException {
+          throw new IOException();
+        }
+
+        @Override
+        public Appendable append(CharSequence csq, int start, int end) throws IOException {
+          throw new IOException();
+        }
+
+        @Override
+        public Appendable append(char c) throws IOException {
+          throw new IOException();
+        }
+      };
 
   private static void checkResult(Joiner joiner, Iterable<Integer> parts, String expected) {
     assertEquals(expected, joiner.join(parts));
@@ -310,15 +312,19 @@ public class JoinerTest extends TestCase {
     public int length() {
       return 3;
     }
+
     @Override
     public char charAt(int index) {
       return "foo".charAt(index);
     }
+
     @Override
     public CharSequence subSequence(int start, int end) {
       return "foo".subSequence(start, end);
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       throw new AssertionFailedError("shouldn't be invoked");
     }
   }
@@ -327,29 +333,38 @@ public class JoinerTest extends TestCase {
   private static class IterableIterator implements Iterable<Integer>, Iterator<Integer> {
     private static final ImmutableSet<Integer> INTEGERS = ImmutableSet.of(1, 2, 3, 4);
     private final Iterator<Integer> iterator;
+
     public IterableIterator() {
       this.iterator = iterator();
     }
-    @Override public Iterator<Integer> iterator() {
+
+    @Override
+    public Iterator<Integer> iterator() {
       return INTEGERS.iterator();
     }
-    @Override public boolean hasNext() {
+
+    @Override
+    public boolean hasNext() {
       return iterator.hasNext();
     }
-    @Override public Integer next() {
+
+    @Override
+    public Integer next() {
       return iterator.next();
     }
-    @Override public void remove() {
+
+    @Override
+    public void remove() {
       iterator.remove();
     }
   }
 
   @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
   public void testDontConvertCharSequenceToString() {
-    assertEquals("foo,foo", Joiner.on(",").join(
-        new DontStringMeBro(), new DontStringMeBro()));
-    assertEquals("foo,bar,foo", Joiner.on(",").useForNull("bar").join(
-        new DontStringMeBro(), null, new DontStringMeBro()));
+    assertEquals("foo,foo", Joiner.on(",").join(new DontStringMeBro(), new DontStringMeBro()));
+    assertEquals(
+        "foo,bar,foo",
+        Joiner.on(",").useForNull("bar").join(new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
   @GwtIncompatible // NullPointerTester

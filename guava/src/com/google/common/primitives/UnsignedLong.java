@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
@@ -29,8 +29,8 @@ import javax.annotation.Nullable;
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
  * primitive utilities</a>.
  *
  * @author Louis Wasserman
@@ -38,6 +38,7 @@ import javax.annotation.Nullable;
  * @since 11.0
  */
 @GwtCompatible(serializable = true)
+@ElementTypesAreNonnullByDefault
 public final class UnsignedLong extends Number implements Comparable<UnsignedLong>, Serializable {
 
   private static final long UNSIGNED_MASK = 0x7fffffffffffffffL;
@@ -115,8 +116,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * unsigned {@code long} value in the specified radix.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
-   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and
-   *     {@link Character#MAX_RADIX}
+   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and {@link
+   *     Character#MAX_RADIX}
    */
   @CanIgnoreReturnValue
   public static UnsignedLong valueOf(String string, int radix) {
@@ -171,9 +172,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     return fromLongBits(UnsignedLongs.remainder(value, checkNotNull(val).value));
   }
 
-  /**
-   * Returns the value of this {@code UnsignedLong} as an {@code int}.
-   */
+  /** Returns the value of this {@code UnsignedLong} as an {@code int}. */
   @Override
   public int intValue() {
     return (int) value;
@@ -197,12 +196,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   @Override
   public float floatValue() {
-    @SuppressWarnings("cast")
-    float fValue = (float) (value & UNSIGNED_MASK);
-    if (value < 0) {
-      fValue += 0x1.0p63f;
+    if (value >= 0) {
+      return (float) value;
     }
-    return fValue;
+    // The top bit is set, which means that the float value is going to come from the top 24 bits.
+    // So we can ignore the bottom 8, except for rounding. See doubleValue() for more.
+    return (float) ((value >>> 1) | (value & 1)) * 2f;
   }
 
   /**
@@ -211,17 +210,18 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   @Override
   public double doubleValue() {
-    @SuppressWarnings("cast")
-    double dValue = (double) (value & UNSIGNED_MASK);
-    if (value < 0) {
-      dValue += 0x1.0p63;
+    if (value >= 0) {
+      return (double) value;
     }
-    return dValue;
+    // The top bit is set, which means that the double value is going to come from the top 53 bits.
+    // So we can ignore the bottom 11, except for rounding. We can unsigned-shift right 1, aka
+    // unsigned-divide by 2, and convert that. Then we'll get exactly half of the desired double
+    // value. But in the specific case where the bottom two bits of the original number are 01, we
+    // want to replace that with 1 in the shifted value for correct rounding.
+    return (double) ((value >>> 1) | (value & 1)) * 2.0;
   }
 
-  /**
-   * Returns the value of this {@code UnsignedLong} as a {@link BigInteger}.
-   */
+  /** Returns the value of this {@code UnsignedLong} as a {@link BigInteger}. */
   public BigInteger bigIntegerValue() {
     BigInteger bigInt = BigInteger.valueOf(value & UNSIGNED_MASK);
     if (value < 0) {
@@ -242,7 +242,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj instanceof UnsignedLong) {
       UnsignedLong other = (UnsignedLong) obj;
       return value == other.value;
@@ -250,9 +250,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     return false;
   }
 
-  /**
-   * Returns a string representation of the {@code UnsignedLong} value, in base 10.
-   */
+  /** Returns a string representation of the {@code UnsignedLong} value, in base 10. */
   @Override
   public String toString() {
     return UnsignedLongs.toString(value);
@@ -260,8 +258,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns a string representation of the {@code UnsignedLong} value, in base {@code radix}. If
-   * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix
-   * {@code 10} is used.
+   * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix {@code
+   * 10} is used.
    */
   public String toString(int radix) {
     return UnsignedLongs.toString(value, radix);

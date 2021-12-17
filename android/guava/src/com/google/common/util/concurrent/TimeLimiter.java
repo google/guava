@@ -17,10 +17,12 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -30,19 +32,22 @@ import java.util.concurrent.TimeoutException;
  * @since 1.0
  */
 @Beta
+@DoNotMock("Use FakeTimeLimiter")
 @GwtIncompatible
+@SuppressWarnings("GoodTime") // should have java.time.Duration overloads
+@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**
-   * Returns an instance of {@code interfaceType} that delegates all method calls to the
-   * {@code target} object, enforcing the specified time limit on each call. This time-limited
-   * delegation is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and
-   * {@link Object#toString}.
+   * Returns an instance of {@code interfaceType} that delegates all method calls to the {@code
+   * target} object, enforcing the specified time limit on each call. This time-limited delegation
+   * is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and {@link
+   * Object#toString}.
    *
    * <p>If the target method call finishes before the limit is reached, the return value or
    * exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
-   * reached, the proxy will attempt to abort the call to the target, and will throw an
-   * {@link UncheckedTimeoutException} to the caller.
+   * reached, the proxy will attempt to abort the call to the target, and will throw an {@link
+   * UncheckedTimeoutException} to the caller.
    *
    * <p>It is important to note that the primary purpose of the proxy object is to return control to
    * the caller when the timeout elapses; aborting the target method call is of secondary concern.
@@ -94,7 +99,8 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
 
   /**
@@ -117,7 +123,7 @@ public interface TimeLimiter {
    * @since 22.0
    */
   @CanIgnoreReturnValue
-  <T> T callUninterruptiblyWithTimeout(
+  <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
 

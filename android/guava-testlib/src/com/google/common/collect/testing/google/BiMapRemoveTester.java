@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Iterator;
+import org.junit.Ignore;
 
 /**
  * Tester for {@code BiMap.remove}.
@@ -32,6 +33,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)

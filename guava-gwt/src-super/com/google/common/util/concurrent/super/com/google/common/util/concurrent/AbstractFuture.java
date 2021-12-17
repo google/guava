@@ -22,6 +22,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -32,16 +33,47 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation for AbstractFuture in GWT. */
-public abstract class AbstractFuture<V> extends FluentFuture<V> {
+@SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
+public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
+    implements ListenableFuture<V> {
 
-  abstract static class TrustedFuture<V> extends AbstractFuture<V> {
-    /*
-     * We don't need to override most of methods that we override in the prod version (and in fact
-     * we can't) because they are already final in AbstractFuture itself under GWT.
-     */
+  /**
+   * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
+   * of this interface must also be an AbstractFuture and must not override or expose for overriding
+   * any of the public methods of ListenableFuture.
+   */
+  interface Trusted<V> extends ListenableFuture<V> {}
+
+  abstract static class TrustedFuture<V> extends AbstractFuture<V> implements Trusted<V> {
+    @Override
+    public final V get() throws InterruptedException, ExecutionException {
+      return super.get();
+    }
+
+    @Override
+    public final V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return super.get(timeout, unit);
+    }
+
+    @Override
+    public final boolean isDone() {
+      return super.isDone();
+    }
+
+    @Override
+    public final boolean isCancelled() {
+      return super.isCancelled();
+    }
+
+    @Override
+    public final void addListener(Runnable listener, Executor executor) {
+      super.addListener(listener, executor);
+    }
+
     @Override
     public final boolean cancel(boolean mayInterruptIfRunning) {
       return super.cancel(mayInterruptIfRunning);
@@ -83,34 +115,33 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   protected void interruptTask() {}
 
   @Override
-  public final boolean isCancelled() {
+  public boolean isCancelled() {
     return state.isCancelled();
   }
 
   @Override
-  public final boolean isDone() {
+  public boolean isDone() {
     return state.isDone();
   }
 
   /*
-   * We let people override {@code get()} in the server version (though perhaps we shouldn't). Here,
-   * we don't want that, and anyway, users can't, thanks to the package-private parameter.
+   * ForwardingFluentFuture needs to override those methods, so they are not final.
    */
   @Override
-  public final V get() throws InterruptedException, ExecutionException {
+  public V get() throws InterruptedException, ExecutionException {
     state.maybeThrowOnGet(throwable);
     return value;
   }
 
   @Override
-  public final V get(long timeout, TimeUnit unit)
+  public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(unit);
     return get();
   }
 
   @Override
-  public final void addListener(Runnable runnable, Executor executor) {
+  public void addListener(Runnable runnable, Executor executor) {
     Listener listener = new Listener(runnable, executor);
     if (isDone()) {
       listener.execute();
@@ -187,6 +218,14 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
 
   protected void afterDone() {}
 
+  @Override
+  protected final Throwable tryInternalFastPathGetFailure() {
+    if (this instanceof Trusted) {
+      return state == State.FAILURE ? throwable : null;
+    }
+    return null;
+  }
+
   final Throwable trustedGetException() {
     checkState(state == State.FAILURE);
     return throwable;
@@ -234,9 +273,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    */
   @Nullable
   String pendingToString() {
-    Object localValue = value;
-    if (localValue instanceof AbstractFuture.SetFuture) {
-      return "setFuture=[" + ((AbstractFuture.SetFuture) localValue).delegate + "]";
+    if (state == State.DELEGATED) {
+      return "setFuture=[" + delegate + "]";
     }
     return null;
   }
@@ -334,8 +372,10 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       try {
         executor.execute(command);
       } catch (RuntimeException e) {
-        log.log(Level.SEVERE, "RuntimeException while executing runnable "
-            + command + " with executor " + executor, e);
+        log.log(
+            Level.SEVERE,
+            "RuntimeException while executing runnable " + command + " with executor " + executor,
+            e);
       }
     }
   }

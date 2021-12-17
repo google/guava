@@ -56,13 +56,16 @@ public class FunctionsTest extends TestCase {
   public void testToStringFunction_apply() {
     assertEquals("3", Functions.toStringFunction().apply(3));
     assertEquals("hiya", Functions.toStringFunction().apply("hiya"));
-    assertEquals("I'm a string",
-        Functions.toStringFunction().apply(
-            new Object() {
-              @Override public String toString() {
-                return "I'm a string";
-              }
-            }));
+    assertEquals(
+        "I'm a string",
+        Functions.toStringFunction()
+            .apply(
+                new Object() {
+                  @Override
+                  public String toString() {
+                    return "I'm a string";
+                  }
+                }));
     try {
       Functions.toStringFunction().apply(null);
       fail("expected NullPointerException");
@@ -142,9 +145,7 @@ public class FunctionsTest extends TestCase {
 
     new EqualsTester()
         .addEqualityGroup(
-            function,
-            Functions.forMap(map, 42),
-            SerializableTester.reserialize(function))
+            function, Functions.forMap(map, 42), SerializableTester.reserialize(function))
         .addEqualityGroup(Functions.forMap(map))
         .addEqualityGroup(Functions.forMap(map, null))
         .addEqualityGroup(Functions.forMap(map, 43))
@@ -202,15 +203,13 @@ public class FunctionsTest extends TestCase {
     mJapaneseToInteger.put("Ichi", 1);
     mJapaneseToInteger.put("Ni", 2);
     mJapaneseToInteger.put("San", 3);
-    Function<String, Integer> japaneseToInteger =
-        Functions.forMap(mJapaneseToInteger);
+    Function<String, Integer> japaneseToInteger = Functions.forMap(mJapaneseToInteger);
 
     Map<Integer, String> mIntegerToSpanish = Maps.newHashMap();
     mIntegerToSpanish.put(1, "Uno");
     mIntegerToSpanish.put(3, "Tres");
     mIntegerToSpanish.put(4, "Cuatro");
-    Function<Integer, String> integerToSpanish =
-        Functions.forMap(mIntegerToSpanish);
+    Function<Integer, String> integerToSpanish = Functions.forMap(mIntegerToSpanish);
 
     Function<String, String> japaneseToSpanish =
         Functions.compose(integerToSpanish, japaneseToInteger);
@@ -229,13 +228,10 @@ public class FunctionsTest extends TestCase {
     }
 
     new EqualsTester()
-        .addEqualityGroup(
-            japaneseToSpanish,
-            Functions.compose(integerToSpanish, japaneseToInteger))
+        .addEqualityGroup(japaneseToSpanish, Functions.compose(integerToSpanish, japaneseToInteger))
         .addEqualityGroup(japaneseToInteger)
         .addEqualityGroup(integerToSpanish)
-        .addEqualityGroup(
-            Functions.compose(japaneseToInteger, integerToSpanish))
+        .addEqualityGroup(Functions.compose(japaneseToInteger, integerToSpanish))
         .testEquals();
   }
 
@@ -245,15 +241,13 @@ public class FunctionsTest extends TestCase {
     mJapaneseToInteger.put("Ichi", 1);
     mJapaneseToInteger.put("Ni", 2);
     mJapaneseToInteger.put("San", 3);
-    Function<String, Integer> japaneseToInteger =
-        Functions.forMap(mJapaneseToInteger);
+    Function<String, Integer> japaneseToInteger = Functions.forMap(mJapaneseToInteger);
 
     Map<Integer, String> mIntegerToSpanish = Maps.newHashMap();
     mIntegerToSpanish.put(1, "Uno");
     mIntegerToSpanish.put(3, "Tres");
     mIntegerToSpanish.put(4, "Cuatro");
-    Function<Integer, String> integerToSpanish =
-        Functions.forMap(mIntegerToSpanish);
+    Function<Integer, String> integerToSpanish = Functions.forMap(mIntegerToSpanish);
 
     Function<String, String> japaneseToSpanish =
         Functions.compose(integerToSpanish, japaneseToInteger);
@@ -265,15 +259,13 @@ public class FunctionsTest extends TestCase {
             SerializableTester.reserialize(japaneseToSpanish))
         .addEqualityGroup(japaneseToInteger)
         .addEqualityGroup(integerToSpanish)
-        .addEqualityGroup(
-            Functions.compose(japaneseToInteger, integerToSpanish))
+        .addEqualityGroup(Functions.compose(japaneseToInteger, integerToSpanish))
         .testEquals();
   }
 
   public void testCompositionWildcard() {
     Map<String, Integer> mapJapaneseToInteger = Maps.newHashMap();
-    Function<String, Integer> japaneseToInteger =
-        Functions.forMap(mapJapaneseToInteger);
+    Function<String, Integer> japaneseToInteger = Functions.forMap(mapJapaneseToInteger);
 
     Function<Object, String> numberToSpanish = Functions.constant("Yo no se");
 
@@ -289,8 +281,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testComposeOfFunctionsIsAssociative() {
-    Map<Float, String> m = ImmutableMap.of(
-        4.0f, "A", 3.0f, "B", 2.0f, "C", 1.0f, "D");
+    Map<Float, String> m = ImmutableMap.of(4.0f, "A", 3.0f, "B", 2.0f, "C", 1.0f, "D");
     Function<? super Integer, Boolean> h = Functions.constant(Boolean.TRUE);
     Function<? super String, Integer> g = new HashCodeFunction();
     Function<Float, String> f = Functions.forMap(m, "F");
@@ -309,8 +300,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testComposeOfPredicateAndFunctionIsAssociative() {
-    Map<Float, String> m = ImmutableMap.of(
-        4.0f, "A", 3.0f, "B", 2.0f, "C", 1.0f, "D");
+    Map<Float, String> m = ImmutableMap.of(4.0f, "A", 3.0f, "B", 2.0f, "C", 1.0f, "D");
     Predicate<? super Integer> h = Predicates.equalTo(42);
     Function<? super String, Integer> g = new HashCodeFunction();
     Function<Float, String> f = Functions.forMap(m, "F");
@@ -329,17 +319,14 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForPredicate() {
-    Function<Object, Boolean> alwaysTrue =
-        Functions.forPredicate(Predicates.alwaysTrue());
-    Function<Object, Boolean> alwaysFalse =
-        Functions.forPredicate(Predicates.alwaysFalse());
+    Function<Object, Boolean> alwaysTrue = Functions.forPredicate(Predicates.alwaysTrue());
+    Function<Object, Boolean> alwaysFalse = Functions.forPredicate(Predicates.alwaysFalse());
 
     assertTrue(alwaysTrue.apply(0));
     assertFalse(alwaysFalse.apply(0));
 
     new EqualsTester()
-        .addEqualityGroup(
-            alwaysTrue, Functions.forPredicate(Predicates.alwaysTrue()))
+        .addEqualityGroup(alwaysTrue, Functions.forPredicate(Predicates.alwaysTrue()))
         .addEqualityGroup(alwaysFalse)
         .addEqualityGroup(Functions.identity())
         .testEquals();
@@ -379,8 +366,7 @@ public class FunctionsTest extends TestCase {
     checkCanReserialize(Functions.constant(5));
   }
 
-  private static class CountingSupplier
-      implements Supplier<Integer>, Serializable {
+  private static class CountingSupplier implements Supplier<Integer>, Serializable {
 
     private static final long serialVersionUID = 0;
 
@@ -465,5 +451,4 @@ public class FunctionsTest extends TestCase {
       assertEquals(f.apply(i.toString()), g.apply(i.toString()));
     }
   }
-
 }

@@ -21,28 +21,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
- * A {@link Table} whose contents will never change, with many other important
- * properties detailed at {@link ImmutableCollection}.
+ * A {@link Table} whose contents will never change, with many other important properties detailed
+ * at {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
  *
  * @author Gregory Kick
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     implements Serializable {
-  /** Returns an empty immutable table. */
+
+  /**
+   * Returns an empty immutable table.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   @SuppressWarnings("unchecked")
   public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) SparseImmutableTable.EMPTY;
@@ -56,16 +63,15 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   /**
    * Returns an immutable copy of the provided table.
    *
-   * <p>The {@link Table#cellSet()} iteration order of the provided table
-   * determines the iteration ordering of all views in the returned table. Note
-   * that some views of the original table and the copied table may have
-   * different iteration orders. For more control over the ordering, create a
-   * {@link Builder} and call {@link Builder#orderRowsBy},
-   * {@link Builder#orderColumnsBy}, and {@link Builder#putAll}
+   * <p>The {@link Table#cellSet()} iteration order of the provided table determines the iteration
+   * ordering of all views in the returned table. Note that some views of the original table and the
+   * copied table may have different iteration orders. For more control over the ordering, create a
+   * {@link Builder} and call {@link Builder#orderRowsBy}, {@link Builder#orderColumnsBy}, and
+   * {@link Builder#putAll}
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    */
   public static <R, C, V> ImmutableTable<R, C, V> copyOf(
       Table<? extends R, ? extends C, ? extends V> table) {
@@ -77,8 +83,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       return copyOf(table.cellSet());
     }
   }
-  
-  private static <R, C, V> ImmutableTable<R, C, V> copyOf(
+
+  static <R, C, V> ImmutableTable<R, C, V> copyOf(
       Iterable<? extends Cell<? extends R, ? extends C, ? extends V>> cells) {
     ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
     for (Cell<? extends R, ? extends C, ? extends V> cell : cells) {
@@ -96,72 +102,71 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   }
 
   /**
-   * Verifies that {@code rowKey}, {@code columnKey} and {@code value} are
-   * non-null, and returns a new entry with those values.
+   * Verifies that {@code rowKey}, {@code columnKey} and {@code value} are non-null, and returns a
+   * new entry with those values.
    */
   static <R, C, V> Cell<R, C, V> cellOf(R rowKey, C columnKey, V value) {
-    return Tables.immutableCell(checkNotNull(rowKey), checkNotNull(columnKey), checkNotNull(value));
+    return Tables.immutableCell(
+        checkNotNull(rowKey, "rowKey"),
+        checkNotNull(columnKey, "columnKey"),
+        checkNotNull(value, "value"));
   }
 
   /**
-   * A builder for creating immutable table instances, especially {@code public
-   * static final} tables ("constant tables"). Example: <pre>   {@code
+   * A builder for creating immutable table instances, especially {@code public static final} tables
+   * ("constant tables"). Example:
    *
-   *   static final ImmutableTable<Integer, Character, String> SPREADSHEET =
-   *       new ImmutableTable.Builder<Integer, Character, String>()
-   *           .put(1, 'A', "foo")
-   *           .put(1, 'B', "bar")
-   *           .put(2, 'A', "baz")
-   *           .build();}</pre>
+   * <pre>{@code
+   * static final ImmutableTable<Integer, Character, String> SPREADSHEET =
+   *     new ImmutableTable.Builder<Integer, Character, String>()
+   *         .put(1, 'A', "foo")
+   *         .put(1, 'B', "bar")
+   *         .put(2, 'A', "baz")
+   *         .buildOrThrow();
+   * }</pre>
    *
-   * <p>By default, the order in which cells are added to the builder determines
-   * the iteration ordering of all views in the returned table, with {@link
-   * #putAll} following the {@link Table#cellSet()} iteration order. However, if
-   * {@link #orderRowsBy} or {@link #orderColumnsBy} is called, the views are
-   * sorted by the supplied comparators.
+   * <p>By default, the order in which cells are added to the builder determines the iteration
+   * ordering of all views in the returned table, with {@link #putAll} following the {@link
+   * Table#cellSet()} iteration order. However, if {@link #orderRowsBy} or {@link #orderColumnsBy}
+   * is called, the views are sorted by the supplied comparators.
    *
-   * For empty or single-cell immutable tables, {@link #of()} and
-   * {@link #of(Object, Object, Object)} are even more convenient.
+   * <p>For empty or single-cell immutable tables, {@link #of()} and {@link #of(Object, Object,
+   * Object)} are even more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple tables in series. Each table is a superset
-   * of the tables created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple tables in series. Each table is a superset of the tables created before it.
    *
    * @since 11.0
    */
+  @DoNotMock
   public static final class Builder<R, C, V> {
     private final List<Cell<R, C, V>> cells = Lists.newArrayList();
-    private Comparator<? super R> rowComparator;
-    private Comparator<? super C> columnComparator;
+    @CheckForNull private Comparator<? super R> rowComparator;
+    @CheckForNull private Comparator<? super C> columnComparator;
 
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder
-     * generated by {@link ImmutableTable#builder}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+     * ImmutableTable#builder}.
      */
     public Builder() {}
 
-    /**
-     * Specifies the ordering of the generated table's rows.
-     */
+    /** Specifies the ordering of the generated table's rows. */
     @CanIgnoreReturnValue
     public Builder<R, C, V> orderRowsBy(Comparator<? super R> rowComparator) {
-      this.rowComparator = checkNotNull(rowComparator);
+      this.rowComparator = checkNotNull(rowComparator, "rowComparator");
       return this;
     }
 
-    /**
-     * Specifies the ordering of the generated table's columns.
-     */
+    /** Specifies the ordering of the generated table's columns. */
     @CanIgnoreReturnValue
     public Builder<R, C, V> orderColumnsBy(Comparator<? super C> columnComparator) {
-      this.columnComparator = checkNotNull(columnComparator);
+      this.columnComparator = checkNotNull(columnComparator, "columnComparator");
       return this;
     }
 
     /**
-     * Associates the ({@code rowKey}, {@code columnKey}) pair with {@code
-     * value} in the built table. Duplicate key pairs are not allowed and will
-     * cause {@link #build} to fail.
+     * Associates the ({@code rowKey}, {@code columnKey}) pair with {@code value} in the built
+     * table. Duplicate key pairs are not allowed and will cause {@link #build} to fail.
      */
     @CanIgnoreReturnValue
     public Builder<R, C, V> put(R rowKey, C columnKey, V value) {
@@ -170,16 +175,15 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     }
 
     /**
-     * Adds the given {@code cell} to the table, making it immutable if
-     * necessary. Duplicate key pairs are not allowed and will cause {@link
-     * #build} to fail.
+     * Adds the given {@code cell} to the table, making it immutable if necessary. Duplicate key
+     * pairs are not allowed and will cause {@link #build} to fail.
      */
     @CanIgnoreReturnValue
     public Builder<R, C, V> put(Cell<? extends R, ? extends C, ? extends V> cell) {
       if (cell instanceof Tables.ImmutableCell) {
-        checkNotNull(cell.getRowKey());
-        checkNotNull(cell.getColumnKey());
-        checkNotNull(cell.getValue());
+        checkNotNull(cell.getRowKey(), "row");
+        checkNotNull(cell.getColumnKey(), "column");
+        checkNotNull(cell.getValue(), "value");
         @SuppressWarnings("unchecked") // all supported methods are covariant
         Cell<R, C, V> immutableCell = (Cell<R, C, V>) cell;
         cells.add(immutableCell);
@@ -190,9 +194,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     }
 
     /**
-     * Associates all of the given table's keys and values in the built table.
-     * Duplicate row key column key pairs are not allowed, and will cause
-     * {@link #build} to fail.
+     * Associates all of the given table's keys and values in the built table. Duplicate row key
+     * column key pairs are not allowed, and will cause {@link #build} to fail.
      *
      * @throws NullPointerException if any key or value in {@code table} is null
      */
@@ -204,12 +207,33 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<R, C, V> combine(Builder<R, C, V> other) {
+      this.cells.addAll(other.cells);
+      return this;
+    }
+
     /**
      * Returns a newly-created immutable table.
+     *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate key pairs. The {@code build()} method will
+     * soon be deprecated.
      *
      * @throws IllegalArgumentException if duplicate key pairs were added
      */
     public ImmutableTable<R, C, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable table, or throws an exception if duplicate key pairs were
+     * added.
+     *
+     * @throws IllegalArgumentException if duplicate key pairs were added
+     * @since 31.0
+     */
+    public ImmutableTable<R, C, V> buildOrThrow() {
       int size = cells.size();
       switch (size) {
         case 0:
@@ -257,7 +281,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @Override
   public ImmutableMap<R, V> column(C columnKey) {
-    checkNotNull(columnKey);
+    checkNotNull(columnKey, "columnKey");
     return MoreObjects.firstNonNull(
         (ImmutableMap<R, V>) columnMap().get(columnKey), ImmutableMap.<R, V>of());
   }
@@ -270,8 +294,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   /**
    * {@inheritDoc}
    *
-   * <p>The value {@code Map<R, V>} instances in the returned map are
-   * {@link ImmutableMap} instances as well.
+   * <p>The value {@code Map<R, V>} instances in the returned map are {@link ImmutableMap} instances
+   * as well.
    */
   @Override
   public abstract ImmutableMap<C, Map<R, V>> columnMap();
@@ -283,7 +307,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @Override
   public ImmutableMap<C, V> row(R rowKey) {
-    checkNotNull(rowKey);
+    checkNotNull(rowKey, "rowKey");
     return MoreObjects.firstNonNull(
         (ImmutableMap<C, V>) rowMap().get(rowKey), ImmutableMap.<C, V>of());
   }
@@ -296,19 +320,19 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   /**
    * {@inheritDoc}
    *
-   * <p>The value {@code Map<C, V>} instances in the returned map are
-   * {@link ImmutableMap} instances as well.
+   * <p>The value {@code Map<C, V>} instances in the returned map are {@link ImmutableMap} instances
+   * as well.
    */
   @Override
   public abstract ImmutableMap<R, Map<C, V>> rowMap();
 
   @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public boolean contains(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
     return get(rowKey, columnKey) != null;
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@CheckForNull Object value) {
     return values().contains(value);
   }
 
@@ -320,6 +344,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final void clear() {
     throw new UnsupportedOperationException();
   }
@@ -333,6 +358,8 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public final V put(R rowKey, C columnKey, V value) {
     throw new UnsupportedOperationException();
   }
@@ -345,6 +372,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final void putAll(Table<? extends R, ? extends C, ? extends V> table) {
     throw new UnsupportedOperationException();
   }
@@ -358,7 +386,9 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final V remove(Object rowKey, Object columnKey) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final V remove(@CheckForNull Object rowKey, @CheckForNull Object columnKey) {
     throw new UnsupportedOperationException();
   }
 

@@ -36,16 +36,17 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code listIterator} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code listIterator} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListListIteratorTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @ListFeature.Require(absent = {SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})
@@ -105,12 +106,10 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_fullyModifiable()} so that tests of
-   * {@link CopyOnWriteArraySet} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testListIterator_fullyModifiable()} so that
+   * tests of {@link CopyOnWriteArraySet} can suppress it with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorFullyModifiableMethod() {
@@ -118,9 +117,8 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_unmodifiable()} so that it can be suppressed in
-   * GWT tests.
+   * Returns the {@link Method} instance for {@link #testListIterator_unmodifiable()} so that it can
+   * be suppressed in GWT tests.
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorUnmodifiableMethod() {

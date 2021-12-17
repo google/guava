@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Tests {@link java.util.Map#equals}.
@@ -36,6 +37,7 @@ import java.util.Map.Entry;
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithSameEntries() {
     assertTrue(

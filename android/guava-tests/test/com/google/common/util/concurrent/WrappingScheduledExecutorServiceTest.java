@@ -36,21 +36,21 @@ import junit.framework.TestCase;
  * @author Luke Sandberg
  */
 public class WrappingScheduledExecutorServiceTest extends TestCase {
-  private static final Runnable DO_NOTHING = new Runnable() {
-    @Override
-    public void run() {
-    }
-  };
+  private static final Runnable DO_NOTHING =
+      new Runnable() {
+        @Override
+        public void run() {}
+      };
 
   public void testSchedule() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
 
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = testExecutor.schedule(DO_NOTHING, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.MINUTES);
 
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 =
         testExecutor.schedule(Executors.callable(DO_NOTHING), 5, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleCallable", 5, TimeUnit.SECONDS);
@@ -59,12 +59,12 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
   public void testSchedule_repeating() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.MINUTES);
 
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 =
         testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, TimeUnit.SECONDS);
@@ -106,7 +106,8 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       return new WrappedCallable<T>(callable);
     }
 
-    @Override protected Runnable wrapTask(Runnable command) {
+    @Override
+    protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }
   }
@@ -240,6 +241,5 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     public void execute(Runnable command) {
       throw new UnsupportedOperationException();
     }
-
   }
 }

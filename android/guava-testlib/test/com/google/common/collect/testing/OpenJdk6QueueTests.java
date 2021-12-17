@@ -26,8 +26,8 @@ import java.util.Queue;
 import junit.framework.Test;
 
 /**
- * Tests the {@link Queue} implementations of {@link java.util}, suppressing
- * tests that trip known OpenJDK 6 bugs.
+ * Tests the {@link Queue} implementations of {@link java.util}, suppressing tests that trip known
+ * OpenJDK 6 bugs.
  *
  * @author Kevin Bourrillion
  */
@@ -36,14 +36,16 @@ public class OpenJdk6QueueTests extends TestsForQueuesInJavaUtil {
     return new OpenJdk6QueueTests().allTests();
   }
 
-  private static final List<Method> PQ_SUPPRESS = Arrays.asList(
-      getCreateWithNullUnsupportedMethod());
+  private static final List<Method> PQ_SUPPRESS =
+      Arrays.asList(getCreateWithNullUnsupportedMethod());
 
-  @Override protected Collection<Method> suppressForPriorityBlockingQueue() {
+  @Override
+  protected Collection<Method> suppressForPriorityBlockingQueue() {
     return PQ_SUPPRESS;
   }
 
-  @Override protected Collection<Method> suppressForPriorityQueue() {
+  @Override
+  protected Collection<Method> suppressForPriorityQueue() {
     return PQ_SUPPRESS;
   }
 }

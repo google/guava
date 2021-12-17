@@ -54,9 +54,10 @@ public class HtmlEscapersTest extends TestCase {
     assertEquals("foo&amp;&amp;bar", htmlEscaper().escape("foo&&bar"));
 
     // Test many non-escaped characters.
-    s = "!@#$%^*()_+=-/?\\|]}[{,.;:"
-        + "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        + "1234567890";
+    s =
+        "!@#$%^*()_+=-/?\\|]}[{,.;:"
+            + "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            + "1234567890";
     assertSame(s, htmlEscaper().escape(s));
   }
 }

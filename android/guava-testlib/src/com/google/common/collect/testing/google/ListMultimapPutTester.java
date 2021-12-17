@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Testers for {@link ListMultimap#put(Object, Object)}.
@@ -32,6 +33,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListMultimapPutTester<K, V> extends AbstractListMultimapTester<K, V> {
   // MultimapPutTester tests non-duplicate values, but ignores ordering
 

@@ -30,9 +30,7 @@ import java.lang.ref.Reference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import junit.framework.TestCase;
 
-/**
- * @author Charles Fry
- */
+/** @author Charles Fry */
 @SuppressWarnings("deprecation") // many tests of deprecated methods
 public class MapMakerInternalMapTest extends TestCase {
 
@@ -72,17 +70,18 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSetKeyEquivalence() {
-    Equivalence<Object> testEquivalence = new Equivalence<Object>() {
-      @Override
-      protected boolean doEquivalent(Object a, Object b) {
-        return false;
-      }
+    Equivalence<Object> testEquivalence =
+        new Equivalence<Object>() {
+          @Override
+          protected boolean doEquivalent(Object a, Object b) {
+            return false;
+          }
 
-      @Override
-      protected int doHash(Object t) {
-        return 0;
-      }
-    };
+          @Override
+          protected int doHash(Object t) {
+            return 0;
+          }
+        };
 
     MapMakerInternalMap<Object, Object, ?, ?> map =
         makeMap(createMapMaker().keyEquivalence(testEquivalence));
@@ -605,6 +604,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertNull(segment.get(key, hash));
   }
 
+  @SuppressWarnings("GuardedBy")
   public void testExpand() {
     MapMakerInternalMap<Object, Object, ?, ?> map =
         makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
@@ -630,6 +630,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
     for (int i = 1; i <= originalCount * 2; i *= 2) {
       if (i > 1) {
+        // TODO(b/145386688): This access should be guarded by 'segment', which is not currently
+        // held
         segment.expand();
       }
       assertEquals(i, segment.table.length());
@@ -688,6 +690,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertNull(newFirst.getNext());
   }
 
+  @SuppressWarnings("GuardedBy")
   public void testExpand_cleanup() {
     MapMakerInternalMap<Object, Object, ?, ?> map =
         makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
@@ -720,6 +723,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
     for (int i = 1; i <= originalCount * 2; i *= 2) {
       if (i > 1) {
+        // TODO(b/145386688): This access should be guarded by 'segment', which is not currently
+        // held
         segment.expand();
       }
       assertEquals(i, segment.table.length());
@@ -846,7 +851,7 @@ public class MapMakerInternalMapTest extends TestCase {
         InternalEntry<Object, Object, ?> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -878,7 +883,7 @@ public class MapMakerInternalMapTest extends TestCase {
         WeakValueReference<Object, Object, ?> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -906,7 +911,7 @@ public class MapMakerInternalMapTest extends TestCase {
         InternalEntry<Object, Object, ?> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
@@ -939,7 +944,7 @@ public class MapMakerInternalMapTest extends TestCase {
         WeakValueReference<Object, Object, ?> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
@@ -957,9 +962,7 @@ public class MapMakerInternalMapTest extends TestCase {
   // utility methods
 
   private static Iterable<MapMaker> allWeakKeyStrengthMakers() {
-    return ImmutableList.of(
-        createMapMaker().weakKeys(),
-        createMapMaker().weakKeys().weakValues());
+    return ImmutableList.of(createMapMaker().weakKeys(), createMapMaker().weakKeys().weakValues());
   }
 
   private static Iterable<MapMaker> allWeakValueStrengthMakers() {

@@ -65,8 +65,7 @@ public class MinimalIterableTest extends TestCase {
   }
 
   public void testFrom_empty() {
-    Iterable<String> iterable
-        = MinimalIterable.from(Collections.<String>emptySet());
+    Iterable<String> iterable = MinimalIterable.from(Collections.<String>emptySet());
     Iterator<String> iterator = iterable.iterator();
     assertFalse(iterator.hasNext());
     try {
@@ -82,8 +81,7 @@ public class MinimalIterableTest extends TestCase {
   }
 
   public void testFrom_one() {
-    Iterable<String> iterable
-        = MinimalIterable.from(Collections.singleton("a"));
+    Iterable<String> iterable = MinimalIterable.from(Collections.singleton("a"));
     Iterator<String> iterator = iterable.iterator();
     assertTrue(iterator.hasNext());
     assertEquals("a", iterator.next());

@@ -79,6 +79,7 @@ public class EnumsTest extends TestCase {
     assertThat(Enums.getIfPresent(TestEnum.class, "WOMBAT")).isAbsent();
   }
 
+
   @GwtIncompatible // weak references
   public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
     WeakReference<?> shadowLoaderReference = doTestClassUnloading();
@@ -170,7 +171,8 @@ public class EnumsTest extends TestCase {
   private @interface ExampleAnnotation {}
 
   private enum AnEnum {
-    @ExampleAnnotation FOO,
+    @ExampleAnnotation
+    FOO,
     BAR
   }
 

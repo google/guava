@@ -23,13 +23,15 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -40,6 +42,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtIncompatible // NavigableMap
+@ElementTypesAreNonnullByDefault
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
@@ -47,15 +50,15 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   /**
    * Returns an empty immutable range map.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
     return (ImmutableRangeMap<K, V>) EMPTY;
   }
 
-  /**
-   * Returns an immutable range map mapping a single range to a single value.
-   */
+  /** Returns an immutable range map mapping a single range to a single value. */
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(Range<K> range, V value) {
     return new ImmutableRangeMap<>(ImmutableList.of(range), ImmutableList.of(value));
   }
@@ -76,9 +79,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
   }
 
-  /**
-   * Returns a new builder for an immutable range map.
-   */
+  /** Returns a new builder for an immutable range map. */
   public static <K extends Comparable<?>, V> Builder<K, V> builder() {
     return new Builder<>();
   }
@@ -88,6 +89,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    *
    * @since 14.0
    */
+  @DoNotMock
   public static final class Builder<K extends Comparable<?>, V> {
     private final List<Entry<Range<K>, V>> entries;
 
@@ -109,14 +111,18 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return this;
     }
 
-    /**
-     * Copies all associations from the specified range map into this builder.
-     */
+    /** Copies all associations from the specified range map into this builder. */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(RangeMap<K, ? extends V> rangeMap) {
       for (Entry<Range<K>, ? extends V> entry : rangeMap.asMapOfRanges().entrySet()) {
         put(entry.getKey(), entry.getValue());
       }
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> builder) {
+      entries.addAll(builder.entries);
       return this;
     }
 
@@ -155,7 +161,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
+  @CheckForNull
   public V get(K key) {
     int index =
         SortedLists.binarySearch(
@@ -173,7 +179,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
+  @CheckForNull
   public Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
@@ -208,7 +214,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void put(Range<K> range, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void put(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -220,7 +227,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void putCoalescing(Range<K> range, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putCoalescing(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -232,7 +240,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void putAll(RangeMap<K, V> rangeMap) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putAll(RangeMap<K, V> rangeMap) {
     throw new UnsupportedOperationException();
   }
 
@@ -244,7 +253,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void clear() {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void clear() {
     throw new UnsupportedOperationException();
   }
 
@@ -256,7 +266,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void remove(Range<K> range) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void remove(Range<K> range) {
     throw new UnsupportedOperationException();
   }
 
@@ -347,7 +358,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(@CheckForNull Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());
@@ -361,8 +372,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   /**
-   * This class is used to serialize ImmutableRangeMap instances.
-   * Serializes the {@link #asMapOfRanges()} form.
+   * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link
+   * #asMapOfRanges()} form.
    */
   private static class SerializedForm<K extends Comparable<?>, V> implements Serializable {
 

@@ -27,15 +27,16 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code clear()} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code clear()} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {

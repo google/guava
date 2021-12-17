@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,12 +28,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tester for {@code Collector} implementations.
  *
  * <p>Example usage:
+ *
  * <pre>
  * CollectorTester.of(Collectors.summingInt(Integer::parseInt))
  *     .expectCollects(3, "1", "2")
@@ -45,7 +45,6 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 21.0
  */
-@Beta
 @GwtCompatible
 public final class CollectorTester<T, A, R> {
   /**
@@ -60,8 +59,8 @@ public final class CollectorTester<T, A, R> {
    * Creates a {@code CollectorTester} for the specified {@code Collector}. The result of the {@code
    * Collector} will be compared to the expected value using the specified {@code equivalence}.
    */
-  public static <T, A, R> CollectorTester<T, A, R> of(Collector<T, A, R> collector,
-      BiPredicate<? super R, ? super R> equivalence) {
+  public static <T, A, R> CollectorTester<T, A, R> of(
+      Collector<T, A, R> collector, BiPredicate<? super R, ? super R> equivalence) {
     return new CollectorTester<>(collector, equivalence);
   }
 
@@ -75,13 +74,11 @@ public final class CollectorTester<T, A, R> {
   }
 
   /**
-   * Different orderings for combining the elements of an input array, which must
-   * all produce the same result.
+   * Different orderings for combining the elements of an input array, which must all produce the
+   * same result.
    */
   enum CollectStrategy {
-    /**
-     * Get one accumulator and accumulate the elements into it sequentially.
-     */
+    /** Get one accumulator and accumulate the elements into it sequentially. */
     SEQUENTIAL {
       @Override
       final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
@@ -92,10 +89,7 @@ public final class CollectorTester<T, A, R> {
         return accum;
       }
     },
-    /**
-     * Get one accumulator for each element and merge the accumulators
-     * left-to-right.
-     */
+    /** Get one accumulator for each element and merge the accumulators left-to-right. */
     MERGE_LEFT_ASSOCIATIVE {
       @Override
       final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
@@ -108,10 +102,7 @@ public final class CollectorTester<T, A, R> {
         return accum;
       }
     },
-    /**
-     * Get one accumulator for each element and merge the accumulators
-     * right-to-left.
-     */
+    /** Get one accumulator for each element and merge the accumulators right-to-left. */
     MERGE_RIGHT_ASSOCIATIVE {
       @Override
       final <T, A, R> A result(Collector<T, A, R> collector, Iterable<T> inputs) {
@@ -143,8 +134,8 @@ public final class CollectorTester<T, A, R> {
   }
 
   /**
-   * Verifies that the specified expected result is always produced by collecting the
-   * specified inputs, regardless of how the elements are divided.
+   * Verifies that the specified expected result is always produced by collecting the specified
+   * inputs, regardless of how the elements are divided.
    */
   @SafeVarargs
   public final CollectorTester<T, A, R> expectCollects(@Nullable R expectedResult, T... inputs) {
@@ -173,4 +164,3 @@ public final class CollectorTester<T, A, R> {
         equivalence.test(expected, actual));
   }
 }
-

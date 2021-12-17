@@ -26,6 +26,7 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import java.util.ArrayList;
@@ -35,17 +36,14 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Tester for {@code Spliterator} implementations.
- */
+/** Tester for {@code Spliterator} implementations. */
 @GwtCompatible
 public final class SpliteratorTester<E> {
-  /**
-   * Return type from "contains the following elements" assertions.
-   */
+  /** Return type from "contains the following elements" assertions. */
   public interface Ordered {
     /**
      * Attests that the expected values must not just be present but must be present in the order
@@ -54,20 +52,113 @@ public final class SpliteratorTester<E> {
     void inOrder();
   }
 
+  private abstract static class GeneralSpliterator<E> {
+    final Spliterator<E> spliterator;
+
+    GeneralSpliterator(Spliterator<E> spliterator) {
+      this.spliterator = checkNotNull(spliterator);
+    }
+
+    abstract void forEachRemaining(Consumer<? super E> action);
+
+    abstract boolean tryAdvance(Consumer<? super E> action);
+
+    abstract GeneralSpliterator<E> trySplit();
+
+    final int characteristics() {
+      return spliterator.characteristics();
+    }
+
+    final long estimateSize() {
+      return spliterator.estimateSize();
+    }
+
+    final Comparator<? super E> getComparator() {
+      return spliterator.getComparator();
+    }
+
+    final long getExactSizeIfKnown() {
+      return spliterator.getExactSizeIfKnown();
+    }
+
+    final boolean hasCharacteristics(int characteristics) {
+      return spliterator.hasCharacteristics(characteristics);
+    }
+  }
+
+  private static final class GeneralSpliteratorOfObject<E> extends GeneralSpliterator<E> {
+    GeneralSpliteratorOfObject(Spliterator<E> spliterator) {
+      super(spliterator);
+    }
+
+    @Override
+    void forEachRemaining(Consumer<? super E> action) {
+      spliterator.forEachRemaining(action);
+    }
+
+    @Override
+    boolean tryAdvance(Consumer<? super E> action) {
+      return spliterator.tryAdvance(action);
+    }
+
+    @Override
+    GeneralSpliterator<E> trySplit() {
+      Spliterator<E> split = spliterator.trySplit();
+      return split == null ? null : new GeneralSpliteratorOfObject<>(split);
+    }
+  }
+
+  /*
+   * The AndroidJdkLibsChecker violation is informing us that this method isn't usable under
+   * Desugar. But we want to include it here for Nougat+ users -- and, mainly, for non-Android
+   * users. Fortunately, anyone who tries to use it under Desugar will presumably already see errors
+   * from creating the Spliterator.OfInt in the first place. So it's probably OK for us to suppress
+   * this particular violation.
+   */
+  @SuppressWarnings("AndroidJdkLibsChecker")
+  private static final class GeneralSpliteratorOfPrimitive<E, C> extends GeneralSpliterator<E> {
+    final Spliterator.OfPrimitive<E, C, ?> spliterator;
+    final Function<Consumer<? super E>, C> consumerizer;
+
+    GeneralSpliteratorOfPrimitive(
+        Spliterator.OfPrimitive<E, C, ?> spliterator,
+        Function<Consumer<? super E>, C> consumerizer) {
+      super(spliterator);
+      this.spliterator = spliterator;
+      this.consumerizer = consumerizer;
+    }
+
+    @Override
+    void forEachRemaining(Consumer<? super E> action) {
+      spliterator.forEachRemaining(consumerizer.apply(action));
+    }
+
+    @Override
+    boolean tryAdvance(Consumer<? super E> action) {
+      return spliterator.tryAdvance(consumerizer.apply(action));
+    }
+
+    @Override
+    GeneralSpliterator<E> trySplit() {
+      Spliterator.OfPrimitive<E, C, ?> split = spliterator.trySplit();
+      return split == null ? null : new GeneralSpliteratorOfPrimitive<>(split, consumerizer);
+    }
+  }
+
   /**
-   * Different ways of decomposing a Spliterator, all of which must produce the same
-   * elements (up to ordering, if Spliterator.ORDERED is not present).
+   * Different ways of decomposing a Spliterator, all of which must produce the same elements (up to
+   * ordering, if Spliterator.ORDERED is not present).
    */
   enum SpliteratorDecompositionStrategy {
     NO_SPLIT_FOR_EACH_REMAINING {
       @Override
-      <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer) {
+      <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer) {
         spliterator.forEachRemaining(consumer);
       }
     },
     NO_SPLIT_TRY_ADVANCE {
       @Override
-      <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer) {
+      <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer) {
         while (spliterator.tryAdvance(consumer)) {
           // do nothing
         }
@@ -75,18 +166,19 @@ public final class SpliteratorTester<E> {
     },
     MAXIMUM_SPLIT {
       @Override
-      <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer) {
-        for (Spliterator<E> prefix = trySplitTestingSize(spliterator);
+      <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer) {
+        for (GeneralSpliterator<E> prefix = trySplitTestingSize(spliterator);
             prefix != null;
             prefix = trySplitTestingSize(spliterator)) {
           forEach(prefix, consumer);
         }
         long size = spliterator.getExactSizeIfKnown();
         long[] counter = {0};
-        spliterator.forEachRemaining(e -> {
-          consumer.accept(e);
-          counter[0]++;
-        });
+        spliterator.forEachRemaining(
+            e -> {
+              consumer.accept(e);
+              counter[0]++;
+            });
         if (size >= 0) {
           assertEquals(size, counter[0]);
         }
@@ -94,9 +186,9 @@ public final class SpliteratorTester<E> {
     },
     ALTERNATE_ADVANCE_AND_SPLIT {
       @Override
-      <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer) {
+      <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer) {
         while (spliterator.tryAdvance(consumer)) {
-          Spliterator<E> prefix = trySplitTestingSize(spliterator);
+          GeneralSpliterator<E> prefix = trySplitTestingSize(spliterator);
           if (prefix != null) {
             forEach(prefix, consumer);
           }
@@ -104,28 +196,26 @@ public final class SpliteratorTester<E> {
       }
     };
 
-    abstract <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer);
+    abstract <E> void forEach(GeneralSpliterator<E> spliterator, Consumer<? super E> consumer);
   }
 
-  @Nullable
-  private static <E> Spliterator<E> trySplitTestingSize(Spliterator<E> spliterator) {
+  private static <E> @Nullable GeneralSpliterator<E> trySplitTestingSize(
+      GeneralSpliterator<E> spliterator) {
     boolean subsized = spliterator.hasCharacteristics(Spliterator.SUBSIZED);
     long originalSize = spliterator.estimateSize();
-    Spliterator<E> trySplit = spliterator.trySplit();
+    GeneralSpliterator<E> trySplit = spliterator.trySplit();
     if (spliterator.estimateSize() > originalSize) {
       fail(
           format(
               "estimated size of spliterator after trySplit (%s) is larger than original size (%s)",
-              spliterator.estimateSize(),
-              originalSize));
+              spliterator.estimateSize(), originalSize));
     }
     if (trySplit != null) {
       if (trySplit.estimateSize() > originalSize) {
         fail(
             format(
                 "estimated size of trySplit result (%s) is larger than original size (%s)",
-                trySplit.estimateSize(),
-                originalSize));
+                trySplit.estimateSize(), originalSize));
       }
     }
     if (subsized) {
@@ -145,13 +235,42 @@ public final class SpliteratorTester<E> {
   }
 
   public static <E> SpliteratorTester<E> of(Supplier<Spliterator<E>> spliteratorSupplier) {
-    return new SpliteratorTester<E>(spliteratorSupplier);
+    return new SpliteratorTester<>(
+        ImmutableSet.of(() -> new GeneralSpliteratorOfObject<>(spliteratorSupplier.get())));
   }
 
-  private final Supplier<Spliterator<E>> spliteratorSupplier;
+  /** @since 28.1 */
+  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
+  public static SpliteratorTester<Integer> ofInt(Supplier<Spliterator.OfInt> spliteratorSupplier) {
+    return new SpliteratorTester<>(
+        ImmutableSet.of(
+            () -> new GeneralSpliteratorOfObject<>(spliteratorSupplier.get()),
+            () -> new GeneralSpliteratorOfPrimitive<>(spliteratorSupplier.get(), c -> c::accept)));
+  }
 
-  private SpliteratorTester(Supplier<Spliterator<E>> spliteratorSupplier) {
-    this.spliteratorSupplier = checkNotNull(spliteratorSupplier);
+  /** @since 28.1 */
+  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
+  public static SpliteratorTester<Long> ofLong(Supplier<Spliterator.OfLong> spliteratorSupplier) {
+    return new SpliteratorTester<>(
+        ImmutableSet.of(
+            () -> new GeneralSpliteratorOfObject<>(spliteratorSupplier.get()),
+            () -> new GeneralSpliteratorOfPrimitive<>(spliteratorSupplier.get(), c -> c::accept)));
+  }
+
+  /** @since 28.1 */
+  @SuppressWarnings("AndroidJdkLibsChecker") // see comment on GeneralSpliteratorOfPrimitive
+  public static SpliteratorTester<Double> ofDouble(
+      Supplier<Spliterator.OfDouble> spliteratorSupplier) {
+    return new SpliteratorTester<>(
+        ImmutableSet.of(
+            () -> new GeneralSpliteratorOfObject<>(spliteratorSupplier.get()),
+            () -> new GeneralSpliteratorOfPrimitive<>(spliteratorSupplier.get(), c -> c::accept)));
+  }
+
+  private final ImmutableSet<Supplier<GeneralSpliterator<E>>> spliteratorSuppliers;
+
+  private SpliteratorTester(ImmutableSet<Supplier<GeneralSpliterator<E>>> spliteratorSuppliers) {
+    this.spliteratorSuppliers = checkNotNull(spliteratorSuppliers);
   }
 
   @SafeVarargs
@@ -161,37 +280,40 @@ public final class SpliteratorTester<E> {
 
   public final Ordered expect(Iterable<?> elements) {
     List<List<E>> resultsForAllStrategies = new ArrayList<>();
-    Spliterator<E> spliterator = spliteratorSupplier.get();
-    int characteristics = spliterator.characteristics();
-    long estimatedSize = spliterator.estimateSize();
-    for (SpliteratorDecompositionStrategy strategy :
-        EnumSet.allOf(SpliteratorDecompositionStrategy.class)) {
-      List<E> resultsForStrategy = new ArrayList<>();
-      strategy.forEach(spliteratorSupplier.get(), resultsForStrategy::add);
+    for (Supplier<GeneralSpliterator<E>> spliteratorSupplier : spliteratorSuppliers) {
+      GeneralSpliterator<E> spliterator = spliteratorSupplier.get();
+      int characteristics = spliterator.characteristics();
+      long estimatedSize = spliterator.estimateSize();
+      for (SpliteratorDecompositionStrategy strategy :
+          EnumSet.allOf(SpliteratorDecompositionStrategy.class)) {
+        List<E> resultsForStrategy = new ArrayList<>();
+        strategy.forEach(spliteratorSupplier.get(), resultsForStrategy::add);
 
-      // TODO(cpovirk): better failure messages
-      if ((characteristics & Spliterator.NONNULL) != 0) {
-        assertFalse(resultsForStrategy.contains(null));
-      }
-      if ((characteristics & Spliterator.SORTED) != 0) {
-        Comparator<? super E> comparator = spliterator.getComparator();
-        if (comparator == null) {
-          comparator = (Comparator) Comparator.naturalOrder();
+        // TODO(cpovirk): better failure messages
+        if ((characteristics & Spliterator.NONNULL) != 0) {
+          assertFalse(resultsForStrategy.contains(null));
         }
-        assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
-      }
-      if ((characteristics & Spliterator.SIZED) != 0) {
-        assertEquals(Ints.checkedCast(estimatedSize), resultsForStrategy.size());
-      }
+        if ((characteristics & Spliterator.SORTED) != 0) {
+          Comparator<? super E> comparator = spliterator.getComparator();
+          if (comparator == null) {
+            comparator = (Comparator) Comparator.naturalOrder();
+          }
+          assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
+        }
+        if ((characteristics & Spliterator.SIZED) != 0) {
+          assertEquals(Ints.checkedCast(estimatedSize), resultsForStrategy.size());
+        }
 
-      assertEqualIgnoringOrder(elements, resultsForStrategy);
-      resultsForAllStrategies.add(resultsForStrategy);
+        assertEqualIgnoringOrder(elements, resultsForStrategy);
+        resultsForAllStrategies.add(resultsForStrategy);
+      }
     }
     return new Ordered() {
       @Override
       public void inOrder() {
-        resultsForAllStrategies.forEach(
-            resultsForStrategy -> assertEqualInOrder(elements, resultsForStrategy));
+        for (List<E> resultsForStrategy : resultsForAllStrategies) {
+          assertEqualInOrder(elements, resultsForStrategy);
+        }
       }
     };
   }

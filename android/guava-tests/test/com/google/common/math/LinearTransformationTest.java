@@ -128,8 +128,9 @@ public class LinearTransformationTest extends TestCase {
       double x = 1.2;
       double y = 3.4;
       LinearTransformation.mapping(x, y).and(x, y);
-      fail("Expected IllegalArgumentException from mapping(x1, y1).and(x2, y2) with" +
-          " (x1 == x2) && (y1 == y2)");
+      fail(
+          "Expected IllegalArgumentException from mapping(x1, y1).and(x2, y2) with"
+              + " (x1 == x2) && (y1 == y2)");
     } catch (IllegalArgumentException expected) {
     }
   }

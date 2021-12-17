@@ -16,18 +16,17 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Determines a true or false value for a given input; a pre-Java-8 version of {@code
- * java.util.function.Predicate}.
+ * Determines a true or false value for a given input; a pre-Java-8 version of {@link
+ * java.util.function.Predicate java.util.function.Predicate}.
  *
  * <p>The {@link Predicates} class provides common predicates and related utilities.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Predicate}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
  *
  * <h3>For Java 8+ users</h3>
  *
@@ -47,24 +46,25 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Predicate<T> {
+@ElementTypesAreNonnullByDefault
+public interface Predicate<T extends @Nullable Object> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
    * class documentation above). This method is <i>generally expected</i>, but not absolutely
    * required, to have the following properties:
    *
    * <ul>
-   * <li>Its execution does not cause any observable side effects.
-   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
-   *     predicate.apply(b))}.
+   *   <li>Its execution does not cause any observable side effects.
+   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *       Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+   *       predicate.apply(b))}.
    * </ul>
    *
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
   @CanIgnoreReturnValue
-  boolean apply(@Nullable T input);
+  boolean apply(@ParametricNullness T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -77,5 +77,5 @@ public interface Predicate<T> {
    * predicates are known <i>not</i> to be interchangeable.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@CheckForNull Object object);
 }

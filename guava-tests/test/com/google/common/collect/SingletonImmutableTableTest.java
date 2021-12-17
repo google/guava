@@ -64,8 +64,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testRowMap() {
-    assertEquals(ImmutableMap.of('a', ImmutableMap.of(1, "blah")),
-        testTable.rowMap());
+    assertEquals(ImmutableMap.of('a', ImmutableMap.of(1, "blah")), testTable.rowMap());
   }
 
   public void testEqualsObject() {
@@ -129,7 +128,8 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
     assertThat(testTable.values()).contains("blah");
   }
 
-  @Override Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
+  @Override
+  Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
     return ImmutableSet.of(testTable);
   }
 }

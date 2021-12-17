@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
-// TODO(azana/cpovirk): Should this be merged into UninterruptiblesTest?
+// TODO(cpovirk): Should this be merged into UninterruptiblesTest?
 /**
  * Unit test for {@link Uninterruptibles#getUninterruptibly}
  *
@@ -46,23 +46,26 @@ public class UninterruptibleFutureTest extends TestCase {
 
   private final TearDownStack tearDownStack = new TearDownStack();
 
-  @Override protected void setUp() {
+  @Override
+  protected void setUp() {
     final ExecutorService executor = Executors.newSingleThreadExecutor();
-    tearDownStack.addTearDown(new TearDown() {
-      @Override
-      public void tearDown() {
-        executor.shutdownNow();
-      }
-    });
+    tearDownStack.addTearDown(
+        new TearDown() {
+          @Override
+          public void tearDown() {
+            executor.shutdownNow();
+          }
+        });
     sleeper = new SleepingRunnable(1000);
     delayedFuture = executor.submit(sleeper, true);
 
-    tearDownStack.addTearDown(new TearDown() {
-      @Override
-      public void tearDown() {
-        Thread.interrupted();
-      }
-    });
+    tearDownStack.addTearDown(
+        new TearDown() {
+          @Override
+          public void tearDown() {
+            Thread.interrupted();
+          }
+        });
   }
 
   @Override
@@ -71,9 +74,8 @@ public class UninterruptibleFutureTest extends TestCase {
   }
 
   /**
-   * This first test doesn't test anything in Uninterruptibles, just
-   * demonstrates some normal behavior of futures so that you can contrast
-   * the next test with it.
+   * This first test doesn't test anything in Uninterruptibles, just demonstrates some normal
+   * behavior of futures so that you can contrast the next test with it.
    */
 
   public void testRegularFutureInterrupted() throws ExecutionException {
@@ -95,7 +97,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
     assertFalse(Thread.interrupted());
     try {
-      delayedFuture.get(10000, TimeUnit.MILLISECONDS);
+      delayedFuture.get(20000, TimeUnit.MILLISECONDS);
       fail("expected to be interrupted");
     } catch (InterruptedException expected) {
     } catch (TimeoutException e) {
@@ -113,6 +115,7 @@ public class UninterruptibleFutureTest extends TestCase {
     }
     assertTrue(sleeper.completed);
   }
+
 
   public void testMakeUninterruptible_timeoutPreservedThroughInterruption()
       throws ExecutionException {
@@ -140,6 +143,7 @@ public class UninterruptibleFutureTest extends TestCase {
     public SleepingRunnable(int millis) {
       this.millis = millis;
     }
+
     @Override
     public void run() {
       try {
@@ -151,41 +155,40 @@ public class UninterruptibleFutureTest extends TestCase {
     }
   }
 
-  public void testMakeUninterruptible_untimed_uninterrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_untimed_uninterrupted() throws Exception {
     runUntimedInterruptsTest(0);
   }
 
-  public void testMakeUninterruptible_untimed_interrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_untimed_interrupted() throws Exception {
     runUntimedInterruptsTest(1);
   }
 
-  public void testMakeUninterruptible_untimed_multiplyInterrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_untimed_multiplyInterrupted() throws Exception {
     runUntimedInterruptsTest(38);
   }
 
-  public void testMakeUninterruptible_timed_uninterrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_timed_uninterrupted() throws Exception {
     runTimedInterruptsTest(0);
   }
 
-  public void testMakeUninterruptible_timed_interrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_timed_interrupted() throws Exception {
     runTimedInterruptsTest(1);
   }
 
-  public void testMakeUninterruptible_timed_multiplyInterrupted()
-      throws Exception {
+
+  public void testMakeUninterruptible_timed_multiplyInterrupted() throws Exception {
     runTimedInterruptsTest(38);
   }
 
   private static void runUntimedInterruptsTest(int times)
       throws InterruptedException, ExecutionException, TimeoutException {
     SettableFuture<String> future = SettableFuture.create();
-    FutureTask<Boolean> interruptReporter =
-        untimedInterruptReporter(future, false);
+    FutureTask<Boolean> interruptReporter = untimedInterruptReporter(future, false);
 
     runNInterruptsTest(times, future, interruptReporter);
   }
@@ -193,14 +196,13 @@ public class UninterruptibleFutureTest extends TestCase {
   private static void runTimedInterruptsTest(int times)
       throws InterruptedException, ExecutionException, TimeoutException {
     SettableFuture<String> future = SettableFuture.create();
-    FutureTask<Boolean> interruptReporter =
-        timedInterruptReporter(future);
+    FutureTask<Boolean> interruptReporter = timedInterruptReporter(future);
 
     runNInterruptsTest(times, future, interruptReporter);
   }
 
-  private static void runNInterruptsTest(int times, SettableFuture<String> future,
-      FutureTask<Boolean> interruptReporter)
+  private static void runNInterruptsTest(
+      int times, SettableFuture<String> future, FutureTask<Boolean> interruptReporter)
       throws InterruptedException, ExecutionException, TimeoutException {
     Thread waitingThread = new Thread(interruptReporter);
     waitingThread.start();
@@ -214,15 +216,12 @@ public class UninterruptibleFutureTest extends TestCase {
   }
 
   /**
-   * Confirms that the test code triggers {@link InterruptedException} in a
-   * standard {@link Future}.
+   * Confirms that the test code triggers {@link InterruptedException} in a standard {@link Future}.
    */
 
-  public void testMakeUninterruptible_plainFutureSanityCheck()
-      throws Exception {
+  public void testMakeUninterruptible_plainFutureSanityCheck() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
-    FutureTask<Boolean> wasInterrupted =
-        untimedInterruptReporter(future, true);
+    FutureTask<Boolean> wasInterrupted = untimedInterruptReporter(future, true);
 
     Thread waitingThread = new Thread(wasInterrupted);
     waitingThread.start();
@@ -231,10 +230,11 @@ public class UninterruptibleFutureTest extends TestCase {
       wasInterrupted.get();
       fail();
     } catch (ExecutionException expected) {
-      assertTrue(expected.getCause().toString(),
-          expected.getCause() instanceof InterruptedException);
+      assertTrue(
+          expected.getCause().toString(), expected.getCause() instanceof InterruptedException);
     }
   }
+
 
   public void testMakeUninterruptible_timedGetZeroTimeoutAttempted()
       throws TimeoutException, ExecutionException {
@@ -247,6 +247,7 @@ public class UninterruptibleFutureTest extends TestCase {
      */
     assertEquals(RESULT, getUninterruptibly(future, 0, SECONDS));
   }
+
 
   public void testMakeUninterruptible_timedGetNegativeTimeoutAttempted()
       throws TimeoutException, ExecutionException {
@@ -278,8 +279,7 @@ public class UninterruptibleFutureTest extends TestCase {
         });
   }
 
-  private static FutureTask<Boolean> timedInterruptReporter(
-      final Future<?> future) {
+  private static FutureTask<Boolean> timedInterruptReporter(final Future<?> future) {
     return new FutureTask<>(
         new Callable<Boolean>() {
           @Override

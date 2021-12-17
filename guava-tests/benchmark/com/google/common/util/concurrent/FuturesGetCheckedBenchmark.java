@@ -46,15 +46,14 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.zip.DataFormatException;
 import javax.security.auth.RefreshFailedException;
 
-/**
- * Microbenchmark for {@link Futures#getChecked}.
- */
+/** Microbenchmark for {@link Futures#getChecked}. */
 public class FuturesGetCheckedBenchmark {
   private enum Validator {
     NON_CACHING_WITH_CONSTRUCTOR_CHECK(nonCachingWithConstructorCheckValidator()),
     NON_CACHING_WITHOUT_CONSTRUCTOR_CHECK(nonCachingWithoutConstructorCheckValidator()),
     WEAK_SET(weakSetValidator()),
-    CLASS_VALUE(classValueValidator());
+    CLASS_VALUE(classValueValidator()),
+    ;
 
     final GetCheckedTypeValidator validator;
 
@@ -100,12 +99,9 @@ public class FuturesGetCheckedBenchmark {
           TooManyListenersException.class,
           URISyntaxException.class);
 
-  @Param
-  Validator validator;
-  @Param
-  Result result;
-  @Param
-  ExceptionType exceptionType;
+  @Param Validator validator;
+  @Param Result result;
+  @Param ExceptionType exceptionType;
   /**
    * The number of other exception types in the cache of known-good exceptions and the number of
    * other {@code ClassValue} entries for the exception type to be tested. This lets us evaluate
@@ -124,7 +120,7 @@ public class FuturesGetCheckedBenchmark {
     Class<? extends Exception> exceptionType = this.exceptionType.exceptionType;
 
     for (Class<? extends Exception> exceptionClass :
-          OTHER_EXCEPTION_TYPES.asList().subList(0, otherEntriesInDataStructure)) {
+        OTHER_EXCEPTION_TYPES.asList().subList(0, otherEntriesInDataStructure)) {
       getChecked(validator, immediateFuture(""), exceptionClass);
     }
 
@@ -166,8 +162,10 @@ public class FuturesGetCheckedBenchmark {
 
     @Override
     public void validateClass(Class<? extends Exception> exceptionClass) {
-      checkArgument(isCheckedException(exceptionClass),
-          "Futures.getChecked exception type (%s) must not be a RuntimeException", exceptionClass);
+      checkArgument(
+          isCheckedException(exceptionClass),
+          "Futures.getChecked exception type (%s) must not be a RuntimeException",
+          exceptionClass);
     }
   }
 

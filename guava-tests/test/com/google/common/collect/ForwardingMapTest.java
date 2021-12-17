@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.lang.reflect.Modifier.STATIC;
-import static org.mockito.Mockito.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +30,9 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
+import com.google.common.reflect.TypeToken;
 import com.google.common.testing.ArbitraryInstances;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
@@ -60,62 +62,73 @@ public class ForwardingMapTest extends TestCase {
       this.backingMap = backingMap;
     }
 
-    @Override protected Map<K, V> delegate() {
+    @Override
+    protected Map<K, V> delegate() {
       return backingMap;
     }
 
-    @Override public boolean containsKey(Object key) {
+    @Override
+    public boolean containsKey(Object key) {
       return standardContainsKey(key);
     }
 
-    @Override public boolean containsValue(Object value) {
+    @Override
+    public boolean containsValue(Object value) {
       return standardContainsValue(value);
     }
 
-    @Override public void putAll(Map<? extends K, ? extends V> map) {
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
       standardPutAll(map);
     }
 
-    @Override public V remove(Object object) {
+    @Override
+    public V remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public Set<K> keySet() {
+    @Override
+    public Set<K> keySet() {
       return new StandardKeySet();
     }
 
-    @Override public Collection<V> values() {
+    @Override
+    public Collection<V> values() {
       return new StandardValues();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public Set<Entry<K, V>> entrySet() {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return delegate()
-              .entrySet()
-              .iterator();
+          return delegate().entrySet().iterator();
         }
       };
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return standardIsEmpty();
     }
   }
@@ -174,11 +187,14 @@ public class ForwardingMapTest extends TestCase {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(Map.class, new Function<Map, Map>() {
-          @Override public Map apply(Map delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            Map.class,
+            new Function<Map, Map>() {
+              @Override
+              public Map apply(Map delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -211,14 +227,14 @@ public class ForwardingMapTest extends TestCase {
             };
           }
         };
-    callAllPublicMethods(Set.class, forward.entrySet());
+    callAllPublicMethods(new TypeToken<Set<Entry<String, Boolean>>>() {}, forward.entrySet());
 
     // These are the methods specified by StandardEntrySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
-    verify(map, atLeast(0)).get(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
+    verify(map, atLeast(0)).get(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verifyNoMoreInteractions(map);
   }
@@ -227,22 +243,25 @@ public class ForwardingMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = mock(Map.class);
 
-    Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
+    Map<String, Boolean> forward =
+        new ForwardingMap<String, Boolean>() {
+          @Override
+          protected Map<String, Boolean> delegate() {
+            return map;
+          }
 
-      @Override public Set<String> keySet() {
-        return new StandardKeySet();
-      }
-    };
-    callAllPublicMethods(Set.class, forward.keySet());
+          @Override
+          public Set<String> keySet() {
+            return new StandardKeySet();
+          }
+        };
+    callAllPublicMethods(new TypeToken<Set<String>>() {}, forward.keySet());
 
     // These are the methods specified by StandardKeySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
     verifyNoMoreInteractions(map);
@@ -252,20 +271,23 @@ public class ForwardingMapTest extends TestCase {
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = mock(Map.class);
 
-    Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
+    Map<String, Boolean> forward =
+        new ForwardingMap<String, Boolean>() {
+          @Override
+          protected Map<String, Boolean> delegate() {
+            return map;
+          }
 
-      @Override public Collection<Boolean> values() {
-        return new StandardValues();
-      }
-    };
-    callAllPublicMethods(Collection.class, forward.values());
+          @Override
+          public Collection<Boolean> values() {
+            return new StandardValues();
+          }
+        };
+    callAllPublicMethods(new TypeToken<Collection<Boolean>>() {}, forward.values());
 
     // These are the methods specified by StandardValues
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsValue(anyObject());
+    verify(map, atLeast(0)).containsValue(any());
     verify(map, atLeast(0)).isEmpty();
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
@@ -300,52 +322,64 @@ public class ForwardingMapTest extends TestCase {
 
   private static <K, V> Map<K, V> wrap(final Map<K, V> delegate) {
     return new ForwardingMap<K, V>() {
-      @Override protected Map<K, V> delegate() {
+      @Override
+      protected Map<K, V> delegate() {
         return delegate;
       }
     };
   }
 
-  private static Object getDefaultValue(Class<?> returnType) {
-    Object defaultValue = ArbitraryInstances.get(returnType);
+  private static final ImmutableMap<String, String> JUF_METHODS =
+      ImmutableMap.of(
+          "java.util.function.Predicate", "test",
+          "java.util.function.Consumer", "accept",
+          "java.util.function.IntFunction", "apply");
+
+  private static Object getDefaultValue(final TypeToken<?> type) {
+    Class<?> rawType = type.getRawType();
+    Object defaultValue = ArbitraryInstances.get(rawType);
     if (defaultValue != null) {
       return defaultValue;
     }
-    if ("java.util.function.Predicate".equals(returnType.getCanonicalName())
-        || ("java.util.function.Consumer".equals(returnType.getCanonicalName()))) {
+
+    final String typeName = rawType.getCanonicalName();
+    if (JUF_METHODS.containsKey(typeName)) {
       // Generally, methods that accept java.util.function.* instances
       // don't like to get null values.  We generate them dynamically
       // using Proxy so that we can have Java 7 compliant code.
-      return Reflection.newProxy(returnType, new AbstractInvocationHandler() {
-        @Override public Object handleInvocation(Object proxy, Method method, Object[] args) {
-          // Crude, but acceptable until we can use Java 8.  Other
-          // methods have default implementations, and it is hard to
-          // distinguish.
-          if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
-            return getDefaultValue(method.getReturnType());
-          }
-          throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
-        }
-      });
+      return Reflection.newProxy(
+          rawType,
+          new AbstractInvocationHandler() {
+            @Override
+            public Object handleInvocation(Object proxy, Method method, Object[] args) {
+              // Crude, but acceptable until we can use Java 8.  Other
+              // methods have default implementations, and it is hard to
+              // distinguish.
+              if (method.getName().equals(JUF_METHODS.get(typeName))) {
+                return getDefaultValue(type.method(method).getReturnType());
+              }
+              throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
+            }
+          });
     } else {
       return null;
     }
   }
 
-  private static <T> void callAllPublicMethods(Class<T> theClass, T object)
+  private static <T> void callAllPublicMethods(TypeToken<T> type, T object)
       throws InvocationTargetException {
-    for (Method method : theClass.getMethods()) {
+    for (Method method : type.getRawType().getMethods()) {
       if ((method.getModifiers() & STATIC) != 0) {
         continue;
       }
-      Class<?>[] parameterTypes = method.getParameterTypes();
-      Object[] parameters = new Object[parameterTypes.length];
-      for (int i = 0; i < parameterTypes.length; i++) {
-        parameters[i] = getDefaultValue(parameterTypes[i]);
+      ImmutableList<Parameter> parameters = type.method(method).getParameters();
+      Object[] args = new Object[parameters.size()];
+      for (int i = 0; i < parameters.size(); i++) {
+        args[i] = getDefaultValue(parameters.get(i).getType());
       }
       try {
         try {
-          method.invoke(object, parameters);
+          method.invoke(object, args);
         } catch (InvocationTargetException ex) {
           try {
             throw ex.getCause();
@@ -354,8 +388,7 @@ public class ForwardingMapTest extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(cause,
-            method + " with args: " + Arrays.toString(parameters));
+        throw new InvocationTargetException(cause, method + " with args: " + Arrays.toString(args));
       }
     }
   }

@@ -187,6 +187,7 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
+
   public void testKeySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
@@ -237,7 +238,6 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("unchecked") // generic array creation
 
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -245,13 +245,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
-      assertThat(entries).containsExactlyElementsIn((Collection<Entry<Object, Object>>) expected);
-      assertThat(entries.toArray())
-          .asList()
-          .containsExactlyElementsIn((Collection<Object>) expected);
-      assertThat(entries.toArray(new Entry[0]))
-          .asList()
-          .containsExactlyElementsIn((Collection<Entry>) expected);
+      assertThat(entries).containsExactlyElementsIn(expected);
+      assertThat(entries.toArray()).asList().containsExactlyElementsIn(expected);
+      assertThat(entries.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)
@@ -294,16 +290,15 @@ public class PopulatedCachesTest extends TestCase {
 
   /* ---------------- Local utilities -------------- */
 
-  /**
-   * Most of the tests in this class run against every one of these caches.
-   */
+  /** Most of the tests in this class run against every one of these caches. */
   private Iterable<LoadingCache<Object, Object>> caches() {
     // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
-    return Iterables.transform(factory.buildAllPermutations(),
+    return Iterables.transform(
+        factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
-          @Override public LoadingCache<Object, Object> apply(
-              CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
             return builder.recordStats().build(identityLoader());
           }
         });
@@ -322,18 +317,18 @@ public class PopulatedCachesTest extends TestCase {
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
         .withMaximumSizes(ImmutableSet.of(400, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpireAfterWrites(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withExpireAfterAccesses(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withRefreshes(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)));
+        .withExpireAfterWrites(
+            ImmutableSet.of(
+                // DurationSpec.of(500, MILLISECONDS),
+                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(
+            ImmutableSet.of(
+                // DurationSpec.of(500, MILLISECONDS),
+                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
+        .withRefreshes(
+            ImmutableSet.of(
+                // DurationSpec.of(500, MILLISECONDS),
+                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
   private List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {

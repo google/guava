@@ -21,8 +21,8 @@
  * com.google.common.cache.CacheLoader}. Statistics about cache performance are exposed using {@link
  * com.google.common.cache.CacheStats}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/CachesExplained">caches</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/CachesExplained">caches</a>.
  *
  * <p>This package is a part of the open-source <a href="http://github.com/google/guava">Guava</a>
  * library.

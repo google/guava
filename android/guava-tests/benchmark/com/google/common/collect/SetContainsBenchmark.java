@@ -24,8 +24,7 @@ import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 import java.util.Set;
 
 /**
- * A microbenchmark that tests the performance of contains() on various Set
- * implementations.
+ * A microbenchmark that tests the performance of contains() on various Set implementations.
  *
  * @author Kevin Bourrillion
  */
@@ -53,16 +52,17 @@ public class SetContainsBenchmark {
   private Element[] queries;
   private Set<Element> setToTest;
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     CollectionBenchmarkSampleData sampleData =
-        new CollectionBenchmarkSampleData(
-            isUserTypeFast, random, hitRate, size);
+        new CollectionBenchmarkSampleData(isUserTypeFast, random, hitRate, size);
 
-    this.setToTest = (Set<Element>)impl.create(sampleData.getValuesInSet());
+    this.setToTest = (Set<Element>) impl.create(sampleData.getValuesInSet());
     this.queries = sampleData.getQueries();
   }
 
-  @Benchmark boolean contains(int reps) {
+  @Benchmark
+  boolean contains(int reps) {
     // Paranoia: acting on hearsay that accessing fields might be slow
     // Should write a benchmark to test that!
     Set<Element> set = setToTest;

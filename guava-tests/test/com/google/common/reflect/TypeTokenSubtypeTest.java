@@ -16,6 +16,8 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -30,6 +32,19 @@ public class TypeTokenSubtypeTest extends TestCase {
 
   public void testWildcardSubtypes() throws Exception {
     new WildcardSubtypingTests().testAllDeclarations();
+  }
+
+  /**
+   * This test reproduces the bug in canonicalizeWildcardType() when the type variable is
+   * recursively bounded.
+   */
+  public void testRecursiveWildcardSubtypeBug() throws Exception {
+    try {
+      new RecursiveTypeBoundBugExample<>().testAllDeclarations();
+      fail();
+    } catch (Exception e) {
+      assertThat(e).hasCauseThat().isInstanceOf(AssertionError.class);
+    }
   }
 
   public void testSubtypeOfInnerClass_nonStaticAnonymousClass() {
@@ -59,15 +74,27 @@ public class TypeTokenSubtypeTest extends TestCase {
   public static void testSubtypeOfStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
-    assertFalse(TypeToken.of(new Mall<Outdoor>().new Shop<Electronics>() {}.getClass())
-        .isSubtypeOf(superclass));
+    assertFalse(
+        TypeToken.of(new Mall<Outdoor>().new Shop<Electronics>() {}.getClass())
+            .isSubtypeOf(superclass));
   }
 
   public void testSubtypeOfNonStaticAnonymousClass() {
     Class<?> superclass = new Mall<Outdoor>().new Shop<Electronics>() {}.getClass();
     assertTrue(TypeToken.of(superclass).isSubtypeOf(superclass));
-    assertFalse(TypeToken.of(new Mall<Outdoor>().new Shop<Electronics>() {}.getClass())
-        .isSubtypeOf(superclass));
+    assertFalse(
+        TypeToken.of(new Mall<Outdoor>().new Shop<Electronics>() {}.getClass())
+            .isSubtypeOf(superclass));
+  }
+
+  public void testGetSubtypeOf_impossibleWildcard() {
+    TypeToken<List<? extends Number>> numberList = new TypeToken<List<? extends Number>>() {};
+    abstract class StringList implements List<String> {}
+    try {
+      numberList.getSubtype(StringList.class);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   private static class OwnerTypeSubtypingTests extends SubtypeTester {
@@ -115,15 +142,15 @@ public class TypeTokenSubtypeTest extends TestCase {
 
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public Mall<? super Outdoor>.Shop<? extends Electronics>
-    bothOwnerTypeAndInnerTypeAreSubtypes_supertypeWithWildcard(
-        Outlet<Outdoor>.Retailer<Electronics> retailer) {
+        bothOwnerTypeAndInnerTypeAreSubtypes_supertypeWithWildcard(
+            Outlet<Outdoor>.Retailer<Electronics> retailer) {
       return isSubtype(retailer);
     }
 
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public Mall<? super Outdoor>.Shop<? extends Electronics>
-    bothOwnerTypeAndInnerTypeAreSubtypes_withWildcards(
-        Outlet<Outdoor>.Retailer<Electronics> retailer) {
+        bothOwnerTypeAndInnerTypeAreSubtypes_withWildcards(
+            Outlet<Outdoor>.Retailer<Electronics> retailer) {
       return isSubtype(retailer);
     }
 
@@ -159,7 +186,7 @@ public class TypeTokenSubtypeTest extends TestCase {
 
     @TestSubtype
     public Mall<Outdoor>.Shop<? extends Electronics> innerTypeDoesNotMatch_supertypeWithWildcard(
-       Mall<Outdoor>.Shop<Grocery> shop) {
+        Mall<Outdoor>.Shop<Grocery> shop) {
       return notSubtype(shop);
     }
 
@@ -176,8 +203,7 @@ public class TypeTokenSubtypeTest extends TestCase {
     }
 
     @TestSubtype
-    public ConsumerFacing<Grocery> nestedClassIsNotSupertype(
-        Mall<Indoor>.Shop<Grocery> shop) {
+    public ConsumerFacing<Grocery> nestedClassIsNotSupertype(Mall<Indoor>.Shop<Grocery> shop) {
       return notSubtype(shop);
     }
 
@@ -200,7 +226,171 @@ public class TypeTokenSubtypeTest extends TestCase {
     }
   }
 
+  private static class RecursiveTypeBoundBugExample<T extends RecursiveTypeBoundBugExample<T>>
+      extends SubtypeTester {
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<RecursiveTypeBoundBugExample<?>> ifYouUseTheTypeVariableOnTheClassAndItIsRecursive(
+        List<RecursiveTypeBoundBugExample<? extends RecursiveTypeBoundBugExample<T>>> arg) {
+      return notSubtype(arg); // isSubtype() currently incorectly considers it a subtype.
+    }
+  }
+
   private static class WildcardSubtypingTests extends SubtypeTester {
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<?> noBounds(List<?> list) {
+      return isSubtype(list);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<List<?>> listOfListOfWildcard(List<List<?>> listOfList) {
+      return isSubtype(listOfList);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<? extends List<?>> listOfWildcardListOfWildcard(
+        List<? extends List<?>> listOfList) {
+      return isSubtype(listOfList);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Enum<? extends Enum<?>> implicitlyBoundedEnumIsSubtypeOfExplicitlyBoundedEnum(
+        Enum<?> e) {
+      return isSubtype(e);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Enum<?> implicitlyBoundedEnum(Enum<?> e) {
+      return isSubtype(e);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Enum<?> explicitlyBoundedEnumIsSubtypeOfImplicitlyBoundedEnum(
+        Enum<? extends Enum<?>> obj) {
+      return isSubtype(obj);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<Enum<?>> listOfEnums(List<Enum<?>> listOfEnums) {
+      return isSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseList<? extends List<Enum<? extends Enum<?>>>>
+        wildcardBoundUsesImplicitlyRecursiveBoundedWildcard(UseList<? extends List<Enum<?>>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public UseList<? extends List<Enum<? extends Enum<?>>>>
+        wildcardBoundHasImplicitBoundAtsInvariantPosition(UseList<? extends List<Enum<?>>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<Enum<?>> listOfEnumsWithExplicitBoundIsSubtypeOfIterableOfEnumWithImplicitBound(
+        List<Enum<? extends Enum<?>>> listOfEnums) {
+      return isSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<Enum<?>> nestedExplicitEnumBoundIsSubtypeOfImplicitEnumBound(
+        List<Enum<? extends Enum<? extends Enum<?>>>> listOfEnums) {
+      return isSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<Enum<? extends Enum<? extends Enum<?>>>>
+        implicitEnumBoundIsSubtypeOfNestedExplicitEnumBound(List<Enum<?>> listOfEnums) {
+      return isSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<Enum<? extends Enum<?>>>
+        listOfEnumsWithImplicitBoundIsSubtypeOfIterableOfEnumWithExplicitBound(
+            List<Enum<?>> listOfEnums) {
+      return isSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<Enum<? extends Enum<?>>> listOfSubEnumsIsNotSubtypeOfListOfEnums(
+        List<MyEnum> listOfEnums) {
+      return notSubtype(listOfEnums);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<MyTypeBoundUsesImplicitBound<? extends Enum<?>>> typeVariableBoundOmitsItsOwnBound(
+        List<MyTypeBoundUsesImplicitBound<?>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<MyTypeBoundUsesImplicitBound<? extends MyEnum>>
+        wildcardUpperBoundIsNotSubtypeOfTypeVariableBound(
+            List<MyTypeBoundUsesImplicitBound<?>> arg) {
+      return notSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<List<? extends Iterable<UseList<? extends List<?>>>>>
+        wildcardBoundUsesParameterizedTypeWithImplicitBound(
+            List<List<? extends Iterable<UseList<?>>>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<List<? extends Iterable<Enum<? extends Enum<?>>>>>
+        wildcardBoundUsesRecursiveParameterizedTypeWithImplicitBound(
+            List<List<? extends Iterable<Enum<?>>>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public List<List<? extends Iterable<MyTypeBoundUsesImplicitBound<? extends Enum<?>>>>>
+        wildcardBoundUsesParameterizedTypeDefinedWithImplicitBound(
+            List<List<? extends Iterable<MyTypeBoundUsesImplicitBound<?>>>> arg) {
+      return isSubtype(arg);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseIterable<? extends Iterable<?>>>
+        wildcardOfImplicitBoundedIsSubtypeOfWildcardOfExplicitlyBounded(
+            List<UseIterable<?>> withImplicitBounds) {
+      return isSubtype(withImplicitBounds);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseSerializableIterable<? extends Iterable<?>>>
+        wildcardOfImplicitBoundedIsSubtypeOfWildcardOfExplicitlyPartialBounded(
+            List<UseSerializableIterable<?>> withImplicitBounds) {
+      return isSubtype(withImplicitBounds);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseList<? extends Iterable<?>>> useListOfIterableWildcard(
+        List<UseList<?>> withImplicitBounds) {
+      return isSubtype(withImplicitBounds);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseIterable<?>> listOfExplicitBoundedIsSubtypeOfListOfImplicitlyBounded(
+        List<UseIterable<? extends Iterable<?>>> withExplicitBounds) {
+      return isSubtype(withExplicitBounds);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseIterable<? extends Iterable<?>>>
+        wildcardOfImplicitBoundedIsNotSubtypeOfNonWildcardOfExplicitlyBounded(
+            List<? extends UseIterable<?>> withImplicitBounds) {
+      return notSubtype(withImplicitBounds);
+    }
+
+    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
+    public Iterable<UseIterable<? extends List<?>>>
+        wildcardOfImplicitBoundedIsNotSubtypeOfWildcardWithNarrowerBounds(
+            List<UseIterable<?>> withImplicitBounds) {
+      return notSubtype(withImplicitBounds);
+    }
+
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public <T> Iterable<? extends T> supertypeWithWildcardUpperBound(List<T> list) {
       return isSubtype(list);
@@ -268,20 +458,8 @@ public class TypeTokenSubtypeTest extends TestCase {
     }
 
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
-    public Enum<? extends Enum<?>> implicitlyBoundedEnumIsSubtypeOfExplicitlyBoundedEnum(
-        Enum<?> obj) {
-      return isSubtype(obj);
-    }
-
-    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
-    public Enum<?> explicitlyBoundedEnumIsSubtypeOfImplicitlyBoundedEnum(
-        Enum<? extends Enum<?>> obj) {
-      return isSubtype(obj);
-    }
-
-    @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public UseSerializableIterable<? extends Serializable>
-    implicitTypeBoundIsSubtypeOfPartialExplicitTypeBound(UseSerializableIterable<?> obj) {
+        implicitTypeBoundIsSubtypeOfPartialExplicitTypeBound(UseSerializableIterable<?> obj) {
       return isSubtype(obj);
     }
 
@@ -293,14 +471,14 @@ public class TypeTokenSubtypeTest extends TestCase {
 
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public UseSerializableIterable<? extends CharSequence>
-    implicitTypeBoundIsNotSubtypeOfDifferentTypeBound(UseSerializableIterable<?> obj) {
+        implicitTypeBoundIsNotSubtypeOfDifferentTypeBound(UseSerializableIterable<?> obj) {
       return notSubtype(obj);
     }
 
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public UseSerializableIterable<? extends CharSequence>
-    partialExplicitTypeBoundIsNotSubtypeOfDifferentTypeBound(
-        UseSerializableIterable<? extends Serializable> obj) {
+        partialExplicitTypeBoundIsNotSubtypeOfDifferentTypeBound(
+            UseSerializableIterable<? extends Serializable> obj) {
       return notSubtype(obj);
     }
   }
@@ -308,20 +486,31 @@ public class TypeTokenSubtypeTest extends TestCase {
   // TODO(benyu): migrate all subtyping tests from TypeTokenTest to this class using SubtypeTester.
 
   private interface Outdoor {}
+
   private interface Indoor {}
+
   private interface Grocery {}
+
   private interface Electronics {}
+
   private interface ConsumerFacing<T> {}
 
   private static class Mall<T> {
     class Shop<ProductT> {}
+
     abstract class Retailer<ProductT> extends Shop<ProductT>
         implements Comparator<ProductT>, ConsumerFacing<ProductT> {}
   }
 
   private static class Outlet<T> extends Mall<T> {}
 
-  private static interface UseIterable<T extends Iterable<?>> {}
+  private interface UseIterable<T extends Iterable<?>> {}
 
-  private static interface UseSerializableIterable<T extends Serializable&Iterable<?>> {}
+  private interface UseSerializableIterable<T extends Serializable & Iterable<?>> {}
+
+  private interface UseList<T extends List<?>> {}
+
+  private enum MyEnum {}
+
+  private interface MyTypeBoundUsesImplicitBound<E extends Enum<?>> {}
 }

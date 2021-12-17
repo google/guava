@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An empty contiguous set.
@@ -26,7 +26,8 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
+@ElementTypesAreNonnullByDefault
 final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   EmptyContiguousSet(DiscreteDomain<C> domain) {
     super(domain);
@@ -79,13 +80,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return false;
   }
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(Object target) {
+  int indexOf(@CheckForNull Object target) {
     return -1;
   }
 
@@ -121,7 +122,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return that.isEmpty();
@@ -149,7 +150,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     }
 
     private Object readResolve() {
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
 
     private static final long serialVersionUID = 0;
@@ -158,10 +159,11 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(domain);
+    return new SerializedForm<>(domain);
   }
 
   @GwtIncompatible // NavigableSet
+  @Override
   ImmutableSortedSet<C> createDescendingSet() {
     return ImmutableSortedSet.emptySet(Ordering.natural().reverse());
   }

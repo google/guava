@@ -21,7 +21,9 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import javax.annotation.Nullable;
+import java.lang.reflect.AnnotatedType;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -30,19 +32,26 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class Parameter implements AnnotatedElement {
 
   private final Invokable<?, ?> declaration;
   private final int position;
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
+  private final AnnotatedType annotatedType;
 
   Parameter(
-      Invokable<?, ?> declaration, int position, TypeToken<?> type, Annotation[] annotations) {
+      Invokable<?, ?> declaration,
+      int position,
+      TypeToken<?> type,
+      Annotation[] annotations,
+      AnnotatedType annotatedType) {
     this.declaration = declaration;
     this.position = position;
     this.type = type;
     this.annotations = ImmutableList.copyOf(annotations);
+    this.annotatedType = annotatedType;
   }
 
   /** Returns the type of the parameter. */
@@ -61,7 +70,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   @Override
-  @Nullable
+  @CheckForNull
   public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     for (Annotation annotation : annotations) {
@@ -77,43 +86,48 @@ public final class Parameter implements AnnotatedElement {
     return getDeclaredAnnotations();
   }
 
-  /**
-   * @since 18.0
-   */
+  /** @since 18.0 */
   // @Override on JDK8
+  @Override
   public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
     return getDeclaredAnnotationsByType(annotationType);
   }
 
-  /**
-   * @since 18.0
-   */
+  /** @since 18.0 */
   // @Override on JDK8
   @Override
   public Annotation[] getDeclaredAnnotations() {
-    return annotations.toArray(new Annotation[annotations.size()]);
+    return annotations.toArray(new Annotation[0]);
   }
 
-  /**
-   * @since 18.0
-   */
+  /** @since 18.0 */
   // @Override on JDK8
-  @Nullable
+  @Override
+  @CheckForNull
   public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     return FluentIterable.from(annotations).filter(annotationType).first().orNull();
   }
 
-  /**
-   * @since 18.0
-   */
+  /** @since 18.0 */
   // @Override on JDK8
+  @Override
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
-    return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @Nullable
+    A[] result = FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+    @SuppressWarnings("nullness") // safe because the input list contains no nulls
+    A[] cast = (A[]) result;
+    return cast;
+  }
+
+  /** @since 25.1 */
+  // @Override on JDK8
+  public AnnotatedType getAnnotatedType() {
+    return annotatedType;
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj instanceof Parameter) {
       Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);

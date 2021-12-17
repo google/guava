@@ -4,7 +4,7 @@ set -eu
 
 # Ignore passing tests.
 files=($(
-  grep -e 'failures=.[^0]' -e 'errors=.[^0]' */target/surefire-reports/*.xml -l |
+  grep -e 'failures=.[^0]' -e 'errors=.[^0]' {android/,}*/target/surefire-reports/*.xml -l |
     sed -e 's/TEST-//; s/.xml$//'))
 
 for file in "${files[@]}"; do

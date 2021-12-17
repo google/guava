@@ -43,7 +43,8 @@ public class HashMultisetAddPresentBenchmark {
     }
   }
 
-  @Benchmark int add(int reps) {
+  @Benchmark
+  int add(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

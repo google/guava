@@ -46,8 +46,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests a
- * {@code SortedMultiset} implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a {@code
+ * SortedMultiset} implementation.
  *
  * <p><b>Warning:</b> expects that {@code E} is a String.
  *
@@ -56,7 +56,7 @@ import junit.framework.TestSuite;
 @GwtIncompatible
 public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<E> {
   public static <E> SortedMultisetTestSuiteBuilder<E> using(TestMultisetGenerator<E> generator) {
-    SortedMultisetTestSuiteBuilder<E> result = new SortedMultisetTestSuiteBuilder<E>();
+    SortedMultisetTestSuiteBuilder<E> result = new SortedMultisetTestSuiteBuilder<>();
     result.usingGenerator(generator);
     return result;
   }
@@ -92,8 +92,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   /**
-   * To avoid infinite recursion, test suites with these marker features won't
-   * have derived suites created for them.
+   * To avoid infinite recursion, test suites with these marker features won't have derived suites
+   * created for them.
    */
   enum NoRecurse implements Feature<Void> {
     SUBMULTISET,
@@ -105,9 +105,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     }
   }
 
-  /**
-   * Two bounds (from and to) define how to build a subMultiset.
-   */
+  /** Two bounds (from and to) define how to build a subMultiset. */
   enum Bound {
     INCLUSIVE,
     EXCLUSIVE,
@@ -140,8 +138,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createSubMultisetSuite(
-      SortedMultisetTestSuiteBuilder<E> parentBuilder, final Bound from, final Bound to) {
-    final TestMultisetGenerator<E> delegate =
+      SortedMultisetTestSuiteBuilder<E> parentBuilder, Bound from, Bound to) {
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
     Set<Feature<?>> features = new HashSet<>();
@@ -154,15 +152,15 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     }
 
     SortedMultiset<E> emptyMultiset = (SortedMultiset<E>) delegate.create();
-    final Comparator<? super E> comparator = emptyMultiset.comparator();
+    Comparator<? super E> comparator = emptyMultiset.comparator();
     SampleElements<E> samples = delegate.samples();
     @SuppressWarnings("unchecked")
     List<E> samplesList =
         Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
 
     Collections.sort(samplesList, comparator);
-    final E firstInclusive = samplesList.get(0);
-    final E lastInclusive = samplesList.get(samplesList.size() - 1);
+    E firstInclusive = samplesList.get(0);
+    E lastInclusive = samplesList.get(samplesList.size() - 1);
 
     return SortedMultisetTestSuiteBuilder.using(
             new ForwardingTestMultisetGenerator<E>(delegate) {
@@ -170,10 +168,10 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
               public SortedMultiset<E> create(Object... entries) {
                 @SuppressWarnings("unchecked")
                 // we dangerously assume E is a string
-                List<E> extremeValues = (List) getExtremeValues();
+                List<E> extremeValues = (List<E>) getExtremeValues();
                 @SuppressWarnings("unchecked")
                 // map generators must past entry objects
-                List<E> normalValues = (List) Arrays.asList(entries);
+                List<E> normalValues = (List<E>) Arrays.asList(entries);
 
                 // prepare extreme values to be filtered out of view
                 Collections.sort(extremeValues, comparator);
@@ -189,7 +187,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
                 }
 
                 // the regular values should be visible after filtering
-                List<E> allEntries = new ArrayList<E>();
+                List<E> allEntries = new ArrayList<>();
                 allEntries.addAll(extremeValues);
                 allEntries.addAll(normalValues);
                 SortedMultiset<E> multiset =
@@ -219,13 +217,12 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   /**
-   * Returns an array of four bogus elements that will always be too high or too
-   * low for the display. This includes two values for each extreme.
+   * Returns an array of four bogus elements that will always be too high or too low for the
+   * display. This includes two values for each extreme.
    *
-   * <p>
-   * This method (dangerously) assume that the strings {@code "!! a"} and
-   * {@code "~~ z"} will work for this purpose, which may cause problems for
-   * navigable maps with non-string or unicode generators.
+   * <p>This method (dangerously) assume that the strings {@code "!! a"} and {@code "~~ z"} will
+   * work for this purpose, which may cause problems for navigable maps with non-string or unicode
+   * generators.
    */
   private List<String> getExtremeValues() {
     List<String> result = new ArrayList<>();
@@ -237,7 +234,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createDescendingSuite(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
-    final TestMultisetGenerator<E> delegate =
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
     Set<Feature<?>> features = new HashSet<>();
@@ -266,11 +263,10 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   private TestSuite createReserializedSuite(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
-    final TestMultisetGenerator<E> delegate =
+    TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<>();
-    features.addAll(parentBuilder.getFeatures());
+    Set<Feature<?>> features = new HashSet<>(parentBuilder.getFeatures());
     features.remove(SERIALIZABLE);
     features.remove(SERIALIZABLE_INCLUDING_VIEWS);
 

@@ -41,67 +41,80 @@ import junit.framework.TestSuite;
  * @author Louis Wasserman
  */
 public class ForwardingNavigableSetTest extends TestCase {
-  static class StandardImplForwardingNavigableSet<T>
-      extends ForwardingNavigableSet<T> {
+  static class StandardImplForwardingNavigableSet<T> extends ForwardingNavigableSet<T> {
     private final NavigableSet<T> backingSet;
 
     StandardImplForwardingNavigableSet(NavigableSet<T> backingSet) {
       this.backingSet = backingSet;
     }
 
-    @Override protected NavigableSet<T> delegate() {
+    @Override
+    protected NavigableSet<T> delegate() {
       return backingSet;
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public boolean addAll(Collection<? extends T> collection) {
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
       return standardAddAll(collection);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean contains(Object object) {
+    @Override
+    public boolean contains(Object object) {
       return standardContains(object);
     }
 
-    @Override public boolean containsAll(Collection<?> collection) {
+    @Override
+    public boolean containsAll(Collection<?> collection) {
       return standardContainsAll(collection);
     }
 
-    @Override public boolean remove(Object object) {
+    @Override
+    public boolean remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean removeAll(Collection<?> collection) {
+    @Override
+    public boolean removeAll(Collection<?> collection) {
       return standardRemoveAll(collection);
     }
 
-    @Override public boolean retainAll(Collection<?> collection) {
+    @Override
+    public boolean retainAll(Collection<?> collection) {
       return standardRetainAll(collection);
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public SortedSet<T> subSet(T fromElement, T toElement) {
+    @Override
+    public SortedSet<T> subSet(T fromElement, T toElement) {
       return standardSubSet(fromElement, toElement);
     }
 
@@ -201,11 +214,14 @@ public class ForwardingNavigableSetTest extends TestCase {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testForwarding() {
     new ForwardingWrapperTester()
-        .testForwarding(NavigableSet.class, new Function<NavigableSet, NavigableSet>() {
-          @Override public NavigableSet apply(NavigableSet delegate) {
-            return wrap(delegate);
-          }
-        });
+        .testForwarding(
+            NavigableSet.class,
+            new Function<NavigableSet, NavigableSet>() {
+              @Override
+              public NavigableSet apply(NavigableSet delegate) {
+                return wrap(delegate);
+              }
+            });
   }
 
   public void testEquals() {
@@ -219,7 +235,8 @@ public class ForwardingNavigableSetTest extends TestCase {
 
   private static <T> NavigableSet<T> wrap(final NavigableSet<T> delegate) {
     return new ForwardingNavigableSet<T>() {
-      @Override protected NavigableSet<T> delegate() {
+      @Override
+      protected NavigableSet<T> delegate() {
         return delegate;
       }
     };

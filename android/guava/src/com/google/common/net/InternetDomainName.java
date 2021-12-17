@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
@@ -26,10 +25,11 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.Immutable;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -70,8 +70,9 @@ import javax.annotation.Nullable;
  * @author Catherine Berry
  * @since 5.0
  */
-@Beta
-@GwtCompatible
+@GwtCompatible(emulated = true)
+@Immutable
+@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -83,8 +84,6 @@ public final class InternetDomainName {
    * relevant suffix was found.
    */
   private static final int NO_SUFFIX_FOUND = -1;
-
-  private static final String DOT_REGEX = "\\.";
 
   /**
    * Maximum parts (labels) in a domain name. This value arises from the 255-octet limit described
@@ -101,19 +100,15 @@ public final class InternetDomainName {
   private static final int MAX_LENGTH = 253;
 
   /**
-   * Maximum size of a single part of a domain name. See
-   * <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
+   * Maximum size of a single part of a domain name. See <a
+   * href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
    */
   private static final int MAX_DOMAIN_PART_LENGTH = 63;
 
-  /**
-   * The full domain name, converted to lower case.
-   */
+  /** The full domain name, converted to lower case. */
   private final String name;
 
-  /**
-   * The parts of the domain name, converted to lower case.
-   */
+  /** The parts of the domain name, converted to lower case. */
   private final ImmutableList<String> parts;
 
   /**
@@ -132,9 +127,7 @@ public final class InternetDomainName {
    */
   private final int registrySuffixIndex;
 
-  /**
-   * Constructor used to implement {@link #from(String)}, and from subclasses.
-   */
+  /** Constructor used to implement {@link #from(String)}, and from subclasses. */
   InternetDomainName(String name) {
     // Normalize:
     // * ASCII characters to lowercase
@@ -168,7 +161,7 @@ public final class InternetDomainName {
    * Otherwise, it finds the first suffix of any type.
    */
   private int findSuffixOfType(Optional<PublicSuffixType> desiredType) {
-    final int partsSize = parts.size();
+    int partsSize = parts.size();
 
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
@@ -206,10 +199,9 @@ public final class InternetDomainName {
    *       href="https://tools.ietf.org/html/rfc1123#section-2">RFC 1123</a>.
    * </ul>
    *
-   *
    * @param domain A domain name (not IP address)
-   * @throws IllegalArgumentException if {@code name} is not syntactically valid according to {@link
-   *     #isValid}
+   * @throws IllegalArgumentException if {@code domain} is not syntactically valid according to
+   *     {@link #isValid}
    * @since 10.0 (previously named {@code fromLenient})
    */
   public static InternetDomainName from(String domain) {
@@ -223,7 +215,7 @@ public final class InternetDomainName {
    * @return Is the domain name syntactically valid?
    */
   private static boolean validateSyntax(List<String> parts) {
-    final int lastIndex = parts.size() - 1;
+    int lastIndex = parts.size() - 1;
 
     // Validate the last part specially, as it has different syntax rules.
 
@@ -243,8 +235,13 @@ public final class InternetDomainName {
 
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
+  private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');
+
+  private static final CharMatcher LETTER_MATCHER =
+      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'));
+
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);
+      DIGIT_MATCHER.or(LETTER_MATCHER).or(DASH_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of a domain name is
@@ -267,7 +264,7 @@ public final class InternetDomainName {
      * GWT claims to support java.lang.Character's char-classification methods, but it actually only
      * works for ASCII. So for now, assume any non-ASCII characters are valid. The only place this
      * seems to be documented is here:
-     * http://osdir.com/ml/GoogleWebToolkitContributors/2010-03/msg00178.html
+     * https://groups.google.com/d/topic/google-web-toolkit-contributors/1UEzsryq1XI
      *
      * <p>ASCII characters in the part are expected to be valid per RFC 1035, with underscore also
      * being allowed due to widespread practice.
@@ -293,7 +290,7 @@ public final class InternetDomainName {
      * address like 127.0.0.1 from looking like a valid domain name.
      */
 
-    if (isFinalPart && CharMatcher.digit().matches(part.charAt(0))) {
+    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
       return false;
     }
 
@@ -302,8 +299,8 @@ public final class InternetDomainName {
 
   /**
    * Returns the individual components of this domain name, normalized to all lower case. For
-   * example, for the domain name {@code mail.google.com}, this method returns the list
-   * {@code ["mail", "google", "com"]}.
+   * example, for the domain name {@code mail.google.com}, this method returns the list {@code
+   * ["mail", "google", "com"]}.
    */
   public ImmutableList<String> parts() {
     return parts;
@@ -350,11 +347,12 @@ public final class InternetDomainName {
   }
 
   /**
-   * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the domain name, or
-   * {@code null} if no public suffix is present.
+   * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the domain name, or {@code
+   * null} if no public suffix is present.
    *
    * @since 6.0
    */
+  @CheckForNull
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
   }
@@ -463,6 +461,7 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
+  @CheckForNull
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
   }
@@ -517,17 +516,15 @@ public final class InternetDomainName {
     return ancestor(registrySuffixIndex - 1);
   }
 
-  /**
-   * Indicates whether this domain is composed of two or more parts.
-   */
+  /** Indicates whether this domain is composed of two or more parts. */
   public boolean hasParent() {
     return parts.size() > 1;
   }
 
   /**
    * Returns an {@code InternetDomainName} that is the immediate ancestor of this one; that is, the
-   * current domain with the leftmost part removed. For example, the parent of
-   * {@code www.google.com} is {@code google.com}.
+   * current domain with the leftmost part removed. For example, the parent of {@code
+   * www.google.com} is {@code google.com}.
    *
    * @throws IllegalStateException if the domain has no parent, as determined by {@link #hasParent}
    */
@@ -549,10 +546,9 @@ public final class InternetDomainName {
 
   /**
    * Creates and returns a new {@code InternetDomainName} by prepending the argument and a dot to
-   * the current name. For example, {@code
-   * InternetDomainName.from("foo.com").child("www.bar")} returns a new {@code InternetDomainName}
-   * with the value {@code www.bar.foo.com}. Only lenient validation is performed, as described
-   * {@link #from(String) here}.
+   * the current name. For example, {@code InternetDomainName.from("foo.com").child("www.bar")}
+   * returns a new {@code InternetDomainName} with the value {@code www.bar.foo.com}. Only lenient
+   * validation is performed, as described {@link #from(String) here}.
    *
    * @throws NullPointerException if leftParts is null
    * @throws IllegalArgumentException if the resulting name is not valid
@@ -568,17 +564,19 @@ public final class InternetDomainName {
    *
    * <p>The following two code snippets are equivalent:
    *
-   * <pre>   {@code
-   *   domainName = InternetDomainName.isValid(name)
-   *       ? InternetDomainName.from(name)
-   *       : DEFAULT_DOMAIN;}</pre>
+   * <pre>{@code
+   * domainName = InternetDomainName.isValid(name)
+   *     ? InternetDomainName.from(name)
+   *     : DEFAULT_DOMAIN;
+   * }</pre>
    *
-   * <pre>   {@code
-   *   try {
-   *     domainName = InternetDomainName.from(name);
-   *   } catch (IllegalArgumentException e) {
-   *     domainName = DEFAULT_DOMAIN;
-   *   }}</pre>
+   * <pre>{@code
+   * try {
+   *   domainName = InternetDomainName.from(name);
+   * } catch (IllegalArgumentException e) {
+   *   domainName = DEFAULT_DOMAIN;
+   * }
+   * }</pre>
    *
    * @since 8.0 (previously named {@code isValidLenient})
    */
@@ -597,10 +595,10 @@ public final class InternetDomainName {
    */
   private static boolean matchesWildcardSuffixType(
       Optional<PublicSuffixType> desiredType, String domain) {
-    final String[] pieces = domain.split(DOT_REGEX, 2);
-    return pieces.length == 2
+    List<String> pieces = DOT_SPLITTER.limit(2).splitToList(domain);
+    return pieces.size() == 2
         && matchesType(
-            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces[1])));
+            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces.get(1))));
   }
 
   /**
@@ -612,9 +610,7 @@ public final class InternetDomainName {
     return desiredType.isPresent() ? desiredType.equals(actualType) : actualType.isPresent();
   }
 
-  /**
-   * Returns the domain name, normalized to all lower case.
-   */
+  /** Returns the domain name, normalized to all lower case. */
   @Override
   public String toString() {
     return name;
@@ -624,10 +620,9 @@ public final class InternetDomainName {
    * Equality testing is based on the text supplied by the caller, after normalization as described
    * in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
    * version of the same domain name would not be considered equal.
-   *
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

@@ -117,35 +117,77 @@ public class FreshValueGeneratorTest extends TestCase {
   @AndroidIncompatible // problem with equality of Type objects?
   public void testFreshInstance() {
     assertFreshInstances(
-        String.class, CharSequence.class,
-        Appendable.class, StringBuffer.class, StringBuilder.class,
-        Pattern.class, MatchResult.class,
-        Number.class, int.class, Integer.class,
-        long.class, Long.class,
-        short.class, Short.class,
-        byte.class, Byte.class,
-        boolean.class, Boolean.class,
-        char.class, Character.class,
-        int[].class, Object[].class,
-        UnsignedInteger.class, UnsignedLong.class,
-        BigInteger.class, BigDecimal.class,
-        Throwable.class, Error.class, Exception.class, RuntimeException.class,
-        Charset.class, Locale.class, Currency.class,
-        List.class, Entry.class,
+        String.class,
+        CharSequence.class,
+        Appendable.class,
+        StringBuffer.class,
+        StringBuilder.class,
+        Pattern.class,
+        MatchResult.class,
+        Number.class,
+        int.class,
+        Integer.class,
+        long.class,
+        Long.class,
+        short.class,
+        Short.class,
+        byte.class,
+        Byte.class,
+        boolean.class,
+        Boolean.class,
+        char.class,
+        Character.class,
+        int[].class,
+        Object[].class,
+        UnsignedInteger.class,
+        UnsignedLong.class,
+        BigInteger.class,
+        BigDecimal.class,
+        Throwable.class,
+        Error.class,
+        Exception.class,
+        RuntimeException.class,
+        Charset.class,
+        Locale.class,
+        Currency.class,
+        List.class,
+        Entry.class,
         Object.class,
-        Equivalence.class, Predicate.class, Function.class,
-        Comparable.class, Comparator.class, Ordering.class,
-        Class.class, Type.class, TypeToken.class,
-        TimeUnit.class, Ticker.class,
-        Joiner.class, Splitter.class, CharMatcher.class,
-        InputStream.class, ByteArrayInputStream.class,
-        Reader.class, Readable.class, StringReader.class,
-        OutputStream.class, ByteArrayOutputStream.class,
-        Writer.class, StringWriter.class, File.class,
-        Buffer.class, ByteBuffer.class, CharBuffer.class,
-        ShortBuffer.class, IntBuffer.class, LongBuffer.class,
-        FloatBuffer.class, DoubleBuffer.class,
-        String[].class, Object[].class, int[].class);
+        Equivalence.class,
+        Predicate.class,
+        Function.class,
+        Comparable.class,
+        Comparator.class,
+        Ordering.class,
+        Class.class,
+        Type.class,
+        TypeToken.class,
+        TimeUnit.class,
+        Ticker.class,
+        Joiner.class,
+        Splitter.class,
+        CharMatcher.class,
+        InputStream.class,
+        ByteArrayInputStream.class,
+        Reader.class,
+        Readable.class,
+        StringReader.class,
+        OutputStream.class,
+        ByteArrayOutputStream.class,
+        Writer.class,
+        StringWriter.class,
+        File.class,
+        Buffer.class,
+        ByteBuffer.class,
+        CharBuffer.class,
+        ShortBuffer.class,
+        IntBuffer.class,
+        LongBuffer.class,
+        FloatBuffer.class,
+        DoubleBuffer.class,
+        String[].class,
+        Object[].class,
+        int[].class);
   }
 
   public void testStringArray() {
@@ -314,8 +356,8 @@ public class FreshValueGeneratorTest extends TestCase {
 
   public void testConcurrentMap() {
     assertFreshInstance(new TypeToken<ConcurrentMap<String, ?>>() {});
-    assertCanGenerateOnly(new TypeToken<ConcurrentMap<EmptyEnum, String>>() {},
-        Maps.newConcurrentMap());
+    assertCanGenerateOnly(
+        new TypeToken<ConcurrentMap<EmptyEnum, String>>() {}, Maps.newConcurrentMap());
   }
 
   public void testMultimap() {
@@ -369,7 +411,8 @@ public class FreshValueGeneratorTest extends TestCase {
   }
 
   public void testObject() {
-    assertEquals(new FreshValueGenerator().generateFresh(String.class),
+    assertEquals(
+        new FreshValueGenerator().generateFresh(String.class),
         new FreshValueGenerator().generateFresh(Object.class));
   }
 
@@ -422,7 +465,8 @@ public class FreshValueGeneratorTest extends TestCase {
   public void testAddSampleInstances_noInstance() {
     FreshValueGenerator generator = new FreshValueGenerator();
     generator.addSampleInstances(String.class, ImmutableList.<String>of());
-    assertEquals(new FreshValueGenerator().generateFresh(String.class),
+    assertEquals(
+        new FreshValueGenerator().generateFresh(String.class),
         generator.generateFresh(String.class));
   }
 
@@ -476,7 +520,8 @@ public class FreshValueGeneratorTest extends TestCase {
   }
 
   private enum TwoConstantEnum {
-    CONSTANT1, CONSTANT2
+    CONSTANT1,
+    CONSTANT2
   }
 
   private static void assertCanGenerateOnly(TypeToken<?> type, Object expected) {

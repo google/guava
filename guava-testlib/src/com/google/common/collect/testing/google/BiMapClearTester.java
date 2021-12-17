@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REM
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
  * Tester for {@code BiMap.clear}.
@@ -28,6 +29,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearClearsInverse() {

@@ -16,9 +16,9 @@ package com.google.common.net;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
+import javax.annotation.CheckForNull;
 
 /**
  * A {@code UnicodeEscaper} that escapes some set of Java characters using a UTF-8 based percent
@@ -30,13 +30,14 @@ import com.google.common.escape.UnicodeEscaper;
  * considered 'safe', this class has a minimal set of restrictions.
  *
  * <p>When escaping a String, the following rules apply:
+ *
  * <ul>
- * <li>All specified safe characters remain unchanged.
- * <li>If {@code plusForSpace} was specified, the space character " " is converted into a plus sign
- *     {@code "+"}.
- * <li>All other characters are converted into one or more bytes using UTF-8 encoding and each byte
- *     is then represented by the 3-character string "%XX", where "XX" is the two-digit, uppercase,
- *     hexadecimal representation of the byte value.
+ *   <li>All specified safe characters remain unchanged.
+ *   <li>If {@code plusForSpace} was specified, the space character " " is converted into a plus
+ *       sign {@code "+"}.
+ *   <li>All other characters are converted into one or more bytes using UTF-8 encoding and each
+ *       byte is then represented by the 3-character string "%XX", where "XX" is the two-digit,
+ *       uppercase, hexadecimal representation of the byte value.
  * </ul>
  *
  * <p>For performance reasons the only currently supported character encoding of this class is
@@ -48,8 +49,8 @@ import com.google.common.escape.UnicodeEscaper;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class PercentEscaper extends UnicodeEscaper {
 
   // In some escapers spaces are escaped to '+'
@@ -58,14 +59,12 @@ public final class PercentEscaper extends UnicodeEscaper {
   // Percent escapers output upper case hex digits (uri escapers require this).
   private static final char[] UPPER_HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 
-  /**
-   * If true we should convert space to the {@code +} character.
-   */
+  /** If true we should convert space to the {@code +} character. */
   private final boolean plusForSpace;
 
   /**
    * An array of flags where for any {@code char c} if {@code safeOctets[c]} is true then {@code c}
-   * should remain unmodified in the output. If {@code c > safeOctets.length} then it should be
+   * should remain unmodified in the output. If {@code c >= safeOctets.length} then it should be
    * escaped.
    */
   private final boolean[] safeOctets;
@@ -84,8 +83,8 @@ public final class PercentEscaper extends UnicodeEscaper {
    * @throws IllegalArgumentException if any of the parameters were invalid
    */
   public PercentEscaper(String safeChars, boolean plusForSpace) {
-    // TODO(user): Switch to static factory methods for creation now that class is final.
-    // TODO(user): Support escapers where alphanumeric chars are not safe.
+    // TODO(dbeaumont): Switch to static factory methods for creation now that class is final.
+    // TODO(dbeaumont): Support escapers where alphanumeric chars are not safe.
     checkNotNull(safeChars); // eager for GWT.
     // Avoid any misunderstandings about the behavior of this escaper
     if (safeChars.matches(".*[0-9A-Za-z].*")) {
@@ -154,10 +153,9 @@ public final class PercentEscaper extends UnicodeEscaper {
     return s;
   }
 
-  /**
-   * Escapes the given Unicode code point in UTF-8.
-   */
+  /** Escapes the given Unicode code point in UTF-8. */
   @Override
+  @CheckForNull
   protected char[] escape(int cp) {
     // We should never get negative values here but if we do it will throw an
     // IndexOutOfBoundsException, so at least it will get spotted.

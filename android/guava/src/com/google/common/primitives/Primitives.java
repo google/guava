@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +30,7 @@ import java.util.Set;
  * @since 1.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class Primitives {
   private Primitives() {}
 
@@ -42,8 +43,8 @@ public final class Primitives {
   // Sad that we can't use a BiMap. :(
 
   static {
-    Map<Class<?>, Class<?>> primToWrap = new HashMap<>(16);
-    Map<Class<?>, Class<?>> wrapToPrim = new HashMap<>(16);
+    Map<Class<?>, Class<?>> primToWrap = new LinkedHashMap<>(16);
+    Map<Class<?>, Class<?>> wrapToPrim = new LinkedHashMap<>(16);
 
     add(primToWrap, wrapToPrim, boolean.class, Boolean.class);
     add(primToWrap, wrapToPrim, byte.class, Byte.class);
@@ -69,9 +70,9 @@ public final class Primitives {
   }
 
   /**
-   * Returns an immutable set of all nine primitive types (including {@code
-   * void}). Note that a simpler way to test whether a {@code Class} instance is a member of this
-   * set is to call {@link Class#isPrimitive}.
+   * Returns an immutable set of all nine primitive types (including {@code void}). Note that a
+   * simpler way to test whether a {@code Class} instance is a member of this set is to call {@link
+   * Class#isPrimitive}.
    *
    * @since 3.0
    */
@@ -89,8 +90,8 @@ public final class Primitives {
   }
 
   /**
-   * Returns {@code true} if {@code type} is one of the nine primitive-wrapper types, such as
-   * {@link Integer}.
+   * Returns {@code true} if {@code type} is one of the nine primitive-wrapper types, such as {@link
+   * Integer}.
    *
    * @see Class#isPrimitive
    */

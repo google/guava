@@ -44,9 +44,14 @@ public class MultisetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new DerivedComparable("foo"), 2);
     set.add(new DerivedComparable("bar"), 3);
-    assertThat(set).containsExactly(
-        new DerivedComparable("bar"), new DerivedComparable("bar"), new DerivedComparable("bar"),
-        new DerivedComparable("foo"), new DerivedComparable("foo")).inOrder();
+    assertThat(set)
+        .containsExactly(
+            new DerivedComparable("bar"),
+            new DerivedComparable("bar"),
+            new DerivedComparable("bar"),
+            new DerivedComparable("foo"),
+            new DerivedComparable("foo"))
+        .inOrder();
   }
 
   public void testNewTreeMultisetNonGeneric() {
@@ -54,14 +59,18 @@ public class MultisetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new LegacyComparable("foo"), 2);
     set.add(new LegacyComparable("bar"), 3);
-    assertThat(set).containsExactly(new LegacyComparable("bar"),
-        new LegacyComparable("bar"), new LegacyComparable("bar"),
-        new LegacyComparable("foo"), new LegacyComparable("foo")).inOrder();
+    assertThat(set)
+        .containsExactly(
+            new LegacyComparable("bar"),
+            new LegacyComparable("bar"),
+            new LegacyComparable("bar"),
+            new LegacyComparable("foo"),
+            new LegacyComparable("foo"))
+        .inOrder();
   }
 
   public void testNewTreeMultisetComparator() {
-    TreeMultiset<String> multiset
-        = TreeMultiset.create(Collections.reverseOrder());
+    TreeMultiset<String> multiset = TreeMultiset.create(Collections.reverseOrder());
     multiset.add("bar", 3);
     multiset.add("foo", 2);
     assertThat(multiset).containsExactly("foo", "foo", "bar", "bar", "bar").inOrder();
@@ -69,8 +78,7 @@ public class MultisetsTest extends TestCase {
 
   public void testRetainOccurrencesEmpty() {
     Multiset<String> multiset = HashMultiset.create();
-    Multiset<String> toRetain =
-        HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> toRetain = HashMultiset.create(Arrays.asList("a", "b", "a"));
     assertFalse(Multisets.retainOccurrences(multiset, toRetain));
     assertThat(multiset).isEmpty();
   }
@@ -84,16 +92,14 @@ public class MultisetsTest extends TestCase {
 
   public void testRemoveOccurrencesMultisetEmpty() {
     Multiset<String> multiset = HashMultiset.create();
-    Multiset<String> toRemove =
-        HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> toRemove = HashMultiset.create(Arrays.asList("a", "b", "a"));
     assertFalse(Multisets.removeOccurrences(multiset, toRemove));
     assertTrue(multiset.isEmpty());
   }
 
   public void testUnion() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
-    Multiset<String> ms2 = HashMultiset.create(
-        Arrays.asList("a", "b", "b", "c"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "b", "c"));
     assertThat(Multisets.union(ms1, ms2)).containsExactly("a", "a", "b", "b", "c");
   }
 
@@ -198,50 +204,42 @@ public class MultisetsTest extends TestCase {
   }
 
   public void testRetainEmptyOccurrences() {
-    Multiset<String> multiset =
-        HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> multiset = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> toRetain = HashMultiset.create();
     assertTrue(Multisets.retainOccurrences(multiset, toRetain));
     assertTrue(multiset.isEmpty());
   }
 
   public void testRetainOccurrences() {
-    Multiset<String> multiset =
-        TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
-    Multiset<String> toRetain =
-        HashMultiset.create(Arrays.asList("a", "b", "b"));
+    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
+    Multiset<String> toRetain = HashMultiset.create(Arrays.asList("a", "b", "b"));
     assertTrue(Multisets.retainOccurrences(multiset, toRetain));
     assertThat(multiset).containsExactly("a", "b").inOrder();
   }
 
   public void testRemoveEmptyOccurrencesMultiset() {
-    Multiset<String> multiset =
-        TreeMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> toRemove = HashMultiset.create();
     assertFalse(Multisets.removeOccurrences(multiset, toRemove));
     assertThat(multiset).containsExactly("a", "a", "b").inOrder();
   }
 
   public void testRemoveOccurrencesMultiset() {
-    Multiset<String> multiset =
-        TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
-    Multiset<String> toRemove =
-        HashMultiset.create(Arrays.asList("a", "b", "b"));
+    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
+    Multiset<String> toRemove = HashMultiset.create(Arrays.asList("a", "b", "b"));
     assertTrue(Multisets.removeOccurrences(multiset, toRemove));
     assertThat(multiset).containsExactly("a", "c").inOrder();
   }
 
   public void testRemoveEmptyOccurrencesIterable() {
-    Multiset<String> multiset =
-        TreeMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("a", "b", "a"));
     Iterable<String> toRemove = ImmutableList.of();
     assertFalse(Multisets.removeOccurrences(multiset, toRemove));
     assertThat(multiset).containsExactly("a", "a", "b").inOrder();
   }
 
   public void testRemoveOccurrencesMultisetIterable() {
-    Multiset<String> multiset =
-        TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
+    Multiset<String> multiset = TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
     List<String> toRemove = Arrays.asList("a", "b", "b");
     assertTrue(Multisets.removeOccurrences(multiset, toRemove));
     assertThat(multiset).containsExactly("a", "c").inOrder();
@@ -259,22 +257,17 @@ public class MultisetsTest extends TestCase {
   }
 
   public void testHighestCountFirst() {
-    Multiset<String> multiset = HashMultiset.create(
-        Arrays.asList("a", "a", "a", "b", "c", "c"));
-    ImmutableMultiset<String> sortedMultiset =
-        Multisets.copyHighestCountFirst(multiset);
+    Multiset<String> multiset = HashMultiset.create(Arrays.asList("a", "a", "a", "b", "c", "c"));
+    ImmutableMultiset<String> sortedMultiset = Multisets.copyHighestCountFirst(multiset);
 
-    assertThat(sortedMultiset.entrySet()).containsExactly(
-        Multisets.immutableEntry("a", 3), Multisets.immutableEntry("c", 2),
-        Multisets.immutableEntry("b", 1)).inOrder();
+    assertThat(sortedMultiset.entrySet())
+        .containsExactly(
+            Multisets.immutableEntry("a", 3),
+            Multisets.immutableEntry("c", 2),
+            Multisets.immutableEntry("b", 1))
+        .inOrder();
 
-    assertThat(sortedMultiset).containsExactly(
-        "a",
-        "a",
-        "a",
-        "c",
-        "c",
-        "b").inOrder();
+    assertThat(sortedMultiset).containsExactly("a", "a", "a", "c", "c", "b").inOrder();
 
     assertThat(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
   }

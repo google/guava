@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.junit.Ignore;
 
 /**
  * Tester for navigation of SortedMultisets.
@@ -44,6 +45,7 @@ import java.util.NoSuchElementException;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   private SortedMultiset<E> sortedMultiset;
   private List<E> entries;
@@ -51,9 +53,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   private Entry<E> b;
   private Entry<E> c;
 
-  /**
-   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
-   */
+  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
   static <T> SortedMultiset<T> cast(Multiset<T> iterable) {
     return (SortedMultiset<T>) iterable;
   }
@@ -78,13 +78,11 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     }
   }
 
-  /**
-   * Resets the contents of sortedMultiset to have entries a, c, for the navigation tests.
-   */
+  /** Resets the contents of sortedMultiset to have entries a, c, for the navigation tests. */
   @SuppressWarnings("unchecked")
   // Needed to stop Eclipse whining
   private void resetWithHole() {
-    List<E> container = new ArrayList<E>();
+    List<E> container = new ArrayList<>();
     container.addAll(Collections.nCopies(a.getCount(), a.getElement()));
     container.addAll(Collections.nCopies(c.getCount(), c.getElement()));
     super.resetContainer(getSubjectGenerator().create(container.toArray()));

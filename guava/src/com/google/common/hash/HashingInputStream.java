@@ -29,6 +29,7 @@ import java.io.InputStream;
  * @since 16.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public final class HashingInputStream extends FilterInputStream {
   private final Hasher hasher;
 
@@ -81,9 +82,7 @@ public final class HashingInputStream extends FilterInputStream {
     return false;
   }
 
-  /**
-   * mark() is not supported for HashingInputStream
-   */
+  /** mark() is not supported for HashingInputStream */
   @Override
   public void mark(int readlimit) {}
 

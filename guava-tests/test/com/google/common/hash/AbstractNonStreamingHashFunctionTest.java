@@ -25,20 +25,19 @@ import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
 
-/**
- * Tests for AbstractNonStreamingHashFunction.
- */
+/** Tests for AbstractNonStreamingHashFunction. */
 public class AbstractNonStreamingHashFunctionTest extends TestCase {
   /**
    * Constructs two trivial HashFunctions (output := input), one streaming and one non-streaming,
    * and checks that their results are identical, no matter which newHasher version we used.
    */
   public void testExhaustive() {
-    List<Hasher> hashers = ImmutableList.of(
-        new StreamingVersion().newHasher(),
-        new StreamingVersion().newHasher(52),
-        new NonStreamingVersion().newHasher(),
-        new NonStreamingVersion().newHasher(123));
+    List<Hasher> hashers =
+        ImmutableList.of(
+            new StreamingVersion().newHasher(),
+            new StreamingVersion().newHasher(52),
+            new NonStreamingVersion().newHasher(),
+            new NonStreamingVersion().newHasher(123));
     Random random = new Random(0);
     for (int i = 0; i < 200; i++) {
       RandomHasherAction.pickAtRandom(random).performAction(random, hashers);
@@ -55,25 +54,29 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
   public void testPutStringWithLowSurrogate() {
     // we pad because the dummy hash function we use to test this, merely copies the input into
     // the output, so the input must be at least 32 bits, since the output has to be that long
-    assertPutString(new char[] { 'p', HashTestUtils.randomLowSurrogate(new Random()) });
+    assertPutString(new char[] {'p', HashTestUtils.randomLowSurrogate(new Random())});
   }
 
   public void testPutStringWithHighSurrogate() {
     // we pad because the dummy hash function we use to test this, merely copies the input into
     // the output, so the input must be at least 32 bits, since the output has to be that long
-    assertPutString(new char[] { 'p', HashTestUtils.randomHighSurrogate(new Random()) });
+    assertPutString(new char[] {'p', HashTestUtils.randomHighSurrogate(new Random())});
   }
 
   public void testPutStringWithLowHighSurrogate() {
-    assertPutString(new char[] {
-        HashTestUtils.randomLowSurrogate(new Random()),
-        HashTestUtils.randomHighSurrogate(new Random()) });
+    assertPutString(
+        new char[] {
+          HashTestUtils.randomLowSurrogate(new Random()),
+          HashTestUtils.randomHighSurrogate(new Random())
+        });
   }
 
   public void testPutStringWithHighLowSurrogate() {
-    assertPutString(new char[] {
-        HashTestUtils.randomHighSurrogate(new Random()),
-        HashTestUtils.randomLowSurrogate(new Random()) });
+    assertPutString(
+        new char[] {
+          HashTestUtils.randomHighSurrogate(new Random()),
+          HashTestUtils.randomLowSurrogate(new Random())
+        });
   }
 
   private static void assertPutString(char[] chars) {
@@ -98,6 +101,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     public Hasher newHasher() {
       return new AbstractStreamingHasher(4, 4) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
         @Override
         protected HashCode makeHash() {
           return HashCode.fromBytes(out.toByteArray());

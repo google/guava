@@ -16,7 +16,6 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -25,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ArbitraryInstances;
-import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -72,7 +70,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkArgument(false, null);
       fail("no exception thrown");
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("null");
+      assertThat(expected).hasMessageThat().isEqualTo("null");
     }
   }
 
@@ -173,7 +171,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkState(false, null);
       fail("no exception thrown");
     } catch (IllegalStateException expected) {
-      assertThat(expected).hasMessage("null");
+      assertThat(expected).hasMessageThat().isEqualTo("null");
     }
   }
 
@@ -220,8 +218,7 @@ public class PreconditionsTest extends TestCase {
   }
 
   public void testCheckNotNull_complexMessage_success() {
-    String result = Preconditions.checkNotNull(
-        NON_NULL_STRING, "%s", IGNORE_ME);
+    String result = Preconditions.checkNotNull(NON_NULL_STRING, "%s", IGNORE_ME);
     assertSame(NON_NULL_STRING, result);
   }
 
@@ -255,7 +252,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
     }
   }
 
@@ -264,7 +261,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (1) must be less than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("index (1) must be less than size (1)");
     }
   }
 
@@ -273,7 +270,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
     }
   }
 
@@ -282,7 +279,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (1) must be less than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (1) must be less than size (1)");
     }
   }
 
@@ -307,7 +304,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
     }
   }
 
@@ -316,7 +313,9 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (2) must not be greater than size (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("index (2) must not be greater than size (1)");
     }
   }
 
@@ -325,7 +324,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
     }
   }
 
@@ -334,7 +333,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (2) must not be greater than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (2) must not be greater than size (1)");
     }
   }
 
@@ -358,7 +357,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(-1, 1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("start index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("start index (-1) must not be negative");
     }
   }
 
@@ -367,7 +366,9 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(0, 2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("end index (2) must not be greater than size (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("end index (2) must not be greater than size (1)");
     }
   }
 
@@ -376,31 +377,13 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(1, 0, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("end index (0) must not be less than start index (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("end index (0) must not be less than start index (1)");
     }
   }
 
-  public void testFormat() {
-    assertEquals("%s", Preconditions.format("%s"));
-    assertEquals("5", Preconditions.format("%s", 5));
-    assertEquals("foo [5]", Preconditions.format("foo", 5));
-    assertEquals("foo [5, 6, 7]", Preconditions.format("foo", 5, 6, 7));
-    assertEquals("%s 1 2", Preconditions.format("%s %s %s", "%s", 1, 2));
-    assertEquals(" [5, 6]", Preconditions.format("", 5, 6));
-    assertEquals("123", Preconditions.format("%s%s%s", 1, 2, 3));
-    assertEquals("1%s%s", Preconditions.format("%s%s%s", 1));
-    assertEquals("5 + 6 = 11", Preconditions.format("%s + 6 = 11", 5));
-    assertEquals("5 + 6 = 11", Preconditions.format("5 + %s = 11", 6));
-    assertEquals("5 + 6 = 11", Preconditions.format("5 + 6 = %s", 11));
-    assertEquals("5 + 6 = 11", Preconditions.format("%s + %s = %s", 5, 6, 11));
-    assertEquals("null [null, null]",
-        Preconditions.format("%s", null, null, null));
-    assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
-    assertEquals("null", Preconditions.format("%s", (Object) null));
-    assertEquals("(Object[])null", Preconditions.format("%s", (Object[]) null));
-  }
-
-    @GwtIncompatible("Reflection")
+  @GwtIncompatible("Reflection")
   public void testAllOverloads_checkArgument() throws Exception {
     for (ImmutableList<Class<?>> sig : allSignatures(boolean.class)) {
       Method checkArgumentMethod =
@@ -460,12 +443,13 @@ public class PreconditionsTest extends TestCase {
       Throwable throwable, Class<? extends Throwable> clazz, Object[] params) {
     assertThat(throwable).isInstanceOf(clazz);
     if (params.length == 1) {
-      assertThat(throwable).hasMessage(null);
+      assertThat(throwable).hasMessageThat().isNull();
     } else if (params.length == 2) {
-      assertThat(throwable).hasMessage("");
+      assertThat(throwable).hasMessageThat().isEmpty();
     } else {
       assertThat(throwable)
-          .hasMessage(Preconditions.format("", Arrays.copyOfRange(params, 2, params.length)));
+          .hasMessageThat()
+          .isEqualTo(Strings.lenientFormat("", Arrays.copyOfRange(params, 2, params.length)));
     }
   }
 
@@ -493,11 +477,7 @@ public class PreconditionsTest extends TestCase {
   }
 
   private static final ImmutableList<Class<?>> possibleParamTypes =
-      ImmutableList.of(
-          char.class,
-          int.class,
-          long.class,
-          Object.class);
+      ImmutableList.of(char.class, int.class, long.class, Object.class);
 
   /**
    * Returns a list of parameters for invoking an overload of checkState, checkArgument or
@@ -519,7 +499,7 @@ public class PreconditionsTest extends TestCase {
         allOverloads.add(
             ImmutableList.<Class<?>>builder()
                 .add(predicateType)
-                .add(String.class)  // the format string
+                .add(String.class) // the format string
                 .addAll(curr)
                 .build());
       }
@@ -540,37 +520,55 @@ public class PreconditionsTest extends TestCase {
     int anInt = 1;
     // With a boxed predicate, no overloads can be selected in phase 1
     // ambiguous without the call to .booleanValue to unbox the Boolean
-    checkState(boxedBoolean.booleanValue(), "",  1);
+    Preconditions.checkState(boxedBoolean.booleanValue(), "", 1);
     // ambiguous without the cast to Object because the boxed predicate prevents any overload from
     // being selected in phase 1
-    checkState(boxedBoolean, "", (Object) boxedLong);
+    Preconditions.checkState(boxedBoolean, "", (Object) boxedLong);
 
     // ternaries introduce their own problems. because of the ternary (which requires a boxing
     // operation) no overload can be selected in phase 1.  and in phase 2 it is ambiguous since it
     // matches with the second parameter being boxed and without it being boxed.  The cast to Object
     // avoids this.
-    checkState(aBoolean, "", aBoolean ? "" : anInt, (Object) anInt);
+    Preconditions.checkState(aBoolean, "", aBoolean ? "" : anInt, (Object) anInt);
 
     // ambiguous without the .booleanValue() call since the boxing forces us into phase 2 resolution
     short s = 2;
-    checkState(boxedBoolean.booleanValue(), "", s);
+    Preconditions.checkState(boxedBoolean.booleanValue(), "", s);
   }
 
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicStaticMethods(Preconditions.class);
+    /*
+     * Don't bother testing: Preconditions defines a bunch of methods that accept a template (or
+     * even entire message) that simultaneously:
+     *
+     * - _shouldn't_ be null, so we don't annotate it with @Nullable
+     *
+     * - _can_ be null without causing a runtime failure (because we don't want the interesting
+     *   details of precondition failure to be hidden by an exception we throw about an unexpectedly
+     *   null _failure message_)
+     *
+     * That combination upsets NullPointerTester, which wants any call that passes null for a
+     * non-@Nullable parameter to trigger a NullPointerException.
+     *
+     * (We still define this empty method to keep PackageSanityTests from generating its own
+     * automated nullness tests, which would fail.)
+     */
   }
 
-  private static final Object IGNORE_ME = new Object() {
-    @Override public String toString() {
-      throw new AssertionFailedError();
-    }
-  };
+  private static final Object IGNORE_ME =
+      new Object() {
+        @Override
+        public String toString() {
+          throw new AssertionFailedError();
+        }
+      };
 
   private static class Message {
     boolean invoked;
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       assertFalse(invoked);
       invoked = true;
       return "A message";
@@ -580,10 +578,10 @@ public class PreconditionsTest extends TestCase {
   private static final String FORMAT = "I ate %s pies.";
 
   private static void verifySimpleMessage(Exception e) {
-    assertThat(e).hasMessage("A message");
+    assertThat(e).hasMessageThat().isEqualTo("A message");
   }
 
   private static void verifyComplexMessage(Exception e) {
-    assertThat(e).hasMessage("I ate 5 pies.");
+    assertThat(e).hasMessageThat().isEqualTo("I ate 5 pies.");
   }
 }

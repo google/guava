@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
-import com.google.common.annotations.Beta;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,7 +36,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulation of {@link com.google.common.collect.ImmutableMap}. For non sorted maps, it is a
@@ -73,14 +72,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
-  
-  @Beta
+
   public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
       Function<? super T, ? extends K> keyFunction,
       Function<? super T, ? extends V> valueFunction,
@@ -105,25 +102,143 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return new RegularImmutableMap<K, V>(entryOf(k1, v1), entryOf(k2, v2));
   }
 
-  public static <K, V> ImmutableMap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3) {
-    return new RegularImmutableMap<K, V>(
-        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
+  public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+    return new RegularImmutableMap<K, V>(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
   }
 
-  public static <K, V> ImmutableMap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+  public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
     return new RegularImmutableMap<K, V>(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
   }
 
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return new RegularImmutableMap<K, V>(entryOf(k1, v1),
-        entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
   }
 
-  // looking for of() with > 5 entries? Use the builder instead.
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9));
+  }
+
+  public static <K, V> ImmutableMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return new RegularImmutableMap<K, V>(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9),
+        entryOf(k10, v10));
+  }
+
+  // looking for of() with > 10 entries? Use the builder instead.
+
+  @SafeVarargs
+  public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return new RegularImmutableMap(entries);
+  }
 
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
@@ -192,17 +307,42 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     public ImmutableMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
       if (valueComparator != null) {
         Collections.sort(
-            entries,
-            Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+            entries, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
       }
-      return fromEntryList(entries);
+      return fromEntryList(throwIfDuplicateKeys, entries);
+    }
+
+    public ImmutableMap<K, V> buildOrThrow() {
+      return build(/* throwIfDuplicateKeys= */ true);
+    }
+
+    public ImmutableMap<K, V> buildKeepingLast() {
+      if (valueComparator != null) {
+        // Probably not worth supporting this in GWT
+        throw new UnsupportedOperationException(
+            "orderEntriesByValue + buildKeepingLast not supported under GWT");
+      }
+      return build(/* throwIfDuplicateKeys= */ false);
+    }
+
+    ImmutableMap<K, V> buildJdkBacked() {
+      return build();
     }
   }
 
-  static <K, V> ImmutableMap<K, V> fromEntryList(
+  private static <K, V> ImmutableMap<K, V> fromEntryList(
       Collection<? extends Entry<? extends K, ? extends V>> entries) {
+    return fromEntryList(/* throwIfDuplicateKeys= */ true, entries);
+  }
+
+  private static <K, V> ImmutableMap<K, V> fromEntryList(
+      boolean throwIfDuplicateKeys, Collection<? extends Entry<? extends K, ? extends V>> entries) {
     int size = entries.size();
     switch (size) {
       case 0:
@@ -212,14 +352,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return of((K) entry.getKey(), (V) entry.getValue());
       default:
         @SuppressWarnings("unchecked")
-        Entry<K, V>[] entryArray
-            = entries.toArray(new Entry[entries.size()]);
-        return new RegularImmutableMap<K, V>(entryArray);
+        Entry<K, V>[] entryArray = entries.toArray(new Entry[entries.size()]);
+        return new RegularImmutableMap<K, V>(throwIfDuplicateKeys, entryArray);
     }
   }
 
-  public static <K, V> ImmutableMap<K, V> copyOf(
-      Map<? extends K, ? extends V> map) {
+  public static <K, V> ImmutableMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
@@ -241,14 +379,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       case 0:
         return of();
       case 1:
-        Entry<? extends K, ? extends V> entry
-            = getOnlyElement(map.entrySet());
+        Entry<? extends K, ? extends V> entry = getOnlyElement(map.entrySet());
         return ImmutableMap.<K, V>of(entry.getKey(), entry.getValue());
       default:
         Map<K, V> orderPreservingCopy = Maps.newLinkedHashMap();
         for (Entry<? extends K, ? extends V> e : map.entrySet()) {
-          orderPreservingCopy.put(
-              checkNotNull(e.getKey()), checkNotNull(e.getValue()));
+          orderPreservingCopy.put(checkNotNull(e.getKey()), checkNotNull(e.getValue()));
         }
         return new RegularImmutableMap<K, V>(orderPreservingCopy);
     }
@@ -257,8 +393,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     if (entries instanceof Collection) {
-      return fromEntryList(
-          (Collection<? extends Entry<? extends K, ? extends V>>) entries);
+      return fromEntryList((Collection<? extends Entry<? extends K, ? extends V>>) entries);
     } else {
       return fromEntryList(Lists.newArrayList(entries.iterator()));
     }
@@ -324,11 +459,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   UnmodifiableIterator<K> keyIterator() {
     final UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<K>() {
-      @Override public boolean hasNext() {
+      @Override
+      public boolean hasNext() {
         return entryIterator.hasNext();
       }
 
-      @Override public K next() {
+      @Override
+      public K next() {
         return entryIterator.next().getKey();
       }
     };
@@ -353,36 +490,41 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
     return (result == null)
-        ? (multimapView = new ImmutableSetMultimap<K, V>(
-            new MapViewOfValuesAsSingletonSets(), size(), null))
+        ? (multimapView =
+            new ImmutableSetMultimap<K, V>(new MapViewOfValuesAsSingletonSets(), size(), null))
         : result;
   }
 
-  final class MapViewOfValuesAsSingletonSets
-      extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
+  final class MapViewOfValuesAsSingletonSets extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return ImmutableMap.this.size();
     }
 
-    @Override public ImmutableSet<K> keySet() {
+    @Override
+    public ImmutableSet<K> keySet() {
       return ImmutableMap.this.keySet();
     }
 
-    @Override public boolean containsKey(@Nullable Object key) {
+    @Override
+    public boolean containsKey(@Nullable Object key) {
       return ImmutableMap.this.containsKey(key);
     }
 
-    @Override public ImmutableSet<V> get(@Nullable Object key) {
+    @Override
+    public ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
 
-    @Override boolean isPartialView() {
+    @Override
+    boolean isPartialView() {
       return ImmutableMap.this.isPartialView();
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same
       return ImmutableMap.this.hashCode();
     }
@@ -391,18 +533,22 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     UnmodifiableIterator<Entry<K, ImmutableSet<V>>> entryIterator() {
       final Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
       return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
-        @Override public boolean hasNext() {
+        @Override
+        public boolean hasNext() {
           return backingIterator.hasNext();
         }
 
-        @Override public Entry<K, ImmutableSet<V>> next() {
+        @Override
+        public Entry<K, ImmutableSet<V>> next() {
           final Entry<K, V> backingEntry = backingIterator.next();
           return new AbstractMapEntry<K, ImmutableSet<V>>() {
-            @Override public K getKey() {
+            @Override
+            public K getKey() {
               return backingEntry.getKey();
             }
 
-            @Override public ImmutableSet<V> getValue() {
+            @Override
+            public ImmutableSet<V> getValue() {
               return ImmutableSet.of(backingEntry.getValue());
             }
           };
@@ -415,17 +561,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return new ImmutableMapValues<K, V>(this);
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     // not caching hash code since it could change if map values are mutable
     // in a way that modifies their hash codes
     return entrySet().hashCode();
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return Maps.toStringImpl(this);
   }
 }

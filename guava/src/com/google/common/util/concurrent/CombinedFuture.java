@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.AggregateFuture.ReleaseResourcesReason.OUTPUT_FUTURE_DONE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
@@ -25,23 +25,24 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Aggregate future that computes its value by calling a callable.
- */
+/** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
-final class CombinedFuture<V> extends AggregateFuture<Object, V> {
+@ElementTypesAreNonnullByDefault
+final class CombinedFuture<V extends @Nullable Object>
+    extends AggregateFuture<@Nullable Object, V> {
+  @CheckForNull private CombinedFutureInterruptibleTask<?> task;
+
   CombinedFuture(
       ImmutableCollection<? extends ListenableFuture<?>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       AsyncCallable<V> callable) {
-    init(
-        new CombinedFutureRunningState(
-            futures,
-            allMustSucceed,
-            new AsyncCallableInterruptibleTask(callable, listenerExecutor)));
+    super(futures, allMustSucceed, false);
+    this.task = new AsyncCallableInterruptibleTask(callable, listenerExecutor);
+    init();
   }
 
   CombinedFuture(
@@ -49,56 +50,51 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       boolean allMustSucceed,
       Executor listenerExecutor,
       Callable<V> callable) {
-    init(
-        new CombinedFutureRunningState(
-            futures, allMustSucceed, new CallableInterruptibleTask(callable, listenerExecutor)));
+    super(futures, allMustSucceed, false);
+    this.task = new CallableInterruptibleTask(callable, listenerExecutor);
+    init();
   }
 
-  private final class CombinedFutureRunningState extends RunningState {
-    private CombinedFutureInterruptibleTask task;
+  @Override
+  void collectOneValue(int index, @CheckForNull Object returnValue) {}
 
-    CombinedFutureRunningState(
-        ImmutableCollection<? extends ListenableFuture<?>> futures,
-        boolean allMustSucceed,
-        CombinedFutureInterruptibleTask task) {
-      super(futures, allMustSucceed, false);
-      this.task = task;
+  @Override
+  void handleAllCompleted() {
+    CombinedFutureInterruptibleTask<?> localTask = task;
+    if (localTask != null) {
+      localTask.execute();
     }
+  }
 
-    @Override
-    void collectOneValue(boolean allMustSucceed, int index, @Nullable Object returnValue) {}
-
-    @Override
-    void handleAllCompleted() {
-      CombinedFutureInterruptibleTask localTask = task;
-      if (localTask != null) {
-        localTask.execute();
-      } else {
-        checkState(isDone());
-      }
-    }
-
-    @Override
-    void releaseResourcesAfterFailure() {
-      super.releaseResourcesAfterFailure();
+  @Override
+  void releaseResources(ReleaseResourcesReason reason) {
+    super.releaseResources(reason);
+    /*
+     * If the output future is done, then it won't need to interrupt the task later, so it can clear
+     * its reference to it.
+     *
+     * If the output future is *not* done, then the task field will be cleared after the task runs
+     * or after the output future is done, whichever comes first.
+     */
+    if (reason == OUTPUT_FUTURE_DONE) {
       this.task = null;
     }
+  }
 
-    @Override
-    void interruptTask() {
-      CombinedFutureInterruptibleTask localTask = task;
-      if (localTask != null) {
-        localTask.interruptTask();
-      }
+  @Override
+  protected void interruptTask() {
+    CombinedFutureInterruptibleTask<?> localTask = task;
+    if (localTask != null) {
+      localTask.interruptTask();
     }
   }
 
   @WeakOuter
-  private abstract class CombinedFutureInterruptibleTask<T> extends InterruptibleTask<T> {
+  private abstract class CombinedFutureInterruptibleTask<T extends @Nullable Object>
+      extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
-    boolean thrownByExecute = true;
 
-    public CombinedFutureInterruptibleTask(Executor listenerExecutor) {
+    CombinedFutureInterruptibleTask(Executor listenerExecutor) {
       this.listenerExecutor = checkNotNull(listenerExecutor);
     }
 
@@ -111,28 +107,47 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       try {
         listenerExecutor.execute(this);
       } catch (RejectedExecutionException e) {
-        if (thrownByExecute) {
-          setException(e);
-        }
+        CombinedFuture.this.setException(e);
       }
     }
 
     @Override
-    final void afterRanInterruptibly(T result, Throwable error) {
-      if (error != null) {
-        if (error instanceof ExecutionException) {
-          setException(error.getCause());
-        } else if (error instanceof CancellationException) {
-          cancel(false);
-        } else {
-          setException(error);
-        }
+    final void afterRanInterruptiblySuccess(@ParametricNullness T result) {
+      /*
+       * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
+       *
+       * TODO(cpovirk): It might be nice for our InterruptibleTask subclasses to null out their
+       *  `callable` fields automatically. That would make it less important for us to null out the
+       * reference to `task` here (though it's still nice to do so in case our reference to the
+       * executor keeps it alive). Ideally, nulling out `callable` would be the responsibility of
+       * InterruptibleTask itself so that its other subclasses also benefit. (Handling `callable` in
+       * InterruptibleTask itself might also eliminate some of the existing boilerplate for, e.g.,
+       * pendingToString().)
+       */
+      CombinedFuture.this.task = null;
+
+      setValue(result);
+    }
+
+    @Override
+    final void afterRanInterruptiblyFailure(Throwable error) {
+      // See afterRanInterruptiblySuccess.
+      CombinedFuture.this.task = null;
+
+      if (error instanceof ExecutionException) {
+        /*
+         * Cast to ExecutionException to satisfy our nullness checker, which (unsoundly but
+         * *usually* safely) assumes that getCause() returns non-null on an ExecutionException.
+         */
+        CombinedFuture.this.setException(((ExecutionException) error).getCause());
+      } else if (error instanceof CancellationException) {
+        cancel(false);
       } else {
-        setValue(result);
+        CombinedFuture.this.setException(error);
       }
     }
 
-    abstract void setValue(T value);
+    abstract void setValue(@ParametricNullness T value);
   }
 
   @WeakOuter
@@ -140,28 +155,28 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       extends CombinedFutureInterruptibleTask<ListenableFuture<V>> {
     private final AsyncCallable<V> callable;
 
-    public AsyncCallableInterruptibleTask(AsyncCallable<V> callable, Executor listenerExecutor) {
+    AsyncCallableInterruptibleTask(AsyncCallable<V> callable, Executor listenerExecutor) {
       super(listenerExecutor);
       this.callable = checkNotNull(callable);
     }
 
     @Override
     ListenableFuture<V> runInterruptibly() throws Exception {
-      thrownByExecute = false;
       ListenableFuture<V> result = callable.call();
       return checkNotNull(
           result,
           "AsyncCallable.call returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          callable);
     }
 
     @Override
     void setValue(ListenableFuture<V> value) {
-      setFuture(value);
+      CombinedFuture.this.setFuture(value);
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }
@@ -170,24 +185,24 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   private final class CallableInterruptibleTask extends CombinedFutureInterruptibleTask<V> {
     private final Callable<V> callable;
 
-    public CallableInterruptibleTask(Callable<V> callable, Executor listenerExecutor) {
+    CallableInterruptibleTask(Callable<V> callable, Executor listenerExecutor) {
       super(listenerExecutor);
       this.callable = checkNotNull(callable);
     }
 
     @Override
+    @ParametricNullness
     V runInterruptibly() throws Exception {
-      thrownByExecute = false;
       return callable.call();
     }
 
     @Override
-    void setValue(V value) {
+    void setValue(@ParametricNullness V value) {
       CombinedFuture.this.set(value);
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }

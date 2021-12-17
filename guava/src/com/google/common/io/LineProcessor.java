@@ -18,19 +18,21 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A callback to be used with the streaming {@code readLines} methods.
  *
- * <p>{@link #processLine} will be called for each line that is read, and should return
- * {@code false} when you want to stop processing.
+ * <p>{@link #processLine} will be called for each line that is read, and should return {@code
+ * false} when you want to stop processing.
  *
  * @author Miles Barr
  * @since 1.0
  */
 @Beta
 @GwtIncompatible
-public interface LineProcessor<T> {
+@ElementTypesAreNonnullByDefault
+public interface LineProcessor<T extends @Nullable Object> {
 
   /**
    * This method will be called once for each line.
@@ -42,5 +44,6 @@ public interface LineProcessor<T> {
   boolean processLine(String line) throws IOException;
 
   /** Return the result of processing all the lines. */
+  @ParametricNullness
   T getResult();
 }

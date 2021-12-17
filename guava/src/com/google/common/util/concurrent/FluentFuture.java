@@ -14,16 +14,22 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ListenableFuture} that supports fluent chains of operations. For example:
@@ -45,7 +51,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -66,10 +72,55 @@ import java.util.concurrent.TimeoutException;
  *
  * @since 23.0
  */
-@Beta
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
-public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
+@ElementTypesAreNonnullByDefault
+public abstract class FluentFuture<V extends @Nullable Object>
+    extends GwtFluentFutureCatchingSpecialization<V> {
+
+  /**
+   * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
+   * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
+   */
+  abstract static class TrustedFuture<V extends @Nullable Object> extends FluentFuture<V>
+      implements AbstractFuture.Trusted<V> {
+    @CanIgnoreReturnValue
+    @Override
+    @ParametricNullness
+    public final V get() throws InterruptedException, ExecutionException {
+      return super.get();
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    @ParametricNullness
+    public final V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return super.get(timeout, unit);
+    }
+
+    @Override
+    public final boolean isDone() {
+      return super.isDone();
+    }
+
+    @Override
+    public final boolean isCancelled() {
+      return super.isCancelled();
+    }
+
+    @Override
+    public final void addListener(Runnable listener, Executor executor) {
+      super.addListener(listener, executor);
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    public final boolean cancel(boolean mayInterruptIfRunning) {
+      return super.cancel(mayInterruptIfRunning);
+    }
+  }
+
   FluentFuture() {}
 
   /**
@@ -79,10 +130,21 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the
    * original {@code ListenableFuture}.
    */
-  public static <V> FluentFuture<V> from(ListenableFuture<V> future) {
+  public static <V extends @Nullable Object> FluentFuture<V> from(ListenableFuture<V> future) {
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since 28.0
+   */
+  @Deprecated
+  public static <V extends @Nullable Object> FluentFuture<V> from(FluentFuture<V> future) {
+    return checkNotNull(future);
   }
 
   /**
@@ -123,13 +185,14 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catching(
       Class<X> exceptionType, Function<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catching(this, exceptionType, fallback, executor);
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from this {@code Future} or, if the this {@code
+   * Returns a {@code Future} whose result is taken from this {@code Future} or, if this {@code
    * Future} fails with the given {@code exceptionType}, from the result provided by the {@code
    * fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has failed, so if
    * the primary input succeeds, it is never invoked. If, during the invocation of {@code fallback},
@@ -152,7 +215,6 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * // TimeoutException.
    * ListenableFuture<Integer> faultTolerantFuture =
    *     fetchCounters().catchingAsync(
-   *         fetchCounterFuture,
    *         FetchException.class,
    *         e -> {
    *           if (omitDataOnFetchFailure) {
@@ -188,9 +250,27 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param executor the executor that runs {@code fallback} if the input fails
    */
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @Beta
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
       Class<X> exceptionType, AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catchingAsync(this, exceptionType, fallback, executor);
+  }
+
+  /**
+   * Returns a future that delegates to this future but will finish early (via a {@link
+   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.
+   * If the timeout expires, not only will the output future finish, but also the input future
+   * ({@code this}) will be cancelled and interrupted.
+   *
+   * @param timeout when to time out the future
+   * @param scheduledExecutor The executor service to enforce the timeout.
+   * @since 28.0
+   */
+  @GwtIncompatible // ScheduledExecutorService
+  @Beta
+  public final FluentFuture<V> withTimeout(
+      Duration timeout, ScheduledExecutorService scheduledExecutor) {
+    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**
@@ -204,6 +284,8 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
   @GwtIncompatible // ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @Beta
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);
@@ -248,7 +330,8 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    */
-  public final <T> FluentFuture<T> transformAsync(
+  @Beta
+  public final <T extends @Nullable Object> FluentFuture<T> transformAsync(
       AsyncFunction<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transformAsync(this, function, executor);
   }
@@ -285,7 +368,9 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    */
-  public final <T> FluentFuture<T> transform(Function<? super V, T> function, Executor executor) {
+  @Beta
+  public final <T extends @Nullable Object> FluentFuture<T> transform(
+      Function<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transform(this, function, executor);
   }
 

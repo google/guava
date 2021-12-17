@@ -24,9 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Chris Povirk
  */
 final class Platform {
-  /**
-   * Serializes and deserializes the specified object (a no-op under GWT).
-   */
+  /** Serializes and deserializes the specified object (a no-op under GWT). */
   @SuppressWarnings("unchecked")
   static <T> T reserialize(T object) {
     return checkNotNull(object);

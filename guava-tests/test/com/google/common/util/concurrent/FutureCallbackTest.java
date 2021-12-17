@@ -24,8 +24,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.mockito.Mockito;
 
 /**
@@ -135,18 +135,20 @@ public class FutureCallbackTest extends TestCase {
   public void testWildcardFuture() {
     SettableFuture<String> settable = SettableFuture.create();
     ListenableFuture<?> f = settable;
-    FutureCallback<Object> callback = new FutureCallback<Object>() {
-      @Override
-      public void onSuccess(Object result) {}
+    FutureCallback<Object> callback =
+        new FutureCallback<Object>() {
+          @Override
+          public void onSuccess(Object result) {}
 
-      @Override
-      public void onFailure(Throwable t) {}
-    };
+          @Override
+          public void onFailure(Throwable t) {}
+        };
     addCallback(f, callback, directExecutor());
   }
 
   private class CountingSameThreadExecutor implements Executor {
     int runCount = 0;
+
     @Override
     public void execute(Runnable command) {
       command.run();

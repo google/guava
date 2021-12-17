@@ -111,7 +111,8 @@ public class CharSinkTest extends IoTestCase {
       }
       // ensure writer was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if source.newReader() throws).
-      assertTrue("stream not closed when copying from source with option: " + option,
+      assertTrue(
+          "stream not closed when copying from source with option: " + option,
           !okSink.wasStreamOpened() || okSink.wasStreamClosed());
     }
   }

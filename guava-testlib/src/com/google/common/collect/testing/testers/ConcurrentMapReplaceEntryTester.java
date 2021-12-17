@@ -26,15 +26,17 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.concurrent.ConcurrentMap;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code replace(K, V, V)} operations on a concurrent map. Can't
- * be invoked directly; please see
- * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
+ * be invoked directly; please see {@link
+ * com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, V> {
   @Override
   protected ConcurrentMap<K, V> getMap() {

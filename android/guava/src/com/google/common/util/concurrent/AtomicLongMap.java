@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.CheckForNull;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -46,13 +47,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * {@link com.google.common.collect.Multiset} such as {@link
  * com.google.common.collect.ConcurrentHashMultiset} instead.
  *
- * <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
+ * <p><b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
  *
  * @author Charles Fry
  * @since 11.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, AtomicLong> map;
 
@@ -60,16 +62,12 @@ public final class AtomicLongMap<K> implements Serializable {
     this.map = checkNotNull(map);
   }
 
-  /**
-   * Creates an {@code AtomicLongMap}.
-   */
+  /** Creates an {@code AtomicLongMap}. */
   public static <K> AtomicLongMap<K> create() {
     return new AtomicLongMap<K>(new ConcurrentHashMap<K, AtomicLong>());
   }
 
-  /**
-   * Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}.
-   */
+  /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */
   public static <K> AtomicLongMap<K> create(Map<? extends K, ? extends Long> m) {
     AtomicLongMap<K> result = create();
     result.putAll(m);
@@ -262,6 +260,32 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
+   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
+   * otherwise, this method returns false.
+   */
+  boolean remove(K key, long value) {
+    AtomicLong atomic = map.get(key);
+    if (atomic == null) {
+      return false;
+    }
+
+    long oldValue = atomic.get();
+    if (oldValue != value) {
+      return false;
+    }
+
+    if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {
+      // only remove after setting to zero, to avoid concurrent updates
+      map.remove(key, atomic);
+      // succeed even if the remove fails, since the value was already adjusted
+      return true;
+    }
+
+    // value changed
+    return false;
+  }
+
+  /**
    * Atomically remove {@code key} from the map iff its associated value is 0.
    *
    * @since 20.0
@@ -302,11 +326,9 @@ public final class AtomicLongMap<K> implements Serializable {
     return sum;
   }
 
-  private transient Map<K, Long> asMap;
+  @CheckForNull private transient Map<K, Long> asMap;
 
-  /**
-   * Returns a live, read-only view of the map backing this {@code AtomicLongMap}.
-   */
+  /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
     Map<K, Long> result = asMap;
     return (result == null) ? asMap = createAsMap() : result;
@@ -324,9 +346,7 @@ public final class AtomicLongMap<K> implements Serializable {
             }));
   }
 
-  /**
-   * Returns true if this map contains a mapping for the specified key.
-   */
+  /** Returns true if this map contains a mapping for the specified key. */
   public boolean containsKey(Object key) {
     return map.containsKey(key);
   }
@@ -339,9 +359,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return map.size();
   }
 
-  /**
-   * Returns {@code true} if this map contains no key-value mappings.
-   */
+  /** Returns {@code true} if this map contains no key-value mappings. */
   public boolean isEmpty() {
     return map.isEmpty();
   }
@@ -428,31 +446,5 @@ public final class AtomicLongMap<K> implements Serializable {
       AtomicLong atomic = map.get(key);
       return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);
     }
-  }
-
-  /**
-   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
-   * otherwise, this method returns false.
-   */
-  boolean remove(K key, long value) {
-    AtomicLong atomic = map.get(key);
-    if (atomic == null) {
-      return false;
-    }
-
-    long oldValue = atomic.get();
-    if (oldValue != value) {
-      return false;
-    }
-
-    if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {
-      // only remove after setting to zero, to avoid concurrent updates
-      map.remove(key, atomic);
-      // succeed even if the remove fails, since the value was already adjusted
-      return true;
-    }
-
-    // value changed
-    return false;
   }
 }

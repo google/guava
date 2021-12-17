@@ -85,10 +85,12 @@ public class ByteSinkTest extends IoTestCase {
       try {
         failSource.copyTo(okSink);
         fail();
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+      }
       // ensure stream was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if source.newInputStream() throws).
-      assertTrue("stream not closed when copying from source with option: " + option,
+      assertTrue(
+          "stream not closed when copying from source with option: " + option,
           !okSink.wasStreamOpened() || okSink.wasStreamClosed());
     }
   }
@@ -106,8 +108,7 @@ public class ByteSinkTest extends IoTestCase {
   public void testClosesOnErrors_writingFromInputStreamThatThrows() {
     TestByteSink okSink = new TestByteSink();
     try {
-      TestInputStream in = new TestInputStream(
-          new ByteArrayInputStream(new byte[10]), READ_THROWS);
+      TestInputStream in = new TestInputStream(new ByteArrayInputStream(new byte[10]), READ_THROWS);
       okSink.writeFrom(in);
       fail();
     } catch (IOException expected) {

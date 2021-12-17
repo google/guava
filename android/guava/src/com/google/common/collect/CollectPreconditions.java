@@ -21,10 +21,9 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-/**
- * Precondition checks useful in collection implementations.
- */
+/** Precondition checks useful in collection implementations. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class CollectPreconditions {
 
   static void checkEntryNotNull(Object key, Object value) {

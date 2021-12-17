@@ -16,10 +16,9 @@ package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 
-/**
- * A string to be parsed as a number and the radix to interpret it in.
- */
+/** A string to be parsed as a number and the radix to interpret it in. */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class ParseRequest {
   final String rawValue;
   final int radix;

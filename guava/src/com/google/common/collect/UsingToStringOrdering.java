@@ -19,11 +19,9 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 
-/**
- * An ordering that uses the natural order of the string representation of the
- * values.
- */
+/** An ordering that uses the natural order of the string representation of the values. */
 @GwtCompatible(serializable = true)
+@ElementTypesAreNonnullByDefault
 final class UsingToStringOrdering extends Ordering<Object> implements Serializable {
   static final UsingToStringOrdering INSTANCE = new UsingToStringOrdering();
 

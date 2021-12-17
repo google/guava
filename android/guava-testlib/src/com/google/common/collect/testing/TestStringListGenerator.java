@@ -43,8 +43,8 @@ public abstract class TestStringListGenerator implements TestListGenerator<Strin
   }
 
   /**
-   * Creates a new collection containing the given elements; implement this
-   * method instead of {@link #create(Object...)}.
+   * Creates a new collection containing the given elements; implement this method instead of {@link
+   * #create(Object...)}.
    */
   protected abstract List<String> create(String[] elements);
 

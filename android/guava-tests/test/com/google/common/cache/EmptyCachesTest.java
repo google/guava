@@ -47,6 +47,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
+
   public void testInvalidate_empty() {
     for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked("a");
@@ -67,6 +68,7 @@ public class EmptyCachesTest extends TestCase {
       checkEmpty(cache);
     }
   }
+
 
   public void testEquals_null() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -113,7 +115,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       try {
-        keys.toArray(null);
+        keys.toArray((Object[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
@@ -136,6 +138,7 @@ public class EmptyCachesTest extends TestCase {
       }
     }
   }
+
 
   public void testKeySet_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -187,7 +190,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
       try {
-        values.toArray(null);
+        values.toArray((Object[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
@@ -210,6 +213,7 @@ public class EmptyCachesTest extends TestCase {
       }
     }
   }
+
 
   public void testValues_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -261,7 +265,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       try {
-        entries.toArray(null);
+        entries.toArray((Entry<Object, Object>[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
@@ -284,6 +288,7 @@ public class EmptyCachesTest extends TestCase {
       }
     }
   }
+
 
   public void testEntrySet_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -331,16 +336,15 @@ public class EmptyCachesTest extends TestCase {
 
   /* ---------------- Local utilities -------------- */
 
-  /**
-   * Most of the tests in this class run against every one of these caches.
-   */
+  /** Most of the tests in this class run against every one of these caches. */
   private Iterable<LoadingCache<Object, Object>> caches() {
     // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
-    return Iterables.transform(factory.buildAllPermutations(),
+    return Iterables.transform(
+        factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
-          @Override public LoadingCache<Object, Object> apply(
-              CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
             return builder.build(identityLoader());
           }
         });
@@ -353,17 +357,13 @@ public class EmptyCachesTest extends TestCase {
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
         .withMaximumSizes(ImmutableSet.of(0, 1, 10, 100, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpireAfterWrites(ImmutableSet.of(
-            DurationSpec.of(0, SECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withExpireAfterAccesses(ImmutableSet.of(
-            DurationSpec.of(0, SECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withRefreshes(ImmutableSet.of(
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)));
+        .withExpireAfterWrites(
+            ImmutableSet.of(
+                DurationSpec.of(0, SECONDS), DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(
+            ImmutableSet.of(
+                DurationSpec.of(0, SECONDS), DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
+        .withRefreshes(ImmutableSet.of(DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
   private static void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {

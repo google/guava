@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -45,18 +47,22 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(5, TimeUnit.MILLISECONDS);
       fail();
-    } catch (TimeoutException expected) {}
+    } catch (TimeoutException expected) {
+    }
   }
+
 
   public void testSetValue() throws Exception {
     assertTrue(future.set("value"));
     tester.testCompletedFuture("value");
   }
 
+
   public void testSetFailure() throws Exception {
     assertTrue(future.setException(new Exception("failure")));
     tester.testFailedFuture("failure");
   }
+
 
   public void testSetFailureNull() throws Exception {
     try {
@@ -68,6 +74,7 @@ public class SettableFutureTest extends TestCase {
     assertTrue(future.setException(new Exception("failure")));
     tester.testFailedFuture("failure");
   }
+
 
   public void testCancel() throws Exception {
     assertTrue(future.cancel(true));
@@ -109,7 +116,7 @@ public class SettableFutureTest extends TestCase {
       future.get();
       fail("Expected ExecutionException");
     } catch (ExecutionException ee) {
-      assertSame(e, ee.getCause());
+      assertThat(ee).hasCauseThat().isSameInstanceAs(e);
     }
   }
 
@@ -127,7 +134,9 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(0, TimeUnit.MILLISECONDS);
       fail("Expected TimeoutException");
-    } catch (TimeoutException expected) { /* expected */ }
+    } catch (TimeoutException expected) {
+      /* expected */
+    }
     nested.set("foo");
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -135,6 +144,7 @@ public class SettableFutureTest extends TestCase {
   }
 
   private static class Foo {}
+
   private static class FooChild extends Foo {}
 
   public void testSetFuture_genericsHierarchy() throws Exception {
@@ -151,7 +161,9 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(0, TimeUnit.MILLISECONDS);
       fail("Expected TimeoutException");
-    } catch (TimeoutException expected) { /* expected */ }
+    } catch (TimeoutException expected) {
+      /* expected */
+    }
     FooChild value = new FooChild();
     nested.set(value);
     assertTrue(future.isDone());
@@ -168,7 +180,9 @@ public class SettableFutureTest extends TestCase {
     try {
       async.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) {
+      /* expected */
+    }
   }
 
   public void testCancel_resultCancelsInner_interrupted() throws Exception {
@@ -181,7 +195,9 @@ public class SettableFutureTest extends TestCase {
     try {
       inner.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) {
+      /* expected */
+    }
   }
 
   public void testCancel_resultCancelsInner() throws Exception {
@@ -194,7 +210,9 @@ public class SettableFutureTest extends TestCase {
     try {
       inner.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) {
+      /* expected */
+    }
   }
 
   public void testCancel_beforeSet() throws Exception {

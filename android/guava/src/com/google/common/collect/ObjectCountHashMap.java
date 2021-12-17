@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.collect.CollectPreconditions.checkPositive;
 import static com.google.common.collect.Hashing.smearedHash;
 
@@ -24,26 +25,25 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * ObjectCountHashMap is an implementation of {@code AbstractObjectCountMap} that uses arrays to
- * store key objects and count values. Comparing to using a traditional {@code HashMap}
- * implementation which stores keys and count values as map entries, {@code ObjectCountHashMap}
- * minimizes object allocation and reduces memory footprint.
+ * {@code ObjectCountHashMap} uses arrays to store key objects and count values. Comparing to using
+ * a traditional {@code HashMap} implementation which stores keys and count values as map entries,
+ * {@code ObjectCountHashMap} minimizes object allocation and reduces memory footprint.
  *
  * <p>In the absence of element deletions, this will iterate over elements in insertion order.
  */
 @GwtCompatible(serializable = true, emulated = true)
-class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
+@ElementTypesAreNonnullByDefault
+class ObjectCountHashMap<K extends @Nullable Object> {
 
   /** Creates an empty {@code ObjectCountHashMap} instance. */
-  public static <K> ObjectCountHashMap<K> create() {
+  static <K extends @Nullable Object> ObjectCountHashMap<K> create() {
     return new ObjectCountHashMap<K>();
   }
 
@@ -56,7 +56,8 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K> ObjectCountHashMap<K> createWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object> ObjectCountHashMap<K> createWithExpectedSize(
+      int expectedSize) {
     return new ObjectCountHashMap<K>(expectedSize);
   }
 
@@ -74,6 +75,21 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
 
   // used to indicate blank table entries
   static final int UNSET = -1;
+
+  /*
+   * The array fields below are not initialized directly in the constructor, but they're initialized
+   * by init(), which the constructor calls.
+   */
+
+  /** The keys of the entries in the map. */
+  transient @Nullable Object[] keys;
+
+  /** The values of the entries in the map. */
+  transient int[] values;
+
+  transient int size;
+
+  transient int modCount;
 
   /**
    * The hashtable. Its values are indexes to the keys, values, and entries arrays.
@@ -104,7 +120,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     init(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR);
   }
 
-  ObjectCountHashMap(AbstractObjectCountMap<K> map) {
+  ObjectCountHashMap(ObjectCountHashMap<? extends K> map) {
     init(map.size(), DEFAULT_LOAD_FACTOR);
     for (int i = map.firstIndex(); i != -1; i = map.nextIndex(i)) {
       put(map.getKey(i), map.getValue(i));
@@ -131,7 +147,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     this.table = newTable(buckets);
     this.loadFactor = loadFactor;
 
-    this.keys = new Object[expectedSize];
+    this.keys = new @Nullable Object[expectedSize];
     this.values = new int[expectedSize];
 
     this.entries = newEntries(expectedSize);
@@ -154,6 +170,91 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     return table.length - 1;
   }
 
+  int firstIndex() {
+    return (size == 0) ? -1 : 0;
+  }
+
+  int nextIndex(int index) {
+    return (index + 1 < size) ? index + 1 : -1;
+  }
+
+  int nextIndexAfterRemove(int oldNextIndex, @SuppressWarnings("unused") int removedIndex) {
+    return oldNextIndex - 1;
+  }
+
+  int size() {
+    return size;
+  }
+
+  @SuppressWarnings("unchecked")
+  @ParametricNullness
+  K getKey(int index) {
+    checkElementIndex(index, size);
+    return (K) keys[index];
+  }
+
+  int getValue(int index) {
+    checkElementIndex(index, size);
+    return values[index];
+  }
+
+  void setValue(int index, int newValue) {
+    checkElementIndex(index, size);
+    values[index] = newValue;
+  }
+
+  Entry<K> getEntry(int index) {
+    checkElementIndex(index, size);
+    return new MapEntry(index);
+  }
+
+  class MapEntry extends AbstractEntry<K> {
+    @ParametricNullness final K key;
+
+    int lastKnownIndex;
+
+    @SuppressWarnings("unchecked") // keys only contains Ks
+    MapEntry(int index) {
+      this.key = (K) keys[index];
+      this.lastKnownIndex = index;
+    }
+
+    @Override
+    @ParametricNullness
+    public K getElement() {
+      return key;
+    }
+
+    void updateLastKnownIndex() {
+      if (lastKnownIndex == -1
+          || lastKnownIndex >= size()
+          || !Objects.equal(key, keys[lastKnownIndex])) {
+        lastKnownIndex = indexOf(key);
+      }
+    }
+
+    @SuppressWarnings("unchecked") // values only contains Vs
+    @Override
+    public int getCount() {
+      updateLastKnownIndex();
+      return (lastKnownIndex == -1) ? 0 : values[lastKnownIndex];
+    }
+
+    @SuppressWarnings("unchecked") // values only contains Vs
+    @CanIgnoreReturnValue
+    public int setCount(int count) {
+      updateLastKnownIndex();
+      if (lastKnownIndex == -1) {
+        put(key, count);
+        return 0;
+      } else {
+        int old = values[lastKnownIndex];
+        values[lastKnownIndex] = count;
+        return old;
+      }
+    }
+  }
+
   private static int getHash(long entry) {
     return (int) (entry >>> 32);
   }
@@ -168,12 +269,21 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     return (HASH_MASK & entry) | (NEXT_MASK & newNext);
   }
 
+  void ensureCapacity(int minCapacity) {
+    if (minCapacity > entries.length) {
+      resizeEntries(minCapacity);
+    }
+    if (minCapacity >= threshold) {
+      int newTableSize = Math.max(2, Integer.highestOneBit(minCapacity - 1) << 1);
+      resizeTable(newTableSize);
+    }
+  }
+
   @CanIgnoreReturnValue
-  @Override
-  public int put(@Nullable K key, int value) {
+  public int put(@ParametricNullness K key, int value) {
     checkPositive(value, "count");
     long[] entries = this.entries;
-    Object[] keys = this.keys;
+    @Nullable Object[] keys = this.keys;
     int[] values = this.values;
 
     int hash = smearedHash(key);
@@ -215,7 +325,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry array.
    */
-  void insertEntry(int entryIndex, @Nullable K key, int value, int hash) {
+  void insertEntry(int entryIndex, @ParametricNullness K key, int value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;
@@ -276,8 +386,7 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     this.table = newTable;
   }
 
-  @Override
-  int indexOf(@Nullable Object key) {
+  int indexOf(@CheckForNull Object key) {
     int hash = smearedHash(key);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -290,30 +399,21 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     return -1;
   }
 
-  @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@CheckForNull Object key) {
     return indexOf(key) != -1;
   }
 
-  @Override
-  public int get(@Nullable Object key) {
+  public int get(@CheckForNull Object key) {
     int index = indexOf(key);
     return (index == -1) ? 0 : values[index];
   }
 
   @CanIgnoreReturnValue
-  @Override
-  public int remove(@Nullable Object key) {
+  public int remove(@CheckForNull Object key) {
     return remove(key, smearedHash(key));
   }
 
-  @CanIgnoreReturnValue
-  @Override
-  int removeEntry(int entryIndex) {
-    return remove(keys[entryIndex], getHash(entries[entryIndex]));
-  }
-
-  private int remove(@Nullable Object key, int hash) {
+  private int remove(@CheckForNull Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket
@@ -343,6 +443,11 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
       next = getNext(entries[next]);
     } while (next != UNSET);
     return 0;
+  }
+
+  @CanIgnoreReturnValue
+  int removeEntry(int entryIndex) {
+    return remove(keys[entryIndex], getHash(entries[entryIndex]));
   }
 
   /**
@@ -387,26 +492,6 @@ class ObjectCountHashMap<K> extends AbstractObjectCountMap<K> {
     }
   }
 
-  @Override
-  Set<Entry<K>> createEntrySet() {
-    return new HashEntrySetView();
-  }
-
-  @WeakOuter
-  class HashEntrySetView extends EntrySetView {
-
-    @Override
-    public Iterator<Entry<K>> iterator() {
-      return new Itr<Entry<K>>() {
-        @Override
-        Entry<K> getOutput(int entry) {
-          return new MapEntry(entry);
-        }
-      };
-    }
-  }
-
-  @Override
   public void clear() {
     modCount++;
     Arrays.fill(keys, 0, size, null);

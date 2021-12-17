@@ -19,11 +19,11 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ListIterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * A list iterator which forwards all its method calls to another list
- * iterator. Subclasses should override one or more methods to modify the
- * behavior of the backing iterator as desired per the <a
+ * A list iterator which forwards all its method calls to another list iterator. Subclasses should
+ * override one or more methods to modify the behavior of the backing iterator as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code
@@ -37,8 +37,9 @@ import java.util.ListIterator;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
-    implements ListIterator<E> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingListIterator<E extends @Nullable Object>
+    extends ForwardingIterator<E> implements ListIterator<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingListIterator() {}
@@ -47,7 +48,7 @@ public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
   protected abstract ListIterator<E> delegate();
 
   @Override
-  public void add(E element) {
+  public void add(@ParametricNullness E element) {
     delegate().add(element);
   }
 
@@ -63,6 +64,7 @@ public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
 
   @CanIgnoreReturnValue
   @Override
+  @ParametricNullness
   public E previous() {
     return delegate().previous();
   }
@@ -73,7 +75,7 @@ public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
   }
 
   @Override
-  public void set(E element) {
+  public void set(@ParametricNullness E element) {
     delegate().set(element);
   }
 }

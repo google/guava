@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Tester to make sure the {@code iterator().remove()} implementation of {@code Multiset} works when
@@ -36,6 +37,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   @SuppressWarnings("unchecked")
   @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})

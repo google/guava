@@ -24,11 +24,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
-/**
- * Skeleton for a tester of a {@code BiMap}.
- */
+/** Skeleton for a tester of a {@code BiMap}. */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override

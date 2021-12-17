@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code toString()} operations on a map. Can't be invoked
@@ -38,6 +39,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   public void testToString_minimal() {
     assertNotNull("toString() should not return null", getMap().toString());

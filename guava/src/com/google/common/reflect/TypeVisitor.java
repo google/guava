@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Based on what a {@link Type} is, dispatch it to the corresponding {@code visit*} method. By
@@ -28,22 +29,23 @@ import java.util.Set;
  * recursion by calling {@link #visit} for any {@code Type} while visitation is in progress. For
  * example, this can be used to reject wildcards or type variables contained in a type as in:
  *
- * <pre>   {@code
- *   new TypeVisitor() {
- *     protected void visitParameterizedType(ParameterizedType t) {
- *       visit(t.getOwnerType());
- *       visit(t.getActualTypeArguments());
- *     }
- *     protected void visitGenericArrayType(GenericArrayType t) {
- *       visit(t.getGenericComponentType());
- *     }
- *     protected void visitTypeVariable(TypeVariable<?> t) {
- *       throw new IllegalArgumentException("Cannot contain type variable.");
- *     }
- *     protected void visitWildcardType(WildcardType t) {
- *       throw new IllegalArgumentException("Cannot contain wildcard type.");
- *     }
- *   }.visit(type);}</pre>
+ * <pre>{@code
+ * new TypeVisitor() {
+ *   protected void visitParameterizedType(ParameterizedType t) {
+ *     visit(t.getOwnerType());
+ *     visit(t.getActualTypeArguments());
+ *   }
+ *   protected void visitGenericArrayType(GenericArrayType t) {
+ *     visit(t.getGenericComponentType());
+ *   }
+ *   protected void visitTypeVariable(TypeVariable<?> t) {
+ *     throw new IllegalArgumentException("Cannot contain type variable.");
+ *   }
+ *   protected void visitWildcardType(WildcardType t) {
+ *     throw new IllegalArgumentException("Cannot contain wildcard type.");
+ *   }
+ * }.visit(type);
+ * }</pre>
  *
  * <p>One {@code Type} is visited at most once. The second time the same type is visited, it's
  * ignored by {@link #visit}. This avoids infinite recursion caused by recursive type bounds.
@@ -52,15 +54,16 @@ import java.util.Set;
  *
  * @author Ben Yu
  */
+@ElementTypesAreNonnullByDefault
 abstract class TypeVisitor {
 
   private final Set<Type> visited = Sets.newHashSet();
 
   /**
-   * Visits the given types. Null types are ignored. This allows subclasses to call
-   * {@code visit(parameterizedType.getOwnerType())} safely without having to check nulls.
+   * Visits the given types. Null types are ignored. This allows subclasses to call {@code
+   * visit(parameterizedType.getOwnerType())} safely without having to check nulls.
    */
-  public final void visit(Type... types) {
+  public final void visit(@Nullable Type... types) {
     for (Type type : types) {
       if (type == null || !visited.add(type)) {
         // null owner type, or already visited;

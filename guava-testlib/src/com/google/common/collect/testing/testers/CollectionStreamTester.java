@@ -23,15 +23,16 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import java.util.Arrays;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code stream} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code stream} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionStreamTester<E> extends AbstractCollectionTester<E> {
   /*
    * We're not really testing the implementation of Stream, only that we're getting a Stream

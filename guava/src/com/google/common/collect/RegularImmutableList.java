@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableList} backed by a simple array.
@@ -28,11 +29,11 @@ import java.util.Spliterators;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@ElementTypesAreNonnullByDefault
 class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<>(new Object[0]);
 
-  @VisibleForTesting
-  final transient Object[] array;
+  @VisibleForTesting final transient Object[] array;
 
   RegularImmutableList(Object[] array) {
     this.array = array;
@@ -49,7 +50,22 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  int copyIntoArray(Object[] dst, int dstOff) {
+  Object[] internalArray() {
+    return array;
+  }
+
+  @Override
+  int internalArrayStart() {
+    return 0;
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return array.length;
+  }
+
+  @Override
+  int copyIntoArray(@Nullable Object[] dst, int dstOff) {
     System.arraycopy(array, 0, dst, dstOff, array.length);
     return dstOff + array.length;
   }

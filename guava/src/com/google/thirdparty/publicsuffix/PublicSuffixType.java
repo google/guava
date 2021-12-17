@@ -18,8 +18,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * <b>Do not use this class directly. For access to public-suffix information,
- * use {@link com.google.common.net.InternetDomainName}.</b>
+ * <b>Do not use this class directly. For access to public-suffix information, use {@link
+ * com.google.common.net.InternetDomainName}.</b>
  *
  * <p>Specifies the type of a top-level domain definition.
  *
@@ -40,7 +40,7 @@ public enum PublicSuffixType {
   /** The character used for a leaf node in the trie encoding */
   private final char leafNodeCode;
 
-  private PublicSuffixType(char innerNodeCode, char leafNodeCode) {
+  PublicSuffixType(char innerNodeCode, char leafNodeCode) {
     this.innerNodeCode = innerNodeCode;
     this.leafNodeCode = leafNodeCode;
   }
@@ -61,9 +61,5 @@ public enum PublicSuffixType {
       }
     }
     throw new IllegalArgumentException("No enum corresponding to given code: " + code);
-  }
-
-  static PublicSuffixType fromIsPrivate(boolean isPrivate) {
-    return isPrivate ? PRIVATE : REGISTRY;
   }
 }

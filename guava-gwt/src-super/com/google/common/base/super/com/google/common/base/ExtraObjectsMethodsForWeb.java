@@ -14,11 +14,9 @@
 
 package com.google.common.base;
 
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Holder for extra methods of {@code Objects} only in web.
- */
+/** Holder for extra methods of {@code Objects} only in web. */
 abstract class ExtraObjectsMethodsForWeb {
   public static boolean equal(@Nullable String a, @Nullable String b) {
     return a == b;

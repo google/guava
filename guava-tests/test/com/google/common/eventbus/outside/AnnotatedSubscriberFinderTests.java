@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 /**
  * Test that EventBus finds the correct subscribers.
  *
- * This test must be outside the c.g.c.eventbus package to test correctly.
+ * <p>This test must be outside the c.g.c.eventbus package to test correctly.
  *
  * @author Louis Wasserman
  */
@@ -137,8 +137,8 @@ public class AnnotatedSubscriberFinderTests {
       final List<Object> notOverriddenInSubclassEvents = Lists.newArrayList();
       final List<Object> overriddenNotAnnotatedInSubclassEvents = Lists.newArrayList();
       final List<Object> overriddenAndAnnotatedInSubclassEvents = Lists.newArrayList();
-      final List<Object> differentlyOverriddenNotAnnotatedInSubclassBadEvents = Lists
-          .newArrayList();
+      final List<Object> differentlyOverriddenNotAnnotatedInSubclassBadEvents =
+          Lists.newArrayList();
       final List<Object> differentlyOverriddenAnnotatedInSubclassBadEvents = Lists.newArrayList();
 
       @Subscribe
@@ -170,8 +170,8 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     static class SubClass extends SuperClass {
-      final List<Object> differentlyOverriddenNotAnnotatedInSubclassGoodEvents = Lists
-          .newArrayList();
+      final List<Object> differentlyOverriddenNotAnnotatedInSubclassGoodEvents =
+          Lists.newArrayList();
       final List<Object> differentlyOverriddenAnnotatedInSubclassGoodEvents = Lists.newArrayList();
 
       @Override

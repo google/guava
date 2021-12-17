@@ -11,15 +11,13 @@
   <name>Guava GWT compatible libs</name>
   <description>
     Guava is a suite of core and expanded libraries that include
-    utility classes, google's collections, io classes, and much
+    utility classes, Google's collections, I/O classes, and
     much more.
 
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <!-- We skip GWT tests by default. To run, pass -Dgwt.test.include=**/GwtTestSuite.java -->
-    <gwt.test.include>**/DoesNotMatchAnyTests.java</gwt.test.include>
-    <gwt.version>2.8.2</gwt.version>
+    <gwt.version>2.9.0</gwt.version>
     <gwt.plugin.version>2.8.2</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
@@ -46,8 +44,18 @@
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
+      <artifactId>failureaccess</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-promise</artifactId>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -79,7 +87,7 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
@@ -95,20 +103,57 @@
       <classifier>gwt</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
+            <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
+            <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 2. Don't include the source in the jar (since that would let users depend on it from GWT client code, which is compiled from source). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 3. Don't include it in the source jar (since it's really more of a "test" than it is production code). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <sourceFileExcludes>
+            <!-- 4. Don't build Javadoc for it (since that, too, would require a *non-test* dep on gwt-user. -->
+            <sourceFileExclude>**/ForceGuavaCompilation*</sourceFileExclude>
+          </sourceFileExcludes>
+          <!-- The above exclusion doesn't actually matter unless I prevent Javadoc from autodiscovering the source in the sourcepath, which defaults to the source directory :\ Boo for -sourcepath. -->
+          <sourcepath>doesnotexist</sourcepath>
+          <!-- Note that we do need to build Javadoc for *some* class. Otherwise, we get an empty Javadoc jar, which the Sonatype repository manager rejects. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
+          <show>package</show>
+        </configuration>
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
       <plugin>
@@ -120,6 +165,20 @@
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <execution>
+            <id>unpack-failureaccess-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>failureaccess</includeArtifactIds>
+              <classifier>sources</classifier>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/failureaccess-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
           <execution>
             <id>unpack-guava-sources</id>
             <phase>generate-resources</phase>
@@ -180,6 +239,12 @@
         <dependencies>
           <dependency>
             <groupId>com.google.guava</groupId>
+            <artifactId>failureaccess</artifactId>
+            <version>1.0.1</version>
+            <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
@@ -218,11 +283,33 @@
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
+                <!-- The following don't contain @GwtCompatible for dependency reasons. -->
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/guava-sources">
+                    <include name="**/ListenableFuture.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutures.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutureFailureAccess.java" />
+                  </fileset>
+                </copy>
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
+                <replace token="@Nullable" value="">
+                  <fileset dir="${project.build.directory}">
+                    <include name="guava-gwt-sources/**/*.java"/>
+                    <include name="guava-test-gwt-sources/**/*.java"/>
+                  </fileset>
+                </replace>
               </target>
             </configuration>
           </execution>
@@ -244,6 +331,12 @@
               <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
               <sourceLevel>1.8</sourceLevel>
+              <!--
+                To avoid "java.io.IOException: User limit of inotify watches reached" under JDK10.
+                Presumably we don't need inotify, since we don't intend to change files during the
+                build?
+                -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
           <!--
@@ -286,16 +379,19 @@
             </goals>
             <configuration>
               <module>com.google.common.GuavaTests</module>
-              <includes>${gwt.test.include}</includes>
+              <includes>**/GwtTestSuite.java</includes>
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
+              <!-- Fix OutOfMemoryError under Travis. -->
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
               <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
               <testTimeOut>86400 <!-- seconds --></testTimeOut>
               <testMethodTimeout>1440 <!-- minutes --></testMethodTimeout>
+              <!-- Presumably we want watchFileChanges=false here, since we want it for compile: -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
         </executions>
