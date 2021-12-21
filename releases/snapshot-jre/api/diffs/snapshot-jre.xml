@@ -64187,6 +64187,14 @@
  @param unit the time unit of the delay parameter]]>
       </doc>
     </constructor>
+    <constructor name="Schedule" type="java.time.Duration"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[@param delay the time from now to delay execution
+ @since NEXT]]>
+      </doc>
+    </constructor>
     <doc>
     <![CDATA[A value object that represents an absolute delay until a task should be invoked.
 

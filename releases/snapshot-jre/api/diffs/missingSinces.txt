@@ -1,3 +1,4 @@
+OK: com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler.Schedule Constructor (java.time.Duration)
 OK: com.google.common.util.concurrent.AtomicDouble Method accumulateAndGet(double, java.util.function.DoubleBinaryOperator)
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDoubleArray Method accumulateAndGet(int, double, java.util.function.DoubleBinaryOperator)
 OK: com.google.common.collect.ImmutableBiMap.Builder Method buildKeepingLast()
