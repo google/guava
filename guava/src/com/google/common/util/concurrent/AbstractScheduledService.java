@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.Futures.immediateCancelledFuture
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
@@ -128,7 +129,7 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
       return newFixedDelaySchedule(
-          toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);
+          toNanosSaturated(initialDelay), toNanosSaturated(delay), NANOSECONDS);
     }
 
     /**
@@ -165,7 +166,7 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
       return newFixedRateSchedule(
-          toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);
+          toNanosSaturated(initialDelay), toNanosSaturated(period), NANOSECONDS);
     }
 
     /**
@@ -721,6 +722,14 @@ public abstract class AbstractScheduledService implements Service {
       public Schedule(long delay, TimeUnit unit) {
         this.delay = delay;
         this.unit = checkNotNull(unit);
+      }
+
+      /**
+       * @param delay the time from now to delay execution
+       * @since NEXT
+       */
+      public Schedule(Duration delay) {
+        this(toNanosSaturated(delay), NANOSECONDS);
       }
     }
 
