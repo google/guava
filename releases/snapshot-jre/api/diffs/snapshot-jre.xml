@@ -19357,8 +19357,9 @@
       <param name="key" type="K"/>
       <param name="value" type="V"/>
       <doc>
-      <![CDATA[Associates {@code key} with {@code value} in the built map. Duplicate keys are not allowed,
- and will cause {@link #build} to fail.]]>
+      <![CDATA[Associates {@code key} with {@code value} in the built map. If the same key is put more than
+ once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep the last
+ value put for that key.]]>
       </doc>
     </method>
     <method name="put" return="com.google.common.collect.ImmutableMap.Builder&lt;K, V&gt;"
@@ -19367,8 +19368,9 @@
       deprecated="not deprecated">
       <param name="entry" type="java.util.Map.Entry&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Adds the given {@code entry} to the map, making it immutable if necessary. Duplicate keys are
- not allowed, and will cause {@link #build} to fail.
+      <![CDATA[Adds the given {@code entry} to the map, making it immutable if necessary. If the same key is
+ put more than once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will
+ keep the last value put for that key.
 
  @since 11.0]]>
       </doc>
@@ -19379,8 +19381,9 @@
       deprecated="not deprecated">
       <param name="map" type="java.util.Map&lt;? extends K, ? extends V&gt;"/>
       <doc>
-      <![CDATA[Associates all of the given map's keys and values in the built map. Duplicate keys are not
- allowed, and will cause {@link #build} to fail.
+      <![CDATA[Associates all of the given map's keys and values in the built map. If the same key is put
+ more than once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep
+ the last value put for that key.
 
  @throws NullPointerException if any key or value in {@code map} is null]]>
       </doc>
@@ -19391,8 +19394,9 @@
       deprecated="not deprecated">
       <param name="entries" type="java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K, ? extends V&gt;&gt;"/>
       <doc>
-      <![CDATA[Adds all of the given entries to the built map. Duplicate keys are not allowed, and will
- cause {@link #build} to fail.
+      <![CDATA[Adds all of the given entries to the built map. If the same key is put more than once, {@link
+ #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep the last value put for
+ that key.
 
  @throws NullPointerException if any key, value, or entry is null
  @since 19.0]]>
@@ -19454,6 +19458,12 @@
  inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
  entries are sorted by value. If a key was added more than once, it appears in iteration order
  based on the first time it was added, again unless {@link #orderEntriesByValue} was called.
+
+ <p>In the current implementation, all values associated with a given key are stored in the
+ {@code Builder} object, even though only one of them will be used in the built map. If there
+ can be many repeated keys, it may be more space-efficient to use a {@link
+ java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf} rather than {@code
+ ImmutableMap.Builder}.
 
  @since NEXT]]>
       </doc>
