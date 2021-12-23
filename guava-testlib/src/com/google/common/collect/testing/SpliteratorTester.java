@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Platform.format;
+import static java.util.Comparator.naturalOrder;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -296,7 +297,7 @@ public final class SpliteratorTester<E> {
         if ((characteristics & Spliterator.SORTED) != 0) {
           Comparator<? super E> comparator = spliterator.getComparator();
           if (comparator == null) {
-            comparator = (Comparator) Comparator.naturalOrder();
+            comparator = (Comparator) naturalOrder();
           }
           assertTrue(Ordering.from(comparator).isOrdered(resultsForStrategy));
         }

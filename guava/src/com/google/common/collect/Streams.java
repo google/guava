@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
@@ -330,7 +331,7 @@ public final class Streams {
     Iterator<B> itrB = Spliterators.iterator(splitrB);
     return StreamSupport.stream(
             new AbstractSpliterator<R>(
-                Math.min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {
+                min(splitrA.estimateSize(), splitrB.estimateSize()), characteristics) {
               @Override
               public boolean tryAdvance(Consumer<? super R> action) {
                 if (itrA.hasNext() && itrB.hasNext()) {

@@ -16,6 +16,9 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -87,7 +90,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     // Release the future value.
     latch.countDown();
 
-    assertTrue(successLatch.await(10, TimeUnit.SECONDS));
+    assertTrue(successLatch.await(10, SECONDS));
 
     if (badness[0] != null) {
       throw badness[0];
@@ -102,7 +105,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     // The task thread waits for the latch, so we expect a timeout here.
     try {
-      future.get(20, TimeUnit.MILLISECONDS);
+      future.get(20, MILLISECONDS);
       fail("Should have timed out trying to get the value.");
     } catch (TimeoutException expected) {
     } finally {
@@ -143,7 +146,7 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
 
-    assertTrue(successLatch.await(200, TimeUnit.MILLISECONDS));
+    assertTrue(successLatch.await(200, MILLISECONDS));
 
     latch.countDown();
   }
@@ -173,13 +176,13 @@ public abstract class AbstractListenableFutureTest extends TestCase {
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
 
-    assertTrue(successLatch.await(200, TimeUnit.MILLISECONDS));
-    assertTrue(listenerLatch.await(200, TimeUnit.MILLISECONDS));
+    assertTrue(successLatch.await(200, MILLISECONDS));
+    assertTrue(listenerLatch.await(200, MILLISECONDS));
 
     latch.countDown();
 
     exec.shutdown();
-    exec.awaitTermination(100, TimeUnit.MILLISECONDS);
+    exec.awaitTermination(100, MILLISECONDS);
   }
 
   /**
@@ -209,9 +212,9 @@ public abstract class AbstractListenableFutureTest extends TestCase {
 
     assertSame(Boolean.TRUE, future.get());
     // Wait for the listener latch to complete.
-    listenerLatch.await(500, TimeUnit.MILLISECONDS);
+    listenerLatch.await(500, MILLISECONDS);
 
     exec.shutdown();
-    exec.awaitTermination(500, TimeUnit.MILLISECONDS);
+    exec.awaitTermination(500, MILLISECONDS);
   }
 }
