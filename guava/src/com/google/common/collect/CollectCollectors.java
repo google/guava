@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.collectingAndThen;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -194,7 +195,7 @@ final class CollectCollectors {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
         ImmutableMap::copyOf);
   }
@@ -229,7 +230,7 @@ final class CollectCollectors {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         Collectors.toMap(
             keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
         ImmutableSortedMap::copyOfSorted);
@@ -368,7 +369,7 @@ final class CollectCollectors {
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valuesFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         flatteningToMultimap(
             input -> checkNotNull(keyFunction.apply(input)),
             input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),
@@ -395,7 +396,7 @@ final class CollectCollectors {
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valuesFunction);
-    return Collectors.collectingAndThen(
+    return collectingAndThen(
         flatteningToMultimap(
             input -> checkNotNull(keyFunction.apply(input)),
             input -> valuesFunction.apply(input).peek(Preconditions::checkNotNull),

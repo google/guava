@@ -17,13 +17,13 @@
 package com.google.common.util.concurrent.testing;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import junit.framework.Assert;
 
 /**
@@ -59,7 +59,7 @@ public class MockFutureListener implements Runnable {
    */
   public void assertSuccess(Object expectedData) throws Throwable {
     // Verify that the listener executed in a reasonable amount of time.
-    Assert.assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
+    Assert.assertTrue(countDownLatch.await(1L, SECONDS));
 
     try {
       Assert.assertEquals(expectedData, future.get());
@@ -75,7 +75,7 @@ public class MockFutureListener implements Runnable {
    */
   public void assertException(Throwable expectedCause) throws Exception {
     // Verify that the listener executed in a reasonable amount of time.
-    Assert.assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
+    Assert.assertTrue(countDownLatch.await(1L, SECONDS));
 
     try {
       future.get();
@@ -88,6 +88,6 @@ public class MockFutureListener implements Runnable {
   public void assertTimeout() throws Exception {
     // Verify that the listener does not get called in a reasonable amount of
     // time.
-    Assert.assertFalse(countDownLatch.await(1L, TimeUnit.SECONDS));
+    Assert.assertFalse(countDownLatch.await(1L, SECONDS));
   }
 }
