@@ -24,7 +24,7 @@ import com.google.common.escape.CharEscaper;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.UnicodeEscaper;
 import java.io.IOException;
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Extra assert methods for testing Escaper implementations.

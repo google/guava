@@ -23,7 +23,7 @@ import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAS
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST_2;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST_2;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;

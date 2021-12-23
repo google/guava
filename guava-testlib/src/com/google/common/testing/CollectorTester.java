@@ -17,7 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;

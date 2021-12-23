@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

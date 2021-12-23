@@ -23,8 +23,8 @@ import static com.google.common.util.concurrent.FuturesTest.pseudoTimedGetUninte
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;

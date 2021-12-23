@@ -24,7 +24,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * A simple mock implementation of {@code Runnable} that can be used for testing ListenableFutures.

@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
 
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownAccepter;

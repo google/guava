@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.testing.SerializableTester.reserialize;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
