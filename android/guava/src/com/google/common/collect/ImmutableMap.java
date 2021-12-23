@@ -420,8 +420,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     /**
-     * Associates {@code key} with {@code value} in the built map. Duplicate keys are not allowed,
-     * and will cause {@link #build} to fail.
+     * Associates {@code key} with {@code value} in the built map. If the same key is put more than
+     * once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep the last
+     * value put for that key.
      */
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
@@ -434,8 +435,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     /**
-     * Adds the given {@code entry} to the map, making it immutable if necessary. Duplicate keys are
-     * not allowed, and will cause {@link #build} to fail.
+     * Adds the given {@code entry} to the map, making it immutable if necessary. If the same key is
+     * put more than once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will
+     * keep the last value put for that key.
      *
      * @since 11.0
      */
@@ -445,8 +447,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     /**
-     * Associates all of the given map's keys and values in the built map. Duplicate keys are not
-     * allowed, and will cause {@link #build} to fail.
+     * Associates all of the given map's keys and values in the built map. If the same key is put
+     * more than once, {@link #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep
+     * the last value put for that key.
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
@@ -456,8 +459,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     /**
-     * Adds all of the given entries to the built map. Duplicate keys are not allowed, and will
-     * cause {@link #build} to fail.
+     * Adds all of the given entries to the built map. If the same key is put more than once, {@link
+     * #buildOrThrow} will fail, while {@link #buildKeepingLast} will keep the last value put for
+     * that key.
      *
      * @throws NullPointerException if any key, value, or entry is null
      * @since 19.0
@@ -581,6 +585,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
      * entries are sorted by value. If a key was added more than once, it appears in iteration order
      * based on the first time it was added, again unless {@link #orderEntriesByValue} was called.
+     *
+     * <p>In the current implementation, all values associated with a given key are stored in the
+     * {@code Builder} object, even though only one of them will be used in the built map. If there
+     * can be many repeated keys, it may be more space-efficient to use a {@link
+     * java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf} rather than {@code
+     * ImmutableMap.Builder}.
      *
      * @since NEXT
      */
