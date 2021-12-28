@@ -479,249 +479,273 @@
 <span class="sourceLineNo">470</span><a id="line.470">  }</a>
 <span class="sourceLineNo">471</span><a id="line.471"></a>
 <span class="sourceLineNo">472</span><a id="line.472">  /**</a>
-<span class="sourceLineNo">473</span><a id="line.473">   * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform manner</a>
-<span class="sourceLineNo">474</span><a id="line.474">   * that minimizes the need for remapping as {@code buckets} grows. That is, {@code</a>
-<span class="sourceLineNo">475</span><a id="line.475">   * consistentHash(h, n)} equals:</a>
-<span class="sourceLineNo">476</span><a id="line.476">   *</a>
-<span class="sourceLineNo">477</span><a id="line.477">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">478</span><a id="line.478">   *   &lt;li&gt;{@code n - 1}, with approximate probability {@code 1/n}</a>
-<span class="sourceLineNo">479</span><a id="line.479">   *   &lt;li&gt;{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})</a>
-<span class="sourceLineNo">480</span><a id="line.480">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">481</span><a id="line.481">   *</a>
-<span class="sourceLineNo">482</span><a id="line.482">   * &lt;p&gt;This method is suitable for the common use case of dividing work among buckets that meet the</a>
-<span class="sourceLineNo">483</span><a id="line.483">   * following conditions:</a>
-<span class="sourceLineNo">484</span><a id="line.484">   *</a>
-<span class="sourceLineNo">485</span><a id="line.485">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">486</span><a id="line.486">   *   &lt;li&gt;You want to assign the same fraction of inputs to each bucket.</a>
-<span class="sourceLineNo">487</span><a id="line.487">   *   &lt;li&gt;When you reduce the number of buckets, you can accept that the most recently added</a>
-<span class="sourceLineNo">488</span><a id="line.488">   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,</a>
-<span class="sourceLineNo">489</span><a id="line.489">   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and</a>
-<span class="sourceLineNo">490</span><a id="line.490">   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among</a>
-<span class="sourceLineNo">491</span><a id="line.491">   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to</a>
-<span class="sourceLineNo">492</span><a id="line.492">   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides</a>
-<span class="sourceLineNo">493</span><a id="line.493">   *       no way for you to specify which of the three buckets is disappearing. Thus, if your</a>
-<span class="sourceLineNo">494</span><a id="line.494">   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will</a>
-<span class="sourceLineNo">495</span><a id="line.495">   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}</a>
-<span class="sourceLineNo">496</span><a id="line.496">   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.</a>
-<span class="sourceLineNo">497</span><a id="line.497">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">498</span><a id="line.498">   *</a>
-<span class="sourceLineNo">499</span><a id="line.499">   * &lt;p&gt;See the &lt;a href="http://en.wikipedia.org/wiki/Consistent_hashing"&gt;Wikipedia article on</a>
-<span class="sourceLineNo">500</span><a id="line.500">   * consistent hashing&lt;/a&gt; for more information.</a>
-<span class="sourceLineNo">501</span><a id="line.501">   */</a>
-<span class="sourceLineNo">502</span><a id="line.502">  public static int consistentHash(HashCode hashCode, int buckets) {</a>
-<span class="sourceLineNo">503</span><a id="line.503">    return consistentHash(hashCode.padToLong(), buckets);</a>
-<span class="sourceLineNo">504</span><a id="line.504">  }</a>
-<span class="sourceLineNo">505</span><a id="line.505"></a>
-<span class="sourceLineNo">506</span><a id="line.506">  /**</a>
-<span class="sourceLineNo">507</span><a id="line.507">   * Assigns to {@code input} a "bucket" in the range {@code [0, buckets)}, in a uniform manner that</a>
-<span class="sourceLineNo">508</span><a id="line.508">   * minimizes the need for remapping as {@code buckets} grows. That is, {@code consistentHash(h,</a>
-<span class="sourceLineNo">509</span><a id="line.509">   * n)} equals:</a>
-<span class="sourceLineNo">510</span><a id="line.510">   *</a>
-<span class="sourceLineNo">511</span><a id="line.511">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">512</span><a id="line.512">   *   &lt;li&gt;{@code n - 1}, with approximate probability {@code 1/n}</a>
-<span class="sourceLineNo">513</span><a id="line.513">   *   &lt;li&gt;{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})</a>
-<span class="sourceLineNo">514</span><a id="line.514">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">515</span><a id="line.515">   *</a>
-<span class="sourceLineNo">516</span><a id="line.516">   * &lt;p&gt;This method is suitable for the common use case of dividing work among buckets that meet the</a>
-<span class="sourceLineNo">517</span><a id="line.517">   * following conditions:</a>
-<span class="sourceLineNo">518</span><a id="line.518">   *</a>
-<span class="sourceLineNo">519</span><a id="line.519">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">520</span><a id="line.520">   *   &lt;li&gt;You want to assign the same fraction of inputs to each bucket.</a>
-<span class="sourceLineNo">521</span><a id="line.521">   *   &lt;li&gt;When you reduce the number of buckets, you can accept that the most recently added</a>
-<span class="sourceLineNo">522</span><a id="line.522">   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,</a>
-<span class="sourceLineNo">523</span><a id="line.523">   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and</a>
-<span class="sourceLineNo">524</span><a id="line.524">   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among</a>
-<span class="sourceLineNo">525</span><a id="line.525">   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to</a>
-<span class="sourceLineNo">526</span><a id="line.526">   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides</a>
-<span class="sourceLineNo">527</span><a id="line.527">   *       no way for you to specify which of the three buckets is disappearing. Thus, if your</a>
-<span class="sourceLineNo">528</span><a id="line.528">   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will</a>
-<span class="sourceLineNo">529</span><a id="line.529">   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}</a>
-<span class="sourceLineNo">530</span><a id="line.530">   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.</a>
-<span class="sourceLineNo">531</span><a id="line.531">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">532</span><a id="line.532">   *</a>
-<span class="sourceLineNo">533</span><a id="line.533">   * &lt;p&gt;See the &lt;a href="http://en.wikipedia.org/wiki/Consistent_hashing"&gt;Wikipedia article on</a>
-<span class="sourceLineNo">534</span><a id="line.534">   * consistent hashing&lt;/a&gt; for more information.</a>
-<span class="sourceLineNo">535</span><a id="line.535">   */</a>
-<span class="sourceLineNo">536</span><a id="line.536">  public static int consistentHash(long input, int buckets) {</a>
-<span class="sourceLineNo">537</span><a id="line.537">    checkArgument(buckets &gt; 0, "buckets must be positive: %s", buckets);</a>
-<span class="sourceLineNo">538</span><a id="line.538">    LinearCongruentialGenerator generator = new LinearCongruentialGenerator(input);</a>
-<span class="sourceLineNo">539</span><a id="line.539">    int candidate = 0;</a>
-<span class="sourceLineNo">540</span><a id="line.540">    int next;</a>
-<span class="sourceLineNo">541</span><a id="line.541"></a>
-<span class="sourceLineNo">542</span><a id="line.542">    // Jump from bucket to bucket until we go out of range</a>
-<span class="sourceLineNo">543</span><a id="line.543">    while (true) {</a>
-<span class="sourceLineNo">544</span><a id="line.544">      next = (int) ((candidate + 1) / generator.nextDouble());</a>
-<span class="sourceLineNo">545</span><a id="line.545">      if (next &gt;= 0 &amp;&amp; next &lt; buckets) {</a>
-<span class="sourceLineNo">546</span><a id="line.546">        candidate = next;</a>
-<span class="sourceLineNo">547</span><a id="line.547">      } else {</a>
-<span class="sourceLineNo">548</span><a id="line.548">        return candidate;</a>
-<span class="sourceLineNo">549</span><a id="line.549">      }</a>
-<span class="sourceLineNo">550</span><a id="line.550">    }</a>
-<span class="sourceLineNo">551</span><a id="line.551">  }</a>
-<span class="sourceLineNo">552</span><a id="line.552"></a>
-<span class="sourceLineNo">553</span><a id="line.553">  /**</a>
-<span class="sourceLineNo">554</span><a id="line.554">   * Returns a hash code, having the same bit length as each of the input hash codes, that combines</a>
-<span class="sourceLineNo">555</span><a id="line.555">   * the information of these hash codes in an ordered fashion. That is, whenever two equal hash</a>
-<span class="sourceLineNo">556</span><a id="line.556">   * codes are produced by two calls to this method, it is &lt;i&gt;as likely as possible&lt;/i&gt; that each</a>
-<span class="sourceLineNo">557</span><a id="line.557">   * was computed from the &lt;i&gt;same&lt;/i&gt; input hash codes in the &lt;i&gt;same&lt;/i&gt; order.</a>
-<span class="sourceLineNo">558</span><a id="line.558">   *</a>
-<span class="sourceLineNo">559</span><a id="line.559">   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all</a>
-<span class="sourceLineNo">560</span><a id="line.560">   *     have the same bit length</a>
-<span class="sourceLineNo">561</span><a id="line.561">   */</a>
-<span class="sourceLineNo">562</span><a id="line.562">  public static HashCode combineOrdered(Iterable&lt;HashCode&gt; hashCodes) {</a>
-<span class="sourceLineNo">563</span><a id="line.563">    Iterator&lt;HashCode&gt; iterator = hashCodes.iterator();</a>
-<span class="sourceLineNo">564</span><a id="line.564">    checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");</a>
-<span class="sourceLineNo">565</span><a id="line.565">    int bits = iterator.next().bits();</a>
-<span class="sourceLineNo">566</span><a id="line.566">    byte[] resultBytes = new byte[bits / 8];</a>
-<span class="sourceLineNo">567</span><a id="line.567">    for (HashCode hashCode : hashCodes) {</a>
-<span class="sourceLineNo">568</span><a id="line.568">      byte[] nextBytes = hashCode.asBytes();</a>
-<span class="sourceLineNo">569</span><a id="line.569">      checkArgument(</a>
-<span class="sourceLineNo">570</span><a id="line.570">          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");</a>
-<span class="sourceLineNo">571</span><a id="line.571">      for (int i = 0; i &lt; nextBytes.length; i++) {</a>
-<span class="sourceLineNo">572</span><a id="line.572">        resultBytes[i] = (byte) (resultBytes[i] * 37 ^ nextBytes[i]);</a>
+<span class="sourceLineNo">473</span><a id="line.473">   * Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).</a>
+<span class="sourceLineNo">474</span><a id="line.474">   *</a>
+<span class="sourceLineNo">475</span><a id="line.475">   * &lt;p&gt;This is designed for generating persistent fingerprints of strings. It isn't</a>
+<span class="sourceLineNo">476</span><a id="line.476">   * cryptographically secure, but it produces a high-quality hash with few collisions. Fingerprints</a>
+<span class="sourceLineNo">477</span><a id="line.477">   * generated using this are byte-wise identical to those created using the C++ version, but note</a>
+<span class="sourceLineNo">478</span><a id="line.478">   * that this uses unsigned integers (see {@link com.google.common.primitives.UnsignedInts}).</a>
+<span class="sourceLineNo">479</span><a id="line.479">   * Comparisons between the two should take this into account.</a>
+<span class="sourceLineNo">480</span><a id="line.480">   *</a>
+<span class="sourceLineNo">481</span><a id="line.481">   * &lt;p&gt;Fingerprint2011() is a form of Murmur2 on strings up to 32 bytes and a form of CityHash for</a>
+<span class="sourceLineNo">482</span><a id="line.482">   * longer strings. It could have been one or the other throughout. The main advantage of the</a>
+<span class="sourceLineNo">483</span><a id="line.483">   * combination is that CityHash has a bunch of special cases for short strings that don't need to</a>
+<span class="sourceLineNo">484</span><a id="line.484">   * be replicated here. The result will never be 0 or 1.</a>
+<span class="sourceLineNo">485</span><a id="line.485">   *</a>
+<span class="sourceLineNo">486</span><a id="line.486">   * &lt;p&gt;This function is best understood as a &lt;a</a>
+<span class="sourceLineNo">487</span><a id="line.487">   * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)"&gt;fingerprint&lt;/a&gt; rather than a true</a>
+<span class="sourceLineNo">488</span><a id="line.488">   * &lt;a href="https://en.wikipedia.org/wiki/Hash_function"&gt;hash function&lt;/a&gt;.</a>
+<span class="sourceLineNo">489</span><a id="line.489">   *</a>
+<span class="sourceLineNo">490</span><a id="line.490">   * @since NEXT</a>
+<span class="sourceLineNo">491</span><a id="line.491">   */</a>
+<span class="sourceLineNo">492</span><a id="line.492">  public static HashFunction fingerprint2011() {</a>
+<span class="sourceLineNo">493</span><a id="line.493">    return Fingerprint2011.FINGERPRINT_2011;</a>
+<span class="sourceLineNo">494</span><a id="line.494">  }</a>
+<span class="sourceLineNo">495</span><a id="line.495"></a>
+<span class="sourceLineNo">496</span><a id="line.496">  /**</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform manner</a>
+<span class="sourceLineNo">498</span><a id="line.498">   * that minimizes the need for remapping as {@code buckets} grows. That is, {@code</a>
+<span class="sourceLineNo">499</span><a id="line.499">   * consistentHash(h, n)} equals:</a>
+<span class="sourceLineNo">500</span><a id="line.500">   *</a>
+<span class="sourceLineNo">501</span><a id="line.501">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">502</span><a id="line.502">   *   &lt;li&gt;{@code n - 1}, with approximate probability {@code 1/n}</a>
+<span class="sourceLineNo">503</span><a id="line.503">   *   &lt;li&gt;{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})</a>
+<span class="sourceLineNo">504</span><a id="line.504">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">505</span><a id="line.505">   *</a>
+<span class="sourceLineNo">506</span><a id="line.506">   * &lt;p&gt;This method is suitable for the common use case of dividing work among buckets that meet the</a>
+<span class="sourceLineNo">507</span><a id="line.507">   * following conditions:</a>
+<span class="sourceLineNo">508</span><a id="line.508">   *</a>
+<span class="sourceLineNo">509</span><a id="line.509">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">510</span><a id="line.510">   *   &lt;li&gt;You want to assign the same fraction of inputs to each bucket.</a>
+<span class="sourceLineNo">511</span><a id="line.511">   *   &lt;li&gt;When you reduce the number of buckets, you can accept that the most recently added</a>
+<span class="sourceLineNo">512</span><a id="line.512">   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,</a>
+<span class="sourceLineNo">513</span><a id="line.513">   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and</a>
+<span class="sourceLineNo">514</span><a id="line.514">   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among</a>
+<span class="sourceLineNo">515</span><a id="line.515">   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to</a>
+<span class="sourceLineNo">516</span><a id="line.516">   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides</a>
+<span class="sourceLineNo">517</span><a id="line.517">   *       no way for you to specify which of the three buckets is disappearing. Thus, if your</a>
+<span class="sourceLineNo">518</span><a id="line.518">   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will</a>
+<span class="sourceLineNo">519</span><a id="line.519">   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}</a>
+<span class="sourceLineNo">520</span><a id="line.520">   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">522</span><a id="line.522">   *</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * &lt;p&gt;See the &lt;a href="http://en.wikipedia.org/wiki/Consistent_hashing"&gt;Wikipedia article on</a>
+<span class="sourceLineNo">524</span><a id="line.524">   * consistent hashing&lt;/a&gt; for more information.</a>
+<span class="sourceLineNo">525</span><a id="line.525">   */</a>
+<span class="sourceLineNo">526</span><a id="line.526">  public static int consistentHash(HashCode hashCode, int buckets) {</a>
+<span class="sourceLineNo">527</span><a id="line.527">    return consistentHash(hashCode.padToLong(), buckets);</a>
+<span class="sourceLineNo">528</span><a id="line.528">  }</a>
+<span class="sourceLineNo">529</span><a id="line.529"></a>
+<span class="sourceLineNo">530</span><a id="line.530">  /**</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * Assigns to {@code input} a "bucket" in the range {@code [0, buckets)}, in a uniform manner that</a>
+<span class="sourceLineNo">532</span><a id="line.532">   * minimizes the need for remapping as {@code buckets} grows. That is, {@code consistentHash(h,</a>
+<span class="sourceLineNo">533</span><a id="line.533">   * n)} equals:</a>
+<span class="sourceLineNo">534</span><a id="line.534">   *</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">536</span><a id="line.536">   *   &lt;li&gt;{@code n - 1}, with approximate probability {@code 1/n}</a>
+<span class="sourceLineNo">537</span><a id="line.537">   *   &lt;li&gt;{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})</a>
+<span class="sourceLineNo">538</span><a id="line.538">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">539</span><a id="line.539">   *</a>
+<span class="sourceLineNo">540</span><a id="line.540">   * &lt;p&gt;This method is suitable for the common use case of dividing work among buckets that meet the</a>
+<span class="sourceLineNo">541</span><a id="line.541">   * following conditions:</a>
+<span class="sourceLineNo">542</span><a id="line.542">   *</a>
+<span class="sourceLineNo">543</span><a id="line.543">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">544</span><a id="line.544">   *   &lt;li&gt;You want to assign the same fraction of inputs to each bucket.</a>
+<span class="sourceLineNo">545</span><a id="line.545">   *   &lt;li&gt;When you reduce the number of buckets, you can accept that the most recently added</a>
+<span class="sourceLineNo">546</span><a id="line.546">   *       buckets will be removed first. More concretely, if you are dividing traffic among tasks,</a>
+<span class="sourceLineNo">547</span><a id="line.547">   *       you can decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and</a>
+<span class="sourceLineNo">548</span><a id="line.548">   *       {@code consistentHash} will handle it. If, however, you are dividing traffic among</a>
+<span class="sourceLineNo">549</span><a id="line.549">   *       servers {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to</a>
+<span class="sourceLineNo">550</span><a id="line.550">   *       take each of the servers offline, {@code consistentHash} will be a poor fit: It provides</a>
+<span class="sourceLineNo">551</span><a id="line.551">   *       no way for you to specify which of the three buckets is disappearing. Thus, if your</a>
+<span class="sourceLineNo">552</span><a id="line.552">   *       buckets change from {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will</a>
+<span class="sourceLineNo">553</span><a id="line.553">   *       assign all the old {@code alpha} traffic to {@code bravo} and all the old {@code bravo}</a>
+<span class="sourceLineNo">554</span><a id="line.554">   *       traffic to {@code charlie}, rather than letting {@code bravo} keep its traffic.</a>
+<span class="sourceLineNo">555</span><a id="line.555">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">556</span><a id="line.556">   *</a>
+<span class="sourceLineNo">557</span><a id="line.557">   * &lt;p&gt;See the &lt;a href="http://en.wikipedia.org/wiki/Consistent_hashing"&gt;Wikipedia article on</a>
+<span class="sourceLineNo">558</span><a id="line.558">   * consistent hashing&lt;/a&gt; for more information.</a>
+<span class="sourceLineNo">559</span><a id="line.559">   */</a>
+<span class="sourceLineNo">560</span><a id="line.560">  public static int consistentHash(long input, int buckets) {</a>
+<span class="sourceLineNo">561</span><a id="line.561">    checkArgument(buckets &gt; 0, "buckets must be positive: %s", buckets);</a>
+<span class="sourceLineNo">562</span><a id="line.562">    LinearCongruentialGenerator generator = new LinearCongruentialGenerator(input);</a>
+<span class="sourceLineNo">563</span><a id="line.563">    int candidate = 0;</a>
+<span class="sourceLineNo">564</span><a id="line.564">    int next;</a>
+<span class="sourceLineNo">565</span><a id="line.565"></a>
+<span class="sourceLineNo">566</span><a id="line.566">    // Jump from bucket to bucket until we go out of range</a>
+<span class="sourceLineNo">567</span><a id="line.567">    while (true) {</a>
+<span class="sourceLineNo">568</span><a id="line.568">      next = (int) ((candidate + 1) / generator.nextDouble());</a>
+<span class="sourceLineNo">569</span><a id="line.569">      if (next &gt;= 0 &amp;&amp; next &lt; buckets) {</a>
+<span class="sourceLineNo">570</span><a id="line.570">        candidate = next;</a>
+<span class="sourceLineNo">571</span><a id="line.571">      } else {</a>
+<span class="sourceLineNo">572</span><a id="line.572">        return candidate;</a>
 <span class="sourceLineNo">573</span><a id="line.573">      }</a>
 <span class="sourceLineNo">574</span><a id="line.574">    }</a>
-<span class="sourceLineNo">575</span><a id="line.575">    return HashCode.fromBytesNoCopy(resultBytes);</a>
-<span class="sourceLineNo">576</span><a id="line.576">  }</a>
-<span class="sourceLineNo">577</span><a id="line.577"></a>
-<span class="sourceLineNo">578</span><a id="line.578">  /**</a>
-<span class="sourceLineNo">579</span><a id="line.579">   * Returns a hash code, having the same bit length as each of the input hash codes, that combines</a>
-<span class="sourceLineNo">580</span><a id="line.580">   * the information of these hash codes in an unordered fashion. That is, whenever two equal hash</a>
-<span class="sourceLineNo">581</span><a id="line.581">   * codes are produced by two calls to this method, it is &lt;i&gt;as likely as possible&lt;/i&gt; that each</a>
-<span class="sourceLineNo">582</span><a id="line.582">   * was computed from the &lt;i&gt;same&lt;/i&gt; input hash codes in &lt;i&gt;some&lt;/i&gt; order.</a>
-<span class="sourceLineNo">583</span><a id="line.583">   *</a>
-<span class="sourceLineNo">584</span><a id="line.584">   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all</a>
-<span class="sourceLineNo">585</span><a id="line.585">   *     have the same bit length</a>
-<span class="sourceLineNo">586</span><a id="line.586">   */</a>
-<span class="sourceLineNo">587</span><a id="line.587">  public static HashCode combineUnordered(Iterable&lt;HashCode&gt; hashCodes) {</a>
-<span class="sourceLineNo">588</span><a id="line.588">    Iterator&lt;HashCode&gt; iterator = hashCodes.iterator();</a>
-<span class="sourceLineNo">589</span><a id="line.589">    checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");</a>
-<span class="sourceLineNo">590</span><a id="line.590">    byte[] resultBytes = new byte[iterator.next().bits() / 8];</a>
+<span class="sourceLineNo">575</span><a id="line.575">  }</a>
+<span class="sourceLineNo">576</span><a id="line.576"></a>
+<span class="sourceLineNo">577</span><a id="line.577">  /**</a>
+<span class="sourceLineNo">578</span><a id="line.578">   * Returns a hash code, having the same bit length as each of the input hash codes, that combines</a>
+<span class="sourceLineNo">579</span><a id="line.579">   * the information of these hash codes in an ordered fashion. That is, whenever two equal hash</a>
+<span class="sourceLineNo">580</span><a id="line.580">   * codes are produced by two calls to this method, it is &lt;i&gt;as likely as possible&lt;/i&gt; that each</a>
+<span class="sourceLineNo">581</span><a id="line.581">   * was computed from the &lt;i&gt;same&lt;/i&gt; input hash codes in the &lt;i&gt;same&lt;/i&gt; order.</a>
+<span class="sourceLineNo">582</span><a id="line.582">   *</a>
+<span class="sourceLineNo">583</span><a id="line.583">   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all</a>
+<span class="sourceLineNo">584</span><a id="line.584">   *     have the same bit length</a>
+<span class="sourceLineNo">585</span><a id="line.585">   */</a>
+<span class="sourceLineNo">586</span><a id="line.586">  public static HashCode combineOrdered(Iterable&lt;HashCode&gt; hashCodes) {</a>
+<span class="sourceLineNo">587</span><a id="line.587">    Iterator&lt;HashCode&gt; iterator = hashCodes.iterator();</a>
+<span class="sourceLineNo">588</span><a id="line.588">    checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");</a>
+<span class="sourceLineNo">589</span><a id="line.589">    int bits = iterator.next().bits();</a>
+<span class="sourceLineNo">590</span><a id="line.590">    byte[] resultBytes = new byte[bits / 8];</a>
 <span class="sourceLineNo">591</span><a id="line.591">    for (HashCode hashCode : hashCodes) {</a>
 <span class="sourceLineNo">592</span><a id="line.592">      byte[] nextBytes = hashCode.asBytes();</a>
 <span class="sourceLineNo">593</span><a id="line.593">      checkArgument(</a>
 <span class="sourceLineNo">594</span><a id="line.594">          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");</a>
 <span class="sourceLineNo">595</span><a id="line.595">      for (int i = 0; i &lt; nextBytes.length; i++) {</a>
-<span class="sourceLineNo">596</span><a id="line.596">        resultBytes[i] += nextBytes[i];</a>
+<span class="sourceLineNo">596</span><a id="line.596">        resultBytes[i] = (byte) (resultBytes[i] * 37 ^ nextBytes[i]);</a>
 <span class="sourceLineNo">597</span><a id="line.597">      }</a>
 <span class="sourceLineNo">598</span><a id="line.598">    }</a>
 <span class="sourceLineNo">599</span><a id="line.599">    return HashCode.fromBytesNoCopy(resultBytes);</a>
 <span class="sourceLineNo">600</span><a id="line.600">  }</a>
 <span class="sourceLineNo">601</span><a id="line.601"></a>
-<span class="sourceLineNo">602</span><a id="line.602">  /** Checks that the passed argument is positive, and ceils it to a multiple of 32. */</a>
-<span class="sourceLineNo">603</span><a id="line.603">  static int checkPositiveAndMakeMultipleOf32(int bits) {</a>
-<span class="sourceLineNo">604</span><a id="line.604">    checkArgument(bits &gt; 0, "Number of bits must be positive");</a>
-<span class="sourceLineNo">605</span><a id="line.605">    return (bits + 31) &amp; ~31;</a>
-<span class="sourceLineNo">606</span><a id="line.606">  }</a>
-<span class="sourceLineNo">607</span><a id="line.607"></a>
-<span class="sourceLineNo">608</span><a id="line.608">  /**</a>
-<span class="sourceLineNo">609</span><a id="line.609">   * Returns a hash function which computes its hash code by concatenating the hash codes of the</a>
-<span class="sourceLineNo">610</span><a id="line.610">   * underlying hash functions together. This can be useful if you need to generate hash codes of a</a>
-<span class="sourceLineNo">611</span><a id="line.611">   * specific length.</a>
-<span class="sourceLineNo">612</span><a id="line.612">   *</a>
-<span class="sourceLineNo">613</span><a id="line.613">   * &lt;p&gt;For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash</a>
-<span class="sourceLineNo">614</span><a id="line.614">   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.</a>
-<span class="sourceLineNo">615</span><a id="line.615">   *</a>
-<span class="sourceLineNo">616</span><a id="line.616">   * @since 19.0</a>
-<span class="sourceLineNo">617</span><a id="line.617">   */</a>
-<span class="sourceLineNo">618</span><a id="line.618">  public static HashFunction concatenating(</a>
-<span class="sourceLineNo">619</span><a id="line.619">      HashFunction first, HashFunction second, HashFunction... rest) {</a>
-<span class="sourceLineNo">620</span><a id="line.620">    // We can't use Lists.asList() here because there's no hash-&gt;collect dependency</a>
-<span class="sourceLineNo">621</span><a id="line.621">    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();</a>
-<span class="sourceLineNo">622</span><a id="line.622">    list.add(first);</a>
-<span class="sourceLineNo">623</span><a id="line.623">    list.add(second);</a>
-<span class="sourceLineNo">624</span><a id="line.624">    list.addAll(Arrays.asList(rest));</a>
-<span class="sourceLineNo">625</span><a id="line.625">    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));</a>
-<span class="sourceLineNo">626</span><a id="line.626">  }</a>
-<span class="sourceLineNo">627</span><a id="line.627"></a>
-<span class="sourceLineNo">628</span><a id="line.628">  /**</a>
-<span class="sourceLineNo">629</span><a id="line.629">   * Returns a hash function which computes its hash code by concatenating the hash codes of the</a>
-<span class="sourceLineNo">630</span><a id="line.630">   * underlying hash functions together. This can be useful if you need to generate hash codes of a</a>
-<span class="sourceLineNo">631</span><a id="line.631">   * specific length.</a>
-<span class="sourceLineNo">632</span><a id="line.632">   *</a>
-<span class="sourceLineNo">633</span><a id="line.633">   * &lt;p&gt;For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash</a>
-<span class="sourceLineNo">634</span><a id="line.634">   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.</a>
-<span class="sourceLineNo">635</span><a id="line.635">   *</a>
-<span class="sourceLineNo">636</span><a id="line.636">   * @since 19.0</a>
-<span class="sourceLineNo">637</span><a id="line.637">   */</a>
-<span class="sourceLineNo">638</span><a id="line.638">  public static HashFunction concatenating(Iterable&lt;HashFunction&gt; hashFunctions) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">    checkNotNull(hashFunctions);</a>
-<span class="sourceLineNo">640</span><a id="line.640">    // We can't use Iterables.toArray() here because there's no hash-&gt;collect dependency</a>
-<span class="sourceLineNo">641</span><a id="line.641">    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();</a>
-<span class="sourceLineNo">642</span><a id="line.642">    for (HashFunction hashFunction : hashFunctions) {</a>
-<span class="sourceLineNo">643</span><a id="line.643">      list.add(hashFunction);</a>
-<span class="sourceLineNo">644</span><a id="line.644">    }</a>
-<span class="sourceLineNo">645</span><a id="line.645">    checkArgument(list.size() &gt; 0, "number of hash functions (%s) must be &gt; 0", list.size());</a>
-<span class="sourceLineNo">646</span><a id="line.646">    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));</a>
-<span class="sourceLineNo">647</span><a id="line.647">  }</a>
-<span class="sourceLineNo">648</span><a id="line.648"></a>
-<span class="sourceLineNo">649</span><a id="line.649">  private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {</a>
-<span class="sourceLineNo">650</span><a id="line.650"></a>
-<span class="sourceLineNo">651</span><a id="line.651">    private ConcatenatedHashFunction(HashFunction... functions) {</a>
-<span class="sourceLineNo">652</span><a id="line.652">      super(functions);</a>
-<span class="sourceLineNo">653</span><a id="line.653">      for (HashFunction function : functions) {</a>
-<span class="sourceLineNo">654</span><a id="line.654">        checkArgument(</a>
-<span class="sourceLineNo">655</span><a id="line.655">            function.bits() % 8 == 0,</a>
-<span class="sourceLineNo">656</span><a id="line.656">            "the number of bits (%s) in hashFunction (%s) must be divisible by 8",</a>
-<span class="sourceLineNo">657</span><a id="line.657">            function.bits(),</a>
-<span class="sourceLineNo">658</span><a id="line.658">            function);</a>
-<span class="sourceLineNo">659</span><a id="line.659">      }</a>
-<span class="sourceLineNo">660</span><a id="line.660">    }</a>
-<span class="sourceLineNo">661</span><a id="line.661"></a>
-<span class="sourceLineNo">662</span><a id="line.662">    @Override</a>
-<span class="sourceLineNo">663</span><a id="line.663">    HashCode makeHash(Hasher[] hashers) {</a>
-<span class="sourceLineNo">664</span><a id="line.664">      byte[] bytes = new byte[bits() / 8];</a>
-<span class="sourceLineNo">665</span><a id="line.665">      int i = 0;</a>
-<span class="sourceLineNo">666</span><a id="line.666">      for (Hasher hasher : hashers) {</a>
-<span class="sourceLineNo">667</span><a id="line.667">        HashCode newHash = hasher.hash();</a>
-<span class="sourceLineNo">668</span><a id="line.668">        i += newHash.writeBytesTo(bytes, i, newHash.bits() / 8);</a>
-<span class="sourceLineNo">669</span><a id="line.669">      }</a>
-<span class="sourceLineNo">670</span><a id="line.670">      return HashCode.fromBytesNoCopy(bytes);</a>
-<span class="sourceLineNo">671</span><a id="line.671">    }</a>
+<span class="sourceLineNo">602</span><a id="line.602">  /**</a>
+<span class="sourceLineNo">603</span><a id="line.603">   * Returns a hash code, having the same bit length as each of the input hash codes, that combines</a>
+<span class="sourceLineNo">604</span><a id="line.604">   * the information of these hash codes in an unordered fashion. That is, whenever two equal hash</a>
+<span class="sourceLineNo">605</span><a id="line.605">   * codes are produced by two calls to this method, it is &lt;i&gt;as likely as possible&lt;/i&gt; that each</a>
+<span class="sourceLineNo">606</span><a id="line.606">   * was computed from the &lt;i&gt;same&lt;/i&gt; input hash codes in &lt;i&gt;some&lt;/i&gt; order.</a>
+<span class="sourceLineNo">607</span><a id="line.607">   *</a>
+<span class="sourceLineNo">608</span><a id="line.608">   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all</a>
+<span class="sourceLineNo">609</span><a id="line.609">   *     have the same bit length</a>
+<span class="sourceLineNo">610</span><a id="line.610">   */</a>
+<span class="sourceLineNo">611</span><a id="line.611">  public static HashCode combineUnordered(Iterable&lt;HashCode&gt; hashCodes) {</a>
+<span class="sourceLineNo">612</span><a id="line.612">    Iterator&lt;HashCode&gt; iterator = hashCodes.iterator();</a>
+<span class="sourceLineNo">613</span><a id="line.613">    checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");</a>
+<span class="sourceLineNo">614</span><a id="line.614">    byte[] resultBytes = new byte[iterator.next().bits() / 8];</a>
+<span class="sourceLineNo">615</span><a id="line.615">    for (HashCode hashCode : hashCodes) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">      byte[] nextBytes = hashCode.asBytes();</a>
+<span class="sourceLineNo">617</span><a id="line.617">      checkArgument(</a>
+<span class="sourceLineNo">618</span><a id="line.618">          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");</a>
+<span class="sourceLineNo">619</span><a id="line.619">      for (int i = 0; i &lt; nextBytes.length; i++) {</a>
+<span class="sourceLineNo">620</span><a id="line.620">        resultBytes[i] += nextBytes[i];</a>
+<span class="sourceLineNo">621</span><a id="line.621">      }</a>
+<span class="sourceLineNo">622</span><a id="line.622">    }</a>
+<span class="sourceLineNo">623</span><a id="line.623">    return HashCode.fromBytesNoCopy(resultBytes);</a>
+<span class="sourceLineNo">624</span><a id="line.624">  }</a>
+<span class="sourceLineNo">625</span><a id="line.625"></a>
+<span class="sourceLineNo">626</span><a id="line.626">  /** Checks that the passed argument is positive, and ceils it to a multiple of 32. */</a>
+<span class="sourceLineNo">627</span><a id="line.627">  static int checkPositiveAndMakeMultipleOf32(int bits) {</a>
+<span class="sourceLineNo">628</span><a id="line.628">    checkArgument(bits &gt; 0, "Number of bits must be positive");</a>
+<span class="sourceLineNo">629</span><a id="line.629">    return (bits + 31) &amp; ~31;</a>
+<span class="sourceLineNo">630</span><a id="line.630">  }</a>
+<span class="sourceLineNo">631</span><a id="line.631"></a>
+<span class="sourceLineNo">632</span><a id="line.632">  /**</a>
+<span class="sourceLineNo">633</span><a id="line.633">   * Returns a hash function which computes its hash code by concatenating the hash codes of the</a>
+<span class="sourceLineNo">634</span><a id="line.634">   * underlying hash functions together. This can be useful if you need to generate hash codes of a</a>
+<span class="sourceLineNo">635</span><a id="line.635">   * specific length.</a>
+<span class="sourceLineNo">636</span><a id="line.636">   *</a>
+<span class="sourceLineNo">637</span><a id="line.637">   * &lt;p&gt;For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash</a>
+<span class="sourceLineNo">638</span><a id="line.638">   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.</a>
+<span class="sourceLineNo">639</span><a id="line.639">   *</a>
+<span class="sourceLineNo">640</span><a id="line.640">   * @since 19.0</a>
+<span class="sourceLineNo">641</span><a id="line.641">   */</a>
+<span class="sourceLineNo">642</span><a id="line.642">  public static HashFunction concatenating(</a>
+<span class="sourceLineNo">643</span><a id="line.643">      HashFunction first, HashFunction second, HashFunction... rest) {</a>
+<span class="sourceLineNo">644</span><a id="line.644">    // We can't use Lists.asList() here because there's no hash-&gt;collect dependency</a>
+<span class="sourceLineNo">645</span><a id="line.645">    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">646</span><a id="line.646">    list.add(first);</a>
+<span class="sourceLineNo">647</span><a id="line.647">    list.add(second);</a>
+<span class="sourceLineNo">648</span><a id="line.648">    list.addAll(Arrays.asList(rest));</a>
+<span class="sourceLineNo">649</span><a id="line.649">    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));</a>
+<span class="sourceLineNo">650</span><a id="line.650">  }</a>
+<span class="sourceLineNo">651</span><a id="line.651"></a>
+<span class="sourceLineNo">652</span><a id="line.652">  /**</a>
+<span class="sourceLineNo">653</span><a id="line.653">   * Returns a hash function which computes its hash code by concatenating the hash codes of the</a>
+<span class="sourceLineNo">654</span><a id="line.654">   * underlying hash functions together. This can be useful if you need to generate hash codes of a</a>
+<span class="sourceLineNo">655</span><a id="line.655">   * specific length.</a>
+<span class="sourceLineNo">656</span><a id="line.656">   *</a>
+<span class="sourceLineNo">657</span><a id="line.657">   * &lt;p&gt;For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash</a>
+<span class="sourceLineNo">658</span><a id="line.658">   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.</a>
+<span class="sourceLineNo">659</span><a id="line.659">   *</a>
+<span class="sourceLineNo">660</span><a id="line.660">   * @since 19.0</a>
+<span class="sourceLineNo">661</span><a id="line.661">   */</a>
+<span class="sourceLineNo">662</span><a id="line.662">  public static HashFunction concatenating(Iterable&lt;HashFunction&gt; hashFunctions) {</a>
+<span class="sourceLineNo">663</span><a id="line.663">    checkNotNull(hashFunctions);</a>
+<span class="sourceLineNo">664</span><a id="line.664">    // We can't use Iterables.toArray() here because there's no hash-&gt;collect dependency</a>
+<span class="sourceLineNo">665</span><a id="line.665">    List&lt;HashFunction&gt; list = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">666</span><a id="line.666">    for (HashFunction hashFunction : hashFunctions) {</a>
+<span class="sourceLineNo">667</span><a id="line.667">      list.add(hashFunction);</a>
+<span class="sourceLineNo">668</span><a id="line.668">    }</a>
+<span class="sourceLineNo">669</span><a id="line.669">    checkArgument(list.size() &gt; 0, "number of hash functions (%s) must be &gt; 0", list.size());</a>
+<span class="sourceLineNo">670</span><a id="line.670">    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));</a>
+<span class="sourceLineNo">671</span><a id="line.671">  }</a>
 <span class="sourceLineNo">672</span><a id="line.672"></a>
-<span class="sourceLineNo">673</span><a id="line.673">    @Override</a>
-<span class="sourceLineNo">674</span><a id="line.674">    public int bits() {</a>
-<span class="sourceLineNo">675</span><a id="line.675">      int bitSum = 0;</a>
-<span class="sourceLineNo">676</span><a id="line.676">      for (HashFunction function : functions) {</a>
-<span class="sourceLineNo">677</span><a id="line.677">        bitSum += function.bits();</a>
-<span class="sourceLineNo">678</span><a id="line.678">      }</a>
-<span class="sourceLineNo">679</span><a id="line.679">      return bitSum;</a>
-<span class="sourceLineNo">680</span><a id="line.680">    }</a>
-<span class="sourceLineNo">681</span><a id="line.681"></a>
-<span class="sourceLineNo">682</span><a id="line.682">    @Override</a>
-<span class="sourceLineNo">683</span><a id="line.683">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">      if (object instanceof ConcatenatedHashFunction) {</a>
-<span class="sourceLineNo">685</span><a id="line.685">        ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;</a>
-<span class="sourceLineNo">686</span><a id="line.686">        return Arrays.equals(functions, other.functions);</a>
-<span class="sourceLineNo">687</span><a id="line.687">      }</a>
-<span class="sourceLineNo">688</span><a id="line.688">      return false;</a>
-<span class="sourceLineNo">689</span><a id="line.689">    }</a>
-<span class="sourceLineNo">690</span><a id="line.690"></a>
-<span class="sourceLineNo">691</span><a id="line.691">    @Override</a>
-<span class="sourceLineNo">692</span><a id="line.692">    public int hashCode() {</a>
-<span class="sourceLineNo">693</span><a id="line.693">      return Arrays.hashCode(functions);</a>
-<span class="sourceLineNo">694</span><a id="line.694">    }</a>
-<span class="sourceLineNo">695</span><a id="line.695">  }</a>
+<span class="sourceLineNo">673</span><a id="line.673">  private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {</a>
+<span class="sourceLineNo">674</span><a id="line.674"></a>
+<span class="sourceLineNo">675</span><a id="line.675">    private ConcatenatedHashFunction(HashFunction... functions) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      super(functions);</a>
+<span class="sourceLineNo">677</span><a id="line.677">      for (HashFunction function : functions) {</a>
+<span class="sourceLineNo">678</span><a id="line.678">        checkArgument(</a>
+<span class="sourceLineNo">679</span><a id="line.679">            function.bits() % 8 == 0,</a>
+<span class="sourceLineNo">680</span><a id="line.680">            "the number of bits (%s) in hashFunction (%s) must be divisible by 8",</a>
+<span class="sourceLineNo">681</span><a id="line.681">            function.bits(),</a>
+<span class="sourceLineNo">682</span><a id="line.682">            function);</a>
+<span class="sourceLineNo">683</span><a id="line.683">      }</a>
+<span class="sourceLineNo">684</span><a id="line.684">    }</a>
+<span class="sourceLineNo">685</span><a id="line.685"></a>
+<span class="sourceLineNo">686</span><a id="line.686">    @Override</a>
+<span class="sourceLineNo">687</span><a id="line.687">    HashCode makeHash(Hasher[] hashers) {</a>
+<span class="sourceLineNo">688</span><a id="line.688">      byte[] bytes = new byte[bits() / 8];</a>
+<span class="sourceLineNo">689</span><a id="line.689">      int i = 0;</a>
+<span class="sourceLineNo">690</span><a id="line.690">      for (Hasher hasher : hashers) {</a>
+<span class="sourceLineNo">691</span><a id="line.691">        HashCode newHash = hasher.hash();</a>
+<span class="sourceLineNo">692</span><a id="line.692">        i += newHash.writeBytesTo(bytes, i, newHash.bits() / 8);</a>
+<span class="sourceLineNo">693</span><a id="line.693">      }</a>
+<span class="sourceLineNo">694</span><a id="line.694">      return HashCode.fromBytesNoCopy(bytes);</a>
+<span class="sourceLineNo">695</span><a id="line.695">    }</a>
 <span class="sourceLineNo">696</span><a id="line.696"></a>
-<span class="sourceLineNo">697</span><a id="line.697">  /**</a>
-<span class="sourceLineNo">698</span><a id="line.698">   * Linear CongruentialGenerator to use for consistent hashing. See</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * http://en.wikipedia.org/wiki/Linear_congruential_generator</a>
-<span class="sourceLineNo">700</span><a id="line.700">   */</a>
-<span class="sourceLineNo">701</span><a id="line.701">  private static final class LinearCongruentialGenerator {</a>
-<span class="sourceLineNo">702</span><a id="line.702">    private long state;</a>
-<span class="sourceLineNo">703</span><a id="line.703"></a>
-<span class="sourceLineNo">704</span><a id="line.704">    public LinearCongruentialGenerator(long seed) {</a>
-<span class="sourceLineNo">705</span><a id="line.705">      this.state = seed;</a>
-<span class="sourceLineNo">706</span><a id="line.706">    }</a>
-<span class="sourceLineNo">707</span><a id="line.707"></a>
-<span class="sourceLineNo">708</span><a id="line.708">    public double nextDouble() {</a>
-<span class="sourceLineNo">709</span><a id="line.709">      state = 2862933555777941757L * state + 1;</a>
-<span class="sourceLineNo">710</span><a id="line.710">      return ((double) ((int) (state &gt;&gt;&gt; 33) + 1)) / 0x1.0p31;</a>
-<span class="sourceLineNo">711</span><a id="line.711">    }</a>
-<span class="sourceLineNo">712</span><a id="line.712">  }</a>
-<span class="sourceLineNo">713</span><a id="line.713"></a>
-<span class="sourceLineNo">714</span><a id="line.714">  private Hashing() {}</a>
-<span class="sourceLineNo">715</span><a id="line.715">}</a>
+<span class="sourceLineNo">697</span><a id="line.697">    @Override</a>
+<span class="sourceLineNo">698</span><a id="line.698">    public int bits() {</a>
+<span class="sourceLineNo">699</span><a id="line.699">      int bitSum = 0;</a>
+<span class="sourceLineNo">700</span><a id="line.700">      for (HashFunction function : functions) {</a>
+<span class="sourceLineNo">701</span><a id="line.701">        bitSum += function.bits();</a>
+<span class="sourceLineNo">702</span><a id="line.702">      }</a>
+<span class="sourceLineNo">703</span><a id="line.703">      return bitSum;</a>
+<span class="sourceLineNo">704</span><a id="line.704">    }</a>
+<span class="sourceLineNo">705</span><a id="line.705"></a>
+<span class="sourceLineNo">706</span><a id="line.706">    @Override</a>
+<span class="sourceLineNo">707</span><a id="line.707">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">708</span><a id="line.708">      if (object instanceof ConcatenatedHashFunction) {</a>
+<span class="sourceLineNo">709</span><a id="line.709">        ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;</a>
+<span class="sourceLineNo">710</span><a id="line.710">        return Arrays.equals(functions, other.functions);</a>
+<span class="sourceLineNo">711</span><a id="line.711">      }</a>
+<span class="sourceLineNo">712</span><a id="line.712">      return false;</a>
+<span class="sourceLineNo">713</span><a id="line.713">    }</a>
+<span class="sourceLineNo">714</span><a id="line.714"></a>
+<span class="sourceLineNo">715</span><a id="line.715">    @Override</a>
+<span class="sourceLineNo">716</span><a id="line.716">    public int hashCode() {</a>
+<span class="sourceLineNo">717</span><a id="line.717">      return Arrays.hashCode(functions);</a>
+<span class="sourceLineNo">718</span><a id="line.718">    }</a>
+<span class="sourceLineNo">719</span><a id="line.719">  }</a>
+<span class="sourceLineNo">720</span><a id="line.720"></a>
+<span class="sourceLineNo">721</span><a id="line.721">  /**</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * Linear CongruentialGenerator to use for consistent hashing. See</a>
+<span class="sourceLineNo">723</span><a id="line.723">   * http://en.wikipedia.org/wiki/Linear_congruential_generator</a>
+<span class="sourceLineNo">724</span><a id="line.724">   */</a>
+<span class="sourceLineNo">725</span><a id="line.725">  private static final class LinearCongruentialGenerator {</a>
+<span class="sourceLineNo">726</span><a id="line.726">    private long state;</a>
+<span class="sourceLineNo">727</span><a id="line.727"></a>
+<span class="sourceLineNo">728</span><a id="line.728">    public LinearCongruentialGenerator(long seed) {</a>
+<span class="sourceLineNo">729</span><a id="line.729">      this.state = seed;</a>
+<span class="sourceLineNo">730</span><a id="line.730">    }</a>
+<span class="sourceLineNo">731</span><a id="line.731"></a>
+<span class="sourceLineNo">732</span><a id="line.732">    public double nextDouble() {</a>
+<span class="sourceLineNo">733</span><a id="line.733">      state = 2862933555777941757L * state + 1;</a>
+<span class="sourceLineNo">734</span><a id="line.734">      return ((double) ((int) (state &gt;&gt;&gt; 33) + 1)) / 0x1.0p31;</a>
+<span class="sourceLineNo">735</span><a id="line.735">    }</a>
+<span class="sourceLineNo">736</span><a id="line.736">  }</a>
+<span class="sourceLineNo">737</span><a id="line.737"></a>
+<span class="sourceLineNo">738</span><a id="line.738">  private Hashing() {}</a>
+<span class="sourceLineNo">739</span><a id="line.739">}</a>
 
 
 

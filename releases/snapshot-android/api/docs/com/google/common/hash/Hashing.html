@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":41,"i20":9,"i21":9,"i22":41,"i23":41,"i24":9,"i25":9,"i26":41,"i27":9,"i28":9,"i29":9,"i30":9,"i31":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":41,"i21":9,"i22":9,"i23":41,"i24":41,"i25":9,"i26":9,"i27":41,"i28":9,"i29":9,"i30":9,"i31":9,"i32":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -247,12 +247,19 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fingerprint2011()">fingerprint2011</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#goodFastHash(int)">goodFastHash</a></span>&#8203;(int&nbsp;minimumBits)</code></th>
 <td class="colLast">
 <div class="block">Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacMd5(byte%5B%5D)">hmacMd5</a></span>&#8203;(byte[]&nbsp;key)</code></th>
 <td class="colLast">
@@ -261,7 +268,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  and the MD5 algorithm.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacMd5(java.security.Key)">hmacMd5</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</code></th>
 <td class="colLast">
@@ -269,7 +276,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  MD5 (128 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha1(byte%5B%5D)">hmacSha1</a></span>&#8203;(byte[]&nbsp;key)</code></th>
 <td class="colLast">
@@ -278,7 +285,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  array and the SHA-1 algorithm.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha1(java.security.Key)">hmacSha1</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</code></th>
 <td class="colLast">
@@ -286,7 +293,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  SHA-1 (160 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha256(byte%5B%5D)">hmacSha256</a></span>&#8203;(byte[]&nbsp;key)</code></th>
 <td class="colLast">
@@ -295,7 +302,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  array and the SHA-256 algorithm.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha256(java.security.Key)">hmacSha256</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</code></th>
 <td class="colLast">
@@ -303,7 +310,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  SHA-256 (256 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha512(byte%5B%5D)">hmacSha512</a></span>&#8203;(byte[]&nbsp;key)</code></th>
 <td class="colLast">
@@ -312,7 +319,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  array and the SHA-512 algorithm.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hmacSha512(java.security.Key)">hmacSha512</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security" class="externalLink">Key</a>&nbsp;key)</code></th>
 <td class="colLast">
@@ -320,7 +327,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  SHA-512 (512 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#md5()">md5</a></span>()</code></th>
 <td class="colLast">
@@ -330,7 +337,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_128()">murmur3_128</a></span>()</code></th>
 <td class="colLast">
@@ -338,7 +345,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_128(int)">murmur3_128</a></span>&#8203;(int&nbsp;seed)</code></th>
 <td class="colLast">
@@ -346,7 +353,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  algorithm, x64 variant</a> (little-endian variant), using the given seed value.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_32()">murmur3_32</a></span>()</code></th>
 <td class="colLast">
@@ -355,7 +362,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_32(int)">murmur3_32</a></span>&#8203;(int&nbsp;seed)</code></th>
 <td class="colLast">
@@ -364,7 +371,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_32_fixed()">murmur3_32_fixed</a></span>()</code></th>
 <td class="colLast">
@@ -372,7 +379,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#murmur3_32_fixed(int)">murmur3_32_fixed</a></span>&#8203;(int&nbsp;seed)</code></th>
 <td class="colLast">
@@ -380,7 +387,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  algorithm, x86 variant</a> (little-endian variant), using the given seed value.</div>
 </td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sha1()">sha1</a></span>()</code></th>
 <td class="colLast">
@@ -390,28 +397,28 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </div>
 </td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sha256()">sha256</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits).</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sha384()">sha384</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits).</div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sha512()">sha512</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a hash function implementing the SHA-512 algorithm (512 hash bits).</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sipHash24()">sipHash24</a></span>()</code></th>
 <td class="colLast">
@@ -419,7 +426,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  SipHash-2-4 algorithm</a> using a seed value of <code>k = 00 01 02 ...</code>.</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code>static <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sipHash24(long,long)">sipHash24</a></span>&#8203;(long&nbsp;k0,
          long&nbsp;k1)</code></th>
@@ -917,13 +924,41 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 </dl>
 </li>
 </ul>
+<a id="fingerprint2011()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fingerprint2011</h4>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.492">fingerprint2011</a>()</pre>
+<div class="block">Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).
+
+ <p>This is designed for generating persistent fingerprints of strings. It isn't
+ cryptographically secure, but it produces a high-quality hash with few collisions. Fingerprints
+ generated using this are byte-wise identical to those created using the C++ version, but note
+ that this uses unsigned integers (see <a href="../primitives/UnsignedInts.html" title="class in com.google.common.primitives"><code>UnsignedInts</code></a>).
+ Comparisons between the two should take this into account.
+
+ <p>Fingerprint2011() is a form of Murmur2 on strings up to 32 bytes and a form of CityHash for
+ longer strings. It could have been one or the other throughout. The main advantage of the
+ combination is that CityHash has a bunch of special cases for short strings that don't need to
+ be replicated here. The result will never be 0 or 1.
+
+ <p>This function is best understood as a <a href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
+ <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a id="consistentHash(com.google.common.hash.HashCode,int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.502">consistentHash</a>&#8203;(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.526">consistentHash</a>&#8203;(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>hashCode</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner
  that minimizes the need for remapping as <code>buckets</code> grows. That is, <code>
@@ -961,7 +996,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>consistentHash</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.536">consistentHash</a>&#8203;(long&nbsp;input,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.560">consistentHash</a>&#8203;(long&nbsp;input,
                                  int&nbsp;buckets)</pre>
 <div class="block">Assigns to <code>input</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner that
  minimizes the need for remapping as <code>buckets</code> grows. That is, <code>consistentHash(h,
@@ -999,7 +1034,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>combineOrdered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.562">combineOrdered</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.586">combineOrdered</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an ordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -1017,7 +1052,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>combineUnordered</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.587">combineUnordered</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.611">combineUnordered</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</pre>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an unordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -1035,7 +1070,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockList">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.618">concatenating</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.642">concatenating</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
                                          <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;second,
                                          <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>...&nbsp;rest)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
@@ -1056,7 +1091,7 @@ public static&nbsp;<a href="HashFunction.html" title="interface in com.google.co
 <ul class="blockListLast">
 <li class="blockList">
 <h4>concatenating</h4>
-<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.638">concatenating</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hashing.html#line.662">concatenating</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</pre>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
  underlying hash functions together. This can be useful if you need to generate hash codes of a
  specific length.

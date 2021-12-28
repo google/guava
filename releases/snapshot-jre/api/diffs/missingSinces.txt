@@ -4,6 +4,7 @@ MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDoubleArray Method a
 OK: com.google.common.collect.ImmutableBiMap.Builder Method buildKeepingLast()
 OK: com.google.common.collect.ImmutableMap.Builder Method buildKeepingLast()
 OK: com.google.common.collect.ImmutableSortedMap.Builder Method buildKeepingLast()
+OK: com.google.common.hash.Hashing Method fingerprint2011()
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDouble Method getAndAccumulate(double, java.util.function.DoubleBinaryOperator)
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDoubleArray Method getAndAccumulate(int, double, java.util.function.DoubleBinaryOperator)
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDouble Method getAndUpdate(java.util.function.DoubleUnaryOperator)
