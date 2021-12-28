@@ -125,6 +125,15 @@ public class HashingTest extends TestCase {
         Hashing.sipHash24().toString());
   }
 
+  public void testFingerprint2011() {
+    HashTestUtils.check2BitAvalanche(Hashing.fingerprint2011(), 100, 0.4);
+    HashTestUtils.checkAvalanche(Hashing.fingerprint2011(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.fingerprint2011());
+    HashTestUtils.checkNoFunnels(Hashing.fingerprint2011());
+    HashTestUtils.assertInvariants(Hashing.fingerprint2011());
+    assertEquals("Hashing.fingerprint2011()", Hashing.fingerprint2011().toString());
+  }
+
   @AndroidIncompatible // slow TODO(cpovirk): Maybe just reduce iterations under Android.
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
@@ -492,6 +501,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.farmHashFingerprint64(), EMPTY_STRING, "4f40902f3b6ae19a")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLD, "34511b3bf383beab")
           .put(Hashing.farmHashFingerprint64(), TQBFJOTLDP, "737d7e5f8660653e")
+          .put(Hashing.fingerprint2011(), EMPTY_STRING, "e365a64a907cad23")
+          .put(Hashing.fingerprint2011(), TQBFJOTLD, "c9688c84e813b089")
+          .put(Hashing.fingerprint2011(), TQBFJOTLDP, "a714d70f1d569cd0")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
