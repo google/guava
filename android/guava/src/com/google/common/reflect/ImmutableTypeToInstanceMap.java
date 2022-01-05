@@ -14,7 +14,6 @@
 
 package com.google.common.reflect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -29,7 +28,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 13.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<? extends B>, B>
     implements TypeToInstanceMap<B> {
@@ -60,7 +58,6 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    *
    * @since 13.0
    */
-  @Beta
   public static final class Builder<B> {
     private final ImmutableMap.Builder<TypeToken<? extends B>, B> mapBuilder =
         ImmutableMap.builder();

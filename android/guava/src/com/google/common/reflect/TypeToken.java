@@ -97,7 +97,6 @@ import javax.annotation.CheckForNull;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @SuppressWarnings("serial") // SimpleTypeToken is the serialized form.
 @ElementTypesAreNonnullByDefault
 public abstract class TypeToken<T> extends TypeCapture<T> implements Serializable {
@@ -591,6 +590,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
+  @Beta
   public final Invokable<T, Object> method(Method method) {
     checkArgument(
         this.someRawTypeIsSubclassOf(method.getDeclaringClass()),
@@ -630,6 +630,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    *
    * @since 14.0
    */
+  @Beta
   public final Invokable<T, T> constructor(Constructor<?> constructor) {
     checkArgument(
         constructor.getDeclaringClass() == getRawType(),

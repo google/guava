@@ -28,6 +28,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /**
  * Represents a method or constructor parameter.
  *
+ * <p><b>Note:</b> Since Java 8 introduced {@link java.lang.reflect.Parameter} to represent method
+ * and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
+ * future version.
+ *
  * @author Ben Yu
  * @since 14.0
  */
