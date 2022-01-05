@@ -145,8 +145,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;B&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends B&gt;,&#8203;B&gt;</code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.42">MutableTypeToInstanceMap</a>&lt;B&gt;
+<pre>public final class <a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.41">MutableTypeToInstanceMap</a>&lt;B&gt;
 extends <a href="../collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends B&gt;,&#8203;B&gt;
 implements <a href="TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;B&gt;</pre>
 <div class="block">A mutable type-to-instance map. See also <a href="ImmutableTypeToInstanceMap.html" title="class in com.google.common.reflect"><code>ImmutableTypeToInstanceMap</code></a>.
@@ -340,7 +339,7 @@ implements <a href="TypeToInstanceMap.html" title="interface in com.google.commo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MutableTypeToInstanceMap</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.44">MutableTypeToInstanceMap</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.42">MutableTypeToInstanceMap</a>()</pre>
 </li>
 </ul>
 </li>
@@ -360,7 +359,7 @@ implements <a href="TypeToInstanceMap.html" title="interface in com.google.commo
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.49">getInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.47">getInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeToInstanceMap.html#getInstance(java.lang.Class)">TypeToInstanceMap</a></code></span></div>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
@@ -381,7 +380,7 @@ public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type pa
 <li class="blockList">
 <h4>getInstance</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.55">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.53">getInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">TypeToInstanceMap</a></code></span></div>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
  present. This will only return a value that was bound to this specific type, not a value that
@@ -402,7 +401,7 @@ public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type pa
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.61">putInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.59">putInstance</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type,
                                    T&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeToInstanceMap.html#putInstance(java.lang.Class,T)">TypeToInstanceMap</a></code></span></div>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
@@ -429,7 +428,7 @@ public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type pa
 <h4>putInstance</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.68">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.66">putInstance</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                                    T&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,T)">TypeToInstanceMap</a></code></span></div>
 <div class="block">Maps the specified type to the specified value. Does <i>not</i> associate this value with any
@@ -454,7 +453,7 @@ public&nbsp;&lt;T extends <a href="MutableTypeToInstanceMap.html" title="type pa
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.81">put</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;key,
+public&nbsp;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.79">put</a>&#8203;(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;key,
              <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">unsupported operation</div>
@@ -486,7 +485,7 @@ public&nbsp;<a href="MutableTypeToInstanceMap.html" title="type parameter in Mut
 <li class="blockList">
 <h4>putAll</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.96">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;map)</pre>
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.94">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;map)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">unsupported operation</div>
 </div>
@@ -509,7 +508,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Mu
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.103">entrySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.101">entrySet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a> view of the mappings contained in this map.
  The set is backed by the map, so changes to the map are
@@ -539,7 +538,7 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Mu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.108">delegate</a>()</pre>
+<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,&#8203;<a href="MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.106">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,

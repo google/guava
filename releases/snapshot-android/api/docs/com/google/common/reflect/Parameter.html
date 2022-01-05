@@ -136,10 +136,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.33">Parameter</a>
+public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.37">Parameter</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">AnnotatedElement</a></pre>
-<div class="block">Represents a method or constructor parameter.</div>
+<div class="block">Represents a method or constructor parameter.
+
+ <p><b>Note:</b> Since Java 8 introduced <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Parameter.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Parameter</code></a> to represent method
+ and constructor parameters, this class is no longer necessary. We intend to deprecate it in a
+ future version.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -285,7 +289,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.51">getType</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.55">getType</a>()</pre>
 <div class="block">Returns the type of the parameter.</div>
 </li>
 </ul>
@@ -295,7 +299,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringInvokable</h4>
-<pre class="methodSignature">public&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.56">getDeclaringInvokable</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.60">getDeclaringInvokable</a>()</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> that declares this parameter.</div>
 </li>
 </ul>
@@ -305,7 +309,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>isAnnotationPresent</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.60">isAnnotationPresent</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.64">isAnnotationPresent</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#isAnnotationPresent(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns true if an annotation for the specified type
  is <em>present</em> on this element, else false.  This method
@@ -335,7 +339,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <li class="blockList">
 <h4>getAnnotation</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.65">getAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.69">getAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotation(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>present</em>, else null.</div>
@@ -359,7 +363,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotations</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.77">getAnnotations</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.81">getAnnotations</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotations()" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>present</em> on this element.
 
@@ -382,7 +386,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotationsByType</h4>
-<pre class="methodSignature">public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.84">getAnnotationsByType</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.88">getAnnotationsByType</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotationsByType(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>associated</em> with this element.
 
@@ -419,7 +423,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotations</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.90">getDeclaredAnnotations</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.94">getDeclaredAnnotations</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotations()" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>directly present</em> on this element.
  This method ignores inherited annotations.
@@ -446,7 +450,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <li class="blockList">
 <h4>getDeclaredAnnotation</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.97">getDeclaredAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.101">getDeclaredAnnotation</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotation(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>directly present</em>, else null.
@@ -475,7 +479,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotationsByType</h4>
-<pre class="methodSignature">public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.105">getDeclaredAnnotationsByType</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre class="methodSignature">public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation" class="externalLink">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.109">getDeclaredAnnotationsByType</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotationsByType(java.lang.Class)" title="class or interface in java.lang.reflect" class="externalLink">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation(s) for the specified type if
  such annotations are either <em>directly present</em> or
@@ -516,7 +520,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.113">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.117">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -577,7 +581,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.122">hashCode</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.126">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -624,7 +628,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.127">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.131">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
