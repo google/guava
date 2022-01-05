@@ -21,6 +21,7 @@ import static com.google.common.cache.CacheBuilder.UNSET_INT;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -3921,7 +3922,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     try {
       if (!keysToLoad.isEmpty()) {
         try {
-          Map<K, V> newEntries = loadAll(keysToLoad, defaultLoader);
+          Map<K, V> newEntries = loadAll(unmodifiableSet(keysToLoad), defaultLoader);
           for (K key : keysToLoad) {
             V value = newEntries.get(key);
             if (value == null) {
