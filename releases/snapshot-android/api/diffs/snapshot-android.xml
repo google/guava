@@ -25305,9 +25305,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableList#of()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor}
- directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
+ advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
       </doc>
     </method>
     <method name="newArrayList" return="java.util.ArrayList&lt;E&gt;"
@@ -25343,10 +25343,9 @@
  ImmutableList#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link
  FluentIterable} and call {@code elements.toList()}.)
 
- <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
- need this method. Use the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection)
- constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
- syntax</a>.]]>
+ <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
+ the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
+ advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
       </doc>
     </method>
     <method name="newArrayList" return="java.util.ArrayList&lt;E&gt;"
@@ -25371,11 +25370,11 @@
       <![CDATA[Creates an {@code ArrayList} instance backed by an array with the specified initial size;
  simply delegates to {@link ArrayList#ArrayList(int)}.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)}
- directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
- (Unlike here, there is no risk of overload ambiguity, since the {@code ArrayList} constructors
- very wisely did not accept varargs.)
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use {@code new }{@link ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
+ advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. (Unlike here, there is no risk
+ of overload ambiguity, since the {@code ArrayList} constructors very wisely did not accept
+ varargs.)
 
  @param initialArraySize the exact size of the initial backing array for the returned array list
      ({@code ArrayList} documentation calls this value the "capacity")
@@ -25417,10 +25416,9 @@
  outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
  spent a lot of time benchmarking your specific needs, use one of those instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code LinkedList} {@linkplain LinkedList#LinkedList()
- constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
- syntax</a>.]]>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
+ advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
       </doc>
     </method>
     <method name="newLinkedList" return="java.util.LinkedList&lt;E&gt;"
@@ -25440,10 +25438,9 @@
  outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
  spent a lot of time benchmarking your specific needs, use one of those instead.
 
- <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
- need this method. Use the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection)
- constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
- syntax</a>.]]>
+ <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
+ the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
+ taking advantage of <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
       </doc>
     </method>
     <method name="newCopyOnWriteArrayList" return="java.util.concurrent.CopyOnWriteArrayList&lt;E&gt;"
@@ -26088,9 +26085,9 @@
 
  <p><b>Note:</b> if {@code K} is an {@code enum} type, use {@link #newEnumMap} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code HashMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code HashMap}]]>
       </doc>
@@ -26107,9 +26104,9 @@
 
  <p><b>Note:</b> if {@code K} is an {@link Enum} type, use {@link #newEnumMap} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code HashMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @param map the mappings to be placed in the new map
  @return a new {@code HashMap} initialized with the mappings from {@code map}]]>
@@ -26141,9 +26138,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#of()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code LinkedHashMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code LinkedHashMap}]]>
       </doc>
@@ -26159,9 +26156,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code LinkedHashMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @param map the mappings to be placed in the new map
  @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}]]>
@@ -26205,9 +26202,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedMap#of()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code TreeMap}]]>
       </doc>
@@ -26224,9 +26221,9 @@
  <p><b>Note:</b> if mutability is not required, use {@link
  ImmutableSortedMap#copyOfSorted(SortedMap)} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @param map the sorted map whose mappings are to be placed in the new map and whose comparator
      is to be used to sort the new map
@@ -26245,9 +26242,9 @@
  <p><b>Note:</b> if mutability is not required, use {@code
  ImmutableSortedMap.orderedBy(comparator).build()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @param comparator the comparator to sort the keys with
  @return a new, empty {@code TreeMap}]]>
@@ -26273,9 +26270,9 @@
       <doc>
       <![CDATA[Creates an {@code EnumMap} with the same mappings as the specified map.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code EnumMap} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code EnumMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @param map the map from which to initialize this {@code EnumMap}
  @return a new {@code EnumMap} initialized with the mappings from {@code map}
@@ -26290,9 +26287,9 @@
       <doc>
       <![CDATA[Creates an {@code IdentityHashMap} instance.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code IdentityHashMap} constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code IdentityHashMap} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code IdentityHashMap}]]>
       </doc>
@@ -32861,9 +32858,9 @@
  using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
  deterministic iteration behavior.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code HashSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.]]>
       </doc>
     </method>
     <method name="newHashSet" return="java.util.HashSet&lt;E&gt;"
@@ -32902,9 +32899,9 @@
  <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
  instead.
 
- <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
- need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+ Instead, use the {@code HashSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  <p>Overall, this method is not very useful and will likely be deprecated in the future.]]>
       </doc>
@@ -32988,9 +32985,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code LinkedHashSet}]]>
       </doc>
@@ -33006,9 +33003,9 @@
  <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
  ImmutableSet#copyOf(Iterable)} instead.
 
- <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
- need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage
- of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+ Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  <p>Overall, this method is not very useful and will likely be deprecated in the future.
 
@@ -33044,9 +33041,9 @@
 
  <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedSet#of()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code TreeSet}]]>
       </doc>
@@ -33067,9 +33064,9 @@
  method has different behavior than {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code
  TreeSet} with that comparator.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  <p>This method is just a small convenience for creating an empty set and then calling {@link
  Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.
@@ -33089,11 +33086,11 @@
  <p><b>Note:</b> if mutability is not required, use {@code
  ImmutableSortedSet.orderedBy(comparator).build()} instead.
 
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
- <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code
- TreeSet} constructor uses a null {@code Comparator} to mean "natural ordering," whereas this
- factory rejects null. Clean your code accordingly.
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+ use the {@code TreeSet} constructor directly, taking advantage of <a
+ href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code TreeSet}
+ constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory
+ rejects null. Clean your code accordingly.
 
  @param comparator the comparator to use to sort the set
  @return a new, empty {@code TreeSet}

@@ -182,9 +182,9 @@
 <span class="sourceLineNo">173</span><a id="line.173">   * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get</a>
 <span class="sourceLineNo">174</span><a id="line.174">   * deterministic iteration behavior.</a>
 <span class="sourceLineNo">175</span><a id="line.175">   *</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as</a>
-<span class="sourceLineNo">177</span><a id="line.177">   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated. Instead,</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * use the {@code HashSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">179</span><a id="line.179">   */</a>
 <span class="sourceLineNo">180</span><a id="line.180">  public static &lt;E extends @Nullable Object&gt; HashSet&lt;E&gt; newHashSet() {</a>
 <span class="sourceLineNo">181</span><a id="line.181">    return new HashSet&lt;E&gt;();</a>
@@ -221,9 +221,9 @@
 <span class="sourceLineNo">212</span><a id="line.212">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}</a>
 <span class="sourceLineNo">213</span><a id="line.213">   * instead.</a>
 <span class="sourceLineNo">214</span><a id="line.214">   *</a>
-<span class="sourceLineNo">215</span><a id="line.215">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't</a>
-<span class="sourceLineNo">216</span><a id="line.216">   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of</a>
-<span class="sourceLineNo">217</span><a id="line.217">   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">215</span><a id="line.215">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't need this method.</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * Instead, use the {@code HashSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">217</span><a id="line.217">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">218</span><a id="line.218">   *</a>
 <span class="sourceLineNo">219</span><a id="line.219">   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.</a>
 <span class="sourceLineNo">220</span><a id="line.220">   */</a>
@@ -308,9 +308,9 @@
 <span class="sourceLineNo">299</span><a id="line.299">   *</a>
 <span class="sourceLineNo">300</span><a id="line.300">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableSet#of()} instead.</a>
 <span class="sourceLineNo">301</span><a id="line.301">   *</a>
-<span class="sourceLineNo">302</span><a id="line.302">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as</a>
-<span class="sourceLineNo">303</span><a id="line.303">   * deprecated. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of</a>
-<span class="sourceLineNo">304</span><a id="line.304">   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">302</span><a id="line.302">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated. Instead,</a>
+<span class="sourceLineNo">303</span><a id="line.303">   * use the {@code LinkedHashSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">304</span><a id="line.304">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">305</span><a id="line.305">   *</a>
 <span class="sourceLineNo">306</span><a id="line.306">   * @return a new, empty {@code LinkedHashSet}</a>
 <span class="sourceLineNo">307</span><a id="line.307">   */</a>
@@ -324,9 +324,9 @@
 <span class="sourceLineNo">315</span><a id="line.315">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link</a>
 <span class="sourceLineNo">316</span><a id="line.316">   * ImmutableSet#copyOf(Iterable)} instead.</a>
 <span class="sourceLineNo">317</span><a id="line.317">   *</a>
-<span class="sourceLineNo">318</span><a id="line.318">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't</a>
-<span class="sourceLineNo">319</span><a id="line.319">   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage</a>
-<span class="sourceLineNo">320</span><a id="line.320">   * of the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">318</span><a id="line.318">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't need this method.</a>
+<span class="sourceLineNo">319</span><a id="line.319">   * Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">320</span><a id="line.320">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">321</span><a id="line.321">   *</a>
 <span class="sourceLineNo">322</span><a id="line.322">   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.</a>
 <span class="sourceLineNo">323</span><a id="line.323">   *</a>
@@ -368,9 +368,9 @@
 <span class="sourceLineNo">359</span><a id="line.359">   *</a>
 <span class="sourceLineNo">360</span><a id="line.360">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableSortedSet#of()} instead.</a>
 <span class="sourceLineNo">361</span><a id="line.361">   *</a>
-<span class="sourceLineNo">362</span><a id="line.362">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as</a>
-<span class="sourceLineNo">363</span><a id="line.363">   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new</a>
-<span class="sourceLineNo">364</span><a id="line.364">   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated. Instead,</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * use the {@code TreeSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">364</span><a id="line.364">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">365</span><a id="line.365">   *</a>
 <span class="sourceLineNo">366</span><a id="line.366">   * @return a new, empty {@code TreeSet}</a>
 <span class="sourceLineNo">367</span><a id="line.367">   */</a>
@@ -389,9 +389,9 @@
 <span class="sourceLineNo">380</span><a id="line.380">   * method has different behavior than {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code</a>
 <span class="sourceLineNo">381</span><a id="line.381">   * TreeSet} with that comparator.</a>
 <span class="sourceLineNo">382</span><a id="line.382">   *</a>
-<span class="sourceLineNo">383</span><a id="line.383">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as</a>
-<span class="sourceLineNo">384</span><a id="line.384">   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new</a>
-<span class="sourceLineNo">385</span><a id="line.385">   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated. Instead,</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * use the {@code TreeSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.</a>
 <span class="sourceLineNo">386</span><a id="line.386">   *</a>
 <span class="sourceLineNo">387</span><a id="line.387">   * &lt;p&gt;This method is just a small convenience for creating an empty set and then calling {@link</a>
 <span class="sourceLineNo">388</span><a id="line.388">   * Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.</a>
@@ -411,11 +411,11 @@
 <span class="sourceLineNo">402</span><a id="line.402">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@code</a>
 <span class="sourceLineNo">403</span><a id="line.403">   * ImmutableSortedSet.orderedBy(comparator).build()} instead.</a>
 <span class="sourceLineNo">404</span><a id="line.404">   *</a>
-<span class="sourceLineNo">405</span><a id="line.405">   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new</a>
-<span class="sourceLineNo">407</span><a id="line.407">   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;. One caveat to this is that the {@code</a>
-<span class="sourceLineNo">408</span><a id="line.408">   * TreeSet} constructor uses a null {@code Comparator} to mean "natural ordering," whereas this</a>
-<span class="sourceLineNo">409</span><a id="line.409">   * factory rejects null. Clean your code accordingly.</a>
+<span class="sourceLineNo">405</span><a id="line.405">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method is now unnecessary and should be treated as deprecated. Instead,</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * use the {@code TreeSet} constructor directly, taking advantage of &lt;a</a>
+<span class="sourceLineNo">407</span><a id="line.407">   * href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;. One caveat to this is that the {@code TreeSet}</a>
+<span class="sourceLineNo">408</span><a id="line.408">   * constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory</a>
+<span class="sourceLineNo">409</span><a id="line.409">   * rejects null. Clean your code accordingly.</a>
 <span class="sourceLineNo">410</span><a id="line.410">   *</a>
 <span class="sourceLineNo">411</span><a id="line.411">   * @param comparator the comparator to use to sort the set</a>
 <span class="sourceLineNo">412</span><a id="line.412">   * @return a new, empty {@code TreeSet}</a>
