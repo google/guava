@@ -159,9 +159,9 @@ public final class Sets {
    * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
    * deterministic iteration behavior.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   public static <E extends @Nullable Object> HashSet<E> newHashSet() {
     return new HashSet<E>();
@@ -198,9 +198,9 @@ public final class Sets {
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
    * instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code HashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
@@ -285,9 +285,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of
-   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code LinkedHashSet}
    */
@@ -301,9 +301,9 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableSet#copyOf(Iterable)} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
-   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage
-   * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method.
+   * Instead, use the {@code LinkedHashSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    *
@@ -345,9 +345,9 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSortedSet#of()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * @return a new, empty {@code TreeSet}
    */
@@ -366,9 +366,9 @@ public final class Sets {
    * method has different behavior than {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code
    * TreeSet} with that comparator.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    *
    * <p>This method is just a small convenience for creating an empty set and then calling {@link
    * Iterables#addAll}. This method is not very useful and will likely be deprecated in the future.
@@ -388,11 +388,11 @@ public final class Sets {
    * <p><b>Note:</b> if mutability is not required, use {@code
    * ImmutableSortedSet.orderedBy(comparator).build()} instead.
    *
-   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
-   * deprecated. Instead, use the {@code TreeSet} constructor directly, taking advantage of the new
-   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code
-   * TreeSet} constructor uses a null {@code Comparator} to mean "natural ordering," whereas this
-   * factory rejects null. Clean your code accordingly.
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code TreeSet} constructor directly, taking advantage of <a
+   * href="http://goo.gl/iz2Wi">"diamond" syntax</a>. One caveat to this is that the {@code TreeSet}
+   * constructor uses a null {@code Comparator} to mean "natural ordering," whereas this factory
+   * rejects null. Clean your code accordingly.
    *
    * @param comparator the comparator to use to sort the set
    * @return a new, empty {@code TreeSet}
