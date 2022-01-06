@@ -1551,13 +1551,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">File name filter that only accepts files matching a regular expression.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="../../io/Resources.html" title="class in com.google.common.io">Resources</a></span></code></th>
-<td class="colLast">
-<div class="block">Provides utility methods for working with resources in the classpath.</div>
-</td>
-</tr>
 </tbody>
 </table>
 <table class="useSummary">
@@ -1569,17 +1562,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">append</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code><a href="../../io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#asByteSource(java.nio.charset.Charset)">asByteSource</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
 <td class="colLast">
@@ -1587,48 +1569,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  as bytes using the given <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>Charset</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#asWriter(java.lang.Appendable)">asWriter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&nbsp;target)</code></th>
 <td class="colLast">
 <div class="block">Returns a Writer that sends all output to the given <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Appendable</code></a> target.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#copy(java.io.File,java.io.File)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
-<td class="colLast">
-<div class="block">Copies all the bytes from one file to another.</div>
-</td>
-</tr>
 <tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#copy(java.io.File,java.io.OutputStream)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;to)</code></th>
-<td class="colLast">
-<div class="block">Copies all bytes from a file to an output stream.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">copy</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Appendable</a>&nbsp;to)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#createParentDirs(java.io.File)">createParentDirs</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
-<td class="colLast">
-<div class="block">Creates any necessary but nonexistent parent directories of the specified file.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#createTempDir()">createTempDir</a></span>()</code></th>
 <td class="colLast">
@@ -1637,14 +1585,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      Storage overview</a> to select an appropriate temporary directory (perhaps <code>
      context.getCacheDir()</code>).</div>
 </div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#equal(java.io.File,java.io.File)">equal</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file1,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file2)</code></th>
-<td class="colLast">
-<div class="block">Returns true if the given files exist, are not directories, and contain the same bytes.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1670,45 +1610,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#getFileExtension(java.lang.String)">getFileExtension</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;fullName)</code></th>
-<td class="colLast">
-<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
- the given file name, or the empty string if the file has no extension.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#getNameWithoutExtension(java.lang.String)">getNameWithoutExtension</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;file)</code></th>
-<td class="colLast">
-<div class="block">Returns the file name without its <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)">hash</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-    <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#isDirectory()">isDirectory</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isDirectory()" title="class or interface in java.io" class="externalLink"><code>File.isDirectory()</code></a> on input files.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="../../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#isFile()">isFile</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isFile()" title="class or interface in java.io" class="externalLink"><code>File.isFile()</code></a> on input files.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#length()">length</a></span>()</code></th>
 <td class="colLast">
@@ -1716,7 +1617,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  entire stream.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#lengthIfKnown()">lengthIfKnown</a></span>()</code></th>
 <td class="colLast">
@@ -1724,7 +1625,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  opening the data stream.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#limit(java.io.InputStream,long)">limit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;in,
      long&nbsp;limit)</code></th>
@@ -1732,40 +1633,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Wraps a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>InputStream</code></a>, limiting the number of bytes which can be read.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#map(java.io.File)">map</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
-<td class="colLast">
-<div class="block">Fully maps a file read-only in to memory as per <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a>.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#map(java.io.File,java.nio.channels.FileChannel.MapMode)">map</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-   <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode)</code></th>
-<td class="colLast">
-<div class="block">Fully maps a file in to memory as per <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a> using the requested <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">MappedByteBuffer</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#map(java.io.File,java.nio.channels.FileChannel.MapMode,long)">map</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-   <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink">FileChannel.MapMode</a>&nbsp;mode,
-   long&nbsp;size)</code></th>
-<td class="colLast">
-<div class="block">Maps a file in to memory as per <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,long,long)" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode,
- long, long)</code></a> using the requested <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels" class="externalLink"><code>FileChannel.MapMode</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#move(java.io.File,java.io.File)">move</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;from,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
-<td class="colLast">
-<div class="block">Moves a file from one path to another.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(byte%5B%5D)">newDataInput</a></span>&#8203;(byte[]&nbsp;bytes)</code></th>
 <td class="colLast">
@@ -1773,7 +1641,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  beginning.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(byte%5B%5D,int)">newDataInput</a></span>&#8203;(byte[]&nbsp;bytes,
             int&nbsp;start)</code></th>
@@ -1782,7 +1650,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  starting at the given position.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataInput(java.io.ByteArrayInputStream)">newDataInput</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ByteArrayInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ByteArrayInputStream</a>&nbsp;byteArrayInputStream)</code></th>
 <td class="colLast">
@@ -1790,14 +1658,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  ByteArrayInputStream</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput()">newDataOutput</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a new <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance with a default size.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput(int)">newDataOutput</a></span>&#8203;(int&nbsp;size)</code></th>
 <td class="colLast">
@@ -1805,7 +1673,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  resizing.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#newDataOutput(java.io.ByteArrayOutputStream)">newDataOutput</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ByteArrayOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ByteArrayOutputStream</a>&nbsp;byteArrayOutputStream)</code></th>
 <td class="colLast">
@@ -1813,37 +1681,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  ByteArrayOutputStream</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedReader.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedReader</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#newReader(java.io.File,java.nio.charset.Charset)">newReader</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block">Returns a buffered reader that reads from a file using the given character set.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedWriter.html?is-external=true" title="class or interface in java.io" class="externalLink">BufferedWriter</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#newWriter(java.io.File,java.nio.charset.Charset)">newWriter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block">Returns a buffered writer that writes to a file using the given character set.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#nullOutputStream()">nullOutputStream</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> that simply discards written bytes.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#nullWriter()">nullWriter</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Writer</code></a> that simply discards written chars.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#read(com.google.common.io.ByteProcessor)">read</a></span>&#8203;(<a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
@@ -1851,7 +1703,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  they are read.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#read(java.io.InputStream,byte%5B%5D,int,int)">read</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;in,
     byte[]&nbsp;b,
@@ -1861,7 +1713,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Reads some bytes from an input stream and stores them into the buffer array <code>b</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readBytes(java.io.InputStream,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;input,
          <a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
@@ -1869,27 +1721,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Process the bytes of the given input stream using the given processor.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readBytes(java.io.File,com.google.common.io.ByteProcessor)">readBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-         <a href="../../io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>.</div>
-</div>
-</td>
-</tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readFirstLine(java.io.File,java.nio.charset.Charset)">readFirstLine</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-             <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readFully(java.io.InputStream,byte%5B%5D)">readFully</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;in,
          byte[]&nbsp;b)</code></th>
@@ -1898,7 +1730,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  behavior as <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D)" title="class or interface in java.io" class="externalLink"><code>DataInput.readFully(byte[])</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteStreams.</span><code><span class="memberNameLink"><a href="../../io/ByteStreams.html#readFully(java.io.InputStream,byte%5B%5D,int,int)">readFully</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;in,
          byte[]&nbsp;b,
@@ -1909,54 +1741,27 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  off</code>, with the same behavior as <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink"><code>DataInput.readFully(byte[], int, int)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#readLines(com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block">Reads lines of text from this source, processing each line as it is read using the given <a href="../../io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Readable</a>&nbsp;r)</code></th>
 <td class="colLast">
 <div class="block">Reads all of the lines from a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Readable</code></a> object.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharStreams.</span><code><span class="memberNameLink"><a href="../../io/CharStreams.html#readLines(java.lang.Readable,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Readable</a>&nbsp;readable,
          <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code></th>
 <td class="colLast">
 <div class="block">Streams lines from a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Readable</code></a> object, stopping when the processor returns <code>false</code>
  or all lines have been read and returning the result produced by the processor.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readLines(java.io.File,java.nio.charset.Charset)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block">Reads all of the lines from a file.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">readLines</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset,
-         <a href="../../io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSource(file, charset).readLines(callback)</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#simplifyPath(java.lang.String)">simplifyPath</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;pathname)</code></th>
-<td class="colLast">
-<div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
- to the original.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1981,50 +1786,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
          long&nbsp;n)</code></th>
 <td class="colLast">
 <div class="block">Discards <code>n</code> characters of data from the reader.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static byte[]</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#toByteArray(java.io.File)">toByteArray</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
-<td class="colLast">
-<div class="block">Reads all bytes from a file into a byte array.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#toString(java.io.File,java.nio.charset.Charset)">toString</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSource(file, charset).read()</code>.</div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#touch(java.io.File)">touch</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;file)</code></th>
-<td class="colLast">
-<div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
- the same name.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#write(byte%5B%5D,java.io.File)">write</a></span>&#8203;(byte[]&nbsp;from,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to)</code></th>
-<td class="colLast">
-<div class="block">Overwrites a file with the contents of a byte array.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Files.</span><code><span class="memberNameLink"><a href="../../io/Files.html#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">write</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;from,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">File</a>&nbsp;to,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
-<td class="colLast">
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>.</div>
-</div>
 </td>
 </tr>
 </tbody>
