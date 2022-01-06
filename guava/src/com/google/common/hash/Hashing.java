@@ -17,11 +17,11 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.Immutable;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Adler32;
@@ -42,7 +42,6 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
-@Beta
 @ElementTypesAreNonnullByDefault
 public final class Hashing {
   /**
@@ -645,7 +644,7 @@ public final class Hashing {
     List<HashFunction> list = new ArrayList<>();
     list.add(first);
     list.add(second);
-    list.addAll(Arrays.asList(rest));
+    Collections.addAll(list, rest);
     return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
   }
 
@@ -666,7 +665,7 @@ public final class Hashing {
     for (HashFunction hashFunction : hashFunctions) {
       list.add(hashFunction);
     }
-    checkArgument(list.size() > 0, "number of hash functions (%s) must be > 0", list.size());
+    checkArgument(!list.isEmpty(), "number of hash functions (%s) must be > 0", list.size());
     return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
   }
 
