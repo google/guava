@@ -23,6 +23,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.math.LongMath;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -607,11 +608,13 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       dataLength = din.readInt();
 
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
-      long[] data = new long[dataLength];
-      for (int i = 0; i < data.length; i++) {
-        data[i] = din.readLong();
+
+      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));
+      for (int i = 0; i < dataArray.data.length(); i++) {
+        dataArray.data.set(i, din.readLong());
       }
-      return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
+
+      return new BloomFilter<T>(dataArray, numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
       String message =
           "Unable to deserialize BloomFilter from InputStream."
