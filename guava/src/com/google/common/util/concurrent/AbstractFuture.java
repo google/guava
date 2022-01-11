@@ -1084,7 +1084,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
    * method returns @Nullable, too. However, we're not sure if we want to make any changes to that
    * class, since it's in a separate artifact that we planned to release only a single version of.
    */
-  @SuppressWarnings("nullness")
   @CheckForNull
   protected final Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {

@@ -575,7 +575,20 @@ public final class Maps {
     onlyOnRight.putAll(right); // will whittle it down
     SortedMap<K, V> onBoth = Maps.newTreeMap(comparator);
     SortedMap<K, MapDifference.ValueDifference<V>> differences = Maps.newTreeMap(comparator);
-    doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);
+
+    /*
+     * V is a possibly nullable type, but we decided to declare Equivalence with a type parameter
+     * that is restricted to non-nullable types. Still, this code is safe: We made that decision
+     * about Equivalence not because Equivalence is null-hostile but because *every* Equivalence can
+     * handle null inputs -- and thus it would be meaningless for the type system to distinguish
+     * between "an Equivalence for nullable Foo" and "an Equivalence for non-nullable Foo."
+     *
+     * (And the unchecked cast is safe because Equivalence is contravariant.)
+     */
+    @SuppressWarnings({"nullness", "unchecked"})
+    Equivalence<V> equalsEquivalence = (Equivalence<V>) Equivalence.equals();
+
+    doDifference(left, right, equalsEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
     return new SortedMapDifferenceImpl<>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
@@ -1710,6 +1723,7 @@ public final class Maps {
     }
 
     @Override
+    @CheckForNull
     public V putIfAbsent(K key, V value) {
       throw new UnsupportedOperationException();
     }
@@ -1725,6 +1739,7 @@ public final class Maps {
     }
 
     @Override
+    @CheckForNull
     public V replace(K key, V value) {
       throw new UnsupportedOperationException();
     }
@@ -1742,7 +1757,8 @@ public final class Maps {
     }
 
     @Override
-    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V compute(
+        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 
@@ -3612,6 +3628,7 @@ public final class Maps {
     }
 
     @Override
+    @CheckForNull
     public V putIfAbsent(K key, V value) {
       throw new UnsupportedOperationException();
     }
@@ -3627,6 +3644,7 @@ public final class Maps {
     }
 
     @Override
+    @CheckForNull
     public V replace(K key, V value) {
       throw new UnsupportedOperationException();
     }
@@ -3644,7 +3662,8 @@ public final class Maps {
     }
 
     @Override
-    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V compute(
+        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
       throw new UnsupportedOperationException();
     }
 

@@ -1195,7 +1195,8 @@ final class Synchronized {
     }
 
     @Override
-    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V compute(
+        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
       synchronized (mutex) {
         return delegate().compute(key, remappingFunction);
       }

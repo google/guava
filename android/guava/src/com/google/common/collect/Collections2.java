@@ -695,7 +695,8 @@ public final class Collections2 {
     return true;
   }
 
-  private static <E> ObjectCountHashMap<E> counts(Collection<E> collection) {
+  private static <E extends @Nullable Object> ObjectCountHashMap<E> counts(
+      Collection<E> collection) {
     ObjectCountHashMap<E> map = new ObjectCountHashMap<>();
     for (E e : collection) {
       map.put(e, map.get(e) + 1);

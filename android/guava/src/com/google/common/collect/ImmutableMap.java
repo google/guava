@@ -599,7 +599,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     static <V> void sortEntries(
-        @Nullable Object[] alternatingKeysAndValues, int size, Comparator<V> valueComparator) {
+        @Nullable Object[] alternatingKeysAndValues,
+        int size,
+        Comparator<? super V> valueComparator) {
       @SuppressWarnings({"rawtypes", "unchecked"})
       Entry<Object, V>[] entries = new Entry[size];
       for (int i = 0; i < size; i++) {

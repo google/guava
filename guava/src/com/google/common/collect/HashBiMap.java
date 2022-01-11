@@ -489,6 +489,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     public Iterator<K> iterator() {
       return new Itr<K>() {
         @Override
+        @ParametricNullness
         K output(BiEntry<K, V> entry) {
           return entry.key;
         }
@@ -530,17 +531,20 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         }
 
         @Override
+        @ParametricNullness
         public K getKey() {
           return delegate.key;
         }
 
         @Override
+        @ParametricNullness
         public V getValue() {
           return delegate.value;
         }
 
         @Override
-        public V setValue(V value) {
+        @ParametricNullness
+        public V setValue(@ParametricNullness V value) {
           V oldValue = delegate.value;
           int valueHash = smearedHash(value);
           if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
@@ -675,6 +679,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       public Iterator<V> iterator() {
         return new Itr<V>() {
           @Override
+          @ParametricNullness
           V output(BiEntry<K, V> entry) {
             return entry.value;
           }
@@ -703,17 +708,20 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           }
 
           @Override
+          @ParametricNullness
           public V getKey() {
             return delegate.value;
           }
 
           @Override
+          @ParametricNullness
           public K getValue() {
             return delegate.key;
           }
 
           @Override
-          public K setValue(K key) {
+          @ParametricNullness
+          public K setValue(@ParametricNullness K key) {
             K oldKey = delegate.key;
             int keyHash = smearedHash(key);
             if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {

@@ -65,7 +65,8 @@ final class NullnessCasts {
    * return to a caller, the code needs to a way to return {@code null} from a method that returns
    * "plain {@code T}." This API provides that.
    */
-  @SuppressWarnings("nullness")
+  @SuppressWarnings({"nullness", "TypeParameterUnusedInFormals", "ReturnMissingNullable"})
+  // The warnings are legitimate. Each time we use this method, we document why.
   @ParametricNullness
   static <T extends @Nullable Object> T uncheckedNull() {
     return null;
