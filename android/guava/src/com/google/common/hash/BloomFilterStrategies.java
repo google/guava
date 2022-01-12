@@ -263,25 +263,36 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
           data.length(),
           other.data.length());
       for (int i = 0; i < data.length(); i++) {
-        long otherLong = other.data.get(i);
-
-        long ourLongOld;
-        long ourLongNew;
-        boolean changedAnyBits = true;
-        do {
-          ourLongOld = data.get(i);
-          ourLongNew = ourLongOld | otherLong;
-          if (ourLongOld == ourLongNew) {
-            changedAnyBits = false;
-            break;
-          }
-        } while (!data.compareAndSet(i, ourLongOld, ourLongNew));
-
-        if (changedAnyBits) {
-          int bitsAdded = Long.bitCount(ourLongNew) - Long.bitCount(ourLongOld);
-          bitCount.add(bitsAdded);
-        }
+        putData(i, other.data.get(i));
       }
+    }
+
+    /**
+     * ORs the bits encoded in the {@code i}th {@code long} in the underlying {@link
+     * AtomicLongArray} with the given value.
+     */
+    void putData(int i, long longValue) {
+      long ourLongOld;
+      long ourLongNew;
+      boolean changedAnyBits = true;
+      do {
+        ourLongOld = data.get(i);
+        ourLongNew = ourLongOld | longValue;
+        if (ourLongOld == ourLongNew) {
+          changedAnyBits = false;
+          break;
+        }
+      } while (!data.compareAndSet(i, ourLongOld, ourLongNew));
+
+      if (changedAnyBits) {
+        int bitsAdded = Long.bitCount(ourLongNew) - Long.bitCount(ourLongOld);
+        bitCount.add(bitsAdded);
+      }
+    }
+
+    /** Returns the number of {@code long}s in the underlying {@link AtomicLongArray}. */
+    int dataLength() {
+      return data.length();
     }
 
     @Override
