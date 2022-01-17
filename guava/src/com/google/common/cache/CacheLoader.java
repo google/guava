@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
-import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -28,6 +26,8 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
@@ -138,8 +138,34 @@ public abstract class CacheLoader<K, V> {
    * @return a cache loader that loads values by passing each key to {@code function}
    */
   @CheckReturnValue
+  public static <K, V> CacheLoader<K, V> from(com.google.common.base.Function<K, V> function) {
+    return from((Function<K,V>) function);
+  }
+
+  /**
+   * Returns a cache loader that uses {@code function} to load keys, without supporting either
+   * reloading or bulk loading. This allows creating a cache loader using a lambda expression.
+   *
+   * @param function the function to be used for loading values; must never return {@code null}
+   * @return a cache loader that loads values by passing each key to {@code function}
+   */
+  @CheckReturnValue
   public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
     return new FunctionToCacheLoader<>(function);
+  }
+
+  /**
+   * Returns a cache loader based on an <i>existing</i> supplier instance. Note that there's no need
+   * to create a <i>new</i> supplier just to pass it in here; just subclass {@code CacheLoader} and
+   * implement {@link #load load} instead.
+   *
+   * @param supplier the supplier to be used for loading values; must never return {@code null}
+   * @return a cache loader that loads values by calling {@link com.google.common.base.Supplier<V>#get}, irrespective of the
+   *     key
+   */
+  @CheckReturnValue
+  public static <V> CacheLoader<Object, V> from(com.google.common.base.Supplier<V> supplier) {
+    return from((Supplier<V>) supplier);
   }
 
   /**
