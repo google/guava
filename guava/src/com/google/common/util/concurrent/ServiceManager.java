@@ -59,6 +59,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.IdentityHashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -334,6 +335,7 @@ public final class ServiceManager implements ServiceManagerBridge {
   @CanIgnoreReturnValue
   public ServiceManager stopAsync() {
     for (Service service : services) {
+      state.tryStartStopTiming(service);
       service.stopAsync();
     }
     return this;
@@ -415,6 +417,17 @@ public final class ServiceManager implements ServiceManagerBridge {
   }
 
   /**
+   * Returns the service stop times. This value will only return stop times for services that
+   * have finished stopping.
+   *
+   * @return Map of services and their corresponding stop time in millis, the map entries will be
+   * ordered by stop time.
+   */
+  public ImmutableMap<Service, Long> stopTimes() {
+    return state.stopTimes();
+  }
+
+  /**
    * Returns the service load times. This value will only return startup times for services that
    * have finished starting.
    *
@@ -426,6 +439,19 @@ public final class ServiceManager implements ServiceManagerBridge {
   public ImmutableMap<Service, Duration> startupDurations() {
     return ImmutableMap.copyOf(
         Maps.<Service, Long, Duration>transformValues(startupTimes(), Duration::ofMillis));
+  }
+
+  /**
+   * Returns the service stopping termination times. This method returns values for only those services
+   * that have finished stopping.
+   *
+   * @return Map of services and their corresponding stop time, the map entries will be ordered
+   * by stop time.
+   */
+  @J2ObjCIncompatible
+  public ImmutableMap<Service, Duration> stopDurations() {
+    return ImmutableMap.copyOf(
+            Maps.<Service, Long, Duration>transformValues(stopTimes(), Duration::ofMillis));
   }
 
   @Override
@@ -451,6 +477,9 @@ public final class ServiceManager implements ServiceManagerBridge {
 
     @GuardedBy("monitor")
     final Map<Service, Stopwatch> startupTimers = Maps.newIdentityHashMap();
+
+    @GuardedBy("monitor")
+    final Map<Service, Stopwatch> stopTimers = new IdentityHashMap<>();
 
     /**
      * These two booleans are used to mark the state as ready to start.
@@ -536,6 +565,22 @@ public final class ServiceManager implements ServiceManagerBridge {
         Stopwatch stopwatch = startupTimers.get(service);
         if (stopwatch == null) {
           startupTimers.put(service, Stopwatch.createStarted());
+        }
+      } finally {
+        monitor.leave();
+      }
+    }
+
+    /**
+     * Attempts to start the stop timer immediately prior to the service being stopped via {@link
+     * Service#stopAsync()}
+     */
+    void tryStartStopTiming(Service service) {
+      monitor.enter();
+      try {
+        Stopwatch stopwatch = stopTimers.get(service);
+        if (stopwatch == null) {
+          stopTimers.put(service, Stopwatch.createStarted());
         }
       } finally {
         monitor.leave();
@@ -661,6 +706,35 @@ public final class ServiceManager implements ServiceManagerBridge {
       return ImmutableMap.copyOf(loadTimes);
     }
 
+    ImmutableMap<Service, Long> stopTimes() {
+      List<Entry<Service, Long>> stopTimes;
+      monitor.enter();
+      try {
+        stopTimes = Lists.newArrayListWithCapacity(stopTimers.size());
+        // N.B.  There will only be an entry in the map if the service has stopped
+        for (Entry<Service, Stopwatch> entry : stopTimers.entrySet()) {
+          Service service = entry.getKey();
+          Stopwatch stopwatch = entry.getValue();
+          if (!stopwatch.isRunning() && !(service instanceof NoOpService)) {
+            stopTimes.add(Maps.immutableEntry(service, stopwatch.elapsed(MILLISECONDS)));
+          }
+        }
+      } finally {
+          monitor.leave();
+      }
+      Collections.sort(
+          stopTimes,
+          Ordering.natural()
+              .onResultOf(
+                  new Function<Entry<Service, Long>, Long>() {
+                    @Override
+                    public Long apply(Entry<Service, Long> input) {
+                      return input.getValue();
+                    }
+                  }));
+      return ImmutableMap.copyOf(stopTimes);
+    }
+
     /**
      * Updates the state with the given service transition.
      *
@@ -693,20 +767,8 @@ public final class ServiceManager implements ServiceManagerBridge {
             "Service %s in the state map unexpectedly at %s",
             service,
             to);
-        // Update the timer
-        Stopwatch stopwatch = startupTimers.get(service);
-        if (stopwatch == null) {
-          // This means the service was started by some means other than ServiceManager.startAsync
-          stopwatch = Stopwatch.createStarted();
-          startupTimers.put(service, stopwatch);
-        }
-        if (to.compareTo(RUNNING) >= 0 && stopwatch.isRunning()) {
-          // N.B. if we miss the STARTING event then we may never record a startup time.
-          stopwatch.stop();
-          if (!(service instanceof NoOpService)) {
-            logger.log(Level.FINE, "Started {0} in {1}.", new Object[] {service, stopwatch});
-          }
-        }
+
+        updateStartAndStopTimersIfRequired(service, to);
         // Queue our listeners
 
         // Did a service fail?
@@ -725,6 +787,36 @@ public final class ServiceManager implements ServiceManagerBridge {
         monitor.leave();
         // Run our executors outside of the lock
         dispatchListenerEvents();
+      }
+    }
+
+    void updateStartAndStopTimersIfRequired(Service service, State state) {
+
+        // Update the timer
+      Stopwatch stopwatch = startupTimers.get(service);
+      if (stopwatch == null) {
+        // This means the service was started by some means other than ServiceManager.startAsync
+        stopwatch = Stopwatch.createStarted();
+        startupTimers.put(service, stopwatch);
+      }
+      if (state.compareTo(RUNNING) >= 0 && stopwatch.isRunning()) {
+        // N.B. if we miss the STARTING event then we may never record a startup time.
+        stopwatch.stop();
+        if (!(service instanceof NoOpService)) {
+          logger.log(Level.FINE, "Started {0} in {1}.", new Object[]{service, stopwatch});
+        }
+      }
+
+      stopwatch = stopTimers.get(service);
+      // can be null only if the service has been triggered stop from somewhere else than ServiceManager.stopAsync
+      if (stopwatch == null) {
+        stopTimers.put(service, Stopwatch.createStarted());
+      }
+      if (state.compareTo(TERMINATED) >= 0 && stopwatch.isRunning()) {
+        stopwatch.stop();
+        if (!(service instanceof NoOpService)) {
+          logger.log(Level.FINE, "Stopped {0} in {1}.", new Object[]{service, stopwatch});
+        }
       }
     }
 
