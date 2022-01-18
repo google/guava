@@ -140,9 +140,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ArrayBasedCharEscaper.html" title="class in com.google.common.escape">ArrayBasedCharEscaper</a></code></dd>
 </dl>
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.43">CharEscaper</a>
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.42">CharEscaper</a>
 extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper</a></pre>
 <div class="block">An object that converts literal text into a format safe for inclusion in a particular context
  (such as an XML document). Typically (but not always), the inverse process of "unescaping" the
@@ -269,7 +268,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharEscaper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.48">CharEscaper</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.46">CharEscaper</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -289,7 +288,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.57">escape</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.55">escape</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
 <div class="block">Returns the escaped form of a given literal string.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -310,7 +309,7 @@ extends <a href="Escaper.html" title="class in com.google.common.escape">Escaper
 <li class="blockList">
 <h4>escape</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.85">escape</a>&#8203;(char&nbsp;c)</pre>
+protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.83">escape</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Returns the escaped form of the given character, or <code>null</code> if this character does not
  need to be escaped. If an empty array is returned, this effectively strips the input character
  from the resulting text.
@@ -335,7 +334,7 @@ protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/com
 <ul class="blockListLast">
 <li class="blockList">
 <h4>escapeSlow</h4>
-<pre class="methodSignature">protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.99">escapeSlow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s,
+<pre class="methodSignature">protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.97">escapeSlow</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s,
                                   int&nbsp;index)</pre>
 <div class="block">Returns the escaped form of a given literal string, starting at the given index. This method is
  called by the <a href="#escape(java.lang.String)"><code>escape(String)</code></a> method when it discovers that escaping is required. It is

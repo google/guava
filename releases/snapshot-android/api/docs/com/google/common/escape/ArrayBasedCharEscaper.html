@@ -141,9 +141,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.44">ArrayBasedCharEscaper</a>
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.43">ArrayBasedCharEscaper</a>
 extends <a href="CharEscaper.html" title="class in com.google.common.escape">CharEscaper</a></pre>
 <div class="block">A <a href="CharEscaper.html" title="class in com.google.common.escape"><code>CharEscaper</code></a> that uses an array to quickly look up replacement characters for a given
  <code>char</code> value. An additional safe range is provided that determines whether <code>char</code>
@@ -289,7 +288,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <ul class="blockList">
 <li class="blockList">
 <h4>ArrayBasedCharEscaper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.68">ArrayBasedCharEscaper</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;replacementMap,
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.66">ArrayBasedCharEscaper</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang" class="externalLink">Character</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;replacementMap,
                                 char&nbsp;safeMin,
                                 char&nbsp;safeMax)</pre>
 <div class="block">Creates a new ArrayBasedCharEscaper instance with the given replacement map and specified safe
@@ -311,7 +310,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ArrayBasedCharEscaper</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.87">ArrayBasedCharEscaper</a>&#8203;(<a href="ArrayBasedEscaperMap.html" title="class in com.google.common.escape">ArrayBasedEscaperMap</a>&nbsp;escaperMap,
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.85">ArrayBasedCharEscaper</a>&#8203;(<a href="ArrayBasedEscaperMap.html" title="class in com.google.common.escape">ArrayBasedEscaperMap</a>&nbsp;escaperMap,
                                 char&nbsp;safeMin,
                                 char&nbsp;safeMax)</pre>
 <div class="block">Creates a new ArrayBasedCharEscaper instance with the given replacement map and specified safe
@@ -345,7 +344,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.106">escape</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.104">escape</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="CharEscaper.html#escape(java.lang.String)">CharEscaper</a></code></span></div>
 <div class="block">Returns the escaped form of a given literal string.</div>
 <dl>
@@ -365,7 +364,7 @@ extends <a href="CharEscaper.html" title="class in com.google.common.escape">Cha
 <li class="blockList">
 <h4>escape</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected final&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.125">escape</a>&#8203;(char&nbsp;c)</pre>
+protected final&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.123">escape</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Escapes a single character using the replacement array and safe range values. If the given
  character does not have an explicit replacement and lies outside the safe range then <a href="#escapeUnsafe(char)"><code>escapeUnsafe(char)</code></a> is called.</div>
 <dl>
@@ -385,7 +384,7 @@ protected final&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common
 <li class="blockList">
 <h4>escapeUnsafe</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.153">escapeUnsafe</a>&#8203;(char&nbsp;c)</pre>
+protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/ArrayBasedCharEscaper.html#line.151">escapeUnsafe</a>&#8203;(char&nbsp;c)</pre>
 <div class="block">Escapes a <code>char</code> value that has no direct explicit value in the replacement array and
  lies outside the stated safe range. Subclasses should override this method to provide
  generalized escaping for characters.

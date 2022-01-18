@@ -131,9 +131,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <hr>
-<pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/escape/Escapers.html#line.34">Escapers</a>
+<pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/escape/Escapers.html#line.33">Escapers</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Static utility methods pertaining to <a href="Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instances.</div>
 <dl>
@@ -249,7 +248,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>nullEscaper</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.43">nullEscaper</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.41">nullEscaper</a>()</pre>
 <div class="block">Returns an <a href="Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> that does no escaping, passing all character data through unchanged.</div>
 </li>
 </ul>
@@ -259,7 +258,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.81">builder</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.79">builder</a>()</pre>
 <div class="block">Returns a builder for creating simple, fast escapers. A builder instance can be reused and each
  escaper that is created will be a snapshot of the current builder state. Builders are not
  thread safe.
@@ -284,7 +283,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>computeReplacement</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.206">computeReplacement</a>&#8203;(<a href="CharEscaper.html" title="class in com.google.common.escape">CharEscaper</a>&nbsp;escaper,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.203">computeReplacement</a>&#8203;(<a href="CharEscaper.html" title="class in com.google.common.escape">CharEscaper</a>&nbsp;escaper,
                                         char&nbsp;c)</pre>
 <div class="block">Returns a string that would replace the given character in the specified escaper, or <code>
  null</code> if no replacement should be made. This method is intended for use in tests through the
@@ -305,7 +304,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <li class="blockList">
 <h4>computeReplacement</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.220">computeReplacement</a>&#8203;(<a href="UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a>&nbsp;escaper,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/Escapers.html#line.217">computeReplacement</a>&#8203;(<a href="UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a>&nbsp;escaper,
                                         int&nbsp;cp)</pre>
 <div class="block">Returns a string that would replace the given character in the specified escaper, or <code>
  null</code> if no replacement should be made. This method is intended for use in tests through the
