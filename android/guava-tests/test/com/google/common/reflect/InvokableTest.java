@@ -601,7 +601,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testAnonymousClassInConstructor() {
-    new AnonymousClassInConstructor();
+    AnonymousClassInConstructor unused = new AnonymousClassInConstructor();
   }
 
   private static class AnonymousClassInConstructor {
@@ -621,7 +621,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInInstanceInitializer() {
-    new LocalClassInInstanceInitializer();
+    LocalClassInInstanceInitializer unused = new LocalClassInInstanceInitializer();
   }
 
   private static class LocalClassInInstanceInitializer {
@@ -633,7 +633,7 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassInStaticInitializer() {
-    new LocalClassInStaticInitializer();
+    LocalClassInStaticInitializer unused = new LocalClassInStaticInitializer();
   }
 
   private static class LocalClassInStaticInitializer {
@@ -645,7 +645,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
-    new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
+    LocalClassWithSeeminglyHiddenThisInStaticInitializer unused =
+        new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
   }
 
   /**
