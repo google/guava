@@ -290,7 +290,6 @@ public final class Throwables {
    * @return an unmodifiable list containing the cause chain starting with {@code throwable}
    * @throws IllegalArgumentException if there is a loop in the causal chain
    */
-  @Beta // TODO(kevinb): decide best return type
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
     List<Throwable> causes = new ArrayList<>(4);
@@ -330,7 +329,6 @@ public final class Throwables {
    *     ClassCastException}'s cause is {@code throwable}.
    * @since 22.0
    */
-  @Beta
   @GwtIncompatible // Class.cast(Object)
   @CheckForNull
   public static <X extends Throwable> X getCauseAs(
