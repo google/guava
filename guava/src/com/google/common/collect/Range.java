@@ -361,6 +361,21 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     }
   }
 
+  /**
+   * Returns the value unchanged if it is within the range, otherwise returns the closest endpoint
+   * to the value. The result will be outside the range if the exceeded bound is of type {@link
+   * BoundType#OPEN}.
+   */
+  public C constrain(C value) {
+    if (contains(value)) {
+      return value;
+    }
+    if (hasUpperBound() && upperBound.isLessThan(value)) {
+      return upperEndpoint();
+    }
+    return lowerEndpoint();
+  }
+
   /** Returns {@code true} if this range has a lower endpoint. */
   public boolean hasLowerBound() {
     return lowerBound != Cut.belowAll();
