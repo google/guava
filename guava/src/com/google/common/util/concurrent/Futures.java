@@ -836,22 +836,22 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return a future that provides a list of the results of the component futures
    * @since 10.0
    */
-  /*
-   * Another way to express this signature would be to bound <V> by @NonNull and accept LF<? extends
-   * @Nullable V>. That might be better: There's currently no difference between the outputs users
-   * get when calling this with <Foo> and calling it with <@Nullable Foo>. The only difference is
-   * that calling it with <Foo> won't work when an input Future has a @Nullable type. So why even
-   * make that error possible by giving callers the choice?
-   *
-   * On the other hand, the current signature is consistent with the similar allAsList method. And
-   * eventually this method may go away entirely in favor of an API like
-   * whenAllComplete().collectSuccesses(). That API would have a signature more like the current
-   * one.
-   */
   @Beta
   @SafeVarargs
   public static <V extends @Nullable Object> ListenableFuture<List<@Nullable V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
+    /*
+     * Another way to express this signature would be to bound <V> by @NonNull and accept
+     * LF<? extends @Nullable V>. That might be better: There's currently no difference between the
+     * outputs users get when calling this with <Foo> and calling it with <@Nullable Foo>. The only
+     * difference is that calling it with <Foo> won't work when an input Future has a @Nullable
+     * type. So why even make that error possible by giving callers the choice?
+     *
+     * On the other hand, the current signature is consistent with the similar allAsList method. And
+     * eventually this method may go away entirely in favor of an API like
+     * whenAllComplete().collectSuccesses(). That API would have a signature more like the current
+     * one.
+     */
     return new ListFuture<V>(ImmutableList.copyOf(futures), false);
   }
 
