@@ -379,14 +379,22 @@ public final class MoreExecutors {
    * difficult to reproduce because they depend on timing. For example:
    *
    * <ul>
-   *   <li>A call like {@code future.transform(function, directExecutor())} may execute the function
-   *       immediately in the thread that is calling {@code transform}. (This specific case happens
-   *       if the future is already completed.) If {@code transform} call was made from a UI thread
-   *       or other latency-sensitive thread, a heavyweight function can harm responsiveness.
-   *   <li>If the task will be executed later, consider which thread will trigger the execution --
-   *       since that thread will execute the task inline. If the thread is a shared system thread
-   *       like an RPC network thread, a heavyweight task can stall progress of the whole system or
-   *       even deadlock it.
+   *   <li>When a {@code ListenableFuture} listener is registered to run under {@code
+   *       directExecutor}, the listener can execute in any of three possible threads:
+   *       <ol>
+   *         <li>When a thread attaches a listener to a {@code ListenableFuture} that's already
+   *             complete, the listener runs immediately in that thread.
+   *         <li>When a thread attaches a listener to a {@code ListenableFuture} that's
+   *             <em>in</em>complete and the {@code ListenableFuture} later completes normally, the
+   *             listener runs in the the thread that completes the {@code ListenableFuture}.
+   *         <li>When a listener is attached to a {@code ListenableFuture} and the {@code
+   *             ListenableFuture} gets cancelled, the listener runs immediately in the the thread
+   *             that cancelled the {@code Future}.
+   *       </ol>
+   *       Given all these possibilities, it is frequently possible for listeners to execute in UI
+   *       threads, RPC network threads, or other latency-sensitive threads. In those cases, slow
+   *       listeners can harm responsiveness, slow the system as a whole, or worse. (See also the
+   *       note about locking below.)
    *   <li>If many tasks will be triggered by the same event, one heavyweight task may delay other
    *       tasks -- even tasks that are not themselves {@code directExecutor} tasks.
    *   <li>If many such tasks are chained together (such as with {@code
@@ -402,9 +410,11 @@ public final class MoreExecutors {
    *       terminate whichever thread happens to trigger the execution.
    * </ul>
    *
-   * Additionally, beware of executing tasks with {@code directExecutor} while holding a lock. Since
-   * the task you submit to the executor (or any other arbitrary work the executor does) may do slow
-   * work or acquire other locks, you risk deadlocks.
+   * A specific warning about locking: Code that executes user-supplied tasks, such as {@code
+   * ListenableFuture} listeners, should take care not to do so while holding a lock. Additionally,
+   * as a further line of defense, prefer not to perform any locking inside a task that will be run
+   * under {@code directExecutor}: Not only might the wait for a lock be long, but if the running
+   * thread was holding a lock, the listener may deadlock or break lock isolation.
    *
    * <p>This instance is equivalent to:
    *
