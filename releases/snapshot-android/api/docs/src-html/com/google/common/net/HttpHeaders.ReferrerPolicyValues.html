@@ -672,122 +672,130 @@
 <span class="sourceLineNo">663</span><a id="line.663">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version"&gt;{@code</a>
 <span class="sourceLineNo">664</span><a id="line.664">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
 <span class="sourceLineNo">665</span><a id="line.665">   *</a>
-<span class="sourceLineNo">666</span><a id="line.666">   * @since 30.0</a>
-<span class="sourceLineNo">667</span><a id="line.667">   */</a>
-<span class="sourceLineNo">668</span><a id="line.668">  public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";</a>
-<span class="sourceLineNo">669</span><a id="line.669">  /**</a>
-<span class="sourceLineNo">670</span><a id="line.670">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile"&gt;{@code</a>
-<span class="sourceLineNo">671</span><a id="line.671">   * Sec-CH-UA-Mobile}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">672</span><a id="line.672">   *</a>
-<span class="sourceLineNo">673</span><a id="line.673">   * @since 30.0</a>
-<span class="sourceLineNo">674</span><a id="line.674">   */</a>
-<span class="sourceLineNo">675</span><a id="line.675">  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";</a>
-<span class="sourceLineNo">676</span><a id="line.676">  /**</a>
-<span class="sourceLineNo">677</span><a id="line.677">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness"&gt;{@code</a>
-<span class="sourceLineNo">678</span><a id="line.678">   * Sec-CH-UA-Bitness}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">679</span><a id="line.679">   *</a>
-<span class="sourceLineNo">680</span><a id="line.680">   * @since 31.0</a>
-<span class="sourceLineNo">681</span><a id="line.681">   */</a>
-<span class="sourceLineNo">682</span><a id="line.682">  public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";</a>
-<span class="sourceLineNo">683</span><a id="line.683"></a>
+<span class="sourceLineNo">666</span><a id="line.666">   * @deprecated Prefer {@link SEC_CH_UA_FULL_VERSION_LIST}.</a>
+<span class="sourceLineNo">667</span><a id="line.667">   * @since 30.0</a>
+<span class="sourceLineNo">668</span><a id="line.668">   */</a>
+<span class="sourceLineNo">669</span><a id="line.669">  @Deprecated public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";</a>
+<span class="sourceLineNo">670</span><a id="line.670">  /**</a>
+<span class="sourceLineNo">671</span><a id="line.671">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list"&gt;{@code</a>
+<span class="sourceLineNo">672</span><a id="line.672">   * Sec-CH-UA-Full-Version}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">673</span><a id="line.673">   *</a>
+<span class="sourceLineNo">674</span><a id="line.674">   * @since NEXT</a>
+<span class="sourceLineNo">675</span><a id="line.675">   */</a>
+<span class="sourceLineNo">676</span><a id="line.676">  public static final String SEC_CH_UA_FULL_VERSION_LIST = "Sec-CH-UA-Full-Version-List";</a>
+<span class="sourceLineNo">677</span><a id="line.677">  /**</a>
+<span class="sourceLineNo">678</span><a id="line.678">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-mobile"&gt;{@code</a>
+<span class="sourceLineNo">679</span><a id="line.679">   * Sec-CH-UA-Mobile}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">680</span><a id="line.680">   *</a>
+<span class="sourceLineNo">681</span><a id="line.681">   * @since 30.0</a>
+<span class="sourceLineNo">682</span><a id="line.682">   */</a>
+<span class="sourceLineNo">683</span><a id="line.683">  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";</a>
 <span class="sourceLineNo">684</span><a id="line.684">  /**</a>
-<span class="sourceLineNo">685</span><a id="line.685">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Dest}&lt;/a&gt;</a>
-<span class="sourceLineNo">686</span><a id="line.686">   * header field name.</a>
+<span class="sourceLineNo">685</span><a id="line.685">   * The HTTP &lt;a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness"&gt;{@code</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * Sec-CH-UA-Bitness}&lt;/a&gt; header field name.</a>
 <span class="sourceLineNo">687</span><a id="line.687">   *</a>
-<span class="sourceLineNo">688</span><a id="line.688">   * @since 27.1</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * @since 31.0</a>
 <span class="sourceLineNo">689</span><a id="line.689">   */</a>
-<span class="sourceLineNo">690</span><a id="line.690">  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";</a>
-<span class="sourceLineNo">691</span><a id="line.691">  /**</a>
-<span class="sourceLineNo">692</span><a id="line.692">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Mode}&lt;/a&gt;</a>
-<span class="sourceLineNo">693</span><a id="line.693">   * header field name.</a>
-<span class="sourceLineNo">694</span><a id="line.694">   *</a>
-<span class="sourceLineNo">695</span><a id="line.695">   * @since 27.1</a>
-<span class="sourceLineNo">696</span><a id="line.696">   */</a>
-<span class="sourceLineNo">697</span><a id="line.697">  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";</a>
-<span class="sourceLineNo">698</span><a id="line.698">  /**</a>
-<span class="sourceLineNo">699</span><a id="line.699">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Site}&lt;/a&gt;</a>
-<span class="sourceLineNo">700</span><a id="line.700">   * header field name.</a>
-<span class="sourceLineNo">701</span><a id="line.701">   *</a>
-<span class="sourceLineNo">702</span><a id="line.702">   * @since 27.1</a>
-<span class="sourceLineNo">703</span><a id="line.703">   */</a>
-<span class="sourceLineNo">704</span><a id="line.704">  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";</a>
-<span class="sourceLineNo">705</span><a id="line.705">  /**</a>
-<span class="sourceLineNo">706</span><a id="line.706">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-User}&lt;/a&gt;</a>
-<span class="sourceLineNo">707</span><a id="line.707">   * header field name.</a>
-<span class="sourceLineNo">708</span><a id="line.708">   *</a>
-<span class="sourceLineNo">709</span><a id="line.709">   * @since 27.1</a>
-<span class="sourceLineNo">710</span><a id="line.710">   */</a>
-<span class="sourceLineNo">711</span><a id="line.711">  public static final String SEC_FETCH_USER = "Sec-Fetch-User";</a>
-<span class="sourceLineNo">712</span><a id="line.712">  /**</a>
-<span class="sourceLineNo">713</span><a id="line.713">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Metadata}&lt;/a&gt;</a>
-<span class="sourceLineNo">714</span><a id="line.714">   * header field name.</a>
-<span class="sourceLineNo">715</span><a id="line.715">   *</a>
-<span class="sourceLineNo">716</span><a id="line.716">   * @since 26.0</a>
-<span class="sourceLineNo">717</span><a id="line.717">   */</a>
-<span class="sourceLineNo">718</span><a id="line.718">  public static final String SEC_METADATA = "Sec-Metadata";</a>
-<span class="sourceLineNo">719</span><a id="line.719">  /**</a>
-<span class="sourceLineNo">720</span><a id="line.720">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-https"&gt;{@code</a>
-<span class="sourceLineNo">721</span><a id="line.721">   * Sec-Token-Binding}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">722</span><a id="line.722">   *</a>
-<span class="sourceLineNo">723</span><a id="line.723">   * @since 25.1</a>
-<span class="sourceLineNo">724</span><a id="line.724">   */</a>
-<span class="sourceLineNo">725</span><a id="line.725">  public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";</a>
-<span class="sourceLineNo">726</span><a id="line.726">  /**</a>
-<span class="sourceLineNo">727</span><a id="line.727">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
-<span class="sourceLineNo">728</span><a id="line.728">   * Sec-Provided-Token-Binding-ID}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">729</span><a id="line.729">   *</a>
-<span class="sourceLineNo">730</span><a id="line.730">   * @since 25.1</a>
-<span class="sourceLineNo">731</span><a id="line.731">   */</a>
-<span class="sourceLineNo">732</span><a id="line.732">  public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";</a>
-<span class="sourceLineNo">733</span><a id="line.733">  /**</a>
-<span class="sourceLineNo">734</span><a id="line.734">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
-<span class="sourceLineNo">735</span><a id="line.735">   * Sec-Referred-Token-Binding-ID}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">736</span><a id="line.736">   *</a>
-<span class="sourceLineNo">737</span><a id="line.737">   * @since 25.1</a>
-<span class="sourceLineNo">738</span><a id="line.738">   */</a>
-<span class="sourceLineNo">739</span><a id="line.739">  public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";</a>
-<span class="sourceLineNo">740</span><a id="line.740">  /**</a>
-<span class="sourceLineNo">741</span><a id="line.741">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Accept}&lt;/a&gt; header</a>
-<span class="sourceLineNo">742</span><a id="line.742">   * field name.</a>
-<span class="sourceLineNo">743</span><a id="line.743">   *</a>
-<span class="sourceLineNo">744</span><a id="line.744">   * @since 28.0</a>
-<span class="sourceLineNo">745</span><a id="line.745">   */</a>
-<span class="sourceLineNo">746</span><a id="line.746">  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";</a>
-<span class="sourceLineNo">747</span><a id="line.747">  /**</a>
-<span class="sourceLineNo">748</span><a id="line.748">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Extensions}&lt;/a&gt;</a>
-<span class="sourceLineNo">749</span><a id="line.749">   * header field name.</a>
-<span class="sourceLineNo">750</span><a id="line.750">   *</a>
-<span class="sourceLineNo">751</span><a id="line.751">   * @since 28.0</a>
-<span class="sourceLineNo">752</span><a id="line.752">   */</a>
-<span class="sourceLineNo">753</span><a id="line.753">  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";</a>
-<span class="sourceLineNo">754</span><a id="line.754">  /**</a>
-<span class="sourceLineNo">755</span><a id="line.755">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Key}&lt;/a&gt; header</a>
-<span class="sourceLineNo">756</span><a id="line.756">   * field name.</a>
-<span class="sourceLineNo">757</span><a id="line.757">   *</a>
-<span class="sourceLineNo">758</span><a id="line.758">   * @since 28.0</a>
-<span class="sourceLineNo">759</span><a id="line.759">   */</a>
-<span class="sourceLineNo">760</span><a id="line.760">  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";</a>
-<span class="sourceLineNo">761</span><a id="line.761">  /**</a>
-<span class="sourceLineNo">762</span><a id="line.762">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Protocol}&lt;/a&gt;</a>
-<span class="sourceLineNo">763</span><a id="line.763">   * header field name.</a>
-<span class="sourceLineNo">764</span><a id="line.764">   *</a>
-<span class="sourceLineNo">765</span><a id="line.765">   * @since 28.0</a>
-<span class="sourceLineNo">766</span><a id="line.766">   */</a>
-<span class="sourceLineNo">767</span><a id="line.767">  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";</a>
-<span class="sourceLineNo">768</span><a id="line.768">  /**</a>
-<span class="sourceLineNo">769</span><a id="line.769">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Version}&lt;/a&gt; header</a>
-<span class="sourceLineNo">770</span><a id="line.770">   * field name.</a>
-<span class="sourceLineNo">771</span><a id="line.771">   *</a>
-<span class="sourceLineNo">772</span><a id="line.772">   * @since 28.0</a>
-<span class="sourceLineNo">773</span><a id="line.773">   */</a>
-<span class="sourceLineNo">774</span><a id="line.774">  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";</a>
-<span class="sourceLineNo">775</span><a id="line.775">  /**</a>
-<span class="sourceLineNo">776</span><a id="line.776">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8586"&gt;{@code CDN-Loop}&lt;/a&gt; header field name.</a>
-<span class="sourceLineNo">777</span><a id="line.777">   *</a>
-<span class="sourceLineNo">778</span><a id="line.778">   * @since 28.0</a>
-<span class="sourceLineNo">779</span><a id="line.779">   */</a>
-<span class="sourceLineNo">780</span><a id="line.780">  public static final String CDN_LOOP = "CDN-Loop";</a>
-<span class="sourceLineNo">781</span><a id="line.781">}</a>
+<span class="sourceLineNo">690</span><a id="line.690">  public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";</a>
+<span class="sourceLineNo">691</span><a id="line.691"></a>
+<span class="sourceLineNo">692</span><a id="line.692">  /**</a>
+<span class="sourceLineNo">693</span><a id="line.693">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Dest}&lt;/a&gt;</a>
+<span class="sourceLineNo">694</span><a id="line.694">   * header field name.</a>
+<span class="sourceLineNo">695</span><a id="line.695">   *</a>
+<span class="sourceLineNo">696</span><a id="line.696">   * @since 27.1</a>
+<span class="sourceLineNo">697</span><a id="line.697">   */</a>
+<span class="sourceLineNo">698</span><a id="line.698">  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";</a>
+<span class="sourceLineNo">699</span><a id="line.699">  /**</a>
+<span class="sourceLineNo">700</span><a id="line.700">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Mode}&lt;/a&gt;</a>
+<span class="sourceLineNo">701</span><a id="line.701">   * header field name.</a>
+<span class="sourceLineNo">702</span><a id="line.702">   *</a>
+<span class="sourceLineNo">703</span><a id="line.703">   * @since 27.1</a>
+<span class="sourceLineNo">704</span><a id="line.704">   */</a>
+<span class="sourceLineNo">705</span><a id="line.705">  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";</a>
+<span class="sourceLineNo">706</span><a id="line.706">  /**</a>
+<span class="sourceLineNo">707</span><a id="line.707">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Site}&lt;/a&gt;</a>
+<span class="sourceLineNo">708</span><a id="line.708">   * header field name.</a>
+<span class="sourceLineNo">709</span><a id="line.709">   *</a>
+<span class="sourceLineNo">710</span><a id="line.710">   * @since 27.1</a>
+<span class="sourceLineNo">711</span><a id="line.711">   */</a>
+<span class="sourceLineNo">712</span><a id="line.712">  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";</a>
+<span class="sourceLineNo">713</span><a id="line.713">  /**</a>
+<span class="sourceLineNo">714</span><a id="line.714">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-User}&lt;/a&gt;</a>
+<span class="sourceLineNo">715</span><a id="line.715">   * header field name.</a>
+<span class="sourceLineNo">716</span><a id="line.716">   *</a>
+<span class="sourceLineNo">717</span><a id="line.717">   * @since 27.1</a>
+<span class="sourceLineNo">718</span><a id="line.718">   */</a>
+<span class="sourceLineNo">719</span><a id="line.719">  public static final String SEC_FETCH_USER = "Sec-Fetch-User";</a>
+<span class="sourceLineNo">720</span><a id="line.720">  /**</a>
+<span class="sourceLineNo">721</span><a id="line.721">   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Metadata}&lt;/a&gt;</a>
+<span class="sourceLineNo">722</span><a id="line.722">   * header field name.</a>
+<span class="sourceLineNo">723</span><a id="line.723">   *</a>
+<span class="sourceLineNo">724</span><a id="line.724">   * @since 26.0</a>
+<span class="sourceLineNo">725</span><a id="line.725">   */</a>
+<span class="sourceLineNo">726</span><a id="line.726">  public static final String SEC_METADATA = "Sec-Metadata";</a>
+<span class="sourceLineNo">727</span><a id="line.727">  /**</a>
+<span class="sourceLineNo">728</span><a id="line.728">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-https"&gt;{@code</a>
+<span class="sourceLineNo">729</span><a id="line.729">   * Sec-Token-Binding}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">730</span><a id="line.730">   *</a>
+<span class="sourceLineNo">731</span><a id="line.731">   * @since 25.1</a>
+<span class="sourceLineNo">732</span><a id="line.732">   */</a>
+<span class="sourceLineNo">733</span><a id="line.733">  public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";</a>
+<span class="sourceLineNo">734</span><a id="line.734">  /**</a>
+<span class="sourceLineNo">735</span><a id="line.735">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
+<span class="sourceLineNo">736</span><a id="line.736">   * Sec-Provided-Token-Binding-ID}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">737</span><a id="line.737">   *</a>
+<span class="sourceLineNo">738</span><a id="line.738">   * @since 25.1</a>
+<span class="sourceLineNo">739</span><a id="line.739">   */</a>
+<span class="sourceLineNo">740</span><a id="line.740">  public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";</a>
+<span class="sourceLineNo">741</span><a id="line.741">  /**</a>
+<span class="sourceLineNo">742</span><a id="line.742">   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code</a>
+<span class="sourceLineNo">743</span><a id="line.743">   * Sec-Referred-Token-Binding-ID}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">744</span><a id="line.744">   *</a>
+<span class="sourceLineNo">745</span><a id="line.745">   * @since 25.1</a>
+<span class="sourceLineNo">746</span><a id="line.746">   */</a>
+<span class="sourceLineNo">747</span><a id="line.747">  public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";</a>
+<span class="sourceLineNo">748</span><a id="line.748">  /**</a>
+<span class="sourceLineNo">749</span><a id="line.749">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Accept}&lt;/a&gt; header</a>
+<span class="sourceLineNo">750</span><a id="line.750">   * field name.</a>
+<span class="sourceLineNo">751</span><a id="line.751">   *</a>
+<span class="sourceLineNo">752</span><a id="line.752">   * @since 28.0</a>
+<span class="sourceLineNo">753</span><a id="line.753">   */</a>
+<span class="sourceLineNo">754</span><a id="line.754">  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";</a>
+<span class="sourceLineNo">755</span><a id="line.755">  /**</a>
+<span class="sourceLineNo">756</span><a id="line.756">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Extensions}&lt;/a&gt;</a>
+<span class="sourceLineNo">757</span><a id="line.757">   * header field name.</a>
+<span class="sourceLineNo">758</span><a id="line.758">   *</a>
+<span class="sourceLineNo">759</span><a id="line.759">   * @since 28.0</a>
+<span class="sourceLineNo">760</span><a id="line.760">   */</a>
+<span class="sourceLineNo">761</span><a id="line.761">  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";</a>
+<span class="sourceLineNo">762</span><a id="line.762">  /**</a>
+<span class="sourceLineNo">763</span><a id="line.763">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Key}&lt;/a&gt; header</a>
+<span class="sourceLineNo">764</span><a id="line.764">   * field name.</a>
+<span class="sourceLineNo">765</span><a id="line.765">   *</a>
+<span class="sourceLineNo">766</span><a id="line.766">   * @since 28.0</a>
+<span class="sourceLineNo">767</span><a id="line.767">   */</a>
+<span class="sourceLineNo">768</span><a id="line.768">  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";</a>
+<span class="sourceLineNo">769</span><a id="line.769">  /**</a>
+<span class="sourceLineNo">770</span><a id="line.770">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Protocol}&lt;/a&gt;</a>
+<span class="sourceLineNo">771</span><a id="line.771">   * header field name.</a>
+<span class="sourceLineNo">772</span><a id="line.772">   *</a>
+<span class="sourceLineNo">773</span><a id="line.773">   * @since 28.0</a>
+<span class="sourceLineNo">774</span><a id="line.774">   */</a>
+<span class="sourceLineNo">775</span><a id="line.775">  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";</a>
+<span class="sourceLineNo">776</span><a id="line.776">  /**</a>
+<span class="sourceLineNo">777</span><a id="line.777">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Version}&lt;/a&gt; header</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * field name.</a>
+<span class="sourceLineNo">779</span><a id="line.779">   *</a>
+<span class="sourceLineNo">780</span><a id="line.780">   * @since 28.0</a>
+<span class="sourceLineNo">781</span><a id="line.781">   */</a>
+<span class="sourceLineNo">782</span><a id="line.782">  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";</a>
+<span class="sourceLineNo">783</span><a id="line.783">  /**</a>
+<span class="sourceLineNo">784</span><a id="line.784">   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8586"&gt;{@code CDN-Loop}&lt;/a&gt; header field name.</a>
+<span class="sourceLineNo">785</span><a id="line.785">   *</a>
+<span class="sourceLineNo">786</span><a id="line.786">   * @since 28.0</a>
+<span class="sourceLineNo">787</span><a id="line.787">   */</a>
+<span class="sourceLineNo">788</span><a id="line.788">  public static final String CDN_LOOP = "CDN-Loop";</a>
+<span class="sourceLineNo">789</span><a id="line.789">}</a>
 
 
 

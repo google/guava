@@ -2,3 +2,4 @@ OK: com.google.common.collect.ImmutableBiMap.Builder Method buildKeepingLast()
 OK: com.google.common.collect.ImmutableMap.Builder Method buildKeepingLast()
 OK: com.google.common.collect.ImmutableSortedMap.Builder Method buildKeepingLast()
 OK: com.google.common.hash.Hashing Method fingerprint2011()
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FULL_VERSION_LIST

@@ -50340,12 +50340,24 @@
     <field name="SEC_CH_UA_FULL_VERSION" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Prefer {@link SEC_CH_UA_FULL_VERSION_LIST}.">
       <doc>
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version">{@code
  Sec-CH-UA-Full-Version}</a> header field name.
 
+ @deprecated Prefer {@link SEC_CH_UA_FULL_VERSION_LIST}.
  @since 30.0]]>
+      </doc>
+    </field>
+    <field name="SEC_CH_UA_FULL_VERSION_LIST" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list">{@code
+ Sec-CH-UA-Full-Version}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_MOBILE" type="java.lang.String"
