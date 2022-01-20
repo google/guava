@@ -845,22 +845,22 @@
 <span class="sourceLineNo">836</span><a id="line.836">   * @return a future that provides a list of the results of the component futures</a>
 <span class="sourceLineNo">837</span><a id="line.837">   * @since 10.0</a>
 <span class="sourceLineNo">838</span><a id="line.838">   */</a>
-<span class="sourceLineNo">839</span><a id="line.839">  /*</a>
-<span class="sourceLineNo">840</span><a id="line.840">   * Another way to express this signature would be to bound &lt;V&gt; by @NonNull and accept LF&lt;? extends</a>
-<span class="sourceLineNo">841</span><a id="line.841">   * @Nullable V&gt;. That might be better: There's currently no difference between the outputs users</a>
-<span class="sourceLineNo">842</span><a id="line.842">   * get when calling this with &lt;Foo&gt; and calling it with &lt;@Nullable Foo&gt;. The only difference is</a>
-<span class="sourceLineNo">843</span><a id="line.843">   * that calling it with &lt;Foo&gt; won't work when an input Future has a @Nullable type. So why even</a>
-<span class="sourceLineNo">844</span><a id="line.844">   * make that error possible by giving callers the choice?</a>
-<span class="sourceLineNo">845</span><a id="line.845">   *</a>
-<span class="sourceLineNo">846</span><a id="line.846">   * On the other hand, the current signature is consistent with the similar allAsList method. And</a>
-<span class="sourceLineNo">847</span><a id="line.847">   * eventually this method may go away entirely in favor of an API like</a>
-<span class="sourceLineNo">848</span><a id="line.848">   * whenAllComplete().collectSuccesses(). That API would have a signature more like the current</a>
-<span class="sourceLineNo">849</span><a id="line.849">   * one.</a>
-<span class="sourceLineNo">850</span><a id="line.850">   */</a>
-<span class="sourceLineNo">851</span><a id="line.851">  @Beta</a>
-<span class="sourceLineNo">852</span><a id="line.852">  @SafeVarargs</a>
-<span class="sourceLineNo">853</span><a id="line.853">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
-<span class="sourceLineNo">854</span><a id="line.854">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">839</span><a id="line.839">  @Beta</a>
+<span class="sourceLineNo">840</span><a id="line.840">  @SafeVarargs</a>
+<span class="sourceLineNo">841</span><a id="line.841">  public static &lt;V extends @Nullable Object&gt; ListenableFuture&lt;List&lt;@Nullable V&gt;&gt; successfulAsList(</a>
+<span class="sourceLineNo">842</span><a id="line.842">      ListenableFuture&lt;? extends V&gt;... futures) {</a>
+<span class="sourceLineNo">843</span><a id="line.843">    /*</a>
+<span class="sourceLineNo">844</span><a id="line.844">     * Another way to express this signature would be to bound &lt;V&gt; by @NonNull and accept</a>
+<span class="sourceLineNo">845</span><a id="line.845">     * LF&lt;? extends @Nullable V&gt;. That might be better: There's currently no difference between the</a>
+<span class="sourceLineNo">846</span><a id="line.846">     * outputs users get when calling this with &lt;Foo&gt; and calling it with &lt;@Nullable Foo&gt;. The only</a>
+<span class="sourceLineNo">847</span><a id="line.847">     * difference is that calling it with &lt;Foo&gt; won't work when an input Future has a @Nullable</a>
+<span class="sourceLineNo">848</span><a id="line.848">     * type. So why even make that error possible by giving callers the choice?</a>
+<span class="sourceLineNo">849</span><a id="line.849">     *</a>
+<span class="sourceLineNo">850</span><a id="line.850">     * On the other hand, the current signature is consistent with the similar allAsList method. And</a>
+<span class="sourceLineNo">851</span><a id="line.851">     * eventually this method may go away entirely in favor of an API like</a>
+<span class="sourceLineNo">852</span><a id="line.852">     * whenAllComplete().collectSuccesses(). That API would have a signature more like the current</a>
+<span class="sourceLineNo">853</span><a id="line.853">     * one.</a>
+<span class="sourceLineNo">854</span><a id="line.854">     */</a>
 <span class="sourceLineNo">855</span><a id="line.855">    return new ListFuture&lt;V&gt;(ImmutableList.copyOf(futures), false);</a>
 <span class="sourceLineNo">856</span><a id="line.856">  }</a>
 <span class="sourceLineNo">857</span><a id="line.857"></a>
