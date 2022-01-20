@@ -1398,39 +1398,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     /** Performs a CAS operation on the {@link #value} field. */
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
-      /*
-       * We've spent some time debugging an "impossible" issue, and we've seen some evidence that
-       * suggests that the CAS APIs may be spuriously failing in some set of environments that we
-       * haven't pinned down. While we investigate further, we're wrapping this CAS in a retry loop.
-       * (The other AtomicHelper.cas* methods are already called in retry loops, so we don't need to
-       * wrap them.)
-       *
-       * Of course, if CAS in general is broken in some environments, then we are likely to
-       * encounter more problems than just in AbstractFuture. Fortunately, many CAS operations
-       * already occur inside a retry loop. So the problem, if it exists, won't affect all users of
-       * CAS. Still, there are many other users that it *could* affect, including
-       * c.g.c.util.concurrent classes like AggregateFutureState, ClosingFuture, ExecutionSequencer,
-       * and InterruptibleTask.
-       *
-       * Regardless, we can't fix the problem in general here, and we can't fix it at all until we
-       * understand it better. But for now, a loop here appears to address the "impossible" issue,
-       * so we're starting with that.
-       *
-       * Luckily, there should be little performance impact: casValue will almost always be
-       * uncontended, and any failures are likely to happen in the cancellation case, which is
-       * already expensive.
-       */
-      return workaroundCasObject(future, VALUE_OFFSET, expect, update);
-    }
-
-    private static boolean workaroundCasObject(
-        Object receiver, long offset, @CheckForNull Object expect, @CheckForNull Object update) {
-      do {
-        if (UNSAFE.compareAndSwapObject(receiver, offset, expect, update)) {
-          return true;
-        }
-      } while (UNSAFE.getObject(receiver, offset) == expect);
-      return false;
+      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
   }
 
@@ -1491,21 +1459,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
 
     @Override
     boolean casValue(AbstractFuture<?> future, @CheckForNull Object expect, Object update) {
-      // For more discussion, see the comment in the same method in UnsafeAtomicHelper.
-      return workaroundCasObject(future, valueUpdater, expect, update);
-    }
-
-    private static <R, T> boolean workaroundCasObject(
-        R receiver,
-        AtomicReferenceFieldUpdater<R, T> updater,
-        @CheckForNull T expect,
-        @CheckForNull T update) {
-      do {
-        if (updater.compareAndSet(receiver, expect, update)) {
-          return true;
-        }
-      } while (updater.get(receiver) == expect);
-      return false;
+      return valueUpdater.compareAndSet(future, expect, update);
     }
   }
 
