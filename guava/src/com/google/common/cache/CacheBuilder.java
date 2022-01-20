@@ -48,8 +48,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>The successor to Guava's caching API is <a
  * href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
- * nearly drop-in replacement -- though it requires Java 8 APIs and is not available for Android or
- * GWT/j2cl. Its equivalent to {@code CacheBuilder} is its <a
+ * nearly drop-in replacement -- though it requires Java 8 APIs, is not available for Android or
+ * GWT/j2cl, and may have <a
+ * href="https://github.com/google/guava/issues/1881#issuecomment-1008790326">different (usually
+ * better) behavior</a> when multiple threads attempt concurrent mutations. Its equivalent to {@code
+ * CacheBuilder} is its <a
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
  * Caffeine}</a> class. Caffeine offers better performance, more features (including asynchronous
  * loading), and fewer <a
