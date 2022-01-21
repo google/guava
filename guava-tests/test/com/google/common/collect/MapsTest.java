@@ -1231,6 +1231,51 @@ public class MapsTest extends TestCase {
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
+    try {
+      unmod.replaceAll((k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.putIfAbsent(3, "three");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.replace(3, "three", "four");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.replace(3, "four");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.computeIfAbsent(3, (k) -> k + "three");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.computeIfPresent(4, (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.compute(4, (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.merge(4, "four", (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.clear();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
 
     /* UnsupportedOperationException on indirect modifications. */
     BiMap<String, Number> inverse = unmod.inverse();
@@ -1854,6 +1899,51 @@ public class MapsTest extends TestCase {
     }
     try {
       unmod.pollLastEntry();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.replaceAll((k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.putIfAbsent(3, "three");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.replace(3, "three", "four");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.replace(3, "four");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.computeIfAbsent(3, (k) -> k + "three");
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.computeIfPresent(4, (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.compute(4, (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.merge(4, "four", (k, v) -> v);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.clear();
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
