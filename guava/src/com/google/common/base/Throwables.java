@@ -19,7 +19,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -380,11 +379,12 @@ public final class Throwables {
    * exception's creation.
    *
    * @since 19.0
+   * @deprecated This method is equivalent to {@link Throwable#getStackTrace()} on JDK versions past
+   *     JDK 8 and on all Android versions. Use {@link Throwable#getStackTrace()} directly, or where
+   *     possible use the {@code java.lang.StackWalker.walk} method introduced in JDK 9.
    */
-  // TODO(cpovirk): Say something about the possibility that List access could fail at runtime?
-  @Beta
+  @Deprecated
   @GwtIncompatible // lazyStackTraceIsLazy, jlaStackTrace
-  // TODO(cpovirk): Consider making this available under GWT (slow implementation only).
   public static List<StackTraceElement> lazyStackTrace(Throwable throwable) {
     return lazyStackTraceIsLazy()
         ? jlaStackTrace(throwable)
@@ -396,8 +396,10 @@ public final class Throwables {
    * documentation.
    *
    * @since 19.0
+   * @deprecated This method always returns false on JDK versions past JDK 8 and on all Android
+   *     versions.
    */
-  @Beta
+  @Deprecated
   @GwtIncompatible // getStackTraceElementMethod
   public static boolean lazyStackTraceIsLazy() {
     return getStackTraceElementMethod != null && getStackTraceDepthMethod != null;
