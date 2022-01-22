@@ -75,7 +75,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     implements Serializable {
 
   /**
-   * Returns an empty multimap.
+   * Returns an empty multimap of type {@code ImmutableListMultimap}.
    *
    * <p><b>Performance note:</b> the instance returned is a singleton.
    */
@@ -83,35 +83,38 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     return ImmutableListMultimap.of();
   }
 
-  /** Returns an immutable multimap containing a single entry. */
+  /** Returns an immutable multimap of type {@code ImmutableListMultimap} containing a single entry. */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1) {
     return ImmutableListMultimap.of(k1, v1);
   }
 
-  /** Returns an immutable multimap containing the given entries, in order. */
+  /**
+   * Returns an immutable multimap of type {@code ImmutableListMultimap} containing the given entries,
+   * in order.
+   */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2) {
     return ImmutableListMultimap.of(k1, v1, k2, v2);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
-   * order described in the <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap of type {@code ImmutableListMultimap} containing the given entries,
+   * in the "key-grouped" insertion order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
     return ImmutableListMultimap.of(k1, v1, k2, v2, k3, v3);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
-   * order described in the <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap of type {@code ImmutableListMultimap} containing the given entries,
+   * in the "key-grouped" insertion order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
     return ImmutableListMultimap.of(k1, v1, k2, v2, k3, v3, k4, v4);
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in the "key-grouped" insertion
-   * order described in the <a href="#iteration">class documentation</a>.
+   * Returns an immutable multimap of type {@code ImmutableListMultimap} containing the given entries,
+   * in the "key-grouped" insertion order described in the <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
@@ -292,7 +295,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return this;
     }
 
-    /** Returns a newly-created immutable multimap. */
+    /**
+     * Returns a newly-created immutable multimap of type {@code ImmutableListMultimap}.
+     */
     public ImmutableMultimap<K, V> build() {
       Collection<Map.Entry<K, Collection<V>>> mapEntries = builderMap.entrySet();
       if (keyComparator != null) {
@@ -308,7 +313,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    *
    * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
-   * undocumented and subject to change.
+   * undocumented and subject to change. When the copy is performed then the method returns the data
+   * in immutable multimap of type {@code ImmutableListMultimap}.
    *
    * @throws NullPointerException if any key or value in {@code multimap} is null
    */
@@ -324,9 +330,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   /**
-   * Returns an immutable multimap containing the specified entries. The returned multimap iterates
-   * over keys in the order they were first encountered in the input, and the values for each key
-   * are iterated in the order they were encountered.
+   * Returns an immutable multimap of type {@code ImmutableListMultimap} containing the specified entries.
+   * The returned multimap iterates over keys in the order they were first encountered in the input,
+   * and the values for each key are iterated in the order they were encountered.
    *
    * @throws NullPointerException if any key, value, or entry is null
    * @since 19.0
