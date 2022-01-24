@@ -335,16 +335,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang" class="externalLink">StackTraceElement</a>&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTrace(java.lang.Throwable)">lazyStackTrace</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;throwable)</code></th>
 <td class="colLast">
-<div class="block">Returns the stack trace of <code>throwable</code>, possibly providing slower iteration over the full
- trace but faster iteration over parts of the trace.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>Throwable.getStackTrace()</code></a> on JDK versions past
+     JDK 8 and on all Android versions.</div>
+</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Throwables.</span><code><span class="memberNameLink"><a href="../../base/Throwables.html#lazyStackTraceIsLazy()">lazyStackTraceIsLazy</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns whether <a href="../../base/Throwables.html#lazyStackTrace(java.lang.Throwable)"><code>Throwables.lazyStackTrace(java.lang.Throwable)</code></a> will use the special implementation described in its
- documentation.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method always returns false on JDK versions past JDK 8 and on all Android
+     versions.</div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">

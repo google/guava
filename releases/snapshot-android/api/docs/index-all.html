@@ -10832,13 +10832,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#lazyStackTrace(java.lang.Throwable)">lazyStackTrace(Throwable)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Returns the stack trace of <code>throwable</code>, possibly providing slower iteration over the full
- trace but faster iteration over parts of the trace.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method is equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>Throwable.getStackTrace()</code></a> on JDK versions past
+     JDK 8 and on all Android versions. Use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang" class="externalLink"><code>Throwable.getStackTrace()</code></a> directly, or where
+     possible use the <code>java.lang.StackWalker.walk</code> method introduced in JDK 9.</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Throwables.html#lazyStackTraceIsLazy()">lazyStackTraceIsLazy()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Returns whether <a href="com/google/common/base/Throwables.html#lazyStackTrace(java.lang.Throwable)"><code>Throwables.lazyStackTrace(java.lang.Throwable)</code></a> will use the special implementation described in its
- documentation.</div>
+<div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
+<div class="deprecationComment">This method always returns false on JDK versions past JDK 8 and on all Android
+     versions.</div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#lazyTransform(java.util.concurrent.Future,com.google.common.base.Function)">lazyTransform(Future&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>

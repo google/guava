@@ -6677,7 +6677,9 @@
     <method name="lazyStackTrace" return="java.util.List&lt;java.lang.StackTraceElement&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="This method is equivalent to {@link Throwable#getStackTrace()} on JDK versions past
+     JDK 8 and on all Android versions. Use {@link Throwable#getStackTrace()} directly, or where
+     possible use the {@code java.lang.StackWalker.walk} method introduced in JDK 9.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
       <![CDATA[Returns the stack trace of {@code throwable}, possibly providing slower iteration over the full
@@ -6704,18 +6706,24 @@
  throwable.setStackTrace}. Instead, it always reflects the original stack trace from the
  exception's creation.
 
- @since 19.0]]>
+ @since 19.0
+ @deprecated This method is equivalent to {@link Throwable#getStackTrace()} on JDK versions past
+     JDK 8 and on all Android versions. Use {@link Throwable#getStackTrace()} directly, or where
+     possible use the {@code java.lang.StackWalker.walk} method introduced in JDK 9.]]>
       </doc>
     </method>
     <method name="lazyStackTraceIsLazy" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="This method always returns false on JDK versions past JDK 8 and on all Android
+     versions.">
       <doc>
       <![CDATA[Returns whether {@link #lazyStackTrace} will use the special implementation described in its
  documentation.
 
- @since 19.0]]>
+ @since 19.0
+ @deprecated This method always returns false on JDK versions past JDK 8 and on all Android
+     versions.]]>
       </doc>
     </method>
     <doc>
