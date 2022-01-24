@@ -971,6 +971,31 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Override
   @CheckForNull
   public final V getOrDefault(@CheckForNull Object key, @CheckForNull V defaultValue) {
+    /*
+     * Even though it's weird to pass a defaultValue that is null, some callers do so. Those who
+     * pass a literal "null" should probably just use `get`, but I would expect other callers to
+     * pass an expression that *might* be null. This could happen with:
+     *
+     * - a `getFooOrDefault(@Nullable Foo defaultValue)` method that returns
+     *   `map.getOrDefault(FOO_KEY, defaultValue)`
+     *
+     * - a call that consults a chain of maps, as in `mapA.getOrDefault(key, mapB.getOrDefault(key,
+     *   ...))`
+     *
+     * So it make sense for the parameter (and thus the return type) to be @Nullable.
+     *
+     * Two other points:
+     *
+     * 1. We'll want to use something like @PolyNull once we can make that work for the various
+     * platforms we target.
+     *
+     * 2. Kotlin's Map type has a getOrDefault method that accepts and returns a "plain V," in
+     * contrast to the "V?" type that we're using. As a result, Kotlin sees a conflict between the
+     * nullness annotations in ImmutableMap and those in its own Map type. In response, it considers
+     * the parameter and return type both to be platform types. As a result, Kotlin permits calls
+     * that can lead to NullPointerException. That's unfortunate. But hopefully most Kotlin callers
+     * use `get(key) ?: defaultValue` instead of this method, anyway.
+     */
     V result = get(key);
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
     if (result != null) {
