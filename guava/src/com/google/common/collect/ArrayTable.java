@@ -84,7 +84,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * thread that reads from another.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
  *
  * @author Jared Levy
  * @since 10.0

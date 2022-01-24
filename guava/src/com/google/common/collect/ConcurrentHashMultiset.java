@@ -49,8 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher

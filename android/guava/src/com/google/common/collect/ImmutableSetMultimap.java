@@ -47,7 +47,7 @@ import javax.annotation.CheckForNull;
  * Undefined behavior and bugs will result.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @author Mike Ward
  * @since 2.0
