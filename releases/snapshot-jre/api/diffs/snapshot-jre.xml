@@ -9979,8 +9979,7 @@
  with a call to {@link Multimaps#synchronizedListMultimap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -10384,7 +10383,7 @@
  thread that reads from another.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
 
  @author Jared Levy
  @since 10.0]]>
@@ -11155,7 +11154,7 @@
  the presence of expensive {@code compareTo} and {@code compare} implementations.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"> {@code
+ "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  ComparisonChain}</a>.
 
  @author Mark Davis
@@ -11391,8 +11390,7 @@
  {@code Multiset} operations (exceptions where noted). Null elements are not supported.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Cliff L. Biffle
  @author mike nonemacher
@@ -11747,7 +11745,7 @@
  represent partial domains such as "prime integers" or "strings of length 5."
 
  <p>See the Guava User Guide section on <a href=
- "https://github.com/google/guava/wiki/RangesExplained#discrete-domains"> {@code
+ "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">{@code
  DiscreteDomain}</a>.
 
  @author Kevin Bourrillion
@@ -11809,7 +11807,7 @@
  An {@code EnumBiMap} and its inverse are both serializable.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
 
  @author Mike Bostock
  @since 2.0]]>
@@ -11876,7 +11874,7 @@
  EnumHashBiMap} and its inverse are both serializable.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
 
  @author Mike Bostock
  @since 2.0]]>
@@ -11978,8 +11976,7 @@
  in O(1).
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -16445,7 +16442,7 @@
  concurrently and one of the threads modifies the table, it must be synchronized externally.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
 
  @author Jared Levy
  @since 7.0]]>
@@ -16581,7 +16578,7 @@
  <p>This implementation guarantees insertion-based iteration order of its keys.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap} </a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap} </a>.
 
  @author Louis Wasserman
  @author Mike Bostock
@@ -17633,7 +17630,7 @@
  <h3>See also</h3>
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @since 2.0]]>
     </doc>
@@ -18260,7 +18257,7 @@
  {@link ImmutableCollection}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @see ImmutableMap
  @see ImmutableSet
@@ -18618,7 +18615,7 @@
  detailed at {@link ImmutableCollection}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -19339,7 +19336,7 @@
  {@link ImmutableCollection}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jesse Wilson
  @author Kevin Bourrillion
@@ -19835,7 +19832,7 @@
  immediately after the last entry having that key.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -20269,7 +20266,7 @@
  element when the multiset was created.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -21561,7 +21558,7 @@
  Undefined behavior and bugs will result.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Mike Ward
  @since 2.0]]>
@@ -22359,7 +22356,7 @@
  not correctly obey its specification.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -22866,7 +22863,7 @@
  collection will not correctly obey its specification.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Louis Wasserman
  @since 12.0]]>
@@ -23522,7 +23519,7 @@
  collection will not correctly obey its specification.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -23853,7 +23850,7 @@
  at {@link ImmutableCollection}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
 
  @author Gregory Kick
  @since 11.0]]>
@@ -24882,7 +24879,7 @@
  absolutely necessary.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables"> {@code
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">{@code
  Iterables}</a>.
 
  @author Kevin Bourrillion
@@ -25634,7 +25631,7 @@
  necessary.
 
  <p>See the Guava User Guide section on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables"> {@code
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">{@code
  Iterators}</a>.
 
  @author Kevin Bourrillion
@@ -25780,8 +25777,7 @@
  result.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -25836,8 +25832,7 @@
  element will appear at the end of the iteration.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Kevin Bourrillion
  @author Jared Levy
@@ -26048,8 +26043,7 @@
  with a call to {@link Multimaps#synchronizedListMultimap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Mike Bostock
  @since 2.0]]>
@@ -26138,8 +26132,7 @@
  {@link #asMap} has {@code List} values.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -26599,7 +26592,7 @@
  {@link Sets}, {@link Maps} and {@link Queues}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists"> {@code Lists}</a>.
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists">{@code Lists}</a>.
 
  @author Kevin Bourrillion
  @author Mike Bostock
@@ -28352,7 +28345,7 @@
  and {@link Queues}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#maps"> {@code Maps}</a>.
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#maps">{@code Maps}</a>.
 
  @author Kevin Bourrillion
  @author Mike Bostock
@@ -29159,8 +29152,7 @@
  {@link UnsupportedOperationException}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -30539,7 +30531,7 @@
     <![CDATA[Provides static methods acting on or generating a {@code Multimap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps"> {@code
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">{@code
  Multimaps}</a>.
 
  @author Jared Levy
@@ -30957,8 +30949,7 @@
  {@code Multiset}, {@code AtomicLongMap} does not automatically remove zeros.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -31357,7 +31348,7 @@
     <![CDATA[Provides static utility methods for creating and working with {@link Multiset} instances.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets"> {@code
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets">{@code
  Multisets}</a>.
 
  @author Kevin Bourrillion
@@ -32332,7 +32323,7 @@
     <![CDATA[An iterator that supports a one-element lookahead while iterating.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator"> {@code
+ "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator">{@code
  PeekingIterator}</a>.
 
  @author Mick Killianey
@@ -33792,7 +33783,7 @@
  <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset"> RangeSets</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">RangeSets</a>.
 
  @author Kevin Bourrillion
  @author Louis Wasserman
@@ -33946,8 +33937,7 @@
  that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -34838,7 +34828,7 @@
  {@link Lists}, {@link Maps} and {@link Queues}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets"> {@code Sets}</a>.
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">{@code Sets}</a>.
 
  @author Kevin Bourrillion
  @author Jared Levy
@@ -35172,8 +35162,7 @@
  Collection} contract, which is specified in terms of {@link Object#equals}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Louis Wasserman
  @since 11.0]]>
@@ -35277,8 +35266,7 @@
  position in the order of the values). Undefined behavior and bugs will result.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @since 2.0]]>
@@ -36083,7 +36071,7 @@
  UnsupportedOperationException}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
 
  @author Jared Levy
  @param <R> the type of the table row keys
@@ -36382,7 +36370,7 @@
     <![CDATA[Provides static methods that involve a {@code Table}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"> {@code Tables}</a>.
+ "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables">{@code Tables}</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -36509,7 +36497,7 @@
  concurrently and one of the threads modifies the table, it must be synchronized externally.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">{@code Table}</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -36639,8 +36627,7 @@
  with a call to {@link Multimaps#synchronizedSortedSetMultimap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
- Multimap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
  @author Jared Levy
  @author Louis Wasserman
@@ -36784,8 +36771,7 @@
  java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- Multiset}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
  @author Louis Wasserman
  @author Jared Levy

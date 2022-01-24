@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public class <a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.74">TreeMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public class <a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.73">TreeMultimap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">Implementation of <code>Multimap</code> whose keys and values are ordered by their natural ordering or
  by supplied comparators. In all cases, this implementation uses <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(T)</code></a> or
@@ -167,8 +167,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  read operations will work correctly. To allow concurrent update operations, wrap your multimap
  with a call to <a href="Multimaps.html#synchronizedSortedSetMultimap(com.google.common.collect.SortedSetMultimap)"><code>Multimaps.synchronizedSortedSetMultimap(com.google.common.collect.SortedSetMultimap&lt;K, V&gt;)</code></a>.
 
- <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> <code>
- Multimap</code></a>.</div>
+ <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"><code>Multimap</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -443,7 +442,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.84">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.83">create</a>()</pre>
 <div class="block">Creates an empty <code>TreeMultimap</code> ordered by the natural ordering of its keys and values.</div>
 </li>
 </ul>
@@ -453,7 +452,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.95">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super K&gt;&nbsp;keyComparator,
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.94">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super K&gt;&nbsp;keyComparator,
                                                                                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super V&gt;&nbsp;valueComparator)</pre>
 <div class="block">Creates an empty <code>TreeMultimap</code> instance using explicit comparators. Neither comparator
  may be null; use <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> to specify natural order.</div>
@@ -470,7 +469,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.106">create</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>,&#8203;V extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.105">create</a>&#8203;(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;multimap)</pre>
 <div class="block">Constructs a <code>TreeMultimap</code>, ordered by the natural ordering of its keys and values, with
  the same mappings as the specified multimap.</div>
 <dl>
@@ -486,7 +485,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>keyComparator</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.155">keyComparator</a>()</pre>
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.154">keyComparator</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Use <code>((NavigableSet&lt;K&gt;) multimap.keySet()).comparator()</code> instead.</div>
 </div>
@@ -499,7 +498,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <ul class="blockList">
 <li class="blockList">
 <h4>valueComparator</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.160">valueComparator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.159">valueComparator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedSetMultimap.html#valueComparator()">SortedSetMultimap</a></code></span></div>
 <div class="block">Returns the comparator that orders the multimap values, with <code>null</code> indicating that
  natural ordering is used.</div>
@@ -514,7 +513,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <li class="blockList">
 <h4>get</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.166">get</a>&#8203;(<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&nbsp;key)</pre>
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.165">get</a>&#8203;(<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a collection view of all values associated with a key. If no mappings in the multimap
  have the provided key, an empty collection is returned.
 
@@ -540,7 +539,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigab
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.181">keySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableSet</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.180">keySet</a>()</pre>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the
  key set contains a key if and only if this multimap maps that key to at least one value.
 
@@ -563,7 +562,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigab
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableMap</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.195">asMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util" class="externalLink">NavigableMap</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">K</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="TreeMultimap.html" title="type parameter in TreeMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultimap.html#line.194">asMap</a>()</pre>
 <div class="block">Returns a map view that associates each key with the corresponding values in the multimap.
  Changes to the returned map, such as element removal, will update the underlying multimap. The
  map does not support <code>setValue</code> on its entries, <code>put</code>, or <code>putAll</code>.

@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.42">LinkedHashMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.41">LinkedHashMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E&gt;</pre>
 <div class="block">A <code>Multiset</code> implementation with predictable iteration order. Its iterator orders elements
  according to when the first occurrence of the element was added. When the multiset contains
@@ -150,8 +150,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCol
  occurrences of an element are removed, after which that element is added to the multiset, the
  element will appear at the end of the iteration.
 
- <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> <code>
- Multiset</code></a>.</div>
+ <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"><code>Multiset</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -431,7 +430,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCol
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.48">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.47">create</a>()</pre>
 <div class="block">Creates a new, empty <code>LinkedHashMultiset</code> using the default initial capacity.</div>
 </li>
 </ul>
@@ -441,7 +440,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCol
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.59">create</a>&#8203;(int&nbsp;distinctElements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.58">create</a>&#8203;(int&nbsp;distinctElements)</pre>
 <div class="block">Creates a new, empty <code>LinkedHashMultiset</code> with the specified expected number of distinct
  elements.</div>
 <dl>
@@ -458,7 +457,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCol
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.70">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="LinkedHashMultiset.html" title="class in com.google.common.collect">LinkedHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/LinkedHashMultiset.html#line.69">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a new <code>LinkedHashMultiset</code> containing the specified elements.
 
  <p>This implementation is highly efficient when <code>elements</code> is itself a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>.</div>

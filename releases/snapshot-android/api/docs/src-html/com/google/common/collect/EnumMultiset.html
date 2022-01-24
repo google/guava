@@ -46,276 +46,275 @@
 <span class="sourceLineNo">037</span><a id="line.37"> * in O(1).</a>
 <span class="sourceLineNo">038</span><a id="line.38"> *</a>
 <span class="sourceLineNo">039</span><a id="line.39"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"&gt; {@code</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * Multiset}&lt;/a&gt;.</a>
-<span class="sourceLineNo">042</span><a id="line.42"> *</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * @author Jared Levy</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * @since 2.0</a>
-<span class="sourceLineNo">045</span><a id="line.45"> */</a>
-<span class="sourceLineNo">046</span><a id="line.46">@GwtCompatible(emulated = true)</a>
-<span class="sourceLineNo">047</span><a id="line.47">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">048</span><a id="line.48">public final class EnumMultiset&lt;E extends Enum&lt;E&gt;&gt; extends AbstractMultiset&lt;E&gt;</a>
-<span class="sourceLineNo">049</span><a id="line.49">    implements Serializable {</a>
-<span class="sourceLineNo">050</span><a id="line.50">  /** Creates an empty {@code EnumMultiset}. */</a>
-<span class="sourceLineNo">051</span><a id="line.51">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Class&lt;E&gt; type) {</a>
-<span class="sourceLineNo">052</span><a id="line.52">    return new EnumMultiset&lt;E&gt;(type);</a>
-<span class="sourceLineNo">053</span><a id="line.53">  }</a>
-<span class="sourceLineNo">054</span><a id="line.54"></a>
-<span class="sourceLineNo">055</span><a id="line.55">  /**</a>
-<span class="sourceLineNo">056</span><a id="line.56">   * Creates a new {@code EnumMultiset} containing the specified elements.</a>
-<span class="sourceLineNo">057</span><a id="line.57">   *</a>
-<span class="sourceLineNo">058</span><a id="line.58">   * &lt;p&gt;This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.</a>
-<span class="sourceLineNo">059</span><a id="line.59">   *</a>
-<span class="sourceLineNo">060</span><a id="line.60">   * @param elements the elements that the multiset should contain</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * @throws IllegalArgumentException if {@code elements} is empty</a>
-<span class="sourceLineNo">062</span><a id="line.62">   */</a>
-<span class="sourceLineNo">063</span><a id="line.63">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Iterable&lt;E&gt; elements) {</a>
-<span class="sourceLineNo">064</span><a id="line.64">    Iterator&lt;E&gt; iterator = elements.iterator();</a>
-<span class="sourceLineNo">065</span><a id="line.65">    checkArgument(iterator.hasNext(), "EnumMultiset constructor passed empty Iterable");</a>
-<span class="sourceLineNo">066</span><a id="line.66">    EnumMultiset&lt;E&gt; multiset = new EnumMultiset&lt;&gt;(iterator.next().getDeclaringClass());</a>
-<span class="sourceLineNo">067</span><a id="line.67">    Iterables.addAll(multiset, elements);</a>
-<span class="sourceLineNo">068</span><a id="line.68">    return multiset;</a>
-<span class="sourceLineNo">069</span><a id="line.69">  }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">  /**</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * Returns a new {@code EnumMultiset} instance containing the given elements. Unlike {@link</a>
-<span class="sourceLineNo">073</span><a id="line.73">   * EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty iterable.</a>
-<span class="sourceLineNo">074</span><a id="line.74">   *</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * @since 14.0</a>
-<span class="sourceLineNo">076</span><a id="line.76">   */</a>
-<span class="sourceLineNo">077</span><a id="line.77">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Iterable&lt;E&gt; elements, Class&lt;E&gt; type) {</a>
-<span class="sourceLineNo">078</span><a id="line.78">    EnumMultiset&lt;E&gt; result = create(type);</a>
-<span class="sourceLineNo">079</span><a id="line.79">    Iterables.addAll(result, elements);</a>
-<span class="sourceLineNo">080</span><a id="line.80">    return result;</a>
-<span class="sourceLineNo">081</span><a id="line.81">  }</a>
-<span class="sourceLineNo">082</span><a id="line.82"></a>
-<span class="sourceLineNo">083</span><a id="line.83">  private transient Class&lt;E&gt; type;</a>
-<span class="sourceLineNo">084</span><a id="line.84">  private transient E[] enumConstants;</a>
-<span class="sourceLineNo">085</span><a id="line.85">  private transient int[] counts;</a>
-<span class="sourceLineNo">086</span><a id="line.86">  private transient int distinctElements;</a>
-<span class="sourceLineNo">087</span><a id="line.87">  private transient long size;</a>
-<span class="sourceLineNo">088</span><a id="line.88"></a>
-<span class="sourceLineNo">089</span><a id="line.89">  /** Creates an empty {@code EnumMultiset}. */</a>
-<span class="sourceLineNo">090</span><a id="line.90">  private EnumMultiset(Class&lt;E&gt; type) {</a>
-<span class="sourceLineNo">091</span><a id="line.91">    this.type = type;</a>
-<span class="sourceLineNo">092</span><a id="line.92">    checkArgument(type.isEnum());</a>
-<span class="sourceLineNo">093</span><a id="line.93">    this.enumConstants = type.getEnumConstants();</a>
-<span class="sourceLineNo">094</span><a id="line.94">    this.counts = new int[enumConstants.length];</a>
-<span class="sourceLineNo">095</span><a id="line.95">  }</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">  private boolean isActuallyE(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">098</span><a id="line.98">    if (o instanceof Enum) {</a>
-<span class="sourceLineNo">099</span><a id="line.99">      Enum&lt;?&gt; e = (Enum&lt;?&gt;) o;</a>
-<span class="sourceLineNo">100</span><a id="line.100">      int index = e.ordinal();</a>
-<span class="sourceLineNo">101</span><a id="line.101">      return index &lt; enumConstants.length &amp;&amp; enumConstants[index] == e;</a>
-<span class="sourceLineNo">102</span><a id="line.102">    }</a>
-<span class="sourceLineNo">103</span><a id="line.103">    return false;</a>
-<span class="sourceLineNo">104</span><a id="line.104">  }</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">  /**</a>
-<span class="sourceLineNo">107</span><a id="line.107">   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E. Otherwise, throws</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * either a NullPointerException or a ClassCastException as appropriate.</a>
-<span class="sourceLineNo">109</span><a id="line.109">   */</a>
-<span class="sourceLineNo">110</span><a id="line.110">  private void checkIsE(Object element) {</a>
-<span class="sourceLineNo">111</span><a id="line.111">    checkNotNull(element);</a>
-<span class="sourceLineNo">112</span><a id="line.112">    if (!isActuallyE(element)) {</a>
-<span class="sourceLineNo">113</span><a id="line.113">      throw new ClassCastException("Expected an " + type + " but got " + element);</a>
-<span class="sourceLineNo">114</span><a id="line.114">    }</a>
-<span class="sourceLineNo">115</span><a id="line.115">  }</a>
-<span class="sourceLineNo">116</span><a id="line.116"></a>
-<span class="sourceLineNo">117</span><a id="line.117">  @Override</a>
-<span class="sourceLineNo">118</span><a id="line.118">  int distinctElements() {</a>
-<span class="sourceLineNo">119</span><a id="line.119">    return distinctElements;</a>
-<span class="sourceLineNo">120</span><a id="line.120">  }</a>
-<span class="sourceLineNo">121</span><a id="line.121"></a>
-<span class="sourceLineNo">122</span><a id="line.122">  @Override</a>
-<span class="sourceLineNo">123</span><a id="line.123">  public int size() {</a>
-<span class="sourceLineNo">124</span><a id="line.124">    return Ints.saturatedCast(size);</a>
-<span class="sourceLineNo">125</span><a id="line.125">  }</a>
-<span class="sourceLineNo">126</span><a id="line.126"></a>
-<span class="sourceLineNo">127</span><a id="line.127">  @Override</a>
-<span class="sourceLineNo">128</span><a id="line.128">  public int count(@CheckForNull Object element) {</a>
-<span class="sourceLineNo">129</span><a id="line.129">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
-<span class="sourceLineNo">130</span><a id="line.130">    if (element == null || !isActuallyE(element)) {</a>
-<span class="sourceLineNo">131</span><a id="line.131">      return 0;</a>
-<span class="sourceLineNo">132</span><a id="line.132">    }</a>
-<span class="sourceLineNo">133</span><a id="line.133">    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;</a>
-<span class="sourceLineNo">134</span><a id="line.134">    return counts[e.ordinal()];</a>
-<span class="sourceLineNo">135</span><a id="line.135">  }</a>
-<span class="sourceLineNo">136</span><a id="line.136"></a>
-<span class="sourceLineNo">137</span><a id="line.137">  // Modification Operations</a>
-<span class="sourceLineNo">138</span><a id="line.138">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">139</span><a id="line.139">  @Override</a>
-<span class="sourceLineNo">140</span><a id="line.140">  public int add(E element, int occurrences) {</a>
-<span class="sourceLineNo">141</span><a id="line.141">    checkIsE(element);</a>
-<span class="sourceLineNo">142</span><a id="line.142">    checkNonnegative(occurrences, "occurrences");</a>
-<span class="sourceLineNo">143</span><a id="line.143">    if (occurrences == 0) {</a>
-<span class="sourceLineNo">144</span><a id="line.144">      return count(element);</a>
-<span class="sourceLineNo">145</span><a id="line.145">    }</a>
-<span class="sourceLineNo">146</span><a id="line.146">    int index = element.ordinal();</a>
-<span class="sourceLineNo">147</span><a id="line.147">    int oldCount = counts[index];</a>
-<span class="sourceLineNo">148</span><a id="line.148">    long newCount = (long) oldCount + occurrences;</a>
-<span class="sourceLineNo">149</span><a id="line.149">    checkArgument(newCount &lt;= Integer.MAX_VALUE, "too many occurrences: %s", newCount);</a>
-<span class="sourceLineNo">150</span><a id="line.150">    counts[index] = (int) newCount;</a>
-<span class="sourceLineNo">151</span><a id="line.151">    if (oldCount == 0) {</a>
-<span class="sourceLineNo">152</span><a id="line.152">      distinctElements++;</a>
-<span class="sourceLineNo">153</span><a id="line.153">    }</a>
-<span class="sourceLineNo">154</span><a id="line.154">    size += occurrences;</a>
-<span class="sourceLineNo">155</span><a id="line.155">    return oldCount;</a>
-<span class="sourceLineNo">156</span><a id="line.156">  }</a>
-<span class="sourceLineNo">157</span><a id="line.157"></a>
-<span class="sourceLineNo">158</span><a id="line.158">  // Modification Operations</a>
-<span class="sourceLineNo">159</span><a id="line.159">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">160</span><a id="line.160">  @Override</a>
-<span class="sourceLineNo">161</span><a id="line.161">  public int remove(@CheckForNull Object element, int occurrences) {</a>
-<span class="sourceLineNo">162</span><a id="line.162">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
-<span class="sourceLineNo">163</span><a id="line.163">    if (element == null || !isActuallyE(element)) {</a>
-<span class="sourceLineNo">164</span><a id="line.164">      return 0;</a>
-<span class="sourceLineNo">165</span><a id="line.165">    }</a>
-<span class="sourceLineNo">166</span><a id="line.166">    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;</a>
-<span class="sourceLineNo">167</span><a id="line.167">    checkNonnegative(occurrences, "occurrences");</a>
-<span class="sourceLineNo">168</span><a id="line.168">    if (occurrences == 0) {</a>
-<span class="sourceLineNo">169</span><a id="line.169">      return count(element);</a>
-<span class="sourceLineNo">170</span><a id="line.170">    }</a>
-<span class="sourceLineNo">171</span><a id="line.171">    int index = e.ordinal();</a>
-<span class="sourceLineNo">172</span><a id="line.172">    int oldCount = counts[index];</a>
-<span class="sourceLineNo">173</span><a id="line.173">    if (oldCount == 0) {</a>
-<span class="sourceLineNo">174</span><a id="line.174">      return 0;</a>
-<span class="sourceLineNo">175</span><a id="line.175">    } else if (oldCount &lt;= occurrences) {</a>
-<span class="sourceLineNo">176</span><a id="line.176">      counts[index] = 0;</a>
-<span class="sourceLineNo">177</span><a id="line.177">      distinctElements--;</a>
-<span class="sourceLineNo">178</span><a id="line.178">      size -= oldCount;</a>
-<span class="sourceLineNo">179</span><a id="line.179">    } else {</a>
-<span class="sourceLineNo">180</span><a id="line.180">      counts[index] = oldCount - occurrences;</a>
-<span class="sourceLineNo">181</span><a id="line.181">      size -= occurrences;</a>
-<span class="sourceLineNo">182</span><a id="line.182">    }</a>
-<span class="sourceLineNo">183</span><a id="line.183">    return oldCount;</a>
-<span class="sourceLineNo">184</span><a id="line.184">  }</a>
-<span class="sourceLineNo">185</span><a id="line.185"></a>
-<span class="sourceLineNo">186</span><a id="line.186">  // Modification Operations</a>
-<span class="sourceLineNo">187</span><a id="line.187">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">188</span><a id="line.188">  @Override</a>
-<span class="sourceLineNo">189</span><a id="line.189">  public int setCount(E element, int count) {</a>
-<span class="sourceLineNo">190</span><a id="line.190">    checkIsE(element);</a>
-<span class="sourceLineNo">191</span><a id="line.191">    checkNonnegative(count, "count");</a>
-<span class="sourceLineNo">192</span><a id="line.192">    int index = element.ordinal();</a>
-<span class="sourceLineNo">193</span><a id="line.193">    int oldCount = counts[index];</a>
-<span class="sourceLineNo">194</span><a id="line.194">    counts[index] = count;</a>
-<span class="sourceLineNo">195</span><a id="line.195">    size += count - oldCount;</a>
-<span class="sourceLineNo">196</span><a id="line.196">    if (oldCount == 0 &amp;&amp; count &gt; 0) {</a>
-<span class="sourceLineNo">197</span><a id="line.197">      distinctElements++;</a>
-<span class="sourceLineNo">198</span><a id="line.198">    } else if (oldCount &gt; 0 &amp;&amp; count == 0) {</a>
-<span class="sourceLineNo">199</span><a id="line.199">      distinctElements--;</a>
-<span class="sourceLineNo">200</span><a id="line.200">    }</a>
-<span class="sourceLineNo">201</span><a id="line.201">    return oldCount;</a>
-<span class="sourceLineNo">202</span><a id="line.202">  }</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">  @Override</a>
-<span class="sourceLineNo">205</span><a id="line.205">  public void clear() {</a>
-<span class="sourceLineNo">206</span><a id="line.206">    Arrays.fill(counts, 0);</a>
-<span class="sourceLineNo">207</span><a id="line.207">    size = 0;</a>
-<span class="sourceLineNo">208</span><a id="line.208">    distinctElements = 0;</a>
-<span class="sourceLineNo">209</span><a id="line.209">  }</a>
-<span class="sourceLineNo">210</span><a id="line.210"></a>
-<span class="sourceLineNo">211</span><a id="line.211">  abstract class Itr&lt;T&gt; implements Iterator&lt;T&gt; {</a>
-<span class="sourceLineNo">212</span><a id="line.212">    int index = 0;</a>
-<span class="sourceLineNo">213</span><a id="line.213">    int toRemove = -1;</a>
-<span class="sourceLineNo">214</span><a id="line.214"></a>
-<span class="sourceLineNo">215</span><a id="line.215">    abstract T output(int index);</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">    @Override</a>
-<span class="sourceLineNo">218</span><a id="line.218">    public boolean hasNext() {</a>
-<span class="sourceLineNo">219</span><a id="line.219">      for (; index &lt; enumConstants.length; index++) {</a>
-<span class="sourceLineNo">220</span><a id="line.220">        if (counts[index] &gt; 0) {</a>
-<span class="sourceLineNo">221</span><a id="line.221">          return true;</a>
-<span class="sourceLineNo">222</span><a id="line.222">        }</a>
-<span class="sourceLineNo">223</span><a id="line.223">      }</a>
-<span class="sourceLineNo">224</span><a id="line.224">      return false;</a>
-<span class="sourceLineNo">225</span><a id="line.225">    }</a>
-<span class="sourceLineNo">226</span><a id="line.226"></a>
-<span class="sourceLineNo">227</span><a id="line.227">    @Override</a>
-<span class="sourceLineNo">228</span><a id="line.228">    public T next() {</a>
-<span class="sourceLineNo">229</span><a id="line.229">      if (!hasNext()) {</a>
-<span class="sourceLineNo">230</span><a id="line.230">        throw new NoSuchElementException();</a>
-<span class="sourceLineNo">231</span><a id="line.231">      }</a>
-<span class="sourceLineNo">232</span><a id="line.232">      T result = output(index);</a>
-<span class="sourceLineNo">233</span><a id="line.233">      toRemove = index;</a>
-<span class="sourceLineNo">234</span><a id="line.234">      index++;</a>
-<span class="sourceLineNo">235</span><a id="line.235">      return result;</a>
-<span class="sourceLineNo">236</span><a id="line.236">    }</a>
-<span class="sourceLineNo">237</span><a id="line.237"></a>
-<span class="sourceLineNo">238</span><a id="line.238">    @Override</a>
-<span class="sourceLineNo">239</span><a id="line.239">    public void remove() {</a>
-<span class="sourceLineNo">240</span><a id="line.240">      checkRemove(toRemove &gt;= 0);</a>
-<span class="sourceLineNo">241</span><a id="line.241">      if (counts[toRemove] &gt; 0) {</a>
-<span class="sourceLineNo">242</span><a id="line.242">        distinctElements--;</a>
-<span class="sourceLineNo">243</span><a id="line.243">        size -= counts[toRemove];</a>
-<span class="sourceLineNo">244</span><a id="line.244">        counts[toRemove] = 0;</a>
-<span class="sourceLineNo">245</span><a id="line.245">      }</a>
-<span class="sourceLineNo">246</span><a id="line.246">      toRemove = -1;</a>
-<span class="sourceLineNo">247</span><a id="line.247">    }</a>
-<span class="sourceLineNo">248</span><a id="line.248">  }</a>
-<span class="sourceLineNo">249</span><a id="line.249"></a>
-<span class="sourceLineNo">250</span><a id="line.250">  @Override</a>
-<span class="sourceLineNo">251</span><a id="line.251">  Iterator&lt;E&gt; elementIterator() {</a>
-<span class="sourceLineNo">252</span><a id="line.252">    return new Itr&lt;E&gt;() {</a>
-<span class="sourceLineNo">253</span><a id="line.253">      @Override</a>
-<span class="sourceLineNo">254</span><a id="line.254">      E output(int index) {</a>
-<span class="sourceLineNo">255</span><a id="line.255">        return enumConstants[index];</a>
-<span class="sourceLineNo">256</span><a id="line.256">      }</a>
-<span class="sourceLineNo">257</span><a id="line.257">    };</a>
-<span class="sourceLineNo">258</span><a id="line.258">  }</a>
-<span class="sourceLineNo">259</span><a id="line.259"></a>
-<span class="sourceLineNo">260</span><a id="line.260">  @Override</a>
-<span class="sourceLineNo">261</span><a id="line.261">  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">262</span><a id="line.262">    return new Itr&lt;Entry&lt;E&gt;&gt;() {</a>
-<span class="sourceLineNo">263</span><a id="line.263">      @Override</a>
-<span class="sourceLineNo">264</span><a id="line.264">      Entry&lt;E&gt; output(final int index) {</a>
-<span class="sourceLineNo">265</span><a id="line.265">        return new Multisets.AbstractEntry&lt;E&gt;() {</a>
-<span class="sourceLineNo">266</span><a id="line.266">          @Override</a>
-<span class="sourceLineNo">267</span><a id="line.267">          public E getElement() {</a>
-<span class="sourceLineNo">268</span><a id="line.268">            return enumConstants[index];</a>
-<span class="sourceLineNo">269</span><a id="line.269">          }</a>
-<span class="sourceLineNo">270</span><a id="line.270"></a>
-<span class="sourceLineNo">271</span><a id="line.271">          @Override</a>
-<span class="sourceLineNo">272</span><a id="line.272">          public int getCount() {</a>
-<span class="sourceLineNo">273</span><a id="line.273">            return counts[index];</a>
-<span class="sourceLineNo">274</span><a id="line.274">          }</a>
-<span class="sourceLineNo">275</span><a id="line.275">        };</a>
-<span class="sourceLineNo">276</span><a id="line.276">      }</a>
-<span class="sourceLineNo">277</span><a id="line.277">    };</a>
-<span class="sourceLineNo">278</span><a id="line.278">  }</a>
-<span class="sourceLineNo">279</span><a id="line.279"></a>
-<span class="sourceLineNo">280</span><a id="line.280">  @Override</a>
-<span class="sourceLineNo">281</span><a id="line.281">  public Iterator&lt;E&gt; iterator() {</a>
-<span class="sourceLineNo">282</span><a id="line.282">    return Multisets.iteratorImpl(this);</a>
-<span class="sourceLineNo">283</span><a id="line.283">  }</a>
-<span class="sourceLineNo">284</span><a id="line.284"></a>
-<span class="sourceLineNo">285</span><a id="line.285">  @GwtIncompatible // java.io.ObjectOutputStream</a>
-<span class="sourceLineNo">286</span><a id="line.286">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
-<span class="sourceLineNo">287</span><a id="line.287">    stream.defaultWriteObject();</a>
-<span class="sourceLineNo">288</span><a id="line.288">    stream.writeObject(type);</a>
-<span class="sourceLineNo">289</span><a id="line.289">    Serialization.writeMultiset(this, stream);</a>
-<span class="sourceLineNo">290</span><a id="line.290">  }</a>
-<span class="sourceLineNo">291</span><a id="line.291"></a>
-<span class="sourceLineNo">292</span><a id="line.292">  /**</a>
-<span class="sourceLineNo">293</span><a id="line.293">   * @serialData the {@code Class&lt;E&gt;} for the enum type, the number of distinct elements, the first</a>
-<span class="sourceLineNo">294</span><a id="line.294">   *     element, its count, the second element, its count, and so on</a>
-<span class="sourceLineNo">295</span><a id="line.295">   */</a>
-<span class="sourceLineNo">296</span><a id="line.296">  @GwtIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">297</span><a id="line.297">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">298</span><a id="line.298">    stream.defaultReadObject();</a>
-<span class="sourceLineNo">299</span><a id="line.299">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
-<span class="sourceLineNo">300</span><a id="line.300">    Class&lt;E&gt; localType = (Class&lt;E&gt;) stream.readObject();</a>
-<span class="sourceLineNo">301</span><a id="line.301">    type = localType;</a>
-<span class="sourceLineNo">302</span><a id="line.302">    enumConstants = type.getEnumConstants();</a>
-<span class="sourceLineNo">303</span><a id="line.303">    counts = new int[enumConstants.length];</a>
-<span class="sourceLineNo">304</span><a id="line.304">    Serialization.populateMultiset(this, stream);</a>
-<span class="sourceLineNo">305</span><a id="line.305">  }</a>
-<span class="sourceLineNo">306</span><a id="line.306"></a>
-<span class="sourceLineNo">307</span><a id="line.307">  @GwtIncompatible // Not needed in emulated source</a>
-<span class="sourceLineNo">308</span><a id="line.308">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">309</span><a id="line.309">}</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"&gt;{@code Multiset}&lt;/a&gt;.</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * @author Jared Levy</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @since 2.0</a>
+<span class="sourceLineNo">044</span><a id="line.44"> */</a>
+<span class="sourceLineNo">045</span><a id="line.45">@GwtCompatible(emulated = true)</a>
+<span class="sourceLineNo">046</span><a id="line.46">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">047</span><a id="line.47">public final class EnumMultiset&lt;E extends Enum&lt;E&gt;&gt; extends AbstractMultiset&lt;E&gt;</a>
+<span class="sourceLineNo">048</span><a id="line.48">    implements Serializable {</a>
+<span class="sourceLineNo">049</span><a id="line.49">  /** Creates an empty {@code EnumMultiset}. */</a>
+<span class="sourceLineNo">050</span><a id="line.50">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Class&lt;E&gt; type) {</a>
+<span class="sourceLineNo">051</span><a id="line.51">    return new EnumMultiset&lt;E&gt;(type);</a>
+<span class="sourceLineNo">052</span><a id="line.52">  }</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">  /**</a>
+<span class="sourceLineNo">055</span><a id="line.55">   * Creates a new {@code EnumMultiset} containing the specified elements.</a>
+<span class="sourceLineNo">056</span><a id="line.56">   *</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * &lt;p&gt;This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.</a>
+<span class="sourceLineNo">058</span><a id="line.58">   *</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * @param elements the elements that the multiset should contain</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * @throws IllegalArgumentException if {@code elements} is empty</a>
+<span class="sourceLineNo">061</span><a id="line.61">   */</a>
+<span class="sourceLineNo">062</span><a id="line.62">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Iterable&lt;E&gt; elements) {</a>
+<span class="sourceLineNo">063</span><a id="line.63">    Iterator&lt;E&gt; iterator = elements.iterator();</a>
+<span class="sourceLineNo">064</span><a id="line.64">    checkArgument(iterator.hasNext(), "EnumMultiset constructor passed empty Iterable");</a>
+<span class="sourceLineNo">065</span><a id="line.65">    EnumMultiset&lt;E&gt; multiset = new EnumMultiset&lt;&gt;(iterator.next().getDeclaringClass());</a>
+<span class="sourceLineNo">066</span><a id="line.66">    Iterables.addAll(multiset, elements);</a>
+<span class="sourceLineNo">067</span><a id="line.67">    return multiset;</a>
+<span class="sourceLineNo">068</span><a id="line.68">  }</a>
+<span class="sourceLineNo">069</span><a id="line.69"></a>
+<span class="sourceLineNo">070</span><a id="line.70">  /**</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * Returns a new {@code EnumMultiset} instance containing the given elements. Unlike {@link</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty iterable.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   *</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * @since 14.0</a>
+<span class="sourceLineNo">075</span><a id="line.75">   */</a>
+<span class="sourceLineNo">076</span><a id="line.76">  public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Iterable&lt;E&gt; elements, Class&lt;E&gt; type) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">    EnumMultiset&lt;E&gt; result = create(type);</a>
+<span class="sourceLineNo">078</span><a id="line.78">    Iterables.addAll(result, elements);</a>
+<span class="sourceLineNo">079</span><a id="line.79">    return result;</a>
+<span class="sourceLineNo">080</span><a id="line.80">  }</a>
+<span class="sourceLineNo">081</span><a id="line.81"></a>
+<span class="sourceLineNo">082</span><a id="line.82">  private transient Class&lt;E&gt; type;</a>
+<span class="sourceLineNo">083</span><a id="line.83">  private transient E[] enumConstants;</a>
+<span class="sourceLineNo">084</span><a id="line.84">  private transient int[] counts;</a>
+<span class="sourceLineNo">085</span><a id="line.85">  private transient int distinctElements;</a>
+<span class="sourceLineNo">086</span><a id="line.86">  private transient long size;</a>
+<span class="sourceLineNo">087</span><a id="line.87"></a>
+<span class="sourceLineNo">088</span><a id="line.88">  /** Creates an empty {@code EnumMultiset}. */</a>
+<span class="sourceLineNo">089</span><a id="line.89">  private EnumMultiset(Class&lt;E&gt; type) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">    this.type = type;</a>
+<span class="sourceLineNo">091</span><a id="line.91">    checkArgument(type.isEnum());</a>
+<span class="sourceLineNo">092</span><a id="line.92">    this.enumConstants = type.getEnumConstants();</a>
+<span class="sourceLineNo">093</span><a id="line.93">    this.counts = new int[enumConstants.length];</a>
+<span class="sourceLineNo">094</span><a id="line.94">  }</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">  private boolean isActuallyE(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">097</span><a id="line.97">    if (o instanceof Enum) {</a>
+<span class="sourceLineNo">098</span><a id="line.98">      Enum&lt;?&gt; e = (Enum&lt;?&gt;) o;</a>
+<span class="sourceLineNo">099</span><a id="line.99">      int index = e.ordinal();</a>
+<span class="sourceLineNo">100</span><a id="line.100">      return index &lt; enumConstants.length &amp;&amp; enumConstants[index] == e;</a>
+<span class="sourceLineNo">101</span><a id="line.101">    }</a>
+<span class="sourceLineNo">102</span><a id="line.102">    return false;</a>
+<span class="sourceLineNo">103</span><a id="line.103">  }</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * Returns {@code element} cast to {@code E}, if it actually is a nonnull E. Otherwise, throws</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * either a NullPointerException or a ClassCastException as appropriate.</a>
+<span class="sourceLineNo">108</span><a id="line.108">   */</a>
+<span class="sourceLineNo">109</span><a id="line.109">  private void checkIsE(Object element) {</a>
+<span class="sourceLineNo">110</span><a id="line.110">    checkNotNull(element);</a>
+<span class="sourceLineNo">111</span><a id="line.111">    if (!isActuallyE(element)) {</a>
+<span class="sourceLineNo">112</span><a id="line.112">      throw new ClassCastException("Expected an " + type + " but got " + element);</a>
+<span class="sourceLineNo">113</span><a id="line.113">    }</a>
+<span class="sourceLineNo">114</span><a id="line.114">  }</a>
+<span class="sourceLineNo">115</span><a id="line.115"></a>
+<span class="sourceLineNo">116</span><a id="line.116">  @Override</a>
+<span class="sourceLineNo">117</span><a id="line.117">  int distinctElements() {</a>
+<span class="sourceLineNo">118</span><a id="line.118">    return distinctElements;</a>
+<span class="sourceLineNo">119</span><a id="line.119">  }</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">  @Override</a>
+<span class="sourceLineNo">122</span><a id="line.122">  public int size() {</a>
+<span class="sourceLineNo">123</span><a id="line.123">    return Ints.saturatedCast(size);</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  @Override</a>
+<span class="sourceLineNo">127</span><a id="line.127">  public int count(@CheckForNull Object element) {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
+<span class="sourceLineNo">129</span><a id="line.129">    if (element == null || !isActuallyE(element)) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      return 0;</a>
+<span class="sourceLineNo">131</span><a id="line.131">    }</a>
+<span class="sourceLineNo">132</span><a id="line.132">    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;</a>
+<span class="sourceLineNo">133</span><a id="line.133">    return counts[e.ordinal()];</a>
+<span class="sourceLineNo">134</span><a id="line.134">  }</a>
+<span class="sourceLineNo">135</span><a id="line.135"></a>
+<span class="sourceLineNo">136</span><a id="line.136">  // Modification Operations</a>
+<span class="sourceLineNo">137</span><a id="line.137">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">138</span><a id="line.138">  @Override</a>
+<span class="sourceLineNo">139</span><a id="line.139">  public int add(E element, int occurrences) {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    checkIsE(element);</a>
+<span class="sourceLineNo">141</span><a id="line.141">    checkNonnegative(occurrences, "occurrences");</a>
+<span class="sourceLineNo">142</span><a id="line.142">    if (occurrences == 0) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">      return count(element);</a>
+<span class="sourceLineNo">144</span><a id="line.144">    }</a>
+<span class="sourceLineNo">145</span><a id="line.145">    int index = element.ordinal();</a>
+<span class="sourceLineNo">146</span><a id="line.146">    int oldCount = counts[index];</a>
+<span class="sourceLineNo">147</span><a id="line.147">    long newCount = (long) oldCount + occurrences;</a>
+<span class="sourceLineNo">148</span><a id="line.148">    checkArgument(newCount &lt;= Integer.MAX_VALUE, "too many occurrences: %s", newCount);</a>
+<span class="sourceLineNo">149</span><a id="line.149">    counts[index] = (int) newCount;</a>
+<span class="sourceLineNo">150</span><a id="line.150">    if (oldCount == 0) {</a>
+<span class="sourceLineNo">151</span><a id="line.151">      distinctElements++;</a>
+<span class="sourceLineNo">152</span><a id="line.152">    }</a>
+<span class="sourceLineNo">153</span><a id="line.153">    size += occurrences;</a>
+<span class="sourceLineNo">154</span><a id="line.154">    return oldCount;</a>
+<span class="sourceLineNo">155</span><a id="line.155">  }</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">  // Modification Operations</a>
+<span class="sourceLineNo">158</span><a id="line.158">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">159</span><a id="line.159">  @Override</a>
+<span class="sourceLineNo">160</span><a id="line.160">  public int remove(@CheckForNull Object element, int occurrences) {</a>
+<span class="sourceLineNo">161</span><a id="line.161">    // isActuallyE checks for null, but we check explicitly to help nullness checkers.</a>
+<span class="sourceLineNo">162</span><a id="line.162">    if (element == null || !isActuallyE(element)) {</a>
+<span class="sourceLineNo">163</span><a id="line.163">      return 0;</a>
+<span class="sourceLineNo">164</span><a id="line.164">    }</a>
+<span class="sourceLineNo">165</span><a id="line.165">    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;</a>
+<span class="sourceLineNo">166</span><a id="line.166">    checkNonnegative(occurrences, "occurrences");</a>
+<span class="sourceLineNo">167</span><a id="line.167">    if (occurrences == 0) {</a>
+<span class="sourceLineNo">168</span><a id="line.168">      return count(element);</a>
+<span class="sourceLineNo">169</span><a id="line.169">    }</a>
+<span class="sourceLineNo">170</span><a id="line.170">    int index = e.ordinal();</a>
+<span class="sourceLineNo">171</span><a id="line.171">    int oldCount = counts[index];</a>
+<span class="sourceLineNo">172</span><a id="line.172">    if (oldCount == 0) {</a>
+<span class="sourceLineNo">173</span><a id="line.173">      return 0;</a>
+<span class="sourceLineNo">174</span><a id="line.174">    } else if (oldCount &lt;= occurrences) {</a>
+<span class="sourceLineNo">175</span><a id="line.175">      counts[index] = 0;</a>
+<span class="sourceLineNo">176</span><a id="line.176">      distinctElements--;</a>
+<span class="sourceLineNo">177</span><a id="line.177">      size -= oldCount;</a>
+<span class="sourceLineNo">178</span><a id="line.178">    } else {</a>
+<span class="sourceLineNo">179</span><a id="line.179">      counts[index] = oldCount - occurrences;</a>
+<span class="sourceLineNo">180</span><a id="line.180">      size -= occurrences;</a>
+<span class="sourceLineNo">181</span><a id="line.181">    }</a>
+<span class="sourceLineNo">182</span><a id="line.182">    return oldCount;</a>
+<span class="sourceLineNo">183</span><a id="line.183">  }</a>
+<span class="sourceLineNo">184</span><a id="line.184"></a>
+<span class="sourceLineNo">185</span><a id="line.185">  // Modification Operations</a>
+<span class="sourceLineNo">186</span><a id="line.186">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">187</span><a id="line.187">  @Override</a>
+<span class="sourceLineNo">188</span><a id="line.188">  public int setCount(E element, int count) {</a>
+<span class="sourceLineNo">189</span><a id="line.189">    checkIsE(element);</a>
+<span class="sourceLineNo">190</span><a id="line.190">    checkNonnegative(count, "count");</a>
+<span class="sourceLineNo">191</span><a id="line.191">    int index = element.ordinal();</a>
+<span class="sourceLineNo">192</span><a id="line.192">    int oldCount = counts[index];</a>
+<span class="sourceLineNo">193</span><a id="line.193">    counts[index] = count;</a>
+<span class="sourceLineNo">194</span><a id="line.194">    size += count - oldCount;</a>
+<span class="sourceLineNo">195</span><a id="line.195">    if (oldCount == 0 &amp;&amp; count &gt; 0) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">      distinctElements++;</a>
+<span class="sourceLineNo">197</span><a id="line.197">    } else if (oldCount &gt; 0 &amp;&amp; count == 0) {</a>
+<span class="sourceLineNo">198</span><a id="line.198">      distinctElements--;</a>
+<span class="sourceLineNo">199</span><a id="line.199">    }</a>
+<span class="sourceLineNo">200</span><a id="line.200">    return oldCount;</a>
+<span class="sourceLineNo">201</span><a id="line.201">  }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">  @Override</a>
+<span class="sourceLineNo">204</span><a id="line.204">  public void clear() {</a>
+<span class="sourceLineNo">205</span><a id="line.205">    Arrays.fill(counts, 0);</a>
+<span class="sourceLineNo">206</span><a id="line.206">    size = 0;</a>
+<span class="sourceLineNo">207</span><a id="line.207">    distinctElements = 0;</a>
+<span class="sourceLineNo">208</span><a id="line.208">  }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">  abstract class Itr&lt;T&gt; implements Iterator&lt;T&gt; {</a>
+<span class="sourceLineNo">211</span><a id="line.211">    int index = 0;</a>
+<span class="sourceLineNo">212</span><a id="line.212">    int toRemove = -1;</a>
+<span class="sourceLineNo">213</span><a id="line.213"></a>
+<span class="sourceLineNo">214</span><a id="line.214">    abstract T output(int index);</a>
+<span class="sourceLineNo">215</span><a id="line.215"></a>
+<span class="sourceLineNo">216</span><a id="line.216">    @Override</a>
+<span class="sourceLineNo">217</span><a id="line.217">    public boolean hasNext() {</a>
+<span class="sourceLineNo">218</span><a id="line.218">      for (; index &lt; enumConstants.length; index++) {</a>
+<span class="sourceLineNo">219</span><a id="line.219">        if (counts[index] &gt; 0) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">          return true;</a>
+<span class="sourceLineNo">221</span><a id="line.221">        }</a>
+<span class="sourceLineNo">222</span><a id="line.222">      }</a>
+<span class="sourceLineNo">223</span><a id="line.223">      return false;</a>
+<span class="sourceLineNo">224</span><a id="line.224">    }</a>
+<span class="sourceLineNo">225</span><a id="line.225"></a>
+<span class="sourceLineNo">226</span><a id="line.226">    @Override</a>
+<span class="sourceLineNo">227</span><a id="line.227">    public T next() {</a>
+<span class="sourceLineNo">228</span><a id="line.228">      if (!hasNext()) {</a>
+<span class="sourceLineNo">229</span><a id="line.229">        throw new NoSuchElementException();</a>
+<span class="sourceLineNo">230</span><a id="line.230">      }</a>
+<span class="sourceLineNo">231</span><a id="line.231">      T result = output(index);</a>
+<span class="sourceLineNo">232</span><a id="line.232">      toRemove = index;</a>
+<span class="sourceLineNo">233</span><a id="line.233">      index++;</a>
+<span class="sourceLineNo">234</span><a id="line.234">      return result;</a>
+<span class="sourceLineNo">235</span><a id="line.235">    }</a>
+<span class="sourceLineNo">236</span><a id="line.236"></a>
+<span class="sourceLineNo">237</span><a id="line.237">    @Override</a>
+<span class="sourceLineNo">238</span><a id="line.238">    public void remove() {</a>
+<span class="sourceLineNo">239</span><a id="line.239">      checkRemove(toRemove &gt;= 0);</a>
+<span class="sourceLineNo">240</span><a id="line.240">      if (counts[toRemove] &gt; 0) {</a>
+<span class="sourceLineNo">241</span><a id="line.241">        distinctElements--;</a>
+<span class="sourceLineNo">242</span><a id="line.242">        size -= counts[toRemove];</a>
+<span class="sourceLineNo">243</span><a id="line.243">        counts[toRemove] = 0;</a>
+<span class="sourceLineNo">244</span><a id="line.244">      }</a>
+<span class="sourceLineNo">245</span><a id="line.245">      toRemove = -1;</a>
+<span class="sourceLineNo">246</span><a id="line.246">    }</a>
+<span class="sourceLineNo">247</span><a id="line.247">  }</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">  @Override</a>
+<span class="sourceLineNo">250</span><a id="line.250">  Iterator&lt;E&gt; elementIterator() {</a>
+<span class="sourceLineNo">251</span><a id="line.251">    return new Itr&lt;E&gt;() {</a>
+<span class="sourceLineNo">252</span><a id="line.252">      @Override</a>
+<span class="sourceLineNo">253</span><a id="line.253">      E output(int index) {</a>
+<span class="sourceLineNo">254</span><a id="line.254">        return enumConstants[index];</a>
+<span class="sourceLineNo">255</span><a id="line.255">      }</a>
+<span class="sourceLineNo">256</span><a id="line.256">    };</a>
+<span class="sourceLineNo">257</span><a id="line.257">  }</a>
+<span class="sourceLineNo">258</span><a id="line.258"></a>
+<span class="sourceLineNo">259</span><a id="line.259">  @Override</a>
+<span class="sourceLineNo">260</span><a id="line.260">  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">261</span><a id="line.261">    return new Itr&lt;Entry&lt;E&gt;&gt;() {</a>
+<span class="sourceLineNo">262</span><a id="line.262">      @Override</a>
+<span class="sourceLineNo">263</span><a id="line.263">      Entry&lt;E&gt; output(final int index) {</a>
+<span class="sourceLineNo">264</span><a id="line.264">        return new Multisets.AbstractEntry&lt;E&gt;() {</a>
+<span class="sourceLineNo">265</span><a id="line.265">          @Override</a>
+<span class="sourceLineNo">266</span><a id="line.266">          public E getElement() {</a>
+<span class="sourceLineNo">267</span><a id="line.267">            return enumConstants[index];</a>
+<span class="sourceLineNo">268</span><a id="line.268">          }</a>
+<span class="sourceLineNo">269</span><a id="line.269"></a>
+<span class="sourceLineNo">270</span><a id="line.270">          @Override</a>
+<span class="sourceLineNo">271</span><a id="line.271">          public int getCount() {</a>
+<span class="sourceLineNo">272</span><a id="line.272">            return counts[index];</a>
+<span class="sourceLineNo">273</span><a id="line.273">          }</a>
+<span class="sourceLineNo">274</span><a id="line.274">        };</a>
+<span class="sourceLineNo">275</span><a id="line.275">      }</a>
+<span class="sourceLineNo">276</span><a id="line.276">    };</a>
+<span class="sourceLineNo">277</span><a id="line.277">  }</a>
+<span class="sourceLineNo">278</span><a id="line.278"></a>
+<span class="sourceLineNo">279</span><a id="line.279">  @Override</a>
+<span class="sourceLineNo">280</span><a id="line.280">  public Iterator&lt;E&gt; iterator() {</a>
+<span class="sourceLineNo">281</span><a id="line.281">    return Multisets.iteratorImpl(this);</a>
+<span class="sourceLineNo">282</span><a id="line.282">  }</a>
+<span class="sourceLineNo">283</span><a id="line.283"></a>
+<span class="sourceLineNo">284</span><a id="line.284">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">285</span><a id="line.285">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">286</span><a id="line.286">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">287</span><a id="line.287">    stream.writeObject(type);</a>
+<span class="sourceLineNo">288</span><a id="line.288">    Serialization.writeMultiset(this, stream);</a>
+<span class="sourceLineNo">289</span><a id="line.289">  }</a>
+<span class="sourceLineNo">290</span><a id="line.290"></a>
+<span class="sourceLineNo">291</span><a id="line.291">  /**</a>
+<span class="sourceLineNo">292</span><a id="line.292">   * @serialData the {@code Class&lt;E&gt;} for the enum type, the number of distinct elements, the first</a>
+<span class="sourceLineNo">293</span><a id="line.293">   *     element, its count, the second element, its count, and so on</a>
+<span class="sourceLineNo">294</span><a id="line.294">   */</a>
+<span class="sourceLineNo">295</span><a id="line.295">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">296</span><a id="line.296">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">297</span><a id="line.297">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">298</span><a id="line.298">    @SuppressWarnings("unchecked") // reading data stored by writeObject</a>
+<span class="sourceLineNo">299</span><a id="line.299">    Class&lt;E&gt; localType = (Class&lt;E&gt;) stream.readObject();</a>
+<span class="sourceLineNo">300</span><a id="line.300">    type = localType;</a>
+<span class="sourceLineNo">301</span><a id="line.301">    enumConstants = type.getEnumConstants();</a>
+<span class="sourceLineNo">302</span><a id="line.302">    counts = new int[enumConstants.length];</a>
+<span class="sourceLineNo">303</span><a id="line.303">    Serialization.populateMultiset(this, stream);</a>
+<span class="sourceLineNo">304</span><a id="line.304">  }</a>
+<span class="sourceLineNo">305</span><a id="line.305"></a>
+<span class="sourceLineNo">306</span><a id="line.306">  @GwtIncompatible // Not needed in emulated source</a>
+<span class="sourceLineNo">307</span><a id="line.307">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">308</span><a id="line.308">}</a>
 
 
 

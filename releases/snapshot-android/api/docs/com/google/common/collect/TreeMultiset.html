@@ -141,7 +141,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.59">TreeMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.58">TreeMultiset</a>&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
 <div class="block">A multiset which maintains the ordering of its elements, according to either their natural order
@@ -151,8 +151,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
  <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Comparable</code></a> class specification. Otherwise, the resulting multiset will violate the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> contract, which is specified in terms of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>.
 
- <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> <code>
- Multiset</code></a>.</div>
+ <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"><code>Multiset</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -514,7 +513,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.76">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.75">create</a>()</pre>
 <div class="block">Creates a new, empty multiset, sorted according to the elements' natural order. All elements
  inserted into the multiset must implement the <code>Comparable</code> interface. Furthermore, all
  such elements must be <i>mutually comparable</i>: <code>e1.compareTo(e2)</code> must not throw a
@@ -533,7 +532,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.91">create</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.90">create</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
@@ -554,7 +553,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.108">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;&nbsp;<a href="TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.107">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates an empty multiset containing the given initial elements, sorted according to the
  elements' natural order.
 
@@ -570,7 +569,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.227">size</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.226">size</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">java.util.Collection</a></code></span></div>
 <div class="block">Returns the number of elements in this collection.  If this collection
  contains more than <code>Integer.MAX_VALUE</code> elements, returns
@@ -593,7 +592,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.241">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.240">count</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#count(java.lang.Object)">Multiset</a></code></span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
@@ -623,7 +622,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.256">add</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.255">add</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#add(E,int)">Multiset</a></code></span></div>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
@@ -651,7 +650,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.278">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.277">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element,
                   int&nbsp;occurrences)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#remove(java.lang.Object,int)">Multiset</a></code></span></div>
@@ -680,7 +679,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.302">setCount</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.301">setCount</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                     int&nbsp;count)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#setCount(E,int)">Multiset</a></code></span></div>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
@@ -706,7 +705,7 @@ public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Tre
 <li class="blockList">
 <h4>setCount</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.324">setCount</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.323">setCount</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                         int&nbsp;oldCount,
                         int&nbsp;newCount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Multiset.html#setCount(E,int,int)">Multiset</a></code></span></div>
@@ -732,7 +731,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.348">clear</a>()</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.347">clear</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Removes all of the elements from this collection (optional operation).
  The collection will be empty after this method returns.</div>
@@ -748,7 +747,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.533">iterator</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.532">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a></code></span></div>
 <div class="block">Returns an iterator over the elements contained in this collection.</div>
 <dl>
@@ -775,7 +774,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.538">headMultiset</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;upperBound,
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.537">headMultiset</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;upperBound,
                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements less than <code>upperBound</code>,
@@ -799,7 +798,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.546">tailMultiset</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;lowerBound,
+<pre class="methodSignature">public&nbsp;<a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.545">tailMultiset</a>&#8203;(<a href="TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;lowerBound,
                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements greater than <code>lowerBound</code>,
