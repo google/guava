@@ -156,7 +156,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <h3>See also</h3>
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @since 2.0
  */
