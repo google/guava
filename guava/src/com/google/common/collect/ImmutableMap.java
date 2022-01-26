@@ -976,13 +976,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * pass a literal "null" should probably just use `get`, but I would expect other callers to
      * pass an expression that *might* be null. This could happen with:
      *
-     * - a `getFooOrDefault(@Nullable Foo defaultValue)` method that returns
+     * - a `getFooOrDefault(@CheckForNull Foo defaultValue)` method that returns
      *   `map.getOrDefault(FOO_KEY, defaultValue)`
      *
      * - a call that consults a chain of maps, as in `mapA.getOrDefault(key, mapB.getOrDefault(key,
      *   ...))`
      *
-     * So it make sense for the parameter (and thus the return type) to be @Nullable.
+     * So it makes sense for the parameter (and thus the return type) to be @CheckForNull.
      *
      * Two other points:
      *
