@@ -842,13 +842,13 @@
 <span class="sourceLineNo">833</span><a id="line.833">     * pass a literal "null" should probably just use `get`, but I would expect other callers to</a>
 <span class="sourceLineNo">834</span><a id="line.834">     * pass an expression that *might* be null. This could happen with:</a>
 <span class="sourceLineNo">835</span><a id="line.835">     *</a>
-<span class="sourceLineNo">836</span><a id="line.836">     * - a `getFooOrDefault(@Nullable Foo defaultValue)` method that returns</a>
+<span class="sourceLineNo">836</span><a id="line.836">     * - a `getFooOrDefault(@CheckForNull Foo defaultValue)` method that returns</a>
 <span class="sourceLineNo">837</span><a id="line.837">     *   `map.getOrDefault(FOO_KEY, defaultValue)`</a>
 <span class="sourceLineNo">838</span><a id="line.838">     *</a>
 <span class="sourceLineNo">839</span><a id="line.839">     * - a call that consults a chain of maps, as in `mapA.getOrDefault(key, mapB.getOrDefault(key,</a>
 <span class="sourceLineNo">840</span><a id="line.840">     *   ...))`</a>
 <span class="sourceLineNo">841</span><a id="line.841">     *</a>
-<span class="sourceLineNo">842</span><a id="line.842">     * So it make sense for the parameter (and thus the return type) to be @Nullable.</a>
+<span class="sourceLineNo">842</span><a id="line.842">     * So it makes sense for the parameter (and thus the return type) to be @CheckForNull.</a>
 <span class="sourceLineNo">843</span><a id="line.843">     *</a>
 <span class="sourceLineNo">844</span><a id="line.844">     * Two other points:</a>
 <span class="sourceLineNo">845</span><a id="line.845">     *</a>
