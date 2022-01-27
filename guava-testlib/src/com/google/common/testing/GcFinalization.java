@@ -221,12 +221,13 @@ public final class GcFinalization {
    * separate method to make it somewhat more likely to be unreachable.
    */
   private static void createUnreachableLatchFinalizer(CountDownLatch latch) {
-    new Object() {
-      @Override
-      protected void finalize() {
-        latch.countDown();
-      }
-    };
+    Object unused =
+        new Object() {
+          @Override
+          protected void finalize() {
+            latch.countDown();
+          }
+        };
   }
 
   /**
