@@ -323,6 +323,7 @@ public class ImmutableBiMapTest extends TestCase {
       }
     }
 
+    @SuppressWarnings("AlwaysThrows")
     public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
       Builder<String, Integer> builder =
           new Builder<String, Integer>()
@@ -556,6 +557,7 @@ public class ImmutableBiMapTest extends TestCase {
       }
     }
 
+    @SuppressWarnings("AlwaysThrows")
     public void testOfWithDuplicateKey() {
       try {
         ImmutableBiMap.of("one", 1, "one", 1);
