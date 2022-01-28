@@ -44,7 +44,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Provides static methods that involve a {@code Table}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"> {@code Tables}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables">{@code Tables}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman

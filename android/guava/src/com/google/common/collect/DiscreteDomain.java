@@ -37,7 +37,7 @@ import javax.annotation.CheckForNull;
  * represent partial domains such as "prime integers" or "strings of length 5."
  *
  * <p>See the Guava User Guide section on <a href=
- * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains"> {@code
+ * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">{@code
  * DiscreteDomain}</a>.
  *
  * @author Kevin Bourrillion

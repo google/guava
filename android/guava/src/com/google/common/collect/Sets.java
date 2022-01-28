@@ -57,7 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets"> {@code Sets}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">{@code Sets}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy

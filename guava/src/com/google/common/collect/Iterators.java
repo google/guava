@@ -60,7 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * necessary.
  *
  * <p>See the Guava User Guide section on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">{@code
  * Iterators}</a>.
  *
  * @author Kevin Bourrillion

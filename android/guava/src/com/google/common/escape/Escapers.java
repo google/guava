@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
@@ -31,7 +30,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public final class Escapers {
@@ -93,7 +91,6 @@ public final class Escapers {
    * @author David Beaumont
    * @since 15.0
    */
-  @Beta
   public static final class Builder {
     private final Map<Character, String> replacementMap = new HashMap<>();
     private char safeMin = Character.MIN_VALUE;

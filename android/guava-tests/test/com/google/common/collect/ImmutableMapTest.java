@@ -70,6 +70,7 @@ import junit.framework.TestSuite;
  * @author Jesse Wilson
  */
 @GwtCompatible(emulated = true)
+@SuppressWarnings("AlwaysThrows")
 public class ImmutableMapTest extends TestCase {
 
   @GwtIncompatible // suite

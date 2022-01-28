@@ -63,7 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Provides static methods acting on or generating a {@code Multimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps"> {@code
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">{@code
  * Multimaps}</a>.
  *
  * @author Jared Levy

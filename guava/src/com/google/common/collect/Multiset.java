@@ -80,8 +80,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@code Multiset}, {@code AtomicLongMap} does not automatically remove zeros.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

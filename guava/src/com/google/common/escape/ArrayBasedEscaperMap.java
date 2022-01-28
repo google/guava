@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import java.util.Map;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public final class ArrayBasedEscaperMap {

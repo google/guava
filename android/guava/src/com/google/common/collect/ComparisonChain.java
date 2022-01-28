@@ -49,7 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * the presence of expensive {@code compareTo} and {@code compare} implementations.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"> {@code
+ * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  * ComparisonChain}</a>.
  *
  * @author Mark Davis
