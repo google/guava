@@ -144,6 +144,18 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(b)).isAtLeast(Duration.ofMillis(353));
   }
 
+  public void testServiceStopDurations() {
+    Service a = new NoOpDelayedService(150);
+    Service b = new NoOpDelayedService(353);
+    ServiceManager serviceManager = new ServiceManager(asList(a, b));
+    serviceManager.startAsync().awaitHealthy();
+    serviceManager.stopAsync().awaitStopped();
+    ImmutableMap<Service, Duration> stopDurations = serviceManager.stopDurations();
+    assertThat(stopDurations).hasSize(2);
+    assertThat(stopDurations.get(a)).isAtLeast(Duration.ofMillis(150));
+    assertThat(stopDurations.get(b)).isAtLeast(Duration.ofMillis(353));
+  }
+
 
   public void testServiceStartupTimes_selfStartingServices() {
     // This tests to ensure that:
