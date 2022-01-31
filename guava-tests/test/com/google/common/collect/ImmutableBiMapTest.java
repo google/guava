@@ -673,7 +673,7 @@ public class ImmutableBiMapTest extends TestCase {
                   .put("three", 3)
                   .put("four", 4)
                   .put("five", 5)
-                  .build());
+                  .buildOrThrow());
       assertMapEquals(bimap, "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
       assertMapEquals(bimap.inverse(), 1, "one", 2, "two", 3, "three", 4, "four", 5, "five");
     }
@@ -685,7 +685,7 @@ public class ImmutableBiMapTest extends TestCase {
               .put("two", 2)
               .put("uno", 1)
               .put("dos", 2)
-              .build();
+              .buildOrThrow();
 
       try {
         ImmutableBiMap.copyOf(map);

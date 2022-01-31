@@ -301,7 +301,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       }
     }
 
-    return new ImmutableListMultimap<>(builder.build(), size);
+    return new ImmutableListMultimap<>(builder.buildOrThrow(), size);
   }
 
   ImmutableListMultimap(ImmutableMap<K, ImmutableList<V>> map, int size) {
@@ -414,7 +414,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
 
     ImmutableMap<Object, ImmutableList<Object>> tmpMap;
     try {
-      tmpMap = builder.build();
+      tmpMap = builder.buildOrThrow();
     } catch (IllegalArgumentException e) {
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }

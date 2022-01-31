@@ -1092,7 +1092,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         builder.put(keyIter.next(), valueIter.next());
       }
 
-      return builder.build();
+      return builder.buildOrThrow();
     }
 
     @SuppressWarnings("unchecked")
@@ -1105,7 +1105,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       for (int i = 0; i < keys.length; i++) {
         builder.put(keys[i], values[i]);
       }
-      return builder.build();
+      return builder.buildOrThrow();
     }
 
     /**

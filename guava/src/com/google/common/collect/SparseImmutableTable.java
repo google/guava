@@ -82,14 +82,14 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     for (Entry<R, Map<C, V>> row : rows.entrySet()) {
       rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
     }
-    this.rowMap = rowBuilder.build();
+    this.rowMap = rowBuilder.buildOrThrow();
 
     ImmutableMap.Builder<C, ImmutableMap<R, V>> columnBuilder =
         new ImmutableMap.Builder<>(columns.size());
     for (Entry<C, Map<R, V>> col : columns.entrySet()) {
       columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
     }
-    this.columnMap = columnBuilder.build();
+    this.columnMap = columnBuilder.buildOrThrow();
   }
 
   @Override
