@@ -137,7 +137,7 @@ class FreshValueGenerator {
         builder.put(method.getReturnType(), method);
       }
     }
-    GENERATORS = builder.build();
+    GENERATORS = builder.buildOrThrow();
   }
 
   private static final ImmutableMap<Class<?>, Method> EMPTY_GENERATORS;
@@ -149,7 +149,7 @@ class FreshValueGenerator {
         builder.put(method.getReturnType(), method);
       }
     }
-    EMPTY_GENERATORS = builder.build();
+    EMPTY_GENERATORS = builder.buildOrThrow();
   }
 
   private final AtomicInteger freshness = new AtomicInteger(1);

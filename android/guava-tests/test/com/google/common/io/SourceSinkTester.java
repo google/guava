@@ -69,7 +69,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
           .put("\\n at EOF", "hello\nworld\n")
           .put("\\r at EOF", "hello\nworld\r")
           .put("lorem ipsum", LOREM_IPSUM)
-          .build();
+          .buildOrThrow();
 
   protected final F factory;
   protected final T data;
