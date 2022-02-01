@@ -557,7 +557,7 @@ public class QuantilesTest extends TestCase {
         }
         assertThat(percentiles().indexes(index1, index2).compute(PSEUDORANDOM_DATASET))
             .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-            .containsExactlyEntriesIn(expectedBuilder.build());
+            .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
       }
     }
   }
@@ -573,7 +573,7 @@ public class QuantilesTest extends TestCase {
     Collections.shuffle(indexes, random);
     assertThat(percentiles().indexes(Ints.toArray(indexes)).compute(PSEUDORANDOM_DATASET))
         .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-        .containsExactlyEntriesIn(expectedBuilder.build());
+        .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
   }
 
   @AndroidIncompatible // slow
@@ -589,7 +589,7 @@ public class QuantilesTest extends TestCase {
     Collections.shuffle(indexes, random);
     assertThat(percentiles().indexes(Ints.toArray(indexes)).computeInPlace(dataset))
         .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-        .containsExactlyEntriesIn(expectedBuilder.build());
+        .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
     assertThat(dataset).usingExactEquality().containsExactlyElementsIn(PSEUDORANDOM_DATASET);
   }
 

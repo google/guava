@@ -53,7 +53,7 @@ enum QuantilesAlgorithm {
       for (int index : indexes) {
         builder.put(index, singleQuantileFromSorted(index, scale, dataset));
       }
-      return builder.build();
+      return builder.buildOrThrow();
     }
 
     private double singleQuantileFromSorted(int index, int scale, double[] dataset) {
@@ -97,7 +97,7 @@ enum QuantilesAlgorithm {
       for (int index : indexes) {
         builder.put(index, singleQuantile(index, scale, dataset));
       }
-      return builder.build();
+      return builder.buildOrThrow();
     }
   },
 

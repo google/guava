@@ -87,7 +87,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   private static <N, V> GraphConnections<N, V> connectionsOf(ValueGraph<N, V> graph, N node) {

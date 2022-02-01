@@ -36,7 +36,7 @@ final class TrieParser {
     while (idx < encodedLen) {
       idx += doParseTrieToBuilder(Queues.<CharSequence>newArrayDeque(), encoded, idx, builder);
     }
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**

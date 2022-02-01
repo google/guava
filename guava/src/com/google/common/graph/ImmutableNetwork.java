@@ -84,7 +84,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
     for (N node : network.nodes()) {
       nodeConnections.put(node, connectionsOf(network, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   private static <N, E> Map<E, N> getEdgeToReferenceNode(Network<N, E> network) {
@@ -95,7 +95,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
     for (E edge : network.edges()) {
       edgeToReferenceNode.put(edge, network.incidentNodes(edge).nodeU());
     }
-    return edgeToReferenceNode.build();
+    return edgeToReferenceNode.buildOrThrow();
   }
 
   private static <N, E> NetworkConnections<N, E> connectionsOf(Network<N, E> network, N node) {
