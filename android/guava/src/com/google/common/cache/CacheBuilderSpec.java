@@ -108,7 +108,7 @@ public final class CacheBuilderSpec {
           .put("expireAfterWrite", new WriteDurationParser())
           .put("refreshAfterWrite", new RefreshDurationParser())
           .put("refreshInterval", new RefreshDurationParser())
-          .build();
+          .buildOrThrow();
 
   @VisibleForTesting @CheckForNull Integer initialCapacity;
   @VisibleForTesting @CheckForNull Long maximumSize;

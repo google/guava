@@ -372,7 +372,7 @@ final class Types {
           builder.put(method.getName(), method);
         }
       }
-      typeVariableMethods = builder.build();
+      typeVariableMethods = builder.buildKeepingLast();
     }
 
     private final TypeVariableImpl<?> typeVariableImpl;

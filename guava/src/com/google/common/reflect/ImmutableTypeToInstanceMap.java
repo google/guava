@@ -90,7 +90,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableTypeToInstanceMap<B> build() {
-      return new ImmutableTypeToInstanceMap<>(mapBuilder.build());
+      return new ImmutableTypeToInstanceMap<>(mapBuilder.buildOrThrow());
     }
   }
 
