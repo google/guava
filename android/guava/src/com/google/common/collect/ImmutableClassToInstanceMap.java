@@ -131,7 +131,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableClassToInstanceMap<B> build() {
-      ImmutableMap<Class<? extends B>, B> map = mapBuilder.build();
+      ImmutableMap<Class<? extends B>, B> map = mapBuilder.buildOrThrow();
       if (map.isEmpty()) {
         return of();
       } else {

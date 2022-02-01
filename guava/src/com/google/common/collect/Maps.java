@@ -1379,7 +1379,7 @@ public final class Maps {
       builder.put(keyFunction.apply(value), value);
     }
     try {
-      return builder.build();
+      return builder.buildOrThrow();
     } catch (IllegalArgumentException duplicateKeys) {
       throw new IllegalArgumentException(
           duplicateKeys.getMessage()
@@ -1432,7 +1432,7 @@ public final class Maps {
       builder.put(key, requireNonNull(properties.getProperty(key)));
     }
 
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**
@@ -4572,7 +4572,7 @@ public final class Maps {
     for (E e : list) {
       builder.put(e, i++);
     }
-    return builder.build();
+    return builder.buildOrThrow();
   }
 
   /**
