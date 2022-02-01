@@ -294,7 +294,7 @@ public final class TypeResolver {
         checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);
         builder.put(variable, type);
       }
-      return new TypeTable(builder.build());
+      return new TypeTable(builder.buildOrThrow());
     }
 
     final Type resolve(TypeVariable<?> var) {
