@@ -93,7 +93,7 @@
 <span class="sourceLineNo">084</span><a id="line.84">    for (N node : network.nodes()) {</a>
 <span class="sourceLineNo">085</span><a id="line.85">      nodeConnections.put(node, connectionsOf(network, node));</a>
 <span class="sourceLineNo">086</span><a id="line.86">    }</a>
-<span class="sourceLineNo">087</span><a id="line.87">    return nodeConnections.build();</a>
+<span class="sourceLineNo">087</span><a id="line.87">    return nodeConnections.buildOrThrow();</a>
 <span class="sourceLineNo">088</span><a id="line.88">  }</a>
 <span class="sourceLineNo">089</span><a id="line.89"></a>
 <span class="sourceLineNo">090</span><a id="line.90">  private static &lt;N, E&gt; Map&lt;E, N&gt; getEdgeToReferenceNode(Network&lt;N, E&gt; network) {</a>
@@ -104,7 +104,7 @@
 <span class="sourceLineNo">095</span><a id="line.95">    for (E edge : network.edges()) {</a>
 <span class="sourceLineNo">096</span><a id="line.96">      edgeToReferenceNode.put(edge, network.incidentNodes(edge).nodeU());</a>
 <span class="sourceLineNo">097</span><a id="line.97">    }</a>
-<span class="sourceLineNo">098</span><a id="line.98">    return edgeToReferenceNode.build();</a>
+<span class="sourceLineNo">098</span><a id="line.98">    return edgeToReferenceNode.buildOrThrow();</a>
 <span class="sourceLineNo">099</span><a id="line.99">  }</a>
 <span class="sourceLineNo">100</span><a id="line.100"></a>
 <span class="sourceLineNo">101</span><a id="line.101">  private static &lt;N, E&gt; NetworkConnections&lt;N, E&gt; connectionsOf(Network&lt;N, E&gt; network, N node) {</a>

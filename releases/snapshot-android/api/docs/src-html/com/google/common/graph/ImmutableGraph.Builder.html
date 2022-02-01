@@ -96,7 +96,7 @@
 <span class="sourceLineNo">087</span><a id="line.87">    for (N node : graph.nodes()) {</a>
 <span class="sourceLineNo">088</span><a id="line.88">      nodeConnections.put(node, connectionsOf(graph, node));</a>
 <span class="sourceLineNo">089</span><a id="line.89">    }</a>
-<span class="sourceLineNo">090</span><a id="line.90">    return nodeConnections.build();</a>
+<span class="sourceLineNo">090</span><a id="line.90">    return nodeConnections.buildOrThrow();</a>
 <span class="sourceLineNo">091</span><a id="line.91">  }</a>
 <span class="sourceLineNo">092</span><a id="line.92"></a>
 <span class="sourceLineNo">093</span><a id="line.93">  @SuppressWarnings("unchecked")</a>
