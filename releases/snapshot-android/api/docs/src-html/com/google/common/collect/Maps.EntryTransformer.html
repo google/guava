@@ -1312,7 +1312,7 @@
 <span class="sourceLineNo">1303</span><a id="line.1303">      builder.put(keyFunction.apply(value), value);</a>
 <span class="sourceLineNo">1304</span><a id="line.1304">    }</a>
 <span class="sourceLineNo">1305</span><a id="line.1305">    try {</a>
-<span class="sourceLineNo">1306</span><a id="line.1306">      return builder.build();</a>
+<span class="sourceLineNo">1306</span><a id="line.1306">      return builder.buildOrThrow();</a>
 <span class="sourceLineNo">1307</span><a id="line.1307">    } catch (IllegalArgumentException duplicateKeys) {</a>
 <span class="sourceLineNo">1308</span><a id="line.1308">      throw new IllegalArgumentException(</a>
 <span class="sourceLineNo">1309</span><a id="line.1309">          duplicateKeys.getMessage()</a>
@@ -1365,7 +1365,7 @@
 <span class="sourceLineNo">1356</span><a id="line.1356">      builder.put(key, requireNonNull(properties.getProperty(key)));</a>
 <span class="sourceLineNo">1357</span><a id="line.1357">    }</a>
 <span class="sourceLineNo">1358</span><a id="line.1358"></a>
-<span class="sourceLineNo">1359</span><a id="line.1359">    return builder.build();</a>
+<span class="sourceLineNo">1359</span><a id="line.1359">    return builder.buildOrThrow();</a>
 <span class="sourceLineNo">1360</span><a id="line.1360">  }</a>
 <span class="sourceLineNo">1361</span><a id="line.1361"></a>
 <span class="sourceLineNo">1362</span><a id="line.1362">  /**</a>
@@ -4346,7 +4346,7 @@
 <span class="sourceLineNo">4337</span><a id="line.4337">    for (E e : list) {</a>
 <span class="sourceLineNo">4338</span><a id="line.4338">      builder.put(e, i++);</a>
 <span class="sourceLineNo">4339</span><a id="line.4339">    }</a>
-<span class="sourceLineNo">4340</span><a id="line.4340">    return builder.build();</a>
+<span class="sourceLineNo">4340</span><a id="line.4340">    return builder.buildOrThrow();</a>
 <span class="sourceLineNo">4341</span><a id="line.4341">  }</a>
 <span class="sourceLineNo">4342</span><a id="line.4342"></a>
 <span class="sourceLineNo">4343</span><a id="line.4343">  /**</a>

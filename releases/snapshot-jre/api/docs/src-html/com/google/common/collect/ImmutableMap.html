@@ -1248,7 +1248,7 @@
 <span class="sourceLineNo">1239</span><a id="line.1239">        builder.put(keyIter.next(), valueIter.next());</a>
 <span class="sourceLineNo">1240</span><a id="line.1240">      }</a>
 <span class="sourceLineNo">1241</span><a id="line.1241"></a>
-<span class="sourceLineNo">1242</span><a id="line.1242">      return builder.build();</a>
+<span class="sourceLineNo">1242</span><a id="line.1242">      return builder.buildOrThrow();</a>
 <span class="sourceLineNo">1243</span><a id="line.1243">    }</a>
 <span class="sourceLineNo">1244</span><a id="line.1244"></a>
 <span class="sourceLineNo">1245</span><a id="line.1245">    @SuppressWarnings("unchecked")</a>
@@ -1261,7 +1261,7 @@
 <span class="sourceLineNo">1252</span><a id="line.1252">      for (int i = 0; i &lt; keys.length; i++) {</a>
 <span class="sourceLineNo">1253</span><a id="line.1253">        builder.put(keys[i], values[i]);</a>
 <span class="sourceLineNo">1254</span><a id="line.1254">      }</a>
-<span class="sourceLineNo">1255</span><a id="line.1255">      return builder.build();</a>
+<span class="sourceLineNo">1255</span><a id="line.1255">      return builder.buildOrThrow();</a>
 <span class="sourceLineNo">1256</span><a id="line.1256">    }</a>
 <span class="sourceLineNo">1257</span><a id="line.1257"></a>
 <span class="sourceLineNo">1258</span><a id="line.1258">    /**</a>

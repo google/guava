@@ -310,7 +310,7 @@
 <span class="sourceLineNo">301</span><a id="line.301">      }</a>
 <span class="sourceLineNo">302</span><a id="line.302">    }</a>
 <span class="sourceLineNo">303</span><a id="line.303"></a>
-<span class="sourceLineNo">304</span><a id="line.304">    return new ImmutableListMultimap&lt;&gt;(builder.build(), size);</a>
+<span class="sourceLineNo">304</span><a id="line.304">    return new ImmutableListMultimap&lt;&gt;(builder.buildOrThrow(), size);</a>
 <span class="sourceLineNo">305</span><a id="line.305">  }</a>
 <span class="sourceLineNo">306</span><a id="line.306"></a>
 <span class="sourceLineNo">307</span><a id="line.307">  ImmutableListMultimap(ImmutableMap&lt;K, ImmutableList&lt;V&gt;&gt; map, int size) {</a>
@@ -423,7 +423,7 @@
 <span class="sourceLineNo">414</span><a id="line.414"></a>
 <span class="sourceLineNo">415</span><a id="line.415">    ImmutableMap&lt;Object, ImmutableList&lt;Object&gt;&gt; tmpMap;</a>
 <span class="sourceLineNo">416</span><a id="line.416">    try {</a>
-<span class="sourceLineNo">417</span><a id="line.417">      tmpMap = builder.build();</a>
+<span class="sourceLineNo">417</span><a id="line.417">      tmpMap = builder.buildOrThrow();</a>
 <span class="sourceLineNo">418</span><a id="line.418">    } catch (IllegalArgumentException e) {</a>
 <span class="sourceLineNo">419</span><a id="line.419">      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);</a>
 <span class="sourceLineNo">420</span><a id="line.420">    }</a>

@@ -140,7 +140,7 @@
 <span class="sourceLineNo">131</span><a id="line.131">     * @throws IllegalArgumentException if duplicate keys were added</a>
 <span class="sourceLineNo">132</span><a id="line.132">     */</a>
 <span class="sourceLineNo">133</span><a id="line.133">    public ImmutableClassToInstanceMap&lt;B&gt; build() {</a>
-<span class="sourceLineNo">134</span><a id="line.134">      ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; map = mapBuilder.build();</a>
+<span class="sourceLineNo">134</span><a id="line.134">      ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; map = mapBuilder.buildOrThrow();</a>
 <span class="sourceLineNo">135</span><a id="line.135">      if (map.isEmpty()) {</a>
 <span class="sourceLineNo">136</span><a id="line.136">        return of();</a>
 <span class="sourceLineNo">137</span><a id="line.137">      } else {</a>

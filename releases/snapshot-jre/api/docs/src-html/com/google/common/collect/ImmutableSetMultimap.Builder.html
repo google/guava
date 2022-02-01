@@ -437,7 +437,7 @@
 <span class="sourceLineNo">428</span><a id="line.428">      }</a>
 <span class="sourceLineNo">429</span><a id="line.429">    }</a>
 <span class="sourceLineNo">430</span><a id="line.430"></a>
-<span class="sourceLineNo">431</span><a id="line.431">    return new ImmutableSetMultimap&lt;&gt;(builder.build(), size, valueComparator);</a>
+<span class="sourceLineNo">431</span><a id="line.431">    return new ImmutableSetMultimap&lt;&gt;(builder.buildOrThrow(), size, valueComparator);</a>
 <span class="sourceLineNo">432</span><a id="line.432">  }</a>
 <span class="sourceLineNo">433</span><a id="line.433"></a>
 <span class="sourceLineNo">434</span><a id="line.434">  /**</a>
@@ -643,7 +643,7 @@
 <span class="sourceLineNo">634</span><a id="line.634"></a>
 <span class="sourceLineNo">635</span><a id="line.635">    ImmutableMap&lt;Object, ImmutableSet&lt;Object&gt;&gt; tmpMap;</a>
 <span class="sourceLineNo">636</span><a id="line.636">    try {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      tmpMap = builder.build();</a>
+<span class="sourceLineNo">637</span><a id="line.637">      tmpMap = builder.buildOrThrow();</a>
 <span class="sourceLineNo">638</span><a id="line.638">    } catch (IllegalArgumentException e) {</a>
 <span class="sourceLineNo">639</span><a id="line.639">      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);</a>
 <span class="sourceLineNo">640</span><a id="line.640">    }</a>
