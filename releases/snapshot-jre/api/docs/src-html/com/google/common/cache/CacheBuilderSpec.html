@@ -117,7 +117,7 @@
 <span class="sourceLineNo">108</span><a id="line.108">          .put("expireAfterWrite", new WriteDurationParser())</a>
 <span class="sourceLineNo">109</span><a id="line.109">          .put("refreshAfterWrite", new RefreshDurationParser())</a>
 <span class="sourceLineNo">110</span><a id="line.110">          .put("refreshInterval", new RefreshDurationParser())</a>
-<span class="sourceLineNo">111</span><a id="line.111">          .build();</a>
+<span class="sourceLineNo">111</span><a id="line.111">          .buildOrThrow();</a>
 <span class="sourceLineNo">112</span><a id="line.112"></a>
 <span class="sourceLineNo">113</span><a id="line.113">  @VisibleForTesting @CheckForNull Integer initialCapacity;</a>
 <span class="sourceLineNo">114</span><a id="line.114">  @VisibleForTesting @CheckForNull Long maximumSize;</a>

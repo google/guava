@@ -303,7 +303,7 @@
 <span class="sourceLineNo">294</span><a id="line.294">        checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);</a>
 <span class="sourceLineNo">295</span><a id="line.295">        builder.put(variable, type);</a>
 <span class="sourceLineNo">296</span><a id="line.296">      }</a>
-<span class="sourceLineNo">297</span><a id="line.297">      return new TypeTable(builder.build());</a>
+<span class="sourceLineNo">297</span><a id="line.297">      return new TypeTable(builder.buildOrThrow());</a>
 <span class="sourceLineNo">298</span><a id="line.298">    }</a>
 <span class="sourceLineNo">299</span><a id="line.299"></a>
 <span class="sourceLineNo">300</span><a id="line.300">    final Type resolve(TypeVariable&lt;?&gt; var) {</a>

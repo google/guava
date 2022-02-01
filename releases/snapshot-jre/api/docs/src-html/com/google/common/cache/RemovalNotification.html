@@ -56,7 +56,7 @@
 <span class="sourceLineNo">047</span><a id="line.47">   */</a>
 <span class="sourceLineNo">048</span><a id="line.48">  public static &lt;K, V&gt; RemovalNotification&lt;K, V&gt; create(</a>
 <span class="sourceLineNo">049</span><a id="line.49">      @CheckForNull K key, @CheckForNull V value, RemovalCause cause) {</a>
-<span class="sourceLineNo">050</span><a id="line.50">    return new RemovalNotification(key, value, cause);</a>
+<span class="sourceLineNo">050</span><a id="line.50">    return new RemovalNotification&lt;&gt;(key, value, cause);</a>
 <span class="sourceLineNo">051</span><a id="line.51">  }</a>
 <span class="sourceLineNo">052</span><a id="line.52"></a>
 <span class="sourceLineNo">053</span><a id="line.53">  private RemovalNotification(@CheckForNull K key, @CheckForNull V value, RemovalCause cause) {</a>
