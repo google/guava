@@ -457,7 +457,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <ul class="blockList">
 <li class="blockList">
 <h4>directExecutor</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.424">directExecutor</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.434">directExecutor</a>()</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink"><code>execute</code></a>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.
 
  <p>This executor is appropriate for tasks that are lightweight and not deeply chained.
@@ -465,14 +465,22 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
  difficult to reproduce because they depend on timing. For example:
 
  <ul>
-   <li>A call like <code>future.transform(function, directExecutor())</code> may execute the function
-       immediately in the thread that is calling <code>transform</code>. (This specific case happens
-       if the future is already completed.) If <code>transform</code> call was made from a UI thread
-       or other latency-sensitive thread, a heavyweight function can harm responsiveness.
-   <li>If the task will be executed later, consider which thread will trigger the execution --
-       since that thread will execute the task inline. If the thread is a shared system thread
-       like an RPC network thread, a heavyweight task can stall progress of the whole system or
-       even deadlock it.
+   <li>When a <code>ListenableFuture</code> listener is registered to run under <code>
+       directExecutor</code>, the listener can execute in any of three possible threads:
+       <ol>
+         <li>When a thread attaches a listener to a <code>ListenableFuture</code> that's already
+             complete, the listener runs immediately in that thread.
+         <li>When a thread attaches a listener to a <code>ListenableFuture</code> that's
+             <em>in</em>complete and the <code>ListenableFuture</code> later completes normally, the
+             listener runs in the the thread that completes the <code>ListenableFuture</code>.
+         <li>When a listener is attached to a <code>ListenableFuture</code> and the <code>
+             ListenableFuture</code> gets cancelled, the listener runs immediately in the the thread
+             that cancelled the <code>Future</code>.
+       </ol>
+       Given all these possibilities, it is frequently possible for listeners to execute in UI
+       threads, RPC network threads, or other latency-sensitive threads. In those cases, slow
+       listeners can harm responsiveness, slow the system as a whole, or worse. (See also the
+       note about locking below.)
    <li>If many tasks will be triggered by the same event, one heavyweight task may delay other
        tasks -- even tasks that are not themselves <code>directExecutor</code> tasks.
    <li>If many such tasks are chained together (such as with <code>
@@ -487,9 +495,11 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
        terminate whichever thread happens to trigger the execution.
  </ul>
 
- Additionally, beware of executing tasks with <code>directExecutor</code> while holding a lock. Since
- the task you submit to the executor (or any other arbitrary work the executor does) may do slow
- work or acquire other locks, you risk deadlocks.
+ A specific warning about locking: Code that executes user-supplied tasks, such as <code>
+ ListenableFuture</code> listeners, should take care not to do so while holding a lock. Additionally,
+ as a further line of defense, prefer not to perform any locking inside a task that will be run
+ under <code>directExecutor</code>: Not only might the wait for a lock be long, but if the running
+ thread was holding a lock, the listener may deadlock or break lock isolation.
 
  <p>This instance is equivalent to:
 
@@ -516,7 +526,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <li class="blockList">
 <h4>newSequentialExecutor</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.472">newSequentialExecutor</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.482">newSequentialExecutor</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;delegate)</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
  are running concurrently.
 
@@ -569,7 +579,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.492">listeningDecorator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.502">listeningDecorator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as well
  as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>
@@ -594,7 +604,7 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.517">listeningDecorator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.527">listeningDecorator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ScheduledExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ScheduledExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as
  well as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>
@@ -621,7 +631,7 @@ public static&nbsp;<a href="ListeningScheduledExecutorService.html" title="inter
 <h4>platformThreadFactory</h4>
 <pre class="methodSignature"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.797">platformThreadFactory</a>()</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.807">platformThreadFactory</a>()</pre>
 <div class="block">Returns a default thread factory used to create new threads.
 
  <p>When running on AppEngine with access to <a href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
@@ -642,7 +652,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <pre class="methodSignature"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.980">shutdownAndAwaitTermination</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.990">shutdownAndAwaitTermination</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;service,
                                                   long&nbsp;timeout,
                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if

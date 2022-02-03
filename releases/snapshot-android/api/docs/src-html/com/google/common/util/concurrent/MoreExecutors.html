@@ -388,656 +388,666 @@
 <span class="sourceLineNo">379</span><a id="line.379">   * difficult to reproduce because they depend on timing. For example:</a>
 <span class="sourceLineNo">380</span><a id="line.380">   *</a>
 <span class="sourceLineNo">381</span><a id="line.381">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">382</span><a id="line.382">   *   &lt;li&gt;A call like {@code future.transform(function, directExecutor())} may execute the function</a>
-<span class="sourceLineNo">383</span><a id="line.383">   *       immediately in the thread that is calling {@code transform}. (This specific case happens</a>
-<span class="sourceLineNo">384</span><a id="line.384">   *       if the future is already completed.) If {@code transform} call was made from a UI thread</a>
-<span class="sourceLineNo">385</span><a id="line.385">   *       or other latency-sensitive thread, a heavyweight function can harm responsiveness.</a>
-<span class="sourceLineNo">386</span><a id="line.386">   *   &lt;li&gt;If the task will be executed later, consider which thread will trigger the execution --</a>
-<span class="sourceLineNo">387</span><a id="line.387">   *       since that thread will execute the task inline. If the thread is a shared system thread</a>
-<span class="sourceLineNo">388</span><a id="line.388">   *       like an RPC network thread, a heavyweight task can stall progress of the whole system or</a>
-<span class="sourceLineNo">389</span><a id="line.389">   *       even deadlock it.</a>
-<span class="sourceLineNo">390</span><a id="line.390">   *   &lt;li&gt;If many tasks will be triggered by the same event, one heavyweight task may delay other</a>
-<span class="sourceLineNo">391</span><a id="line.391">   *       tasks -- even tasks that are not themselves {@code directExecutor} tasks.</a>
-<span class="sourceLineNo">392</span><a id="line.392">   *   &lt;li&gt;If many such tasks are chained together (such as with {@code</a>
-<span class="sourceLineNo">393</span><a id="line.393">   *       future.transform(...).transform(...).transform(...)....}), they may overflow the stack.</a>
-<span class="sourceLineNo">394</span><a id="line.394">   *       (In simple cases, callers can avoid this by registering all tasks with the same {@link</a>
-<span class="sourceLineNo">395</span><a id="line.395">   *       MoreExecutors#newSequentialExecutor} wrapper around {@code directExecutor()}. More</a>
-<span class="sourceLineNo">396</span><a id="line.396">   *       complex cases may require using thread pools or making deeper changes.)</a>
-<span class="sourceLineNo">397</span><a id="line.397">   *   &lt;li&gt;If an exception propagates out of a {@code Runnable}, it is not necessarily seen by any</a>
-<span class="sourceLineNo">398</span><a id="line.398">   *       {@code UncaughtExceptionHandler} for the thread. For example, if the callback passed to</a>
-<span class="sourceLineNo">399</span><a id="line.399">   *       {@link Futures#addCallback} throws an exception, that exception will be typically be</a>
-<span class="sourceLineNo">400</span><a id="line.400">   *       logged by the {@link ListenableFuture} implementation, even if the thread is configured</a>
-<span class="sourceLineNo">401</span><a id="line.401">   *       to do something different. In other cases, no code will catch the exception, and it may</a>
-<span class="sourceLineNo">402</span><a id="line.402">   *       terminate whichever thread happens to trigger the execution.</a>
-<span class="sourceLineNo">403</span><a id="line.403">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">404</span><a id="line.404">   *</a>
-<span class="sourceLineNo">405</span><a id="line.405">   * Additionally, beware of executing tasks with {@code directExecutor} while holding a lock. Since</a>
-<span class="sourceLineNo">406</span><a id="line.406">   * the task you submit to the executor (or any other arbitrary work the executor does) may do slow</a>
-<span class="sourceLineNo">407</span><a id="line.407">   * work or acquire other locks, you risk deadlocks.</a>
-<span class="sourceLineNo">408</span><a id="line.408">   *</a>
-<span class="sourceLineNo">409</span><a id="line.409">   * &lt;p&gt;This instance is equivalent to:</a>
-<span class="sourceLineNo">410</span><a id="line.410">   *</a>
-<span class="sourceLineNo">411</span><a id="line.411">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * final class DirectExecutor implements Executor {</a>
-<span class="sourceLineNo">413</span><a id="line.413">   *   public void execute(Runnable r) {</a>
-<span class="sourceLineNo">414</span><a id="line.414">   *     r.run();</a>
-<span class="sourceLineNo">415</span><a id="line.415">   *   }</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * }</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">382</span><a id="line.382">   *   &lt;li&gt;When a {@code ListenableFuture} listener is registered to run under {@code</a>
+<span class="sourceLineNo">383</span><a id="line.383">   *       directExecutor}, the listener can execute in any of three possible threads:</a>
+<span class="sourceLineNo">384</span><a id="line.384">   *       &lt;ol&gt;</a>
+<span class="sourceLineNo">385</span><a id="line.385">   *         &lt;li&gt;When a thread attaches a listener to a {@code ListenableFuture} that's already</a>
+<span class="sourceLineNo">386</span><a id="line.386">   *             complete, the listener runs immediately in that thread.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   *         &lt;li&gt;When a thread attaches a listener to a {@code ListenableFuture} that's</a>
+<span class="sourceLineNo">388</span><a id="line.388">   *             &lt;em&gt;in&lt;/em&gt;complete and the {@code ListenableFuture} later completes normally, the</a>
+<span class="sourceLineNo">389</span><a id="line.389">   *             listener runs in the the thread that completes the {@code ListenableFuture}.</a>
+<span class="sourceLineNo">390</span><a id="line.390">   *         &lt;li&gt;When a listener is attached to a {@code ListenableFuture} and the {@code</a>
+<span class="sourceLineNo">391</span><a id="line.391">   *             ListenableFuture} gets cancelled, the listener runs immediately in the the thread</a>
+<span class="sourceLineNo">392</span><a id="line.392">   *             that cancelled the {@code Future}.</a>
+<span class="sourceLineNo">393</span><a id="line.393">   *       &lt;/ol&gt;</a>
+<span class="sourceLineNo">394</span><a id="line.394">   *       Given all these possibilities, it is frequently possible for listeners to execute in UI</a>
+<span class="sourceLineNo">395</span><a id="line.395">   *       threads, RPC network threads, or other latency-sensitive threads. In those cases, slow</a>
+<span class="sourceLineNo">396</span><a id="line.396">   *       listeners can harm responsiveness, slow the system as a whole, or worse. (See also the</a>
+<span class="sourceLineNo">397</span><a id="line.397">   *       note about locking below.)</a>
+<span class="sourceLineNo">398</span><a id="line.398">   *   &lt;li&gt;If many tasks will be triggered by the same event, one heavyweight task may delay other</a>
+<span class="sourceLineNo">399</span><a id="line.399">   *       tasks -- even tasks that are not themselves {@code directExecutor} tasks.</a>
+<span class="sourceLineNo">400</span><a id="line.400">   *   &lt;li&gt;If many such tasks are chained together (such as with {@code</a>
+<span class="sourceLineNo">401</span><a id="line.401">   *       future.transform(...).transform(...).transform(...)....}), they may overflow the stack.</a>
+<span class="sourceLineNo">402</span><a id="line.402">   *       (In simple cases, callers can avoid this by registering all tasks with the same {@link</a>
+<span class="sourceLineNo">403</span><a id="line.403">   *       MoreExecutors#newSequentialExecutor} wrapper around {@code directExecutor()}. More</a>
+<span class="sourceLineNo">404</span><a id="line.404">   *       complex cases may require using thread pools or making deeper changes.)</a>
+<span class="sourceLineNo">405</span><a id="line.405">   *   &lt;li&gt;If an exception propagates out of a {@code Runnable}, it is not necessarily seen by any</a>
+<span class="sourceLineNo">406</span><a id="line.406">   *       {@code UncaughtExceptionHandler} for the thread. For example, if the callback passed to</a>
+<span class="sourceLineNo">407</span><a id="line.407">   *       {@link Futures#addCallback} throws an exception, that exception will be typically be</a>
+<span class="sourceLineNo">408</span><a id="line.408">   *       logged by the {@link ListenableFuture} implementation, even if the thread is configured</a>
+<span class="sourceLineNo">409</span><a id="line.409">   *       to do something different. In other cases, no code will catch the exception, and it may</a>
+<span class="sourceLineNo">410</span><a id="line.410">   *       terminate whichever thread happens to trigger the execution.</a>
+<span class="sourceLineNo">411</span><a id="line.411">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">412</span><a id="line.412">   *</a>
+<span class="sourceLineNo">413</span><a id="line.413">   * A specific warning about locking: Code that executes user-supplied tasks, such as {@code</a>
+<span class="sourceLineNo">414</span><a id="line.414">   * ListenableFuture} listeners, should take care not to do so while holding a lock. Additionally,</a>
+<span class="sourceLineNo">415</span><a id="line.415">   * as a further line of defense, prefer not to perform any locking inside a task that will be run</a>
+<span class="sourceLineNo">416</span><a id="line.416">   * under {@code directExecutor}: Not only might the wait for a lock be long, but if the running</a>
+<span class="sourceLineNo">417</span><a id="line.417">   * thread was holding a lock, the listener may deadlock or break lock isolation.</a>
 <span class="sourceLineNo">418</span><a id="line.418">   *</a>
-<span class="sourceLineNo">419</span><a id="line.419">   * &lt;p&gt;This should be preferred to {@link #newDirectExecutorService()} because implementing the</a>
-<span class="sourceLineNo">420</span><a id="line.420">   * {@link ExecutorService} subinterface necessitates significant performance overhead.</a>
-<span class="sourceLineNo">421</span><a id="line.421">   *</a>
-<span class="sourceLineNo">422</span><a id="line.422">   * @since 18.0</a>
-<span class="sourceLineNo">423</span><a id="line.423">   */</a>
-<span class="sourceLineNo">424</span><a id="line.424">  public static Executor directExecutor() {</a>
-<span class="sourceLineNo">425</span><a id="line.425">    return DirectExecutor.INSTANCE;</a>
-<span class="sourceLineNo">426</span><a id="line.426">  }</a>
-<span class="sourceLineNo">427</span><a id="line.427"></a>
-<span class="sourceLineNo">428</span><a id="line.428">  /**</a>
-<span class="sourceLineNo">429</span><a id="line.429">   * Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks</a>
-<span class="sourceLineNo">430</span><a id="line.430">   * are running concurrently.</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * &lt;p&gt;This instance is equivalent to:</a>
+<span class="sourceLineNo">420</span><a id="line.420">   *</a>
+<span class="sourceLineNo">421</span><a id="line.421">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">422</span><a id="line.422">   * final class DirectExecutor implements Executor {</a>
+<span class="sourceLineNo">423</span><a id="line.423">   *   public void execute(Runnable r) {</a>
+<span class="sourceLineNo">424</span><a id="line.424">   *     r.run();</a>
+<span class="sourceLineNo">425</span><a id="line.425">   *   }</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * }</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">428</span><a id="line.428">   *</a>
+<span class="sourceLineNo">429</span><a id="line.429">   * &lt;p&gt;This should be preferred to {@link #newDirectExecutorService()} because implementing the</a>
+<span class="sourceLineNo">430</span><a id="line.430">   * {@link ExecutorService} subinterface necessitates significant performance overhead.</a>
 <span class="sourceLineNo">431</span><a id="line.431">   *</a>
-<span class="sourceLineNo">432</span><a id="line.432">   * &lt;p&gt;{@linkplain Executor#execute executed} tasks have a happens-before order as defined in the</a>
-<span class="sourceLineNo">433</span><a id="line.433">   * Java Language Specification. Tasks execute with the same happens-before order that the function</a>
-<span class="sourceLineNo">434</span><a id="line.434">   * calls to {@link Executor#execute `execute()`} that submitted those tasks had.</a>
-<span class="sourceLineNo">435</span><a id="line.435">   *</a>
-<span class="sourceLineNo">436</span><a id="line.436">   * &lt;p&gt;The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in</a>
-<span class="sourceLineNo">437</span><a id="line.437">   * turn, and does not create any threads of its own.</a>
-<span class="sourceLineNo">438</span><a id="line.438">   *</a>
-<span class="sourceLineNo">439</span><a id="line.439">   * &lt;p&gt;After execution begins on a thread from the {@code delegate} {@link Executor}, tasks are</a>
-<span class="sourceLineNo">440</span><a id="line.440">   * polled and executed from a task queue until there are no more tasks. The thread will not be</a>
-<span class="sourceLineNo">441</span><a id="line.441">   * released until there are no more tasks to run.</a>
-<span class="sourceLineNo">442</span><a id="line.442">   *</a>
-<span class="sourceLineNo">443</span><a id="line.443">   * &lt;p&gt;If a task is submitted while a thread is executing tasks from the task queue, the thread</a>
-<span class="sourceLineNo">444</span><a id="line.444">   * will not be released until that submitted task is also complete.</a>
+<span class="sourceLineNo">432</span><a id="line.432">   * @since 18.0</a>
+<span class="sourceLineNo">433</span><a id="line.433">   */</a>
+<span class="sourceLineNo">434</span><a id="line.434">  public static Executor directExecutor() {</a>
+<span class="sourceLineNo">435</span><a id="line.435">    return DirectExecutor.INSTANCE;</a>
+<span class="sourceLineNo">436</span><a id="line.436">  }</a>
+<span class="sourceLineNo">437</span><a id="line.437"></a>
+<span class="sourceLineNo">438</span><a id="line.438">  /**</a>
+<span class="sourceLineNo">439</span><a id="line.439">   * Returns an {@link Executor} that runs each task executed sequentially, such that no two tasks</a>
+<span class="sourceLineNo">440</span><a id="line.440">   * are running concurrently.</a>
+<span class="sourceLineNo">441</span><a id="line.441">   *</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * &lt;p&gt;{@linkplain Executor#execute executed} tasks have a happens-before order as defined in the</a>
+<span class="sourceLineNo">443</span><a id="line.443">   * Java Language Specification. Tasks execute with the same happens-before order that the function</a>
+<span class="sourceLineNo">444</span><a id="line.444">   * calls to {@link Executor#execute `execute()`} that submitted those tasks had.</a>
 <span class="sourceLineNo">445</span><a id="line.445">   *</a>
-<span class="sourceLineNo">446</span><a id="line.446">   * &lt;p&gt;If a task is {@linkplain Thread#interrupt interrupted} while a task is running:</a>
-<span class="sourceLineNo">447</span><a id="line.447">   *</a>
-<span class="sourceLineNo">448</span><a id="line.448">   * &lt;ol&gt;</a>
-<span class="sourceLineNo">449</span><a id="line.449">   *   &lt;li&gt;execution will not stop until the task queue is empty.</a>
-<span class="sourceLineNo">450</span><a id="line.450">   *   &lt;li&gt;tasks will begin execution with the thread marked as not interrupted - any interruption</a>
-<span class="sourceLineNo">451</span><a id="line.451">   *       applies only to the task that was running at the point of interruption.</a>
-<span class="sourceLineNo">452</span><a id="line.452">   *   &lt;li&gt;if the thread was interrupted before the SequentialExecutor's worker begins execution,</a>
-<span class="sourceLineNo">453</span><a id="line.453">   *       the interrupt will be restored to the thread after it completes so that its {@code</a>
-<span class="sourceLineNo">454</span><a id="line.454">   *       delegate} Executor may process the interrupt.</a>
-<span class="sourceLineNo">455</span><a id="line.455">   *   &lt;li&gt;subtasks are run with the thread uninterrupted and interrupts received during execution</a>
-<span class="sourceLineNo">456</span><a id="line.456">   *       of a task are ignored.</a>
-<span class="sourceLineNo">457</span><a id="line.457">   * &lt;/ol&gt;</a>
-<span class="sourceLineNo">458</span><a id="line.458">   *</a>
-<span class="sourceLineNo">459</span><a id="line.459">   * &lt;p&gt;{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.</a>
-<span class="sourceLineNo">460</span><a id="line.460">   * If an {@code Error} is thrown, the error will propagate and execution will stop until the next</a>
-<span class="sourceLineNo">461</span><a id="line.461">   * time a task is submitted.</a>
-<span class="sourceLineNo">462</span><a id="line.462">   *</a>
-<span class="sourceLineNo">463</span><a id="line.463">   * &lt;p&gt;When an {@code Error} is thrown by an executed task, previously submitted tasks may never</a>
-<span class="sourceLineNo">464</span><a id="line.464">   * run. An attempt will be made to restart execution on the next call to {@code execute}. If the</a>
-<span class="sourceLineNo">465</span><a id="line.465">   * {@code delegate} has begun to reject execution, the previously submitted tasks may never run,</a>
-<span class="sourceLineNo">466</span><a id="line.466">   * despite not throwing a RejectedExecutionException synchronously with the call to {@code</a>
-<span class="sourceLineNo">467</span><a id="line.467">   * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link</a>
-<span class="sourceLineNo">468</span><a id="line.468">   * Executors#newSingleThreadExecutor}).</a>
-<span class="sourceLineNo">469</span><a id="line.469">   *</a>
-<span class="sourceLineNo">470</span><a id="line.470">   * @since 23.3 (since 23.1 as {@code sequentialExecutor})</a>
-<span class="sourceLineNo">471</span><a id="line.471">   */</a>
-<span class="sourceLineNo">472</span><a id="line.472">  @GwtIncompatible</a>
-<span class="sourceLineNo">473</span><a id="line.473">  public static Executor newSequentialExecutor(Executor delegate) {</a>
-<span class="sourceLineNo">474</span><a id="line.474">    return new SequentialExecutor(delegate);</a>
-<span class="sourceLineNo">475</span><a id="line.475">  }</a>
-<span class="sourceLineNo">476</span><a id="line.476"></a>
-<span class="sourceLineNo">477</span><a id="line.477">  /**</a>
-<span class="sourceLineNo">478</span><a id="line.478">   * Creates an {@link ExecutorService} whose {@code submit} and {@code invokeAll} methods submit</a>
-<span class="sourceLineNo">479</span><a id="line.479">   * {@link ListenableFutureTask} instances to the given delegate executor. Those methods, as well</a>
-<span class="sourceLineNo">480</span><a id="line.480">   * as {@code execute} and {@code invokeAny}, are implemented in terms of calls to {@code</a>
-<span class="sourceLineNo">481</span><a id="line.481">   * delegate.execute}. All other methods are forwarded unchanged to the delegate. This implies that</a>
-<span class="sourceLineNo">482</span><a id="line.482">   * the returned {@code ListeningExecutorService} never calls the delegate's {@code submit}, {@code</a>
-<span class="sourceLineNo">483</span><a id="line.483">   * invokeAll}, and {@code invokeAny} methods, so any special handling of tasks must be implemented</a>
-<span class="sourceLineNo">484</span><a id="line.484">   * in the delegate's {@code execute} method or by wrapping the returned {@code</a>
-<span class="sourceLineNo">485</span><a id="line.485">   * ListeningExecutorService}.</a>
-<span class="sourceLineNo">486</span><a id="line.486">   *</a>
-<span class="sourceLineNo">487</span><a id="line.487">   * &lt;p&gt;If the delegate executor was already an instance of {@code ListeningExecutorService}, it is</a>
-<span class="sourceLineNo">488</span><a id="line.488">   * returned untouched, and the rest of this documentation does not apply.</a>
-<span class="sourceLineNo">489</span><a id="line.489">   *</a>
-<span class="sourceLineNo">490</span><a id="line.490">   * @since 10.0</a>
-<span class="sourceLineNo">491</span><a id="line.491">   */</a>
-<span class="sourceLineNo">492</span><a id="line.492">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">493</span><a id="line.493">  public static ListeningExecutorService listeningDecorator(ExecutorService delegate) {</a>
-<span class="sourceLineNo">494</span><a id="line.494">    return (delegate instanceof ListeningExecutorService)</a>
-<span class="sourceLineNo">495</span><a id="line.495">        ? (ListeningExecutorService) delegate</a>
-<span class="sourceLineNo">496</span><a id="line.496">        : (delegate instanceof ScheduledExecutorService)</a>
-<span class="sourceLineNo">497</span><a id="line.497">            ? new ScheduledListeningDecorator((ScheduledExecutorService) delegate)</a>
-<span class="sourceLineNo">498</span><a id="line.498">            : new ListeningDecorator(delegate);</a>
-<span class="sourceLineNo">499</span><a id="line.499">  }</a>
-<span class="sourceLineNo">500</span><a id="line.500"></a>
-<span class="sourceLineNo">501</span><a id="line.501">  /**</a>
-<span class="sourceLineNo">502</span><a id="line.502">   * Creates a {@link ScheduledExecutorService} whose {@code submit} and {@code invokeAll} methods</a>
-<span class="sourceLineNo">503</span><a id="line.503">   * submit {@link ListenableFutureTask} instances to the given delegate executor. Those methods, as</a>
-<span class="sourceLineNo">504</span><a id="line.504">   * well as {@code execute} and {@code invokeAny}, are implemented in terms of calls to {@code</a>
-<span class="sourceLineNo">505</span><a id="line.505">   * delegate.execute}. All other methods are forwarded unchanged to the delegate. This implies that</a>
-<span class="sourceLineNo">506</span><a id="line.506">   * the returned {@code ListeningScheduledExecutorService} never calls the delegate's {@code</a>
-<span class="sourceLineNo">507</span><a id="line.507">   * submit}, {@code invokeAll}, and {@code invokeAny} methods, so any special handling of tasks</a>
-<span class="sourceLineNo">508</span><a id="line.508">   * must be implemented in the delegate's {@code execute} method or by wrapping the returned {@code</a>
-<span class="sourceLineNo">509</span><a id="line.509">   * ListeningScheduledExecutorService}.</a>
-<span class="sourceLineNo">510</span><a id="line.510">   *</a>
-<span class="sourceLineNo">511</span><a id="line.511">   * &lt;p&gt;If the delegate executor was already an instance of {@code</a>
-<span class="sourceLineNo">512</span><a id="line.512">   * ListeningScheduledExecutorService}, it is returned untouched, and the rest of this</a>
-<span class="sourceLineNo">513</span><a id="line.513">   * documentation does not apply.</a>
-<span class="sourceLineNo">514</span><a id="line.514">   *</a>
-<span class="sourceLineNo">515</span><a id="line.515">   * @since 10.0</a>
-<span class="sourceLineNo">516</span><a id="line.516">   */</a>
-<span class="sourceLineNo">517</span><a id="line.517">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">518</span><a id="line.518">  public static ListeningScheduledExecutorService listeningDecorator(</a>
-<span class="sourceLineNo">519</span><a id="line.519">      ScheduledExecutorService delegate) {</a>
-<span class="sourceLineNo">520</span><a id="line.520">    return (delegate instanceof ListeningScheduledExecutorService)</a>
-<span class="sourceLineNo">521</span><a id="line.521">        ? (ListeningScheduledExecutorService) delegate</a>
-<span class="sourceLineNo">522</span><a id="line.522">        : new ScheduledListeningDecorator(delegate);</a>
-<span class="sourceLineNo">523</span><a id="line.523">  }</a>
-<span class="sourceLineNo">524</span><a id="line.524"></a>
-<span class="sourceLineNo">525</span><a id="line.525">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">526</span><a id="line.526">  private static class ListeningDecorator extends AbstractListeningExecutorService {</a>
-<span class="sourceLineNo">527</span><a id="line.527">    private final ExecutorService delegate;</a>
-<span class="sourceLineNo">528</span><a id="line.528"></a>
-<span class="sourceLineNo">529</span><a id="line.529">    ListeningDecorator(ExecutorService delegate) {</a>
-<span class="sourceLineNo">530</span><a id="line.530">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">531</span><a id="line.531">    }</a>
-<span class="sourceLineNo">532</span><a id="line.532"></a>
-<span class="sourceLineNo">533</span><a id="line.533">    @Override</a>
-<span class="sourceLineNo">534</span><a id="line.534">    public final boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {</a>
-<span class="sourceLineNo">535</span><a id="line.535">      return delegate.awaitTermination(timeout, unit);</a>
-<span class="sourceLineNo">536</span><a id="line.536">    }</a>
-<span class="sourceLineNo">537</span><a id="line.537"></a>
-<span class="sourceLineNo">538</span><a id="line.538">    @Override</a>
-<span class="sourceLineNo">539</span><a id="line.539">    public final boolean isShutdown() {</a>
-<span class="sourceLineNo">540</span><a id="line.540">      return delegate.isShutdown();</a>
+<span class="sourceLineNo">446</span><a id="line.446">   * &lt;p&gt;The executor uses {@code delegate} in order to {@link Executor#execute execute} each task in</a>
+<span class="sourceLineNo">447</span><a id="line.447">   * turn, and does not create any threads of its own.</a>
+<span class="sourceLineNo">448</span><a id="line.448">   *</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * &lt;p&gt;After execution begins on a thread from the {@code delegate} {@link Executor}, tasks are</a>
+<span class="sourceLineNo">450</span><a id="line.450">   * polled and executed from a task queue until there are no more tasks. The thread will not be</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * released until there are no more tasks to run.</a>
+<span class="sourceLineNo">452</span><a id="line.452">   *</a>
+<span class="sourceLineNo">453</span><a id="line.453">   * &lt;p&gt;If a task is submitted while a thread is executing tasks from the task queue, the thread</a>
+<span class="sourceLineNo">454</span><a id="line.454">   * will not be released until that submitted task is also complete.</a>
+<span class="sourceLineNo">455</span><a id="line.455">   *</a>
+<span class="sourceLineNo">456</span><a id="line.456">   * &lt;p&gt;If a task is {@linkplain Thread#interrupt interrupted} while a task is running:</a>
+<span class="sourceLineNo">457</span><a id="line.457">   *</a>
+<span class="sourceLineNo">458</span><a id="line.458">   * &lt;ol&gt;</a>
+<span class="sourceLineNo">459</span><a id="line.459">   *   &lt;li&gt;execution will not stop until the task queue is empty.</a>
+<span class="sourceLineNo">460</span><a id="line.460">   *   &lt;li&gt;tasks will begin execution with the thread marked as not interrupted - any interruption</a>
+<span class="sourceLineNo">461</span><a id="line.461">   *       applies only to the task that was running at the point of interruption.</a>
+<span class="sourceLineNo">462</span><a id="line.462">   *   &lt;li&gt;if the thread was interrupted before the SequentialExecutor's worker begins execution,</a>
+<span class="sourceLineNo">463</span><a id="line.463">   *       the interrupt will be restored to the thread after it completes so that its {@code</a>
+<span class="sourceLineNo">464</span><a id="line.464">   *       delegate} Executor may process the interrupt.</a>
+<span class="sourceLineNo">465</span><a id="line.465">   *   &lt;li&gt;subtasks are run with the thread uninterrupted and interrupts received during execution</a>
+<span class="sourceLineNo">466</span><a id="line.466">   *       of a task are ignored.</a>
+<span class="sourceLineNo">467</span><a id="line.467">   * &lt;/ol&gt;</a>
+<span class="sourceLineNo">468</span><a id="line.468">   *</a>
+<span class="sourceLineNo">469</span><a id="line.469">   * &lt;p&gt;{@code RuntimeException}s thrown by tasks are simply logged and the executor keeps trucking.</a>
+<span class="sourceLineNo">470</span><a id="line.470">   * If an {@code Error} is thrown, the error will propagate and execution will stop until the next</a>
+<span class="sourceLineNo">471</span><a id="line.471">   * time a task is submitted.</a>
+<span class="sourceLineNo">472</span><a id="line.472">   *</a>
+<span class="sourceLineNo">473</span><a id="line.473">   * &lt;p&gt;When an {@code Error} is thrown by an executed task, previously submitted tasks may never</a>
+<span class="sourceLineNo">474</span><a id="line.474">   * run. An attempt will be made to restart execution on the next call to {@code execute}. If the</a>
+<span class="sourceLineNo">475</span><a id="line.475">   * {@code delegate} has begun to reject execution, the previously submitted tasks may never run,</a>
+<span class="sourceLineNo">476</span><a id="line.476">   * despite not throwing a RejectedExecutionException synchronously with the call to {@code</a>
+<span class="sourceLineNo">477</span><a id="line.477">   * execute}. If this behaviour is problematic, use an Executor with a single thread (e.g. {@link</a>
+<span class="sourceLineNo">478</span><a id="line.478">   * Executors#newSingleThreadExecutor}).</a>
+<span class="sourceLineNo">479</span><a id="line.479">   *</a>
+<span class="sourceLineNo">480</span><a id="line.480">   * @since 23.3 (since 23.1 as {@code sequentialExecutor})</a>
+<span class="sourceLineNo">481</span><a id="line.481">   */</a>
+<span class="sourceLineNo">482</span><a id="line.482">  @GwtIncompatible</a>
+<span class="sourceLineNo">483</span><a id="line.483">  public static Executor newSequentialExecutor(Executor delegate) {</a>
+<span class="sourceLineNo">484</span><a id="line.484">    return new SequentialExecutor(delegate);</a>
+<span class="sourceLineNo">485</span><a id="line.485">  }</a>
+<span class="sourceLineNo">486</span><a id="line.486"></a>
+<span class="sourceLineNo">487</span><a id="line.487">  /**</a>
+<span class="sourceLineNo">488</span><a id="line.488">   * Creates an {@link ExecutorService} whose {@code submit} and {@code invokeAll} methods submit</a>
+<span class="sourceLineNo">489</span><a id="line.489">   * {@link ListenableFutureTask} instances to the given delegate executor. Those methods, as well</a>
+<span class="sourceLineNo">490</span><a id="line.490">   * as {@code execute} and {@code invokeAny}, are implemented in terms of calls to {@code</a>
+<span class="sourceLineNo">491</span><a id="line.491">   * delegate.execute}. All other methods are forwarded unchanged to the delegate. This implies that</a>
+<span class="sourceLineNo">492</span><a id="line.492">   * the returned {@code ListeningExecutorService} never calls the delegate's {@code submit}, {@code</a>
+<span class="sourceLineNo">493</span><a id="line.493">   * invokeAll}, and {@code invokeAny} methods, so any special handling of tasks must be implemented</a>
+<span class="sourceLineNo">494</span><a id="line.494">   * in the delegate's {@code execute} method or by wrapping the returned {@code</a>
+<span class="sourceLineNo">495</span><a id="line.495">   * ListeningExecutorService}.</a>
+<span class="sourceLineNo">496</span><a id="line.496">   *</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * &lt;p&gt;If the delegate executor was already an instance of {@code ListeningExecutorService}, it is</a>
+<span class="sourceLineNo">498</span><a id="line.498">   * returned untouched, and the rest of this documentation does not apply.</a>
+<span class="sourceLineNo">499</span><a id="line.499">   *</a>
+<span class="sourceLineNo">500</span><a id="line.500">   * @since 10.0</a>
+<span class="sourceLineNo">501</span><a id="line.501">   */</a>
+<span class="sourceLineNo">502</span><a id="line.502">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">503</span><a id="line.503">  public static ListeningExecutorService listeningDecorator(ExecutorService delegate) {</a>
+<span class="sourceLineNo">504</span><a id="line.504">    return (delegate instanceof ListeningExecutorService)</a>
+<span class="sourceLineNo">505</span><a id="line.505">        ? (ListeningExecutorService) delegate</a>
+<span class="sourceLineNo">506</span><a id="line.506">        : (delegate instanceof ScheduledExecutorService)</a>
+<span class="sourceLineNo">507</span><a id="line.507">            ? new ScheduledListeningDecorator((ScheduledExecutorService) delegate)</a>
+<span class="sourceLineNo">508</span><a id="line.508">            : new ListeningDecorator(delegate);</a>
+<span class="sourceLineNo">509</span><a id="line.509">  }</a>
+<span class="sourceLineNo">510</span><a id="line.510"></a>
+<span class="sourceLineNo">511</span><a id="line.511">  /**</a>
+<span class="sourceLineNo">512</span><a id="line.512">   * Creates a {@link ScheduledExecutorService} whose {@code submit} and {@code invokeAll} methods</a>
+<span class="sourceLineNo">513</span><a id="line.513">   * submit {@link ListenableFutureTask} instances to the given delegate executor. Those methods, as</a>
+<span class="sourceLineNo">514</span><a id="line.514">   * well as {@code execute} and {@code invokeAny}, are implemented in terms of calls to {@code</a>
+<span class="sourceLineNo">515</span><a id="line.515">   * delegate.execute}. All other methods are forwarded unchanged to the delegate. This implies that</a>
+<span class="sourceLineNo">516</span><a id="line.516">   * the returned {@code ListeningScheduledExecutorService} never calls the delegate's {@code</a>
+<span class="sourceLineNo">517</span><a id="line.517">   * submit}, {@code invokeAll}, and {@code invokeAny} methods, so any special handling of tasks</a>
+<span class="sourceLineNo">518</span><a id="line.518">   * must be implemented in the delegate's {@code execute} method or by wrapping the returned {@code</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * ListeningScheduledExecutorService}.</a>
+<span class="sourceLineNo">520</span><a id="line.520">   *</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * &lt;p&gt;If the delegate executor was already an instance of {@code</a>
+<span class="sourceLineNo">522</span><a id="line.522">   * ListeningScheduledExecutorService}, it is returned untouched, and the rest of this</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * documentation does not apply.</a>
+<span class="sourceLineNo">524</span><a id="line.524">   *</a>
+<span class="sourceLineNo">525</span><a id="line.525">   * @since 10.0</a>
+<span class="sourceLineNo">526</span><a id="line.526">   */</a>
+<span class="sourceLineNo">527</span><a id="line.527">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">528</span><a id="line.528">  public static ListeningScheduledExecutorService listeningDecorator(</a>
+<span class="sourceLineNo">529</span><a id="line.529">      ScheduledExecutorService delegate) {</a>
+<span class="sourceLineNo">530</span><a id="line.530">    return (delegate instanceof ListeningScheduledExecutorService)</a>
+<span class="sourceLineNo">531</span><a id="line.531">        ? (ListeningScheduledExecutorService) delegate</a>
+<span class="sourceLineNo">532</span><a id="line.532">        : new ScheduledListeningDecorator(delegate);</a>
+<span class="sourceLineNo">533</span><a id="line.533">  }</a>
+<span class="sourceLineNo">534</span><a id="line.534"></a>
+<span class="sourceLineNo">535</span><a id="line.535">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">536</span><a id="line.536">  private static class ListeningDecorator extends AbstractListeningExecutorService {</a>
+<span class="sourceLineNo">537</span><a id="line.537">    private final ExecutorService delegate;</a>
+<span class="sourceLineNo">538</span><a id="line.538"></a>
+<span class="sourceLineNo">539</span><a id="line.539">    ListeningDecorator(ExecutorService delegate) {</a>
+<span class="sourceLineNo">540</span><a id="line.540">      this.delegate = checkNotNull(delegate);</a>
 <span class="sourceLineNo">541</span><a id="line.541">    }</a>
 <span class="sourceLineNo">542</span><a id="line.542"></a>
 <span class="sourceLineNo">543</span><a id="line.543">    @Override</a>
-<span class="sourceLineNo">544</span><a id="line.544">    public final boolean isTerminated() {</a>
-<span class="sourceLineNo">545</span><a id="line.545">      return delegate.isTerminated();</a>
+<span class="sourceLineNo">544</span><a id="line.544">    public final boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {</a>
+<span class="sourceLineNo">545</span><a id="line.545">      return delegate.awaitTermination(timeout, unit);</a>
 <span class="sourceLineNo">546</span><a id="line.546">    }</a>
 <span class="sourceLineNo">547</span><a id="line.547"></a>
 <span class="sourceLineNo">548</span><a id="line.548">    @Override</a>
-<span class="sourceLineNo">549</span><a id="line.549">    public final void shutdown() {</a>
-<span class="sourceLineNo">550</span><a id="line.550">      delegate.shutdown();</a>
+<span class="sourceLineNo">549</span><a id="line.549">    public final boolean isShutdown() {</a>
+<span class="sourceLineNo">550</span><a id="line.550">      return delegate.isShutdown();</a>
 <span class="sourceLineNo">551</span><a id="line.551">    }</a>
 <span class="sourceLineNo">552</span><a id="line.552"></a>
 <span class="sourceLineNo">553</span><a id="line.553">    @Override</a>
-<span class="sourceLineNo">554</span><a id="line.554">    public final List&lt;Runnable&gt; shutdownNow() {</a>
-<span class="sourceLineNo">555</span><a id="line.555">      return delegate.shutdownNow();</a>
+<span class="sourceLineNo">554</span><a id="line.554">    public final boolean isTerminated() {</a>
+<span class="sourceLineNo">555</span><a id="line.555">      return delegate.isTerminated();</a>
 <span class="sourceLineNo">556</span><a id="line.556">    }</a>
 <span class="sourceLineNo">557</span><a id="line.557"></a>
 <span class="sourceLineNo">558</span><a id="line.558">    @Override</a>
-<span class="sourceLineNo">559</span><a id="line.559">    public final void execute(Runnable command) {</a>
-<span class="sourceLineNo">560</span><a id="line.560">      delegate.execute(command);</a>
+<span class="sourceLineNo">559</span><a id="line.559">    public final void shutdown() {</a>
+<span class="sourceLineNo">560</span><a id="line.560">      delegate.shutdown();</a>
 <span class="sourceLineNo">561</span><a id="line.561">    }</a>
 <span class="sourceLineNo">562</span><a id="line.562"></a>
 <span class="sourceLineNo">563</span><a id="line.563">    @Override</a>
-<span class="sourceLineNo">564</span><a id="line.564">    public final String toString() {</a>
-<span class="sourceLineNo">565</span><a id="line.565">      return super.toString() + "[" + delegate + "]";</a>
+<span class="sourceLineNo">564</span><a id="line.564">    public final List&lt;Runnable&gt; shutdownNow() {</a>
+<span class="sourceLineNo">565</span><a id="line.565">      return delegate.shutdownNow();</a>
 <span class="sourceLineNo">566</span><a id="line.566">    }</a>
-<span class="sourceLineNo">567</span><a id="line.567">  }</a>
-<span class="sourceLineNo">568</span><a id="line.568"></a>
-<span class="sourceLineNo">569</span><a id="line.569">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">570</span><a id="line.570">  private static final class ScheduledListeningDecorator extends ListeningDecorator</a>
-<span class="sourceLineNo">571</span><a id="line.571">      implements ListeningScheduledExecutorService {</a>
-<span class="sourceLineNo">572</span><a id="line.572">    @SuppressWarnings("hiding")</a>
-<span class="sourceLineNo">573</span><a id="line.573">    final ScheduledExecutorService delegate;</a>
-<span class="sourceLineNo">574</span><a id="line.574"></a>
-<span class="sourceLineNo">575</span><a id="line.575">    ScheduledListeningDecorator(ScheduledExecutorService delegate) {</a>
-<span class="sourceLineNo">576</span><a id="line.576">      super(delegate);</a>
-<span class="sourceLineNo">577</span><a id="line.577">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">578</span><a id="line.578">    }</a>
-<span class="sourceLineNo">579</span><a id="line.579"></a>
-<span class="sourceLineNo">580</span><a id="line.580">    @Override</a>
-<span class="sourceLineNo">581</span><a id="line.581">    public ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit) {</a>
-<span class="sourceLineNo">582</span><a id="line.582">      TrustedListenableFutureTask&lt;@Nullable Void&gt; task =</a>
-<span class="sourceLineNo">583</span><a id="line.583">          TrustedListenableFutureTask.create(command, null);</a>
-<span class="sourceLineNo">584</span><a id="line.584">      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);</a>
-<span class="sourceLineNo">585</span><a id="line.585">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
-<span class="sourceLineNo">586</span><a id="line.586">    }</a>
-<span class="sourceLineNo">587</span><a id="line.587"></a>
-<span class="sourceLineNo">588</span><a id="line.588">    @Override</a>
-<span class="sourceLineNo">589</span><a id="line.589">    public &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</a>
-<span class="sourceLineNo">590</span><a id="line.590">        Callable&lt;V&gt; callable, long delay, TimeUnit unit) {</a>
-<span class="sourceLineNo">591</span><a id="line.591">      TrustedListenableFutureTask&lt;V&gt; task = TrustedListenableFutureTask.create(callable);</a>
-<span class="sourceLineNo">592</span><a id="line.592">      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);</a>
-<span class="sourceLineNo">593</span><a id="line.593">      return new ListenableScheduledTask&lt;V&gt;(task, scheduled);</a>
-<span class="sourceLineNo">594</span><a id="line.594">    }</a>
-<span class="sourceLineNo">595</span><a id="line.595"></a>
-<span class="sourceLineNo">596</span><a id="line.596">    @Override</a>
-<span class="sourceLineNo">597</span><a id="line.597">    public ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</a>
-<span class="sourceLineNo">598</span><a id="line.598">        Runnable command, long initialDelay, long period, TimeUnit unit) {</a>
-<span class="sourceLineNo">599</span><a id="line.599">      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);</a>
-<span class="sourceLineNo">600</span><a id="line.600">      ScheduledFuture&lt;?&gt; scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);</a>
-<span class="sourceLineNo">601</span><a id="line.601">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
-<span class="sourceLineNo">602</span><a id="line.602">    }</a>
-<span class="sourceLineNo">603</span><a id="line.603"></a>
-<span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
-<span class="sourceLineNo">605</span><a id="line.605">    public ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</a>
-<span class="sourceLineNo">606</span><a id="line.606">        Runnable command, long initialDelay, long delay, TimeUnit unit) {</a>
-<span class="sourceLineNo">607</span><a id="line.607">      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);</a>
-<span class="sourceLineNo">608</span><a id="line.608">      ScheduledFuture&lt;?&gt; scheduled =</a>
-<span class="sourceLineNo">609</span><a id="line.609">          delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);</a>
-<span class="sourceLineNo">610</span><a id="line.610">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
-<span class="sourceLineNo">611</span><a id="line.611">    }</a>
-<span class="sourceLineNo">612</span><a id="line.612"></a>
-<span class="sourceLineNo">613</span><a id="line.613">    private static final class ListenableScheduledTask&lt;V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">614</span><a id="line.614">        extends SimpleForwardingListenableFuture&lt;V&gt; implements ListenableScheduledFuture&lt;V&gt; {</a>
-<span class="sourceLineNo">615</span><a id="line.615"></a>
-<span class="sourceLineNo">616</span><a id="line.616">      private final ScheduledFuture&lt;?&gt; scheduledDelegate;</a>
-<span class="sourceLineNo">617</span><a id="line.617"></a>
-<span class="sourceLineNo">618</span><a id="line.618">      public ListenableScheduledTask(</a>
-<span class="sourceLineNo">619</span><a id="line.619">          ListenableFuture&lt;V&gt; listenableDelegate, ScheduledFuture&lt;?&gt; scheduledDelegate) {</a>
-<span class="sourceLineNo">620</span><a id="line.620">        super(listenableDelegate);</a>
-<span class="sourceLineNo">621</span><a id="line.621">        this.scheduledDelegate = scheduledDelegate;</a>
-<span class="sourceLineNo">622</span><a id="line.622">      }</a>
-<span class="sourceLineNo">623</span><a id="line.623"></a>
-<span class="sourceLineNo">624</span><a id="line.624">      @Override</a>
-<span class="sourceLineNo">625</span><a id="line.625">      public boolean cancel(boolean mayInterruptIfRunning) {</a>
-<span class="sourceLineNo">626</span><a id="line.626">        boolean cancelled = super.cancel(mayInterruptIfRunning);</a>
-<span class="sourceLineNo">627</span><a id="line.627">        if (cancelled) {</a>
-<span class="sourceLineNo">628</span><a id="line.628">          // Unless it is cancelled, the delegate may continue being scheduled</a>
-<span class="sourceLineNo">629</span><a id="line.629">          scheduledDelegate.cancel(mayInterruptIfRunning);</a>
-<span class="sourceLineNo">630</span><a id="line.630"></a>
-<span class="sourceLineNo">631</span><a id="line.631">          // TODO(user): Cancel "this" if "scheduledDelegate" is cancelled.</a>
-<span class="sourceLineNo">632</span><a id="line.632">        }</a>
-<span class="sourceLineNo">633</span><a id="line.633">        return cancelled;</a>
-<span class="sourceLineNo">634</span><a id="line.634">      }</a>
-<span class="sourceLineNo">635</span><a id="line.635"></a>
-<span class="sourceLineNo">636</span><a id="line.636">      @Override</a>
-<span class="sourceLineNo">637</span><a id="line.637">      public long getDelay(TimeUnit unit) {</a>
-<span class="sourceLineNo">638</span><a id="line.638">        return scheduledDelegate.getDelay(unit);</a>
-<span class="sourceLineNo">639</span><a id="line.639">      }</a>
+<span class="sourceLineNo">567</span><a id="line.567"></a>
+<span class="sourceLineNo">568</span><a id="line.568">    @Override</a>
+<span class="sourceLineNo">569</span><a id="line.569">    public final void execute(Runnable command) {</a>
+<span class="sourceLineNo">570</span><a id="line.570">      delegate.execute(command);</a>
+<span class="sourceLineNo">571</span><a id="line.571">    }</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">    @Override</a>
+<span class="sourceLineNo">574</span><a id="line.574">    public final String toString() {</a>
+<span class="sourceLineNo">575</span><a id="line.575">      return super.toString() + "[" + delegate + "]";</a>
+<span class="sourceLineNo">576</span><a id="line.576">    }</a>
+<span class="sourceLineNo">577</span><a id="line.577">  }</a>
+<span class="sourceLineNo">578</span><a id="line.578"></a>
+<span class="sourceLineNo">579</span><a id="line.579">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">580</span><a id="line.580">  private static final class ScheduledListeningDecorator extends ListeningDecorator</a>
+<span class="sourceLineNo">581</span><a id="line.581">      implements ListeningScheduledExecutorService {</a>
+<span class="sourceLineNo">582</span><a id="line.582">    @SuppressWarnings("hiding")</a>
+<span class="sourceLineNo">583</span><a id="line.583">    final ScheduledExecutorService delegate;</a>
+<span class="sourceLineNo">584</span><a id="line.584"></a>
+<span class="sourceLineNo">585</span><a id="line.585">    ScheduledListeningDecorator(ScheduledExecutorService delegate) {</a>
+<span class="sourceLineNo">586</span><a id="line.586">      super(delegate);</a>
+<span class="sourceLineNo">587</span><a id="line.587">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">588</span><a id="line.588">    }</a>
+<span class="sourceLineNo">589</span><a id="line.589"></a>
+<span class="sourceLineNo">590</span><a id="line.590">    @Override</a>
+<span class="sourceLineNo">591</span><a id="line.591">    public ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit) {</a>
+<span class="sourceLineNo">592</span><a id="line.592">      TrustedListenableFutureTask&lt;@Nullable Void&gt; task =</a>
+<span class="sourceLineNo">593</span><a id="line.593">          TrustedListenableFutureTask.create(command, null);</a>
+<span class="sourceLineNo">594</span><a id="line.594">      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);</a>
+<span class="sourceLineNo">595</span><a id="line.595">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
+<span class="sourceLineNo">596</span><a id="line.596">    }</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">    @Override</a>
+<span class="sourceLineNo">599</span><a id="line.599">    public &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</a>
+<span class="sourceLineNo">600</span><a id="line.600">        Callable&lt;V&gt; callable, long delay, TimeUnit unit) {</a>
+<span class="sourceLineNo">601</span><a id="line.601">      TrustedListenableFutureTask&lt;V&gt; task = TrustedListenableFutureTask.create(callable);</a>
+<span class="sourceLineNo">602</span><a id="line.602">      ScheduledFuture&lt;?&gt; scheduled = delegate.schedule(task, delay, unit);</a>
+<span class="sourceLineNo">603</span><a id="line.603">      return new ListenableScheduledTask&lt;V&gt;(task, scheduled);</a>
+<span class="sourceLineNo">604</span><a id="line.604">    }</a>
+<span class="sourceLineNo">605</span><a id="line.605"></a>
+<span class="sourceLineNo">606</span><a id="line.606">    @Override</a>
+<span class="sourceLineNo">607</span><a id="line.607">    public ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</a>
+<span class="sourceLineNo">608</span><a id="line.608">        Runnable command, long initialDelay, long period, TimeUnit unit) {</a>
+<span class="sourceLineNo">609</span><a id="line.609">      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);</a>
+<span class="sourceLineNo">610</span><a id="line.610">      ScheduledFuture&lt;?&gt; scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);</a>
+<span class="sourceLineNo">611</span><a id="line.611">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
+<span class="sourceLineNo">612</span><a id="line.612">    }</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
+<span class="sourceLineNo">615</span><a id="line.615">    public ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</a>
+<span class="sourceLineNo">616</span><a id="line.616">        Runnable command, long initialDelay, long delay, TimeUnit unit) {</a>
+<span class="sourceLineNo">617</span><a id="line.617">      NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);</a>
+<span class="sourceLineNo">618</span><a id="line.618">      ScheduledFuture&lt;?&gt; scheduled =</a>
+<span class="sourceLineNo">619</span><a id="line.619">          delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);</a>
+<span class="sourceLineNo">620</span><a id="line.620">      return new ListenableScheduledTask&lt;@Nullable Void&gt;(task, scheduled);</a>
+<span class="sourceLineNo">621</span><a id="line.621">    }</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">    private static final class ListenableScheduledTask&lt;V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">624</span><a id="line.624">        extends SimpleForwardingListenableFuture&lt;V&gt; implements ListenableScheduledFuture&lt;V&gt; {</a>
+<span class="sourceLineNo">625</span><a id="line.625"></a>
+<span class="sourceLineNo">626</span><a id="line.626">      private final ScheduledFuture&lt;?&gt; scheduledDelegate;</a>
+<span class="sourceLineNo">627</span><a id="line.627"></a>
+<span class="sourceLineNo">628</span><a id="line.628">      public ListenableScheduledTask(</a>
+<span class="sourceLineNo">629</span><a id="line.629">          ListenableFuture&lt;V&gt; listenableDelegate, ScheduledFuture&lt;?&gt; scheduledDelegate) {</a>
+<span class="sourceLineNo">630</span><a id="line.630">        super(listenableDelegate);</a>
+<span class="sourceLineNo">631</span><a id="line.631">        this.scheduledDelegate = scheduledDelegate;</a>
+<span class="sourceLineNo">632</span><a id="line.632">      }</a>
+<span class="sourceLineNo">633</span><a id="line.633"></a>
+<span class="sourceLineNo">634</span><a id="line.634">      @Override</a>
+<span class="sourceLineNo">635</span><a id="line.635">      public boolean cancel(boolean mayInterruptIfRunning) {</a>
+<span class="sourceLineNo">636</span><a id="line.636">        boolean cancelled = super.cancel(mayInterruptIfRunning);</a>
+<span class="sourceLineNo">637</span><a id="line.637">        if (cancelled) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">          // Unless it is cancelled, the delegate may continue being scheduled</a>
+<span class="sourceLineNo">639</span><a id="line.639">          scheduledDelegate.cancel(mayInterruptIfRunning);</a>
 <span class="sourceLineNo">640</span><a id="line.640"></a>
-<span class="sourceLineNo">641</span><a id="line.641">      @Override</a>
-<span class="sourceLineNo">642</span><a id="line.642">      public int compareTo(Delayed other) {</a>
-<span class="sourceLineNo">643</span><a id="line.643">        return scheduledDelegate.compareTo(other);</a>
+<span class="sourceLineNo">641</span><a id="line.641">          // TODO(user): Cancel "this" if "scheduledDelegate" is cancelled.</a>
+<span class="sourceLineNo">642</span><a id="line.642">        }</a>
+<span class="sourceLineNo">643</span><a id="line.643">        return cancelled;</a>
 <span class="sourceLineNo">644</span><a id="line.644">      }</a>
-<span class="sourceLineNo">645</span><a id="line.645">    }</a>
-<span class="sourceLineNo">646</span><a id="line.646"></a>
-<span class="sourceLineNo">647</span><a id="line.647">    @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">648</span><a id="line.648">    private static final class NeverSuccessfulListenableFutureTask</a>
-<span class="sourceLineNo">649</span><a id="line.649">        extends AbstractFuture.TrustedFuture&lt;@Nullable Void&gt; implements Runnable {</a>
-<span class="sourceLineNo">650</span><a id="line.650">      private final Runnable delegate;</a>
-<span class="sourceLineNo">651</span><a id="line.651"></a>
-<span class="sourceLineNo">652</span><a id="line.652">      public NeverSuccessfulListenableFutureTask(Runnable delegate) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">        this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">645</span><a id="line.645"></a>
+<span class="sourceLineNo">646</span><a id="line.646">      @Override</a>
+<span class="sourceLineNo">647</span><a id="line.647">      public long getDelay(TimeUnit unit) {</a>
+<span class="sourceLineNo">648</span><a id="line.648">        return scheduledDelegate.getDelay(unit);</a>
+<span class="sourceLineNo">649</span><a id="line.649">      }</a>
+<span class="sourceLineNo">650</span><a id="line.650"></a>
+<span class="sourceLineNo">651</span><a id="line.651">      @Override</a>
+<span class="sourceLineNo">652</span><a id="line.652">      public int compareTo(Delayed other) {</a>
+<span class="sourceLineNo">653</span><a id="line.653">        return scheduledDelegate.compareTo(other);</a>
 <span class="sourceLineNo">654</span><a id="line.654">      }</a>
-<span class="sourceLineNo">655</span><a id="line.655"></a>
-<span class="sourceLineNo">656</span><a id="line.656">      @Override</a>
-<span class="sourceLineNo">657</span><a id="line.657">      public void run() {</a>
-<span class="sourceLineNo">658</span><a id="line.658">        try {</a>
-<span class="sourceLineNo">659</span><a id="line.659">          delegate.run();</a>
-<span class="sourceLineNo">660</span><a id="line.660">        } catch (Throwable t) {</a>
-<span class="sourceLineNo">661</span><a id="line.661">          setException(t);</a>
-<span class="sourceLineNo">662</span><a id="line.662">          throw Throwables.propagate(t);</a>
-<span class="sourceLineNo">663</span><a id="line.663">        }</a>
+<span class="sourceLineNo">655</span><a id="line.655">    }</a>
+<span class="sourceLineNo">656</span><a id="line.656"></a>
+<span class="sourceLineNo">657</span><a id="line.657">    @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">658</span><a id="line.658">    private static final class NeverSuccessfulListenableFutureTask</a>
+<span class="sourceLineNo">659</span><a id="line.659">        extends AbstractFuture.TrustedFuture&lt;@Nullable Void&gt; implements Runnable {</a>
+<span class="sourceLineNo">660</span><a id="line.660">      private final Runnable delegate;</a>
+<span class="sourceLineNo">661</span><a id="line.661"></a>
+<span class="sourceLineNo">662</span><a id="line.662">      public NeverSuccessfulListenableFutureTask(Runnable delegate) {</a>
+<span class="sourceLineNo">663</span><a id="line.663">        this.delegate = checkNotNull(delegate);</a>
 <span class="sourceLineNo">664</span><a id="line.664">      }</a>
 <span class="sourceLineNo">665</span><a id="line.665"></a>
 <span class="sourceLineNo">666</span><a id="line.666">      @Override</a>
-<span class="sourceLineNo">667</span><a id="line.667">      protected String pendingToString() {</a>
-<span class="sourceLineNo">668</span><a id="line.668">        return "task=[" + delegate + "]";</a>
-<span class="sourceLineNo">669</span><a id="line.669">      }</a>
-<span class="sourceLineNo">670</span><a id="line.670">    }</a>
-<span class="sourceLineNo">671</span><a id="line.671">  }</a>
-<span class="sourceLineNo">672</span><a id="line.672"></a>
-<span class="sourceLineNo">673</span><a id="line.673">  /*</a>
-<span class="sourceLineNo">674</span><a id="line.674">   * This following method is a modified version of one found in</a>
-<span class="sourceLineNo">675</span><a id="line.675">   * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck/AbstractExecutorServiceTest.java?revision=1.30</a>
-<span class="sourceLineNo">676</span><a id="line.676">   * which contained the following notice:</a>
-<span class="sourceLineNo">677</span><a id="line.677">   *</a>
-<span class="sourceLineNo">678</span><a id="line.678">   * Written by Doug Lea with assistance from members of JCP JSR-166 Expert Group and released to</a>
-<span class="sourceLineNo">679</span><a id="line.679">   * the public domain, as explained at http://creativecommons.org/publicdomain/zero/1.0/</a>
-<span class="sourceLineNo">680</span><a id="line.680">   *</a>
-<span class="sourceLineNo">681</span><a id="line.681">   * Other contributors include Andrew Wright, Jeffrey Hayes, Pat Fisher, Mike Judd.</a>
-<span class="sourceLineNo">682</span><a id="line.682">   */</a>
-<span class="sourceLineNo">683</span><a id="line.683"></a>
-<span class="sourceLineNo">684</span><a id="line.684">  /**</a>
-<span class="sourceLineNo">685</span><a id="line.685">   * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}</a>
-<span class="sourceLineNo">686</span><a id="line.686">   * implementations.</a>
-<span class="sourceLineNo">687</span><a id="line.687">   */</a>
-<span class="sourceLineNo">688</span><a id="line.688">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
-<span class="sourceLineNo">689</span><a id="line.689">  @GwtIncompatible</a>
-<span class="sourceLineNo">690</span><a id="line.690">  @ParametricNullness</a>
-<span class="sourceLineNo">691</span><a id="line.691">  static &lt;T extends @Nullable Object&gt; T invokeAnyImpl(</a>
-<span class="sourceLineNo">692</span><a id="line.692">      ListeningExecutorService executorService,</a>
-<span class="sourceLineNo">693</span><a id="line.693">      Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</a>
-<span class="sourceLineNo">694</span><a id="line.694">      boolean timed,</a>
-<span class="sourceLineNo">695</span><a id="line.695">      long timeout,</a>
-<span class="sourceLineNo">696</span><a id="line.696">      TimeUnit unit)</a>
-<span class="sourceLineNo">697</span><a id="line.697">      throws InterruptedException, ExecutionException, TimeoutException {</a>
-<span class="sourceLineNo">698</span><a id="line.698">    checkNotNull(executorService);</a>
-<span class="sourceLineNo">699</span><a id="line.699">    checkNotNull(unit);</a>
-<span class="sourceLineNo">700</span><a id="line.700">    int ntasks = tasks.size();</a>
-<span class="sourceLineNo">701</span><a id="line.701">    checkArgument(ntasks &gt; 0);</a>
-<span class="sourceLineNo">702</span><a id="line.702">    List&lt;Future&lt;T&gt;&gt; futures = Lists.newArrayListWithCapacity(ntasks);</a>
-<span class="sourceLineNo">703</span><a id="line.703">    BlockingQueue&lt;Future&lt;T&gt;&gt; futureQueue = Queues.newLinkedBlockingQueue();</a>
-<span class="sourceLineNo">704</span><a id="line.704">    long timeoutNanos = unit.toNanos(timeout);</a>
-<span class="sourceLineNo">705</span><a id="line.705"></a>
-<span class="sourceLineNo">706</span><a id="line.706">    // For efficiency, especially in executors with limited</a>
-<span class="sourceLineNo">707</span><a id="line.707">    // parallelism, check to see if previously submitted tasks are</a>
-<span class="sourceLineNo">708</span><a id="line.708">    // done before submitting more of them. This interleaving</a>
-<span class="sourceLineNo">709</span><a id="line.709">    // plus the exception mechanics account for messiness of main</a>
-<span class="sourceLineNo">710</span><a id="line.710">    // loop.</a>
-<span class="sourceLineNo">711</span><a id="line.711"></a>
-<span class="sourceLineNo">712</span><a id="line.712">    try {</a>
-<span class="sourceLineNo">713</span><a id="line.713">      // Record exceptions so that if we fail to obtain any</a>
-<span class="sourceLineNo">714</span><a id="line.714">      // result, we can throw the last exception we got.</a>
-<span class="sourceLineNo">715</span><a id="line.715">      ExecutionException ee = null;</a>
-<span class="sourceLineNo">716</span><a id="line.716">      long lastTime = timed ? System.nanoTime() : 0;</a>
-<span class="sourceLineNo">717</span><a id="line.717">      Iterator&lt;? extends Callable&lt;T&gt;&gt; it = tasks.iterator();</a>
-<span class="sourceLineNo">718</span><a id="line.718"></a>
-<span class="sourceLineNo">719</span><a id="line.719">      futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));</a>
-<span class="sourceLineNo">720</span><a id="line.720">      --ntasks;</a>
-<span class="sourceLineNo">721</span><a id="line.721">      int active = 1;</a>
-<span class="sourceLineNo">722</span><a id="line.722"></a>
-<span class="sourceLineNo">723</span><a id="line.723">      while (true) {</a>
-<span class="sourceLineNo">724</span><a id="line.724">        Future&lt;T&gt; f = futureQueue.poll();</a>
-<span class="sourceLineNo">725</span><a id="line.725">        if (f == null) {</a>
-<span class="sourceLineNo">726</span><a id="line.726">          if (ntasks &gt; 0) {</a>
-<span class="sourceLineNo">727</span><a id="line.727">            --ntasks;</a>
-<span class="sourceLineNo">728</span><a id="line.728">            futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));</a>
-<span class="sourceLineNo">729</span><a id="line.729">            ++active;</a>
-<span class="sourceLineNo">730</span><a id="line.730">          } else if (active == 0) {</a>
-<span class="sourceLineNo">731</span><a id="line.731">            break;</a>
-<span class="sourceLineNo">732</span><a id="line.732">          } else if (timed) {</a>
-<span class="sourceLineNo">733</span><a id="line.733">            f = futureQueue.poll(timeoutNanos, TimeUnit.NANOSECONDS);</a>
-<span class="sourceLineNo">734</span><a id="line.734">            if (f == null) {</a>
-<span class="sourceLineNo">735</span><a id="line.735">              throw new TimeoutException();</a>
-<span class="sourceLineNo">736</span><a id="line.736">            }</a>
-<span class="sourceLineNo">737</span><a id="line.737">            long now = System.nanoTime();</a>
-<span class="sourceLineNo">738</span><a id="line.738">            timeoutNanos -= now - lastTime;</a>
-<span class="sourceLineNo">739</span><a id="line.739">            lastTime = now;</a>
-<span class="sourceLineNo">740</span><a id="line.740">          } else {</a>
-<span class="sourceLineNo">741</span><a id="line.741">            f = futureQueue.take();</a>
-<span class="sourceLineNo">742</span><a id="line.742">          }</a>
-<span class="sourceLineNo">743</span><a id="line.743">        }</a>
-<span class="sourceLineNo">744</span><a id="line.744">        if (f != null) {</a>
-<span class="sourceLineNo">745</span><a id="line.745">          --active;</a>
-<span class="sourceLineNo">746</span><a id="line.746">          try {</a>
-<span class="sourceLineNo">747</span><a id="line.747">            return f.get();</a>
-<span class="sourceLineNo">748</span><a id="line.748">          } catch (ExecutionException eex) {</a>
-<span class="sourceLineNo">749</span><a id="line.749">            ee = eex;</a>
-<span class="sourceLineNo">750</span><a id="line.750">          } catch (RuntimeException rex) {</a>
-<span class="sourceLineNo">751</span><a id="line.751">            ee = new ExecutionException(rex);</a>
+<span class="sourceLineNo">667</span><a id="line.667">      public void run() {</a>
+<span class="sourceLineNo">668</span><a id="line.668">        try {</a>
+<span class="sourceLineNo">669</span><a id="line.669">          delegate.run();</a>
+<span class="sourceLineNo">670</span><a id="line.670">        } catch (Throwable t) {</a>
+<span class="sourceLineNo">671</span><a id="line.671">          setException(t);</a>
+<span class="sourceLineNo">672</span><a id="line.672">          throw Throwables.propagate(t);</a>
+<span class="sourceLineNo">673</span><a id="line.673">        }</a>
+<span class="sourceLineNo">674</span><a id="line.674">      }</a>
+<span class="sourceLineNo">675</span><a id="line.675"></a>
+<span class="sourceLineNo">676</span><a id="line.676">      @Override</a>
+<span class="sourceLineNo">677</span><a id="line.677">      protected String pendingToString() {</a>
+<span class="sourceLineNo">678</span><a id="line.678">        return "task=[" + delegate + "]";</a>
+<span class="sourceLineNo">679</span><a id="line.679">      }</a>
+<span class="sourceLineNo">680</span><a id="line.680">    }</a>
+<span class="sourceLineNo">681</span><a id="line.681">  }</a>
+<span class="sourceLineNo">682</span><a id="line.682"></a>
+<span class="sourceLineNo">683</span><a id="line.683">  /*</a>
+<span class="sourceLineNo">684</span><a id="line.684">   * This following method is a modified version of one found in</a>
+<span class="sourceLineNo">685</span><a id="line.685">   * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck/AbstractExecutorServiceTest.java?revision=1.30</a>
+<span class="sourceLineNo">686</span><a id="line.686">   * which contained the following notice:</a>
+<span class="sourceLineNo">687</span><a id="line.687">   *</a>
+<span class="sourceLineNo">688</span><a id="line.688">   * Written by Doug Lea with assistance from members of JCP JSR-166 Expert Group and released to</a>
+<span class="sourceLineNo">689</span><a id="line.689">   * the public domain, as explained at http://creativecommons.org/publicdomain/zero/1.0/</a>
+<span class="sourceLineNo">690</span><a id="line.690">   *</a>
+<span class="sourceLineNo">691</span><a id="line.691">   * Other contributors include Andrew Wright, Jeffrey Hayes, Pat Fisher, Mike Judd.</a>
+<span class="sourceLineNo">692</span><a id="line.692">   */</a>
+<span class="sourceLineNo">693</span><a id="line.693"></a>
+<span class="sourceLineNo">694</span><a id="line.694">  /**</a>
+<span class="sourceLineNo">695</span><a id="line.695">   * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}</a>
+<span class="sourceLineNo">696</span><a id="line.696">   * implementations.</a>
+<span class="sourceLineNo">697</span><a id="line.697">   */</a>
+<span class="sourceLineNo">698</span><a id="line.698">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">699</span><a id="line.699">  @GwtIncompatible</a>
+<span class="sourceLineNo">700</span><a id="line.700">  @ParametricNullness</a>
+<span class="sourceLineNo">701</span><a id="line.701">  static &lt;T extends @Nullable Object&gt; T invokeAnyImpl(</a>
+<span class="sourceLineNo">702</span><a id="line.702">      ListeningExecutorService executorService,</a>
+<span class="sourceLineNo">703</span><a id="line.703">      Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</a>
+<span class="sourceLineNo">704</span><a id="line.704">      boolean timed,</a>
+<span class="sourceLineNo">705</span><a id="line.705">      long timeout,</a>
+<span class="sourceLineNo">706</span><a id="line.706">      TimeUnit unit)</a>
+<span class="sourceLineNo">707</span><a id="line.707">      throws InterruptedException, ExecutionException, TimeoutException {</a>
+<span class="sourceLineNo">708</span><a id="line.708">    checkNotNull(executorService);</a>
+<span class="sourceLineNo">709</span><a id="line.709">    checkNotNull(unit);</a>
+<span class="sourceLineNo">710</span><a id="line.710">    int ntasks = tasks.size();</a>
+<span class="sourceLineNo">711</span><a id="line.711">    checkArgument(ntasks &gt; 0);</a>
+<span class="sourceLineNo">712</span><a id="line.712">    List&lt;Future&lt;T&gt;&gt; futures = Lists.newArrayListWithCapacity(ntasks);</a>
+<span class="sourceLineNo">713</span><a id="line.713">    BlockingQueue&lt;Future&lt;T&gt;&gt; futureQueue = Queues.newLinkedBlockingQueue();</a>
+<span class="sourceLineNo">714</span><a id="line.714">    long timeoutNanos = unit.toNanos(timeout);</a>
+<span class="sourceLineNo">715</span><a id="line.715"></a>
+<span class="sourceLineNo">716</span><a id="line.716">    // For efficiency, especially in executors with limited</a>
+<span class="sourceLineNo">717</span><a id="line.717">    // parallelism, check to see if previously submitted tasks are</a>
+<span class="sourceLineNo">718</span><a id="line.718">    // done before submitting more of them. This interleaving</a>
+<span class="sourceLineNo">719</span><a id="line.719">    // plus the exception mechanics account for messiness of main</a>
+<span class="sourceLineNo">720</span><a id="line.720">    // loop.</a>
+<span class="sourceLineNo">721</span><a id="line.721"></a>
+<span class="sourceLineNo">722</span><a id="line.722">    try {</a>
+<span class="sourceLineNo">723</span><a id="line.723">      // Record exceptions so that if we fail to obtain any</a>
+<span class="sourceLineNo">724</span><a id="line.724">      // result, we can throw the last exception we got.</a>
+<span class="sourceLineNo">725</span><a id="line.725">      ExecutionException ee = null;</a>
+<span class="sourceLineNo">726</span><a id="line.726">      long lastTime = timed ? System.nanoTime() : 0;</a>
+<span class="sourceLineNo">727</span><a id="line.727">      Iterator&lt;? extends Callable&lt;T&gt;&gt; it = tasks.iterator();</a>
+<span class="sourceLineNo">728</span><a id="line.728"></a>
+<span class="sourceLineNo">729</span><a id="line.729">      futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));</a>
+<span class="sourceLineNo">730</span><a id="line.730">      --ntasks;</a>
+<span class="sourceLineNo">731</span><a id="line.731">      int active = 1;</a>
+<span class="sourceLineNo">732</span><a id="line.732"></a>
+<span class="sourceLineNo">733</span><a id="line.733">      while (true) {</a>
+<span class="sourceLineNo">734</span><a id="line.734">        Future&lt;T&gt; f = futureQueue.poll();</a>
+<span class="sourceLineNo">735</span><a id="line.735">        if (f == null) {</a>
+<span class="sourceLineNo">736</span><a id="line.736">          if (ntasks &gt; 0) {</a>
+<span class="sourceLineNo">737</span><a id="line.737">            --ntasks;</a>
+<span class="sourceLineNo">738</span><a id="line.738">            futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));</a>
+<span class="sourceLineNo">739</span><a id="line.739">            ++active;</a>
+<span class="sourceLineNo">740</span><a id="line.740">          } else if (active == 0) {</a>
+<span class="sourceLineNo">741</span><a id="line.741">            break;</a>
+<span class="sourceLineNo">742</span><a id="line.742">          } else if (timed) {</a>
+<span class="sourceLineNo">743</span><a id="line.743">            f = futureQueue.poll(timeoutNanos, TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">744</span><a id="line.744">            if (f == null) {</a>
+<span class="sourceLineNo">745</span><a id="line.745">              throw new TimeoutException();</a>
+<span class="sourceLineNo">746</span><a id="line.746">            }</a>
+<span class="sourceLineNo">747</span><a id="line.747">            long now = System.nanoTime();</a>
+<span class="sourceLineNo">748</span><a id="line.748">            timeoutNanos -= now - lastTime;</a>
+<span class="sourceLineNo">749</span><a id="line.749">            lastTime = now;</a>
+<span class="sourceLineNo">750</span><a id="line.750">          } else {</a>
+<span class="sourceLineNo">751</span><a id="line.751">            f = futureQueue.take();</a>
 <span class="sourceLineNo">752</span><a id="line.752">          }</a>
 <span class="sourceLineNo">753</span><a id="line.753">        }</a>
-<span class="sourceLineNo">754</span><a id="line.754">      }</a>
-<span class="sourceLineNo">755</span><a id="line.755"></a>
-<span class="sourceLineNo">756</span><a id="line.756">      if (ee == null) {</a>
-<span class="sourceLineNo">757</span><a id="line.757">        ee = new ExecutionException(null);</a>
-<span class="sourceLineNo">758</span><a id="line.758">      }</a>
-<span class="sourceLineNo">759</span><a id="line.759">      throw ee;</a>
-<span class="sourceLineNo">760</span><a id="line.760">    } finally {</a>
-<span class="sourceLineNo">761</span><a id="line.761">      for (Future&lt;T&gt; f : futures) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">        f.cancel(true);</a>
-<span class="sourceLineNo">763</span><a id="line.763">      }</a>
-<span class="sourceLineNo">764</span><a id="line.764">    }</a>
-<span class="sourceLineNo">765</span><a id="line.765">  }</a>
-<span class="sourceLineNo">766</span><a id="line.766"></a>
-<span class="sourceLineNo">767</span><a id="line.767">  /**</a>
-<span class="sourceLineNo">768</span><a id="line.768">   * Submits the task and adds a listener that adds the future to {@code queue} when it completes.</a>
-<span class="sourceLineNo">769</span><a id="line.769">   */</a>
-<span class="sourceLineNo">770</span><a id="line.770">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">771</span><a id="line.771">  private static &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submitAndAddQueueListener(</a>
-<span class="sourceLineNo">772</span><a id="line.772">      ListeningExecutorService executorService,</a>
-<span class="sourceLineNo">773</span><a id="line.773">      Callable&lt;T&gt; task,</a>
-<span class="sourceLineNo">774</span><a id="line.774">      final BlockingQueue&lt;Future&lt;T&gt;&gt; queue) {</a>
-<span class="sourceLineNo">775</span><a id="line.775">    final ListenableFuture&lt;T&gt; future = executorService.submit(task);</a>
-<span class="sourceLineNo">776</span><a id="line.776">    future.addListener(</a>
-<span class="sourceLineNo">777</span><a id="line.777">        new Runnable() {</a>
-<span class="sourceLineNo">778</span><a id="line.778">          @Override</a>
-<span class="sourceLineNo">779</span><a id="line.779">          public void run() {</a>
-<span class="sourceLineNo">780</span><a id="line.780">            queue.add(future);</a>
-<span class="sourceLineNo">781</span><a id="line.781">          }</a>
-<span class="sourceLineNo">782</span><a id="line.782">        },</a>
-<span class="sourceLineNo">783</span><a id="line.783">        directExecutor());</a>
-<span class="sourceLineNo">784</span><a id="line.784">    return future;</a>
-<span class="sourceLineNo">785</span><a id="line.785">  }</a>
-<span class="sourceLineNo">786</span><a id="line.786"></a>
-<span class="sourceLineNo">787</span><a id="line.787">  /**</a>
-<span class="sourceLineNo">788</span><a id="line.788">   * Returns a default thread factory used to create new threads.</a>
-<span class="sourceLineNo">789</span><a id="line.789">   *</a>
-<span class="sourceLineNo">790</span><a id="line.790">   * &lt;p&gt;When running on AppEngine with access to &lt;a</a>
-<span class="sourceLineNo">791</span><a id="line.791">   * href="https://cloud.google.com/appengine/docs/standard/java/javadoc/"&gt;AppEngine legacy</a>
-<span class="sourceLineNo">792</span><a id="line.792">   * APIs&lt;/a&gt;, this method returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,</a>
-<span class="sourceLineNo">793</span><a id="line.793">   * it returns {@link Executors#defaultThreadFactory()}.</a>
-<span class="sourceLineNo">794</span><a id="line.794">   *</a>
-<span class="sourceLineNo">795</span><a id="line.795">   * @since 14.0</a>
-<span class="sourceLineNo">796</span><a id="line.796">   */</a>
-<span class="sourceLineNo">797</span><a id="line.797">  @Beta</a>
-<span class="sourceLineNo">798</span><a id="line.798">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">799</span><a id="line.799">  public static ThreadFactory platformThreadFactory() {</a>
-<span class="sourceLineNo">800</span><a id="line.800">    if (!isAppEngineWithApiClasses()) {</a>
-<span class="sourceLineNo">801</span><a id="line.801">      return Executors.defaultThreadFactory();</a>
-<span class="sourceLineNo">802</span><a id="line.802">    }</a>
-<span class="sourceLineNo">803</span><a id="line.803">    try {</a>
-<span class="sourceLineNo">804</span><a id="line.804">      return (ThreadFactory)</a>
-<span class="sourceLineNo">805</span><a id="line.805">          Class.forName("com.google.appengine.api.ThreadManager")</a>
-<span class="sourceLineNo">806</span><a id="line.806">              .getMethod("currentRequestThreadFactory")</a>
-<span class="sourceLineNo">807</span><a id="line.807">              .invoke(null);</a>
-<span class="sourceLineNo">808</span><a id="line.808">      /*</a>
-<span class="sourceLineNo">809</span><a id="line.809">       * Do not merge the 3 catch blocks below. javac would infer a type of</a>
-<span class="sourceLineNo">810</span><a id="line.810">       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of Android</a>
-<span class="sourceLineNo">811</span><a id="line.811">       * don't *seem* to mind, but there might be edge cases of which we're unaware.)</a>
-<span class="sourceLineNo">812</span><a id="line.812">       */</a>
-<span class="sourceLineNo">813</span><a id="line.813">    } catch (IllegalAccessException e) {</a>
-<span class="sourceLineNo">814</span><a id="line.814">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
-<span class="sourceLineNo">815</span><a id="line.815">    } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">816</span><a id="line.816">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
-<span class="sourceLineNo">817</span><a id="line.817">    } catch (NoSuchMethodException e) {</a>
-<span class="sourceLineNo">818</span><a id="line.818">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
-<span class="sourceLineNo">819</span><a id="line.819">    } catch (InvocationTargetException e) {</a>
-<span class="sourceLineNo">820</span><a id="line.820">      throw Throwables.propagate(e.getCause());</a>
-<span class="sourceLineNo">821</span><a id="line.821">    }</a>
-<span class="sourceLineNo">822</span><a id="line.822">  }</a>
-<span class="sourceLineNo">823</span><a id="line.823"></a>
-<span class="sourceLineNo">824</span><a id="line.824">  @GwtIncompatible // TODO</a>
-<span class="sourceLineNo">825</span><a id="line.825">  private static boolean isAppEngineWithApiClasses() {</a>
-<span class="sourceLineNo">826</span><a id="line.826">    if (System.getProperty("com.google.appengine.runtime.environment") == null) {</a>
-<span class="sourceLineNo">827</span><a id="line.827">      return false;</a>
-<span class="sourceLineNo">828</span><a id="line.828">    }</a>
-<span class="sourceLineNo">829</span><a id="line.829">    try {</a>
-<span class="sourceLineNo">830</span><a id="line.830">      Class.forName("com.google.appengine.api.utils.SystemProperty");</a>
-<span class="sourceLineNo">831</span><a id="line.831">    } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">832</span><a id="line.832">      return false;</a>
-<span class="sourceLineNo">833</span><a id="line.833">    }</a>
-<span class="sourceLineNo">834</span><a id="line.834">    try {</a>
-<span class="sourceLineNo">835</span><a id="line.835">      // If the current environment is null, we're not inside AppEngine.</a>
-<span class="sourceLineNo">836</span><a id="line.836">      return Class.forName("com.google.apphosting.api.ApiProxy")</a>
-<span class="sourceLineNo">837</span><a id="line.837">              .getMethod("getCurrentEnvironment")</a>
-<span class="sourceLineNo">838</span><a id="line.838">              .invoke(null)</a>
-<span class="sourceLineNo">839</span><a id="line.839">          != null;</a>
-<span class="sourceLineNo">840</span><a id="line.840">    } catch (ClassNotFoundException e) {</a>
-<span class="sourceLineNo">841</span><a id="line.841">      // If ApiProxy doesn't exist, we're not on AppEngine at all.</a>
+<span class="sourceLineNo">754</span><a id="line.754">        if (f != null) {</a>
+<span class="sourceLineNo">755</span><a id="line.755">          --active;</a>
+<span class="sourceLineNo">756</span><a id="line.756">          try {</a>
+<span class="sourceLineNo">757</span><a id="line.757">            return f.get();</a>
+<span class="sourceLineNo">758</span><a id="line.758">          } catch (ExecutionException eex) {</a>
+<span class="sourceLineNo">759</span><a id="line.759">            ee = eex;</a>
+<span class="sourceLineNo">760</span><a id="line.760">          } catch (RuntimeException rex) {</a>
+<span class="sourceLineNo">761</span><a id="line.761">            ee = new ExecutionException(rex);</a>
+<span class="sourceLineNo">762</span><a id="line.762">          }</a>
+<span class="sourceLineNo">763</span><a id="line.763">        }</a>
+<span class="sourceLineNo">764</span><a id="line.764">      }</a>
+<span class="sourceLineNo">765</span><a id="line.765"></a>
+<span class="sourceLineNo">766</span><a id="line.766">      if (ee == null) {</a>
+<span class="sourceLineNo">767</span><a id="line.767">        ee = new ExecutionException(null);</a>
+<span class="sourceLineNo">768</span><a id="line.768">      }</a>
+<span class="sourceLineNo">769</span><a id="line.769">      throw ee;</a>
+<span class="sourceLineNo">770</span><a id="line.770">    } finally {</a>
+<span class="sourceLineNo">771</span><a id="line.771">      for (Future&lt;T&gt; f : futures) {</a>
+<span class="sourceLineNo">772</span><a id="line.772">        f.cancel(true);</a>
+<span class="sourceLineNo">773</span><a id="line.773">      }</a>
+<span class="sourceLineNo">774</span><a id="line.774">    }</a>
+<span class="sourceLineNo">775</span><a id="line.775">  }</a>
+<span class="sourceLineNo">776</span><a id="line.776"></a>
+<span class="sourceLineNo">777</span><a id="line.777">  /**</a>
+<span class="sourceLineNo">778</span><a id="line.778">   * Submits the task and adds a listener that adds the future to {@code queue} when it completes.</a>
+<span class="sourceLineNo">779</span><a id="line.779">   */</a>
+<span class="sourceLineNo">780</span><a id="line.780">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">781</span><a id="line.781">  private static &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submitAndAddQueueListener(</a>
+<span class="sourceLineNo">782</span><a id="line.782">      ListeningExecutorService executorService,</a>
+<span class="sourceLineNo">783</span><a id="line.783">      Callable&lt;T&gt; task,</a>
+<span class="sourceLineNo">784</span><a id="line.784">      final BlockingQueue&lt;Future&lt;T&gt;&gt; queue) {</a>
+<span class="sourceLineNo">785</span><a id="line.785">    final ListenableFuture&lt;T&gt; future = executorService.submit(task);</a>
+<span class="sourceLineNo">786</span><a id="line.786">    future.addListener(</a>
+<span class="sourceLineNo">787</span><a id="line.787">        new Runnable() {</a>
+<span class="sourceLineNo">788</span><a id="line.788">          @Override</a>
+<span class="sourceLineNo">789</span><a id="line.789">          public void run() {</a>
+<span class="sourceLineNo">790</span><a id="line.790">            queue.add(future);</a>
+<span class="sourceLineNo">791</span><a id="line.791">          }</a>
+<span class="sourceLineNo">792</span><a id="line.792">        },</a>
+<span class="sourceLineNo">793</span><a id="line.793">        directExecutor());</a>
+<span class="sourceLineNo">794</span><a id="line.794">    return future;</a>
+<span class="sourceLineNo">795</span><a id="line.795">  }</a>
+<span class="sourceLineNo">796</span><a id="line.796"></a>
+<span class="sourceLineNo">797</span><a id="line.797">  /**</a>
+<span class="sourceLineNo">798</span><a id="line.798">   * Returns a default thread factory used to create new threads.</a>
+<span class="sourceLineNo">799</span><a id="line.799">   *</a>
+<span class="sourceLineNo">800</span><a id="line.800">   * &lt;p&gt;When running on AppEngine with access to &lt;a</a>
+<span class="sourceLineNo">801</span><a id="line.801">   * href="https://cloud.google.com/appengine/docs/standard/java/javadoc/"&gt;AppEngine legacy</a>
+<span class="sourceLineNo">802</span><a id="line.802">   * APIs&lt;/a&gt;, this method returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,</a>
+<span class="sourceLineNo">803</span><a id="line.803">   * it returns {@link Executors#defaultThreadFactory()}.</a>
+<span class="sourceLineNo">804</span><a id="line.804">   *</a>
+<span class="sourceLineNo">805</span><a id="line.805">   * @since 14.0</a>
+<span class="sourceLineNo">806</span><a id="line.806">   */</a>
+<span class="sourceLineNo">807</span><a id="line.807">  @Beta</a>
+<span class="sourceLineNo">808</span><a id="line.808">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">809</span><a id="line.809">  public static ThreadFactory platformThreadFactory() {</a>
+<span class="sourceLineNo">810</span><a id="line.810">    if (!isAppEngineWithApiClasses()) {</a>
+<span class="sourceLineNo">811</span><a id="line.811">      return Executors.defaultThreadFactory();</a>
+<span class="sourceLineNo">812</span><a id="line.812">    }</a>
+<span class="sourceLineNo">813</span><a id="line.813">    try {</a>
+<span class="sourceLineNo">814</span><a id="line.814">      return (ThreadFactory)</a>
+<span class="sourceLineNo">815</span><a id="line.815">          Class.forName("com.google.appengine.api.ThreadManager")</a>
+<span class="sourceLineNo">816</span><a id="line.816">              .getMethod("currentRequestThreadFactory")</a>
+<span class="sourceLineNo">817</span><a id="line.817">              .invoke(null);</a>
+<span class="sourceLineNo">818</span><a id="line.818">      /*</a>
+<span class="sourceLineNo">819</span><a id="line.819">       * Do not merge the 3 catch blocks below. javac would infer a type of</a>
+<span class="sourceLineNo">820</span><a id="line.820">       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of Android</a>
+<span class="sourceLineNo">821</span><a id="line.821">       * don't *seem* to mind, but there might be edge cases of which we're unaware.)</a>
+<span class="sourceLineNo">822</span><a id="line.822">       */</a>
+<span class="sourceLineNo">823</span><a id="line.823">    } catch (IllegalAccessException e) {</a>
+<span class="sourceLineNo">824</span><a id="line.824">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
+<span class="sourceLineNo">825</span><a id="line.825">    } catch (ClassNotFoundException e) {</a>
+<span class="sourceLineNo">826</span><a id="line.826">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
+<span class="sourceLineNo">827</span><a id="line.827">    } catch (NoSuchMethodException e) {</a>
+<span class="sourceLineNo">828</span><a id="line.828">      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);</a>
+<span class="sourceLineNo">829</span><a id="line.829">    } catch (InvocationTargetException e) {</a>
+<span class="sourceLineNo">830</span><a id="line.830">      throw Throwables.propagate(e.getCause());</a>
+<span class="sourceLineNo">831</span><a id="line.831">    }</a>
+<span class="sourceLineNo">832</span><a id="line.832">  }</a>
+<span class="sourceLineNo">833</span><a id="line.833"></a>
+<span class="sourceLineNo">834</span><a id="line.834">  @GwtIncompatible // TODO</a>
+<span class="sourceLineNo">835</span><a id="line.835">  private static boolean isAppEngineWithApiClasses() {</a>
+<span class="sourceLineNo">836</span><a id="line.836">    if (System.getProperty("com.google.appengine.runtime.environment") == null) {</a>
+<span class="sourceLineNo">837</span><a id="line.837">      return false;</a>
+<span class="sourceLineNo">838</span><a id="line.838">    }</a>
+<span class="sourceLineNo">839</span><a id="line.839">    try {</a>
+<span class="sourceLineNo">840</span><a id="line.840">      Class.forName("com.google.appengine.api.utils.SystemProperty");</a>
+<span class="sourceLineNo">841</span><a id="line.841">    } catch (ClassNotFoundException e) {</a>
 <span class="sourceLineNo">842</span><a id="line.842">      return false;</a>
-<span class="sourceLineNo">843</span><a id="line.843">    } catch (InvocationTargetException e) {</a>
-<span class="sourceLineNo">844</span><a id="line.844">      // If ApiProxy throws an exception, we're not in a proper AppEngine environment.</a>
-<span class="sourceLineNo">845</span><a id="line.845">      return false;</a>
-<span class="sourceLineNo">846</span><a id="line.846">    } catch (IllegalAccessException e) {</a>
-<span class="sourceLineNo">847</span><a id="line.847">      // If the method isn't accessible, we're not on a supported version of AppEngine;</a>
-<span class="sourceLineNo">848</span><a id="line.848">      return false;</a>
-<span class="sourceLineNo">849</span><a id="line.849">    } catch (NoSuchMethodException e) {</a>
-<span class="sourceLineNo">850</span><a id="line.850">      // If the method doesn't exist, we're not on a supported version of AppEngine;</a>
-<span class="sourceLineNo">851</span><a id="line.851">      return false;</a>
-<span class="sourceLineNo">852</span><a id="line.852">    }</a>
-<span class="sourceLineNo">853</span><a id="line.853">  }</a>
-<span class="sourceLineNo">854</span><a id="line.854"></a>
-<span class="sourceLineNo">855</span><a id="line.855">  /**</a>
-<span class="sourceLineNo">856</span><a id="line.856">   * Creates a thread using {@link #platformThreadFactory}, and sets its name to {@code name} unless</a>
-<span class="sourceLineNo">857</span><a id="line.857">   * changing the name is forbidden by the security manager.</a>
-<span class="sourceLineNo">858</span><a id="line.858">   */</a>
-<span class="sourceLineNo">859</span><a id="line.859">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">860</span><a id="line.860">  static Thread newThread(String name, Runnable runnable) {</a>
-<span class="sourceLineNo">861</span><a id="line.861">    checkNotNull(name);</a>
-<span class="sourceLineNo">862</span><a id="line.862">    checkNotNull(runnable);</a>
-<span class="sourceLineNo">863</span><a id="line.863">    Thread result = platformThreadFactory().newThread(runnable);</a>
-<span class="sourceLineNo">864</span><a id="line.864">    try {</a>
-<span class="sourceLineNo">865</span><a id="line.865">      result.setName(name);</a>
-<span class="sourceLineNo">866</span><a id="line.866">    } catch (SecurityException e) {</a>
-<span class="sourceLineNo">867</span><a id="line.867">      // OK if we can't set the name in this environment.</a>
-<span class="sourceLineNo">868</span><a id="line.868">    }</a>
-<span class="sourceLineNo">869</span><a id="line.869">    return result;</a>
-<span class="sourceLineNo">870</span><a id="line.870">  }</a>
-<span class="sourceLineNo">871</span><a id="line.871"></a>
-<span class="sourceLineNo">872</span><a id="line.872">  // TODO(lukes): provide overloads for ListeningExecutorService? ListeningScheduledExecutorService?</a>
-<span class="sourceLineNo">873</span><a id="line.873">  // TODO(lukes): provide overloads that take constant strings? Function&lt;Runnable, String&gt;s to</a>
-<span class="sourceLineNo">874</span><a id="line.874">  // calculate names?</a>
-<span class="sourceLineNo">875</span><a id="line.875"></a>
-<span class="sourceLineNo">876</span><a id="line.876">  /**</a>
-<span class="sourceLineNo">877</span><a id="line.877">   * Creates an {@link Executor} that renames the {@link Thread threads} that its tasks run in.</a>
-<span class="sourceLineNo">878</span><a id="line.878">   *</a>
-<span class="sourceLineNo">879</span><a id="line.879">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
-<span class="sourceLineNo">880</span><a id="line.880">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
-<span class="sourceLineNo">881</span><a id="line.881">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
-<span class="sourceLineNo">882</span><a id="line.882">   *</a>
-<span class="sourceLineNo">883</span><a id="line.883">   * @param executor The executor to decorate</a>
-<span class="sourceLineNo">884</span><a id="line.884">   * @param nameSupplier The source of names for each task</a>
-<span class="sourceLineNo">885</span><a id="line.885">   */</a>
-<span class="sourceLineNo">886</span><a id="line.886">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">887</span><a id="line.887">  static Executor renamingDecorator(final Executor executor, final Supplier&lt;String&gt; nameSupplier) {</a>
-<span class="sourceLineNo">888</span><a id="line.888">    checkNotNull(executor);</a>
-<span class="sourceLineNo">889</span><a id="line.889">    checkNotNull(nameSupplier);</a>
-<span class="sourceLineNo">890</span><a id="line.890">    return new Executor() {</a>
-<span class="sourceLineNo">891</span><a id="line.891">      @Override</a>
-<span class="sourceLineNo">892</span><a id="line.892">      public void execute(Runnable command) {</a>
-<span class="sourceLineNo">893</span><a id="line.893">        executor.execute(Callables.threadRenaming(command, nameSupplier));</a>
-<span class="sourceLineNo">894</span><a id="line.894">      }</a>
-<span class="sourceLineNo">895</span><a id="line.895">    };</a>
-<span class="sourceLineNo">896</span><a id="line.896">  }</a>
-<span class="sourceLineNo">897</span><a id="line.897"></a>
-<span class="sourceLineNo">898</span><a id="line.898">  /**</a>
-<span class="sourceLineNo">899</span><a id="line.899">   * Creates an {@link ExecutorService} that renames the {@link Thread threads} that its tasks run</a>
-<span class="sourceLineNo">900</span><a id="line.900">   * in.</a>
-<span class="sourceLineNo">901</span><a id="line.901">   *</a>
-<span class="sourceLineNo">902</span><a id="line.902">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
-<span class="sourceLineNo">903</span><a id="line.903">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
-<span class="sourceLineNo">904</span><a id="line.904">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
-<span class="sourceLineNo">905</span><a id="line.905">   *</a>
-<span class="sourceLineNo">906</span><a id="line.906">   * @param service The executor to decorate</a>
-<span class="sourceLineNo">907</span><a id="line.907">   * @param nameSupplier The source of names for each task</a>
-<span class="sourceLineNo">908</span><a id="line.908">   */</a>
-<span class="sourceLineNo">909</span><a id="line.909">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">910</span><a id="line.910">  static ExecutorService renamingDecorator(</a>
-<span class="sourceLineNo">911</span><a id="line.911">      final ExecutorService service, final Supplier&lt;String&gt; nameSupplier) {</a>
-<span class="sourceLineNo">912</span><a id="line.912">    checkNotNull(service);</a>
-<span class="sourceLineNo">913</span><a id="line.913">    checkNotNull(nameSupplier);</a>
-<span class="sourceLineNo">914</span><a id="line.914">    return new WrappingExecutorService(service) {</a>
-<span class="sourceLineNo">915</span><a id="line.915">      @Override</a>
-<span class="sourceLineNo">916</span><a id="line.916">      protected &lt;T extends @Nullable Object&gt; Callable&lt;T&gt; wrapTask(Callable&lt;T&gt; callable) {</a>
-<span class="sourceLineNo">917</span><a id="line.917">        return Callables.threadRenaming(callable, nameSupplier);</a>
-<span class="sourceLineNo">918</span><a id="line.918">      }</a>
-<span class="sourceLineNo">919</span><a id="line.919"></a>
-<span class="sourceLineNo">920</span><a id="line.920">      @Override</a>
-<span class="sourceLineNo">921</span><a id="line.921">      protected Runnable wrapTask(Runnable command) {</a>
-<span class="sourceLineNo">922</span><a id="line.922">        return Callables.threadRenaming(command, nameSupplier);</a>
-<span class="sourceLineNo">923</span><a id="line.923">      }</a>
-<span class="sourceLineNo">924</span><a id="line.924">    };</a>
-<span class="sourceLineNo">925</span><a id="line.925">  }</a>
-<span class="sourceLineNo">926</span><a id="line.926"></a>
-<span class="sourceLineNo">927</span><a id="line.927">  /**</a>
-<span class="sourceLineNo">928</span><a id="line.928">   * Creates a {@link ScheduledExecutorService} that renames the {@link Thread threads} that its</a>
-<span class="sourceLineNo">929</span><a id="line.929">   * tasks run in.</a>
-<span class="sourceLineNo">930</span><a id="line.930">   *</a>
-<span class="sourceLineNo">931</span><a id="line.931">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
-<span class="sourceLineNo">932</span><a id="line.932">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
-<span class="sourceLineNo">933</span><a id="line.933">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
-<span class="sourceLineNo">934</span><a id="line.934">   *</a>
-<span class="sourceLineNo">935</span><a id="line.935">   * @param service The executor to decorate</a>
-<span class="sourceLineNo">936</span><a id="line.936">   * @param nameSupplier The source of names for each task</a>
-<span class="sourceLineNo">937</span><a id="line.937">   */</a>
-<span class="sourceLineNo">938</span><a id="line.938">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">939</span><a id="line.939">  static ScheduledExecutorService renamingDecorator(</a>
-<span class="sourceLineNo">940</span><a id="line.940">      final ScheduledExecutorService service, final Supplier&lt;String&gt; nameSupplier) {</a>
-<span class="sourceLineNo">941</span><a id="line.941">    checkNotNull(service);</a>
-<span class="sourceLineNo">942</span><a id="line.942">    checkNotNull(nameSupplier);</a>
-<span class="sourceLineNo">943</span><a id="line.943">    return new WrappingScheduledExecutorService(service) {</a>
-<span class="sourceLineNo">944</span><a id="line.944">      @Override</a>
-<span class="sourceLineNo">945</span><a id="line.945">      protected &lt;T extends @Nullable Object&gt; Callable&lt;T&gt; wrapTask(Callable&lt;T&gt; callable) {</a>
-<span class="sourceLineNo">946</span><a id="line.946">        return Callables.threadRenaming(callable, nameSupplier);</a>
-<span class="sourceLineNo">947</span><a id="line.947">      }</a>
-<span class="sourceLineNo">948</span><a id="line.948"></a>
-<span class="sourceLineNo">949</span><a id="line.949">      @Override</a>
-<span class="sourceLineNo">950</span><a id="line.950">      protected Runnable wrapTask(Runnable command) {</a>
-<span class="sourceLineNo">951</span><a id="line.951">        return Callables.threadRenaming(command, nameSupplier);</a>
-<span class="sourceLineNo">952</span><a id="line.952">      }</a>
-<span class="sourceLineNo">953</span><a id="line.953">    };</a>
-<span class="sourceLineNo">954</span><a id="line.954">  }</a>
-<span class="sourceLineNo">955</span><a id="line.955"></a>
-<span class="sourceLineNo">956</span><a id="line.956">  /**</a>
-<span class="sourceLineNo">957</span><a id="line.957">   * Shuts down the given executor service gradually, first disabling new submissions and later, if</a>
-<span class="sourceLineNo">958</span><a id="line.958">   * necessary, cancelling remaining tasks.</a>
-<span class="sourceLineNo">959</span><a id="line.959">   *</a>
-<span class="sourceLineNo">960</span><a id="line.960">   * &lt;p&gt;The method takes the following steps:</a>
-<span class="sourceLineNo">961</span><a id="line.961">   *</a>
-<span class="sourceLineNo">962</span><a id="line.962">   * &lt;ol&gt;</a>
-<span class="sourceLineNo">963</span><a id="line.963">   *   &lt;li&gt;calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.</a>
-<span class="sourceLineNo">964</span><a id="line.964">   *   &lt;li&gt;awaits executor service termination for half of the specified timeout.</a>
-<span class="sourceLineNo">965</span><a id="line.965">   *   &lt;li&gt;if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling</a>
-<span class="sourceLineNo">966</span><a id="line.966">   *       pending tasks and interrupting running tasks.</a>
-<span class="sourceLineNo">967</span><a id="line.967">   *   &lt;li&gt;awaits executor service termination for the other half of the specified timeout.</a>
-<span class="sourceLineNo">968</span><a id="line.968">   * &lt;/ol&gt;</a>
+<span class="sourceLineNo">843</span><a id="line.843">    }</a>
+<span class="sourceLineNo">844</span><a id="line.844">    try {</a>
+<span class="sourceLineNo">845</span><a id="line.845">      // If the current environment is null, we're not inside AppEngine.</a>
+<span class="sourceLineNo">846</span><a id="line.846">      return Class.forName("com.google.apphosting.api.ApiProxy")</a>
+<span class="sourceLineNo">847</span><a id="line.847">              .getMethod("getCurrentEnvironment")</a>
+<span class="sourceLineNo">848</span><a id="line.848">              .invoke(null)</a>
+<span class="sourceLineNo">849</span><a id="line.849">          != null;</a>
+<span class="sourceLineNo">850</span><a id="line.850">    } catch (ClassNotFoundException e) {</a>
+<span class="sourceLineNo">851</span><a id="line.851">      // If ApiProxy doesn't exist, we're not on AppEngine at all.</a>
+<span class="sourceLineNo">852</span><a id="line.852">      return false;</a>
+<span class="sourceLineNo">853</span><a id="line.853">    } catch (InvocationTargetException e) {</a>
+<span class="sourceLineNo">854</span><a id="line.854">      // If ApiProxy throws an exception, we're not in a proper AppEngine environment.</a>
+<span class="sourceLineNo">855</span><a id="line.855">      return false;</a>
+<span class="sourceLineNo">856</span><a id="line.856">    } catch (IllegalAccessException e) {</a>
+<span class="sourceLineNo">857</span><a id="line.857">      // If the method isn't accessible, we're not on a supported version of AppEngine;</a>
+<span class="sourceLineNo">858</span><a id="line.858">      return false;</a>
+<span class="sourceLineNo">859</span><a id="line.859">    } catch (NoSuchMethodException e) {</a>
+<span class="sourceLineNo">860</span><a id="line.860">      // If the method doesn't exist, we're not on a supported version of AppEngine;</a>
+<span class="sourceLineNo">861</span><a id="line.861">      return false;</a>
+<span class="sourceLineNo">862</span><a id="line.862">    }</a>
+<span class="sourceLineNo">863</span><a id="line.863">  }</a>
+<span class="sourceLineNo">864</span><a id="line.864"></a>
+<span class="sourceLineNo">865</span><a id="line.865">  /**</a>
+<span class="sourceLineNo">866</span><a id="line.866">   * Creates a thread using {@link #platformThreadFactory}, and sets its name to {@code name} unless</a>
+<span class="sourceLineNo">867</span><a id="line.867">   * changing the name is forbidden by the security manager.</a>
+<span class="sourceLineNo">868</span><a id="line.868">   */</a>
+<span class="sourceLineNo">869</span><a id="line.869">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">870</span><a id="line.870">  static Thread newThread(String name, Runnable runnable) {</a>
+<span class="sourceLineNo">871</span><a id="line.871">    checkNotNull(name);</a>
+<span class="sourceLineNo">872</span><a id="line.872">    checkNotNull(runnable);</a>
+<span class="sourceLineNo">873</span><a id="line.873">    Thread result = platformThreadFactory().newThread(runnable);</a>
+<span class="sourceLineNo">874</span><a id="line.874">    try {</a>
+<span class="sourceLineNo">875</span><a id="line.875">      result.setName(name);</a>
+<span class="sourceLineNo">876</span><a id="line.876">    } catch (SecurityException e) {</a>
+<span class="sourceLineNo">877</span><a id="line.877">      // OK if we can't set the name in this environment.</a>
+<span class="sourceLineNo">878</span><a id="line.878">    }</a>
+<span class="sourceLineNo">879</span><a id="line.879">    return result;</a>
+<span class="sourceLineNo">880</span><a id="line.880">  }</a>
+<span class="sourceLineNo">881</span><a id="line.881"></a>
+<span class="sourceLineNo">882</span><a id="line.882">  // TODO(lukes): provide overloads for ListeningExecutorService? ListeningScheduledExecutorService?</a>
+<span class="sourceLineNo">883</span><a id="line.883">  // TODO(lukes): provide overloads that take constant strings? Function&lt;Runnable, String&gt;s to</a>
+<span class="sourceLineNo">884</span><a id="line.884">  // calculate names?</a>
+<span class="sourceLineNo">885</span><a id="line.885"></a>
+<span class="sourceLineNo">886</span><a id="line.886">  /**</a>
+<span class="sourceLineNo">887</span><a id="line.887">   * Creates an {@link Executor} that renames the {@link Thread threads} that its tasks run in.</a>
+<span class="sourceLineNo">888</span><a id="line.888">   *</a>
+<span class="sourceLineNo">889</span><a id="line.889">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
+<span class="sourceLineNo">890</span><a id="line.890">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
+<span class="sourceLineNo">891</span><a id="line.891">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
+<span class="sourceLineNo">892</span><a id="line.892">   *</a>
+<span class="sourceLineNo">893</span><a id="line.893">   * @param executor The executor to decorate</a>
+<span class="sourceLineNo">894</span><a id="line.894">   * @param nameSupplier The source of names for each task</a>
+<span class="sourceLineNo">895</span><a id="line.895">   */</a>
+<span class="sourceLineNo">896</span><a id="line.896">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">897</span><a id="line.897">  static Executor renamingDecorator(final Executor executor, final Supplier&lt;String&gt; nameSupplier) {</a>
+<span class="sourceLineNo">898</span><a id="line.898">    checkNotNull(executor);</a>
+<span class="sourceLineNo">899</span><a id="line.899">    checkNotNull(nameSupplier);</a>
+<span class="sourceLineNo">900</span><a id="line.900">    return new Executor() {</a>
+<span class="sourceLineNo">901</span><a id="line.901">      @Override</a>
+<span class="sourceLineNo">902</span><a id="line.902">      public void execute(Runnable command) {</a>
+<span class="sourceLineNo">903</span><a id="line.903">        executor.execute(Callables.threadRenaming(command, nameSupplier));</a>
+<span class="sourceLineNo">904</span><a id="line.904">      }</a>
+<span class="sourceLineNo">905</span><a id="line.905">    };</a>
+<span class="sourceLineNo">906</span><a id="line.906">  }</a>
+<span class="sourceLineNo">907</span><a id="line.907"></a>
+<span class="sourceLineNo">908</span><a id="line.908">  /**</a>
+<span class="sourceLineNo">909</span><a id="line.909">   * Creates an {@link ExecutorService} that renames the {@link Thread threads} that its tasks run</a>
+<span class="sourceLineNo">910</span><a id="line.910">   * in.</a>
+<span class="sourceLineNo">911</span><a id="line.911">   *</a>
+<span class="sourceLineNo">912</span><a id="line.912">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
+<span class="sourceLineNo">913</span><a id="line.913">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
+<span class="sourceLineNo">914</span><a id="line.914">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
+<span class="sourceLineNo">915</span><a id="line.915">   *</a>
+<span class="sourceLineNo">916</span><a id="line.916">   * @param service The executor to decorate</a>
+<span class="sourceLineNo">917</span><a id="line.917">   * @param nameSupplier The source of names for each task</a>
+<span class="sourceLineNo">918</span><a id="line.918">   */</a>
+<span class="sourceLineNo">919</span><a id="line.919">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">920</span><a id="line.920">  static ExecutorService renamingDecorator(</a>
+<span class="sourceLineNo">921</span><a id="line.921">      final ExecutorService service, final Supplier&lt;String&gt; nameSupplier) {</a>
+<span class="sourceLineNo">922</span><a id="line.922">    checkNotNull(service);</a>
+<span class="sourceLineNo">923</span><a id="line.923">    checkNotNull(nameSupplier);</a>
+<span class="sourceLineNo">924</span><a id="line.924">    return new WrappingExecutorService(service) {</a>
+<span class="sourceLineNo">925</span><a id="line.925">      @Override</a>
+<span class="sourceLineNo">926</span><a id="line.926">      protected &lt;T extends @Nullable Object&gt; Callable&lt;T&gt; wrapTask(Callable&lt;T&gt; callable) {</a>
+<span class="sourceLineNo">927</span><a id="line.927">        return Callables.threadRenaming(callable, nameSupplier);</a>
+<span class="sourceLineNo">928</span><a id="line.928">      }</a>
+<span class="sourceLineNo">929</span><a id="line.929"></a>
+<span class="sourceLineNo">930</span><a id="line.930">      @Override</a>
+<span class="sourceLineNo">931</span><a id="line.931">      protected Runnable wrapTask(Runnable command) {</a>
+<span class="sourceLineNo">932</span><a id="line.932">        return Callables.threadRenaming(command, nameSupplier);</a>
+<span class="sourceLineNo">933</span><a id="line.933">      }</a>
+<span class="sourceLineNo">934</span><a id="line.934">    };</a>
+<span class="sourceLineNo">935</span><a id="line.935">  }</a>
+<span class="sourceLineNo">936</span><a id="line.936"></a>
+<span class="sourceLineNo">937</span><a id="line.937">  /**</a>
+<span class="sourceLineNo">938</span><a id="line.938">   * Creates a {@link ScheduledExecutorService} that renames the {@link Thread threads} that its</a>
+<span class="sourceLineNo">939</span><a id="line.939">   * tasks run in.</a>
+<span class="sourceLineNo">940</span><a id="line.940">   *</a>
+<span class="sourceLineNo">941</span><a id="line.941">   * &lt;p&gt;The names are retrieved from the {@code nameSupplier} on the thread that is being renamed</a>
+<span class="sourceLineNo">942</span><a id="line.942">   * right before each task is run. The renaming is best effort, if a {@link SecurityManager}</a>
+<span class="sourceLineNo">943</span><a id="line.943">   * prevents the renaming then it will be skipped but the tasks will still execute.</a>
+<span class="sourceLineNo">944</span><a id="line.944">   *</a>
+<span class="sourceLineNo">945</span><a id="line.945">   * @param service The executor to decorate</a>
+<span class="sourceLineNo">946</span><a id="line.946">   * @param nameSupplier The source of names for each task</a>
+<span class="sourceLineNo">947</span><a id="line.947">   */</a>
+<span class="sourceLineNo">948</span><a id="line.948">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">949</span><a id="line.949">  static ScheduledExecutorService renamingDecorator(</a>
+<span class="sourceLineNo">950</span><a id="line.950">      final ScheduledExecutorService service, final Supplier&lt;String&gt; nameSupplier) {</a>
+<span class="sourceLineNo">951</span><a id="line.951">    checkNotNull(service);</a>
+<span class="sourceLineNo">952</span><a id="line.952">    checkNotNull(nameSupplier);</a>
+<span class="sourceLineNo">953</span><a id="line.953">    return new WrappingScheduledExecutorService(service) {</a>
+<span class="sourceLineNo">954</span><a id="line.954">      @Override</a>
+<span class="sourceLineNo">955</span><a id="line.955">      protected &lt;T extends @Nullable Object&gt; Callable&lt;T&gt; wrapTask(Callable&lt;T&gt; callable) {</a>
+<span class="sourceLineNo">956</span><a id="line.956">        return Callables.threadRenaming(callable, nameSupplier);</a>
+<span class="sourceLineNo">957</span><a id="line.957">      }</a>
+<span class="sourceLineNo">958</span><a id="line.958"></a>
+<span class="sourceLineNo">959</span><a id="line.959">      @Override</a>
+<span class="sourceLineNo">960</span><a id="line.960">      protected Runnable wrapTask(Runnable command) {</a>
+<span class="sourceLineNo">961</span><a id="line.961">        return Callables.threadRenaming(command, nameSupplier);</a>
+<span class="sourceLineNo">962</span><a id="line.962">      }</a>
+<span class="sourceLineNo">963</span><a id="line.963">    };</a>
+<span class="sourceLineNo">964</span><a id="line.964">  }</a>
+<span class="sourceLineNo">965</span><a id="line.965"></a>
+<span class="sourceLineNo">966</span><a id="line.966">  /**</a>
+<span class="sourceLineNo">967</span><a id="line.967">   * Shuts down the given executor service gradually, first disabling new submissions and later, if</a>
+<span class="sourceLineNo">968</span><a id="line.968">   * necessary, cancelling remaining tasks.</a>
 <span class="sourceLineNo">969</span><a id="line.969">   *</a>
-<span class="sourceLineNo">970</span><a id="line.970">   * &lt;p&gt;If, at any step of the process, the calling thread is interrupted, the method calls {@link</a>
-<span class="sourceLineNo">971</span><a id="line.971">   * ExecutorService#shutdownNow()} and returns.</a>
-<span class="sourceLineNo">972</span><a id="line.972">   *</a>
-<span class="sourceLineNo">973</span><a id="line.973">   * @param service the {@code ExecutorService} to shut down</a>
-<span class="sourceLineNo">974</span><a id="line.974">   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate</a>
-<span class="sourceLineNo">975</span><a id="line.975">   * @param unit the time unit of the timeout argument</a>
-<span class="sourceLineNo">976</span><a id="line.976">   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}</a>
-<span class="sourceLineNo">977</span><a id="line.977">   *     if the call timed out or was interrupted</a>
-<span class="sourceLineNo">978</span><a id="line.978">   * @since 17.0</a>
-<span class="sourceLineNo">979</span><a id="line.979">   */</a>
-<span class="sourceLineNo">980</span><a id="line.980">  @Beta</a>
-<span class="sourceLineNo">981</span><a id="line.981">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">982</span><a id="line.982">  @GwtIncompatible // concurrency</a>
-<span class="sourceLineNo">983</span><a id="line.983">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
-<span class="sourceLineNo">984</span><a id="line.984">  public static boolean shutdownAndAwaitTermination(</a>
-<span class="sourceLineNo">985</span><a id="line.985">      ExecutorService service, long timeout, TimeUnit unit) {</a>
-<span class="sourceLineNo">986</span><a id="line.986">    long halfTimeoutNanos = unit.toNanos(timeout) / 2;</a>
-<span class="sourceLineNo">987</span><a id="line.987">    // Disable new tasks from being submitted</a>
-<span class="sourceLineNo">988</span><a id="line.988">    service.shutdown();</a>
-<span class="sourceLineNo">989</span><a id="line.989">    try {</a>
-<span class="sourceLineNo">990</span><a id="line.990">      // Wait for half the duration of the timeout for existing tasks to terminate</a>
-<span class="sourceLineNo">991</span><a id="line.991">      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {</a>
-<span class="sourceLineNo">992</span><a id="line.992">        // Cancel currently executing tasks</a>
-<span class="sourceLineNo">993</span><a id="line.993">        service.shutdownNow();</a>
-<span class="sourceLineNo">994</span><a id="line.994">        // Wait the other half of the timeout for tasks to respond to being cancelled</a>
-<span class="sourceLineNo">995</span><a id="line.995">        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);</a>
-<span class="sourceLineNo">996</span><a id="line.996">      }</a>
-<span class="sourceLineNo">997</span><a id="line.997">    } catch (InterruptedException ie) {</a>
-<span class="sourceLineNo">998</span><a id="line.998">      // Preserve interrupt status</a>
-<span class="sourceLineNo">999</span><a id="line.999">      Thread.currentThread().interrupt();</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">      // (Re-)Cancel if current thread also interrupted</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">      service.shutdownNow();</a>
-<span class="sourceLineNo">1002</span><a id="line.1002">    }</a>
-<span class="sourceLineNo">1003</span><a id="line.1003">    return service.isTerminated();</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">  }</a>
-<span class="sourceLineNo">1005</span><a id="line.1005"></a>
-<span class="sourceLineNo">1006</span><a id="line.1006">  /**</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">   * executor to the given {@code future}.</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">   *</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">   * &lt;p&gt;Note, the returned executor can only be used once.</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">   */</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">  static Executor rejectionPropagatingExecutor(</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">      final Executor delegate, final AbstractFuture&lt;?&gt; future) {</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">    checkNotNull(delegate);</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">    checkNotNull(future);</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">    if (delegate == directExecutor()) {</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">      // directExecutor() cannot throw RejectedExecutionException</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">      return delegate;</a>
-<span class="sourceLineNo">1019</span><a id="line.1019">    }</a>
-<span class="sourceLineNo">1020</span><a id="line.1020">    return new Executor() {</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">      @Override</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">      public void execute(Runnable command) {</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">        try {</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">          delegate.execute(command);</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">        } catch (RejectedExecutionException e) {</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">          future.setException(e);</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">        }</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">      }</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">    };</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">  }</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">}</a>
+<span class="sourceLineNo">970</span><a id="line.970">   * &lt;p&gt;The method takes the following steps:</a>
+<span class="sourceLineNo">971</span><a id="line.971">   *</a>
+<span class="sourceLineNo">972</span><a id="line.972">   * &lt;ol&gt;</a>
+<span class="sourceLineNo">973</span><a id="line.973">   *   &lt;li&gt;calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.</a>
+<span class="sourceLineNo">974</span><a id="line.974">   *   &lt;li&gt;awaits executor service termination for half of the specified timeout.</a>
+<span class="sourceLineNo">975</span><a id="line.975">   *   &lt;li&gt;if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling</a>
+<span class="sourceLineNo">976</span><a id="line.976">   *       pending tasks and interrupting running tasks.</a>
+<span class="sourceLineNo">977</span><a id="line.977">   *   &lt;li&gt;awaits executor service termination for the other half of the specified timeout.</a>
+<span class="sourceLineNo">978</span><a id="line.978">   * &lt;/ol&gt;</a>
+<span class="sourceLineNo">979</span><a id="line.979">   *</a>
+<span class="sourceLineNo">980</span><a id="line.980">   * &lt;p&gt;If, at any step of the process, the calling thread is interrupted, the method calls {@link</a>
+<span class="sourceLineNo">981</span><a id="line.981">   * ExecutorService#shutdownNow()} and returns.</a>
+<span class="sourceLineNo">982</span><a id="line.982">   *</a>
+<span class="sourceLineNo">983</span><a id="line.983">   * @param service the {@code ExecutorService} to shut down</a>
+<span class="sourceLineNo">984</span><a id="line.984">   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate</a>
+<span class="sourceLineNo">985</span><a id="line.985">   * @param unit the time unit of the timeout argument</a>
+<span class="sourceLineNo">986</span><a id="line.986">   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}</a>
+<span class="sourceLineNo">987</span><a id="line.987">   *     if the call timed out or was interrupted</a>
+<span class="sourceLineNo">988</span><a id="line.988">   * @since 17.0</a>
+<span class="sourceLineNo">989</span><a id="line.989">   */</a>
+<span class="sourceLineNo">990</span><a id="line.990">  @Beta</a>
+<span class="sourceLineNo">991</span><a id="line.991">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">992</span><a id="line.992">  @GwtIncompatible // concurrency</a>
+<span class="sourceLineNo">993</span><a id="line.993">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">994</span><a id="line.994">  public static boolean shutdownAndAwaitTermination(</a>
+<span class="sourceLineNo">995</span><a id="line.995">      ExecutorService service, long timeout, TimeUnit unit) {</a>
+<span class="sourceLineNo">996</span><a id="line.996">    long halfTimeoutNanos = unit.toNanos(timeout) / 2;</a>
+<span class="sourceLineNo">997</span><a id="line.997">    // Disable new tasks from being submitted</a>
+<span class="sourceLineNo">998</span><a id="line.998">    service.shutdown();</a>
+<span class="sourceLineNo">999</span><a id="line.999">    try {</a>
+<span class="sourceLineNo">1000</span><a id="line.1000">      // Wait for half the duration of the timeout for existing tasks to terminate</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">        // Cancel currently executing tasks</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">        service.shutdownNow();</a>
+<span class="sourceLineNo">1004</span><a id="line.1004">        // Wait the other half of the timeout for tasks to respond to being cancelled</a>
+<span class="sourceLineNo">1005</span><a id="line.1005">        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">      }</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">    } catch (InterruptedException ie) {</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">      // Preserve interrupt status</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">      Thread.currentThread().interrupt();</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">      // (Re-)Cancel if current thread also interrupted</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">      service.shutdownNow();</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">    }</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">    return service.isTerminated();</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">  }</a>
+<span class="sourceLineNo">1015</span><a id="line.1015"></a>
+<span class="sourceLineNo">1016</span><a id="line.1016">  /**</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">   * executor to the given {@code future}.</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">   *</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">   * &lt;p&gt;Note, the returned executor can only be used once.</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">   */</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">  static Executor rejectionPropagatingExecutor(</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">      final Executor delegate, final AbstractFuture&lt;?&gt; future) {</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">    checkNotNull(delegate);</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">    checkNotNull(future);</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">    if (delegate == directExecutor()) {</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">      // directExecutor() cannot throw RejectedExecutionException</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">      return delegate;</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">    }</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">    return new Executor() {</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">      @Override</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">      public void execute(Runnable command) {</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">        try {</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">          delegate.execute(command);</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">        } catch (RejectedExecutionException e) {</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">          future.setException(e);</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">        }</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">      }</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">    };</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">  }</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">}</a>
 
 
 
