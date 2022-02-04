@@ -15,4 +15,5 @@ MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstan
 MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstance(java.lang.Class<T>, T extends B)
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDouble Method updateAndGet(java.util.function.DoubleUnaryOperator)
 MISSING @SINCE TAG: com.google.common.util.concurrent.AtomicDoubleArray Method updateAndGet(int, java.util.function.DoubleUnaryOperator)
+OK: com.google.common.net.HttpHeaders Field ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FULL_VERSION_LIST

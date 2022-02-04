@@ -51905,6 +51905,17 @@
       <![CDATA[The HTTP {@code Access-Control-Allow-Origin} header field name.]]>
       </doc>
     </field>
+    <field name="ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/private-network-access/#headers">{@code
+ Access-Control-Allow-Private-Network}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="ACCESS_CONTROL_ALLOW_CREDENTIALS" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
