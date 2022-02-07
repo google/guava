@@ -57,31 +57,28 @@ public class MapMakerTest extends TestCase {
    * anywhere else
    */
 
-  /** Tests for the builder. */
-  public static class MakerTest extends TestCase {
-    public void testInitialCapacity_negative() {
-      MapMaker maker = new MapMaker();
-      try {
-        maker.initialCapacity(-1);
-        fail();
-      } catch (IllegalArgumentException expected) {
-      }
+  public void testInitialCapacity_negative() {
+    MapMaker maker = new MapMaker();
+    try {
+      maker.initialCapacity(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {
     }
+  }
 
-    // TODO(cpovirk): enable when ready
-    public void xtestInitialCapacity_setTwice() {
-      MapMaker maker = new MapMaker().initialCapacity(16);
-      try {
-        // even to the same value is not allowed
-        maker.initialCapacity(16);
-        fail();
-      } catch (IllegalArgumentException expected) {
-      }
+  // TODO(cpovirk): enable when ready (apparently after a change to our GWT emulation)
+  public void xtestInitialCapacity_setTwice() {
+    MapMaker maker = new MapMaker().initialCapacity(16);
+    try {
+      // even to the same value is not allowed
+      maker.initialCapacity(16);
+      fail();
+    } catch (IllegalStateException expected) {
     }
+  }
 
-    public void testReturnsPlainConcurrentHashMapWhenPossible() {
-      Map<?, ?> map = new MapMaker().initialCapacity(5).makeMap();
-      assertTrue(map instanceof ConcurrentHashMap);
-    }
+  public void testReturnsPlainConcurrentHashMapWhenPossible() {
+    Map<?, ?> map = new MapMaker().initialCapacity(5).makeMap();
+    assertTrue(map instanceof ConcurrentHashMap);
   }
 }
