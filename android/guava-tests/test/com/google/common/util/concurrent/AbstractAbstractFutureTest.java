@@ -359,7 +359,6 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   @GwtIncompatible // threads
-
   public void testOverflowTimeout() throws Exception {
     // First, sanity check that naive multiplication would really overflow to a negative number:
     long nanosPerSecond = NANOSECONDS.convert(1, SECONDS);

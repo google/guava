@@ -129,7 +129,7 @@ public class StripedTest extends TestCase {
     assertTrue(Striped.lazyWeakLock(256).size() == 256);
   }
 
-
+  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
   public void testWeakImplementations() {
     for (Striped<?> striped : weakImplementations()) {
       WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
@@ -137,7 +137,7 @@ public class StripedTest extends TestCase {
     }
   }
 
-
+  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
   public void testWeakReadWrite() {
     Striped<ReadWriteLock> striped = Striped.lazyWeakReadWriteLock(1000);
     Object key = new Object();
@@ -150,7 +150,7 @@ public class StripedTest extends TestCase {
     readLock.unlock();
   }
 
-
+  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
   public void testStrongImplementations() {
     for (Striped<?> striped : strongImplementations()) {
       WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));

@@ -49,7 +49,6 @@ import junit.framework.TestCase;
  *
  * @author Luke Sandberg
  */
-
 public class AbstractScheduledServiceTest extends TestCase {
 
   volatile Scheduler configuration = newFixedDelaySchedule(0, 10, MILLISECONDS);
@@ -442,7 +441,6 @@ public class AbstractScheduledServiceTest extends TestCase {
       }
     }
 
-
     public void testFixedDelayScheduleFarFuturePotentiallyOverflowingScheduleIsNeverReached()
         throws Exception {
       TestAbstractScheduledCustomService service =
@@ -462,7 +460,6 @@ public class AbstractScheduledServiceTest extends TestCase {
       service.stopAsync();
       service.awaitTerminated();
     }
-
 
     public void testCustomSchedulerFarFuturePotentiallyOverflowingScheduleIsNeverReached()
         throws Exception {
@@ -499,7 +496,6 @@ public class AbstractScheduledServiceTest extends TestCase {
       }
     }
 
-
     public void testCustomSchedule_startStop() throws Exception {
       final CyclicBarrier firstBarrier = new CyclicBarrier(2);
       final CyclicBarrier secondBarrier = new CyclicBarrier(2);
@@ -530,7 +526,6 @@ public class AbstractScheduledServiceTest extends TestCase {
       future.cancel(false);
     }
 
-
     public void testCustomSchedulerServiceStop() throws Exception {
       TestAbstractScheduledCustomService service = new TestAbstractScheduledCustomService();
       service.startAsync().awaitRunning();
@@ -543,7 +538,6 @@ public class AbstractScheduledServiceTest extends TestCase {
       Thread.sleep(UNIT.toMillis(3 * DELAY));
       assertEquals(1, service.numIterations.get());
     }
-
 
     public void testCustomScheduler_deadlock() throws InterruptedException, BrokenBarrierException {
       final CyclicBarrier inGetNextSchedule = new CyclicBarrier(2);
@@ -574,7 +568,6 @@ public class AbstractScheduledServiceTest extends TestCase {
         service.stopAsync();
       }
     }
-
 
     public void testBig() throws Exception {
       TestAbstractScheduledCustomService service =
@@ -634,7 +627,6 @@ public class AbstractScheduledServiceTest extends TestCase {
         };
       }
     }
-
 
     public void testCustomSchedulerFailure() throws Exception {
       TestFailingCustomScheduledService service = new TestFailingCustomScheduledService();

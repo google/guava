@@ -68,7 +68,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
         thrownByExecutionThread);
   }
 
-
   public void testServiceStartStop() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
     assertFalse(service.startUpCalled);
@@ -85,7 +84,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     executionThread.join();
   }
 
-
   public void testServiceStopIdempotence() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
 
@@ -101,7 +99,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
     executionThread.join();
   }
-
 
   public void testServiceExitingOnItsOwn() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
@@ -173,7 +170,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
-
   public void testServiceThrowOnStartUp() throws Exception {
     ThrowOnStartUpService service = new ThrowOnStartUpService();
     assertFalse(service.startUpCalled);
@@ -212,7 +208,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
-
   public void testServiceThrowOnRun() throws Exception {
     ThrowOnRunService service = new ThrowOnRunService();
 
@@ -228,7 +223,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
   }
-
 
   public void testServiceThrowOnRunAndThenAgainOnShutDown() throws Exception {
     ThrowOnRunService service = new ThrowOnRunService();
@@ -270,7 +264,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       return exceptionCatchingExecutor;
     }
   }
-
 
   public void testServiceThrowOnShutDown() throws Exception {
     ThrowOnShutDown service = new ThrowOnShutDown();
@@ -331,7 +324,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     protected void run() throws Exception {}
   }
 
-
   public void testStopWhileStarting_runNotCalled() throws Exception {
     final CountDownLatch started = new CountDownLatch(1);
     FakeService service =
@@ -360,7 +352,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertEquals(0, service.runCalled);
     assertEquals(0, service.shutdownCalled);
   }
-
 
   public void testDefaultService() throws InterruptedException {
     WaitOnRunService service = new WaitOnRunService();

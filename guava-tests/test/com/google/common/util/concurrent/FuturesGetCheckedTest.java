@@ -353,7 +353,7 @@ public class FuturesGetCheckedTest extends TestCase {
 
   public static final class WillBeUnloadedException extends Exception {}
 
-
+  @AndroidIncompatible // "Parent ClassLoader may not be null"; maybe avoidable if we try?
   public void testGetChecked_classUnloading() throws Exception {
     WeakReference<?> classUsedByGetChecked = doTestClassUnloading();
     GcFinalization.awaitClear(classUsedByGetChecked);

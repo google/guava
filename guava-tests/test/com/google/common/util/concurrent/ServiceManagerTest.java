@@ -120,7 +120,6 @@ public class ServiceManagerTest extends TestCase {
     }
   }
 
-
   public void testServiceStartupTimes() {
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
@@ -132,7 +131,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(b)).isAtLeast(353);
   }
 
-
   public void testServiceStartupDurations() {
     Service a = new NoOpDelayedService(150);
     Service b = new NoOpDelayedService(353);
@@ -143,7 +141,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(a)).isAtLeast(Duration.ofMillis(150));
     assertThat(startupTimes.get(b)).isAtLeast(Duration.ofMillis(353));
   }
-
 
   public void testServiceStartupTimes_selfStartingServices() {
     // This tests to ensure that:
@@ -179,7 +176,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(startupTimes.get(b)).isNotNull();
   }
 
-
   public void testServiceStartStop() {
     Service a = new NoOpService();
     Service b = new NoOpService();
@@ -200,7 +196,6 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
     assertTrue(listener.failedServices.isEmpty());
   }
-
 
   public void testFailStart() throws Exception {
     Service a = new NoOpService();
@@ -229,7 +224,6 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
   }
 
-
   public void testFailRun() throws Exception {
     Service a = new NoOpService();
     Service b = new FailRunService();
@@ -251,7 +245,6 @@ public class ServiceManagerTest extends TestCase {
 
     assertTrue(listener.stoppedCalled);
   }
-
 
   public void testFailStop() throws Exception {
     Service a = new NoOpService();
@@ -280,7 +273,6 @@ public class ServiceManagerTest extends TestCase {
     assertThat(toString).contains("NoOpService");
     assertThat(toString).contains("FailStartService");
   }
-
 
   public void testTimeouts() throws Exception {
     Service a = new NoOpDelayedService(50);
@@ -458,7 +450,6 @@ public class ServiceManagerTest extends TestCase {
    * Tests that a ServiceManager can be fully shut down if one of its failure listeners is slow or
    * even permanently blocked.
    */
-
   public void testListenerDeadlock() throws InterruptedException {
     final CountDownLatch failEnter = new CountDownLatch(1);
     final CountDownLatch failLeave = new CountDownLatch(1);
@@ -619,7 +610,6 @@ public class ServiceManagerTest extends TestCase {
    *
    * <p>Before the bug was fixed this test would fail at least 30% of the time.
    */
-
   public void testTransitionRace() throws TimeoutException {
     for (int k = 0; k < 1000; k++) {
       List<Service> services = Lists.newArrayList();

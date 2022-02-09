@@ -13,7 +13,6 @@
 
 package com.google.common.util.concurrent;
 
-
 /** Unit test for {@link AtomicDouble}. */
 public class AtomicDoubleTest extends JSR166TestCase {
 
@@ -97,7 +96,6 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /** compareAndSet in one thread enables another waiting for value to succeed */
-
   public void testCompareAndSetInMultipleThreads() throws Exception {
     final AtomicDouble at = new AtomicDouble(1.0);
     Thread t =

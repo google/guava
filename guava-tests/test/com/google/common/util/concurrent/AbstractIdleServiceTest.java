@@ -36,7 +36,6 @@ public class AbstractIdleServiceTest extends TestCase {
 
   // Functional tests using real thread. We only verify publicly visible state.
   // Interaction assertions are done by the single-threaded unit tests.
-
   public static class FunctionalTest extends TestCase {
 
     private static class DefaultService extends AbstractIdleService {
