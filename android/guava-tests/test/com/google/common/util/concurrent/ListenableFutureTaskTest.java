@@ -80,7 +80,6 @@ public class ListenableFutureTaskTest extends TestCase {
     super.tearDown();
   }
 
-
   public void testListenerDoesNotRunUntilTaskCompletes() throws Exception {
 
     // Test default state of not started.
@@ -105,7 +104,6 @@ public class ListenableFutureTaskTest extends TestCase {
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
   }
-
 
   public void testListenerCalledOnException() throws Exception {
     throwException = true;
@@ -141,7 +139,6 @@ public class ListenableFutureTaskTest extends TestCase {
     // Make sure we didn't run anything.
     assertEquals(1, runLatch.getCount());
   }
-
 
   public void testListenerCalledOnCancelFromRunning() throws Exception {
     exec.execute(task);

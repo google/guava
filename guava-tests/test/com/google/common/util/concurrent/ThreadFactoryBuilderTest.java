@@ -56,7 +56,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
     builder = new ThreadFactoryBuilder();
   }
 
-
   public void testThreadFactoryBuilder_defaults() throws InterruptedException {
     ThreadFactory threadFactory = builder.build();
     Thread thread = threadFactory.newThread(monitoredRunnable);
@@ -93,7 +92,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertThat(thread.getName()).matches("^pool-\\d+-thread-" + threadId + "$");
   }
 
-
   public void testNameFormatWithPercentS_custom() {
     String format = "super-duper-thread-%s";
     ThreadFactory factory = builder.setNameFormat(format).build();
@@ -101,7 +99,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
       assertEquals(rootLocaleFormat(format, i), factory.newThread(monitoredRunnable).getName());
     }
   }
-
 
   public void testNameFormatWithPercentD_custom() {
     String format = "super-duper-thread-%d";
@@ -111,20 +108,17 @@ public class ThreadFactoryBuilderTest extends TestCase {
     }
   }
 
-
   public void testDaemon_false() {
     ThreadFactory factory = builder.setDaemon(false).build();
     Thread thread = factory.newThread(monitoredRunnable);
     assertFalse(thread.isDaemon());
   }
 
-
   public void testDaemon_true() {
     ThreadFactory factory = builder.setDaemon(true).build();
     Thread thread = factory.newThread(monitoredRunnable);
     assertTrue(thread.isDaemon());
   }
-
 
   public void testPriority_custom() {
     for (int i = Thread.MIN_PRIORITY; i <= Thread.MAX_PRIORITY; i++) {
@@ -150,7 +144,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
     }
   }
 
-
   public void testUncaughtExceptionHandler_custom() {
     assertEquals(
         UNCAUGHT_EXCEPTION_HANDLER,
@@ -160,7 +153,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
             .newThread(monitoredRunnable)
             .getUncaughtExceptionHandler());
   }
-
 
   public void testBuildMutateBuild() {
     ThreadFactory factory1 = builder.setPriority(1).build();
@@ -177,7 +169,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
     unused = builder.build(); // this is *also* allowed
   }
 
-
   public void testBuildMutate() {
     ThreadFactory factory1 = builder.setPriority(1).build();
     assertEquals(1, factory1.newThread(monitoredRunnable).getPriority());
@@ -185,7 +176,6 @@ public class ThreadFactoryBuilderTest extends TestCase {
     builder.setPriority(2); // change the state of the builder
     assertEquals(1, factory1.newThread(monitoredRunnable).getPriority());
   }
-
 
   public void testThreadFactory() throws InterruptedException {
     final String THREAD_NAME = "ludicrous speed";

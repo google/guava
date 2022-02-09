@@ -54,7 +54,6 @@ import junit.framework.TestCase;
  *
  * @author Anthony Zana
  */
-
 public class UninterruptiblesTest extends TestCase {
   private static final String EXPECTED_TAKE = "expectedTake";
 

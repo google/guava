@@ -33,7 +33,6 @@ import junit.framework.TestCase;
  *
  * @author Justin T. Sampson
  */
-
 public class SupplementalMonitorTest extends TestCase {
 
   public void testLeaveWithoutEnterThrowsIMSE() {

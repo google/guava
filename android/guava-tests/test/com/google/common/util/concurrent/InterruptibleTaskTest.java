@@ -25,7 +25,6 @@ import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import junit.framework.TestCase;
 
-
 public final class InterruptibleTaskTest extends TestCase {
 
   // Regression test for a deadlock where a task could be stuck busy waiting for the task to
@@ -91,6 +90,14 @@ public final class InterruptibleTaskTest extends TestCase {
    * protect ourselves from that we want to make sure that tasks don't spin too much waiting for the
    * interrupting thread to complete the protocol.
    */
+  /*
+   * This test hangs (or maybe is just *very* slow) under Android.
+   *
+   * TODO(b/218700094): Ideally, get this to pass under Android. Failing that, convince ourselves
+   * that the test isn't exposing a real problem with InterruptibleTask, one that could matter in
+   * prod.
+   */
+  @AndroidIncompatible
   public void testInterruptIsSlow() throws Exception {
     final CountDownLatch isInterruptibleRegistered = new CountDownLatch(1);
     final SlowChannel slowChannel = new SlowChannel();

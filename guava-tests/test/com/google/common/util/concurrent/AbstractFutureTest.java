@@ -52,7 +52,6 @@ import junit.framework.TestCase;
  *
  * @author Brian Stoler
  */
-
 public class AbstractFutureTest extends TestCase {
   public void testSuccess() throws ExecutionException, InterruptedException {
     final Object value = new Object();
@@ -292,6 +291,7 @@ public class AbstractFutureTest extends TestCase {
    * derived from observing how much time actually passed for various operations.
    */
   @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
+  @AndroidIncompatible // Thread.suspend
   public void testToString_delayedTimeout() throws Exception {
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);

@@ -33,7 +33,6 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 @GwtIncompatible // threads
-
 public class AtomicLongMapBasherTest extends TestCase {
   private final Random random = new Random(301);
 

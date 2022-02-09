@@ -22,7 +22,6 @@ package com.google.common.util.concurrent;
  *
  * @author Justin T. Sampson
  */
-
 public class InterruptibleMonitorTest extends MonitorTestCase {
 
   public InterruptibleMonitorTest() {
