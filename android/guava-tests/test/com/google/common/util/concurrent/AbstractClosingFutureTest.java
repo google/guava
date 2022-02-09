@@ -81,7 +81,7 @@ import org.mockito.Mockito;
  * ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)} paths to complete a
  * {@link ClosingFuture} pipeline.
  */
-public abstract class ClosingFutureTest extends TestCase {
+public abstract class AbstractClosingFutureTest extends TestCase {
   // TODO(dpb): Use Expect once that supports JUnit 3, or we can use JUnit 4.
   final List<AssertionError> failures = new ArrayList<>();
   final StandardSubjectBuilder expect =
@@ -336,23 +336,6 @@ public abstract class ClosingFutureTest extends TestCase {
     assertFinallyFailsWithException(closingFuture);
     waitUntilClosed(closingFuture);
     assertClosed(closeable1, closeable2);
-  }
-
-  public void testAutoCloseable() throws Exception {
-    AutoCloseable autoCloseable = closeable1::close;
-    ClosingFuture<String> closingFuture =
-        ClosingFuture.submit(
-            new ClosingCallable<String>() {
-              @Override
-              public String call(DeferredCloser closer) throws Exception {
-                closer.eventuallyClose(autoCloseable, closingExecutor);
-                return "";
-              }
-            },
-            executor);
-    assertThat(getFinalValue(closingFuture)).isEqualTo("");
-    waitUntilClosed(closingFuture);
-    assertClosed(closeable1);
   }
 
   public void testStatusFuture() throws Exception {
@@ -1633,7 +1616,7 @@ public abstract class ClosingFutureTest extends TestCase {
 
   /**
    * Marks the given step final and waits for it to fail. Expects the failure exception to match
-   * {@link ClosingFutureTest#exception}.
+   * {@link AbstractClosingFutureTest#exception}.
    */
   abstract void assertFinallyFailsWithException(ClosingFuture<?> closingFuture);
 
@@ -1645,191 +1628,6 @@ public abstract class ClosingFutureTest extends TestCase {
     assertTrue(awaitUninterruptibly(closingFuture.whenClosedCountDown(), 1, SECONDS));
   }
 
-  /** Tests for {@link ClosingFuture} that exercise {@link ClosingFuture#finishToFuture()}. */
-
-  public static class FinishToFutureTest extends ClosingFutureTest {
-
-    public void testFinishToFuture_throwsIfCalledTwice() throws Exception {
-      ClosingFuture<Closeable> closingFuture =
-          ClosingFuture.submit(
-              new ClosingCallable<Closeable>() {
-                @Override
-                public Closeable call(DeferredCloser closer) throws Exception {
-                  return closer.eventuallyClose(mockCloseable, executor);
-                }
-              },
-              executor);
-      FluentFuture<Closeable> unused = closingFuture.finishToFuture();
-      try {
-        FluentFuture<Closeable> unused2 = closingFuture.finishToFuture();
-        fail("should have thrown");
-      } catch (IllegalStateException expected) {
-      }
-    }
-
-    public void testFinishToFuture_throwsAfterCallingFinishToValueAndCloser() throws Exception {
-      ClosingFuture<Closeable> closingFuture =
-          ClosingFuture.submit(
-              new ClosingCallable<Closeable>() {
-                @Override
-                public Closeable call(DeferredCloser closer) throws Exception {
-                  return closer.eventuallyClose(mockCloseable, executor);
-                }
-              },
-              executor);
-      closingFuture.finishToValueAndCloser(new NoOpValueAndCloserConsumer<>(), directExecutor());
-      try {
-        FluentFuture<Closeable> unused = closingFuture.finishToFuture();
-        fail("should have thrown");
-      } catch (IllegalStateException expected) {
-      }
-    }
-
-    public void testFinishToFuture_preventsFurtherDerivation() {
-      ClosingFuture<String> closingFuture = ClosingFuture.from(immediateFuture("value1"));
-      FluentFuture<String> unused = closingFuture.finishToFuture();
-      assertDerivingThrowsIllegalStateException(closingFuture);
-    }
-
-    @Override
-    <T> T getFinalValue(ClosingFuture<T> closingFuture) throws ExecutionException {
-      return getUninterruptibly(closingFuture.finishToFuture());
-    }
-
-    @Override
-    void assertFinallyFailsWithException(ClosingFuture<?> closingFuture) {
-      assertThatFutureFailsWithException(closingFuture.finishToFuture());
-    }
-
-    @Override
-    void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException {
-      assertThatFutureBecomesCancelled(closingFuture.finishToFuture());
-    }
-
-    @Override
-    void cancelFinalStepAndWait(ClosingFuture<TestCloseable> closingFuture) {
-      assertThat(closingFuture.finishToFuture().cancel(false)).isTrue();
-      waitUntilClosed(closingFuture);
-      futureCancelled.countDown();
-    }
-  }
-
-  /**
-   * Tests for {@link ClosingFuture} that exercise {@link
-   * ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)}.
-   */
-
-  public static class FinishToValueAndCloserTest extends ClosingFutureTest {
-
-    private final ExecutorService finishToValueAndCloserExecutor = newSingleThreadExecutor();
-    private volatile ValueAndCloser<?> valueAndCloser;
-
-    @Override
-    protected void tearDown() throws Exception {
-      super.tearDown();
-      assertWithMessage("finishToValueAndCloserExecutor was shut down")
-          .that(shutdownAndAwaitTermination(finishToValueAndCloserExecutor, 10, SECONDS))
-          .isTrue();
-    }
-
-    public void testFinishToValueAndCloser_throwsIfCalledTwice() throws Exception {
-      ClosingFuture<Closeable> closingFuture =
-          ClosingFuture.submit(
-              new ClosingCallable<Closeable>() {
-                @Override
-                public Closeable call(DeferredCloser closer) throws Exception {
-                  return closer.eventuallyClose(mockCloseable, executor);
-                }
-              },
-              executor);
-      closingFuture.finishToValueAndCloser(
-          new NoOpValueAndCloserConsumer<>(), finishToValueAndCloserExecutor);
-      try {
-        closingFuture.finishToValueAndCloser(
-            new NoOpValueAndCloserConsumer<>(), finishToValueAndCloserExecutor);
-        fail("should have thrown");
-      } catch (IllegalStateException expected) {
-      }
-    }
-
-    public void testFinishToValueAndCloser_throwsAfterCallingFinishToFuture() throws Exception {
-      ClosingFuture<Closeable> closingFuture =
-          ClosingFuture.submit(
-              new ClosingCallable<Closeable>() {
-                @Override
-                public Closeable call(DeferredCloser closer) throws Exception {
-                  return closer.eventuallyClose(mockCloseable, executor);
-                }
-              },
-              executor);
-      FluentFuture<Closeable> unused = closingFuture.finishToFuture();
-      try {
-        closingFuture.finishToValueAndCloser(
-            new NoOpValueAndCloserConsumer<>(), finishToValueAndCloserExecutor);
-        fail("should have thrown");
-      } catch (IllegalStateException expected) {
-      }
-    }
-
-    @Override
-    <T> T getFinalValue(ClosingFuture<T> closingFuture) throws ExecutionException {
-      return finishToValueAndCloser(closingFuture).get();
-    }
-
-    @Override
-    void assertFinallyFailsWithException(ClosingFuture<?> closingFuture) {
-      assertThatFutureFailsWithException(closingFuture.statusFuture());
-      ValueAndCloser<?> valueAndCloser = finishToValueAndCloser(closingFuture);
-      try {
-        valueAndCloser.get();
-        fail();
-      } catch (ExecutionException expected) {
-        assertThat(expected).hasCauseThat().isSameInstanceAs(exception);
-      }
-      valueAndCloser.closeAsync();
-    }
-
-    @Override
-    void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException {
-      assertThatFutureBecomesCancelled(closingFuture.statusFuture());
-    }
-
-    @Override
-    void waitUntilClosed(ClosingFuture<?> closingFuture) {
-      if (valueAndCloser != null) {
-        valueAndCloser.closeAsync();
-      }
-      super.waitUntilClosed(closingFuture);
-    }
-
-    @Override
-    void cancelFinalStepAndWait(ClosingFuture<TestCloseable> closingFuture) {
-      assertThat(closingFuture.cancel(false)).isTrue();
-      ValueAndCloser<?> unused = finishToValueAndCloser(closingFuture);
-      waitUntilClosed(closingFuture);
-      futureCancelled.countDown();
-    }
-
-    private <V> ValueAndCloser<V> finishToValueAndCloser(ClosingFuture<V> closingFuture) {
-      final CountDownLatch valueAndCloserSet = new CountDownLatch(1);
-      closingFuture.finishToValueAndCloser(
-          new ValueAndCloserConsumer<V>() {
-            @Override
-            public void accept(ValueAndCloser<V> valueAndCloser) {
-              FinishToValueAndCloserTest.this.valueAndCloser = valueAndCloser;
-              valueAndCloserSet.countDown();
-            }
-          },
-          finishToValueAndCloserExecutor);
-      assertWithMessage("valueAndCloser was set")
-          .that(awaitUninterruptibly(valueAndCloserSet, 10, SECONDS))
-          .isTrue();
-      @SuppressWarnings("unchecked")
-      ValueAndCloser<V> valueAndCloserWithType = (ValueAndCloser<V>) valueAndCloser;
-      return valueAndCloserWithType;
-    }
-  }
-
   void assertThatFutureFailsWithException(Future<?> future) {
     try {
       getUninterruptibly(future);
@@ -1839,7 +1637,7 @@ public abstract class ClosingFutureTest extends TestCase {
     }
   }
 
-  private static void assertThatFutureBecomesCancelled(Future<?> future) throws ExecutionException {
+  static void assertThatFutureBecomesCancelled(Future<?> future) throws ExecutionException {
     try {
       getUninterruptibly(future);
       fail("Expected future to be canceled: " + future);
@@ -2006,7 +1804,7 @@ public abstract class ClosingFutureTest extends TestCase {
     }
   }
 
-  private static final class NoOpValueAndCloserConsumer<V> implements ValueAndCloserConsumer<V> {
+  static final class NoOpValueAndCloserConsumer<V> implements ValueAndCloserConsumer<V> {
     @Override
     public void accept(ValueAndCloser<V> valueAndCloser) {}
   }
