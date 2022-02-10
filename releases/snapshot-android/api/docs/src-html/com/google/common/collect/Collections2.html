@@ -704,14 +704,15 @@
 <span class="sourceLineNo">695</span><a id="line.695">    return true;</a>
 <span class="sourceLineNo">696</span><a id="line.696">  }</a>
 <span class="sourceLineNo">697</span><a id="line.697"></a>
-<span class="sourceLineNo">698</span><a id="line.698">  private static &lt;E&gt; ObjectCountHashMap&lt;E&gt; counts(Collection&lt;E&gt; collection) {</a>
-<span class="sourceLineNo">699</span><a id="line.699">    ObjectCountHashMap&lt;E&gt; map = new ObjectCountHashMap&lt;&gt;();</a>
-<span class="sourceLineNo">700</span><a id="line.700">    for (E e : collection) {</a>
-<span class="sourceLineNo">701</span><a id="line.701">      map.put(e, map.get(e) + 1);</a>
-<span class="sourceLineNo">702</span><a id="line.702">    }</a>
-<span class="sourceLineNo">703</span><a id="line.703">    return map;</a>
-<span class="sourceLineNo">704</span><a id="line.704">  }</a>
-<span class="sourceLineNo">705</span><a id="line.705">}</a>
+<span class="sourceLineNo">698</span><a id="line.698">  private static &lt;E extends @Nullable Object&gt; ObjectCountHashMap&lt;E&gt; counts(</a>
+<span class="sourceLineNo">699</span><a id="line.699">      Collection&lt;E&gt; collection) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">    ObjectCountHashMap&lt;E&gt; map = new ObjectCountHashMap&lt;&gt;();</a>
+<span class="sourceLineNo">701</span><a id="line.701">    for (E e : collection) {</a>
+<span class="sourceLineNo">702</span><a id="line.702">      map.put(e, map.get(e) + 1);</a>
+<span class="sourceLineNo">703</span><a id="line.703">    }</a>
+<span class="sourceLineNo">704</span><a id="line.704">    return map;</a>
+<span class="sourceLineNo">705</span><a id="line.705">  }</a>
+<span class="sourceLineNo">706</span><a id="line.706">}</a>
 
 
 

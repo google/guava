@@ -334,7 +334,7 @@
 <span class="sourceLineNo">325</span><a id="line.325"></a>
 <span class="sourceLineNo">326</span><a id="line.326">  @GwtIncompatible // not present in emulated superclass</a>
 <span class="sourceLineNo">327</span><a id="line.327">  @Override</a>
-<span class="sourceLineNo">328</span><a id="line.328">  int copyIntoArray(Object[] dst, int offset) {</a>
+<span class="sourceLineNo">328</span><a id="line.328">  int copyIntoArray(@Nullable Object[] dst, int offset) {</a>
 <span class="sourceLineNo">329</span><a id="line.329">    for (Multiset.Entry&lt;E&gt; entry : entrySet()) {</a>
 <span class="sourceLineNo">330</span><a id="line.330">      Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());</a>
 <span class="sourceLineNo">331</span><a id="line.331">      offset += entry.getCount();</a>

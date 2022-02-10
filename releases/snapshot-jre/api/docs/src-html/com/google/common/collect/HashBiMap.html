@@ -498,304 +498,312 @@
 <span class="sourceLineNo">489</span><a id="line.489">    public Iterator&lt;K&gt; iterator() {</a>
 <span class="sourceLineNo">490</span><a id="line.490">      return new Itr&lt;K&gt;() {</a>
 <span class="sourceLineNo">491</span><a id="line.491">        @Override</a>
-<span class="sourceLineNo">492</span><a id="line.492">        K output(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">493</span><a id="line.493">          return entry.key;</a>
-<span class="sourceLineNo">494</span><a id="line.494">        }</a>
-<span class="sourceLineNo">495</span><a id="line.495">      };</a>
-<span class="sourceLineNo">496</span><a id="line.496">    }</a>
-<span class="sourceLineNo">497</span><a id="line.497"></a>
-<span class="sourceLineNo">498</span><a id="line.498">    @Override</a>
-<span class="sourceLineNo">499</span><a id="line.499">    public boolean remove(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">500</span><a id="line.500">      BiEntry&lt;K, V&gt; entry = seekByKey(o, smearedHash(o));</a>
-<span class="sourceLineNo">501</span><a id="line.501">      if (entry == null) {</a>
-<span class="sourceLineNo">502</span><a id="line.502">        return false;</a>
-<span class="sourceLineNo">503</span><a id="line.503">      } else {</a>
-<span class="sourceLineNo">504</span><a id="line.504">        delete(entry);</a>
-<span class="sourceLineNo">505</span><a id="line.505">        entry.prevInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">506</span><a id="line.506">        entry.nextInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">507</span><a id="line.507">        return true;</a>
-<span class="sourceLineNo">508</span><a id="line.508">      }</a>
-<span class="sourceLineNo">509</span><a id="line.509">    }</a>
-<span class="sourceLineNo">510</span><a id="line.510">  }</a>
-<span class="sourceLineNo">511</span><a id="line.511"></a>
-<span class="sourceLineNo">512</span><a id="line.512">  @Override</a>
-<span class="sourceLineNo">513</span><a id="line.513">  public Set&lt;V&gt; values() {</a>
-<span class="sourceLineNo">514</span><a id="line.514">    return inverse().keySet();</a>
-<span class="sourceLineNo">515</span><a id="line.515">  }</a>
-<span class="sourceLineNo">516</span><a id="line.516"></a>
-<span class="sourceLineNo">517</span><a id="line.517">  @Override</a>
-<span class="sourceLineNo">518</span><a id="line.518">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">519</span><a id="line.519">    return new Itr&lt;Entry&lt;K, V&gt;&gt;() {</a>
-<span class="sourceLineNo">520</span><a id="line.520">      @Override</a>
-<span class="sourceLineNo">521</span><a id="line.521">      Entry&lt;K, V&gt; output(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">522</span><a id="line.522">        return new MapEntry(entry);</a>
-<span class="sourceLineNo">523</span><a id="line.523">      }</a>
-<span class="sourceLineNo">524</span><a id="line.524"></a>
-<span class="sourceLineNo">525</span><a id="line.525">      class MapEntry extends AbstractMapEntry&lt;K, V&gt; {</a>
-<span class="sourceLineNo">526</span><a id="line.526">        BiEntry&lt;K, V&gt; delegate;</a>
-<span class="sourceLineNo">527</span><a id="line.527"></a>
-<span class="sourceLineNo">528</span><a id="line.528">        MapEntry(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">529</span><a id="line.529">          this.delegate = entry;</a>
-<span class="sourceLineNo">530</span><a id="line.530">        }</a>
-<span class="sourceLineNo">531</span><a id="line.531"></a>
-<span class="sourceLineNo">532</span><a id="line.532">        @Override</a>
-<span class="sourceLineNo">533</span><a id="line.533">        public K getKey() {</a>
-<span class="sourceLineNo">534</span><a id="line.534">          return delegate.key;</a>
-<span class="sourceLineNo">535</span><a id="line.535">        }</a>
-<span class="sourceLineNo">536</span><a id="line.536"></a>
-<span class="sourceLineNo">537</span><a id="line.537">        @Override</a>
-<span class="sourceLineNo">538</span><a id="line.538">        public V getValue() {</a>
-<span class="sourceLineNo">539</span><a id="line.539">          return delegate.value;</a>
-<span class="sourceLineNo">540</span><a id="line.540">        }</a>
-<span class="sourceLineNo">541</span><a id="line.541"></a>
-<span class="sourceLineNo">542</span><a id="line.542">        @Override</a>
-<span class="sourceLineNo">543</span><a id="line.543">        public V setValue(V value) {</a>
-<span class="sourceLineNo">544</span><a id="line.544">          V oldValue = delegate.value;</a>
-<span class="sourceLineNo">545</span><a id="line.545">          int valueHash = smearedHash(value);</a>
-<span class="sourceLineNo">546</span><a id="line.546">          if (valueHash == delegate.valueHash &amp;&amp; Objects.equal(value, oldValue)) {</a>
-<span class="sourceLineNo">547</span><a id="line.547">            return value;</a>
-<span class="sourceLineNo">548</span><a id="line.548">          }</a>
-<span class="sourceLineNo">549</span><a id="line.549">          checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);</a>
-<span class="sourceLineNo">550</span><a id="line.550">          delete(delegate);</a>
-<span class="sourceLineNo">551</span><a id="line.551">          BiEntry&lt;K, V&gt; newEntry = new BiEntry&lt;&gt;(delegate.key, delegate.keyHash, value, valueHash);</a>
-<span class="sourceLineNo">552</span><a id="line.552">          insert(newEntry, delegate);</a>
-<span class="sourceLineNo">553</span><a id="line.553">          delegate.prevInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">554</span><a id="line.554">          delegate.nextInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">555</span><a id="line.555">          expectedModCount = modCount;</a>
-<span class="sourceLineNo">556</span><a id="line.556">          if (toRemove == delegate) {</a>
-<span class="sourceLineNo">557</span><a id="line.557">            toRemove = newEntry;</a>
-<span class="sourceLineNo">558</span><a id="line.558">          }</a>
-<span class="sourceLineNo">559</span><a id="line.559">          delegate = newEntry;</a>
-<span class="sourceLineNo">560</span><a id="line.560">          return oldValue;</a>
-<span class="sourceLineNo">561</span><a id="line.561">        }</a>
-<span class="sourceLineNo">562</span><a id="line.562">      }</a>
-<span class="sourceLineNo">563</span><a id="line.563">    };</a>
-<span class="sourceLineNo">564</span><a id="line.564">  }</a>
-<span class="sourceLineNo">565</span><a id="line.565"></a>
-<span class="sourceLineNo">566</span><a id="line.566">  @Override</a>
-<span class="sourceLineNo">567</span><a id="line.567">  public void forEach(BiConsumer&lt;? super K, ? super V&gt; action) {</a>
-<span class="sourceLineNo">568</span><a id="line.568">    checkNotNull(action);</a>
-<span class="sourceLineNo">569</span><a id="line.569">    for (BiEntry&lt;K, V&gt; entry = firstInKeyInsertionOrder;</a>
-<span class="sourceLineNo">570</span><a id="line.570">        entry != null;</a>
-<span class="sourceLineNo">571</span><a id="line.571">        entry = entry.nextInKeyInsertionOrder) {</a>
-<span class="sourceLineNo">572</span><a id="line.572">      action.accept(entry.key, entry.value);</a>
-<span class="sourceLineNo">573</span><a id="line.573">    }</a>
-<span class="sourceLineNo">574</span><a id="line.574">  }</a>
-<span class="sourceLineNo">575</span><a id="line.575"></a>
-<span class="sourceLineNo">576</span><a id="line.576">  @Override</a>
-<span class="sourceLineNo">577</span><a id="line.577">  public void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) {</a>
-<span class="sourceLineNo">578</span><a id="line.578">    checkNotNull(function);</a>
-<span class="sourceLineNo">579</span><a id="line.579">    BiEntry&lt;K, V&gt; oldFirst = firstInKeyInsertionOrder;</a>
-<span class="sourceLineNo">580</span><a id="line.580">    clear();</a>
-<span class="sourceLineNo">581</span><a id="line.581">    for (BiEntry&lt;K, V&gt; entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {</a>
-<span class="sourceLineNo">582</span><a id="line.582">      put(entry.key, function.apply(entry.key, entry.value));</a>
-<span class="sourceLineNo">583</span><a id="line.583">    }</a>
-<span class="sourceLineNo">584</span><a id="line.584">  }</a>
-<span class="sourceLineNo">585</span><a id="line.585"></a>
-<span class="sourceLineNo">586</span><a id="line.586">  @LazyInit @RetainedWith @CheckForNull private transient BiMap&lt;V, K&gt; inverse;</a>
-<span class="sourceLineNo">587</span><a id="line.587"></a>
-<span class="sourceLineNo">588</span><a id="line.588">  @Override</a>
-<span class="sourceLineNo">589</span><a id="line.589">  public BiMap&lt;V, K&gt; inverse() {</a>
-<span class="sourceLineNo">590</span><a id="line.590">    BiMap&lt;V, K&gt; result = inverse;</a>
-<span class="sourceLineNo">591</span><a id="line.591">    return (result == null) ? inverse = new Inverse() : result;</a>
-<span class="sourceLineNo">592</span><a id="line.592">  }</a>
-<span class="sourceLineNo">593</span><a id="line.593"></a>
-<span class="sourceLineNo">594</span><a id="line.594">  private final class Inverse extends IteratorBasedAbstractMap&lt;V, K&gt;</a>
-<span class="sourceLineNo">595</span><a id="line.595">      implements BiMap&lt;V, K&gt;, Serializable {</a>
-<span class="sourceLineNo">596</span><a id="line.596">    BiMap&lt;K, V&gt; forward() {</a>
-<span class="sourceLineNo">597</span><a id="line.597">      return HashBiMap.this;</a>
-<span class="sourceLineNo">598</span><a id="line.598">    }</a>
-<span class="sourceLineNo">599</span><a id="line.599"></a>
-<span class="sourceLineNo">600</span><a id="line.600">    @Override</a>
-<span class="sourceLineNo">601</span><a id="line.601">    public int size() {</a>
-<span class="sourceLineNo">602</span><a id="line.602">      return size;</a>
-<span class="sourceLineNo">603</span><a id="line.603">    }</a>
-<span class="sourceLineNo">604</span><a id="line.604"></a>
-<span class="sourceLineNo">605</span><a id="line.605">    @Override</a>
-<span class="sourceLineNo">606</span><a id="line.606">    public void clear() {</a>
-<span class="sourceLineNo">607</span><a id="line.607">      forward().clear();</a>
-<span class="sourceLineNo">608</span><a id="line.608">    }</a>
-<span class="sourceLineNo">609</span><a id="line.609"></a>
-<span class="sourceLineNo">610</span><a id="line.610">    @Override</a>
-<span class="sourceLineNo">611</span><a id="line.611">    public boolean containsKey(@CheckForNull Object value) {</a>
-<span class="sourceLineNo">612</span><a id="line.612">      return forward().containsValue(value);</a>
-<span class="sourceLineNo">613</span><a id="line.613">    }</a>
-<span class="sourceLineNo">614</span><a id="line.614"></a>
-<span class="sourceLineNo">615</span><a id="line.615">    @Override</a>
-<span class="sourceLineNo">616</span><a id="line.616">    @CheckForNull</a>
-<span class="sourceLineNo">617</span><a id="line.617">    public K get(@CheckForNull Object value) {</a>
-<span class="sourceLineNo">618</span><a id="line.618">      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));</a>
-<span class="sourceLineNo">619</span><a id="line.619">    }</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">622</span><a id="line.622">    @Override</a>
-<span class="sourceLineNo">623</span><a id="line.623">    @CheckForNull</a>
-<span class="sourceLineNo">624</span><a id="line.624">    public K put(@ParametricNullness V value, @ParametricNullness K key) {</a>
-<span class="sourceLineNo">625</span><a id="line.625">      return putInverse(value, key, false);</a>
-<span class="sourceLineNo">626</span><a id="line.626">    }</a>
-<span class="sourceLineNo">627</span><a id="line.627"></a>
-<span class="sourceLineNo">628</span><a id="line.628">    @Override</a>
-<span class="sourceLineNo">629</span><a id="line.629">    @CheckForNull</a>
-<span class="sourceLineNo">630</span><a id="line.630">    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      return putInverse(value, key, true);</a>
-<span class="sourceLineNo">632</span><a id="line.632">    }</a>
-<span class="sourceLineNo">633</span><a id="line.633"></a>
-<span class="sourceLineNo">634</span><a id="line.634">    @Override</a>
-<span class="sourceLineNo">635</span><a id="line.635">    @CheckForNull</a>
-<span class="sourceLineNo">636</span><a id="line.636">    public K remove(@CheckForNull Object value) {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      BiEntry&lt;K, V&gt; entry = seekByValue(value, smearedHash(value));</a>
-<span class="sourceLineNo">638</span><a id="line.638">      if (entry == null) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">        return null;</a>
-<span class="sourceLineNo">640</span><a id="line.640">      } else {</a>
-<span class="sourceLineNo">641</span><a id="line.641">        delete(entry);</a>
-<span class="sourceLineNo">642</span><a id="line.642">        entry.prevInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">643</span><a id="line.643">        entry.nextInKeyInsertionOrder = null;</a>
-<span class="sourceLineNo">644</span><a id="line.644">        return entry.key;</a>
-<span class="sourceLineNo">645</span><a id="line.645">      }</a>
-<span class="sourceLineNo">646</span><a id="line.646">    }</a>
-<span class="sourceLineNo">647</span><a id="line.647"></a>
-<span class="sourceLineNo">648</span><a id="line.648">    @Override</a>
-<span class="sourceLineNo">649</span><a id="line.649">    public BiMap&lt;K, V&gt; inverse() {</a>
-<span class="sourceLineNo">650</span><a id="line.650">      return forward();</a>
-<span class="sourceLineNo">651</span><a id="line.651">    }</a>
-<span class="sourceLineNo">652</span><a id="line.652"></a>
-<span class="sourceLineNo">653</span><a id="line.653">    @Override</a>
-<span class="sourceLineNo">654</span><a id="line.654">    public Set&lt;V&gt; keySet() {</a>
-<span class="sourceLineNo">655</span><a id="line.655">      return new InverseKeySet();</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657"></a>
-<span class="sourceLineNo">658</span><a id="line.658">    private final class InverseKeySet extends Maps.KeySet&lt;V, K&gt; {</a>
-<span class="sourceLineNo">659</span><a id="line.659">      InverseKeySet() {</a>
-<span class="sourceLineNo">660</span><a id="line.660">        super(Inverse.this);</a>
-<span class="sourceLineNo">661</span><a id="line.661">      }</a>
-<span class="sourceLineNo">662</span><a id="line.662"></a>
-<span class="sourceLineNo">663</span><a id="line.663">      @Override</a>
-<span class="sourceLineNo">664</span><a id="line.664">      public boolean remove(@CheckForNull Object o) {</a>
-<span class="sourceLineNo">665</span><a id="line.665">        BiEntry&lt;K, V&gt; entry = seekByValue(o, smearedHash(o));</a>
-<span class="sourceLineNo">666</span><a id="line.666">        if (entry == null) {</a>
-<span class="sourceLineNo">667</span><a id="line.667">          return false;</a>
-<span class="sourceLineNo">668</span><a id="line.668">        } else {</a>
-<span class="sourceLineNo">669</span><a id="line.669">          delete(entry);</a>
-<span class="sourceLineNo">670</span><a id="line.670">          return true;</a>
-<span class="sourceLineNo">671</span><a id="line.671">        }</a>
-<span class="sourceLineNo">672</span><a id="line.672">      }</a>
-<span class="sourceLineNo">673</span><a id="line.673"></a>
-<span class="sourceLineNo">674</span><a id="line.674">      @Override</a>
-<span class="sourceLineNo">675</span><a id="line.675">      public Iterator&lt;V&gt; iterator() {</a>
-<span class="sourceLineNo">676</span><a id="line.676">        return new Itr&lt;V&gt;() {</a>
-<span class="sourceLineNo">677</span><a id="line.677">          @Override</a>
-<span class="sourceLineNo">678</span><a id="line.678">          V output(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">679</span><a id="line.679">            return entry.value;</a>
-<span class="sourceLineNo">680</span><a id="line.680">          }</a>
-<span class="sourceLineNo">681</span><a id="line.681">        };</a>
-<span class="sourceLineNo">682</span><a id="line.682">      }</a>
-<span class="sourceLineNo">683</span><a id="line.683">    }</a>
-<span class="sourceLineNo">684</span><a id="line.684"></a>
-<span class="sourceLineNo">685</span><a id="line.685">    @Override</a>
-<span class="sourceLineNo">686</span><a id="line.686">    public Set&lt;K&gt; values() {</a>
-<span class="sourceLineNo">687</span><a id="line.687">      return forward().keySet();</a>
+<span class="sourceLineNo">492</span><a id="line.492">        @ParametricNullness</a>
+<span class="sourceLineNo">493</span><a id="line.493">        K output(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">494</span><a id="line.494">          return entry.key;</a>
+<span class="sourceLineNo">495</span><a id="line.495">        }</a>
+<span class="sourceLineNo">496</span><a id="line.496">      };</a>
+<span class="sourceLineNo">497</span><a id="line.497">    }</a>
+<span class="sourceLineNo">498</span><a id="line.498"></a>
+<span class="sourceLineNo">499</span><a id="line.499">    @Override</a>
+<span class="sourceLineNo">500</span><a id="line.500">    public boolean remove(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">501</span><a id="line.501">      BiEntry&lt;K, V&gt; entry = seekByKey(o, smearedHash(o));</a>
+<span class="sourceLineNo">502</span><a id="line.502">      if (entry == null) {</a>
+<span class="sourceLineNo">503</span><a id="line.503">        return false;</a>
+<span class="sourceLineNo">504</span><a id="line.504">      } else {</a>
+<span class="sourceLineNo">505</span><a id="line.505">        delete(entry);</a>
+<span class="sourceLineNo">506</span><a id="line.506">        entry.prevInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">507</span><a id="line.507">        entry.nextInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">508</span><a id="line.508">        return true;</a>
+<span class="sourceLineNo">509</span><a id="line.509">      }</a>
+<span class="sourceLineNo">510</span><a id="line.510">    }</a>
+<span class="sourceLineNo">511</span><a id="line.511">  }</a>
+<span class="sourceLineNo">512</span><a id="line.512"></a>
+<span class="sourceLineNo">513</span><a id="line.513">  @Override</a>
+<span class="sourceLineNo">514</span><a id="line.514">  public Set&lt;V&gt; values() {</a>
+<span class="sourceLineNo">515</span><a id="line.515">    return inverse().keySet();</a>
+<span class="sourceLineNo">516</span><a id="line.516">  }</a>
+<span class="sourceLineNo">517</span><a id="line.517"></a>
+<span class="sourceLineNo">518</span><a id="line.518">  @Override</a>
+<span class="sourceLineNo">519</span><a id="line.519">  Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">520</span><a id="line.520">    return new Itr&lt;Entry&lt;K, V&gt;&gt;() {</a>
+<span class="sourceLineNo">521</span><a id="line.521">      @Override</a>
+<span class="sourceLineNo">522</span><a id="line.522">      Entry&lt;K, V&gt; output(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">523</span><a id="line.523">        return new MapEntry(entry);</a>
+<span class="sourceLineNo">524</span><a id="line.524">      }</a>
+<span class="sourceLineNo">525</span><a id="line.525"></a>
+<span class="sourceLineNo">526</span><a id="line.526">      class MapEntry extends AbstractMapEntry&lt;K, V&gt; {</a>
+<span class="sourceLineNo">527</span><a id="line.527">        BiEntry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">528</span><a id="line.528"></a>
+<span class="sourceLineNo">529</span><a id="line.529">        MapEntry(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">530</span><a id="line.530">          this.delegate = entry;</a>
+<span class="sourceLineNo">531</span><a id="line.531">        }</a>
+<span class="sourceLineNo">532</span><a id="line.532"></a>
+<span class="sourceLineNo">533</span><a id="line.533">        @Override</a>
+<span class="sourceLineNo">534</span><a id="line.534">        @ParametricNullness</a>
+<span class="sourceLineNo">535</span><a id="line.535">        public K getKey() {</a>
+<span class="sourceLineNo">536</span><a id="line.536">          return delegate.key;</a>
+<span class="sourceLineNo">537</span><a id="line.537">        }</a>
+<span class="sourceLineNo">538</span><a id="line.538"></a>
+<span class="sourceLineNo">539</span><a id="line.539">        @Override</a>
+<span class="sourceLineNo">540</span><a id="line.540">        @ParametricNullness</a>
+<span class="sourceLineNo">541</span><a id="line.541">        public V getValue() {</a>
+<span class="sourceLineNo">542</span><a id="line.542">          return delegate.value;</a>
+<span class="sourceLineNo">543</span><a id="line.543">        }</a>
+<span class="sourceLineNo">544</span><a id="line.544"></a>
+<span class="sourceLineNo">545</span><a id="line.545">        @Override</a>
+<span class="sourceLineNo">546</span><a id="line.546">        @ParametricNullness</a>
+<span class="sourceLineNo">547</span><a id="line.547">        public V setValue(@ParametricNullness V value) {</a>
+<span class="sourceLineNo">548</span><a id="line.548">          V oldValue = delegate.value;</a>
+<span class="sourceLineNo">549</span><a id="line.549">          int valueHash = smearedHash(value);</a>
+<span class="sourceLineNo">550</span><a id="line.550">          if (valueHash == delegate.valueHash &amp;&amp; Objects.equal(value, oldValue)) {</a>
+<span class="sourceLineNo">551</span><a id="line.551">            return value;</a>
+<span class="sourceLineNo">552</span><a id="line.552">          }</a>
+<span class="sourceLineNo">553</span><a id="line.553">          checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);</a>
+<span class="sourceLineNo">554</span><a id="line.554">          delete(delegate);</a>
+<span class="sourceLineNo">555</span><a id="line.555">          BiEntry&lt;K, V&gt; newEntry = new BiEntry&lt;&gt;(delegate.key, delegate.keyHash, value, valueHash);</a>
+<span class="sourceLineNo">556</span><a id="line.556">          insert(newEntry, delegate);</a>
+<span class="sourceLineNo">557</span><a id="line.557">          delegate.prevInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">558</span><a id="line.558">          delegate.nextInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">559</span><a id="line.559">          expectedModCount = modCount;</a>
+<span class="sourceLineNo">560</span><a id="line.560">          if (toRemove == delegate) {</a>
+<span class="sourceLineNo">561</span><a id="line.561">            toRemove = newEntry;</a>
+<span class="sourceLineNo">562</span><a id="line.562">          }</a>
+<span class="sourceLineNo">563</span><a id="line.563">          delegate = newEntry;</a>
+<span class="sourceLineNo">564</span><a id="line.564">          return oldValue;</a>
+<span class="sourceLineNo">565</span><a id="line.565">        }</a>
+<span class="sourceLineNo">566</span><a id="line.566">      }</a>
+<span class="sourceLineNo">567</span><a id="line.567">    };</a>
+<span class="sourceLineNo">568</span><a id="line.568">  }</a>
+<span class="sourceLineNo">569</span><a id="line.569"></a>
+<span class="sourceLineNo">570</span><a id="line.570">  @Override</a>
+<span class="sourceLineNo">571</span><a id="line.571">  public void forEach(BiConsumer&lt;? super K, ? super V&gt; action) {</a>
+<span class="sourceLineNo">572</span><a id="line.572">    checkNotNull(action);</a>
+<span class="sourceLineNo">573</span><a id="line.573">    for (BiEntry&lt;K, V&gt; entry = firstInKeyInsertionOrder;</a>
+<span class="sourceLineNo">574</span><a id="line.574">        entry != null;</a>
+<span class="sourceLineNo">575</span><a id="line.575">        entry = entry.nextInKeyInsertionOrder) {</a>
+<span class="sourceLineNo">576</span><a id="line.576">      action.accept(entry.key, entry.value);</a>
+<span class="sourceLineNo">577</span><a id="line.577">    }</a>
+<span class="sourceLineNo">578</span><a id="line.578">  }</a>
+<span class="sourceLineNo">579</span><a id="line.579"></a>
+<span class="sourceLineNo">580</span><a id="line.580">  @Override</a>
+<span class="sourceLineNo">581</span><a id="line.581">  public void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) {</a>
+<span class="sourceLineNo">582</span><a id="line.582">    checkNotNull(function);</a>
+<span class="sourceLineNo">583</span><a id="line.583">    BiEntry&lt;K, V&gt; oldFirst = firstInKeyInsertionOrder;</a>
+<span class="sourceLineNo">584</span><a id="line.584">    clear();</a>
+<span class="sourceLineNo">585</span><a id="line.585">    for (BiEntry&lt;K, V&gt; entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {</a>
+<span class="sourceLineNo">586</span><a id="line.586">      put(entry.key, function.apply(entry.key, entry.value));</a>
+<span class="sourceLineNo">587</span><a id="line.587">    }</a>
+<span class="sourceLineNo">588</span><a id="line.588">  }</a>
+<span class="sourceLineNo">589</span><a id="line.589"></a>
+<span class="sourceLineNo">590</span><a id="line.590">  @LazyInit @RetainedWith @CheckForNull private transient BiMap&lt;V, K&gt; inverse;</a>
+<span class="sourceLineNo">591</span><a id="line.591"></a>
+<span class="sourceLineNo">592</span><a id="line.592">  @Override</a>
+<span class="sourceLineNo">593</span><a id="line.593">  public BiMap&lt;V, K&gt; inverse() {</a>
+<span class="sourceLineNo">594</span><a id="line.594">    BiMap&lt;V, K&gt; result = inverse;</a>
+<span class="sourceLineNo">595</span><a id="line.595">    return (result == null) ? inverse = new Inverse() : result;</a>
+<span class="sourceLineNo">596</span><a id="line.596">  }</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">  private final class Inverse extends IteratorBasedAbstractMap&lt;V, K&gt;</a>
+<span class="sourceLineNo">599</span><a id="line.599">      implements BiMap&lt;V, K&gt;, Serializable {</a>
+<span class="sourceLineNo">600</span><a id="line.600">    BiMap&lt;K, V&gt; forward() {</a>
+<span class="sourceLineNo">601</span><a id="line.601">      return HashBiMap.this;</a>
+<span class="sourceLineNo">602</span><a id="line.602">    }</a>
+<span class="sourceLineNo">603</span><a id="line.603"></a>
+<span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
+<span class="sourceLineNo">605</span><a id="line.605">    public int size() {</a>
+<span class="sourceLineNo">606</span><a id="line.606">      return size;</a>
+<span class="sourceLineNo">607</span><a id="line.607">    }</a>
+<span class="sourceLineNo">608</span><a id="line.608"></a>
+<span class="sourceLineNo">609</span><a id="line.609">    @Override</a>
+<span class="sourceLineNo">610</span><a id="line.610">    public void clear() {</a>
+<span class="sourceLineNo">611</span><a id="line.611">      forward().clear();</a>
+<span class="sourceLineNo">612</span><a id="line.612">    }</a>
+<span class="sourceLineNo">613</span><a id="line.613"></a>
+<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
+<span class="sourceLineNo">615</span><a id="line.615">    public boolean containsKey(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">      return forward().containsValue(value);</a>
+<span class="sourceLineNo">617</span><a id="line.617">    }</a>
+<span class="sourceLineNo">618</span><a id="line.618"></a>
+<span class="sourceLineNo">619</span><a id="line.619">    @Override</a>
+<span class="sourceLineNo">620</span><a id="line.620">    @CheckForNull</a>
+<span class="sourceLineNo">621</span><a id="line.621">    public K get(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">622</span><a id="line.622">      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));</a>
+<span class="sourceLineNo">623</span><a id="line.623">    }</a>
+<span class="sourceLineNo">624</span><a id="line.624"></a>
+<span class="sourceLineNo">625</span><a id="line.625">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">626</span><a id="line.626">    @Override</a>
+<span class="sourceLineNo">627</span><a id="line.627">    @CheckForNull</a>
+<span class="sourceLineNo">628</span><a id="line.628">    public K put(@ParametricNullness V value, @ParametricNullness K key) {</a>
+<span class="sourceLineNo">629</span><a id="line.629">      return putInverse(value, key, false);</a>
+<span class="sourceLineNo">630</span><a id="line.630">    }</a>
+<span class="sourceLineNo">631</span><a id="line.631"></a>
+<span class="sourceLineNo">632</span><a id="line.632">    @Override</a>
+<span class="sourceLineNo">633</span><a id="line.633">    @CheckForNull</a>
+<span class="sourceLineNo">634</span><a id="line.634">    public K forcePut(@ParametricNullness V value, @ParametricNullness K key) {</a>
+<span class="sourceLineNo">635</span><a id="line.635">      return putInverse(value, key, true);</a>
+<span class="sourceLineNo">636</span><a id="line.636">    }</a>
+<span class="sourceLineNo">637</span><a id="line.637"></a>
+<span class="sourceLineNo">638</span><a id="line.638">    @Override</a>
+<span class="sourceLineNo">639</span><a id="line.639">    @CheckForNull</a>
+<span class="sourceLineNo">640</span><a id="line.640">    public K remove(@CheckForNull Object value) {</a>
+<span class="sourceLineNo">641</span><a id="line.641">      BiEntry&lt;K, V&gt; entry = seekByValue(value, smearedHash(value));</a>
+<span class="sourceLineNo">642</span><a id="line.642">      if (entry == null) {</a>
+<span class="sourceLineNo">643</span><a id="line.643">        return null;</a>
+<span class="sourceLineNo">644</span><a id="line.644">      } else {</a>
+<span class="sourceLineNo">645</span><a id="line.645">        delete(entry);</a>
+<span class="sourceLineNo">646</span><a id="line.646">        entry.prevInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">647</span><a id="line.647">        entry.nextInKeyInsertionOrder = null;</a>
+<span class="sourceLineNo">648</span><a id="line.648">        return entry.key;</a>
+<span class="sourceLineNo">649</span><a id="line.649">      }</a>
+<span class="sourceLineNo">650</span><a id="line.650">    }</a>
+<span class="sourceLineNo">651</span><a id="line.651"></a>
+<span class="sourceLineNo">652</span><a id="line.652">    @Override</a>
+<span class="sourceLineNo">653</span><a id="line.653">    public BiMap&lt;K, V&gt; inverse() {</a>
+<span class="sourceLineNo">654</span><a id="line.654">      return forward();</a>
+<span class="sourceLineNo">655</span><a id="line.655">    }</a>
+<span class="sourceLineNo">656</span><a id="line.656"></a>
+<span class="sourceLineNo">657</span><a id="line.657">    @Override</a>
+<span class="sourceLineNo">658</span><a id="line.658">    public Set&lt;V&gt; keySet() {</a>
+<span class="sourceLineNo">659</span><a id="line.659">      return new InverseKeySet();</a>
+<span class="sourceLineNo">660</span><a id="line.660">    }</a>
+<span class="sourceLineNo">661</span><a id="line.661"></a>
+<span class="sourceLineNo">662</span><a id="line.662">    private final class InverseKeySet extends Maps.KeySet&lt;V, K&gt; {</a>
+<span class="sourceLineNo">663</span><a id="line.663">      InverseKeySet() {</a>
+<span class="sourceLineNo">664</span><a id="line.664">        super(Inverse.this);</a>
+<span class="sourceLineNo">665</span><a id="line.665">      }</a>
+<span class="sourceLineNo">666</span><a id="line.666"></a>
+<span class="sourceLineNo">667</span><a id="line.667">      @Override</a>
+<span class="sourceLineNo">668</span><a id="line.668">      public boolean remove(@CheckForNull Object o) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">        BiEntry&lt;K, V&gt; entry = seekByValue(o, smearedHash(o));</a>
+<span class="sourceLineNo">670</span><a id="line.670">        if (entry == null) {</a>
+<span class="sourceLineNo">671</span><a id="line.671">          return false;</a>
+<span class="sourceLineNo">672</span><a id="line.672">        } else {</a>
+<span class="sourceLineNo">673</span><a id="line.673">          delete(entry);</a>
+<span class="sourceLineNo">674</span><a id="line.674">          return true;</a>
+<span class="sourceLineNo">675</span><a id="line.675">        }</a>
+<span class="sourceLineNo">676</span><a id="line.676">      }</a>
+<span class="sourceLineNo">677</span><a id="line.677"></a>
+<span class="sourceLineNo">678</span><a id="line.678">      @Override</a>
+<span class="sourceLineNo">679</span><a id="line.679">      public Iterator&lt;V&gt; iterator() {</a>
+<span class="sourceLineNo">680</span><a id="line.680">        return new Itr&lt;V&gt;() {</a>
+<span class="sourceLineNo">681</span><a id="line.681">          @Override</a>
+<span class="sourceLineNo">682</span><a id="line.682">          @ParametricNullness</a>
+<span class="sourceLineNo">683</span><a id="line.683">          V output(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">684</span><a id="line.684">            return entry.value;</a>
+<span class="sourceLineNo">685</span><a id="line.685">          }</a>
+<span class="sourceLineNo">686</span><a id="line.686">        };</a>
+<span class="sourceLineNo">687</span><a id="line.687">      }</a>
 <span class="sourceLineNo">688</span><a id="line.688">    }</a>
 <span class="sourceLineNo">689</span><a id="line.689"></a>
 <span class="sourceLineNo">690</span><a id="line.690">    @Override</a>
-<span class="sourceLineNo">691</span><a id="line.691">    Iterator&lt;Entry&lt;V, K&gt;&gt; entryIterator() {</a>
-<span class="sourceLineNo">692</span><a id="line.692">      return new Itr&lt;Entry&lt;V, K&gt;&gt;() {</a>
-<span class="sourceLineNo">693</span><a id="line.693">        @Override</a>
-<span class="sourceLineNo">694</span><a id="line.694">        Entry&lt;V, K&gt; output(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">695</span><a id="line.695">          return new InverseEntry(entry);</a>
-<span class="sourceLineNo">696</span><a id="line.696">        }</a>
-<span class="sourceLineNo">697</span><a id="line.697"></a>
-<span class="sourceLineNo">698</span><a id="line.698">        class InverseEntry extends AbstractMapEntry&lt;V, K&gt; {</a>
-<span class="sourceLineNo">699</span><a id="line.699">          BiEntry&lt;K, V&gt; delegate;</a>
-<span class="sourceLineNo">700</span><a id="line.700"></a>
-<span class="sourceLineNo">701</span><a id="line.701">          InverseEntry(BiEntry&lt;K, V&gt; entry) {</a>
-<span class="sourceLineNo">702</span><a id="line.702">            this.delegate = entry;</a>
-<span class="sourceLineNo">703</span><a id="line.703">          }</a>
-<span class="sourceLineNo">704</span><a id="line.704"></a>
-<span class="sourceLineNo">705</span><a id="line.705">          @Override</a>
-<span class="sourceLineNo">706</span><a id="line.706">          public V getKey() {</a>
-<span class="sourceLineNo">707</span><a id="line.707">            return delegate.value;</a>
+<span class="sourceLineNo">691</span><a id="line.691">    public Set&lt;K&gt; values() {</a>
+<span class="sourceLineNo">692</span><a id="line.692">      return forward().keySet();</a>
+<span class="sourceLineNo">693</span><a id="line.693">    }</a>
+<span class="sourceLineNo">694</span><a id="line.694"></a>
+<span class="sourceLineNo">695</span><a id="line.695">    @Override</a>
+<span class="sourceLineNo">696</span><a id="line.696">    Iterator&lt;Entry&lt;V, K&gt;&gt; entryIterator() {</a>
+<span class="sourceLineNo">697</span><a id="line.697">      return new Itr&lt;Entry&lt;V, K&gt;&gt;() {</a>
+<span class="sourceLineNo">698</span><a id="line.698">        @Override</a>
+<span class="sourceLineNo">699</span><a id="line.699">        Entry&lt;V, K&gt; output(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">          return new InverseEntry(entry);</a>
+<span class="sourceLineNo">701</span><a id="line.701">        }</a>
+<span class="sourceLineNo">702</span><a id="line.702"></a>
+<span class="sourceLineNo">703</span><a id="line.703">        class InverseEntry extends AbstractMapEntry&lt;V, K&gt; {</a>
+<span class="sourceLineNo">704</span><a id="line.704">          BiEntry&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">705</span><a id="line.705"></a>
+<span class="sourceLineNo">706</span><a id="line.706">          InverseEntry(BiEntry&lt;K, V&gt; entry) {</a>
+<span class="sourceLineNo">707</span><a id="line.707">            this.delegate = entry;</a>
 <span class="sourceLineNo">708</span><a id="line.708">          }</a>
 <span class="sourceLineNo">709</span><a id="line.709"></a>
 <span class="sourceLineNo">710</span><a id="line.710">          @Override</a>
-<span class="sourceLineNo">711</span><a id="line.711">          public K getValue() {</a>
-<span class="sourceLineNo">712</span><a id="line.712">            return delegate.key;</a>
-<span class="sourceLineNo">713</span><a id="line.713">          }</a>
-<span class="sourceLineNo">714</span><a id="line.714"></a>
-<span class="sourceLineNo">715</span><a id="line.715">          @Override</a>
-<span class="sourceLineNo">716</span><a id="line.716">          public K setValue(K key) {</a>
-<span class="sourceLineNo">717</span><a id="line.717">            K oldKey = delegate.key;</a>
-<span class="sourceLineNo">718</span><a id="line.718">            int keyHash = smearedHash(key);</a>
-<span class="sourceLineNo">719</span><a id="line.719">            if (keyHash == delegate.keyHash &amp;&amp; Objects.equal(key, oldKey)) {</a>
-<span class="sourceLineNo">720</span><a id="line.720">              return key;</a>
-<span class="sourceLineNo">721</span><a id="line.721">            }</a>
-<span class="sourceLineNo">722</span><a id="line.722">            checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);</a>
-<span class="sourceLineNo">723</span><a id="line.723">            delete(delegate);</a>
-<span class="sourceLineNo">724</span><a id="line.724">            BiEntry&lt;K, V&gt; newEntry =</a>
-<span class="sourceLineNo">725</span><a id="line.725">                new BiEntry&lt;&gt;(key, keyHash, delegate.value, delegate.valueHash);</a>
-<span class="sourceLineNo">726</span><a id="line.726">            delegate = newEntry;</a>
-<span class="sourceLineNo">727</span><a id="line.727">            insert(newEntry, null);</a>
-<span class="sourceLineNo">728</span><a id="line.728">            expectedModCount = modCount;</a>
-<span class="sourceLineNo">729</span><a id="line.729">            return oldKey;</a>
-<span class="sourceLineNo">730</span><a id="line.730">          }</a>
-<span class="sourceLineNo">731</span><a id="line.731">        }</a>
-<span class="sourceLineNo">732</span><a id="line.732">      };</a>
-<span class="sourceLineNo">733</span><a id="line.733">    }</a>
-<span class="sourceLineNo">734</span><a id="line.734"></a>
-<span class="sourceLineNo">735</span><a id="line.735">    @Override</a>
-<span class="sourceLineNo">736</span><a id="line.736">    public void forEach(BiConsumer&lt;? super V, ? super K&gt; action) {</a>
-<span class="sourceLineNo">737</span><a id="line.737">      checkNotNull(action);</a>
-<span class="sourceLineNo">738</span><a id="line.738">      HashBiMap.this.forEach((k, v) -&gt; action.accept(v, k));</a>
-<span class="sourceLineNo">739</span><a id="line.739">    }</a>
-<span class="sourceLineNo">740</span><a id="line.740"></a>
-<span class="sourceLineNo">741</span><a id="line.741">    @Override</a>
-<span class="sourceLineNo">742</span><a id="line.742">    public void replaceAll(BiFunction&lt;? super V, ? super K, ? extends K&gt; function) {</a>
-<span class="sourceLineNo">743</span><a id="line.743">      checkNotNull(function);</a>
-<span class="sourceLineNo">744</span><a id="line.744">      BiEntry&lt;K, V&gt; oldFirst = firstInKeyInsertionOrder;</a>
-<span class="sourceLineNo">745</span><a id="line.745">      clear();</a>
-<span class="sourceLineNo">746</span><a id="line.746">      for (BiEntry&lt;K, V&gt; entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {</a>
-<span class="sourceLineNo">747</span><a id="line.747">        put(entry.value, function.apply(entry.value, entry.key));</a>
-<span class="sourceLineNo">748</span><a id="line.748">      }</a>
-<span class="sourceLineNo">749</span><a id="line.749">    }</a>
-<span class="sourceLineNo">750</span><a id="line.750"></a>
-<span class="sourceLineNo">751</span><a id="line.751">    Object writeReplace() {</a>
-<span class="sourceLineNo">752</span><a id="line.752">      return new InverseSerializedForm&lt;&gt;(HashBiMap.this);</a>
-<span class="sourceLineNo">753</span><a id="line.753">    }</a>
-<span class="sourceLineNo">754</span><a id="line.754">  }</a>
-<span class="sourceLineNo">755</span><a id="line.755"></a>
-<span class="sourceLineNo">756</span><a id="line.756">  private static final class InverseSerializedForm&lt;</a>
-<span class="sourceLineNo">757</span><a id="line.757">          K extends @Nullable Object, V extends @Nullable Object&gt;</a>
-<span class="sourceLineNo">758</span><a id="line.758">      implements Serializable {</a>
-<span class="sourceLineNo">759</span><a id="line.759">    private final HashBiMap&lt;K, V&gt; bimap;</a>
-<span class="sourceLineNo">760</span><a id="line.760"></a>
-<span class="sourceLineNo">761</span><a id="line.761">    InverseSerializedForm(HashBiMap&lt;K, V&gt; bimap) {</a>
-<span class="sourceLineNo">762</span><a id="line.762">      this.bimap = bimap;</a>
-<span class="sourceLineNo">763</span><a id="line.763">    }</a>
-<span class="sourceLineNo">764</span><a id="line.764"></a>
-<span class="sourceLineNo">765</span><a id="line.765">    Object readResolve() {</a>
-<span class="sourceLineNo">766</span><a id="line.766">      return bimap.inverse();</a>
-<span class="sourceLineNo">767</span><a id="line.767">    }</a>
-<span class="sourceLineNo">768</span><a id="line.768">  }</a>
-<span class="sourceLineNo">769</span><a id="line.769"></a>
-<span class="sourceLineNo">770</span><a id="line.770">  /**</a>
-<span class="sourceLineNo">771</span><a id="line.771">   * @serialData the number of entries, first key, first value, second key, second value, and so on.</a>
-<span class="sourceLineNo">772</span><a id="line.772">   */</a>
-<span class="sourceLineNo">773</span><a id="line.773">  @GwtIncompatible // java.io.ObjectOutputStream</a>
-<span class="sourceLineNo">774</span><a id="line.774">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
-<span class="sourceLineNo">775</span><a id="line.775">    stream.defaultWriteObject();</a>
-<span class="sourceLineNo">776</span><a id="line.776">    Serialization.writeMap(this, stream);</a>
-<span class="sourceLineNo">777</span><a id="line.777">  }</a>
-<span class="sourceLineNo">778</span><a id="line.778"></a>
-<span class="sourceLineNo">779</span><a id="line.779">  @GwtIncompatible // java.io.ObjectInputStream</a>
-<span class="sourceLineNo">780</span><a id="line.780">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">781</span><a id="line.781">    stream.defaultReadObject();</a>
-<span class="sourceLineNo">782</span><a id="line.782">    int size = Serialization.readCount(stream);</a>
-<span class="sourceLineNo">783</span><a id="line.783">    init(16); // resist hostile attempts to allocate gratuitous heap</a>
-<span class="sourceLineNo">784</span><a id="line.784">    Serialization.populateMap(this, stream, size);</a>
+<span class="sourceLineNo">711</span><a id="line.711">          @ParametricNullness</a>
+<span class="sourceLineNo">712</span><a id="line.712">          public V getKey() {</a>
+<span class="sourceLineNo">713</span><a id="line.713">            return delegate.value;</a>
+<span class="sourceLineNo">714</span><a id="line.714">          }</a>
+<span class="sourceLineNo">715</span><a id="line.715"></a>
+<span class="sourceLineNo">716</span><a id="line.716">          @Override</a>
+<span class="sourceLineNo">717</span><a id="line.717">          @ParametricNullness</a>
+<span class="sourceLineNo">718</span><a id="line.718">          public K getValue() {</a>
+<span class="sourceLineNo">719</span><a id="line.719">            return delegate.key;</a>
+<span class="sourceLineNo">720</span><a id="line.720">          }</a>
+<span class="sourceLineNo">721</span><a id="line.721"></a>
+<span class="sourceLineNo">722</span><a id="line.722">          @Override</a>
+<span class="sourceLineNo">723</span><a id="line.723">          @ParametricNullness</a>
+<span class="sourceLineNo">724</span><a id="line.724">          public K setValue(@ParametricNullness K key) {</a>
+<span class="sourceLineNo">725</span><a id="line.725">            K oldKey = delegate.key;</a>
+<span class="sourceLineNo">726</span><a id="line.726">            int keyHash = smearedHash(key);</a>
+<span class="sourceLineNo">727</span><a id="line.727">            if (keyHash == delegate.keyHash &amp;&amp; Objects.equal(key, oldKey)) {</a>
+<span class="sourceLineNo">728</span><a id="line.728">              return key;</a>
+<span class="sourceLineNo">729</span><a id="line.729">            }</a>
+<span class="sourceLineNo">730</span><a id="line.730">            checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);</a>
+<span class="sourceLineNo">731</span><a id="line.731">            delete(delegate);</a>
+<span class="sourceLineNo">732</span><a id="line.732">            BiEntry&lt;K, V&gt; newEntry =</a>
+<span class="sourceLineNo">733</span><a id="line.733">                new BiEntry&lt;&gt;(key, keyHash, delegate.value, delegate.valueHash);</a>
+<span class="sourceLineNo">734</span><a id="line.734">            delegate = newEntry;</a>
+<span class="sourceLineNo">735</span><a id="line.735">            insert(newEntry, null);</a>
+<span class="sourceLineNo">736</span><a id="line.736">            expectedModCount = modCount;</a>
+<span class="sourceLineNo">737</span><a id="line.737">            return oldKey;</a>
+<span class="sourceLineNo">738</span><a id="line.738">          }</a>
+<span class="sourceLineNo">739</span><a id="line.739">        }</a>
+<span class="sourceLineNo">740</span><a id="line.740">      };</a>
+<span class="sourceLineNo">741</span><a id="line.741">    }</a>
+<span class="sourceLineNo">742</span><a id="line.742"></a>
+<span class="sourceLineNo">743</span><a id="line.743">    @Override</a>
+<span class="sourceLineNo">744</span><a id="line.744">    public void forEach(BiConsumer&lt;? super V, ? super K&gt; action) {</a>
+<span class="sourceLineNo">745</span><a id="line.745">      checkNotNull(action);</a>
+<span class="sourceLineNo">746</span><a id="line.746">      HashBiMap.this.forEach((k, v) -&gt; action.accept(v, k));</a>
+<span class="sourceLineNo">747</span><a id="line.747">    }</a>
+<span class="sourceLineNo">748</span><a id="line.748"></a>
+<span class="sourceLineNo">749</span><a id="line.749">    @Override</a>
+<span class="sourceLineNo">750</span><a id="line.750">    public void replaceAll(BiFunction&lt;? super V, ? super K, ? extends K&gt; function) {</a>
+<span class="sourceLineNo">751</span><a id="line.751">      checkNotNull(function);</a>
+<span class="sourceLineNo">752</span><a id="line.752">      BiEntry&lt;K, V&gt; oldFirst = firstInKeyInsertionOrder;</a>
+<span class="sourceLineNo">753</span><a id="line.753">      clear();</a>
+<span class="sourceLineNo">754</span><a id="line.754">      for (BiEntry&lt;K, V&gt; entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {</a>
+<span class="sourceLineNo">755</span><a id="line.755">        put(entry.value, function.apply(entry.value, entry.key));</a>
+<span class="sourceLineNo">756</span><a id="line.756">      }</a>
+<span class="sourceLineNo">757</span><a id="line.757">    }</a>
+<span class="sourceLineNo">758</span><a id="line.758"></a>
+<span class="sourceLineNo">759</span><a id="line.759">    Object writeReplace() {</a>
+<span class="sourceLineNo">760</span><a id="line.760">      return new InverseSerializedForm&lt;&gt;(HashBiMap.this);</a>
+<span class="sourceLineNo">761</span><a id="line.761">    }</a>
+<span class="sourceLineNo">762</span><a id="line.762">  }</a>
+<span class="sourceLineNo">763</span><a id="line.763"></a>
+<span class="sourceLineNo">764</span><a id="line.764">  private static final class InverseSerializedForm&lt;</a>
+<span class="sourceLineNo">765</span><a id="line.765">          K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">766</span><a id="line.766">      implements Serializable {</a>
+<span class="sourceLineNo">767</span><a id="line.767">    private final HashBiMap&lt;K, V&gt; bimap;</a>
+<span class="sourceLineNo">768</span><a id="line.768"></a>
+<span class="sourceLineNo">769</span><a id="line.769">    InverseSerializedForm(HashBiMap&lt;K, V&gt; bimap) {</a>
+<span class="sourceLineNo">770</span><a id="line.770">      this.bimap = bimap;</a>
+<span class="sourceLineNo">771</span><a id="line.771">    }</a>
+<span class="sourceLineNo">772</span><a id="line.772"></a>
+<span class="sourceLineNo">773</span><a id="line.773">    Object readResolve() {</a>
+<span class="sourceLineNo">774</span><a id="line.774">      return bimap.inverse();</a>
+<span class="sourceLineNo">775</span><a id="line.775">    }</a>
+<span class="sourceLineNo">776</span><a id="line.776">  }</a>
+<span class="sourceLineNo">777</span><a id="line.777"></a>
+<span class="sourceLineNo">778</span><a id="line.778">  /**</a>
+<span class="sourceLineNo">779</span><a id="line.779">   * @serialData the number of entries, first key, first value, second key, second value, and so on.</a>
+<span class="sourceLineNo">780</span><a id="line.780">   */</a>
+<span class="sourceLineNo">781</span><a id="line.781">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">782</span><a id="line.782">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">783</span><a id="line.783">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">784</span><a id="line.784">    Serialization.writeMap(this, stream);</a>
 <span class="sourceLineNo">785</span><a id="line.785">  }</a>
 <span class="sourceLineNo">786</span><a id="line.786"></a>
-<span class="sourceLineNo">787</span><a id="line.787">  @GwtIncompatible // Not needed in emulated source</a>
-<span class="sourceLineNo">788</span><a id="line.788">  private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">789</span><a id="line.789">}</a>
+<span class="sourceLineNo">787</span><a id="line.787">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">788</span><a id="line.788">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">789</span><a id="line.789">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">790</span><a id="line.790">    int size = Serialization.readCount(stream);</a>
+<span class="sourceLineNo">791</span><a id="line.791">    init(16); // resist hostile attempts to allocate gratuitous heap</a>
+<span class="sourceLineNo">792</span><a id="line.792">    Serialization.populateMap(this, stream, size);</a>
+<span class="sourceLineNo">793</span><a id="line.793">  }</a>
+<span class="sourceLineNo">794</span><a id="line.794"></a>
+<span class="sourceLineNo">795</span><a id="line.795">  @GwtIncompatible // Not needed in emulated source</a>
+<span class="sourceLineNo">796</span><a id="line.796">  private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">797</span><a id="line.797">}</a>
 
 
 
