@@ -184,8 +184,10 @@ final class TopKSelector<
       }
       iterations++;
       if (iterations >= maxIterations) {
+        @SuppressWarnings("nullness") // safe because we pass sort() a range that contains real Ts
+        T[] castBuffer = (T[]) buffer;
         // We've already taken O(k log k), let's make sure we don't take longer than O(k log k).
-        Arrays.sort(buffer, left, right + 1, comparator);
+        Arrays.sort(castBuffer, left, right + 1, comparator);
         break;
       }
     }
@@ -263,7 +265,9 @@ final class TopKSelector<
    * this {@code TopKSelector}. This method returns in O(k log k) time.
    */
   public List<T> topK() {
-    Arrays.sort(buffer, 0, bufferSize, comparator);
+    @SuppressWarnings("nullness") // safe because we pass sort() a range that contains real Ts
+    T[] castBuffer = (T[]) buffer;
+    Arrays.sort(castBuffer, 0, bufferSize, comparator);
     if (bufferSize > k) {
       Arrays.fill(buffer, k, buffer.length, null);
       bufferSize = k;

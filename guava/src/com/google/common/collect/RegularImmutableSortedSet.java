@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -164,7 +165,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     return elements.copyIntoArray(dst, offset);
   }
 

@@ -2189,7 +2189,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    V compute(K key, int hash, BiFunction<? super K, ? super V, ? extends V> function) {
+    V compute(K key, int hash, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
       ReferenceEntry<K, V> e;
       ValueReference<K, V> valueReference = null;
       ComputingValueReference<K, V> computingValueReference = null;
@@ -3558,7 +3558,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+    public V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
       stopwatch.start();
       V previousValue;
       try {
@@ -4205,7 +4205,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
-  public V compute(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+  public V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends V> function) {
     checkNotNull(key);
     checkNotNull(function);
     int hash = hash(key);

@@ -436,7 +436,8 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         public void merge(
             Range<Comparable<?>> range,
             @CheckForNull Object value,
-            BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+            BiFunction<? super Object, ? super @Nullable Object, ? extends @Nullable Object>
+                remappingFunction) {
           checkNotNull(range);
           throw new IllegalArgumentException(
               "Cannot merge range " + range + " into an empty subRangeMap");
