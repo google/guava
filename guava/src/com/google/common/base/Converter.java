@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
@@ -492,6 +493,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @SuppressWarnings("nullness")
   @CheckForNull
+  @InlineMe(replacement = "this.convert(a)")
   public final B apply(@CheckForNull A a) {
     return convert(a);
   }
