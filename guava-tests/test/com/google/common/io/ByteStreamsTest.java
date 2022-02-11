@@ -562,10 +562,47 @@ public class ByteStreamsTest extends IoTestCase {
     // write to the output stream
     nos.write('n');
     String test = "Test string for NullOutputStream";
-    nos.write(test.getBytes());
-    nos.write(test.getBytes(), 2, 10);
+    byte[] bytes = test.getBytes(Charsets.US_ASCII);
+    nos.write(bytes);
+    nos.write(bytes, 2, 10);
+    nos.write(bytes, bytes.length - 5, 5);
     // nothing really to assert?
     assertSame(ByteStreams.nullOutputStream(), ByteStreams.nullOutputStream());
+  }
+
+  public void testNullOutputStream_exceptions() throws Exception {
+    OutputStream nos = ByteStreams.nullOutputStream();
+    try {
+      nos.write(null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+    try {
+      nos.write(null, 0, 1);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+    byte[] tenBytes = new byte[10];
+    try {
+      nos.write(tenBytes, -1, 1);
+      fail("Expected exception from negative offset");
+    } catch (IndexOutOfBoundsException expected) {
+    }
+    try {
+      nos.write(tenBytes, 1, -1);
+      fail("Expected exception from negative length");
+    } catch (IndexOutOfBoundsException expected) {
+    }
+    try {
+      nos.write(tenBytes, 9, 2);
+      fail("Expected exception from offset+length > array size");
+    } catch (IndexOutOfBoundsException expected) {
+    }
+    try {
+      nos.write(tenBytes, 9, 100);
+      fail("Expected exception from offset+length > array size");
+    } catch (IndexOutOfBoundsException expected) {
+    }
   }
 
   public void testLimit() throws Exception {
