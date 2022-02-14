@@ -671,6 +671,7 @@ public final class ByteStreams {
         @Override
         public void write(byte[] b, int off, int len) {
           checkNotNull(b);
+          checkPositionIndexes(off, off + len, b.length);
         }
 
         @Override
