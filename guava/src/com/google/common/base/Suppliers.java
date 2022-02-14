@@ -18,8 +18,10 @@ import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
 public final class Suppliers {
   private Suppliers() {}
@@ -227,6 +229,51 @@ public final class Suppliers {
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
     return new ExpiringMemoizingSupplier<>(delegate, duration, unit);
+  }
+
+  /**
+   * Returns a supplier that caches the instance supplied by the delegate and removes the cached
+   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
+   * value if the expiration time has not passed. After the expiration time, a new value is
+   * retrieved, cached, and returned. See: <a
+   * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
+   *
+   * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
+   * cached value, which will be recalculated when {@code get()} is called on the reserialized
+   * instance. The actual memoization does not happen when the underlying delegate throws an
+   * exception.
+   *
+   * <p>When the underlying delegate throws an exception then this memoizing supplier will keep
+   * delegating calls until it returns valid data.
+   *
+   * @param duration the length of time after a value is created that it should stop being returned
+   *     by subsequent {@code get()} calls
+   * @throws IllegalArgumentException if {@code duration} is not positive
+   * @since NEXT
+   */
+  @GwtIncompatible
+  public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
+      Supplier<T> delegate, java.time.Duration duration) {
+    return memoizeWithExpiration(delegate, toNanosSaturated(duration), NANOSECONDS);
+  }
+
+  /**
+   * Returns the number of nanoseconds of the given duration without throwing or overflowing.
+   *
+   * <p>Instead of throwing {@link ArithmeticException}, this method silently saturates to either
+   * {@link Long#MAX_VALUE} or {@link Long#MIN_VALUE}. This behavior can be useful when decomposing
+   * a duration in order to call a legacy API which requires a {@code long, TimeUnit} pair.
+   */
+  @GwtIncompatible
+  @SuppressWarnings("GoodTime") // duration decomposition
+  private static long toNanosSaturated(java.time.Duration duration) {
+    // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for
+    // durations longer than approximately +/- 292 years).
+    try {
+      return duration.toNanos();
+    } catch (ArithmeticException tooBig) {
+      return duration.isNegative() ? Long.MIN_VALUE : Long.MAX_VALUE;
+    }
   }
 
   @VisibleForTesting
