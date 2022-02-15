@@ -20,6 +20,10 @@ import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
