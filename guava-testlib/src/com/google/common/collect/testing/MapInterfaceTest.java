@@ -149,7 +149,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     for (V value : values) {
       if (value != null) {
         try {
-          value.hashCode();
+          int unused = value.hashCode();
         } catch (Exception e) {
           return false;
         }

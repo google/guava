@@ -61,7 +61,7 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
 
   private static boolean supportsClone(MessageDigest digest) {
     try {
-      digest.clone();
+      Object unused = digest.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;
