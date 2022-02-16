@@ -35,6 +35,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.nio.charset.Charset;
@@ -1038,6 +1039,7 @@ public final class MediaType {
    *
    * @throws IllegalArgumentException if the input is not parsable
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static MediaType parse(String input) {
     checkNotNull(input);
     Tokenizer tokenizer = new Tokenizer(input);
@@ -1085,6 +1087,7 @@ public final class MediaType {
       this.input = input;
     }
 
+    @CanIgnoreReturnValue
     String consumeTokenIfPresent(CharMatcher matcher) {
       checkState(hasMore());
       int startPosition = position;
@@ -1107,6 +1110,7 @@ public final class MediaType {
       return c;
     }
 
+    @CanIgnoreReturnValue
     char consumeCharacter(char c) {
       checkState(hasMore());
       checkState(previewChar() == c);

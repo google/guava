@@ -120,16 +120,11 @@ public class PercentEscaperTest extends TestCase {
     }
   }
 
-  /**
-   * Tests that if space is a safe character you cannot also specify 'plusForSpace' (throws {@link
-   * IllegalArgumentException}).
-   */
   public void testBadArguments_plusforspace() {
-    try {
-      new PercentEscaper(" ", false);
-    } catch (IllegalArgumentException e) {
-      fail("Space can be a 'safe' character if plusForSpace is false");
-    }
+    // space can be a safe char if plusForSpace is false
+    PercentEscaper unused = new PercentEscaper(" ", false);
+
+    // space cannot be a safe char is plusForSpace is true
     String msg = "plusForSpace cannot be specified when space is a 'safe' character";
     try {
       new PercentEscaper(" ", true);
