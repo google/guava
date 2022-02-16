@@ -174,6 +174,18 @@ public final class Verify {
    * custom message otherwise.
    *
    * <p>See {@link #verify(boolean, String, Object...)} for details.
+   */
+  public static void verify(boolean expression, String errorMessageTemplate, double p1) {
+    if (!expression) {
+      throw new VerifyException(lenientFormat(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
+   * custom message otherwise.
+   *
+   * <p>See {@link #verify(boolean, String, Object...)} for details.
    *
    * @since 23.1 (varargs overload since 17.0)
    */

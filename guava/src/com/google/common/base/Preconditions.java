@@ -211,6 +211,17 @@ public final class Preconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    *
    * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(boolean b, String errorMessageTemplate, double p1) {
+    if (!b) {
+      throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
    *
    * @since 20.0 (varargs overload since 2.0)
    */
@@ -572,6 +583,18 @@ public final class Preconditions {
    * @since 20.0 (varargs overload since 2.0)
    */
   public static void checkState(boolean b, String errorMessageTemplate, long p1) {
+    if (!b) {
+      throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, String errorMessageTemplate, double p1) {
     if (!b) {
       throw new IllegalStateException(lenientFormat(errorMessageTemplate, p1));
     }
