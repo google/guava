@@ -16,6 +16,7 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.net.InetAddress;
 import java.text.ParseException;
 import javax.annotation.CheckForNull;
@@ -108,6 +109,7 @@ public final class HostSpecifier {
    *
    * @throws ParseException if the specifier is not valid.
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static HostSpecifier from(String specifier) throws ParseException {
     try {
       return fromValid(specifier);
@@ -128,7 +130,7 @@ public final class HostSpecifier {
    */
   public static boolean isValid(String specifier) {
     try {
-      fromValid(specifier);
+      HostSpecifier unused = fromValid(specifier);
       return true;
     } catch (IllegalArgumentException e) {
       return false;
