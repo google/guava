@@ -216,15 +216,15 @@ public class SynchronizedMapTest extends TestCase {
   }
 
   public void testEquals() {
-    create().equals(new HashMap<String, Integer>());
+    boolean unused = create().equals(new HashMap<String, Integer>());
   }
 
   public void testHashCode() {
-    create().hashCode();
+    int unused = create().hashCode();
   }
 
   public void testToString() {
-    create().toString();
+    String unused = create().toString();
   }
 
   public void testSerialization() {

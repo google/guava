@@ -58,7 +58,7 @@ final class MacHashFunction extends AbstractHashFunction {
 
   private static boolean supportsClone(Mac mac) {
     try {
-      mac.clone();
+      Object unused = mac.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;

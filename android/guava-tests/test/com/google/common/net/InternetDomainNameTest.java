@@ -232,7 +232,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testValid() {
     for (String name : VALID_NAME) {
-      InternetDomainName.from(name);
+      InternetDomainName unused = InternetDomainName.from(name);
     }
   }
 
@@ -392,7 +392,7 @@ public final class InternetDomainNameTest extends TestCase {
     // These would throw an exception if leniency were not preserved during parent() and child()
     // calls.
     InternetDomainName child = parent.child(LOTS_OF_DELTAS);
-    child.child(LOTS_OF_DELTAS);
+    InternetDomainName unused = child.child(LOTS_OF_DELTAS);
   }
 
   public void testValidTopPrivateDomain() {
