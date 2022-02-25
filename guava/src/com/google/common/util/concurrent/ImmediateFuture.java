@@ -98,6 +98,9 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
   }
 
   static final class ImmediateCancelledFuture<V extends @Nullable Object> extends TrustedFuture<V> {
+    static final @Nullable ImmediateCancelledFuture<Object> INSTANCE =
+        AbstractFuture.GENERATE_CANCELLATION_CAUSES ? null : new ImmediateCancelledFuture<>();
+
     ImmediateCancelledFuture() {
       cancel(false);
     }

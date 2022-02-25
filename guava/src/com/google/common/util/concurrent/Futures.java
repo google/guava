@@ -172,7 +172,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 14.0
    */
   public static <V extends @Nullable Object> ListenableFuture<V> immediateCancelledFuture() {
-    return new ImmediateCancelledFuture<V>();
+    ListenableFuture<Object> instance = ImmediateCancelledFuture.INSTANCE;
+    if (instance != null) {
+      return (ListenableFuture<V>) instance;
+    }
+    return new ImmediateCancelledFuture<>();
   }
 
   /**

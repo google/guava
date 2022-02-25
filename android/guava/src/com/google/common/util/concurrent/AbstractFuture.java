@@ -78,7 +78,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  private static final boolean GENERATE_CANCELLATION_CAUSES;
+  static final boolean GENERATE_CANCELLATION_CAUSES;
 
   static {
     // System.getProperty may throw if the security policy does not permit access.
