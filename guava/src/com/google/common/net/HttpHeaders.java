@@ -696,7 +696,22 @@ public final class HttpHeaders {
    * @since 31.0
    */
   public static final String SEC_CH_UA_BITNESS = "Sec-CH-UA-Bitness";
-
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
+   * Sec-CH-Viewport-Width}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_VIEWPORT_WIDTH = "Sec-CH-Viewport-Width";
+  /**
+   * The HTTP <a
+   * href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height">{@code
+   * Sec-CH-Viewport-Height}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_VIEWPORT_HEIGHT = "Sec-CH-Viewport-Height";
   /**
    * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
    * header field name.
