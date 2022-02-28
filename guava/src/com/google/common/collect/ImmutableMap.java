@@ -614,7 +614,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than
      * {@code ImmutableMap.Builder}.
      *
-     * @since NEXT
+     * @since 31.1
      */
     public ImmutableMap<K, V> buildKeepingLast() {
       return build(false);

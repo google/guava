@@ -188,6 +188,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param i the index
    * @param delta the value to add
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public double addAndGet(int i, double delta) {

@@ -486,7 +486,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
      *
      * @throws UnsupportedOperationException always
      * @deprecated This method does not make sense for bimaps and should not be called.
-     * @since NEXT
+     * @since 31.1
      */
     @DoNotCall
     @Deprecated

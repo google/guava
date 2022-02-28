@@ -726,7 +726,7 @@ public abstract class AbstractScheduledService implements Service {
 
       /**
        * @param delay the time from now to delay execution
-       * @since NEXT
+       * @since 31.1
        */
       public Schedule(Duration delay) {
         this(toNanosSaturated(delay), NANOSECONDS);

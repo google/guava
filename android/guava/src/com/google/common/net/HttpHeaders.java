@@ -203,7 +203,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/private-network-access/#headers">{@code
    * Access-Control-Allow-Private-Network}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.1
    */
   public static final String ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK =
       "Access-Control-Allow-Private-Network";
@@ -679,7 +679,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list">{@code
    * Sec-CH-UA-Full-Version}</a> header field name.
    *
-   * @since NEXT
+   * @since 31.1
    */
   public static final String SEC_CH_UA_FULL_VERSION_LIST = "Sec-CH-UA-Full-Version-List";
   /**

@@ -749,7 +749,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      * that key.
      *
      * @throws UnsupportedOperationException always
-     * @since NEXT
+     * @since 31.1
      * @deprecated This method is not currently implemented, and may never be.
      */
     @DoNotCall
