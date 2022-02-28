@@ -197,76 +197,77 @@
 <span class="sourceLineNo">188</span><a id="line.188">   * @param i the index</a>
 <span class="sourceLineNo">189</span><a id="line.189">   * @param delta the value to add</a>
 <span class="sourceLineNo">190</span><a id="line.190">   * @return the updated value</a>
-<span class="sourceLineNo">191</span><a id="line.191">   */</a>
-<span class="sourceLineNo">192</span><a id="line.192">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">193</span><a id="line.193">  public double addAndGet(int i, double delta) {</a>
-<span class="sourceLineNo">194</span><a id="line.194">    while (true) {</a>
-<span class="sourceLineNo">195</span><a id="line.195">      long current = longs.get(i);</a>
-<span class="sourceLineNo">196</span><a id="line.196">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">197</span><a id="line.197">      double nextVal = currentVal + delta;</a>
-<span class="sourceLineNo">198</span><a id="line.198">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">199</span><a id="line.199">      if (longs.compareAndSet(i, current, next)) {</a>
-<span class="sourceLineNo">200</span><a id="line.200">        return nextVal;</a>
-<span class="sourceLineNo">201</span><a id="line.201">      }</a>
-<span class="sourceLineNo">202</span><a id="line.202">    }</a>
-<span class="sourceLineNo">203</span><a id="line.203">  }</a>
-<span class="sourceLineNo">204</span><a id="line.204"></a>
-<span class="sourceLineNo">205</span><a id="line.205">  /**</a>
-<span class="sourceLineNo">206</span><a id="line.206">   * Returns the String representation of the current values of array.</a>
-<span class="sourceLineNo">207</span><a id="line.207">   *</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * @return the String representation of the current values of array</a>
-<span class="sourceLineNo">209</span><a id="line.209">   */</a>
-<span class="sourceLineNo">210</span><a id="line.210">  @Override</a>
-<span class="sourceLineNo">211</span><a id="line.211">  public String toString() {</a>
-<span class="sourceLineNo">212</span><a id="line.212">    int iMax = length() - 1;</a>
-<span class="sourceLineNo">213</span><a id="line.213">    if (iMax == -1) {</a>
-<span class="sourceLineNo">214</span><a id="line.214">      return "[]";</a>
-<span class="sourceLineNo">215</span><a id="line.215">    }</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">    // Double.toString(Math.PI).length() == 17</a>
-<span class="sourceLineNo">218</span><a id="line.218">    StringBuilder b = new StringBuilder((17 + 2) * (iMax + 1));</a>
-<span class="sourceLineNo">219</span><a id="line.219">    b.append('[');</a>
-<span class="sourceLineNo">220</span><a id="line.220">    for (int i = 0; ; i++) {</a>
-<span class="sourceLineNo">221</span><a id="line.221">      b.append(longBitsToDouble(longs.get(i)));</a>
-<span class="sourceLineNo">222</span><a id="line.222">      if (i == iMax) {</a>
-<span class="sourceLineNo">223</span><a id="line.223">        return b.append(']').toString();</a>
-<span class="sourceLineNo">224</span><a id="line.224">      }</a>
-<span class="sourceLineNo">225</span><a id="line.225">      b.append(',').append(' ');</a>
-<span class="sourceLineNo">226</span><a id="line.226">    }</a>
-<span class="sourceLineNo">227</span><a id="line.227">  }</a>
-<span class="sourceLineNo">228</span><a id="line.228"></a>
-<span class="sourceLineNo">229</span><a id="line.229">  /**</a>
-<span class="sourceLineNo">230</span><a id="line.230">   * Saves the state to a stream (that is, serializes it).</a>
-<span class="sourceLineNo">231</span><a id="line.231">   *</a>
-<span class="sourceLineNo">232</span><a id="line.232">   * @serialData The length of the array is emitted (int), followed by all of its elements (each a</a>
-<span class="sourceLineNo">233</span><a id="line.233">   *     {@code double}) in the proper order.</a>
-<span class="sourceLineNo">234</span><a id="line.234">   */</a>
-<span class="sourceLineNo">235</span><a id="line.235">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
-<span class="sourceLineNo">236</span><a id="line.236">    s.defaultWriteObject();</a>
-<span class="sourceLineNo">237</span><a id="line.237"></a>
-<span class="sourceLineNo">238</span><a id="line.238">    // Write out array length</a>
-<span class="sourceLineNo">239</span><a id="line.239">    int length = length();</a>
-<span class="sourceLineNo">240</span><a id="line.240">    s.writeInt(length);</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">    // Write out all elements in the proper order.</a>
-<span class="sourceLineNo">243</span><a id="line.243">    for (int i = 0; i &lt; length; i++) {</a>
-<span class="sourceLineNo">244</span><a id="line.244">      s.writeDouble(get(i));</a>
-<span class="sourceLineNo">245</span><a id="line.245">    }</a>
-<span class="sourceLineNo">246</span><a id="line.246">  }</a>
-<span class="sourceLineNo">247</span><a id="line.247"></a>
-<span class="sourceLineNo">248</span><a id="line.248">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
-<span class="sourceLineNo">249</span><a id="line.249">  private void readObject(java.io.ObjectInputStream s)</a>
-<span class="sourceLineNo">250</span><a id="line.250">      throws java.io.IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">251</span><a id="line.251">    s.defaultReadObject();</a>
-<span class="sourceLineNo">252</span><a id="line.252"></a>
-<span class="sourceLineNo">253</span><a id="line.253">    int length = s.readInt();</a>
-<span class="sourceLineNo">254</span><a id="line.254">    ImmutableLongArray.Builder builder = ImmutableLongArray.builder();</a>
-<span class="sourceLineNo">255</span><a id="line.255">    for (int i = 0; i &lt; length; i++) {</a>
-<span class="sourceLineNo">256</span><a id="line.256">      builder.add(doubleToRawLongBits(s.readDouble()));</a>
-<span class="sourceLineNo">257</span><a id="line.257">    }</a>
-<span class="sourceLineNo">258</span><a id="line.258">    this.longs = new AtomicLongArray(builder.build().toArray());</a>
-<span class="sourceLineNo">259</span><a id="line.259">  }</a>
-<span class="sourceLineNo">260</span><a id="line.260">}</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * @since 31.1</a>
+<span class="sourceLineNo">192</span><a id="line.192">   */</a>
+<span class="sourceLineNo">193</span><a id="line.193">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">194</span><a id="line.194">  public double addAndGet(int i, double delta) {</a>
+<span class="sourceLineNo">195</span><a id="line.195">    while (true) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">      long current = longs.get(i);</a>
+<span class="sourceLineNo">197</span><a id="line.197">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">198</span><a id="line.198">      double nextVal = currentVal + delta;</a>
+<span class="sourceLineNo">199</span><a id="line.199">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">200</span><a id="line.200">      if (longs.compareAndSet(i, current, next)) {</a>
+<span class="sourceLineNo">201</span><a id="line.201">        return nextVal;</a>
+<span class="sourceLineNo">202</span><a id="line.202">      }</a>
+<span class="sourceLineNo">203</span><a id="line.203">    }</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * Returns the String representation of the current values of array.</a>
+<span class="sourceLineNo">208</span><a id="line.208">   *</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * @return the String representation of the current values of array</a>
+<span class="sourceLineNo">210</span><a id="line.210">   */</a>
+<span class="sourceLineNo">211</span><a id="line.211">  @Override</a>
+<span class="sourceLineNo">212</span><a id="line.212">  public String toString() {</a>
+<span class="sourceLineNo">213</span><a id="line.213">    int iMax = length() - 1;</a>
+<span class="sourceLineNo">214</span><a id="line.214">    if (iMax == -1) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">      return "[]";</a>
+<span class="sourceLineNo">216</span><a id="line.216">    }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">    // Double.toString(Math.PI).length() == 17</a>
+<span class="sourceLineNo">219</span><a id="line.219">    StringBuilder b = new StringBuilder((17 + 2) * (iMax + 1));</a>
+<span class="sourceLineNo">220</span><a id="line.220">    b.append('[');</a>
+<span class="sourceLineNo">221</span><a id="line.221">    for (int i = 0; ; i++) {</a>
+<span class="sourceLineNo">222</span><a id="line.222">      b.append(longBitsToDouble(longs.get(i)));</a>
+<span class="sourceLineNo">223</span><a id="line.223">      if (i == iMax) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">        return b.append(']').toString();</a>
+<span class="sourceLineNo">225</span><a id="line.225">      }</a>
+<span class="sourceLineNo">226</span><a id="line.226">      b.append(',').append(' ');</a>
+<span class="sourceLineNo">227</span><a id="line.227">    }</a>
+<span class="sourceLineNo">228</span><a id="line.228">  }</a>
+<span class="sourceLineNo">229</span><a id="line.229"></a>
+<span class="sourceLineNo">230</span><a id="line.230">  /**</a>
+<span class="sourceLineNo">231</span><a id="line.231">   * Saves the state to a stream (that is, serializes it).</a>
+<span class="sourceLineNo">232</span><a id="line.232">   *</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * @serialData The length of the array is emitted (int), followed by all of its elements (each a</a>
+<span class="sourceLineNo">234</span><a id="line.234">   *     {@code double}) in the proper order.</a>
+<span class="sourceLineNo">235</span><a id="line.235">   */</a>
+<span class="sourceLineNo">236</span><a id="line.236">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
+<span class="sourceLineNo">237</span><a id="line.237">    s.defaultWriteObject();</a>
+<span class="sourceLineNo">238</span><a id="line.238"></a>
+<span class="sourceLineNo">239</span><a id="line.239">    // Write out array length</a>
+<span class="sourceLineNo">240</span><a id="line.240">    int length = length();</a>
+<span class="sourceLineNo">241</span><a id="line.241">    s.writeInt(length);</a>
+<span class="sourceLineNo">242</span><a id="line.242"></a>
+<span class="sourceLineNo">243</span><a id="line.243">    // Write out all elements in the proper order.</a>
+<span class="sourceLineNo">244</span><a id="line.244">    for (int i = 0; i &lt; length; i++) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">      s.writeDouble(get(i));</a>
+<span class="sourceLineNo">246</span><a id="line.246">    }</a>
+<span class="sourceLineNo">247</span><a id="line.247">  }</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
+<span class="sourceLineNo">250</span><a id="line.250">  private void readObject(java.io.ObjectInputStream s)</a>
+<span class="sourceLineNo">251</span><a id="line.251">      throws java.io.IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">252</span><a id="line.252">    s.defaultReadObject();</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">    int length = s.readInt();</a>
+<span class="sourceLineNo">255</span><a id="line.255">    ImmutableLongArray.Builder builder = ImmutableLongArray.builder();</a>
+<span class="sourceLineNo">256</span><a id="line.256">    for (int i = 0; i &lt; length; i++) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">      builder.add(doubleToRawLongBits(s.readDouble()));</a>
+<span class="sourceLineNo">258</span><a id="line.258">    }</a>
+<span class="sourceLineNo">259</span><a id="line.259">    this.longs = new AtomicLongArray(builder.build().toArray());</a>
+<span class="sourceLineNo">260</span><a id="line.260">  }</a>
+<span class="sourceLineNo">261</span><a id="line.261">}</a>
 
 
 

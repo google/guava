@@ -173,82 +173,83 @@
 <span class="sourceLineNo">164</span><a id="line.164">   *</a>
 <span class="sourceLineNo">165</span><a id="line.165">   * @param delta the value to add</a>
 <span class="sourceLineNo">166</span><a id="line.166">   * @return the updated value</a>
-<span class="sourceLineNo">167</span><a id="line.167">   */</a>
-<span class="sourceLineNo">168</span><a id="line.168">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">169</span><a id="line.169">  public final double addAndGet(double delta) {</a>
-<span class="sourceLineNo">170</span><a id="line.170">    while (true) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">      long current = value.get();</a>
-<span class="sourceLineNo">172</span><a id="line.172">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">173</span><a id="line.173">      double nextVal = currentVal + delta;</a>
-<span class="sourceLineNo">174</span><a id="line.174">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">175</span><a id="line.175">      if (value.compareAndSet(current, next)) {</a>
-<span class="sourceLineNo">176</span><a id="line.176">        return nextVal;</a>
-<span class="sourceLineNo">177</span><a id="line.177">      }</a>
-<span class="sourceLineNo">178</span><a id="line.178">    }</a>
-<span class="sourceLineNo">179</span><a id="line.179">  }</a>
-<span class="sourceLineNo">180</span><a id="line.180"></a>
-<span class="sourceLineNo">181</span><a id="line.181">  /**</a>
-<span class="sourceLineNo">182</span><a id="line.182">   * Returns the String representation of the current value.</a>
-<span class="sourceLineNo">183</span><a id="line.183">   *</a>
-<span class="sourceLineNo">184</span><a id="line.184">   * @return the String representation of the current value</a>
-<span class="sourceLineNo">185</span><a id="line.185">   */</a>
-<span class="sourceLineNo">186</span><a id="line.186">  @Override</a>
-<span class="sourceLineNo">187</span><a id="line.187">  public String toString() {</a>
-<span class="sourceLineNo">188</span><a id="line.188">    return Double.toString(get());</a>
-<span class="sourceLineNo">189</span><a id="line.189">  }</a>
-<span class="sourceLineNo">190</span><a id="line.190"></a>
-<span class="sourceLineNo">191</span><a id="line.191">  /**</a>
-<span class="sourceLineNo">192</span><a id="line.192">   * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive</a>
-<span class="sourceLineNo">193</span><a id="line.193">   * conversion.</a>
-<span class="sourceLineNo">194</span><a id="line.194">   */</a>
-<span class="sourceLineNo">195</span><a id="line.195">  @Override</a>
-<span class="sourceLineNo">196</span><a id="line.196">  public int intValue() {</a>
-<span class="sourceLineNo">197</span><a id="line.197">    return (int) get();</a>
-<span class="sourceLineNo">198</span><a id="line.198">  }</a>
-<span class="sourceLineNo">199</span><a id="line.199"></a>
-<span class="sourceLineNo">200</span><a id="line.200">  /**</a>
-<span class="sourceLineNo">201</span><a id="line.201">   * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive</a>
-<span class="sourceLineNo">202</span><a id="line.202">   * conversion.</a>
-<span class="sourceLineNo">203</span><a id="line.203">   */</a>
-<span class="sourceLineNo">204</span><a id="line.204">  @Override</a>
-<span class="sourceLineNo">205</span><a id="line.205">  public long longValue() {</a>
-<span class="sourceLineNo">206</span><a id="line.206">    return (long) get();</a>
-<span class="sourceLineNo">207</span><a id="line.207">  }</a>
-<span class="sourceLineNo">208</span><a id="line.208"></a>
-<span class="sourceLineNo">209</span><a id="line.209">  /**</a>
-<span class="sourceLineNo">210</span><a id="line.210">   * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * conversion.</a>
-<span class="sourceLineNo">212</span><a id="line.212">   */</a>
-<span class="sourceLineNo">213</span><a id="line.213">  @Override</a>
-<span class="sourceLineNo">214</span><a id="line.214">  public float floatValue() {</a>
-<span class="sourceLineNo">215</span><a id="line.215">    return (float) get();</a>
-<span class="sourceLineNo">216</span><a id="line.216">  }</a>
-<span class="sourceLineNo">217</span><a id="line.217"></a>
-<span class="sourceLineNo">218</span><a id="line.218">  /** Returns the value of this {@code AtomicDouble} as a {@code double}. */</a>
-<span class="sourceLineNo">219</span><a id="line.219">  @Override</a>
-<span class="sourceLineNo">220</span><a id="line.220">  public double doubleValue() {</a>
-<span class="sourceLineNo">221</span><a id="line.221">    return get();</a>
-<span class="sourceLineNo">222</span><a id="line.222">  }</a>
-<span class="sourceLineNo">223</span><a id="line.223"></a>
-<span class="sourceLineNo">224</span><a id="line.224">  /**</a>
-<span class="sourceLineNo">225</span><a id="line.225">   * Saves the state to a stream (that is, serializes it).</a>
-<span class="sourceLineNo">226</span><a id="line.226">   *</a>
-<span class="sourceLineNo">227</span><a id="line.227">   * @serialData The current value is emitted (a {@code double}).</a>
-<span class="sourceLineNo">228</span><a id="line.228">   */</a>
-<span class="sourceLineNo">229</span><a id="line.229">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
-<span class="sourceLineNo">230</span><a id="line.230">    s.defaultWriteObject();</a>
-<span class="sourceLineNo">231</span><a id="line.231"></a>
-<span class="sourceLineNo">232</span><a id="line.232">    s.writeDouble(get());</a>
-<span class="sourceLineNo">233</span><a id="line.233">  }</a>
-<span class="sourceLineNo">234</span><a id="line.234"></a>
-<span class="sourceLineNo">235</span><a id="line.235">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
-<span class="sourceLineNo">236</span><a id="line.236">  private void readObject(java.io.ObjectInputStream s)</a>
-<span class="sourceLineNo">237</span><a id="line.237">      throws java.io.IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">238</span><a id="line.238">    s.defaultReadObject();</a>
-<span class="sourceLineNo">239</span><a id="line.239">    value = new AtomicLong();</a>
-<span class="sourceLineNo">240</span><a id="line.240">    set(s.readDouble());</a>
-<span class="sourceLineNo">241</span><a id="line.241">  }</a>
-<span class="sourceLineNo">242</span><a id="line.242">}</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * @since 31.1</a>
+<span class="sourceLineNo">168</span><a id="line.168">   */</a>
+<span class="sourceLineNo">169</span><a id="line.169">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">170</span><a id="line.170">  public final double addAndGet(double delta) {</a>
+<span class="sourceLineNo">171</span><a id="line.171">    while (true) {</a>
+<span class="sourceLineNo">172</span><a id="line.172">      long current = value.get();</a>
+<span class="sourceLineNo">173</span><a id="line.173">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">174</span><a id="line.174">      double nextVal = currentVal + delta;</a>
+<span class="sourceLineNo">175</span><a id="line.175">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">176</span><a id="line.176">      if (value.compareAndSet(current, next)) {</a>
+<span class="sourceLineNo">177</span><a id="line.177">        return nextVal;</a>
+<span class="sourceLineNo">178</span><a id="line.178">      }</a>
+<span class="sourceLineNo">179</span><a id="line.179">    }</a>
+<span class="sourceLineNo">180</span><a id="line.180">  }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">  /**</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * Returns the String representation of the current value.</a>
+<span class="sourceLineNo">184</span><a id="line.184">   *</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * @return the String representation of the current value</a>
+<span class="sourceLineNo">186</span><a id="line.186">   */</a>
+<span class="sourceLineNo">187</span><a id="line.187">  @Override</a>
+<span class="sourceLineNo">188</span><a id="line.188">  public String toString() {</a>
+<span class="sourceLineNo">189</span><a id="line.189">    return Double.toString(get());</a>
+<span class="sourceLineNo">190</span><a id="line.190">  }</a>
+<span class="sourceLineNo">191</span><a id="line.191"></a>
+<span class="sourceLineNo">192</span><a id="line.192">  /**</a>
+<span class="sourceLineNo">193</span><a id="line.193">   * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * conversion.</a>
+<span class="sourceLineNo">195</span><a id="line.195">   */</a>
+<span class="sourceLineNo">196</span><a id="line.196">  @Override</a>
+<span class="sourceLineNo">197</span><a id="line.197">  public int intValue() {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    return (int) get();</a>
+<span class="sourceLineNo">199</span><a id="line.199">  }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">  /**</a>
+<span class="sourceLineNo">202</span><a id="line.202">   * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive</a>
+<span class="sourceLineNo">203</span><a id="line.203">   * conversion.</a>
+<span class="sourceLineNo">204</span><a id="line.204">   */</a>
+<span class="sourceLineNo">205</span><a id="line.205">  @Override</a>
+<span class="sourceLineNo">206</span><a id="line.206">  public long longValue() {</a>
+<span class="sourceLineNo">207</span><a id="line.207">    return (long) get();</a>
+<span class="sourceLineNo">208</span><a id="line.208">  }</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">  /**</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive</a>
+<span class="sourceLineNo">212</span><a id="line.212">   * conversion.</a>
+<span class="sourceLineNo">213</span><a id="line.213">   */</a>
+<span class="sourceLineNo">214</span><a id="line.214">  @Override</a>
+<span class="sourceLineNo">215</span><a id="line.215">  public float floatValue() {</a>
+<span class="sourceLineNo">216</span><a id="line.216">    return (float) get();</a>
+<span class="sourceLineNo">217</span><a id="line.217">  }</a>
+<span class="sourceLineNo">218</span><a id="line.218"></a>
+<span class="sourceLineNo">219</span><a id="line.219">  /** Returns the value of this {@code AtomicDouble} as a {@code double}. */</a>
+<span class="sourceLineNo">220</span><a id="line.220">  @Override</a>
+<span class="sourceLineNo">221</span><a id="line.221">  public double doubleValue() {</a>
+<span class="sourceLineNo">222</span><a id="line.222">    return get();</a>
+<span class="sourceLineNo">223</span><a id="line.223">  }</a>
+<span class="sourceLineNo">224</span><a id="line.224"></a>
+<span class="sourceLineNo">225</span><a id="line.225">  /**</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * Saves the state to a stream (that is, serializes it).</a>
+<span class="sourceLineNo">227</span><a id="line.227">   *</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @serialData The current value is emitted (a {@code double}).</a>
+<span class="sourceLineNo">229</span><a id="line.229">   */</a>
+<span class="sourceLineNo">230</span><a id="line.230">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
+<span class="sourceLineNo">231</span><a id="line.231">    s.defaultWriteObject();</a>
+<span class="sourceLineNo">232</span><a id="line.232"></a>
+<span class="sourceLineNo">233</span><a id="line.233">    s.writeDouble(get());</a>
+<span class="sourceLineNo">234</span><a id="line.234">  }</a>
+<span class="sourceLineNo">235</span><a id="line.235"></a>
+<span class="sourceLineNo">236</span><a id="line.236">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
+<span class="sourceLineNo">237</span><a id="line.237">  private void readObject(java.io.ObjectInputStream s)</a>
+<span class="sourceLineNo">238</span><a id="line.238">      throws java.io.IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">239</span><a id="line.239">    s.defaultReadObject();</a>
+<span class="sourceLineNo">240</span><a id="line.240">    value = new AtomicLong();</a>
+<span class="sourceLineNo">241</span><a id="line.241">    set(s.readDouble());</a>
+<span class="sourceLineNo">242</span><a id="line.242">  }</a>
+<span class="sourceLineNo">243</span><a id="line.243">}</a>
 
 
 

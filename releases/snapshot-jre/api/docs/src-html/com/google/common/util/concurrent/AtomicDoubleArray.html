@@ -206,126 +206,130 @@
 <span class="sourceLineNo">197</span><a id="line.197">   * @param x the update value</a>
 <span class="sourceLineNo">198</span><a id="line.198">   * @param accumulatorFunction the accumulator function</a>
 <span class="sourceLineNo">199</span><a id="line.199">   * @return the previous value</a>
-<span class="sourceLineNo">200</span><a id="line.200">   */</a>
-<span class="sourceLineNo">201</span><a id="line.201">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">202</span><a id="line.202">  public final double getAndAccumulate(int i, double x, DoubleBinaryOperator accumulatorFunction) {</a>
-<span class="sourceLineNo">203</span><a id="line.203">    checkNotNull(accumulatorFunction);</a>
-<span class="sourceLineNo">204</span><a id="line.204">    return getAndUpdate(i, oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
-<span class="sourceLineNo">205</span><a id="line.205">  }</a>
-<span class="sourceLineNo">206</span><a id="line.206"></a>
-<span class="sourceLineNo">207</span><a id="line.207">  /**</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
-<span class="sourceLineNo">209</span><a id="line.209">   * function to the curernt and given values.</a>
-<span class="sourceLineNo">210</span><a id="line.210">   *</a>
-<span class="sourceLineNo">211</span><a id="line.211">   * @param i the index to update</a>
-<span class="sourceLineNo">212</span><a id="line.212">   * @param x the update value</a>
-<span class="sourceLineNo">213</span><a id="line.213">   * @param accumulatorFunction the accumulator function</a>
-<span class="sourceLineNo">214</span><a id="line.214">   * @return the updated value</a>
-<span class="sourceLineNo">215</span><a id="line.215">   */</a>
-<span class="sourceLineNo">216</span><a id="line.216">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">217</span><a id="line.217">  public final double accumulateAndGet(int i, double x, DoubleBinaryOperator accumulatorFunction) {</a>
-<span class="sourceLineNo">218</span><a id="line.218">    checkNotNull(accumulatorFunction);</a>
-<span class="sourceLineNo">219</span><a id="line.219">    return updateAndGet(i, oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
-<span class="sourceLineNo">220</span><a id="line.220">  }</a>
-<span class="sourceLineNo">221</span><a id="line.221"></a>
-<span class="sourceLineNo">222</span><a id="line.222">  /**</a>
-<span class="sourceLineNo">223</span><a id="line.223">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
-<span class="sourceLineNo">224</span><a id="line.224">   * function to the curernt value.</a>
-<span class="sourceLineNo">225</span><a id="line.225">   *</a>
-<span class="sourceLineNo">226</span><a id="line.226">   * @param i the index to update</a>
-<span class="sourceLineNo">227</span><a id="line.227">   * @param updaterFunction the update function</a>
-<span class="sourceLineNo">228</span><a id="line.228">   * @return the previous value</a>
-<span class="sourceLineNo">229</span><a id="line.229">   */</a>
-<span class="sourceLineNo">230</span><a id="line.230">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">231</span><a id="line.231">  public final double getAndUpdate(int i, DoubleUnaryOperator updaterFunction) {</a>
-<span class="sourceLineNo">232</span><a id="line.232">    while (true) {</a>
-<span class="sourceLineNo">233</span><a id="line.233">      long current = longs.get(i);</a>
-<span class="sourceLineNo">234</span><a id="line.234">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">235</span><a id="line.235">      double nextVal = updaterFunction.applyAsDouble(currentVal);</a>
-<span class="sourceLineNo">236</span><a id="line.236">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">237</span><a id="line.237">      if (longs.compareAndSet(i, current, next)) {</a>
-<span class="sourceLineNo">238</span><a id="line.238">        return currentVal;</a>
-<span class="sourceLineNo">239</span><a id="line.239">      }</a>
-<span class="sourceLineNo">240</span><a id="line.240">    }</a>
-<span class="sourceLineNo">241</span><a id="line.241">  }</a>
-<span class="sourceLineNo">242</span><a id="line.242"></a>
-<span class="sourceLineNo">243</span><a id="line.243">  /**</a>
-<span class="sourceLineNo">244</span><a id="line.244">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * function to the curernt value.</a>
-<span class="sourceLineNo">246</span><a id="line.246">   *</a>
-<span class="sourceLineNo">247</span><a id="line.247">   * @param i the index to update</a>
-<span class="sourceLineNo">248</span><a id="line.248">   * @param updaterFunction the update function</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * @return the updated value</a>
-<span class="sourceLineNo">250</span><a id="line.250">   */</a>
-<span class="sourceLineNo">251</span><a id="line.251">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">252</span><a id="line.252">  public final double updateAndGet(int i, DoubleUnaryOperator updaterFunction) {</a>
-<span class="sourceLineNo">253</span><a id="line.253">    while (true) {</a>
-<span class="sourceLineNo">254</span><a id="line.254">      long current = longs.get(i);</a>
-<span class="sourceLineNo">255</span><a id="line.255">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">256</span><a id="line.256">      double nextVal = updaterFunction.applyAsDouble(currentVal);</a>
-<span class="sourceLineNo">257</span><a id="line.257">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">258</span><a id="line.258">      if (longs.compareAndSet(i, current, next)) {</a>
-<span class="sourceLineNo">259</span><a id="line.259">        return nextVal;</a>
-<span class="sourceLineNo">260</span><a id="line.260">      }</a>
-<span class="sourceLineNo">261</span><a id="line.261">    }</a>
-<span class="sourceLineNo">262</span><a id="line.262">  }</a>
-<span class="sourceLineNo">263</span><a id="line.263"></a>
-<span class="sourceLineNo">264</span><a id="line.264">  /**</a>
-<span class="sourceLineNo">265</span><a id="line.265">   * Returns the String representation of the current values of array.</a>
-<span class="sourceLineNo">266</span><a id="line.266">   *</a>
-<span class="sourceLineNo">267</span><a id="line.267">   * @return the String representation of the current values of array</a>
-<span class="sourceLineNo">268</span><a id="line.268">   */</a>
-<span class="sourceLineNo">269</span><a id="line.269">  @Override</a>
-<span class="sourceLineNo">270</span><a id="line.270">  public String toString() {</a>
-<span class="sourceLineNo">271</span><a id="line.271">    int iMax = length() - 1;</a>
-<span class="sourceLineNo">272</span><a id="line.272">    if (iMax == -1) {</a>
-<span class="sourceLineNo">273</span><a id="line.273">      return "[]";</a>
-<span class="sourceLineNo">274</span><a id="line.274">    }</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">    // Double.toString(Math.PI).length() == 17</a>
-<span class="sourceLineNo">277</span><a id="line.277">    StringBuilder b = new StringBuilder((17 + 2) * (iMax + 1));</a>
-<span class="sourceLineNo">278</span><a id="line.278">    b.append('[');</a>
-<span class="sourceLineNo">279</span><a id="line.279">    for (int i = 0; ; i++) {</a>
-<span class="sourceLineNo">280</span><a id="line.280">      b.append(longBitsToDouble(longs.get(i)));</a>
-<span class="sourceLineNo">281</span><a id="line.281">      if (i == iMax) {</a>
-<span class="sourceLineNo">282</span><a id="line.282">        return b.append(']').toString();</a>
-<span class="sourceLineNo">283</span><a id="line.283">      }</a>
-<span class="sourceLineNo">284</span><a id="line.284">      b.append(',').append(' ');</a>
-<span class="sourceLineNo">285</span><a id="line.285">    }</a>
-<span class="sourceLineNo">286</span><a id="line.286">  }</a>
-<span class="sourceLineNo">287</span><a id="line.287"></a>
-<span class="sourceLineNo">288</span><a id="line.288">  /**</a>
-<span class="sourceLineNo">289</span><a id="line.289">   * Saves the state to a stream (that is, serializes it).</a>
-<span class="sourceLineNo">290</span><a id="line.290">   *</a>
-<span class="sourceLineNo">291</span><a id="line.291">   * @serialData The length of the array is emitted (int), followed by all of its elements (each a</a>
-<span class="sourceLineNo">292</span><a id="line.292">   *     {@code double}) in the proper order.</a>
-<span class="sourceLineNo">293</span><a id="line.293">   */</a>
-<span class="sourceLineNo">294</span><a id="line.294">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
-<span class="sourceLineNo">295</span><a id="line.295">    s.defaultWriteObject();</a>
-<span class="sourceLineNo">296</span><a id="line.296"></a>
-<span class="sourceLineNo">297</span><a id="line.297">    // Write out array length</a>
-<span class="sourceLineNo">298</span><a id="line.298">    int length = length();</a>
-<span class="sourceLineNo">299</span><a id="line.299">    s.writeInt(length);</a>
+<span class="sourceLineNo">200</span><a id="line.200">   * @since 31.1</a>
+<span class="sourceLineNo">201</span><a id="line.201">   */</a>
+<span class="sourceLineNo">202</span><a id="line.202">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">203</span><a id="line.203">  public final double getAndAccumulate(int i, double x, DoubleBinaryOperator accumulatorFunction) {</a>
+<span class="sourceLineNo">204</span><a id="line.204">    checkNotNull(accumulatorFunction);</a>
+<span class="sourceLineNo">205</span><a id="line.205">    return getAndUpdate(i, oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
+<span class="sourceLineNo">206</span><a id="line.206">  }</a>
+<span class="sourceLineNo">207</span><a id="line.207"></a>
+<span class="sourceLineNo">208</span><a id="line.208">  /**</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * function to the curernt and given values.</a>
+<span class="sourceLineNo">211</span><a id="line.211">   *</a>
+<span class="sourceLineNo">212</span><a id="line.212">   * @param i the index to update</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * @param x the update value</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * @param accumulatorFunction the accumulator function</a>
+<span class="sourceLineNo">215</span><a id="line.215">   * @return the updated value</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * @since 31.1</a>
+<span class="sourceLineNo">217</span><a id="line.217">   */</a>
+<span class="sourceLineNo">218</span><a id="line.218">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">219</span><a id="line.219">  public final double accumulateAndGet(int i, double x, DoubleBinaryOperator accumulatorFunction) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">    checkNotNull(accumulatorFunction);</a>
+<span class="sourceLineNo">221</span><a id="line.221">    return updateAndGet(i, oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
+<span class="sourceLineNo">222</span><a id="line.222">  }</a>
+<span class="sourceLineNo">223</span><a id="line.223"></a>
+<span class="sourceLineNo">224</span><a id="line.224">  /**</a>
+<span class="sourceLineNo">225</span><a id="line.225">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * function to the curernt value.</a>
+<span class="sourceLineNo">227</span><a id="line.227">   *</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @param i the index to update</a>
+<span class="sourceLineNo">229</span><a id="line.229">   * @param updaterFunction the update function</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * @return the previous value</a>
+<span class="sourceLineNo">231</span><a id="line.231">   * @since 31.1</a>
+<span class="sourceLineNo">232</span><a id="line.232">   */</a>
+<span class="sourceLineNo">233</span><a id="line.233">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">234</span><a id="line.234">  public final double getAndUpdate(int i, DoubleUnaryOperator updaterFunction) {</a>
+<span class="sourceLineNo">235</span><a id="line.235">    while (true) {</a>
+<span class="sourceLineNo">236</span><a id="line.236">      long current = longs.get(i);</a>
+<span class="sourceLineNo">237</span><a id="line.237">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">238</span><a id="line.238">      double nextVal = updaterFunction.applyAsDouble(currentVal);</a>
+<span class="sourceLineNo">239</span><a id="line.239">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">240</span><a id="line.240">      if (longs.compareAndSet(i, current, next)) {</a>
+<span class="sourceLineNo">241</span><a id="line.241">        return currentVal;</a>
+<span class="sourceLineNo">242</span><a id="line.242">      }</a>
+<span class="sourceLineNo">243</span><a id="line.243">    }</a>
+<span class="sourceLineNo">244</span><a id="line.244">  }</a>
+<span class="sourceLineNo">245</span><a id="line.245"></a>
+<span class="sourceLineNo">246</span><a id="line.246">  /**</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * Atomically updates the element at index {@code i} with the results of applying the given</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * function to the curernt value.</a>
+<span class="sourceLineNo">249</span><a id="line.249">   *</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * @param i the index to update</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * @param updaterFunction the update function</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * @return the updated value</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * @since 31.1</a>
+<span class="sourceLineNo">254</span><a id="line.254">   */</a>
+<span class="sourceLineNo">255</span><a id="line.255">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">256</span><a id="line.256">  public final double updateAndGet(int i, DoubleUnaryOperator updaterFunction) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">    while (true) {</a>
+<span class="sourceLineNo">258</span><a id="line.258">      long current = longs.get(i);</a>
+<span class="sourceLineNo">259</span><a id="line.259">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">260</span><a id="line.260">      double nextVal = updaterFunction.applyAsDouble(currentVal);</a>
+<span class="sourceLineNo">261</span><a id="line.261">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">262</span><a id="line.262">      if (longs.compareAndSet(i, current, next)) {</a>
+<span class="sourceLineNo">263</span><a id="line.263">        return nextVal;</a>
+<span class="sourceLineNo">264</span><a id="line.264">      }</a>
+<span class="sourceLineNo">265</span><a id="line.265">    }</a>
+<span class="sourceLineNo">266</span><a id="line.266">  }</a>
+<span class="sourceLineNo">267</span><a id="line.267"></a>
+<span class="sourceLineNo">268</span><a id="line.268">  /**</a>
+<span class="sourceLineNo">269</span><a id="line.269">   * Returns the String representation of the current values of array.</a>
+<span class="sourceLineNo">270</span><a id="line.270">   *</a>
+<span class="sourceLineNo">271</span><a id="line.271">   * @return the String representation of the current values of array</a>
+<span class="sourceLineNo">272</span><a id="line.272">   */</a>
+<span class="sourceLineNo">273</span><a id="line.273">  @Override</a>
+<span class="sourceLineNo">274</span><a id="line.274">  public String toString() {</a>
+<span class="sourceLineNo">275</span><a id="line.275">    int iMax = length() - 1;</a>
+<span class="sourceLineNo">276</span><a id="line.276">    if (iMax == -1) {</a>
+<span class="sourceLineNo">277</span><a id="line.277">      return "[]";</a>
+<span class="sourceLineNo">278</span><a id="line.278">    }</a>
+<span class="sourceLineNo">279</span><a id="line.279"></a>
+<span class="sourceLineNo">280</span><a id="line.280">    // Double.toString(Math.PI).length() == 17</a>
+<span class="sourceLineNo">281</span><a id="line.281">    StringBuilder b = new StringBuilder((17 + 2) * (iMax + 1));</a>
+<span class="sourceLineNo">282</span><a id="line.282">    b.append('[');</a>
+<span class="sourceLineNo">283</span><a id="line.283">    for (int i = 0; ; i++) {</a>
+<span class="sourceLineNo">284</span><a id="line.284">      b.append(longBitsToDouble(longs.get(i)));</a>
+<span class="sourceLineNo">285</span><a id="line.285">      if (i == iMax) {</a>
+<span class="sourceLineNo">286</span><a id="line.286">        return b.append(']').toString();</a>
+<span class="sourceLineNo">287</span><a id="line.287">      }</a>
+<span class="sourceLineNo">288</span><a id="line.288">      b.append(',').append(' ');</a>
+<span class="sourceLineNo">289</span><a id="line.289">    }</a>
+<span class="sourceLineNo">290</span><a id="line.290">  }</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">  /**</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * Saves the state to a stream (that is, serializes it).</a>
+<span class="sourceLineNo">294</span><a id="line.294">   *</a>
+<span class="sourceLineNo">295</span><a id="line.295">   * @serialData The length of the array is emitted (int), followed by all of its elements (each a</a>
+<span class="sourceLineNo">296</span><a id="line.296">   *     {@code double}) in the proper order.</a>
+<span class="sourceLineNo">297</span><a id="line.297">   */</a>
+<span class="sourceLineNo">298</span><a id="line.298">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
+<span class="sourceLineNo">299</span><a id="line.299">    s.defaultWriteObject();</a>
 <span class="sourceLineNo">300</span><a id="line.300"></a>
-<span class="sourceLineNo">301</span><a id="line.301">    // Write out all elements in the proper order.</a>
-<span class="sourceLineNo">302</span><a id="line.302">    for (int i = 0; i &lt; length; i++) {</a>
-<span class="sourceLineNo">303</span><a id="line.303">      s.writeDouble(get(i));</a>
-<span class="sourceLineNo">304</span><a id="line.304">    }</a>
-<span class="sourceLineNo">305</span><a id="line.305">  }</a>
-<span class="sourceLineNo">306</span><a id="line.306"></a>
-<span class="sourceLineNo">307</span><a id="line.307">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
-<span class="sourceLineNo">308</span><a id="line.308">  private void readObject(java.io.ObjectInputStream s)</a>
-<span class="sourceLineNo">309</span><a id="line.309">      throws java.io.IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">310</span><a id="line.310">    s.defaultReadObject();</a>
-<span class="sourceLineNo">311</span><a id="line.311"></a>
-<span class="sourceLineNo">312</span><a id="line.312">    int length = s.readInt();</a>
-<span class="sourceLineNo">313</span><a id="line.313">    ImmutableLongArray.Builder builder = ImmutableLongArray.builder();</a>
-<span class="sourceLineNo">314</span><a id="line.314">    for (int i = 0; i &lt; length; i++) {</a>
-<span class="sourceLineNo">315</span><a id="line.315">      builder.add(doubleToRawLongBits(s.readDouble()));</a>
-<span class="sourceLineNo">316</span><a id="line.316">    }</a>
-<span class="sourceLineNo">317</span><a id="line.317">    this.longs = new AtomicLongArray(builder.build().toArray());</a>
-<span class="sourceLineNo">318</span><a id="line.318">  }</a>
-<span class="sourceLineNo">319</span><a id="line.319">}</a>
+<span class="sourceLineNo">301</span><a id="line.301">    // Write out array length</a>
+<span class="sourceLineNo">302</span><a id="line.302">    int length = length();</a>
+<span class="sourceLineNo">303</span><a id="line.303">    s.writeInt(length);</a>
+<span class="sourceLineNo">304</span><a id="line.304"></a>
+<span class="sourceLineNo">305</span><a id="line.305">    // Write out all elements in the proper order.</a>
+<span class="sourceLineNo">306</span><a id="line.306">    for (int i = 0; i &lt; length; i++) {</a>
+<span class="sourceLineNo">307</span><a id="line.307">      s.writeDouble(get(i));</a>
+<span class="sourceLineNo">308</span><a id="line.308">    }</a>
+<span class="sourceLineNo">309</span><a id="line.309">  }</a>
+<span class="sourceLineNo">310</span><a id="line.310"></a>
+<span class="sourceLineNo">311</span><a id="line.311">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
+<span class="sourceLineNo">312</span><a id="line.312">  private void readObject(java.io.ObjectInputStream s)</a>
+<span class="sourceLineNo">313</span><a id="line.313">      throws java.io.IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">314</span><a id="line.314">    s.defaultReadObject();</a>
+<span class="sourceLineNo">315</span><a id="line.315"></a>
+<span class="sourceLineNo">316</span><a id="line.316">    int length = s.readInt();</a>
+<span class="sourceLineNo">317</span><a id="line.317">    ImmutableLongArray.Builder builder = ImmutableLongArray.builder();</a>
+<span class="sourceLineNo">318</span><a id="line.318">    for (int i = 0; i &lt; length; i++) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">      builder.add(doubleToRawLongBits(s.readDouble()));</a>
+<span class="sourceLineNo">320</span><a id="line.320">    }</a>
+<span class="sourceLineNo">321</span><a id="line.321">    this.longs = new AtomicLongArray(builder.build().toArray());</a>
+<span class="sourceLineNo">322</span><a id="line.322">  }</a>
+<span class="sourceLineNo">323</span><a id="line.323">}</a>
 
 
 

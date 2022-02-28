@@ -567,7 +567,7 @@ public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/
 <li class="blockList">
 <h4>getAndAccumulate</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.201">getAndAccumulate</a>&#8203;(int&nbsp;i,
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.202">getAndAccumulate</a>&#8203;(int&nbsp;i,
                                      double&nbsp;x,
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
@@ -579,6 +579,8 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <dd><code>accumulatorFunction</code> - the accumulator function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the previous value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>31.1</dd>
 </dl>
 </li>
 </ul>
@@ -589,7 +591,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>accumulateAndGet</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.216">accumulateAndGet</a>&#8203;(int&nbsp;i,
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.218">accumulateAndGet</a>&#8203;(int&nbsp;i,
                                      double&nbsp;x,
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleBinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</pre>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
@@ -601,6 +603,8 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <dd><code>accumulatorFunction</code> - the accumulator function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the updated value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>31.1</dd>
 </dl>
 </li>
 </ul>
@@ -611,7 +615,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>getAndUpdate</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.230">getAndUpdate</a>&#8203;(int&nbsp;i,
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.233">getAndUpdate</a>&#8203;(int&nbsp;i,
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updaterFunction)</pre>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
  function to the curernt value.</div>
@@ -621,6 +625,8 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <dd><code>updaterFunction</code> - the update function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the previous value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>31.1</dd>
 </dl>
 </li>
 </ul>
@@ -631,7 +637,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>updateAndGet</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.251">updateAndGet</a>&#8203;(int&nbsp;i,
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.255">updateAndGet</a>&#8203;(int&nbsp;i,
                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/DoubleUnaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">DoubleUnaryOperator</a>&nbsp;updaterFunction)</pre>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
  function to the curernt value.</div>
@@ -641,6 +647,8 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <dd><code>updaterFunction</code> - the update function</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the updated value</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>31.1</dd>
 </dl>
 </li>
 </ul>
@@ -650,7 +658,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.269">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.273">toString</a>()</pre>
 <div class="block">Returns the String representation of the current values of array.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

@@ -16903,7 +16903,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated This method does not make sense for bimaps and should not be called.
- @since NEXT]]>
+ @since 31.1]]>
       </doc>
     </method>
     <doc>
@@ -18901,7 +18901,7 @@
  java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than
  {@code ImmutableMap.Builder}.
 
- @since NEXT]]>
+ @since 31.1]]>
       </doc>
     </method>
     <doc>
@@ -21729,7 +21729,7 @@
  that key.
 
  @throws UnsupportedOperationException always
- @since NEXT
+ @since 31.1
  @deprecated This method is not currently implemented, and may never be.]]>
       </doc>
     </method>
@@ -41756,7 +41756,7 @@
  href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
  <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
 
- @since NEXT]]>
+ @since 31.1]]>
       </doc>
     </method>
     <method name="consistentHash" return="int"
@@ -49483,7 +49483,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/private-network-access/#headers">{@code
  Access-Control-Allow-Private-Network}</a> header field name.
 
- @since NEXT]]>
+ @since 31.1]]>
       </doc>
     </field>
     <field name="ACCESS_CONTROL_ALLOW_CREDENTIALS" type="java.lang.String"
@@ -50364,7 +50364,7 @@
       <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-full-version-list">{@code
  Sec-CH-UA-Full-Version}</a> header field name.
 
- @since NEXT]]>
+ @since 31.1]]>
       </doc>
     </field>
     <field name="SEC_CH_UA_MOBILE" type="java.lang.String"
@@ -62028,7 +62028,8 @@
       <![CDATA[Atomically adds the given value to the current value.
 
  @param delta the value to add
- @return the updated value]]>
+ @return the updated value
+ @since 31.1]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -62260,7 +62261,8 @@
 
  @param i the index
  @param delta the value to add
- @return the updated value]]>
+ @return the updated value
+ @since 31.1]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"

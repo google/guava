@@ -188,128 +188,131 @@
 <span class="sourceLineNo">179</span><a id="line.179">   * @param x the update value</a>
 <span class="sourceLineNo">180</span><a id="line.180">   * @param accumulatorFunction the accumulator function</a>
 <span class="sourceLineNo">181</span><a id="line.181">   * @return the previous value</a>
-<span class="sourceLineNo">182</span><a id="line.182">   */</a>
-<span class="sourceLineNo">183</span><a id="line.183">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">184</span><a id="line.184">  public final double getAndAccumulate(double x, DoubleBinaryOperator accumulatorFunction) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">    checkNotNull(accumulatorFunction);</a>
-<span class="sourceLineNo">186</span><a id="line.186">    return getAndUpdate(oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
-<span class="sourceLineNo">187</span><a id="line.187">  }</a>
-<span class="sourceLineNo">188</span><a id="line.188"></a>
-<span class="sourceLineNo">189</span><a id="line.189">  /**</a>
-<span class="sourceLineNo">190</span><a id="line.190">   * Atomically updates the current value with the results of applying the given function to the</a>
-<span class="sourceLineNo">191</span><a id="line.191">   * current and given values.</a>
-<span class="sourceLineNo">192</span><a id="line.192">   *</a>
-<span class="sourceLineNo">193</span><a id="line.193">   * @param x the update value</a>
-<span class="sourceLineNo">194</span><a id="line.194">   * @param accumulatorFunction the accumulator function</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * @return the updated value</a>
-<span class="sourceLineNo">196</span><a id="line.196">   * @since NEXT</a>
-<span class="sourceLineNo">197</span><a id="line.197">   */</a>
-<span class="sourceLineNo">198</span><a id="line.198">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">199</span><a id="line.199">  public final double accumulateAndGet(double x, DoubleBinaryOperator accumulatorFunction) {</a>
-<span class="sourceLineNo">200</span><a id="line.200">    checkNotNull(accumulatorFunction);</a>
-<span class="sourceLineNo">201</span><a id="line.201">    return updateAndGet(oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
-<span class="sourceLineNo">202</span><a id="line.202">  }</a>
-<span class="sourceLineNo">203</span><a id="line.203"></a>
-<span class="sourceLineNo">204</span><a id="line.204">  /**</a>
-<span class="sourceLineNo">205</span><a id="line.205">   * Atomically updates the current value with the results of applying the given function.</a>
-<span class="sourceLineNo">206</span><a id="line.206">   *</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * @param updateFunction the update function</a>
-<span class="sourceLineNo">208</span><a id="line.208">   * @return the previous value</a>
-<span class="sourceLineNo">209</span><a id="line.209">   */</a>
-<span class="sourceLineNo">210</span><a id="line.210">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">211</span><a id="line.211">  public final double getAndUpdate(DoubleUnaryOperator updateFunction) {</a>
-<span class="sourceLineNo">212</span><a id="line.212">    while (true) {</a>
-<span class="sourceLineNo">213</span><a id="line.213">      long current = value;</a>
-<span class="sourceLineNo">214</span><a id="line.214">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">215</span><a id="line.215">      double nextVal = updateFunction.applyAsDouble(currentVal);</a>
-<span class="sourceLineNo">216</span><a id="line.216">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">217</span><a id="line.217">      if (updater.compareAndSet(this, current, next)) {</a>
-<span class="sourceLineNo">218</span><a id="line.218">        return currentVal;</a>
-<span class="sourceLineNo">219</span><a id="line.219">      }</a>
-<span class="sourceLineNo">220</span><a id="line.220">    }</a>
-<span class="sourceLineNo">221</span><a id="line.221">  }</a>
-<span class="sourceLineNo">222</span><a id="line.222"></a>
-<span class="sourceLineNo">223</span><a id="line.223">  /**</a>
-<span class="sourceLineNo">224</span><a id="line.224">   * Atomically updates the current value with the results of applying the given function.</a>
-<span class="sourceLineNo">225</span><a id="line.225">   *</a>
-<span class="sourceLineNo">226</span><a id="line.226">   * @param updateFunction the update function</a>
-<span class="sourceLineNo">227</span><a id="line.227">   * @return the updated value</a>
-<span class="sourceLineNo">228</span><a id="line.228">   */</a>
-<span class="sourceLineNo">229</span><a id="line.229">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">230</span><a id="line.230">  public final double updateAndGet(DoubleUnaryOperator updateFunction) {</a>
-<span class="sourceLineNo">231</span><a id="line.231">    while (true) {</a>
-<span class="sourceLineNo">232</span><a id="line.232">      long current = value;</a>
-<span class="sourceLineNo">233</span><a id="line.233">      double currentVal = longBitsToDouble(current);</a>
-<span class="sourceLineNo">234</span><a id="line.234">      double nextVal = updateFunction.applyAsDouble(currentVal);</a>
-<span class="sourceLineNo">235</span><a id="line.235">      long next = doubleToRawLongBits(nextVal);</a>
-<span class="sourceLineNo">236</span><a id="line.236">      if (updater.compareAndSet(this, current, next)) {</a>
-<span class="sourceLineNo">237</span><a id="line.237">        return nextVal;</a>
-<span class="sourceLineNo">238</span><a id="line.238">      }</a>
-<span class="sourceLineNo">239</span><a id="line.239">    }</a>
-<span class="sourceLineNo">240</span><a id="line.240">  }</a>
-<span class="sourceLineNo">241</span><a id="line.241"></a>
-<span class="sourceLineNo">242</span><a id="line.242">  /**</a>
-<span class="sourceLineNo">243</span><a id="line.243">   * Returns the String representation of the current value.</a>
-<span class="sourceLineNo">244</span><a id="line.244">   *</a>
-<span class="sourceLineNo">245</span><a id="line.245">   * @return the String representation of the current value</a>
-<span class="sourceLineNo">246</span><a id="line.246">   */</a>
-<span class="sourceLineNo">247</span><a id="line.247">  @Override</a>
-<span class="sourceLineNo">248</span><a id="line.248">  public String toString() {</a>
-<span class="sourceLineNo">249</span><a id="line.249">    return Double.toString(get());</a>
-<span class="sourceLineNo">250</span><a id="line.250">  }</a>
-<span class="sourceLineNo">251</span><a id="line.251"></a>
-<span class="sourceLineNo">252</span><a id="line.252">  /**</a>
-<span class="sourceLineNo">253</span><a id="line.253">   * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive</a>
-<span class="sourceLineNo">254</span><a id="line.254">   * conversion.</a>
-<span class="sourceLineNo">255</span><a id="line.255">   */</a>
-<span class="sourceLineNo">256</span><a id="line.256">  @Override</a>
-<span class="sourceLineNo">257</span><a id="line.257">  public int intValue() {</a>
-<span class="sourceLineNo">258</span><a id="line.258">    return (int) get();</a>
-<span class="sourceLineNo">259</span><a id="line.259">  }</a>
-<span class="sourceLineNo">260</span><a id="line.260"></a>
-<span class="sourceLineNo">261</span><a id="line.261">  /**</a>
-<span class="sourceLineNo">262</span><a id="line.262">   * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive</a>
-<span class="sourceLineNo">263</span><a id="line.263">   * conversion.</a>
-<span class="sourceLineNo">264</span><a id="line.264">   */</a>
-<span class="sourceLineNo">265</span><a id="line.265">  @Override</a>
-<span class="sourceLineNo">266</span><a id="line.266">  public long longValue() {</a>
-<span class="sourceLineNo">267</span><a id="line.267">    return (long) get();</a>
-<span class="sourceLineNo">268</span><a id="line.268">  }</a>
-<span class="sourceLineNo">269</span><a id="line.269"></a>
-<span class="sourceLineNo">270</span><a id="line.270">  /**</a>
-<span class="sourceLineNo">271</span><a id="line.271">   * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive</a>
-<span class="sourceLineNo">272</span><a id="line.272">   * conversion.</a>
-<span class="sourceLineNo">273</span><a id="line.273">   */</a>
-<span class="sourceLineNo">274</span><a id="line.274">  @Override</a>
-<span class="sourceLineNo">275</span><a id="line.275">  public float floatValue() {</a>
-<span class="sourceLineNo">276</span><a id="line.276">    return (float) get();</a>
-<span class="sourceLineNo">277</span><a id="line.277">  }</a>
-<span class="sourceLineNo">278</span><a id="line.278"></a>
-<span class="sourceLineNo">279</span><a id="line.279">  /** Returns the value of this {@code AtomicDouble} as a {@code double}. */</a>
-<span class="sourceLineNo">280</span><a id="line.280">  @Override</a>
-<span class="sourceLineNo">281</span><a id="line.281">  public double doubleValue() {</a>
-<span class="sourceLineNo">282</span><a id="line.282">    return get();</a>
-<span class="sourceLineNo">283</span><a id="line.283">  }</a>
-<span class="sourceLineNo">284</span><a id="line.284"></a>
-<span class="sourceLineNo">285</span><a id="line.285">  /**</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * Saves the state to a stream (that is, serializes it).</a>
-<span class="sourceLineNo">287</span><a id="line.287">   *</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * @serialData The current value is emitted (a {@code double}).</a>
-<span class="sourceLineNo">289</span><a id="line.289">   */</a>
-<span class="sourceLineNo">290</span><a id="line.290">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
-<span class="sourceLineNo">291</span><a id="line.291">    s.defaultWriteObject();</a>
-<span class="sourceLineNo">292</span><a id="line.292"></a>
-<span class="sourceLineNo">293</span><a id="line.293">    s.writeDouble(get());</a>
-<span class="sourceLineNo">294</span><a id="line.294">  }</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * @since 31.1</a>
+<span class="sourceLineNo">183</span><a id="line.183">   */</a>
+<span class="sourceLineNo">184</span><a id="line.184">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">185</span><a id="line.185">  public final double getAndAccumulate(double x, DoubleBinaryOperator accumulatorFunction) {</a>
+<span class="sourceLineNo">186</span><a id="line.186">    checkNotNull(accumulatorFunction);</a>
+<span class="sourceLineNo">187</span><a id="line.187">    return getAndUpdate(oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
+<span class="sourceLineNo">188</span><a id="line.188">  }</a>
+<span class="sourceLineNo">189</span><a id="line.189"></a>
+<span class="sourceLineNo">190</span><a id="line.190">  /**</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * Atomically updates the current value with the results of applying the given function to the</a>
+<span class="sourceLineNo">192</span><a id="line.192">   * current and given values.</a>
+<span class="sourceLineNo">193</span><a id="line.193">   *</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * @param x the update value</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * @param accumulatorFunction the accumulator function</a>
+<span class="sourceLineNo">196</span><a id="line.196">   * @return the updated value</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * @since 31.1</a>
+<span class="sourceLineNo">198</span><a id="line.198">   */</a>
+<span class="sourceLineNo">199</span><a id="line.199">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">200</span><a id="line.200">  public final double accumulateAndGet(double x, DoubleBinaryOperator accumulatorFunction) {</a>
+<span class="sourceLineNo">201</span><a id="line.201">    checkNotNull(accumulatorFunction);</a>
+<span class="sourceLineNo">202</span><a id="line.202">    return updateAndGet(oldValue -&gt; accumulatorFunction.applyAsDouble(oldValue, x));</a>
+<span class="sourceLineNo">203</span><a id="line.203">  }</a>
+<span class="sourceLineNo">204</span><a id="line.204"></a>
+<span class="sourceLineNo">205</span><a id="line.205">  /**</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * Atomically updates the current value with the results of applying the given function.</a>
+<span class="sourceLineNo">207</span><a id="line.207">   *</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * @param updateFunction the update function</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * @return the previous value</a>
+<span class="sourceLineNo">210</span><a id="line.210">   * @since 31.1</a>
+<span class="sourceLineNo">211</span><a id="line.211">   */</a>
+<span class="sourceLineNo">212</span><a id="line.212">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">213</span><a id="line.213">  public final double getAndUpdate(DoubleUnaryOperator updateFunction) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">    while (true) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">      long current = value;</a>
+<span class="sourceLineNo">216</span><a id="line.216">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">217</span><a id="line.217">      double nextVal = updateFunction.applyAsDouble(currentVal);</a>
+<span class="sourceLineNo">218</span><a id="line.218">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">219</span><a id="line.219">      if (updater.compareAndSet(this, current, next)) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">        return currentVal;</a>
+<span class="sourceLineNo">221</span><a id="line.221">      }</a>
+<span class="sourceLineNo">222</span><a id="line.222">    }</a>
+<span class="sourceLineNo">223</span><a id="line.223">  }</a>
+<span class="sourceLineNo">224</span><a id="line.224"></a>
+<span class="sourceLineNo">225</span><a id="line.225">  /**</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * Atomically updates the current value with the results of applying the given function.</a>
+<span class="sourceLineNo">227</span><a id="line.227">   *</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * @param updateFunction the update function</a>
+<span class="sourceLineNo">229</span><a id="line.229">   * @return the updated value</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * @since 31.1</a>
+<span class="sourceLineNo">231</span><a id="line.231">   */</a>
+<span class="sourceLineNo">232</span><a id="line.232">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">233</span><a id="line.233">  public final double updateAndGet(DoubleUnaryOperator updateFunction) {</a>
+<span class="sourceLineNo">234</span><a id="line.234">    while (true) {</a>
+<span class="sourceLineNo">235</span><a id="line.235">      long current = value;</a>
+<span class="sourceLineNo">236</span><a id="line.236">      double currentVal = longBitsToDouble(current);</a>
+<span class="sourceLineNo">237</span><a id="line.237">      double nextVal = updateFunction.applyAsDouble(currentVal);</a>
+<span class="sourceLineNo">238</span><a id="line.238">      long next = doubleToRawLongBits(nextVal);</a>
+<span class="sourceLineNo">239</span><a id="line.239">      if (updater.compareAndSet(this, current, next)) {</a>
+<span class="sourceLineNo">240</span><a id="line.240">        return nextVal;</a>
+<span class="sourceLineNo">241</span><a id="line.241">      }</a>
+<span class="sourceLineNo">242</span><a id="line.242">    }</a>
+<span class="sourceLineNo">243</span><a id="line.243">  }</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">  /**</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * Returns the String representation of the current value.</a>
+<span class="sourceLineNo">247</span><a id="line.247">   *</a>
+<span class="sourceLineNo">248</span><a id="line.248">   * @return the String representation of the current value</a>
+<span class="sourceLineNo">249</span><a id="line.249">   */</a>
+<span class="sourceLineNo">250</span><a id="line.250">  @Override</a>
+<span class="sourceLineNo">251</span><a id="line.251">  public String toString() {</a>
+<span class="sourceLineNo">252</span><a id="line.252">    return Double.toString(get());</a>
+<span class="sourceLineNo">253</span><a id="line.253">  }</a>
+<span class="sourceLineNo">254</span><a id="line.254"></a>
+<span class="sourceLineNo">255</span><a id="line.255">  /**</a>
+<span class="sourceLineNo">256</span><a id="line.256">   * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * conversion.</a>
+<span class="sourceLineNo">258</span><a id="line.258">   */</a>
+<span class="sourceLineNo">259</span><a id="line.259">  @Override</a>
+<span class="sourceLineNo">260</span><a id="line.260">  public int intValue() {</a>
+<span class="sourceLineNo">261</span><a id="line.261">    return (int) get();</a>
+<span class="sourceLineNo">262</span><a id="line.262">  }</a>
+<span class="sourceLineNo">263</span><a id="line.263"></a>
+<span class="sourceLineNo">264</span><a id="line.264">  /**</a>
+<span class="sourceLineNo">265</span><a id="line.265">   * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive</a>
+<span class="sourceLineNo">266</span><a id="line.266">   * conversion.</a>
+<span class="sourceLineNo">267</span><a id="line.267">   */</a>
+<span class="sourceLineNo">268</span><a id="line.268">  @Override</a>
+<span class="sourceLineNo">269</span><a id="line.269">  public long longValue() {</a>
+<span class="sourceLineNo">270</span><a id="line.270">    return (long) get();</a>
+<span class="sourceLineNo">271</span><a id="line.271">  }</a>
+<span class="sourceLineNo">272</span><a id="line.272"></a>
+<span class="sourceLineNo">273</span><a id="line.273">  /**</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive</a>
+<span class="sourceLineNo">275</span><a id="line.275">   * conversion.</a>
+<span class="sourceLineNo">276</span><a id="line.276">   */</a>
+<span class="sourceLineNo">277</span><a id="line.277">  @Override</a>
+<span class="sourceLineNo">278</span><a id="line.278">  public float floatValue() {</a>
+<span class="sourceLineNo">279</span><a id="line.279">    return (float) get();</a>
+<span class="sourceLineNo">280</span><a id="line.280">  }</a>
+<span class="sourceLineNo">281</span><a id="line.281"></a>
+<span class="sourceLineNo">282</span><a id="line.282">  /** Returns the value of this {@code AtomicDouble} as a {@code double}. */</a>
+<span class="sourceLineNo">283</span><a id="line.283">  @Override</a>
+<span class="sourceLineNo">284</span><a id="line.284">  public double doubleValue() {</a>
+<span class="sourceLineNo">285</span><a id="line.285">    return get();</a>
+<span class="sourceLineNo">286</span><a id="line.286">  }</a>
+<span class="sourceLineNo">287</span><a id="line.287"></a>
+<span class="sourceLineNo">288</span><a id="line.288">  /**</a>
+<span class="sourceLineNo">289</span><a id="line.289">   * Saves the state to a stream (that is, serializes it).</a>
+<span class="sourceLineNo">290</span><a id="line.290">   *</a>
+<span class="sourceLineNo">291</span><a id="line.291">   * @serialData The current value is emitted (a {@code double}).</a>
+<span class="sourceLineNo">292</span><a id="line.292">   */</a>
+<span class="sourceLineNo">293</span><a id="line.293">  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {</a>
+<span class="sourceLineNo">294</span><a id="line.294">    s.defaultWriteObject();</a>
 <span class="sourceLineNo">295</span><a id="line.295"></a>
-<span class="sourceLineNo">296</span><a id="line.296">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
-<span class="sourceLineNo">297</span><a id="line.297">  private void readObject(java.io.ObjectInputStream s)</a>
-<span class="sourceLineNo">298</span><a id="line.298">      throws java.io.IOException, ClassNotFoundException {</a>
-<span class="sourceLineNo">299</span><a id="line.299">    s.defaultReadObject();</a>
-<span class="sourceLineNo">300</span><a id="line.300"></a>
-<span class="sourceLineNo">301</span><a id="line.301">    set(s.readDouble());</a>
-<span class="sourceLineNo">302</span><a id="line.302">  }</a>
-<span class="sourceLineNo">303</span><a id="line.303">}</a>
+<span class="sourceLineNo">296</span><a id="line.296">    s.writeDouble(get());</a>
+<span class="sourceLineNo">297</span><a id="line.297">  }</a>
+<span class="sourceLineNo">298</span><a id="line.298"></a>
+<span class="sourceLineNo">299</span><a id="line.299">  /** Reconstitutes the instance from a stream (that is, deserializes it). */</a>
+<span class="sourceLineNo">300</span><a id="line.300">  private void readObject(java.io.ObjectInputStream s)</a>
+<span class="sourceLineNo">301</span><a id="line.301">      throws java.io.IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">302</span><a id="line.302">    s.defaultReadObject();</a>
+<span class="sourceLineNo">303</span><a id="line.303"></a>
+<span class="sourceLineNo">304</span><a id="line.304">    set(s.readDouble());</a>
+<span class="sourceLineNo">305</span><a id="line.305">  }</a>
+<span class="sourceLineNo">306</span><a id="line.306">}</a>
 
 
 
