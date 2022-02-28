@@ -464,7 +464,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      *
      * @throws UnsupportedOperationException always
      * @deprecated This method does not make sense for bimaps and should not be called.
-     * @since NEXT
+     * @since 31.1
      */
     @DoNotCall
     @Deprecated

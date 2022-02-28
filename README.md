@@ -22,8 +22,8 @@ Guava comes in two flavors:
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or by any library that wants to be compatible with Android.
-These flavors are specified in the Maven version field as either `31.0.1-jre` or
-`31.0.1-android`. For more about depending on Guava, see
+These flavors are specified in the Maven version field as either `31.1-jre` or
+`31.1-android`. For more about depending on Guava, see
 [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -32,9 +32,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>31.0.1-jre</version>
+  <version>31.1-jre</version>
   <!-- or, for Android: -->
-  <version>31.0.1-android</version>
+  <version>31.1-android</version>
 </dependency>
 ```
 
@@ -45,16 +45,16 @@ dependencies {
   // Pick one:
 
   // 1. Use Guava in your implementation only:
-  implementation("com.google.guava:guava:31.0.1-jre")
+  implementation("com.google.guava:guava:31.1-jre")
 
   // 2. Use Guava types in your public API:
-  api("com.google.guava:guava:31.0.1-jre")
+  api("com.google.guava:guava:31.1-jre")
 
   // 3. Android - Use Guava in your implementation only:
-  implementation("com.google.guava:guava:31.0.1-android")
+  implementation("com.google.guava:guava:31.1-android")
 
   // 4. Android - Use Guava types in your public API:
-  api("com.google.guava:guava:31.0.1-android")
+  api("com.google.guava:guava:31.1-android")
 }
 ```
 

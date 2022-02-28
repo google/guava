@@ -164,6 +164,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @param delta the value to add
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double addAndGet(double delta) {

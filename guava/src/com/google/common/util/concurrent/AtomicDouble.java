@@ -179,6 +179,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param x the update value
    * @param accumulatorFunction the accumulator function
    * @return the previous value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double getAndAccumulate(double x, DoubleBinaryOperator accumulatorFunction) {
@@ -193,7 +194,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param x the update value
    * @param accumulatorFunction the accumulator function
    * @return the updated value
-   * @since NEXT
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double accumulateAndGet(double x, DoubleBinaryOperator accumulatorFunction) {
@@ -206,6 +207,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @param updateFunction the update function
    * @return the previous value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double getAndUpdate(DoubleUnaryOperator updateFunction) {
@@ -225,6 +227,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @param updateFunction the update function
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double updateAndGet(DoubleUnaryOperator updateFunction) {

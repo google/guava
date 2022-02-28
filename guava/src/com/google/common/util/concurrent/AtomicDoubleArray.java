@@ -197,6 +197,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param x the update value
    * @param accumulatorFunction the accumulator function
    * @return the previous value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double getAndAccumulate(int i, double x, DoubleBinaryOperator accumulatorFunction) {
@@ -212,6 +213,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param x the update value
    * @param accumulatorFunction the accumulator function
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double accumulateAndGet(int i, double x, DoubleBinaryOperator accumulatorFunction) {
@@ -226,6 +228,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param i the index to update
    * @param updaterFunction the update function
    * @return the previous value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double getAndUpdate(int i, DoubleUnaryOperator updaterFunction) {
@@ -247,6 +250,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @param i the index to update
    * @param updaterFunction the update function
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double updateAndGet(int i, DoubleUnaryOperator updaterFunction) {

@@ -486,7 +486,7 @@ public final class Hashing {
    * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
    * <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
    *
-   * @since NEXT
+   * @since 31.1
    */
   public static HashFunction fingerprint2011() {
     return Fingerprint2011.FINGERPRINT_2011;
