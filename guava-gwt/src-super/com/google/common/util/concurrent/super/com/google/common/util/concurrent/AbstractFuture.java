@@ -40,6 +40,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
 
+  static final boolean GENERATE_CANCELLATION_CAUSES = false;
+
   /**
    * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
    * of this interface must also be an AbstractFuture and must not override or expose for overriding
