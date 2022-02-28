@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.util.concurrent;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.concurrent.GuardedBy;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.concurrent.Executor;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.logging.Level;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.logging.Logger;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A support class for {@code ListenableFuture} implementations to manage their listeners. An</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * instance contains a list of listeners, each with an associated {@code Executor}, and guarantees</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * that every {@code Runnable} that is {@linkplain #add added} will be executed after {@link</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * #execute()} is called. Any {@code Runnable} added after the call to {@code execute} is still</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * guaranteed to execute. There is no guarantee, however, that listeners will be executed in the</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * order that they are added.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * thrown by {@linkplain MoreExecutors#directExecutor direct execution}) will be caught and logged.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @author Nishant Thakkar</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @author Sven Mawson</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @since 1.0</a>
+<span class="sourceLineNo">041</span><a id="line.41"> */</a>
+<span class="sourceLineNo">042</span><a id="line.42">@GwtIncompatible</a>
+<span class="sourceLineNo">043</span><a id="line.43">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">044</span><a id="line.44">public final class ExecutionList {</a>
+<span class="sourceLineNo">045</span><a id="line.45">  /** Logger to log exceptions caught when running runnables. */</a>
+<span class="sourceLineNo">046</span><a id="line.46">  private static final Logger log = Logger.getLogger(ExecutionList.class.getName());</a>
+<span class="sourceLineNo">047</span><a id="line.47"></a>
+<span class="sourceLineNo">048</span><a id="line.48">  /**</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * The runnable, executor pairs to execute. This acts as a stack threaded through the {@link</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * RunnableExecutorPair#next} field.</a>
+<span class="sourceLineNo">051</span><a id="line.51">   */</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @GuardedBy("this")</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @CheckForNull</a>
+<span class="sourceLineNo">054</span><a id="line.54">  private RunnableExecutorPair runnables;</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  @GuardedBy("this")</a>
+<span class="sourceLineNo">057</span><a id="line.57">  private boolean executed;</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  /** Creates a new, empty {@link ExecutionList}. */</a>
+<span class="sourceLineNo">060</span><a id="line.60">  public ExecutionList() {}</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">  /**</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * Adds the {@code Runnable} and accompanying {@code Executor} to the list of listeners to</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * execute. If execution has already begun, the listener is executed immediately.</a>
+<span class="sourceLineNo">065</span><a id="line.65">   *</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * documentation.</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public void add(Runnable runnable, Executor executor) {</a>
+<span class="sourceLineNo">071</span><a id="line.71">    // Fail fast on a null. We throw NPE here because the contract of Executor states that it throws</a>
+<span class="sourceLineNo">072</span><a id="line.72">    // NPE on null listener, so we propagate that contract up into the add method as well.</a>
+<span class="sourceLineNo">073</span><a id="line.73">    checkNotNull(runnable, "Runnable was null.");</a>
+<span class="sourceLineNo">074</span><a id="line.74">    checkNotNull(executor, "Executor was null.");</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">    // Lock while we check state. We must maintain the lock while adding the new pair so that</a>
+<span class="sourceLineNo">077</span><a id="line.77">    // another thread can't run the list out from under us. We only add to the list if we have not</a>
+<span class="sourceLineNo">078</span><a id="line.78">    // yet started execution.</a>
+<span class="sourceLineNo">079</span><a id="line.79">    synchronized (this) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">      if (!executed) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">        runnables = new RunnableExecutorPair(runnable, executor, runnables);</a>
+<span class="sourceLineNo">082</span><a id="line.82">        return;</a>
+<span class="sourceLineNo">083</span><a id="line.83">      }</a>
+<span class="sourceLineNo">084</span><a id="line.84">    }</a>
+<span class="sourceLineNo">085</span><a id="line.85">    // Execute the runnable immediately. Because of scheduling this may end up getting called before</a>
+<span class="sourceLineNo">086</span><a id="line.86">    // some of the previously added runnables, but we're OK with that. If we want to change the</a>
+<span class="sourceLineNo">087</span><a id="line.87">    // contract to guarantee ordering among runnables we'd have to modify the logic here to allow</a>
+<span class="sourceLineNo">088</span><a id="line.88">    // it.</a>
+<span class="sourceLineNo">089</span><a id="line.89">    executeListener(runnable, executor);</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  /**</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * Runs this execution list, executing all existing pairs in the order they were added. However,</a>
+<span class="sourceLineNo">094</span><a id="line.94">   * note that listeners added after this point may be executed before those previously added, and</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * note that the execution order of all listeners is ultimately chosen by the implementations of</a>
+<span class="sourceLineNo">096</span><a id="line.96">   * the supplied executors.</a>
+<span class="sourceLineNo">097</span><a id="line.97">   *</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * &lt;p&gt;This method is idempotent. Calling it several times in parallel is semantically equivalent</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * to calling it exactly once.</a>
+<span class="sourceLineNo">100</span><a id="line.100">   *</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * @since 10.0 (present in 1.0 as {@code run})</a>
+<span class="sourceLineNo">102</span><a id="line.102">   */</a>
+<span class="sourceLineNo">103</span><a id="line.103">  public void execute() {</a>
+<span class="sourceLineNo">104</span><a id="line.104">    // Lock while we update our state so the add method above will finish adding any listeners</a>
+<span class="sourceLineNo">105</span><a id="line.105">    // before we start to run them.</a>
+<span class="sourceLineNo">106</span><a id="line.106">    RunnableExecutorPair list;</a>
+<span class="sourceLineNo">107</span><a id="line.107">    synchronized (this) {</a>
+<span class="sourceLineNo">108</span><a id="line.108">      if (executed) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">        return;</a>
+<span class="sourceLineNo">110</span><a id="line.110">      }</a>
+<span class="sourceLineNo">111</span><a id="line.111">      executed = true;</a>
+<span class="sourceLineNo">112</span><a id="line.112">      list = runnables;</a>
+<span class="sourceLineNo">113</span><a id="line.113">      runnables = null; // allow GC to free listeners even if this stays around for a while.</a>
+<span class="sourceLineNo">114</span><a id="line.114">    }</a>
+<span class="sourceLineNo">115</span><a id="line.115">    // If we succeeded then list holds all the runnables we to execute. The pairs in the stack are</a>
+<span class="sourceLineNo">116</span><a id="line.116">    // in the opposite order from how they were added so we need to reverse the list to fulfill our</a>
+<span class="sourceLineNo">117</span><a id="line.117">    // contract.</a>
+<span class="sourceLineNo">118</span><a id="line.118">    // This is somewhat annoying, but turns out to be very fast in practice. Alternatively, we could</a>
+<span class="sourceLineNo">119</span><a id="line.119">    // drop the contract on the method that enforces this queue like behavior since depending on it</a>
+<span class="sourceLineNo">120</span><a id="line.120">    // is likely to be a bug anyway.</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">    // N.B. All writes to the list and the next pointers must have happened before the above</a>
+<span class="sourceLineNo">123</span><a id="line.123">    // synchronized block, so we can iterate the list without the lock held here.</a>
+<span class="sourceLineNo">124</span><a id="line.124">    RunnableExecutorPair reversedList = null;</a>
+<span class="sourceLineNo">125</span><a id="line.125">    while (list != null) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">      RunnableExecutorPair tmp = list;</a>
+<span class="sourceLineNo">127</span><a id="line.127">      list = list.next;</a>
+<span class="sourceLineNo">128</span><a id="line.128">      tmp.next = reversedList;</a>
+<span class="sourceLineNo">129</span><a id="line.129">      reversedList = tmp;</a>
+<span class="sourceLineNo">130</span><a id="line.130">    }</a>
+<span class="sourceLineNo">131</span><a id="line.131">    while (reversedList != null) {</a>
+<span class="sourceLineNo">132</span><a id="line.132">      executeListener(reversedList.runnable, reversedList.executor);</a>
+<span class="sourceLineNo">133</span><a id="line.133">      reversedList = reversedList.next;</a>
+<span class="sourceLineNo">134</span><a id="line.134">    }</a>
+<span class="sourceLineNo">135</span><a id="line.135">  }</a>
+<span class="sourceLineNo">136</span><a id="line.136"></a>
+<span class="sourceLineNo">137</span><a id="line.137">  /**</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * RuntimeException runtime exceptions} thrown by the executor.</a>
+<span class="sourceLineNo">140</span><a id="line.140">   */</a>
+<span class="sourceLineNo">141</span><a id="line.141">  private static void executeListener(Runnable runnable, Executor executor) {</a>
+<span class="sourceLineNo">142</span><a id="line.142">    try {</a>
+<span class="sourceLineNo">143</span><a id="line.143">      executor.execute(runnable);</a>
+<span class="sourceLineNo">144</span><a id="line.144">    } catch (RuntimeException e) {</a>
+<span class="sourceLineNo">145</span><a id="line.145">      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if</a>
+<span class="sourceLineNo">146</span><a id="line.146">      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate</a>
+<span class="sourceLineNo">147</span><a id="line.147">      // up.</a>
+<span class="sourceLineNo">148</span><a id="line.148">      log.log(</a>
+<span class="sourceLineNo">149</span><a id="line.149">          Level.SEVERE,</a>
+<span class="sourceLineNo">150</span><a id="line.150">          "RuntimeException while executing runnable " + runnable + " with executor " + executor,</a>
+<span class="sourceLineNo">151</span><a id="line.151">          e);</a>
+<span class="sourceLineNo">152</span><a id="line.152">    }</a>
+<span class="sourceLineNo">153</span><a id="line.153">  }</a>
+<span class="sourceLineNo">154</span><a id="line.154"></a>
+<span class="sourceLineNo">155</span><a id="line.155">  private static final class RunnableExecutorPair {</a>
+<span class="sourceLineNo">156</span><a id="line.156">    final Runnable runnable;</a>
+<span class="sourceLineNo">157</span><a id="line.157">    final Executor executor;</a>
+<span class="sourceLineNo">158</span><a id="line.158">    @CheckForNull RunnableExecutorPair next;</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">    RunnableExecutorPair(</a>
+<span class="sourceLineNo">161</span><a id="line.161">        Runnable runnable, Executor executor, @CheckForNull RunnableExecutorPair next) {</a>
+<span class="sourceLineNo">162</span><a id="line.162">      this.runnable = runnable;</a>
+<span class="sourceLineNo">163</span><a id="line.163">      this.executor = executor;</a>
+<span class="sourceLineNo">164</span><a id="line.164">      this.next = next;</a>
+<span class="sourceLineNo">165</span><a id="line.165">    }</a>
+<span class="sourceLineNo">166</span><a id="line.166">  }</a>
+<span class="sourceLineNo">167</span><a id="line.167">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
