@@ -16,16 +16,15 @@
 
 package com.google.common.io;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import java.io.EOFException;
-import java.io.FilterReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import java.io.*;
 import java.nio.CharBuffer;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnmappableCharacterException;
 import java.util.List;
 
 /**
@@ -193,6 +192,47 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals(I18N.length(), copied);
   }
 
+  public void testAsInputStream_fromReader() throws IOException {
+    Reader reader = new StringReader(TEXT);
+
+    InputStream inputStream = CharStreams.asInputStream(reader, Charsets.UTF_8);
+    String inputStreamString = getInputStreamString(inputStream);
+
+    assertEquals(TEXT, inputStreamString);
+  }
+
+  public void testAsInputStream_fromReader_withBufferSize() throws IOException {
+    Reader reader = new StringReader(TEXT);
+
+    InputStream inputStream = CharStreams.asInputStream(reader, Charsets.UTF_8, 100);
+    String inputStreamString = getInputStreamString(inputStream);
+
+    assertEquals(TEXT, inputStreamString);
+  }
+
+  public void testAsInputStream_fromReader_withBufferSizeAndCodingErrorAction() throws IOException {
+    Reader reader = new StringReader(TEXT);
+
+    CodingErrorAction codingErrorAction = CodingErrorAction.REPORT;
+    InputStream inputStream = CharStreams.asInputStream(reader, Charsets.US_ASCII, 100, codingErrorAction);
+    String inputStreamString = getInputStreamString(inputStream);
+
+    assertEquals(TEXT, inputStreamString);
+  }
+
+  public void testAsInputStream_fromReader_withBufferSizeAndCodingErrorActionWithMalformedText() throws IOException {
+    String malformedText = "ÏíÓãÈÑ";
+    Reader reader = new StringReader(malformedText);
+    CodingErrorAction codingErrorAction = CodingErrorAction.REPORT;
+    InputStream inputStream = CharStreams.asInputStream(reader, Charsets.US_ASCII, 100, codingErrorAction);
+
+    try {
+      getInputStreamString(inputStream);
+      fail();
+    } catch (UnmappableCharacterException e) {
+    }
+  }
+
   public void testCopy_toWriter_fromReader() throws IOException {
     StringWriter writer = new StringWriter();
     long copied = CharStreams.copy(new StringReader(ASCII), writer);
@@ -338,5 +378,17 @@ public class CharStreamsTest extends IoTestCase {
         return a.read(cb);
       }
     };
+  }
+
+  private static String getInputStreamString(InputStream inputStream) throws IOException {
+    char[] buffer = new char[CharStreams.BUFFER_SIZE_INPUT_STREAM];
+    Reader input = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+    StringBuilder output = new StringBuilder();
+
+    for (int numRead; (numRead = input.read(buffer, 0, buffer.length)) != -1; ) {
+      output.append(buffer, 0, numRead);
+    }
+
+    return output.toString();
   }
 }

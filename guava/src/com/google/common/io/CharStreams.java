@@ -20,12 +20,11 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.io.Closeable;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+
+import java.io.*;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -49,6 +48,7 @@ public final class CharStreams {
 
   // 2K chars (4K bytes)
   private static final int DEFAULT_BUF_SIZE = 0x800;
+  public static final int BUFFER_SIZE_INPUT_STREAM = 8192;
 
   /** Creates a new {@code CharBuffer} for buffering reads or writes. */
   static CharBuffer createBuffer() {
@@ -180,6 +180,53 @@ public final class CharStreams {
       copy(r, sb);
     }
     return sb;
+  }
+
+  /**
+   * Converts a Reader object into a InputStream using the provided Charset.
+   * Does not close the {@code Reader}. Defaults to a standard buffer size for the input stream.
+   *
+   * @param reader the reader to convert
+   * @param charset the encoding charset
+   * @return a {@link InputStream} containing all the reader's contents
+   */
+  public static InputStream asInputStream(Reader reader, Charset charset) {
+    return new ReaderInputStream(reader,
+            charset,
+            BUFFER_SIZE_INPUT_STREAM);
+  }
+
+  /**
+   * Converts a Reader object into a InputStream using the provided Charset and buffer size.
+   * Does not close the {@code Reader}.
+   *
+   * @param reader the reader to convert
+   * @param charset the encoding charset
+   * @param bufferSize the buffer size of the input stream
+   * @return a {@link InputStream} containing all the reader's contents
+   */
+  public static InputStream asInputStream(Reader reader, Charset charset, int bufferSize) {
+    return new ReaderInputStream(reader,
+            charset,
+            bufferSize);
+  }
+
+  /**
+   * Converts a Reader object into a InputStream using the provided Charset and buffer size.
+   * Performs a specified action on malformed input.
+   * Does not close the {@code Reader}.
+   *
+   * @param reader the reader to convert
+   * @param charset the encoding charset
+   * @param bufferSize the buffer size of the input stream
+   * @param newAction the action to take on malformed input and unmappable characters
+   * @return a {@link InputStream} containing all the reader's contents
+   */
+  public static InputStream asInputStream(Reader reader, Charset charset, int bufferSize,
+                                          CodingErrorAction newAction) {
+    return new ReaderInputStream(reader,
+            charset.newEncoder().onMalformedInput(newAction).onUnmappableCharacter(newAction),
+            bufferSize);
   }
 
   /**
