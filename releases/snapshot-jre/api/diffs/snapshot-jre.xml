@@ -52819,6 +52819,30 @@
  @since 31.0]]>
       </doc>
     </field>
+    <field name="SEC_CH_VIEWPORT_WIDTH" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width">{@code
+ Sec-CH-Viewport-Width}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_CH_VIEWPORT_HEIGHT" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height">{@code
+ Sec-CH-Viewport-Height}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
