@@ -73,7 +73,6 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
    * uninterruptibly.
    */
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
