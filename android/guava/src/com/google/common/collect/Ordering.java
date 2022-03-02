@@ -22,7 +22,6 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -530,7 +529,6 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
 
   // Regular instance methods
 
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   @Override
   public abstract int compare(@ParametricNullness T left, @ParametricNullness T right);
 
