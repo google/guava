@@ -77,7 +77,6 @@ public final class Uninterruptibles {
    *
    * @since 28.0
    */
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
   public static boolean awaitUninterruptibly(CountDownLatch latch, Duration timeout) {
     return awaitUninterruptibly(latch, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
