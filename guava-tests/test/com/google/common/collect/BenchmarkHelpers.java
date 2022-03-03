@@ -386,7 +386,7 @@ final class BenchmarkHelpers {
       public <E> Interner<E> create(Collection<E> contents) {
         Interner<E> interner = Interners.newWeakInterner();
         for (E e : contents) {
-          interner.intern(e);
+          E unused = interner.intern(e);
         }
         return interner;
       }
@@ -396,7 +396,7 @@ final class BenchmarkHelpers {
       public <E> Interner<E> create(Collection<E> contents) {
         Interner<E> interner = Interners.newStrongInterner();
         for (E e : contents) {
-          interner.intern(e);
+          E unused = interner.intern(e);
         }
         return interner;
       }
