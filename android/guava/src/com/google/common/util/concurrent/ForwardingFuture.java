@@ -34,7 +34,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
@@ -46,6 +45,7 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
   protected abstract Future<? extends V> delegate();
 
   @Override
+  @CanIgnoreReturnValue
   public boolean cancel(boolean mayInterruptIfRunning) {
     return delegate().cancel(mayInterruptIfRunning);
   }
@@ -61,12 +61,14 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
   }
 
   @Override
+  @CanIgnoreReturnValue
   @ParametricNullness
   public V get() throws InterruptedException, ExecutionException {
     return delegate().get();
   }
 
   @Override
+  @CanIgnoreReturnValue
   @ParametricNullness
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
