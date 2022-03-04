@@ -144,8 +144,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="ForwardingFuture.SimpleForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture.SimpleForwardingFuture</a></code>, <code><a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture</a></code></dd>
 </dl>
 <hr>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+<pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.37">ForwardingFuture</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="../../collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;</pre>
@@ -313,7 +312,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.43">ForwardingFuture</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.42">ForwardingFuture</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -333,7 +332,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;? extends <a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.45">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;? extends <a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.44">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -351,7 +350,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>cancel</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.48">cancel</a>&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.47">cancel</a>&#8203;(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#cancel(boolean)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.Future</a></code></span></div>
 <div class="block">Attempts to cancel execution of this task.  This attempt will
  fail if the task has already completed, has already been cancelled,
@@ -424,7 +424,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.63">get</a>()
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.63">get</a>()
       throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a>,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.Future</a></code></span></div>
@@ -449,7 +450,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockListLast">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.69">get</a>&#8203;(long&nbsp;timeout,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="ForwardingFuture.html" title="type parameter in ForwardingFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingFuture.html#line.70">get</a>&#8203;(long&nbsp;timeout,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
       throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a>,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a>,
