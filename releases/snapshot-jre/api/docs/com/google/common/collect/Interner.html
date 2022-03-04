@@ -125,7 +125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use Interners.new*Interner")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/Interner.html#line.34">Interner</a>&lt;E&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/Interner.html#line.33">Interner</a>&lt;E&gt;</pre>
 <div class="block">Provides similar behavior to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#intern()" title="class or interface in java.lang" class="externalLink"><code>String.intern()</code></a> for any immutable type. Common implementations
  are available from the <a href="Interners.html" title="class in com.google.common.collect"><code>Interners</code></a> class.
 
@@ -191,8 +191,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Interne
 <ul class="blockListLast">
 <li class="blockList">
 <h4>intern</h4>
-<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Interner.html" title="type parameter in Interner">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interner.html#line.50">intern</a>&#8203;(<a href="Interner.html" title="type parameter in Interner">E</a>&nbsp;sample)</pre>
+<pre class="methodSignature"><a href="Interner.html" title="type parameter in Interner">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Interner.html#line.49">intern</a>&#8203;(<a href="Interner.html" title="type parameter in Interner">E</a>&nbsp;sample)</pre>
 <div class="block">Chooses and returns the representative instance for any of a collection of instances that are
  equal to each other. If two <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equal</a> inputs are given to this method,
  both calls will return the same instance. That is, <code>intern(a).equals(a)</code> always holds,
