@@ -108,6 +108,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   /**
+   * Returns a {@link Collector} that {@link java.util.Map.Entry} into an {@code ImmutableMap} whose keys
+   * and values are the result of entry key and value.
+   *
+   * <p>If the entry keys contain duplicates (according to {@link Object#equals(Object)}, an {@code
+   * IllegalArgumentException} is thrown when the collection operation is performed. (This differs
+   * from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)}, which
+   * throws an {@code IllegalStateException}.)
+   * @since 21.0
+   */
+  static <K, V> Collector<Map.Entry<K, V>, ?, ImmutableMap<K, V>> toImmutableMap() {
+    return ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue);
+  }
+
+  /**
    * Returns the empty map. This map behaves and performs comparably to {@link
    * Collections#emptyMap}, and is preferable mainly for consistency and maintainability of your
    * code.

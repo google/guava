@@ -1010,6 +1010,31 @@ public class ImmutableMapTest extends TestCase {
               mapEntry("three", 3));
     }
 
+    public void testToImmutableMapOfMapEntry() {
+      ImmutableMap<Integer, String> expect = Stream.of(1, 2, 3, 4, 5)
+              .map(i -> Maps.immutableEntry(i, String.valueOf(i)))
+              .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
+      ImmutableMap<Integer, String> map2 = Stream.of(1, 2, 3, 4, 5)
+              .map(i -> Maps.immutableEntry(i, String.valueOf(i)))
+              .collect(ImmutableMap.toImmutableMap());
+      assertEquals(expect, map2);
+    }
+
+
+    public void testToImmutableMapOfMapEntryWithDuplicateKey() {
+
+      Stream<Entry<String, Integer>> entryStream = Stream.of(mapEntry("one", 1),
+              mapEntry("two", 2),
+              mapEntry("three", 3),
+              mapEntry("two", 2));
+      try {
+        entryStream.collect(ImmutableMap.toImmutableMap());
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+
+    }
+
     public void testToImmutableMap_exceptionOnDuplicateKey() {
       Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
           ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue);
