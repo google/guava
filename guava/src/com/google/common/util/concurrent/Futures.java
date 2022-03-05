@@ -694,7 +694,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 20.0
    */
   @Beta
-  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing, especially if we provide run(Runnable)
   @GwtCompatible
   public static final class FutureCombiner<V extends @Nullable Object> {
     private final boolean allMustSucceed;
@@ -719,6 +718,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * ExecutionException} that gets thrown by the returned combined future.
      *
      * <p>Canceling this future will attempt to cancel all the component futures.
+     *
+     * @return a future whose result is based on {@code combiner} (or based on the input futures
+     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     *     FutureCombiner}). Even if you don't care about the value of the future, you should
+     *     typically check whether it failed: See <a
+     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.
      */
     public <C extends @Nullable Object> ListenableFuture<C> callAsync(
         AsyncCallable<C> combiner, Executor executor) {
@@ -738,8 +743,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * ExecutionException} that gets thrown by the returned combined future.
      *
      * <p>Canceling this future will attempt to cancel all the component futures.
+     *
+     * @return a future whose result is based on {@code combiner} (or based on the input futures
+     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     *     FutureCombiner}). Even if you don't care about the value of the future, you should
+     *     typically check whether it failed: See <a
+     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.
      */
-    @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     public <C extends @Nullable Object> ListenableFuture<C> call(
         Callable<C> combiner, Executor executor) {
       return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
@@ -755,6 +765,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * <p>Canceling this Future will attempt to cancel all the component futures.
      *
      * @since 23.6
+     * @return a future whose result is based on {@code combiner} (or based on the input futures
+     *     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     *     FutureCombiner}). Even though the future never produces a value other than {@code null},
+     *     you should typically check whether it failed: See <a
+     *     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.
      */
     public ListenableFuture<?> run(final Runnable combiner, Executor executor) {
       return call(
