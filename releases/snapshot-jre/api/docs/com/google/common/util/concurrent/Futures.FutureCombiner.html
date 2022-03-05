@@ -136,7 +136,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/Futures.html#line.696">Futures.FutureCombiner</a>&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
@@ -243,7 +242,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>callAsync</h4>
-<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.723">callAsync</a>&#8203;(<a href="AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;C&gt;&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.728">callAsync</a>&#8203;(<a href="AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;C&gt;&nbsp;combiner,
                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="AsyncCallable.html#call()"><code>AsyncCallable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>
  executor</code>.
@@ -256,6 +255,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  ExecutionException</code> that gets thrown by the returned combined future.
 
  <p>Canceling this future will attempt to cancel all the component futures.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a future whose result is based on <code>combiner</code> (or based on the input futures
+     passed to <code>whenAllSucceed</code>, if that is the method you used to create this <code>
+     FutureCombiner</code>). Even if you don't care about the value of the future, you should
+     typically check whether it failed: See <a href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.</dd>
+</dl>
 </li>
 </ul>
 <a id="call(java.util.concurrent.Callable,java.util.concurrent.Executor)">
@@ -264,8 +270,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>call</h4>
-<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.742">call</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;C&gt;&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.753">call</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;C&gt;&nbsp;combiner,
                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true#call()" title="class or interface in java.util.concurrent" class="externalLink"><code>Callable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>
  executor</code>.
@@ -278,6 +283,13 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
  ExecutionException</code> that gets thrown by the returned combined future.
 
  <p>Canceling this future will attempt to cancel all the component futures.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a future whose result is based on <code>combiner</code> (or based on the input futures
+     passed to <code>whenAllSucceed</code>, if that is the method you used to create this <code>
+     FutureCombiner</code>). Even if you don't care about the value of the future, you should
+     typically check whether it failed: See <a href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.</dd>
+</dl>
 </li>
 </ul>
 <a id="run(java.lang.Runnable,java.util.concurrent.Executor)">
@@ -286,7 +298,7 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>run</h4>
-<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.759">run</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;combiner,
+<pre class="methodSignature">public&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Futures.FutureCombiner.html#line.774">run</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;combiner,
                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates the <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of running <code>combiner</code>
  when all Futures complete. <code>combiner</code> will run using <code>executor</code>.
@@ -296,6 +308,11 @@ public&nbsp;&lt;C extends <a href="https://checkerframework.org/api/org/checkerf
 
  <p>Canceling this Future will attempt to cancel all the component futures.</div>
 <dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a future whose result is based on <code>combiner</code> (or based on the input futures
+     passed to <code>whenAllSucceed</code>, if that is the method you used to create this <code>
+     FutureCombiner</code>). Even though the future never produces a value other than <code>null</code>,
+     you should typically check whether it failed: See <a href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.6</dd>
 </dl>

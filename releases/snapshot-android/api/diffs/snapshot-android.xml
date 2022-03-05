@@ -66710,7 +66710,13 @@
  ExecutionException} will be extracted and returned as the cause of the new {@code
  ExecutionException} that gets thrown by the returned combined future.
 
- <p>Canceling this future will attempt to cancel all the component futures.]]>
+ <p>Canceling this future will attempt to cancel all the component futures.
+
+ @return a future whose result is based on {@code combiner} (or based on the input futures
+     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     FutureCombiner}). Even if you don't care about the value of the future, you should
+     typically check whether it failed: See <a
+     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.]]>
       </doc>
     </method>
     <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
@@ -66731,7 +66737,13 @@
  ExecutionException} will be extracted and returned as the cause of the new {@code
  ExecutionException} that gets thrown by the returned combined future.
 
- <p>Canceling this future will attempt to cancel all the component futures.]]>
+ <p>Canceling this future will attempt to cancel all the component futures.
+
+ @return a future whose result is based on {@code combiner} (or based on the input futures
+     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     FutureCombiner}). Even if you don't care about the value of the future, you should
+     typically check whether it failed: See <a
+     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.]]>
       </doc>
     </method>
     <method name="run" return="com.google.common.util.concurrent.ListenableFuture&lt;?&gt;"
@@ -66749,7 +66761,12 @@
 
  <p>Canceling this Future will attempt to cancel all the component futures.
 
- @since 23.6]]>
+ @since 23.6
+ @return a future whose result is based on {@code combiner} (or based on the input futures
+     passed to {@code whenAllSucceed}, if that is the method you used to create this {@code
+     FutureCombiner}). Even though the future never produces a value other than {@code null},
+     you should typically check whether it failed: See <a
+     href="https://errorprone.info/bugpattern/FutureReturnValueIgnored">https://errorprone.info/bugpattern/FutureReturnValueIgnored</a>.]]>
       </doc>
     </method>
     <doc>
