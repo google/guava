@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.inducedSubgraph;
 import static com.google.common.graph.Graphs.reachableNodes;
+import static com.google.common.graph.Graphs.reachableNodesExcludingSelf;
 import static com.google.common.graph.Graphs.transitiveClosure;
 import static com.google.common.graph.Graphs.transpose;
 import static com.google.common.truth.Truth.assertThat;
@@ -80,6 +81,16 @@ public class GraphsTest {
     expectedClosure.putEdge(N4, N4);
 
     checkTransitiveClosure(directedGraph, expectedClosure);
+  }
+
+  @Test
+  public void testReachableNodesExcludingSelf() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().allowsSelfLoops(false).build();
+    directedGraph.putEdge(N1, N2);
+    directedGraph.putEdge(N1, N3);
+    directedGraph.putEdge(N2, N3);
+    directedGraph.addNode(N4);
+    assertThat(reachableNodesExcludingSelf(directedGraph, N1)).isEqualTo(ImmutableSet.of(N2, N3));
   }
 
   @Test

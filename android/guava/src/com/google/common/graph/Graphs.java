@@ -198,6 +198,16 @@ public final class Graphs {
     return ImmutableSet.copyOf(Traverser.forGraph(graph).breadthFirst(node));
   }
 
+  /**
+   * This is like {@link #reachableNodes(Graph, Object)}, but excluding {@code node}
+   * from the result.
+   */
+  public static <N> Set<N> reachableNodesExcludingSelf(Graph<N> graph, N node) {
+    checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
+    return ImmutableSet.copyOf(
+        Iterables.filter(Traverser.forGraph(graph).breadthFirst(node), input -> input != node));
+  }
+
   // Graph mutation methods
 
   // Graph view methods
