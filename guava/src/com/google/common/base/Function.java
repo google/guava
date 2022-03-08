@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -46,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public interface Function<F extends @Nullable Object, T extends @Nullable Object>
     extends java.util.function.Function<F, T> {
   @Override
-  @CanIgnoreReturnValue // TODO(kevinb): remove this
   @ParametricNullness
   T apply(@ParametricNullness F input);
 
