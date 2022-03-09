@@ -244,7 +244,9 @@ final class LittleEndianByteArray {
        *
        */
       String arch = System.getProperty("os.arch");
-      if ("amd64".equals(arch)) {
+      String vendor = System.getProperty("java.vm.vendor");
+      if ("amd64".equals(arch) ||
+          ("aarch64".equals(arch) && !"The Android Project".equals(vendor))) {
         theGetter =
             ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
                 ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
