@@ -37,11 +37,9 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSetUnsize
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
@@ -160,7 +158,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
             .createTestSuite());
 
     suite.addTestSuite(ImmutableSetTest.class);
-    suite.addTestSuite(FloodingTest.class);
 
     return suite;
   }
@@ -390,74 +387,5 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     ImmutableSet<Object> unused = builder.build();
     ImmutableSet<Object> subject = builder.add(1).add(2).add(3).build();
     assertFalse(subject.contains(4));
-  }
-
-  public static class FloodingTest extends AbstractHashFloodingTest<Set<Object>> {
-    public FloodingTest() {
-      super(
-          Arrays.asList(ConstructionPathway.values()),
-          n -> n * Math.log(n),
-          ImmutableList.of(
-              QueryOp.create(
-                  "contains",
-                  (s, o) -> {
-                    boolean unused = s.contains(o);
-                  },
-                  Math::log)));
-    }
-    /** All the ways to construct an ImmutableSet. */
-    enum ConstructionPathway implements Construction<Set<Object>> {
-      OF {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          Object o1 = list.get(0);
-          Object o2 = list.get(1);
-          Object o3 = list.get(2);
-          Object o4 = list.get(3);
-          Object o5 = list.get(4);
-          Object o6 = list.get(5);
-          Object[] rest = list.subList(6, list.size()).toArray();
-          return ImmutableSet.of(o1, o2, o3, o4, o5, o6, rest);
-        }
-      },
-      COPY_OF_ARRAY {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          return ImmutableSet.copyOf(list.toArray());
-        }
-      },
-      COPY_OF_LIST {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          return ImmutableSet.copyOf(list);
-        }
-      },
-      BUILDER_ADD_ONE_BY_ONE {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          ImmutableSet.Builder<Object> builder = ImmutableSet.builder();
-          for (Object o : list) {
-            builder.add(o);
-          }
-          return builder.build();
-        }
-      },
-      BUILDER_ADD_ARRAY {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          ImmutableSet.Builder<Object> builder = ImmutableSet.builder();
-          builder.add(list.toArray());
-          return builder.build();
-        }
-      },
-      BUILDER_ADD_LIST {
-        @Override
-        public ImmutableSet<Object> create(List<?> list) {
-          ImmutableSet.Builder<Object> builder = ImmutableSet.builder();
-          builder.addAll(list);
-          return builder.build();
-        }
-      };
-    }
   }
 }
