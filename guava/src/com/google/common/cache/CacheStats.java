@@ -21,6 +21,7 @@ import static com.google.common.math.LongMath.saturatedSubtract;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CheckReturnValue;
 import java.util.concurrent.Callable;
 import javax.annotation.CheckForNull;
 
@@ -260,6 +261,7 @@ public final class CacheStats {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public CacheStats plus(CacheStats other) {
     return new CacheStats(
         saturatedAdd(hitCount, other.hitCount),
