@@ -806,7 +806,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameIntegerInstance) {
         SameIntegerInstance that = (SameIntegerInstance) obj;
@@ -829,7 +829,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameLongInstance) {
         SameLongInstance that = (SameLongInstance) obj;
@@ -852,7 +852,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameFloatInstance) {
         SameFloatInstance that = (SameFloatInstance) obj;
@@ -875,7 +875,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameDoubleInstance) {
         SameDoubleInstance that = (SameDoubleInstance) obj;
@@ -898,7 +898,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameShortInstance) {
         SameShortInstance that = (SameShortInstance) obj;
@@ -921,7 +921,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("NumericEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
     public boolean equals(Object obj) {
       if (obj instanceof SameByteInstance) {
         SameByteInstance that = (SameByteInstance) obj;
@@ -944,6 +944,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
+    @SuppressWarnings("BoxedPrimitiveEquality")
     public boolean equals(Object obj) {
       if (obj instanceof SameCharacterInstance) {
         SameCharacterInstance that = (SameCharacterInstance) obj;
@@ -966,6 +967,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
+    @SuppressWarnings("BoxedPrimitiveEquality")
     public boolean equals(Object obj) {
       if (obj instanceof SameBooleanInstance) {
         SameBooleanInstance that = (SameBooleanInstance) obj;
