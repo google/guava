@@ -29,15 +29,19 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import junit.framework.TestCase;
 
 /**
- * Tests for filtered collection views.
+ * Class that contains nested abstract tests for filtered collection views, along with their
+ * implementation helpers.
  *
  * @author Louis Wasserman
  */
-public class FilteredCollectionsTest extends TestCase {
+/*
+ * TODO(cpovirk): Should all the tests for filtered collections run under GWT, too? Currently, they
+ * don't.
+ */
+public final class FilteredCollectionsTestUtil {
   private static final Predicate<Integer> EVEN =
       new Predicate<Integer>() {
         @Override
@@ -389,79 +393,5 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  // implementation tests
-
-  public static final class IterablesFilterArrayListTest
-      extends AbstractFilteredIterableTest<Iterable<Integer>> {
-    @Override
-    Iterable<Integer> createUnfiltered(Iterable<Integer> contents) {
-      return Lists.newArrayList(contents);
-    }
-
-    @Override
-    Iterable<Integer> filter(Iterable<Integer> elements, Predicate<? super Integer> predicate) {
-      return Iterables.filter(elements, predicate);
-    }
-  }
-
-  public static final class Collections2FilterArrayListTest
-      extends AbstractFilteredCollectionTest<Collection<Integer>> {
-    @Override
-    Collection<Integer> createUnfiltered(Iterable<Integer> contents) {
-      return Lists.newArrayList(contents);
-    }
-
-    @Override
-    Collection<Integer> filter(Collection<Integer> elements, Predicate<? super Integer> predicate) {
-      return Collections2.filter(elements, predicate);
-    }
-  }
-
-  public static final class SetsFilterHashSetTest extends AbstractFilteredSetTest<Set<Integer>> {
-    @Override
-    Set<Integer> createUnfiltered(Iterable<Integer> contents) {
-      return Sets.newHashSet(contents);
-    }
-
-    @Override
-    Set<Integer> filter(Set<Integer> elements, Predicate<? super Integer> predicate) {
-      return Sets.filter(elements, predicate);
-    }
-  }
-
-  public static final class SetsFilterSortedSetTest
-      extends AbstractFilteredSortedSetTest<SortedSet<Integer>> {
-    @Override
-    SortedSet<Integer> createUnfiltered(Iterable<Integer> contents) {
-      final TreeSet<Integer> result = Sets.newTreeSet(contents);
-      // we have to make the result not Navigable
-      return new ForwardingSortedSet<Integer>() {
-        @Override
-        protected SortedSet<Integer> delegate() {
-          return result;
-        }
-      };
-    }
-
-    @Override
-    SortedSet<Integer> filter(SortedSet<Integer> elements, Predicate<? super Integer> predicate) {
-      return Sets.filter(elements, predicate);
-    }
-  }
-
-  public static final class SetsFilterNavigableSetTest extends AbstractFilteredNavigableSetTest {
-    @Override
-    NavigableSet<Integer> createUnfiltered(Iterable<Integer> contents) {
-      return Sets.newTreeSet(contents);
-    }
-
-    @Override
-    NavigableSet<Integer> filter(
-        NavigableSet<Integer> elements, Predicate<? super Integer> predicate) {
-      return Sets.filter(elements, predicate);
-    }
-  }
-
-  /** No-op test so that the class has at least one method, making Maven's test runner happy. */
-  public void testNoop() {}
+  private FilteredCollectionsTestUtil() {}
 }
