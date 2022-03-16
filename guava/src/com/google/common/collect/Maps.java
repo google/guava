@@ -284,10 +284,8 @@ public final class Maps {
       return expectedSize + 1;
     }
     if (expectedSize < Ints.MAX_POWER_OF_TWO) {
-      // This is the calculation used in JDK8 to resize when a putAll
-      // happens; it seems to be the most conservative calculation we
-      // can make.  0.75 is the default load factor.
-      return (int) ((float) expectedSize / 0.75F + 1.0F);
+      // This is the calculation used in the latest JDK. see https://github.com/openjdk/jdk/commit/3e393047e12147a81e2899784b943923fc34da8e
+      return (int) Math.ceil(expectedSize / 0.75);
     }
     return Integer.MAX_VALUE; // any large value
   }
