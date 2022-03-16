@@ -713,6 +713,13 @@ public final class HttpHeaders {
    */
   public static final String SEC_CH_VIEWPORT_HEIGHT = "Sec-CH-Viewport-Height";
   /**
+   * The HTTP <a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr">{@code
+   * Sec-CH-DPR}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_DPR = "Sec-CH-DPR";
+  /**
    * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
    * header field name.
    *
