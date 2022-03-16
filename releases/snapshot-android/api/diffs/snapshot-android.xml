@@ -50413,6 +50413,17 @@
  @since NEXT]]>
       </doc>
     </field>
+    <field name="SEC_CH_DPR" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr">{@code
+ Sec-CH-DPR}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

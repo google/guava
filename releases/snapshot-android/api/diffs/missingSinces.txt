@@ -1,2 +1,3 @@
+OK: com.google.common.net.HttpHeaders Field SEC_CH_DPR
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_HEIGHT
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_WIDTH
