@@ -22,32 +22,16 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
-import org.junit.Ignore;
 
-/** @author Max Ross */
+/**
+ * @author Max Ross
+ */
 public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
-
-  private static boolean testWasRun;
-
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    testWasRun = false;
-  }
-
-  @Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-  public static final class MyAbstractTester extends AbstractTester<Void> {
-    public void testNothing() {
-      testWasRun = true;
-    }
-  }
-
   private static final class MyTestSuiteBuilder
       extends FeatureSpecificTestSuiteBuilder<MyTestSuiteBuilder, String> {
-
     @Override
     protected List<Class<? extends AbstractTester>> getTesters() {
-      return Collections.<Class<? extends AbstractTester>>singletonList(MyAbstractTester.class);
+      return Collections.<Class<? extends AbstractTester>>singletonList(MyTester.class);
     }
   }
 
@@ -80,8 +64,9 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
             .withTearDown(tearDownRunnable)
             .createTestSuite();
     TestResult result = new TestResult();
+    int timesMyTesterWasRunBeforeSuite = MyTester.timesTestClassWasRun;
     test.run(result);
-    assertTrue(testWasRun);
+    assertEquals(timesMyTesterWasRunBeforeSuite + 1, MyTester.timesTestClassWasRun);
     assertTrue(setUp[0]);
     assertTrue(tearDown[0]);
   }
