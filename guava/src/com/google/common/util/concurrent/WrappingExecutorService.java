@@ -41,7 +41,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Chris Nokleberg
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 abstract class WrappingExecutorService implements ExecutorService {
@@ -143,6 +142,7 @@ abstract class WrappingExecutorService implements ExecutorService {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public final List<Runnable> shutdownNow() {
     return delegate.shutdownNow();
   }
