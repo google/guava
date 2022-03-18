@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -28,7 +27,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Isaac Shum
  * @since 10.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService
