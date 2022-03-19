@@ -40,6 +40,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2038,4 +2039,49 @@ public class MapsTest extends TestCase {
         ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0),
         Maps.subMap(map, Range.<Integer>all()));
   }
+
+  @GwtIncompatible
+  public void testMapCapacityTest() {
+    try {
+      for (int i = 1; i < 256; ++i) {
+
+        HashMap<Object, Object> a = new HashMap<>();
+        fillN(i, a);
+        int lengthA = getArrayLength(a);
+
+        HashMap<Object, Object> b = Maps.newHashMapWithExpectedSize(i);
+        fillN(i, b);
+        int lengthB = getArrayLength(b);
+
+        HashMap<Object, Object> c = Maps.newLinkedHashMapWithExpectedSize(i);
+        fillN(i, c);
+        int lengthC = getArrayLength(c);
+
+        assertTrue(
+                lengthA >= lengthB
+        );
+        assertEquals(
+                lengthB,
+                lengthC
+        );
+
+      }
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      // let this test pass on jdk 9+
+    }
+  }
+
+  private static void fillN(int n, Map<Object, Object> map) {
+    for (int i = 0; i < n; i++) {
+      map.put(i, i);
+    }
+  }
+
+  private static int getArrayLength(Map<Object, Object> map) throws NoSuchFieldException, IllegalAccessException {
+    Field field = HashMap.class.getDeclaredField("table");
+    field.setAccessible(true);
+    Object table = field.get(map);
+    return Array.getLength(table);
+  }
+
 }
