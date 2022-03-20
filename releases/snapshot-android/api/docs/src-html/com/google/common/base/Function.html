@@ -24,70 +24,68 @@
 <span class="sourceLineNo">015</span><a id="line.15">package com.google.common.base;</a>
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtCompatible;</a>
-<span class="sourceLineNo">018</span><a id="line.18">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
-<span class="sourceLineNo">019</span><a id="line.19">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">021</span><a id="line.21"></a>
-<span class="sourceLineNo">022</span><a id="line.22">/**</a>
-<span class="sourceLineNo">023</span><a id="line.23"> * Determines an output value based on an input value; a pre-Java-8 version of {@link</a>
-<span class="sourceLineNo">024</span><a id="line.24"> * java.util.function.Function java.util.function.Function}.</a>
-<span class="sourceLineNo">025</span><a id="line.25"> *</a>
-<span class="sourceLineNo">026</span><a id="line.26"> * &lt;p&gt;The {@link Functions} class provides common functions and related utilities.</a>
-<span class="sourceLineNo">027</span><a id="line.27"> *</a>
-<span class="sourceLineNo">028</span><a id="line.28"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
-<span class="sourceLineNo">029</span><a id="line.29"> * href="https://github.com/google/guava/wiki/FunctionalExplained"&gt;the use of {@code Function}&lt;/a&gt;.</a>
-<span class="sourceLineNo">030</span><a id="line.30"> *</a>
-<span class="sourceLineNo">031</span><a id="line.31"> * &lt;h3&gt;For Java 8+ users&lt;/h3&gt;</a>
-<span class="sourceLineNo">032</span><a id="line.32"> *</a>
-<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;This interface is now a legacy type. Use {@code java.util.function.Function} (or the</a>
-<span class="sourceLineNo">034</span><a id="line.34"> * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.</a>
-<span class="sourceLineNo">035</span><a id="line.35"> * Otherwise, at least reduce &lt;i&gt;explicit&lt;/i&gt; dependencies on this type by using lambda expressions</a>
-<span class="sourceLineNo">036</span><a id="line.36"> * or method references instead of classes, leaving your code easier to migrate in the future.</a>
-<span class="sourceLineNo">037</span><a id="line.37"> *</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * &lt;p&gt;To use an existing function (say, named {@code function}) in a context where the &lt;i&gt;other</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * type&lt;/i&gt; of function is expected, use the method reference {@code function::apply}. A future</a>
-<span class="sourceLineNo">040</span><a id="line.40"> * version of {@code com.google.common.base.Function} will be made to &lt;i&gt;extend&lt;/i&gt; {@code</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * java.util.function.Function}, making conversion code necessary only in one direction. At that</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * time, this interface will be officially discouraged.</a>
-<span class="sourceLineNo">043</span><a id="line.43"> *</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * @author Kevin Bourrillion</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * @since 2.0</a>
-<span class="sourceLineNo">046</span><a id="line.46"> */</a>
-<span class="sourceLineNo">047</span><a id="line.47">@GwtCompatible</a>
-<span class="sourceLineNo">048</span><a id="line.48">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">049</span><a id="line.49">public interface Function&lt;F extends @Nullable Object, T extends @Nullable Object&gt; {</a>
-<span class="sourceLineNo">050</span><a id="line.50">  /**</a>
-<span class="sourceLineNo">051</span><a id="line.51">   * Returns the result of applying this function to {@code input}. This method is &lt;i&gt;generally</a>
-<span class="sourceLineNo">052</span><a id="line.52">   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:</a>
-<span class="sourceLineNo">053</span><a id="line.53">   *</a>
-<span class="sourceLineNo">054</span><a id="line.54">   * &lt;ul&gt;</a>
-<span class="sourceLineNo">055</span><a id="line.55">   *   &lt;li&gt;Its execution does not cause any observable side effects.</a>
-<span class="sourceLineNo">056</span><a id="line.56">   *   &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal</a>
-<span class="sourceLineNo">057</span><a id="line.57">   *       Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),</a>
-<span class="sourceLineNo">058</span><a id="line.58">   *       function.apply(b))}.</a>
-<span class="sourceLineNo">059</span><a id="line.59">   * &lt;/ul&gt;</a>
-<span class="sourceLineNo">060</span><a id="line.60">   *</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * @throws NullPointerException if {@code input} is null and this function does not accept null</a>
-<span class="sourceLineNo">062</span><a id="line.62">   *     arguments</a>
-<span class="sourceLineNo">063</span><a id="line.63">   */</a>
-<span class="sourceLineNo">064</span><a id="line.64">  @CanIgnoreReturnValue // TODO(kevinb): remove this</a>
-<span class="sourceLineNo">065</span><a id="line.65">  @ParametricNullness</a>
-<span class="sourceLineNo">066</span><a id="line.66">  T apply(@ParametricNullness F input);</a>
-<span class="sourceLineNo">067</span><a id="line.67"></a>
-<span class="sourceLineNo">068</span><a id="line.68">  /**</a>
-<span class="sourceLineNo">069</span><a id="line.69">   * &lt;i&gt;May&lt;/i&gt; return {@code true} if {@code object} is a {@code Function} that behaves identically</a>
-<span class="sourceLineNo">070</span><a id="line.70">   * to this function.</a>
+<span class="sourceLineNo">018</span><a id="line.18">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">/**</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * Determines an output value based on an input value; a pre-Java-8 version of {@link</a>
+<span class="sourceLineNo">023</span><a id="line.23"> * java.util.function.Function java.util.function.Function}.</a>
+<span class="sourceLineNo">024</span><a id="line.24"> *</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * &lt;p&gt;The {@link Functions} class provides common functions and related utilities.</a>
+<span class="sourceLineNo">026</span><a id="line.26"> *</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * href="https://github.com/google/guava/wiki/FunctionalExplained"&gt;the use of {@code Function}&lt;/a&gt;.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * &lt;h3&gt;For Java 8+ users&lt;/h3&gt;</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * &lt;p&gt;This interface is now a legacy type. Use {@code java.util.function.Function} (or the</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * Otherwise, at least reduce &lt;i&gt;explicit&lt;/i&gt; dependencies on this type by using lambda expressions</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * or method references instead of classes, leaving your code easier to migrate in the future.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;To use an existing function (say, named {@code function}) in a context where the &lt;i&gt;other</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * type&lt;/i&gt; of function is expected, use the method reference {@code function::apply}. A future</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * version of {@code com.google.common.base.Function} will be made to &lt;i&gt;extend&lt;/i&gt; {@code</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * java.util.function.Function}, making conversion code necessary only in one direction. At that</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * time, this interface will be officially discouraged.</a>
+<span class="sourceLineNo">042</span><a id="line.42"> *</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @author Kevin Bourrillion</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * @since 2.0</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">@GwtCompatible</a>
+<span class="sourceLineNo">047</span><a id="line.47">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">048</span><a id="line.48">public interface Function&lt;F extends @Nullable Object, T extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">049</span><a id="line.49">  /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * Returns the result of applying this function to {@code input}. This method is &lt;i&gt;generally</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * expected&lt;/i&gt;, but not absolutely required, to have the following properties:</a>
+<span class="sourceLineNo">052</span><a id="line.52">   *</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">054</span><a id="line.54">   *   &lt;li&gt;Its execution does not cause any observable side effects.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   *   &lt;li&gt;The computation is &lt;i&gt;consistent with equals&lt;/i&gt;; that is, {@link Objects#equal</a>
+<span class="sourceLineNo">056</span><a id="line.56">   *       Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),</a>
+<span class="sourceLineNo">057</span><a id="line.57">   *       function.apply(b))}.</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * @throws NullPointerException if {@code input} is null and this function does not accept null</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *     arguments</a>
+<span class="sourceLineNo">062</span><a id="line.62">   */</a>
+<span class="sourceLineNo">063</span><a id="line.63">  @ParametricNullness</a>
+<span class="sourceLineNo">064</span><a id="line.64">  T apply(@ParametricNullness F input);</a>
+<span class="sourceLineNo">065</span><a id="line.65"></a>
+<span class="sourceLineNo">066</span><a id="line.66">  /**</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * &lt;i&gt;May&lt;/i&gt; return {@code true} if {@code object} is a {@code Function} that behaves identically</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * to this function.</a>
+<span class="sourceLineNo">069</span><a id="line.69">   *</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * &lt;p&gt;&lt;b&gt;Warning: do not depend&lt;/b&gt; on the behavior of this method.</a>
 <span class="sourceLineNo">071</span><a id="line.71">   *</a>
-<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;&lt;b&gt;Warning: do not depend&lt;/b&gt; on the behavior of this method.</a>
-<span class="sourceLineNo">073</span><a id="line.73">   *</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * &lt;p&gt;Historically, {@code Function} instances in this library have implemented this method to</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * recognize certain cases where distinct {@code Function} instances would in fact behave</a>
-<span class="sourceLineNo">076</span><a id="line.76">   * identically. However, as code migrates to {@code java.util.function}, that behavior will</a>
-<span class="sourceLineNo">077</span><a id="line.77">   * disappear. It is best not to depend on it.</a>
-<span class="sourceLineNo">078</span><a id="line.78">   */</a>
-<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
-<span class="sourceLineNo">080</span><a id="line.80">  boolean equals(@CheckForNull Object object);</a>
-<span class="sourceLineNo">081</span><a id="line.81">}</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;Historically, {@code Function} instances in this library have implemented this method to</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * recognize certain cases where distinct {@code Function} instances would in fact behave</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * identically. However, as code migrates to {@code java.util.function}, that behavior will</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * disappear. It is best not to depend on it.</a>
+<span class="sourceLineNo">076</span><a id="line.76">   */</a>
+<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
+<span class="sourceLineNo">078</span><a id="line.78">  boolean equals(@CheckForNull Object object);</a>
+<span class="sourceLineNo">079</span><a id="line.79">}</a>
 
 
 
