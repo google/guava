@@ -27,7 +27,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
@@ -59,7 +59,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
@@ -88,7 +88,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
