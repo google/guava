@@ -402,7 +402,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends ArrayList<String> & CharSequence>
+  public <T extends ArrayList<String> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsClass() {
     assertEquals(
         new TypeToken<ArrayList<String>>() {},
@@ -410,7 +410,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends Enum<T> & CharSequence>
+  public <T extends Enum<T> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsFBoundedClass() {
     assertEquals(
         new TypeToken<Enum<T>>() {},
@@ -418,13 +418,13 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends List<String> & CharSequence>
+  public <T extends List<String> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsInterface() {
     assertNull(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericSuperclass());
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends ArrayList<String> & CharSequence, T1 extends T>
+  public <T extends ArrayList<String> & Serializable, T1 extends T>
       void testGetGenericSuperclass_typeVariable_boundIsTypeVariableAndClass() {
     assertEquals(
         TypeToken.of(new TypeCapture<T>() {}.capture()),
@@ -432,7 +432,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
-  public <T extends List<String> & CharSequence, T1 extends T>
+  public <T extends List<String> & Serializable, T1 extends T>
       void testGetGenericSuperclass_typeVariable_boundIsTypeVariableAndInterface() {
     assertNull(TypeToken.of(new TypeCapture<T1>() {}.capture()).getGenericSuperclass());
     assertEquals(TypeToken.of(Object.class), new TypeToken<T1[]>() {}.getGenericSuperclass());
