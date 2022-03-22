@@ -22,6 +22,7 @@
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <test.add.opens></test.add.opens>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -224,7 +225,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -409,6 +410,28 @@
       </activation>
       <properties>
         <maven-javadoc-plugin.additionalJOptions>--no-module-directories</maven-javadoc-plugin.additionalJOptions>
+      </properties>
+    </profile>
+    <profile>
+      <id>open-jre-modules</id>
+      <activation>
+        <jdk>[9,]</jdk>
+      </activation>
+      <properties>
+        <!--
+            Some tests need reflective access to the internals of these packages. It is ony the
+            tests themselves and not the code being tested that needs that access, though there's no
+            obvious way to ensure that.
+
+            We could consider arranging things so that only the tests we know need this would get
+            the add-opens. Right now that doesn't seem worth the effort, though.
+        -->
+        <test.add.opens>
+          --add-opens java.base/java.lang=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED
+          --add-opens java.base/java.util.concurrent.locks=ALL-UNNAMED
+          --add-opens java.base/sun.security.jca=ALL-UNNAMED
+        </test.add.opens>
       </properties>
     </profile>
   </profiles>
