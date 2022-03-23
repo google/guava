@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 /** @author Charles Fry */
 @GwtCompatible(emulated = true)
 public class MapMakerTest extends TestCase {
-
   @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
