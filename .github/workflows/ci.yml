@@ -10,6 +10,9 @@ on:
 
 jobs:
   test:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }}"
     strategy:
       matrix:
@@ -21,20 +24,20 @@ jobs:
     steps:
       # Cancel any previous runs for the same branch that are still running.
       - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@a40b8845c0683271d9f53dfcb887a7e181d3918b # 0.9.1
         with:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
+        uses: actions/cache@f08d6490899c79192a5e35ab386509ac8f2411d4 # v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-
       - name: 'Set up JDK ${{ matrix.java }}'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@f0bb91606209742fe3ea40199be2f3ef195ecabf # v2
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
@@ -57,16 +60,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
+        uses: actions/cache@f08d6490899c79192a5e35ab386509ac8f2411d4 # v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@f0bb91606209742fe3ea40199be2f3ef195ecabf # v2
         with:
           java-version: 11
           distribution: 'zulu'
@@ -86,16 +89,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@v3
+        uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3
       - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
+        uses: actions/cache@f08d6490899c79192a5e35ab386509ac8f2411d4 # v3
         with:
           path: ~/.m2/repository
           key: maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@f0bb91606209742fe3ea40199be2f3ef195ecabf # v2
         with:
           java-version: 11
           distribution: 'zulu'
