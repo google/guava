@@ -237,10 +237,19 @@ public final class Maps {
       return expectedSize + 1;
     }
     if (expectedSize < Ints.MAX_POWER_OF_TWO) {
-      // This is the calculation used in JDK8 to resize when a putAll
-      // happens; it seems to be the most conservative calculation we
-      // can make.  0.75 is the default load factor.
-      return (int) ((float) expectedSize / 0.75F + 1.0F);
+      // This seems to be consistent across JDKs. The capacity argument to HashMap and LinkedHashMap
+      // ends up being used to compute a "threshold" size, beyond which the internal table
+      // will be resized. That threshold is ceilingPowerOfTwo(capacity*loadFactor), where
+      // loadFactor is 0.75 by default. So with the calculation here we ensure that the
+      // threshold is equal to ceilingPowerOfTwo(expectedSize). There is a separate code
+      // path when the first operation on the new map is putAll(otherMap). There, prior to
+      // https://github.com/openjdk/jdk/commit/3e393047e12147a81e2899784b943923fc34da8e, a bug
+      // meant that sometimes a too-large threshold is calculated. However, this new threshold is
+      // independent of the initial capacity, except that it won't be lower than the threshold
+      // computed from that capacity. Because the internal table is only allocated on the first
+      // write, we won't see copying because of the new threshold. So it is always OK to use the
+      // calculation here.
+      return (int) Math.ceil(expectedSize / 0.75);
     }
     return Integer.MAX_VALUE; // any large value
   }

@@ -125,7 +125,10 @@ public class MapsTest extends TestCase {
 
     for (int size = 1; size < 200; size++) {
       assertWontGrow(
-          size, Maps.newHashMapWithExpectedSize(size), Maps.newHashMapWithExpectedSize(size));
+          size,
+          new HashMap<>(),
+          Maps.newHashMapWithExpectedSize(size),
+          Maps.newHashMapWithExpectedSize(size));
     }
   }
 
@@ -138,6 +141,7 @@ public class MapsTest extends TestCase {
     for (int size = 1; size < 200; size++) {
       assertWontGrow(
           size,
+          new LinkedHashMap<>(),
           Maps.newLinkedHashMapWithExpectedSize(size),
           Maps.newLinkedHashMapWithExpectedSize(size));
     }
@@ -145,7 +149,11 @@ public class MapsTest extends TestCase {
 
   @GwtIncompatible // reflection
   private static void assertWontGrow(
-      int size, HashMap<Object, Object> map1, HashMap<Object, Object> map2) throws Exception {
+      int size,
+      HashMap<Object, Object> referenceMap,
+      HashMap<Object, Object> map1,
+      HashMap<Object, Object> map2)
+      throws Exception {
     // Only start measuring table size after the first element inserted, to
     // deal with empty-map optimization.
     map1.put(0, null);
@@ -167,6 +175,16 @@ public class MapsTest extends TestCase {
     assertWithMessage("table size after adding " + size + " elements")
         .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
+
+    // Ensure that referenceMap, which doesn't use WithExpectedSize, ends up with the same table
+    // size as the other two maps. If it ended up with a smaller size that would imply that we
+    // computed the wrong initial capacity.
+    for (int i = 0; i < size; i++) {
+      referenceMap.put(i, null);
+    }
+    assertWithMessage("table size after adding " + size + " elements")
+        .that(initialBuckets)
+        .isAtMost(bucketsOf(referenceMap));
   }
 
   @GwtIncompatible // reflection
