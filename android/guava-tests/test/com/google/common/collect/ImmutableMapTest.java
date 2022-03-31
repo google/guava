@@ -44,9 +44,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -512,6 +514,50 @@ public class ImmutableMapTest extends TestCase {
     }
     ImmutableMap<Integer, String> map = builder.buildKeepingLast();
     assertThat(map).hasSize(100_000);
+    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
+  }
+
+  private static class ClassWithTerribleHashCode implements Comparable<ClassWithTerribleHashCode> {
+    private final int value;
+
+    ClassWithTerribleHashCode(int value) {
+      this.value = value;
+    }
+
+    @Override
+    public int compareTo(ClassWithTerribleHashCode that) {
+      return Integer.compare(this.value, that.value);
+    }
+
+    @Override
+    public boolean equals(Object x) {
+      return x instanceof ClassWithTerribleHashCode
+          && ((ClassWithTerribleHashCode) x).value == value;
+    }
+
+    @Override
+    public int hashCode() {
+      return 23;
+    }
+
+    @Override
+    public String toString() {
+      return "ClassWithTerribleHashCode(" + value + ")";
+    }
+  }
+
+  @GwtIncompatible
+  public void testBuildKeepingLast_collisions() {
+    Map<ClassWithTerribleHashCode, Integer> expected = new LinkedHashMap<>();
+    Builder<ClassWithTerribleHashCode, Integer> builder = new Builder<>();
+    int size = 18;
+    for (int i = 0; i < size; i++) {
+      ClassWithTerribleHashCode key = new ClassWithTerribleHashCode(i);
+      builder.put(key, i);
+      builder.put(key, -i);
+      expected.put(key, -i);
+    }
+    ImmutableMap<ClassWithTerribleHashCode, Integer> map = builder.buildKeepingLast();
     assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
 
@@ -1041,5 +1087,26 @@ public class ImmutableMapTest extends TestCase {
 
   private static <T> Entry<T, T> entry(T key, T value) {
     return new AbstractMap.SimpleImmutableEntry<>(key, value);
+  }
+
+  public void testCopyOfMutableEntryList() {
+    List<Entry<String, String>> entryList =
+        Arrays.asList(
+            new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+    ImmutableMap<String, String> map = ImmutableMap.copyOf(entryList);
+    assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
+    entryList.get(0).setValue("3");
+    assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
+  }
+
+  public void testBuilderPutAllEntryList() {
+    List<Entry<String, String>> entryList =
+        Arrays.asList(
+            new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+    ImmutableMap<String, String> map =
+        ImmutableMap.<String, String>builder().putAll(entryList).buildOrThrow();
+    assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
+    entryList.get(0).setValue("3");
+    assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
   }
 }
