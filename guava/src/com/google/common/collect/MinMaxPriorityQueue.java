@@ -644,9 +644,9 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int parentIndex = getParentIndex(index);
       E parentElement = elementData(parentIndex);
       if (parentIndex != 0) {
-        // This is a guard for the case of the childless uncle.
+        // This is a guard for the case of the childless auncle.
         // Since the end of the array is actually the middle of the heap,
-        // a smaller childless uncle can become a child of x when we
+        // a smaller childless auncle can become a child of x when we
         // bubble up alternate levels, violating the invariant.
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
