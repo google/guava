@@ -644,17 +644,18 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int parentIndex = getParentIndex(index);
       E parentElement = elementData(parentIndex);
       if (parentIndex != 0) {
-        // This is a guard for the case of the childless uncle.
-        // Since the end of the array is actually the middle of the heap,
-        // a smaller childless uncle can become a child of x when we
-        // bubble up alternate levels, violating the invariant.
+        /*
+         * This is a guard for the case of the childless aunt node. Since the end of the array is
+         * actually the middle of the heap, a smaller childless aunt node can become a child of x
+         * when we bubble up alternate levels, violating the invariant.
+         */
         int grandparentIndex = getParentIndex(parentIndex);
-        int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
-          E uncleElement = elementData(uncleIndex);
-          if (ordering.compare(uncleElement, parentElement) < 0) {
-            parentIndex = uncleIndex;
-            parentElement = uncleElement;
+        int auntIndex = getRightChildIndex(grandparentIndex);
+        if (auntIndex != parentIndex && getLeftChildIndex(auntIndex) >= size) {
+          E auntElement = elementData(auntIndex);
+          if (ordering.compare(auntElement, parentElement) < 0) {
+            parentIndex = auntIndex;
+            parentElement = auntElement;
           }
         }
       }
@@ -667,26 +668,30 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return index;
     }
 
+    // About the term "aunt node": it's better to leave gender out of it, but for this the English
+    // language has nothing for us. Except for the whimsical neologism "pibling" (!) which we
+    // obviously could not expect to increase anyone's understanding of the code.
+
     /**
      * Swap {@code actualLastElement} with the conceptually correct last element of the heap.
      * Returns the index that {@code actualLastElement} now resides in.
      *
      * <p>Since the last element of the array is actually in the middle of the sorted structure, a
-     * childless uncle node could be smaller, which would corrupt the invariant if this element
-     * becomes the new parent of the uncle. In that case, we first switch the last element with its
-     * uncle, before returning.
+     * childless aunt node could be smaller, which would corrupt the invariant if this element
+     * becomes the new parent of the aunt node. In that case, we first switch the last element with
+     * its aunt node, before returning.
      */
     int swapWithConceptuallyLastElement(E actualLastElement) {
       int parentIndex = getParentIndex(size);
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
-        int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
-          E uncleElement = elementData(uncleIndex);
-          if (ordering.compare(uncleElement, actualLastElement) < 0) {
-            queue[uncleIndex] = actualLastElement;
-            queue[size] = uncleElement;
-            return uncleIndex;
+        int auntIndex = getRightChildIndex(grandparentIndex);
+        if (auntIndex != parentIndex && getLeftChildIndex(auntIndex) >= size) {
+          E auntElement = elementData(auntIndex);
+          if (ordering.compare(auntElement, actualLastElement) < 0) {
+            queue[auntIndex] = actualLastElement;
+            queue[size] = auntElement;
+            return auntIndex;
           }
         }
       }
