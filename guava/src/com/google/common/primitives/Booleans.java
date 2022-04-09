@@ -121,8 +121,8 @@ public final class Booleans {
    *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare
-   * @return a positive number if only {@code a} is {@code true}, a negative number if only {@code
-   *     b} is {@code false}, or zero if {@code a == b}
+   * @return a positive number if only {@code a} is {@code true}, a negative number if only 
+   *        {@code b} is {@code true}, or zero if {@code a == b}
    */
   public static int compare(boolean a, boolean b) {
     return (a == b) ? 0 : (a ? 1 : -1);
