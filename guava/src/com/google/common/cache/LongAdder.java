@@ -71,7 +71,9 @@ final class LongAdder extends Striped64 implements Serializable, LongAddable {
           || as == null
           || (n = as.length) < 1
           || (a = as[(n - 1) & hc[0]]) == null
-          || !(uncontended = a.cas(v = a.value, v + x))) retryUpdate(x, hc, uncontended);
+          || !(uncontended = a.cas(v = a.value, v + x))) {
+        retryUpdate(x, hc, uncontended);
+      }
     }
   }
 

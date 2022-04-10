@@ -663,7 +663,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     void notifyNewValue(@Nullable V newValue);
 
     /**
-     * Returns true if a new value is currently loading, regardless of whether or not there is an
+     * Returns true if a new value is currently loading, regardless of whether there is an
      * existing value. It is assumed that the return value of this method is constant for any given
      * ValueReference instance.
      */
@@ -1741,7 +1741,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /**
    * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
    * loading, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
-   * cleanup stale entries. As such it should only be called outside of a segment context, such as
+   * clean up stale entries. As such it should only be called outside a segment context, such as
    * during iteration.
    */
   @Nullable
@@ -2558,7 +2558,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         // An entry may be in the recency queue despite it being removed from
         // the map . This can occur when the entry was concurrently read while a
         // writer is removing it from the segment or after a clear has removed
-        // all of the segment's entries.
+        // all the segment's entries.
         if (accessQueue.contains(e)) {
           accessQueue.add(e);
         }
@@ -3342,7 +3342,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         return false;
       } finally {
         unlock();
-        if (!isHeldByCurrentThread()) { // don't cleanup inside of put
+        if (!isHeldByCurrentThread()) { // don't clean up inside of put
           postWriteCleanup();
         }
       }

@@ -50,7 +50,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * href="https://github.com/ben-manes/caffeine/wiki">Caffeine</a>. Its API is designed to make it a
  * nearly drop-in replacement -- though it requires Java 8 APIs, is not available for Android or
  * GWT/j2cl, and may have <a href="https://github.com/ben-manes/caffeine/wiki/Guava">different
- * (usually better) behavior</a> when multiple threads attempt concurrent mutations. Its equivalent
+ * (usually better) behavior</a> when multiple threads attempt concurrent mutations. It's equivalent
  * to {@code CacheBuilder} is its <a
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html">{@code
  * Caffeine}</a> class. Caffeine offers better performance, more features (including asynchronous
@@ -96,7 +96,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *   <li>accumulation of cache access statistics
  * </ul>
  *
- * <p>These features are all optional; caches can be created using all or none of them. By default
+ * <p>These features are all optional; caches can be created using all or none of them. By default,
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
  *
  * <p>Usage example:
@@ -576,7 +576,7 @@ public final class CacheBuilder<K, V> {
     return (weigher == null) ? maximumSize : maximumWeight;
   }
 
-  // Make a safe contravariant cast now so we don't have to do it over and over.
+  // Make a safe contravariant cast now, so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
   <K1 extends K, V1 extends V> Weigher<K1, V1> getWeigher() {
     return (Weigher<K1, V1>) MoreObjects.firstNonNull(weigher, OneWeigher.INSTANCE);
@@ -921,8 +921,8 @@ public final class CacheBuilder<K, V> {
    *
    * <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache builder
    * reference; instead use the reference this method <i>returns</i>. At runtime, these point to the
-   * same instance, but only the returned reference has the correct generic type information so as
-   * to ensure type safety. For best results, use the standard method-chaining idiom illustrated in
+   * same instance, but only the returned reference has the correct generic type information to
+   * ensure type safety. For best results, use the standard method-chaining idiom illustrated in
    * the class documentation above, configuring a builder and building your cache in a single
    * statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown
    * by a cache operation at some <i>undefined</i> point in the future.
@@ -947,7 +947,7 @@ public final class CacheBuilder<K, V> {
     return me;
   }
 
-  // Make a safe contravariant cast now so we don't have to do it over and over.
+  // Make a safe contravariant cast now, so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
   <K1 extends K, V1 extends V> RemovalListener<K1, V1> getRemovalListener() {
     return (RemovalListener<K1, V1>)

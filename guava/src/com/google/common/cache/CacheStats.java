@@ -105,7 +105,7 @@ public final class CacheStats {
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend
-   * implementing your own stats collector.
+   * implementing your own stats' collector.
    */
   public long requestCount() {
     return saturatedAdd(hitCount, missCount);
@@ -152,12 +152,12 @@ public final class CacheStats {
 
   /**
    * Returns the total number of times that {@link Cache} lookup methods attempted to load new
-   * values. This includes both successful load operations, as well as those that threw exceptions.
+   * values. This includes both successful load operations, and those that threw exceptions.
    * This is defined as {@code loadSuccessCount + loadExceptionCount}.
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend
-   * implementing your own stats collector.
+   * implementing your own stats' collector.
    */
   public long loadCount() {
     return saturatedAdd(loadSuccessCount, loadExceptionCount);
@@ -198,7 +198,7 @@ public final class CacheStats {
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend
-   * implementing your own stats collector.
+   * implementing your own stats' collector.
    */
   public double loadExceptionRate() {
     long totalLoadCount = saturatedAdd(loadSuccessCount, loadExceptionCount);
@@ -221,7 +221,7 @@ public final class CacheStats {
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend
-   * implementing your own stats collector.
+   * implementing your own stats' collector.
    */
   public double averageLoadPenalty() {
     long totalLoadCount = saturatedAdd(loadSuccessCount, loadExceptionCount);
@@ -257,7 +257,7 @@ public final class CacheStats {
    *
    * <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
    * guaranteed not to throw an exception). If you require specific handling, we recommend
-   * implementing your own stats collector.
+   * implementing your own stats' collector.
    *
    * @since 11.0
    */
