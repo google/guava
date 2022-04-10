@@ -258,8 +258,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     removalListener = builder.getRemovalListener();
     removalNotificationQueue =
         (removalListener == NullListener.INSTANCE)
-            ? LocalCache.<RemovalNotification<K, V>>discardingQueue()
-            : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
+            ? LocalCache.discardingQueue()
+            : new ConcurrentLinkedQueue<>();
 
     ticker = builder.getTicker(recordsTime());
     entryFactory = EntryFactory.getFactory(keyStrength, usesAccessEntries(), usesWriteEntries());
@@ -1943,24 +1943,24 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       this.statsCounter = checkNotNull(statsCounter);
       initTable(newEntryArray(initialCapacity));
 
-      keyReferenceQueue = map.usesKeyReferences() ? new ReferenceQueue<K>() : null;
+      keyReferenceQueue = map.usesKeyReferences() ? new ReferenceQueue<>() : null;
 
-      valueReferenceQueue = map.usesValueReferences() ? new ReferenceQueue<V>() : null;
+      valueReferenceQueue = map.usesValueReferences() ? new ReferenceQueue<>() : null;
 
       recencyQueue =
           map.usesAccessQueue()
-              ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
-              : LocalCache.<ReferenceEntry<K, V>>discardingQueue();
+              ? new ConcurrentLinkedQueue<>()
+              : LocalCache.discardingQueue();
 
       writeQueue =
           map.usesWriteQueue()
-              ? new WriteQueue<K, V>()
-              : LocalCache.<ReferenceEntry<K, V>>discardingQueue();
+              ? new WriteQueue<>()
+              : LocalCache.discardingQueue();
 
       accessQueue =
           map.usesAccessQueue()
-              ? new AccessQueue<K, V>()
-              : LocalCache.<ReferenceEntry<K, V>>discardingQueue();
+              ? new AccessQueue<>()
+              : LocalCache.discardingQueue();
     }
 
     AtomicReferenceArray<ReferenceEntry<K, V>> newEntryArray(int size) {
@@ -2287,15 +2287,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         CacheLoader<? super K, V> loader) {
       final ListenableFuture<V> loadingFuture = loadingValueReference.loadFuture(key, loader);
       loadingFuture.addListener(
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                getAndRecordStats(key, hash, loadingValueReference, loadingFuture);
-              } catch (Throwable t) {
-                logger.log(Level.WARNING, "Exception thrown during refresh", t);
-                loadingValueReference.setException(t);
-              }
+          () -> {
+            try {
+              getAndRecordStats(key, hash, loadingValueReference, loadingFuture);
+            } catch (Throwable t) {
+              logger.log(Level.WARNING, "Exception thrown during refresh", t);
+              loadingValueReference.setException(t);
             }
           },
           directExecutor());
@@ -3478,7 +3475,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     public LoadingValueReference(ValueReference<K, V> oldValue) {
-      this.oldValue = (oldValue == null) ? LocalCache.<K, V>unset() : oldValue;
+      this.oldValue = (oldValue == null) ? LocalCache.unset() : oldValue;
     }
 
     @Override
@@ -3538,12 +3535,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         // *before* returning newValue from the cache query.
         return transform(
             newValue,
-            new com.google.common.base.Function<V, V>() {
-              @Override
-              public V apply(V newValue) {
-                LoadingValueReference.this.set(newValue);
-                return newValue;
-              }
+            newResult -> {
+              LoadingValueReference.this.set(newResult);
+              return newResult;
             },
             directExecutor());
       } catch (Throwable t) {
@@ -3916,19 +3910,19 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      */
     long sum = 0L;
     Segment<K, V>[] segments = this.segments;
-    for (int i = 0; i < segments.length; ++i) {
-      if (segments[i].count != 0) {
+    for (Segment<K, V> segment : segments) {
+      if (segment.count != 0) {
         return false;
       }
-      sum += segments[i].modCount;
+      sum += segment.modCount;
     }
 
     if (sum != 0L) { // recheck unless no modifications
-      for (int i = 0; i < segments.length; ++i) {
-        if (segments[i].count != 0) {
+      for (Segment<K, V> segment : segments) {
+        if (segment.count != 0) {
           return false;
         }
-        sum -= segments[i].modCount;
+        sum -= segment.modCount;
       }
       return sum == 0L;
     }
@@ -3938,8 +3932,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   long longSize() {
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
-    for (int i = 0; i < segments.length; ++i) {
-      sum += segments[i].count;
+    for (Segment<K, V> segment : segments) {
+      sum += segment.count;
     }
     return sum;
   }
@@ -4537,7 +4531,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   private static <E> ArrayList<E> toArrayList(Collection<E> c) {
     // Avoid calling ArrayList(Collection), which may call back into toArray.
-    ArrayList<E> result = new ArrayList<E>(c.size());
+    ArrayList<E> result = new ArrayList<>(c.size());
     Iterators.addAll(result, c.iterator());
     return result;
   }
@@ -4840,7 +4834,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
-      this(new LocalCache<K, V>(builder, null));
+      this(new LocalCache<>(builder, null));
     }
 
     private LocalManualCache(LocalCache<K, V> localCache) {
@@ -4937,7 +4931,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     LocalLoadingCache(
         CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
-      super(new LocalCache<K, V>(builder, checkNotNull(loader)));
+      super(new LocalCache<>(builder, checkNotNull(loader)));
     }
 
     // LoadingCache methods

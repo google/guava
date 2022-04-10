@@ -12,9 +12,12 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
+import java.lang.reflect.Field;
+import java.security.PrivilegedExceptionAction;
 import java.util.Random;
 import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import sun.misc.Unsafe;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic
@@ -258,8 +261,7 @@ abstract class Striped64 extends Number {
     base = 0;
     if (as != null) {
       int n = as.length;
-      for (int i = 0; i < n; ++i) {
-        Cell a = as[i];
+      for (Cell a : as) {
         if (a != null) {
           a.value = 0;
         }
@@ -296,17 +298,14 @@ abstract class Striped64 extends Number {
     }
     try {
       return java.security.AccessController.doPrivileged(
-          new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
-            @Override
-            public sun.misc.Unsafe run() throws Exception {
-              Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-              for (java.lang.reflect.Field f : k.getDeclaredFields()) {
-                f.setAccessible(true);
-                Object x = f.get(null);
-                if (k.isInstance(x)) return k.cast(x);
-              }
-              throw new NoSuchFieldError("the Unsafe");
+          (PrivilegedExceptionAction<Unsafe>) () -> {
+            Class<Unsafe> k = Unsafe.class;
+            for (Field f : k.getDeclaredFields()) {
+              f.setAccessible(true);
+              Object x = f.get(null);
+              if (k.isInstance(x)) return k.cast(x);
             }
+            throw new NoSuchFieldError("the Unsafe");
           });
     } catch (java.security.PrivilegedActionException e) {
       throw new RuntimeException("Could not initialize intrinsics", e.getCause());

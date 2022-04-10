@@ -231,12 +231,7 @@ public final class CacheBuilder<K, V> {
   static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
   static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
-      new Supplier<StatsCounter>() {
-        @Override
-        public StatsCounter get() {
-          return new SimpleStatsCounter();
-        }
-      };
+      () -> new SimpleStatsCounter();
 
   enum NullListener implements RemovalListener<Object, Object> {
     INSTANCE;
