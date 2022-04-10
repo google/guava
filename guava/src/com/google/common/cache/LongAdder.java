@@ -46,7 +46,7 @@ final class LongAdder extends Striped64 implements Serializable, LongAddable {
 
   /** Version of plus for use in retryUpdate */
   @Override
-  final long fn(long v, long x) {
+  long fn(long v, long x) {
     return v + x;
   }
 
@@ -114,7 +114,7 @@ final class LongAdder extends Striped64 implements Serializable, LongAddable {
    * concurrently updating.
    */
   public void reset() {
-    internalReset(0L);
+    internalReset();
   }
 
   /**

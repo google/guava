@@ -103,7 +103,7 @@ abstract class Striped64 extends Number {
       value = x;
     }
 
-    final boolean cas(long cmp, long val) {
+    boolean cas(long cmp, long val) {
       return UNSAFE.compareAndSwapLong(this, valueOffset, cmp, val);
     }
 
@@ -253,14 +253,16 @@ abstract class Striped64 extends Number {
   }
 
   /** Sets base and all cells to the given value. */
-  final void internalReset(long initialValue) {
+  final void internalReset() {
     Cell[] as = cells;
-    base = initialValue;
+    base = 0;
     if (as != null) {
       int n = as.length;
       for (int i = 0; i < n; ++i) {
         Cell a = as[i];
-        if (a != null) a.value = initialValue;
+        if (a != null) {
+          a.value = 0;
+        }
       }
     }
   }

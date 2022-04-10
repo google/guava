@@ -194,7 +194,7 @@ public abstract class CacheLoader<K, V> {
       }
 
       @Override
-      public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
+      public ListenableFuture<V> reload(final K key, final V oldValue) {
         ListenableFutureTask<V> task =
             ListenableFutureTask.create(
                 new Callable<V>() {

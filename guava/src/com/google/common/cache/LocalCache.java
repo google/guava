@@ -1768,10 +1768,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     if (expiresAfterAccess() && (now - entry.getAccessTime() >= expireAfterAccessNanos)) {
       return true;
     }
-    if (expiresAfterWrite() && (now - entry.getWriteTime() >= expireAfterWriteNanos)) {
-      return true;
-    }
-    return false;
+    return expiresAfterWrite() && (now - entry.getWriteTime() >= expireAfterWriteNanos);
   }
 
   // queues
@@ -4825,7 +4822,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public final V apply(K key) {
+    public V apply(K key) {
       return autoDelegate.apply(key);
     }
 
