@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.ListenableFutureTask;
 import com.google.errorprone.annotations.CheckReturnValue;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 /**
@@ -152,7 +153,7 @@ public abstract class CacheLoader<K, V> {
    */
   @CheckReturnValue
   public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
-    return new SupplierToCacheLoader<>(supplier);
+    return new SupplierToCacheLoader<V>(supplier);
   }
 
   private static final class FunctionToCacheLoader<K, V> extends CacheLoader<K, V>
@@ -193,9 +194,15 @@ public abstract class CacheLoader<K, V> {
       }
 
       @Override
-      public ListenableFuture<V> reload(final K key, final V oldValue) {
+      public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
         ListenableFutureTask<V> task =
-            ListenableFutureTask.create(() -> loader.reload(key, oldValue).get());
+            ListenableFutureTask.create(
+                new Callable<V>() {
+                  @Override
+                  public V call() throws Exception {
+                    return loader.reload(key, oldValue).get();
+                  }
+                });
         executor.execute(task);
         return task;
       }
