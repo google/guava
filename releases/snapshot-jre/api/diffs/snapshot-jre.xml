@@ -8421,11 +8421,11 @@
 
  <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache builder
  reference; instead use the reference this method <i>returns</i>. At runtime, these point to the
- same instance, but only the returned reference has the correct generic type information to
- ensure type safety. For best results, use the standard method-chaining idiom illustrated in the
- class documentation above, configuring a builder and building your cache in a single statement.
- Failure to heed this advice can result in a {@link ClassCastException} being thrown by a cache
- operation at some <i>undefined</i> point in the future.
+ same instance, but only the returned reference has the correct generic type information so as
+ to ensure type safety. For best results, use the standard method-chaining idiom illustrated in
+ the class documentation above, configuring a builder and building your cache in a single
+ statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown
+ by a cache operation at some <i>undefined</i> point in the future.
 
  <p><b>Warning:</b> any exception thrown by {@code listener} will <i>not</i> be propagated to
  the {@code Cache} user, only logged via a {@link Logger}.
@@ -8550,7 +8550,7 @@
    <li>accumulation of cache access statistics
  </ul>
 
- <p>These features are all optional; caches can be created using all or none of them. By default,
+ <p>These features are all optional; caches can be created using all or none of them. By default
  cache instances created by {@code CacheBuilder} will not perform any type of eviction.
 
  <p>Usage example:
@@ -9015,8 +9015,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the total number of times that {@link Cache} lookup methods attempted to load new
- values. This includes both successful load operations and those that threw exceptions. This is
- defined as {@code loadSuccessCount + loadExceptionCount}.
+ values. This includes both successful load operations, as well as those that threw exceptions.
+ This is defined as {@code loadSuccessCount + loadExceptionCount}.
 
  <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
  guaranteed not to throw an exception). If you require specific handling, we recommend
