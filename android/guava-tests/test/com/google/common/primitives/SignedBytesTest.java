@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
@@ -44,7 +47,7 @@ public class SignedBytesTest extends TestCase {
 
   public void testCheckedCast() {
     for (byte value : VALUES) {
-      assertEquals(value, SignedBytes.checkedCast((long) value));
+      assertThat(SignedBytes.checkedCast((long) value)).isEqualTo(value);
     }
     assertCastFails(GREATEST + 1L);
     assertCastFails(LEAST - 1L);
@@ -54,12 +57,12 @@ public class SignedBytesTest extends TestCase {
 
   public void testSaturatedCast() {
     for (byte value : VALUES) {
-      assertEquals(value, SignedBytes.saturatedCast((long) value));
+      assertThat(SignedBytes.saturatedCast((long) value)).isEqualTo(value);
     }
-    assertEquals(GREATEST, SignedBytes.saturatedCast(GREATEST + 1L));
-    assertEquals(LEAST, SignedBytes.saturatedCast(LEAST - 1L));
-    assertEquals(GREATEST, SignedBytes.saturatedCast(Long.MAX_VALUE));
-    assertEquals(LEAST, SignedBytes.saturatedCast(Long.MIN_VALUE));
+    assertThat(SignedBytes.saturatedCast(GREATEST + 1L)).isEqualTo(GREATEST);
+    assertThat(SignedBytes.saturatedCast(LEAST - 1L)).isEqualTo(LEAST);
+    assertThat(SignedBytes.saturatedCast(Long.MAX_VALUE)).isEqualTo(GREATEST);
+    assertThat(SignedBytes.saturatedCast(Long.MIN_VALUE)).isEqualTo(LEAST);
   }
 
   private static void assertCastFails(long value) {
@@ -67,9 +70,9 @@ public class SignedBytesTest extends TestCase {
       SignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertTrue(
-          value + " not found in exception text: " + ex.getMessage(),
-          ex.getMessage().contains(String.valueOf(value)));
+      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+          .that(ex.getMessage().contains(String.valueOf(value)))
+          .isTrue();
     }
   }
 
@@ -80,13 +83,15 @@ public class SignedBytesTest extends TestCase {
         int expected = Byte.valueOf(x).compareTo(y);
         int actual = SignedBytes.compare(x, y);
         if (expected == 0) {
-          assertEquals(x + ", " + y, expected, actual);
+          assertWithMessage(x + ", " + y).that(actual).isEqualTo(expected);
         } else if (expected < 0) {
-          assertTrue(
-              x + ", " + y + " (expected: " + expected + ", actual" + actual + ")", actual < 0);
+          assertWithMessage(x + ", " + y + " (expected: " + expected + ", actual" + actual + ")")
+              .that(actual < 0)
+              .isTrue();
         } else {
-          assertTrue(
-              x + ", " + y + " (expected: " + expected + ", actual" + actual + ")", actual > 0);
+          assertWithMessage(x + ", " + y + " (expected: " + expected + ", actual" + actual + ")")
+              .that(actual > 0)
+              .isTrue();
         }
       }
     }
@@ -101,10 +106,10 @@ public class SignedBytesTest extends TestCase {
   }
 
   public void testMax() {
-    assertEquals(LEAST, SignedBytes.max(LEAST));
-    assertEquals(GREATEST, SignedBytes.max(GREATEST));
-    assertEquals(
-        (byte) 127, SignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertThat(SignedBytes.max(LEAST)).isEqualTo(LEAST);
+    assertThat(SignedBytes.max(GREATEST)).isEqualTo(GREATEST);
+    assertThat(SignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
+        .isEqualTo((byte) 127);
   }
 
   public void testMin_noArgs() {
@@ -116,18 +121,18 @@ public class SignedBytesTest extends TestCase {
   }
 
   public void testMin() {
-    assertEquals(LEAST, SignedBytes.min(LEAST));
-    assertEquals(GREATEST, SignedBytes.min(GREATEST));
-    assertEquals(
-        (byte) -128, SignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertThat(SignedBytes.min(LEAST)).isEqualTo(LEAST);
+    assertThat(SignedBytes.min(GREATEST)).isEqualTo(GREATEST);
+    assertThat(SignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1))
+        .isEqualTo((byte) -128);
   }
 
   public void testJoin() {
-    assertEquals("", SignedBytes.join(",", EMPTY));
-    assertEquals("1", SignedBytes.join(",", ARRAY1));
-    assertEquals("1,2", SignedBytes.join(",", (byte) 1, (byte) 2));
-    assertEquals("123", SignedBytes.join("", (byte) 1, (byte) 2, (byte) 3));
-    assertEquals("-128,-1", SignedBytes.join(",", (byte) -128, (byte) -1));
+    assertThat(SignedBytes.join(",", EMPTY)).isEmpty();
+    assertThat(SignedBytes.join(",", ARRAY1)).isEqualTo("1");
+    assertThat(SignedBytes.join(",", (byte) 1, (byte) 2)).isEqualTo("1,2");
+    assertThat(SignedBytes.join("", (byte) 1, (byte) 2, (byte) 3)).isEqualTo("123");
+    assertThat(SignedBytes.join(",", (byte) -128, (byte) -1)).isEqualTo("-128,-1");
   }
 
   public void testLexicographicalComparator() {
@@ -150,7 +155,7 @@ public class SignedBytesTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<byte[]> comparator = SignedBytes.lexicographicalComparator();
-    assertSame(comparator, SerializableTester.reserialize(comparator));
+    assertThat(SerializableTester.reserialize(comparator)).isSameInstanceAs(comparator);
   }
 
   public void testSortDescending() {
@@ -164,14 +169,14 @@ public class SignedBytesTest extends TestCase {
   private static void testSortDescending(byte[] input, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     SignedBytes.sortDescending(input);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testSortDescending(
       byte[] input, int fromIndex, int toIndex, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     SignedBytes.sortDescending(input, fromIndex, toIndex);
-    assertTrue(Arrays.equals(expectedOutput, input));
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testSortDescendingIndexed() {

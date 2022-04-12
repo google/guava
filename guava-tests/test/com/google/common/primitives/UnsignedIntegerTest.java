@@ -14,6 +14,9 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet;
@@ -58,16 +61,18 @@ public class UnsignedIntegerTest extends TestCase {
 
   public void testFromIntBitsAndIntValueAreInverses() {
     for (int value : TEST_INTS) {
-      assertEquals(
-          UnsignedInts.toString(value), value, UnsignedInteger.fromIntBits(value).intValue());
+      assertWithMessage(UnsignedInts.toString(value))
+          .that(UnsignedInteger.fromIntBits(value).intValue())
+          .isEqualTo(value);
     }
   }
 
   public void testFromIntBitsLongValue() {
     for (int value : TEST_INTS) {
       long expected = value & 0xffffffffL;
-      assertEquals(
-          UnsignedInts.toString(value), expected, UnsignedInteger.fromIntBits(value).longValue());
+      assertWithMessage(UnsignedInts.toString(value))
+          .that(UnsignedInteger.fromIntBits(value).longValue())
+          .isEqualTo(expected);
     }
   }
 
@@ -77,10 +82,10 @@ public class UnsignedIntegerTest extends TestCase {
     for (long value : TEST_LONGS) {
       boolean expectSuccess = value >= min && value <= max;
       try {
-        assertEquals(value, UnsignedInteger.valueOf(value).longValue());
-        assertTrue(expectSuccess);
+        assertThat(UnsignedInteger.valueOf(value).longValue()).isEqualTo(value);
+        assertThat(expectSuccess).isTrue();
       } catch (IllegalArgumentException e) {
-        assertFalse(expectSuccess);
+        assertThat(expectSuccess).isFalse();
       }
     }
   }
@@ -91,10 +96,10 @@ public class UnsignedIntegerTest extends TestCase {
     for (long value : TEST_LONGS) {
       boolean expectSuccess = value >= min && value <= max;
       try {
-        assertEquals(value, UnsignedInteger.valueOf(BigInteger.valueOf(value)).longValue());
-        assertTrue(expectSuccess);
+        assertThat(UnsignedInteger.valueOf(BigInteger.valueOf(value)).longValue()).isEqualTo(value);
+        assertThat(expectSuccess).isTrue();
       } catch (IllegalArgumentException e) {
-        assertFalse(expectSuccess);
+        assertThat(expectSuccess).isFalse();
       }
     }
   }
@@ -102,7 +107,7 @@ public class UnsignedIntegerTest extends TestCase {
   public void testToString() {
     for (int value : TEST_INTS) {
       UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
-      assertEquals(unsignedValue.bigIntegerValue().toString(), unsignedValue.toString());
+      assertThat(unsignedValue.toString()).isEqualTo(unsignedValue.bigIntegerValue().toString());
     }
   }
 
@@ -111,7 +116,7 @@ public class UnsignedIntegerTest extends TestCase {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (int l : TEST_INTS) {
         UnsignedInteger value = UnsignedInteger.fromIntBits(l);
-        assertEquals(value.bigIntegerValue().toString(radix), value.toString(radix));
+        assertThat(value.toString(radix)).isEqualTo(value.bigIntegerValue().toString(radix));
       }
     }
   }
@@ -121,7 +126,7 @@ public class UnsignedIntegerTest extends TestCase {
     for (int radix : radices) {
       for (int l : TEST_INTS) {
         UnsignedInteger value = UnsignedInteger.fromIntBits(l);
-        assertEquals(value.bigIntegerValue().toString(radix), value.toString(radix));
+        assertThat(value.toString(radix)).isEqualTo(value.bigIntegerValue().toString(radix));
       }
     }
   }
@@ -129,14 +134,16 @@ public class UnsignedIntegerTest extends TestCase {
   public void testFloatValue() {
     for (int value : TEST_INTS) {
       UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
-      assertEquals(unsignedValue.bigIntegerValue().floatValue(), unsignedValue.floatValue());
+      assertThat(unsignedValue.floatValue())
+          .isEqualTo(unsignedValue.bigIntegerValue().floatValue());
     }
   }
 
   public void testDoubleValue() {
     for (int value : TEST_INTS) {
       UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
-      assertEquals(unsignedValue.bigIntegerValue().doubleValue(), unsignedValue.doubleValue());
+      assertThat(unsignedValue.doubleValue())
+          .isEqualTo(unsignedValue.bigIntegerValue().doubleValue());
     }
   }
 
@@ -147,7 +154,7 @@ public class UnsignedIntegerTest extends TestCase {
         UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         int expected = aUnsigned.bigIntegerValue().add(bUnsigned.bigIntegerValue()).intValue();
         UnsignedInteger unsignedSum = aUnsigned.plus(bUnsigned);
-        assertEquals(expected, unsignedSum.intValue());
+        assertThat(unsignedSum.intValue()).isEqualTo(expected);
       }
     }
   }
@@ -160,7 +167,7 @@ public class UnsignedIntegerTest extends TestCase {
         int expected =
             force32(aUnsigned.bigIntegerValue().subtract(bUnsigned.bigIntegerValue()).intValue());
         UnsignedInteger unsignedSub = aUnsigned.minus(bUnsigned);
-        assertEquals(expected, unsignedSub.intValue());
+        assertThat(unsignedSub.intValue()).isEqualTo(expected);
       }
     }
   }
@@ -174,7 +181,9 @@ public class UnsignedIntegerTest extends TestCase {
         int expected =
             force32(aUnsigned.bigIntegerValue().multiply(bUnsigned.bigIntegerValue()).intValue());
         UnsignedInteger unsignedMul = aUnsigned.times(bUnsigned);
-        assertEquals(aUnsigned + " * " + bUnsigned, expected, unsignedMul.intValue());
+        assertWithMessage(aUnsigned + " * " + bUnsigned)
+            .that(unsignedMul.intValue())
+            .isEqualTo(expected);
       }
     }
   }
@@ -187,7 +196,7 @@ public class UnsignedIntegerTest extends TestCase {
           UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
           int expected = aUnsigned.bigIntegerValue().divide(bUnsigned.bigIntegerValue()).intValue();
           UnsignedInteger unsignedDiv = aUnsigned.dividedBy(bUnsigned);
-          assertEquals(expected, unsignedDiv.intValue());
+          assertThat(unsignedDiv.intValue()).isEqualTo(expected);
         }
       }
     }
@@ -211,7 +220,7 @@ public class UnsignedIntegerTest extends TestCase {
           UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
           int expected = aUnsigned.bigIntegerValue().mod(bUnsigned.bigIntegerValue()).intValue();
           UnsignedInteger unsignedRem = aUnsigned.mod(bUnsigned);
-          assertEquals(expected, unsignedRem.intValue());
+          assertThat(unsignedRem.intValue()).isEqualTo(expected);
         }
       }
     }
@@ -232,9 +241,8 @@ public class UnsignedIntegerTest extends TestCase {
       for (int b : TEST_INTS) {
         UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
         UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
-        assertEquals(
-            aUnsigned.bigIntegerValue().compareTo(bUnsigned.bigIntegerValue()),
-            aUnsigned.compareTo(bUnsigned));
+        assertThat(aUnsigned.compareTo(bUnsigned))
+            .isEqualTo(aUnsigned.bigIntegerValue().compareTo(bUnsigned.bigIntegerValue()));
       }
     }
   }
@@ -257,7 +265,7 @@ public class UnsignedIntegerTest extends TestCase {
     for (int a : TEST_INTS) {
       UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
       int intValue = aUnsigned.bigIntegerValue().intValue();
-      assertEquals(intValue, aUnsigned.intValue());
+      assertThat(aUnsigned.intValue()).isEqualTo(intValue);
     }
   }
 
