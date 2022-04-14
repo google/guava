@@ -96,7 +96,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *   <li>accumulation of cache access statistics
  * </ul>
  *
- * <p>These features are all optional; caches can be created using all or none of them. By default
+ * <p>These features are all optional; caches can be created using all or none of them. By default,
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
  *
  * <p>Usage example:
@@ -230,13 +230,16 @@ public final class CacheBuilder<K, V> {
           });
   static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
-  static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
-      new Supplier<StatsCounter>() {
-        @Override
-        public StatsCounter get() {
-          return new SimpleStatsCounter();
-        }
-      };
+  /*
+   * We avoid using a method reference here for now: Inside Google, CacheBuilder is used from the
+   * implementation of a custom ClassLoader that is sometimes used as a system classloader. That's a
+   * problem because method-reference linking tries to look up the system classloader, and it fails
+   * because there isn't one yet.
+   *
+   * I would have guessed that a lambda would produce the same problem, but maybe it's safe because
+   * the lambda implementation is generated as a method in the _same class_ as the usage?
+   */
+  static final Supplier<StatsCounter> CACHE_STATS_COUNTER = () -> new SimpleStatsCounter();
 
   enum NullListener implements RemovalListener<Object, Object> {
     INSTANCE;
@@ -926,11 +929,11 @@ public final class CacheBuilder<K, V> {
    *
    * <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache builder
    * reference; instead use the reference this method <i>returns</i>. At runtime, these point to the
-   * same instance, but only the returned reference has the correct generic type information so as
-   * to ensure type safety. For best results, use the standard method-chaining idiom illustrated in
-   * the class documentation above, configuring a builder and building your cache in a single
-   * statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown
-   * by a cache operation at some <i>undefined</i> point in the future.
+   * same instance, but only the returned reference has the correct generic type information to
+   * ensure type safety. For best results, use the standard method-chaining idiom illustrated in the
+   * class documentation above, configuring a builder and building your cache in a single statement.
+   * Failure to heed this advice can result in a {@link ClassCastException} being thrown by a cache
+   * operation at some <i>undefined</i> point in the future.
    *
    * <p><b>Warning:</b> any exception thrown by {@code listener} will <i>not</i> be propagated to
    * the {@code Cache} user, only logged via a {@link Logger}.
