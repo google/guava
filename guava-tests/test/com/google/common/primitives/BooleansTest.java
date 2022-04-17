@@ -80,16 +80,6 @@ public class BooleansTest extends TestCase {
   }
 
   public void testIndexOf() {
-    assertEquals(-1, Booleans.indexOf(EMPTY, ARRAY_FALSE));
-    assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE_TRUE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE));
-    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE));
-    assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE));
-    assertEquals(0, Booleans.indexOf(ARRAY_TRUE, new boolean[0]));
-  }
-
-  public void testIndexOf_arrays() {
     assertEquals(-1, Booleans.indexOf(EMPTY, false));
     assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, true));
     assertEquals(-1, Booleans.indexOf(ARRAY_FALSE_FALSE, true));
@@ -97,6 +87,16 @@ public class BooleansTest extends TestCase {
     assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, false));
     assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, true));
     assertEquals(2, Booleans.indexOf(new boolean[] {false, false, true}, true));
+  }
+
+  public void testIndexOf_arrays() {
+    assertEquals(-1, Booleans.indexOf(EMPTY, ARRAY_FALSE));
+    assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE_TRUE));
+    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE));
+    assertEquals(0, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE));
+    assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE));
+    assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE));
+    assertEquals(0, Booleans.indexOf(ARRAY_TRUE, new boolean[0]));
   }
 
   public void testLastIndexOf() {
