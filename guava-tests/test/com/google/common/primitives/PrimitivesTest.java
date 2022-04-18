@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
 import java.util.Set;
@@ -28,36 +30,36 @@ import junit.framework.TestCase;
  */
 public class PrimitivesTest extends TestCase {
   public void testIsWrapperType() {
-    assertTrue(Primitives.isWrapperType(Void.class));
-    assertFalse(Primitives.isWrapperType(void.class));
+    assertThat(Primitives.isWrapperType(Void.class)).isTrue();
+    assertThat(Primitives.isWrapperType(void.class)).isFalse();
   }
 
   public void testWrap() {
-    assertSame(Integer.class, Primitives.wrap(int.class));
-    assertSame(Integer.class, Primitives.wrap(Integer.class));
-    assertSame(String.class, Primitives.wrap(String.class));
+    assertThat(Primitives.wrap(int.class)).isSameInstanceAs(Integer.class);
+    assertThat(Primitives.wrap(Integer.class)).isSameInstanceAs(Integer.class);
+    assertThat(Primitives.wrap(String.class)).isSameInstanceAs(String.class);
   }
 
   public void testUnwrap() {
-    assertSame(int.class, Primitives.unwrap(Integer.class));
-    assertSame(int.class, Primitives.unwrap(int.class));
-    assertSame(String.class, Primitives.unwrap(String.class));
+    assertThat(Primitives.unwrap(Integer.class)).isSameInstanceAs(int.class);
+    assertThat(Primitives.unwrap(int.class)).isSameInstanceAs(int.class);
+    assertThat(Primitives.unwrap(String.class)).isSameInstanceAs(String.class);
   }
 
   public void testAllPrimitiveTypes() {
     Set<Class<?>> primitives = Primitives.allPrimitiveTypes();
-    assertEquals(
-        ImmutableSet.<Object>of(
-            boolean.class,
-            byte.class,
-            char.class,
-            double.class,
-            float.class,
-            int.class,
-            long.class,
-            short.class,
-            void.class),
-        primitives);
+    assertThat(primitives)
+        .isEqualTo(
+            ImmutableSet.<Object>of(
+                boolean.class,
+                byte.class,
+                char.class,
+                double.class,
+                float.class,
+                int.class,
+                long.class,
+                short.class,
+                void.class));
 
     try {
       primitives.remove(boolean.class);
@@ -68,18 +70,18 @@ public class PrimitivesTest extends TestCase {
 
   public void testAllWrapperTypes() {
     Set<Class<?>> wrappers = Primitives.allWrapperTypes();
-    assertEquals(
-        ImmutableSet.<Object>of(
-            Boolean.class,
-            Byte.class,
-            Character.class,
-            Double.class,
-            Float.class,
-            Integer.class,
-            Long.class,
-            Short.class,
-            Void.class),
-        wrappers);
+    assertThat(wrappers)
+        .isEqualTo(
+            ImmutableSet.<Object>of(
+                Boolean.class,
+                Byte.class,
+                Character.class,
+                Double.class,
+                Float.class,
+                Integer.class,
+                Long.class,
+                Short.class,
+                Void.class));
 
     try {
       wrappers.remove(Boolean.class);

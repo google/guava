@@ -339,7 +339,7 @@ public class ImmutableIntArrayTest extends TestCase {
 
     AtomicInteger count = new AtomicInteger(0);
     ImmutableIntArray.of(0, 1, 2, 3).forEach(i -> assertThat(i).isEqualTo(count.getAndIncrement()));
-    assertEquals(4, count.get());
+    assertThat(count.get()).isEqualTo(4);
   }
 
   public void testStream() {
