@@ -252,22 +252,12 @@ public class DoublesTest extends TestCase {
   }
 
   public void testConstrainToRange() {
-    double tolerance = 1e-10;
-    assertThat(Doubles.constrainToRange((double) 1, (double) 0, (double) 5))
-        .isWithin(tolerance)
-        .of((double) 1);
-    assertThat(Doubles.constrainToRange((double) 1, (double) 1, (double) 5))
-        .isWithin(tolerance)
-        .of((double) 1);
-    assertThat(Doubles.constrainToRange((double) 1, (double) 3, (double) 5))
-        .isWithin(tolerance)
-        .of((double) 3);
+    assertThat(Doubles.constrainToRange((double) 1, (double) 0, (double) 5)).isEqualTo((double) 1);
+    assertThat(Doubles.constrainToRange((double) 1, (double) 1, (double) 5)).isEqualTo((double) 1);
+    assertThat(Doubles.constrainToRange((double) 1, (double) 3, (double) 5)).isEqualTo((double) 3);
     assertThat(Doubles.constrainToRange((double) 0, (double) -5, (double) -1))
-        .isWithin(tolerance)
-        .of((double) -1);
-    assertThat(Doubles.constrainToRange((double) 5, (double) 2, (double) 2))
-        .isWithin(tolerance)
-        .of((double) 2);
+        .isEqualTo((double) -1);
+    assertThat(Doubles.constrainToRange((double) 5, (double) 2, (double) 2)).isEqualTo((double) 2);
     try {
       Doubles.constrainToRange((double) 1, (double) 3, (double) 2);
       fail();
@@ -276,22 +266,16 @@ public class DoublesTest extends TestCase {
   }
 
   public void testConcat() {
-    assertThat(Arrays.equals(EMPTY, Doubles.concat())).isTrue();
-    assertThat(Arrays.equals(EMPTY, Doubles.concat(EMPTY))).isTrue();
-    assertThat(Arrays.equals(EMPTY, Doubles.concat(EMPTY, EMPTY, EMPTY))).isTrue();
-    assertThat(Arrays.equals(ARRAY1, Doubles.concat(ARRAY1))).isTrue();
+    assertThat(Doubles.concat()).isEqualTo(EMPTY);
+    assertThat(Doubles.concat(EMPTY)).isEqualTo(EMPTY);
+    assertThat(Doubles.concat(EMPTY, EMPTY, EMPTY)).isEqualTo(EMPTY);
+    assertThat(Doubles.concat(ARRAY1)).isEqualTo(ARRAY1);
     assertThat(Doubles.concat(ARRAY1)).isNotSameInstanceAs(ARRAY1);
-    assertThat(Arrays.equals(ARRAY1, Doubles.concat(EMPTY, ARRAY1, EMPTY))).isTrue();
-    assertThat(
-            Arrays.equals(
-                new double[] {(double) 1, (double) 1, (double) 1},
-                Doubles.concat(ARRAY1, ARRAY1, ARRAY1)))
-        .isTrue();
-    assertThat(
-            Arrays.equals(
-                new double[] {(double) 1, (double) 2, (double) 3, (double) 4},
-                Doubles.concat(ARRAY1, ARRAY234)))
-        .isTrue();
+    assertThat(Doubles.concat(EMPTY, ARRAY1, EMPTY)).isEqualTo(ARRAY1);
+    assertThat(Doubles.concat(ARRAY1, ARRAY1, ARRAY1))
+        .isEqualTo(new double[] {(double) 1, (double) 1, (double) 1});
+    assertThat(Doubles.concat(ARRAY1, ARRAY234))
+        .isEqualTo(new double[] {(double) 1, (double) 2, (double) 3, (double) 4});
   }
 
   public void testEnsureCapacity() {
@@ -362,14 +346,14 @@ public class DoublesTest extends TestCase {
   private static void testReverse(double[] input, double[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Doubles.reverse(input);
-    assertThat(Arrays.equals(expectedOutput, input)).isTrue();
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   private static void testReverse(
       double[] input, int fromIndex, int toIndex, double[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Doubles.reverse(input, fromIndex, toIndex);
-    assertThat(Arrays.equals(expectedOutput, input)).isTrue();
+    assertThat(input).isEqualTo(expectedOutput);
   }
 
   public void testReverseIndexed() {
@@ -436,17 +420,17 @@ public class DoublesTest extends TestCase {
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Double> none = Arrays.<Double>asList();
-    assertThat(Arrays.equals(EMPTY, Doubles.toArray(none))).isTrue();
+    assertThat(Doubles.toArray(none)).isEqualTo(EMPTY);
 
     List<Double> one = Arrays.asList((double) 1);
-    assertThat(Arrays.equals(ARRAY1, Doubles.toArray(one))).isTrue();
+    assertThat(Doubles.toArray(one)).isEqualTo(ARRAY1);
 
     double[] array = {(double) 0, (double) 1, Math.PI};
 
     List<Double> three = Arrays.asList((double) 0, (double) 1, Math.PI);
-    assertThat(Arrays.equals(array, Doubles.toArray(three))).isTrue();
+    assertThat(Doubles.toArray(three)).isEqualTo(array);
 
-    assertThat(Arrays.equals(array, Doubles.toArray(Doubles.asList(array)))).isTrue();
+    assertThat(Doubles.toArray(Doubles.asList(array))).isEqualTo(array);
   }
 
   public void testToArray_threadSafe() {
@@ -483,19 +467,19 @@ public class DoublesTest extends TestCase {
     List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
     List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
 
-    assertThat(Arrays.equals(array, Doubles.toArray(bytes))).isTrue();
-    assertThat(Arrays.equals(array, Doubles.toArray(shorts))).isTrue();
-    assertThat(Arrays.equals(array, Doubles.toArray(ints))).isTrue();
-    assertThat(Arrays.equals(array, Doubles.toArray(floats))).isTrue();
-    assertThat(Arrays.equals(array, Doubles.toArray(longs))).isTrue();
-    assertThat(Arrays.equals(array, Doubles.toArray(doubles))).isTrue();
+    assertThat(Doubles.toArray(bytes)).isEqualTo(array);
+    assertThat(Doubles.toArray(shorts)).isEqualTo(array);
+    assertThat(Doubles.toArray(ints)).isEqualTo(array);
+    assertThat(Doubles.toArray(floats)).isEqualTo(array);
+    assertThat(Doubles.toArray(longs)).isEqualTo(array);
+    assertThat(Doubles.toArray(doubles)).isEqualTo(array);
   }
 
   public void testAsList_isAView() {
     double[] array = {(double) 0, (double) 1};
     List<Double> list = Doubles.asList(array);
     list.set(0, (double) 2);
-    assertThat(Arrays.equals(new double[] {(double) 2, (double) 1}, array)).isTrue();
+    assertThat(array).isEqualTo(new double[] {(double) 2, (double) 1});
     array[1] = (double) 3;
     assertThat(list).containsExactly((double) 2, (double) 3).inOrder();
   }
@@ -507,7 +491,7 @@ public class DoublesTest extends TestCase {
 
     // Make sure it returned a copy
     list.set(0, (double) 4);
-    assertThat(Arrays.equals(new double[] {(double) 0, (double) 1, (double) 2}, newArray)).isTrue();
+    assertThat(newArray).isEqualTo(new double[] {(double) 0, (double) 1, (double) 2});
     newArray[1] = (double) 5;
     assertThat((double) list.get(1)).isEqualTo((double) 1);
   }
@@ -516,11 +500,9 @@ public class DoublesTest extends TestCase {
   public void testAsList_subList_toArray_roundTrip() {
     double[] array = {(double) 0, (double) 1, (double) 2, (double) 3};
     List<Double> list = Doubles.asList(array);
-    assertThat(
-            Arrays.equals(
-                new double[] {(double) 1, (double) 2}, Doubles.toArray(list.subList(1, 3))))
-        .isTrue();
-    assertThat(Arrays.equals(new double[] {}, Doubles.toArray(list.subList(2, 2)))).isTrue();
+    assertThat(Doubles.toArray(list.subList(1, 3)))
+        .isEqualTo(new double[] {(double) 1, (double) 2});
+    assertThat(Doubles.toArray(list.subList(2, 2))).isEmpty();
   }
 
   public void testAsListEmpty() {
