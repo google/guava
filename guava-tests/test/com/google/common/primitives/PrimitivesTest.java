@@ -18,7 +18,6 @@ package com.google.common.primitives;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
 import java.util.Set;
 import junit.framework.TestCase;
@@ -49,17 +48,16 @@ public class PrimitivesTest extends TestCase {
   public void testAllPrimitiveTypes() {
     Set<Class<?>> primitives = Primitives.allPrimitiveTypes();
     assertThat(primitives)
-        .isEqualTo(
-            ImmutableSet.<Object>of(
-                boolean.class,
-                byte.class,
-                char.class,
-                double.class,
-                float.class,
-                int.class,
-                long.class,
-                short.class,
-                void.class));
+        .containsExactly(
+            boolean.class,
+            byte.class,
+            char.class,
+            double.class,
+            float.class,
+            int.class,
+            long.class,
+            short.class,
+            void.class);
 
     try {
       primitives.remove(boolean.class);
@@ -71,17 +69,16 @@ public class PrimitivesTest extends TestCase {
   public void testAllWrapperTypes() {
     Set<Class<?>> wrappers = Primitives.allWrapperTypes();
     assertThat(wrappers)
-        .isEqualTo(
-            ImmutableSet.<Object>of(
-                Boolean.class,
-                Byte.class,
-                Character.class,
-                Double.class,
-                Float.class,
-                Integer.class,
-                Long.class,
-                Short.class,
-                Void.class));
+        .containsExactly(
+            Boolean.class,
+            Byte.class,
+            Character.class,
+            Double.class,
+            Float.class,
+            Integer.class,
+            Long.class,
+            Short.class,
+            Void.class);
 
     try {
       wrappers.remove(Boolean.class);
