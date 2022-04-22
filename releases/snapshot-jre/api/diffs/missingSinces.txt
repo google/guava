@@ -1,3 +1,5 @@
+MISSING @SINCE TAG: com.google.common.primitives.Ints Method rotate(int[], int)
+MISSING @SINCE TAG: com.google.common.primitives.Ints Method rotate(int[], int, int, int)
 OK: com.google.common.net.HttpHeaders Field SEC_CH_DPR
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_HEIGHT
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_WIDTH
