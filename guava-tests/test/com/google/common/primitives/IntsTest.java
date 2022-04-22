@@ -342,6 +342,103 @@ public class IntsTest extends TestCase {
     testReverse(new int[] {-1, 1, -2, 2}, 1, 3, new int[] {-1, -2, 1, 2});
   }
 
+  private static void testRotate(int[] input, int distance, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      int[] input, int distance, int fromIndex, int toIndex, int[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Ints.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new int[] {}, -1, new int[] {});
+    testRotate(new int[] {}, 0, new int[] {});
+    testRotate(new int[] {}, 1, new int[] {});
+
+    testRotate(new int[] {1}, -2, new int[] {1});
+    testRotate(new int[] {1}, -1, new int[] {1});
+    testRotate(new int[] {1}, 0, new int[] {1});
+    testRotate(new int[] {1}, 1, new int[] {1});
+    testRotate(new int[] {1}, 2, new int[] {1});
+
+    testRotate(new int[] {1, 2}, -3, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, -1, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, -2, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 0, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 1, new int[] {2, 1});
+    testRotate(new int[] {1, 2}, 2, new int[] {1, 2});
+    testRotate(new int[] {1, 2}, 3, new int[] {2, 1});
+
+    testRotate(new int[] {1, 2, 3}, -5, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, -4, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, -3, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, -2, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, -1, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, 0, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, 1, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, 2, new int[] {2, 3, 1});
+    testRotate(new int[] {1, 2, 3}, 3, new int[] {1, 2, 3});
+    testRotate(new int[] {1, 2, 3}, 4, new int[] {3, 1, 2});
+    testRotate(new int[] {1, 2, 3}, 5, new int[] {2, 3, 1});
+
+    testRotate(new int[] {1, 2, 3, 4}, -9, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, -5, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, -1, new int[] {2, 3, 4, 1});
+    testRotate(new int[] {1, 2, 3, 4}, 0, new int[] {1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4}, 1, new int[] {4, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4}, 5, new int[] {4, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4}, 9, new int[] {4, 1, 2, 3});
+
+    testRotate(new int[] {1, 2, 3, 4, 5}, -6, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -4, new int[] {5, 1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -3, new int[] {4, 5, 1, 2, 3});
+    testRotate(new int[] {1, 2, 3, 4, 5}, -1, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 0, new int[] {1, 2, 3, 4, 5});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 1, new int[] {5, 1, 2, 3, 4});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 3, new int[] {3, 4, 5, 1, 2});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 4, new int[] {2, 3, 4, 5, 1});
+    testRotate(new int[] {1, 2, 3, 4, 5}, 6, new int[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new int[] {}, 0, 0, 0, new int[] {});
+
+    testRotate(new int[] {1}, 0, 0, 1, new int[] {1});
+    testRotate(new int[] {1}, 1, 0, 1, new int[] {1});
+    testRotate(new int[] {1}, 1, 1, 1, new int[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new int[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new int[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new int[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new int[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new int[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new int[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new int[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new int[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new int[] {0, 1, 2, 4, 5, 6, 3});
+  }
+
   public void testSortDescending() {
     testSortDescending(new int[] {}, new int[] {});
     testSortDescending(new int[] {1}, new int[] {1});
