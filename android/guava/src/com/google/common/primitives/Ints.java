@@ -517,6 +517,8 @@ public final class Ints extends IntsMethodsForWeb {
    * distance)}, but is considerably faster and avoids allocation and garbage collection.
    *
    * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since NEXT
    */
   public static void rotate(int[] array, int distance) {
     rotate(array, distance, 0, array.length);
@@ -532,6 +534,7 @@ public final class Ints extends IntsMethodsForWeb {
    *
    * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
    *     {@code toIndex > fromIndex}
+   * @since NEXT
    */
   public static void rotate(int[] array, int distance, int fromIndex, int toIndex) {
     checkNotNull(array);
