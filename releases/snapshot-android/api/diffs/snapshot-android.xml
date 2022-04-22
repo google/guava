@@ -56327,7 +56327,9 @@
  + i) mod array.length}. This is equivalent to {@code Collections.rotate(Ints.asList(array),
  distance)}, but is considerably faster and avoids allocation and garbage collection.
 
- <p>The provided "distance" may be negative, which will rotate left.]]>
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="rotate"
@@ -56347,7 +56349,8 @@
  <p>The provided "distance" may be negative, which will rotate left.
 
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
-     {@code toIndex > fromIndex}]]>
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="int[]"

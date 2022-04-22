@@ -948,7 +948,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.521">rotate</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.523">rotate</a>&#8203;(int[]&nbsp;array,
                           int&nbsp;distance)</pre>
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
  moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
@@ -956,6 +956,10 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
  distance)</code>, but is considerably faster and avoids allocation and garbage collection.
 
  <p>The provided "distance" may be negative, which will rotate left.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 <a id="rotate(int[],int,int,int)">
@@ -964,7 +968,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>rotate</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.536">rotate</a>&#8203;(int[]&nbsp;array,
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.539">rotate</a>&#8203;(int[]&nbsp;array,
                           int&nbsp;distance,
                           int&nbsp;fromIndex,
                           int&nbsp;toIndex)</pre>
@@ -978,6 +982,8 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
      <code>toIndex &gt; fromIndex</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>
@@ -987,7 +993,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.572">toArray</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;int[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.575">toArray</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>int</code> value
  in the manner of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true#intValue()" title="class or interface in java.lang" class="externalLink"><code>Number.intValue()</code></a>.
 
@@ -1012,7 +1018,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.602">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.605">asList</a>&#8203;(int...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util" class="externalLink"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set(int,E)" title="class or interface in java.util" class="externalLink"><code>List.set(int, Object)</code></a>, but any attempt to
  set a value to <code>null</code> will result in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>NullPointerException</code></a>.
 
@@ -1038,7 +1044,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.755">tryParse</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.758">tryParse</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</pre>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII character <code>'-'</code>
  (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 
@@ -1069,7 +1075,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <h4>tryParse</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.781">tryParse</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.784">tryParse</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
                                int&nbsp;radix)</pre>
 <div class="block">Parses the specified string as a signed integer value using the specified radix. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
