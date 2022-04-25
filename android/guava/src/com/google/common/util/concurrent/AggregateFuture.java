@@ -268,7 +268,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
       collectOneValue(index, getDone(future));
     } catch (ExecutionException e) {
       handleException(e.getCause());
-    } catch (Throwable t) {
+    } catch (RuntimeException | Error t) {
       handleException(t);
     }
   }

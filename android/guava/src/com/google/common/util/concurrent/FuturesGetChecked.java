@@ -182,7 +182,7 @@ final class FuturesGetChecked {
     try {
       Exception unused = newWithCause(exceptionClass, new Exception());
       return true;
-    } catch (Exception e) {
+    } catch (RuntimeException | Error e) {
       return false;
     }
   }

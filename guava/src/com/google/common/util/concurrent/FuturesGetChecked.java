@@ -193,7 +193,9 @@ final class FuturesGetChecked {
         Class<? extends Enum> theClass =
             Class.forName(CLASS_VALUE_VALIDATOR_NAME).asSubclass(Enum.class);
         return (GetCheckedTypeValidator) theClass.getEnumConstants()[0];
-      } catch (Throwable t) { // ensure we really catch *everything*
+      } catch (ClassNotFoundException
+          | RuntimeException
+          | Error t) { // ensure we really catch *everything*
         return weakSetValidator();
       }
     }
@@ -221,7 +223,7 @@ final class FuturesGetChecked {
     try {
       Exception unused = newWithCause(exceptionClass, new Exception());
       return true;
-    } catch (Exception e) {
+    } catch (RuntimeException | Error e) {
       return false;
     }
   }

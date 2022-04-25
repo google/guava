@@ -516,7 +516,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       private O applyTransformation(I input) throws ExecutionException {
         try {
           return function.apply(input);
-        } catch (Throwable t) {
+        } catch (RuntimeException | Error t) {
           throw new ExecutionException(t);
         }
       }

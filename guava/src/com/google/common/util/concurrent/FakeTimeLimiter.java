@@ -62,10 +62,6 @@ public final class FakeTimeLimiter implements TimeLimiter {
       throw new ExecutionException(e);
     } catch (Error e) {
       throw new ExecutionError(e);
-    } catch (Throwable e) {
-      // It's a non-Error, non-Exception Throwable. Such classes are usually intended to extend
-      // Exception, so we'll treat it like an Exception.
-      throw new ExecutionException(e);
     }
   }
 
@@ -86,10 +82,6 @@ public final class FakeTimeLimiter implements TimeLimiter {
       throw new UncheckedExecutionException(e);
     } catch (Error e) {
       throw new ExecutionError(e);
-    } catch (Throwable e) {
-      // It's a non-Error, non-Exception Throwable. Such classes are usually intended to extend
-      // Exception, so we'll treat it like a RuntimeException.
-      throw new UncheckedExecutionException(e);
     }
   }
 

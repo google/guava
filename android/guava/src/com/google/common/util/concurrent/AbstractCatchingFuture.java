@@ -107,7 +107,7 @@ abstract class AbstractCatchingFuture<
                     + e.getClass()
                     + " without a cause");
       }
-    } catch (Throwable e) { // this includes cancellation exception
+    } catch (RuntimeException | Error e) { // this includes cancellation exception
       throwable = e;
     }
 
