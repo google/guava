@@ -571,7 +571,9 @@ public abstract class ByteSource {
     }
   }
 
-  private static class ByteArrayByteSource extends ByteSource {
+  private static class ByteArrayByteSource extends
+      ByteSource
+  {
 
     final byte[] bytes;
     final int offset;
@@ -594,7 +596,7 @@ public abstract class ByteSource {
     }
 
     @Override
-    public InputStream openBufferedStream() throws IOException {
+    public InputStream openBufferedStream() {
       return openStream();
     }
 
