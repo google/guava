@@ -580,191 +580,193 @@
 <span class="sourceLineNo">571</span><a id="line.571">    }</a>
 <span class="sourceLineNo">572</span><a id="line.572">  }</a>
 <span class="sourceLineNo">573</span><a id="line.573"></a>
-<span class="sourceLineNo">574</span><a id="line.574">  private static class ByteArrayByteSource extends ByteSource {</a>
-<span class="sourceLineNo">575</span><a id="line.575"></a>
-<span class="sourceLineNo">576</span><a id="line.576">    final byte[] bytes;</a>
-<span class="sourceLineNo">577</span><a id="line.577">    final int offset;</a>
-<span class="sourceLineNo">578</span><a id="line.578">    final int length;</a>
-<span class="sourceLineNo">579</span><a id="line.579"></a>
-<span class="sourceLineNo">580</span><a id="line.580">    ByteArrayByteSource(byte[] bytes) {</a>
-<span class="sourceLineNo">581</span><a id="line.581">      this(bytes, 0, bytes.length);</a>
-<span class="sourceLineNo">582</span><a id="line.582">    }</a>
-<span class="sourceLineNo">583</span><a id="line.583"></a>
-<span class="sourceLineNo">584</span><a id="line.584">    // NOTE: Preconditions are enforced by slice, the only non-trivial caller.</a>
-<span class="sourceLineNo">585</span><a id="line.585">    ByteArrayByteSource(byte[] bytes, int offset, int length) {</a>
-<span class="sourceLineNo">586</span><a id="line.586">      this.bytes = bytes;</a>
-<span class="sourceLineNo">587</span><a id="line.587">      this.offset = offset;</a>
-<span class="sourceLineNo">588</span><a id="line.588">      this.length = length;</a>
-<span class="sourceLineNo">589</span><a id="line.589">    }</a>
-<span class="sourceLineNo">590</span><a id="line.590"></a>
-<span class="sourceLineNo">591</span><a id="line.591">    @Override</a>
-<span class="sourceLineNo">592</span><a id="line.592">    public InputStream openStream() {</a>
-<span class="sourceLineNo">593</span><a id="line.593">      return new ByteArrayInputStream(bytes, offset, length);</a>
-<span class="sourceLineNo">594</span><a id="line.594">    }</a>
-<span class="sourceLineNo">595</span><a id="line.595"></a>
-<span class="sourceLineNo">596</span><a id="line.596">    @Override</a>
-<span class="sourceLineNo">597</span><a id="line.597">    public InputStream openBufferedStream() throws IOException {</a>
-<span class="sourceLineNo">598</span><a id="line.598">      return openStream();</a>
-<span class="sourceLineNo">599</span><a id="line.599">    }</a>
-<span class="sourceLineNo">600</span><a id="line.600"></a>
-<span class="sourceLineNo">601</span><a id="line.601">    @Override</a>
-<span class="sourceLineNo">602</span><a id="line.602">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">603</span><a id="line.603">      return length == 0;</a>
-<span class="sourceLineNo">604</span><a id="line.604">    }</a>
-<span class="sourceLineNo">605</span><a id="line.605"></a>
-<span class="sourceLineNo">606</span><a id="line.606">    @Override</a>
-<span class="sourceLineNo">607</span><a id="line.607">    public long size() {</a>
-<span class="sourceLineNo">608</span><a id="line.608">      return length;</a>
-<span class="sourceLineNo">609</span><a id="line.609">    }</a>
-<span class="sourceLineNo">610</span><a id="line.610"></a>
-<span class="sourceLineNo">611</span><a id="line.611">    @Override</a>
-<span class="sourceLineNo">612</span><a id="line.612">    public Optional&lt;Long&gt; sizeIfKnown() {</a>
-<span class="sourceLineNo">613</span><a id="line.613">      return Optional.of((long) length);</a>
-<span class="sourceLineNo">614</span><a id="line.614">    }</a>
-<span class="sourceLineNo">615</span><a id="line.615"></a>
-<span class="sourceLineNo">616</span><a id="line.616">    @Override</a>
-<span class="sourceLineNo">617</span><a id="line.617">    public byte[] read() {</a>
-<span class="sourceLineNo">618</span><a id="line.618">      return Arrays.copyOfRange(bytes, offset, offset + length);</a>
-<span class="sourceLineNo">619</span><a id="line.619">    }</a>
-<span class="sourceLineNo">620</span><a id="line.620"></a>
-<span class="sourceLineNo">621</span><a id="line.621">    @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here</a>
-<span class="sourceLineNo">622</span><a id="line.622">    @Override</a>
-<span class="sourceLineNo">623</span><a id="line.623">    @ParametricNullness</a>
-<span class="sourceLineNo">624</span><a id="line.624">    public &lt;T extends @Nullable Object&gt; T read(ByteProcessor&lt;T&gt; processor) throws IOException {</a>
-<span class="sourceLineNo">625</span><a id="line.625">      processor.processBytes(bytes, offset, length);</a>
-<span class="sourceLineNo">626</span><a id="line.626">      return processor.getResult();</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628"></a>
-<span class="sourceLineNo">629</span><a id="line.629">    @Override</a>
-<span class="sourceLineNo">630</span><a id="line.630">    public long copyTo(OutputStream output) throws IOException {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      output.write(bytes, offset, length);</a>
-<span class="sourceLineNo">632</span><a id="line.632">      return length;</a>
-<span class="sourceLineNo">633</span><a id="line.633">    }</a>
-<span class="sourceLineNo">634</span><a id="line.634"></a>
-<span class="sourceLineNo">635</span><a id="line.635">    @Override</a>
-<span class="sourceLineNo">636</span><a id="line.636">    public HashCode hash(HashFunction hashFunction) throws IOException {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      return hashFunction.hashBytes(bytes, offset, length);</a>
-<span class="sourceLineNo">638</span><a id="line.638">    }</a>
-<span class="sourceLineNo">639</span><a id="line.639"></a>
-<span class="sourceLineNo">640</span><a id="line.640">    @Override</a>
-<span class="sourceLineNo">641</span><a id="line.641">    public ByteSource slice(long offset, long length) {</a>
-<span class="sourceLineNo">642</span><a id="line.642">      checkArgument(offset &gt;= 0, "offset (%s) may not be negative", offset);</a>
-<span class="sourceLineNo">643</span><a id="line.643">      checkArgument(length &gt;= 0, "length (%s) may not be negative", length);</a>
-<span class="sourceLineNo">644</span><a id="line.644"></a>
-<span class="sourceLineNo">645</span><a id="line.645">      offset = Math.min(offset, this.length);</a>
-<span class="sourceLineNo">646</span><a id="line.646">      length = Math.min(length, this.length - offset);</a>
-<span class="sourceLineNo">647</span><a id="line.647">      int newOffset = this.offset + (int) offset;</a>
-<span class="sourceLineNo">648</span><a id="line.648">      return new ByteArrayByteSource(bytes, newOffset, (int) length);</a>
-<span class="sourceLineNo">649</span><a id="line.649">    }</a>
-<span class="sourceLineNo">650</span><a id="line.650"></a>
-<span class="sourceLineNo">651</span><a id="line.651">    @Override</a>
-<span class="sourceLineNo">652</span><a id="line.652">    public String toString() {</a>
-<span class="sourceLineNo">653</span><a id="line.653">      return "ByteSource.wrap("</a>
-<span class="sourceLineNo">654</span><a id="line.654">          + Ascii.truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...")</a>
-<span class="sourceLineNo">655</span><a id="line.655">          + ")";</a>
-<span class="sourceLineNo">656</span><a id="line.656">    }</a>
-<span class="sourceLineNo">657</span><a id="line.657">  }</a>
-<span class="sourceLineNo">658</span><a id="line.658"></a>
-<span class="sourceLineNo">659</span><a id="line.659">  private static final class EmptyByteSource extends ByteArrayByteSource {</a>
+<span class="sourceLineNo">574</span><a id="line.574">  private static class ByteArrayByteSource extends</a>
+<span class="sourceLineNo">575</span><a id="line.575">      ByteSource</a>
+<span class="sourceLineNo">576</span><a id="line.576">  {</a>
+<span class="sourceLineNo">577</span><a id="line.577"></a>
+<span class="sourceLineNo">578</span><a id="line.578">    final byte[] bytes;</a>
+<span class="sourceLineNo">579</span><a id="line.579">    final int offset;</a>
+<span class="sourceLineNo">580</span><a id="line.580">    final int length;</a>
+<span class="sourceLineNo">581</span><a id="line.581"></a>
+<span class="sourceLineNo">582</span><a id="line.582">    ByteArrayByteSource(byte[] bytes) {</a>
+<span class="sourceLineNo">583</span><a id="line.583">      this(bytes, 0, bytes.length);</a>
+<span class="sourceLineNo">584</span><a id="line.584">    }</a>
+<span class="sourceLineNo">585</span><a id="line.585"></a>
+<span class="sourceLineNo">586</span><a id="line.586">    // NOTE: Preconditions are enforced by slice, the only non-trivial caller.</a>
+<span class="sourceLineNo">587</span><a id="line.587">    ByteArrayByteSource(byte[] bytes, int offset, int length) {</a>
+<span class="sourceLineNo">588</span><a id="line.588">      this.bytes = bytes;</a>
+<span class="sourceLineNo">589</span><a id="line.589">      this.offset = offset;</a>
+<span class="sourceLineNo">590</span><a id="line.590">      this.length = length;</a>
+<span class="sourceLineNo">591</span><a id="line.591">    }</a>
+<span class="sourceLineNo">592</span><a id="line.592"></a>
+<span class="sourceLineNo">593</span><a id="line.593">    @Override</a>
+<span class="sourceLineNo">594</span><a id="line.594">    public InputStream openStream() {</a>
+<span class="sourceLineNo">595</span><a id="line.595">      return new ByteArrayInputStream(bytes, offset, length);</a>
+<span class="sourceLineNo">596</span><a id="line.596">    }</a>
+<span class="sourceLineNo">597</span><a id="line.597"></a>
+<span class="sourceLineNo">598</span><a id="line.598">    @Override</a>
+<span class="sourceLineNo">599</span><a id="line.599">    public InputStream openBufferedStream() {</a>
+<span class="sourceLineNo">600</span><a id="line.600">      return openStream();</a>
+<span class="sourceLineNo">601</span><a id="line.601">    }</a>
+<span class="sourceLineNo">602</span><a id="line.602"></a>
+<span class="sourceLineNo">603</span><a id="line.603">    @Override</a>
+<span class="sourceLineNo">604</span><a id="line.604">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">605</span><a id="line.605">      return length == 0;</a>
+<span class="sourceLineNo">606</span><a id="line.606">    }</a>
+<span class="sourceLineNo">607</span><a id="line.607"></a>
+<span class="sourceLineNo">608</span><a id="line.608">    @Override</a>
+<span class="sourceLineNo">609</span><a id="line.609">    public long size() {</a>
+<span class="sourceLineNo">610</span><a id="line.610">      return length;</a>
+<span class="sourceLineNo">611</span><a id="line.611">    }</a>
+<span class="sourceLineNo">612</span><a id="line.612"></a>
+<span class="sourceLineNo">613</span><a id="line.613">    @Override</a>
+<span class="sourceLineNo">614</span><a id="line.614">    public Optional&lt;Long&gt; sizeIfKnown() {</a>
+<span class="sourceLineNo">615</span><a id="line.615">      return Optional.of((long) length);</a>
+<span class="sourceLineNo">616</span><a id="line.616">    }</a>
+<span class="sourceLineNo">617</span><a id="line.617"></a>
+<span class="sourceLineNo">618</span><a id="line.618">    @Override</a>
+<span class="sourceLineNo">619</span><a id="line.619">    public byte[] read() {</a>
+<span class="sourceLineNo">620</span><a id="line.620">      return Arrays.copyOfRange(bytes, offset, offset + length);</a>
+<span class="sourceLineNo">621</span><a id="line.621">    }</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">    @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here</a>
+<span class="sourceLineNo">624</span><a id="line.624">    @Override</a>
+<span class="sourceLineNo">625</span><a id="line.625">    @ParametricNullness</a>
+<span class="sourceLineNo">626</span><a id="line.626">    public &lt;T extends @Nullable Object&gt; T read(ByteProcessor&lt;T&gt; processor) throws IOException {</a>
+<span class="sourceLineNo">627</span><a id="line.627">      processor.processBytes(bytes, offset, length);</a>
+<span class="sourceLineNo">628</span><a id="line.628">      return processor.getResult();</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630"></a>
+<span class="sourceLineNo">631</span><a id="line.631">    @Override</a>
+<span class="sourceLineNo">632</span><a id="line.632">    public long copyTo(OutputStream output) throws IOException {</a>
+<span class="sourceLineNo">633</span><a id="line.633">      output.write(bytes, offset, length);</a>
+<span class="sourceLineNo">634</span><a id="line.634">      return length;</a>
+<span class="sourceLineNo">635</span><a id="line.635">    }</a>
+<span class="sourceLineNo">636</span><a id="line.636"></a>
+<span class="sourceLineNo">637</span><a id="line.637">    @Override</a>
+<span class="sourceLineNo">638</span><a id="line.638">    public HashCode hash(HashFunction hashFunction) throws IOException {</a>
+<span class="sourceLineNo">639</span><a id="line.639">      return hashFunction.hashBytes(bytes, offset, length);</a>
+<span class="sourceLineNo">640</span><a id="line.640">    }</a>
+<span class="sourceLineNo">641</span><a id="line.641"></a>
+<span class="sourceLineNo">642</span><a id="line.642">    @Override</a>
+<span class="sourceLineNo">643</span><a id="line.643">    public ByteSource slice(long offset, long length) {</a>
+<span class="sourceLineNo">644</span><a id="line.644">      checkArgument(offset &gt;= 0, "offset (%s) may not be negative", offset);</a>
+<span class="sourceLineNo">645</span><a id="line.645">      checkArgument(length &gt;= 0, "length (%s) may not be negative", length);</a>
+<span class="sourceLineNo">646</span><a id="line.646"></a>
+<span class="sourceLineNo">647</span><a id="line.647">      offset = Math.min(offset, this.length);</a>
+<span class="sourceLineNo">648</span><a id="line.648">      length = Math.min(length, this.length - offset);</a>
+<span class="sourceLineNo">649</span><a id="line.649">      int newOffset = this.offset + (int) offset;</a>
+<span class="sourceLineNo">650</span><a id="line.650">      return new ByteArrayByteSource(bytes, newOffset, (int) length);</a>
+<span class="sourceLineNo">651</span><a id="line.651">    }</a>
+<span class="sourceLineNo">652</span><a id="line.652"></a>
+<span class="sourceLineNo">653</span><a id="line.653">    @Override</a>
+<span class="sourceLineNo">654</span><a id="line.654">    public String toString() {</a>
+<span class="sourceLineNo">655</span><a id="line.655">      return "ByteSource.wrap("</a>
+<span class="sourceLineNo">656</span><a id="line.656">          + Ascii.truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...")</a>
+<span class="sourceLineNo">657</span><a id="line.657">          + ")";</a>
+<span class="sourceLineNo">658</span><a id="line.658">    }</a>
+<span class="sourceLineNo">659</span><a id="line.659">  }</a>
 <span class="sourceLineNo">660</span><a id="line.660"></a>
-<span class="sourceLineNo">661</span><a id="line.661">    static final EmptyByteSource INSTANCE = new EmptyByteSource();</a>
+<span class="sourceLineNo">661</span><a id="line.661">  private static final class EmptyByteSource extends ByteArrayByteSource {</a>
 <span class="sourceLineNo">662</span><a id="line.662"></a>
-<span class="sourceLineNo">663</span><a id="line.663">    EmptyByteSource() {</a>
-<span class="sourceLineNo">664</span><a id="line.664">      super(new byte[0]);</a>
-<span class="sourceLineNo">665</span><a id="line.665">    }</a>
-<span class="sourceLineNo">666</span><a id="line.666"></a>
-<span class="sourceLineNo">667</span><a id="line.667">    @Override</a>
-<span class="sourceLineNo">668</span><a id="line.668">    public CharSource asCharSource(Charset charset) {</a>
-<span class="sourceLineNo">669</span><a id="line.669">      checkNotNull(charset);</a>
-<span class="sourceLineNo">670</span><a id="line.670">      return CharSource.empty();</a>
-<span class="sourceLineNo">671</span><a id="line.671">    }</a>
-<span class="sourceLineNo">672</span><a id="line.672"></a>
-<span class="sourceLineNo">673</span><a id="line.673">    @Override</a>
-<span class="sourceLineNo">674</span><a id="line.674">    public byte[] read() {</a>
-<span class="sourceLineNo">675</span><a id="line.675">      return bytes; // length is 0, no need to clone</a>
-<span class="sourceLineNo">676</span><a id="line.676">    }</a>
-<span class="sourceLineNo">677</span><a id="line.677"></a>
-<span class="sourceLineNo">678</span><a id="line.678">    @Override</a>
-<span class="sourceLineNo">679</span><a id="line.679">    public String toString() {</a>
-<span class="sourceLineNo">680</span><a id="line.680">      return "ByteSource.empty()";</a>
-<span class="sourceLineNo">681</span><a id="line.681">    }</a>
-<span class="sourceLineNo">682</span><a id="line.682">  }</a>
-<span class="sourceLineNo">683</span><a id="line.683"></a>
-<span class="sourceLineNo">684</span><a id="line.684">  private static final class ConcatenatedByteSource extends ByteSource {</a>
+<span class="sourceLineNo">663</span><a id="line.663">    static final EmptyByteSource INSTANCE = new EmptyByteSource();</a>
+<span class="sourceLineNo">664</span><a id="line.664"></a>
+<span class="sourceLineNo">665</span><a id="line.665">    EmptyByteSource() {</a>
+<span class="sourceLineNo">666</span><a id="line.666">      super(new byte[0]);</a>
+<span class="sourceLineNo">667</span><a id="line.667">    }</a>
+<span class="sourceLineNo">668</span><a id="line.668"></a>
+<span class="sourceLineNo">669</span><a id="line.669">    @Override</a>
+<span class="sourceLineNo">670</span><a id="line.670">    public CharSource asCharSource(Charset charset) {</a>
+<span class="sourceLineNo">671</span><a id="line.671">      checkNotNull(charset);</a>
+<span class="sourceLineNo">672</span><a id="line.672">      return CharSource.empty();</a>
+<span class="sourceLineNo">673</span><a id="line.673">    }</a>
+<span class="sourceLineNo">674</span><a id="line.674"></a>
+<span class="sourceLineNo">675</span><a id="line.675">    @Override</a>
+<span class="sourceLineNo">676</span><a id="line.676">    public byte[] read() {</a>
+<span class="sourceLineNo">677</span><a id="line.677">      return bytes; // length is 0, no need to clone</a>
+<span class="sourceLineNo">678</span><a id="line.678">    }</a>
+<span class="sourceLineNo">679</span><a id="line.679"></a>
+<span class="sourceLineNo">680</span><a id="line.680">    @Override</a>
+<span class="sourceLineNo">681</span><a id="line.681">    public String toString() {</a>
+<span class="sourceLineNo">682</span><a id="line.682">      return "ByteSource.empty()";</a>
+<span class="sourceLineNo">683</span><a id="line.683">    }</a>
+<span class="sourceLineNo">684</span><a id="line.684">  }</a>
 <span class="sourceLineNo">685</span><a id="line.685"></a>
-<span class="sourceLineNo">686</span><a id="line.686">    final Iterable&lt;? extends ByteSource&gt; sources;</a>
+<span class="sourceLineNo">686</span><a id="line.686">  private static final class ConcatenatedByteSource extends ByteSource {</a>
 <span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">    ConcatenatedByteSource(Iterable&lt;? extends ByteSource&gt; sources) {</a>
-<span class="sourceLineNo">689</span><a id="line.689">      this.sources = checkNotNull(sources);</a>
-<span class="sourceLineNo">690</span><a id="line.690">    }</a>
-<span class="sourceLineNo">691</span><a id="line.691"></a>
-<span class="sourceLineNo">692</span><a id="line.692">    @Override</a>
-<span class="sourceLineNo">693</span><a id="line.693">    public InputStream openStream() throws IOException {</a>
-<span class="sourceLineNo">694</span><a id="line.694">      return new MultiInputStream(sources.iterator());</a>
-<span class="sourceLineNo">695</span><a id="line.695">    }</a>
-<span class="sourceLineNo">696</span><a id="line.696"></a>
-<span class="sourceLineNo">697</span><a id="line.697">    @Override</a>
-<span class="sourceLineNo">698</span><a id="line.698">    public boolean isEmpty() throws IOException {</a>
-<span class="sourceLineNo">699</span><a id="line.699">      for (ByteSource source : sources) {</a>
-<span class="sourceLineNo">700</span><a id="line.700">        if (!source.isEmpty()) {</a>
-<span class="sourceLineNo">701</span><a id="line.701">          return false;</a>
-<span class="sourceLineNo">702</span><a id="line.702">        }</a>
-<span class="sourceLineNo">703</span><a id="line.703">      }</a>
-<span class="sourceLineNo">704</span><a id="line.704">      return true;</a>
-<span class="sourceLineNo">705</span><a id="line.705">    }</a>
-<span class="sourceLineNo">706</span><a id="line.706"></a>
-<span class="sourceLineNo">707</span><a id="line.707">    @Override</a>
-<span class="sourceLineNo">708</span><a id="line.708">    public Optional&lt;Long&gt; sizeIfKnown() {</a>
-<span class="sourceLineNo">709</span><a id="line.709">      if (!(sources instanceof Collection)) {</a>
-<span class="sourceLineNo">710</span><a id="line.710">        // Infinite Iterables can cause problems here. Of course, it's true that most of the other</a>
-<span class="sourceLineNo">711</span><a id="line.711">        // methods on this class also have potential problems with infinite  Iterables. But unlike</a>
-<span class="sourceLineNo">712</span><a id="line.712">        // those, this method can cause issues even if the user is dealing with a (finite) slice()</a>
-<span class="sourceLineNo">713</span><a id="line.713">        // of this source, since the slice's sizeIfKnown() method needs to know the size of the</a>
-<span class="sourceLineNo">714</span><a id="line.714">        // underlying source to know what its size actually is.</a>
-<span class="sourceLineNo">715</span><a id="line.715">        return Optional.absent();</a>
-<span class="sourceLineNo">716</span><a id="line.716">      }</a>
-<span class="sourceLineNo">717</span><a id="line.717">      long result = 0L;</a>
-<span class="sourceLineNo">718</span><a id="line.718">      for (ByteSource source : sources) {</a>
-<span class="sourceLineNo">719</span><a id="line.719">        Optional&lt;Long&gt; sizeIfKnown = source.sizeIfKnown();</a>
-<span class="sourceLineNo">720</span><a id="line.720">        if (!sizeIfKnown.isPresent()) {</a>
-<span class="sourceLineNo">721</span><a id="line.721">          return Optional.absent();</a>
-<span class="sourceLineNo">722</span><a id="line.722">        }</a>
-<span class="sourceLineNo">723</span><a id="line.723">        result += sizeIfKnown.get();</a>
-<span class="sourceLineNo">724</span><a id="line.724">        if (result &lt; 0) {</a>
-<span class="sourceLineNo">725</span><a id="line.725">          // Overflow (or one or more sources that returned a negative size, but all bets are off in</a>
-<span class="sourceLineNo">726</span><a id="line.726">          // that case)</a>
-<span class="sourceLineNo">727</span><a id="line.727">          // Can't represent anything higher, and realistically there probably isn't anything that</a>
-<span class="sourceLineNo">728</span><a id="line.728">          // can actually be done anyway with the supposed 8+ exbibytes of data the source is</a>
-<span class="sourceLineNo">729</span><a id="line.729">          // claiming to have if we get here, so just stop.</a>
-<span class="sourceLineNo">730</span><a id="line.730">          return Optional.of(Long.MAX_VALUE);</a>
-<span class="sourceLineNo">731</span><a id="line.731">        }</a>
-<span class="sourceLineNo">732</span><a id="line.732">      }</a>
-<span class="sourceLineNo">733</span><a id="line.733">      return Optional.of(result);</a>
-<span class="sourceLineNo">734</span><a id="line.734">    }</a>
-<span class="sourceLineNo">735</span><a id="line.735"></a>
-<span class="sourceLineNo">736</span><a id="line.736">    @Override</a>
-<span class="sourceLineNo">737</span><a id="line.737">    public long size() throws IOException {</a>
-<span class="sourceLineNo">738</span><a id="line.738">      long result = 0L;</a>
-<span class="sourceLineNo">739</span><a id="line.739">      for (ByteSource source : sources) {</a>
-<span class="sourceLineNo">740</span><a id="line.740">        result += source.size();</a>
-<span class="sourceLineNo">741</span><a id="line.741">        if (result &lt; 0) {</a>
-<span class="sourceLineNo">742</span><a id="line.742">          // Overflow (or one or more sources that returned a negative size, but all bets are off in</a>
-<span class="sourceLineNo">743</span><a id="line.743">          // that case)</a>
-<span class="sourceLineNo">744</span><a id="line.744">          // Can't represent anything higher, and realistically there probably isn't anything that</a>
-<span class="sourceLineNo">745</span><a id="line.745">          // can actually be done anyway with the supposed 8+ exbibytes of data the source is</a>
-<span class="sourceLineNo">746</span><a id="line.746">          // claiming to have if we get here, so just stop.</a>
-<span class="sourceLineNo">747</span><a id="line.747">          return Long.MAX_VALUE;</a>
-<span class="sourceLineNo">748</span><a id="line.748">        }</a>
-<span class="sourceLineNo">749</span><a id="line.749">      }</a>
-<span class="sourceLineNo">750</span><a id="line.750">      return result;</a>
-<span class="sourceLineNo">751</span><a id="line.751">    }</a>
-<span class="sourceLineNo">752</span><a id="line.752"></a>
-<span class="sourceLineNo">753</span><a id="line.753">    @Override</a>
-<span class="sourceLineNo">754</span><a id="line.754">    public String toString() {</a>
-<span class="sourceLineNo">755</span><a id="line.755">      return "ByteSource.concat(" + sources + ")";</a>
-<span class="sourceLineNo">756</span><a id="line.756">    }</a>
-<span class="sourceLineNo">757</span><a id="line.757">  }</a>
-<span class="sourceLineNo">758</span><a id="line.758">}</a>
+<span class="sourceLineNo">688</span><a id="line.688">    final Iterable&lt;? extends ByteSource&gt; sources;</a>
+<span class="sourceLineNo">689</span><a id="line.689"></a>
+<span class="sourceLineNo">690</span><a id="line.690">    ConcatenatedByteSource(Iterable&lt;? extends ByteSource&gt; sources) {</a>
+<span class="sourceLineNo">691</span><a id="line.691">      this.sources = checkNotNull(sources);</a>
+<span class="sourceLineNo">692</span><a id="line.692">    }</a>
+<span class="sourceLineNo">693</span><a id="line.693"></a>
+<span class="sourceLineNo">694</span><a id="line.694">    @Override</a>
+<span class="sourceLineNo">695</span><a id="line.695">    public InputStream openStream() throws IOException {</a>
+<span class="sourceLineNo">696</span><a id="line.696">      return new MultiInputStream(sources.iterator());</a>
+<span class="sourceLineNo">697</span><a id="line.697">    }</a>
+<span class="sourceLineNo">698</span><a id="line.698"></a>
+<span class="sourceLineNo">699</span><a id="line.699">    @Override</a>
+<span class="sourceLineNo">700</span><a id="line.700">    public boolean isEmpty() throws IOException {</a>
+<span class="sourceLineNo">701</span><a id="line.701">      for (ByteSource source : sources) {</a>
+<span class="sourceLineNo">702</span><a id="line.702">        if (!source.isEmpty()) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">          return false;</a>
+<span class="sourceLineNo">704</span><a id="line.704">        }</a>
+<span class="sourceLineNo">705</span><a id="line.705">      }</a>
+<span class="sourceLineNo">706</span><a id="line.706">      return true;</a>
+<span class="sourceLineNo">707</span><a id="line.707">    }</a>
+<span class="sourceLineNo">708</span><a id="line.708"></a>
+<span class="sourceLineNo">709</span><a id="line.709">    @Override</a>
+<span class="sourceLineNo">710</span><a id="line.710">    public Optional&lt;Long&gt; sizeIfKnown() {</a>
+<span class="sourceLineNo">711</span><a id="line.711">      if (!(sources instanceof Collection)) {</a>
+<span class="sourceLineNo">712</span><a id="line.712">        // Infinite Iterables can cause problems here. Of course, it's true that most of the other</a>
+<span class="sourceLineNo">713</span><a id="line.713">        // methods on this class also have potential problems with infinite  Iterables. But unlike</a>
+<span class="sourceLineNo">714</span><a id="line.714">        // those, this method can cause issues even if the user is dealing with a (finite) slice()</a>
+<span class="sourceLineNo">715</span><a id="line.715">        // of this source, since the slice's sizeIfKnown() method needs to know the size of the</a>
+<span class="sourceLineNo">716</span><a id="line.716">        // underlying source to know what its size actually is.</a>
+<span class="sourceLineNo">717</span><a id="line.717">        return Optional.absent();</a>
+<span class="sourceLineNo">718</span><a id="line.718">      }</a>
+<span class="sourceLineNo">719</span><a id="line.719">      long result = 0L;</a>
+<span class="sourceLineNo">720</span><a id="line.720">      for (ByteSource source : sources) {</a>
+<span class="sourceLineNo">721</span><a id="line.721">        Optional&lt;Long&gt; sizeIfKnown = source.sizeIfKnown();</a>
+<span class="sourceLineNo">722</span><a id="line.722">        if (!sizeIfKnown.isPresent()) {</a>
+<span class="sourceLineNo">723</span><a id="line.723">          return Optional.absent();</a>
+<span class="sourceLineNo">724</span><a id="line.724">        }</a>
+<span class="sourceLineNo">725</span><a id="line.725">        result += sizeIfKnown.get();</a>
+<span class="sourceLineNo">726</span><a id="line.726">        if (result &lt; 0) {</a>
+<span class="sourceLineNo">727</span><a id="line.727">          // Overflow (or one or more sources that returned a negative size, but all bets are off in</a>
+<span class="sourceLineNo">728</span><a id="line.728">          // that case)</a>
+<span class="sourceLineNo">729</span><a id="line.729">          // Can't represent anything higher, and realistically there probably isn't anything that</a>
+<span class="sourceLineNo">730</span><a id="line.730">          // can actually be done anyway with the supposed 8+ exbibytes of data the source is</a>
+<span class="sourceLineNo">731</span><a id="line.731">          // claiming to have if we get here, so just stop.</a>
+<span class="sourceLineNo">732</span><a id="line.732">          return Optional.of(Long.MAX_VALUE);</a>
+<span class="sourceLineNo">733</span><a id="line.733">        }</a>
+<span class="sourceLineNo">734</span><a id="line.734">      }</a>
+<span class="sourceLineNo">735</span><a id="line.735">      return Optional.of(result);</a>
+<span class="sourceLineNo">736</span><a id="line.736">    }</a>
+<span class="sourceLineNo">737</span><a id="line.737"></a>
+<span class="sourceLineNo">738</span><a id="line.738">    @Override</a>
+<span class="sourceLineNo">739</span><a id="line.739">    public long size() throws IOException {</a>
+<span class="sourceLineNo">740</span><a id="line.740">      long result = 0L;</a>
+<span class="sourceLineNo">741</span><a id="line.741">      for (ByteSource source : sources) {</a>
+<span class="sourceLineNo">742</span><a id="line.742">        result += source.size();</a>
+<span class="sourceLineNo">743</span><a id="line.743">        if (result &lt; 0) {</a>
+<span class="sourceLineNo">744</span><a id="line.744">          // Overflow (or one or more sources that returned a negative size, but all bets are off in</a>
+<span class="sourceLineNo">745</span><a id="line.745">          // that case)</a>
+<span class="sourceLineNo">746</span><a id="line.746">          // Can't represent anything higher, and realistically there probably isn't anything that</a>
+<span class="sourceLineNo">747</span><a id="line.747">          // can actually be done anyway with the supposed 8+ exbibytes of data the source is</a>
+<span class="sourceLineNo">748</span><a id="line.748">          // claiming to have if we get here, so just stop.</a>
+<span class="sourceLineNo">749</span><a id="line.749">          return Long.MAX_VALUE;</a>
+<span class="sourceLineNo">750</span><a id="line.750">        }</a>
+<span class="sourceLineNo">751</span><a id="line.751">      }</a>
+<span class="sourceLineNo">752</span><a id="line.752">      return result;</a>
+<span class="sourceLineNo">753</span><a id="line.753">    }</a>
+<span class="sourceLineNo">754</span><a id="line.754"></a>
+<span class="sourceLineNo">755</span><a id="line.755">    @Override</a>
+<span class="sourceLineNo">756</span><a id="line.756">    public String toString() {</a>
+<span class="sourceLineNo">757</span><a id="line.757">      return "ByteSource.concat(" + sources + ")";</a>
+<span class="sourceLineNo">758</span><a id="line.758">    }</a>
+<span class="sourceLineNo">759</span><a id="line.759">  }</a>
+<span class="sourceLineNo">760</span><a id="line.760">}</a>
 
 
 
