@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
 import static com.google.common.util.concurrent.Service.State.RUNNING;
@@ -249,6 +250,7 @@ public abstract class AbstractService implements Service {
         enqueueStartingEvent();
         doStart();
       } catch (Throwable startupFailure) {
+        restoreInterruptIfIsInterruptedException(startupFailure);
         notifyFailed(startupFailure);
       } finally {
         monitor.leave();
@@ -288,6 +290,7 @@ public abstract class AbstractService implements Service {
             throw new AssertionError("isStoppable is incorrectly implemented, saw: " + previous);
         }
       } catch (Throwable shutdownFailure) {
+        restoreInterruptIfIsInterruptedException(shutdownFailure);
         notifyFailed(shutdownFailure);
       } finally {
         monitor.leave();

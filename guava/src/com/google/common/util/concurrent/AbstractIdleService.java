@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -62,6 +64,7 @@ public abstract class AbstractIdleService implements Service {
                     startUp();
                     notifyStarted();
                   } catch (Throwable t) {
+                    restoreInterruptIfIsInterruptedException(t);
                     notifyFailed(t);
                   }
                 }
@@ -79,6 +82,7 @@ public abstract class AbstractIdleService implements Service {
                     shutDown();
                     notifyStopped();
                   } catch (Throwable t) {
+                    restoreInterruptIfIsInterruptedException(t);
                     notifyFailed(t);
                   }
                 }

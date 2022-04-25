@@ -26,5 +26,7 @@ final class Platform {
     return true;
   }
 
+  static void restoreInterruptIfIsInterruptedException(Throwable t) {}
+
   private Platform() {}
 }

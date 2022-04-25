@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -66,6 +67,7 @@ abstract class WrappingExecutorService implements ExecutorService {
       try {
         wrapped.call();
       } catch (Exception e) {
+        restoreInterruptIfIsInterruptedException(e);
         throwIfUnchecked(e);
         throw new RuntimeException(e);
       }

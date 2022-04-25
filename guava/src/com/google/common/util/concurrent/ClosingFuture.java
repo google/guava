@@ -32,6 +32,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
@@ -2169,6 +2170,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
               try {
                 closeable.close();
               } catch (Exception e) {
+                restoreInterruptIfIsInterruptedException(e);
                 logger.log(WARNING, "thrown by close()", e);
               }
             }
