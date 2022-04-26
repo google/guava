@@ -1,0 +1,13 @@
+
+version: 1.0
+
+excludeFiles:
+  - android/**
+  - futures/**
+  - guava-bom/**
+  - guava-gwt/**
+  - guava-testlib/**
+  - guava-tests/**
+  - guava/**
+  - refactorings/**
+  - util/**
