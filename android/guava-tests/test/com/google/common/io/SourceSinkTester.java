@@ -35,7 +35,7 @@ import junit.framework.TestCase;
  * @param <F> the factory type
  * @author Colin Decker
  */
-@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // TODO(b/230620681): Make this available (even though we won't run it).
 public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends TestCase {
 
   static final String LOREM_IPSUM =
