@@ -239,7 +239,6 @@ public class EventBusTest extends TestCase {
 
   // NOTE: This test will always pass if register() is thread-safe but may also
   // pass if it isn't, though this is unlikely.
-
   public void testRegisterThreadSafety() throws Exception {
     List<StringCatcher> catchers = Lists.newCopyOnWriteArrayList();
     List<Future<?>> futures = Lists.newArrayList();

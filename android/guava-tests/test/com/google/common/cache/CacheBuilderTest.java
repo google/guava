@@ -399,7 +399,6 @@ public class CacheBuilderTest extends TestCase {
   }
 
   @GwtIncompatible // QueuingRemovalListener
-
   public void testRemovalNotification_clear() throws InterruptedException {
     // If a clear() happens while a computation is pending, we should not get a removal
     // notification.
