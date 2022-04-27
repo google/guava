@@ -293,7 +293,6 @@ public class LocalLoadingCacheTest extends TestCase {
     assertFalse(segment.recencyQueue.isEmpty());
   }
 
-
   public void testRecursiveComputation() throws InterruptedException {
     final AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
     CacheLoader<Integer, String> recursiveLoader =
