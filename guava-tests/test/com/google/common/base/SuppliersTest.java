@@ -305,7 +305,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-  public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+  private void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
     final AtomicReference<Throwable> thrown = new AtomicReference<>(null);
