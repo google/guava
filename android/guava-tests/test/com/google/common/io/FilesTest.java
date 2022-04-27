@@ -47,6 +47,7 @@ import junit.framework.TestSuite;
  * @author Chris Nokleberg
  */
 
+@AndroidIncompatible // Android forbids much filesystem access. Maybe we could make it work?
 public class FilesTest extends IoTestCase {
 
   public static TestSuite suite() {
