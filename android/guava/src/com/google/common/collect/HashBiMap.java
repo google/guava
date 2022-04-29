@@ -749,7 +749,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<K> keySet;
+  @LazyInit private transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -787,7 +787,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<V> valueSet;
+  @LazyInit private transient Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -825,7 +825,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private transient Set<Entry<K, V>> entrySet;
+  @LazyInit private transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
