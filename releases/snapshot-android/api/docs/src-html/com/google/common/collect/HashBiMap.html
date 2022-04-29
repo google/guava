@@ -758,7 +758,7 @@
 <span class="sourceLineNo">749</span><a id="line.749">    }</a>
 <span class="sourceLineNo">750</span><a id="line.750">  }</a>
 <span class="sourceLineNo">751</span><a id="line.751"></a>
-<span class="sourceLineNo">752</span><a id="line.752">  private transient Set&lt;K&gt; keySet;</a>
+<span class="sourceLineNo">752</span><a id="line.752">  @LazyInit private transient Set&lt;K&gt; keySet;</a>
 <span class="sourceLineNo">753</span><a id="line.753"></a>
 <span class="sourceLineNo">754</span><a id="line.754">  @Override</a>
 <span class="sourceLineNo">755</span><a id="line.755">  public Set&lt;K&gt; keySet() {</a>
@@ -796,7 +796,7 @@
 <span class="sourceLineNo">787</span><a id="line.787">    }</a>
 <span class="sourceLineNo">788</span><a id="line.788">  }</a>
 <span class="sourceLineNo">789</span><a id="line.789"></a>
-<span class="sourceLineNo">790</span><a id="line.790">  private transient Set&lt;V&gt; valueSet;</a>
+<span class="sourceLineNo">790</span><a id="line.790">  @LazyInit private transient Set&lt;V&gt; valueSet;</a>
 <span class="sourceLineNo">791</span><a id="line.791"></a>
 <span class="sourceLineNo">792</span><a id="line.792">  @Override</a>
 <span class="sourceLineNo">793</span><a id="line.793">  public Set&lt;V&gt; values() {</a>
@@ -834,7 +834,7 @@
 <span class="sourceLineNo">825</span><a id="line.825">    }</a>
 <span class="sourceLineNo">826</span><a id="line.826">  }</a>
 <span class="sourceLineNo">827</span><a id="line.827"></a>
-<span class="sourceLineNo">828</span><a id="line.828">  private transient Set&lt;Entry&lt;K, V&gt;&gt; entrySet;</a>
+<span class="sourceLineNo">828</span><a id="line.828">  @LazyInit private transient Set&lt;Entry&lt;K, V&gt;&gt; entrySet;</a>
 <span class="sourceLineNo">829</span><a id="line.829"></a>
 <span class="sourceLineNo">830</span><a id="line.830">  @Override</a>
 <span class="sourceLineNo">831</span><a id="line.831">  public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {</a>
