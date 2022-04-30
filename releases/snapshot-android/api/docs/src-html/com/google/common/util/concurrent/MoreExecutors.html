@@ -676,9 +676,9 @@
 <span class="sourceLineNo">667</span><a id="line.667">      public void run() {</a>
 <span class="sourceLineNo">668</span><a id="line.668">        try {</a>
 <span class="sourceLineNo">669</span><a id="line.669">          delegate.run();</a>
-<span class="sourceLineNo">670</span><a id="line.670">        } catch (Throwable t) {</a>
+<span class="sourceLineNo">670</span><a id="line.670">        } catch (RuntimeException | Error t) {</a>
 <span class="sourceLineNo">671</span><a id="line.671">          setException(t);</a>
-<span class="sourceLineNo">672</span><a id="line.672">          throw Throwables.propagate(t);</a>
+<span class="sourceLineNo">672</span><a id="line.672">          throw t;</a>
 <span class="sourceLineNo">673</span><a id="line.673">        }</a>
 <span class="sourceLineNo">674</span><a id="line.674">      }</a>
 <span class="sourceLineNo">675</span><a id="line.675"></a>

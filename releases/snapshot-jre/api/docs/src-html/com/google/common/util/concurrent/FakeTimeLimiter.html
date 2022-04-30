@@ -71,43 +71,35 @@
 <span class="sourceLineNo">062</span><a id="line.62">      throw new ExecutionException(e);</a>
 <span class="sourceLineNo">063</span><a id="line.63">    } catch (Error e) {</a>
 <span class="sourceLineNo">064</span><a id="line.64">      throw new ExecutionError(e);</a>
-<span class="sourceLineNo">065</span><a id="line.65">    } catch (Throwable e) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">      // It's a non-Error, non-Exception Throwable. Such classes are usually intended to extend</a>
-<span class="sourceLineNo">067</span><a id="line.67">      // Exception, so we'll treat it like an Exception.</a>
-<span class="sourceLineNo">068</span><a id="line.68">      throw new ExecutionException(e);</a>
-<span class="sourceLineNo">069</span><a id="line.69">    }</a>
-<span class="sourceLineNo">070</span><a id="line.70">  }</a>
-<span class="sourceLineNo">071</span><a id="line.71"></a>
-<span class="sourceLineNo">072</span><a id="line.72">  @Override</a>
-<span class="sourceLineNo">073</span><a id="line.73">  @ParametricNullness</a>
-<span class="sourceLineNo">074</span><a id="line.74">  public &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
-<span class="sourceLineNo">075</span><a id="line.75">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
-<span class="sourceLineNo">076</span><a id="line.76">    return callWithTimeout(callable, timeoutDuration, timeoutUnit);</a>
-<span class="sourceLineNo">077</span><a id="line.77">  }</a>
-<span class="sourceLineNo">078</span><a id="line.78"></a>
-<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
-<span class="sourceLineNo">080</span><a id="line.80">  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
-<span class="sourceLineNo">081</span><a id="line.81">    checkNotNull(runnable);</a>
-<span class="sourceLineNo">082</span><a id="line.82">    checkNotNull(timeoutUnit);</a>
-<span class="sourceLineNo">083</span><a id="line.83">    try {</a>
-<span class="sourceLineNo">084</span><a id="line.84">      runnable.run();</a>
-<span class="sourceLineNo">085</span><a id="line.85">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">086</span><a id="line.86">      throw new UncheckedExecutionException(e);</a>
-<span class="sourceLineNo">087</span><a id="line.87">    } catch (Error e) {</a>
-<span class="sourceLineNo">088</span><a id="line.88">      throw new ExecutionError(e);</a>
-<span class="sourceLineNo">089</span><a id="line.89">    } catch (Throwable e) {</a>
-<span class="sourceLineNo">090</span><a id="line.90">      // It's a non-Error, non-Exception Throwable. Such classes are usually intended to extend</a>
-<span class="sourceLineNo">091</span><a id="line.91">      // Exception, so we'll treat it like a RuntimeException.</a>
-<span class="sourceLineNo">092</span><a id="line.92">      throw new UncheckedExecutionException(e);</a>
-<span class="sourceLineNo">093</span><a id="line.93">    }</a>
-<span class="sourceLineNo">094</span><a id="line.94">  }</a>
-<span class="sourceLineNo">095</span><a id="line.95"></a>
-<span class="sourceLineNo">096</span><a id="line.96">  @Override</a>
-<span class="sourceLineNo">097</span><a id="line.97">  public void runUninterruptiblyWithTimeout(</a>
-<span class="sourceLineNo">098</span><a id="line.98">      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
-<span class="sourceLineNo">099</span><a id="line.99">    runWithTimeout(runnable, timeoutDuration, timeoutUnit);</a>
-<span class="sourceLineNo">100</span><a id="line.100">  }</a>
-<span class="sourceLineNo">101</span><a id="line.101">}</a>
+<span class="sourceLineNo">065</span><a id="line.65">    }</a>
+<span class="sourceLineNo">066</span><a id="line.66">  }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  @Override</a>
+<span class="sourceLineNo">069</span><a id="line.69">  @ParametricNullness</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
+<span class="sourceLineNo">071</span><a id="line.71">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return callWithTimeout(callable, timeoutDuration, timeoutUnit);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  @Override</a>
+<span class="sourceLineNo">076</span><a id="line.76">  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">    checkNotNull(runnable);</a>
+<span class="sourceLineNo">078</span><a id="line.78">    checkNotNull(timeoutUnit);</a>
+<span class="sourceLineNo">079</span><a id="line.79">    try {</a>
+<span class="sourceLineNo">080</span><a id="line.80">      runnable.run();</a>
+<span class="sourceLineNo">081</span><a id="line.81">    } catch (RuntimeException e) {</a>
+<span class="sourceLineNo">082</span><a id="line.82">      throw new UncheckedExecutionException(e);</a>
+<span class="sourceLineNo">083</span><a id="line.83">    } catch (Error e) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">      throw new ExecutionError(e);</a>
+<span class="sourceLineNo">085</span><a id="line.85">    }</a>
+<span class="sourceLineNo">086</span><a id="line.86">  }</a>
+<span class="sourceLineNo">087</span><a id="line.87"></a>
+<span class="sourceLineNo">088</span><a id="line.88">  @Override</a>
+<span class="sourceLineNo">089</span><a id="line.89">  public void runUninterruptiblyWithTimeout(</a>
+<span class="sourceLineNo">090</span><a id="line.90">      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">    runWithTimeout(runnable, timeoutDuration, timeoutUnit);</a>
+<span class="sourceLineNo">092</span><a id="line.92">  }</a>
+<span class="sourceLineNo">093</span><a id="line.93">}</a>
 
 
 

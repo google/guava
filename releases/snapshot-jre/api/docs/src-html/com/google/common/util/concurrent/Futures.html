@@ -558,7 +558,7 @@
 <span class="sourceLineNo">549</span><a id="line.549">      private O applyTransformation(I input) throws ExecutionException {</a>
 <span class="sourceLineNo">550</span><a id="line.550">        try {</a>
 <span class="sourceLineNo">551</span><a id="line.551">          return function.apply(input);</a>
-<span class="sourceLineNo">552</span><a id="line.552">        } catch (Throwable t) {</a>
+<span class="sourceLineNo">552</span><a id="line.552">        } catch (RuntimeException | Error t) {</a>
 <span class="sourceLineNo">553</span><a id="line.553">          throw new ExecutionException(t);</a>
 <span class="sourceLineNo">554</span><a id="line.554">        }</a>
 <span class="sourceLineNo">555</span><a id="line.555">      }</a>

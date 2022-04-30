@@ -1020,7 +1020,7 @@
 <span class="sourceLineNo">1011</span><a id="line.1011">  private boolean isSatisfied(Guard guard) {</a>
 <span class="sourceLineNo">1012</span><a id="line.1012">    try {</a>
 <span class="sourceLineNo">1013</span><a id="line.1013">      return guard.isSatisfied();</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">    } catch (Throwable throwable) {</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">    } catch (RuntimeException | Error throwable) {</a>
 <span class="sourceLineNo">1015</span><a id="line.1015">      signalAllWaiters();</a>
 <span class="sourceLineNo">1016</span><a id="line.1016">      throw throwable;</a>
 <span class="sourceLineNo">1017</span><a id="line.1017">    }</a>

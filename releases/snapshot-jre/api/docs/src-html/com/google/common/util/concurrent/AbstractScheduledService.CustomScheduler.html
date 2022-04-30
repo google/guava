@@ -616,7 +616,7 @@
 <span class="sourceLineNo">607</span><a id="line.607">        lock.lock();</a>
 <span class="sourceLineNo">608</span><a id="line.608">        try {</a>
 <span class="sourceLineNo">609</span><a id="line.609">          toReturn = initializeOrUpdateCancellationDelegate(schedule);</a>
-<span class="sourceLineNo">610</span><a id="line.610">        } catch (Throwable e) {</a>
+<span class="sourceLineNo">610</span><a id="line.610">        } catch (RuntimeException | Error e) {</a>
 <span class="sourceLineNo">611</span><a id="line.611">          // If an exception is thrown by the subclass then we need to make sure that the service</a>
 <span class="sourceLineNo">612</span><a id="line.612">          // notices and transitions to the FAILED state. We do it by calling notifyFailed directly</a>
 <span class="sourceLineNo">613</span><a id="line.613">          // because the service does not monitor the state of the future so if the exception is not</a>
