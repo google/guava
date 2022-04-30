@@ -1121,7 +1121,7 @@ public final class Monitor {
   private boolean isSatisfied(Guard guard) {
     try {
       return guard.isSatisfied();
-    } catch (Throwable throwable) {
+    } catch (RuntimeException | Error throwable) {
       signalAllWaiters();
       throw throwable;
     }

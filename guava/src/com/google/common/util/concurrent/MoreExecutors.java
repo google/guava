@@ -728,9 +728,9 @@ public final class MoreExecutors {
       public void run() {
         try {
           delegate.run();
-        } catch (Throwable t) {
+        } catch (RuntimeException | Error t) {
           setException(t);
-          throw Throwables.propagate(t);
+          throw t;
         }
       }
 
