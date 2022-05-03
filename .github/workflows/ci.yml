@@ -26,18 +26,12 @@ jobs:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@v3
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
       - name: 'Set up JDK ${{ matrix.java }}'
         uses: actions/setup-java@v3.1.1
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
+          cache: 'maven'
       - name: 'Install'
         shell: bash
         run: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
@@ -58,13 +52,6 @@ jobs:
     steps:
       - name: 'Check out repository'
         uses: actions/checkout@v3
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
       - name: 'Set up JDK 11'
         uses: actions/setup-java@v3.1.1
         with:
@@ -73,6 +60,7 @@ jobs:
           server-id: sonatype-nexus-snapshots
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
+          cache: 'maven'
       - name: 'Publish'
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
@@ -87,18 +75,12 @@ jobs:
     steps:
       - name: 'Check out repository'
         uses: actions/checkout@v3
-      - name: 'Cache local Maven repository'
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
       - name: 'Set up JDK 11'
         uses: actions/setup-java@v3.1.1
         with:
           java-version: 11
           distribution: 'zulu'
+          cache: 'maven'
       - name: 'Generate latest docs'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
