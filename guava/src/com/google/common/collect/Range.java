@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -118,6 +119,7 @@ import javax.annotation.CheckForNull;
  */
 @GwtCompatible
 @SuppressWarnings("rawtypes")
+@Immutable(containerOf = "C")
 @ElementTypesAreNonnullByDefault
 public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
     implements Predicate<C>, Serializable {
