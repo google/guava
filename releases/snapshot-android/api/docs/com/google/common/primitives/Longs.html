@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -349,12 +349,33 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotate(long%5B%5D,int)">rotate</a></span>&#8203;(long[]&nbsp;array,
+      int&nbsp;distance)</code></th>
+<td class="colLast">
+<div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
+ moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
+ + i) mod array.length</code>.</div>
+</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotate(long%5B%5D,int,int,int)">rotate</a></span>&#8203;(long[]&nbsp;array,
+      int&nbsp;distance,
+      int&nbsp;fromIndex,
+      int&nbsp;toIndex)</code></th>
+<td class="colLast">
+<div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
+ toIndex</code> exclusive.</div>
+</td>
+</tr>
+<tr id="i20" class="altColor">
+<td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortDescending(long%5B%5D)">sortDescending</a></span>&#8203;(long[]&nbsp;array)</code></th>
 <td class="colLast">
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortDescending(long%5B%5D,int,int)">sortDescending</a></span>&#8203;(long[]&nbsp;array,
               int&nbsp;fromIndex,
@@ -364,14 +385,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  exclusive in descending order.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>static <a href="../base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stringConverter()">stringConverter</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a serializable converter object that converts between strings and longs using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#decode(java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Long.decode(java.lang.String)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Long.toString()</code></a>.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>static long[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.util.Collection)">toArray</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;collection)</code></th>
 <td class="colLast">
@@ -379,7 +400,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  in the manner of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true#longValue()" title="class or interface in java.lang" class="externalLink"><code>Number.longValue()</code></a>.</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>static byte[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toByteArray(long)">toByteArray</a></span>&#8203;(long&nbsp;value)</code></th>
 <td class="colLast">
@@ -387,14 +408,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <code>ByteBuffer.allocate(8).putLong(value).array()</code>.</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryParse(java.lang.String)">tryParse</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string)</code></th>
 <td class="colLast">
 <div class="block">Parses the specified string as a signed decimal long value.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryParse(java.lang.String,int)">tryParse</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;string,
         int&nbsp;radix)</code></th>
@@ -947,13 +968,58 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 </dl>
 </li>
 </ul>
+<a id="rotate(long[],int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rotate</h4>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.619">rotate</a>&#8203;(long[]&nbsp;array,
+                          int&nbsp;distance)</pre>
+<div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
+ moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
+ + i) mod array.length</code>. This is equivalent to <code>Collections.rotate(Longs.asList(array),
+ distance)</code>, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
+<a id="rotate(long[],int,int,int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rotate</h4>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.635">rotate</a>&#8203;(long[]&nbsp;array,
+                          int&nbsp;distance,
+                          int&nbsp;fromIndex,
+                          int&nbsp;toIndex)</pre>
+<div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
+ toIndex</code> exclusive. This is equivalent to <code>
+ Collections.rotate(Longs.asList(array).subList(fromIndex, toIndex), distance)</code>, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+     <code>toIndex &gt; fromIndex</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a id="toArray(java.util.Collection)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre class="methodSignature">public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.622">toArray</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;collection)</pre>
+<pre class="methodSignature">public static&nbsp;long[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.672">toArray</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang" class="externalLink">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>long</code> value
  in the manner of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true#longValue()" title="class or interface in java.lang" class="externalLink"><code>Number.longValue()</code></a>.
 
@@ -978,7 +1044,7 @@ public static&nbsp;<a href="../base/Converter.html" title="class in com.google.c
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.652">asList</a>&#8203;(long...&nbsp;backingArray)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Longs.html#line.702">asList</a>&#8203;(long...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util" class="externalLink"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set(int,E)" title="class or interface in java.util" class="externalLink"><code>List.set(int, Object)</code></a>, but any attempt to
  set a value to <code>null</code> will result in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>NullPointerException</code></a>.
 

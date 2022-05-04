@@ -1,5 +1,19 @@
+OK: com.google.common.primitives.Booleans Method rotate(boolean[], int)
+OK: com.google.common.primitives.Booleans Method rotate(boolean[], int, int, int)
+OK: com.google.common.primitives.Bytes Method rotate(byte[], int)
+OK: com.google.common.primitives.Bytes Method rotate(byte[], int, int, int)
+OK: com.google.common.primitives.Chars Method rotate(char[], int)
+OK: com.google.common.primitives.Chars Method rotate(char[], int, int, int)
+OK: com.google.common.primitives.Doubles Method rotate(double[], int)
+OK: com.google.common.primitives.Doubles Method rotate(double[], int, int, int)
+OK: com.google.common.primitives.Floats Method rotate(float[], int)
+OK: com.google.common.primitives.Floats Method rotate(float[], int, int, int)
 OK: com.google.common.primitives.Ints Method rotate(int[], int)
 OK: com.google.common.primitives.Ints Method rotate(int[], int, int, int)
+OK: com.google.common.primitives.Longs Method rotate(long[], int)
+OK: com.google.common.primitives.Longs Method rotate(long[], int, int, int)
+OK: com.google.common.primitives.Shorts Method rotate(short[], int)
+OK: com.google.common.primitives.Shorts Method rotate(short[], int, int, int)
 OK: com.google.common.net.HttpHeaders Field SEC_CH_DPR
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_HEIGHT
 OK: com.google.common.net.HttpHeaders Field SEC_CH_VIEWPORT_WIDTH

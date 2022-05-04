@@ -522,181 +522,231 @@
 <span class="sourceLineNo">513</span><a id="line.513">  }</a>
 <span class="sourceLineNo">514</span><a id="line.514"></a>
 <span class="sourceLineNo">515</span><a id="line.515">  /**</a>
-<span class="sourceLineNo">516</span><a id="line.516">   * Returns an array containing each value of {@code collection}, converted to a {@code short}</a>
-<span class="sourceLineNo">517</span><a id="line.517">   * value in the manner of {@link Number#shortValue}.</a>
-<span class="sourceLineNo">518</span><a id="line.518">   *</a>
-<span class="sourceLineNo">519</span><a id="line.519">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
-<span class="sourceLineNo">520</span><a id="line.520">   * Calling this method is as thread-safe as calling that method.</a>
-<span class="sourceLineNo">521</span><a id="line.521">   *</a>
-<span class="sourceLineNo">522</span><a id="line.522">   * @param collection a collection of {@code Number} instances</a>
-<span class="sourceLineNo">523</span><a id="line.523">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
-<span class="sourceLineNo">524</span><a id="line.524">   *     to primitives</a>
-<span class="sourceLineNo">525</span><a id="line.525">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
-<span class="sourceLineNo">526</span><a id="line.526">   * @since 1.0 (parameter was {@code Collection&lt;Short&gt;} before 12.0)</a>
-<span class="sourceLineNo">527</span><a id="line.527">   */</a>
-<span class="sourceLineNo">528</span><a id="line.528">  public static short[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
-<span class="sourceLineNo">529</span><a id="line.529">    if (collection instanceof ShortArrayAsList) {</a>
-<span class="sourceLineNo">530</span><a id="line.530">      return ((ShortArrayAsList) collection).toShortArray();</a>
-<span class="sourceLineNo">531</span><a id="line.531">    }</a>
-<span class="sourceLineNo">532</span><a id="line.532"></a>
-<span class="sourceLineNo">533</span><a id="line.533">    Object[] boxedArray = collection.toArray();</a>
-<span class="sourceLineNo">534</span><a id="line.534">    int len = boxedArray.length;</a>
-<span class="sourceLineNo">535</span><a id="line.535">    short[] array = new short[len];</a>
-<span class="sourceLineNo">536</span><a id="line.536">    for (int i = 0; i &lt; len; i++) {</a>
-<span class="sourceLineNo">537</span><a id="line.537">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">538</span><a id="line.538">      array[i] = ((Number) checkNotNull(boxedArray[i])).shortValue();</a>
-<span class="sourceLineNo">539</span><a id="line.539">    }</a>
-<span class="sourceLineNo">540</span><a id="line.540">    return array;</a>
-<span class="sourceLineNo">541</span><a id="line.541">  }</a>
-<span class="sourceLineNo">542</span><a id="line.542"></a>
-<span class="sourceLineNo">543</span><a id="line.543">  /**</a>
-<span class="sourceLineNo">544</span><a id="line.544">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
-<span class="sourceLineNo">545</span><a id="line.545">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
-<span class="sourceLineNo">546</span><a id="line.546">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
-<span class="sourceLineNo">547</span><a id="line.547">   *</a>
-<span class="sourceLineNo">548</span><a id="line.548">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Short} objects</a>
-<span class="sourceLineNo">549</span><a id="line.549">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
-<span class="sourceLineNo">550</span><a id="line.550">   * the returned list is unspecified.</a>
-<span class="sourceLineNo">551</span><a id="line.551">   *</a>
-<span class="sourceLineNo">552</span><a id="line.552">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">553</span><a id="line.553">   * @return a list view of the array</a>
-<span class="sourceLineNo">554</span><a id="line.554">   */</a>
-<span class="sourceLineNo">555</span><a id="line.555">  public static List&lt;Short&gt; asList(short... backingArray) {</a>
-<span class="sourceLineNo">556</span><a id="line.556">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">557</span><a id="line.557">      return Collections.emptyList();</a>
+<span class="sourceLineNo">516</span><a id="line.516">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
+<span class="sourceLineNo">517</span><a id="line.517">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
+<span class="sourceLineNo">518</span><a id="line.518">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Shorts.asList(array),</a>
+<span class="sourceLineNo">519</span><a id="line.519">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
+<span class="sourceLineNo">520</span><a id="line.520">   *</a>
+<span class="sourceLineNo">521</span><a id="line.521">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">522</span><a id="line.522">   *</a>
+<span class="sourceLineNo">523</span><a id="line.523">   * @since NEXT</a>
+<span class="sourceLineNo">524</span><a id="line.524">   */</a>
+<span class="sourceLineNo">525</span><a id="line.525">  public static void rotate(short[] array, int distance) {</a>
+<span class="sourceLineNo">526</span><a id="line.526">    rotate(array, distance, 0, array.length);</a>
+<span class="sourceLineNo">527</span><a id="line.527">  }</a>
+<span class="sourceLineNo">528</span><a id="line.528"></a>
+<span class="sourceLineNo">529</span><a id="line.529">  /**</a>
+<span class="sourceLineNo">530</span><a id="line.530">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
+<span class="sourceLineNo">531</span><a id="line.531">   * toIndex} exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">532</span><a id="line.532">   * Collections.rotate(Shorts.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
+<span class="sourceLineNo">533</span><a id="line.533">   * considerably faster and avoids allocations and garbage collection.</a>
+<span class="sourceLineNo">534</span><a id="line.534">   *</a>
+<span class="sourceLineNo">535</span><a id="line.535">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">536</span><a id="line.536">   *</a>
+<span class="sourceLineNo">537</span><a id="line.537">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">538</span><a id="line.538">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">539</span><a id="line.539">   * @since NEXT</a>
+<span class="sourceLineNo">540</span><a id="line.540">   */</a>
+<span class="sourceLineNo">541</span><a id="line.541">  public static void rotate(short[] array, int distance, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">542</span><a id="line.542">    // See Ints.rotate for more details about possible algorithms here.</a>
+<span class="sourceLineNo">543</span><a id="line.543">    checkNotNull(array);</a>
+<span class="sourceLineNo">544</span><a id="line.544">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">545</span><a id="line.545">    if (array.length &lt;= 1) {</a>
+<span class="sourceLineNo">546</span><a id="line.546">      return;</a>
+<span class="sourceLineNo">547</span><a id="line.547">    }</a>
+<span class="sourceLineNo">548</span><a id="line.548"></a>
+<span class="sourceLineNo">549</span><a id="line.549">    int length = toIndex - fromIndex;</a>
+<span class="sourceLineNo">550</span><a id="line.550">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
+<span class="sourceLineNo">551</span><a id="line.551">    // places left to rotate.</a>
+<span class="sourceLineNo">552</span><a id="line.552">    int m = -distance % length;</a>
+<span class="sourceLineNo">553</span><a id="line.553">    m = (m &lt; 0) ? m + length : m;</a>
+<span class="sourceLineNo">554</span><a id="line.554">    // The current index of what will become the first element of the rotated section.</a>
+<span class="sourceLineNo">555</span><a id="line.555">    int newFirstIndex = m + fromIndex;</a>
+<span class="sourceLineNo">556</span><a id="line.556">    if (newFirstIndex == fromIndex) {</a>
+<span class="sourceLineNo">557</span><a id="line.557">      return;</a>
 <span class="sourceLineNo">558</span><a id="line.558">    }</a>
-<span class="sourceLineNo">559</span><a id="line.559">    return new ShortArrayAsList(backingArray);</a>
-<span class="sourceLineNo">560</span><a id="line.560">  }</a>
-<span class="sourceLineNo">561</span><a id="line.561"></a>
-<span class="sourceLineNo">562</span><a id="line.562">  @GwtCompatible</a>
-<span class="sourceLineNo">563</span><a id="line.563">  private static class ShortArrayAsList extends AbstractList&lt;Short&gt;</a>
-<span class="sourceLineNo">564</span><a id="line.564">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">565</span><a id="line.565">    final short[] array;</a>
-<span class="sourceLineNo">566</span><a id="line.566">    final int start;</a>
-<span class="sourceLineNo">567</span><a id="line.567">    final int end;</a>
-<span class="sourceLineNo">568</span><a id="line.568"></a>
-<span class="sourceLineNo">569</span><a id="line.569">    ShortArrayAsList(short[] array) {</a>
-<span class="sourceLineNo">570</span><a id="line.570">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">571</span><a id="line.571">    }</a>
-<span class="sourceLineNo">572</span><a id="line.572"></a>
-<span class="sourceLineNo">573</span><a id="line.573">    ShortArrayAsList(short[] array, int start, int end) {</a>
-<span class="sourceLineNo">574</span><a id="line.574">      this.array = array;</a>
-<span class="sourceLineNo">575</span><a id="line.575">      this.start = start;</a>
-<span class="sourceLineNo">576</span><a id="line.576">      this.end = end;</a>
-<span class="sourceLineNo">577</span><a id="line.577">    }</a>
-<span class="sourceLineNo">578</span><a id="line.578"></a>
-<span class="sourceLineNo">579</span><a id="line.579">    @Override</a>
-<span class="sourceLineNo">580</span><a id="line.580">    public int size() {</a>
-<span class="sourceLineNo">581</span><a id="line.581">      return end - start;</a>
-<span class="sourceLineNo">582</span><a id="line.582">    }</a>
-<span class="sourceLineNo">583</span><a id="line.583"></a>
-<span class="sourceLineNo">584</span><a id="line.584">    @Override</a>
-<span class="sourceLineNo">585</span><a id="line.585">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">586</span><a id="line.586">      return false;</a>
-<span class="sourceLineNo">587</span><a id="line.587">    }</a>
-<span class="sourceLineNo">588</span><a id="line.588"></a>
-<span class="sourceLineNo">589</span><a id="line.589">    @Override</a>
-<span class="sourceLineNo">590</span><a id="line.590">    public Short get(int index) {</a>
-<span class="sourceLineNo">591</span><a id="line.591">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">592</span><a id="line.592">      return array[start + index];</a>
-<span class="sourceLineNo">593</span><a id="line.593">    }</a>
-<span class="sourceLineNo">594</span><a id="line.594"></a>
-<span class="sourceLineNo">595</span><a id="line.595">    @Override</a>
-<span class="sourceLineNo">596</span><a id="line.596">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">597</span><a id="line.597">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">598</span><a id="line.598">      return (target instanceof Short) &amp;&amp; Shorts.indexOf(array, (Short) target, start, end) != -1;</a>
-<span class="sourceLineNo">599</span><a id="line.599">    }</a>
-<span class="sourceLineNo">600</span><a id="line.600"></a>
-<span class="sourceLineNo">601</span><a id="line.601">    @Override</a>
-<span class="sourceLineNo">602</span><a id="line.602">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">603</span><a id="line.603">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">604</span><a id="line.604">      if (target instanceof Short) {</a>
-<span class="sourceLineNo">605</span><a id="line.605">        int i = Shorts.indexOf(array, (Short) target, start, end);</a>
-<span class="sourceLineNo">606</span><a id="line.606">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">607</span><a id="line.607">          return i - start;</a>
-<span class="sourceLineNo">608</span><a id="line.608">        }</a>
-<span class="sourceLineNo">609</span><a id="line.609">      }</a>
-<span class="sourceLineNo">610</span><a id="line.610">      return -1;</a>
-<span class="sourceLineNo">611</span><a id="line.611">    }</a>
-<span class="sourceLineNo">612</span><a id="line.612"></a>
-<span class="sourceLineNo">613</span><a id="line.613">    @Override</a>
-<span class="sourceLineNo">614</span><a id="line.614">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">615</span><a id="line.615">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">616</span><a id="line.616">      if (target instanceof Short) {</a>
-<span class="sourceLineNo">617</span><a id="line.617">        int i = Shorts.lastIndexOf(array, (Short) target, start, end);</a>
-<span class="sourceLineNo">618</span><a id="line.618">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">619</span><a id="line.619">          return i - start;</a>
-<span class="sourceLineNo">620</span><a id="line.620">        }</a>
-<span class="sourceLineNo">621</span><a id="line.621">      }</a>
-<span class="sourceLineNo">622</span><a id="line.622">      return -1;</a>
-<span class="sourceLineNo">623</span><a id="line.623">    }</a>
-<span class="sourceLineNo">624</span><a id="line.624"></a>
-<span class="sourceLineNo">625</span><a id="line.625">    @Override</a>
-<span class="sourceLineNo">626</span><a id="line.626">    public Short set(int index, Short element) {</a>
-<span class="sourceLineNo">627</span><a id="line.627">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">628</span><a id="line.628">      short oldValue = array[start + index];</a>
-<span class="sourceLineNo">629</span><a id="line.629">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">630</span><a id="line.630">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">631</span><a id="line.631">      return oldValue;</a>
+<span class="sourceLineNo">559</span><a id="line.559"></a>
+<span class="sourceLineNo">560</span><a id="line.560">    reverse(array, fromIndex, newFirstIndex);</a>
+<span class="sourceLineNo">561</span><a id="line.561">    reverse(array, newFirstIndex, toIndex);</a>
+<span class="sourceLineNo">562</span><a id="line.562">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">563</span><a id="line.563">  }</a>
+<span class="sourceLineNo">564</span><a id="line.564"></a>
+<span class="sourceLineNo">565</span><a id="line.565">  /**</a>
+<span class="sourceLineNo">566</span><a id="line.566">   * Returns an array containing each value of {@code collection}, converted to a {@code short}</a>
+<span class="sourceLineNo">567</span><a id="line.567">   * value in the manner of {@link Number#shortValue}.</a>
+<span class="sourceLineNo">568</span><a id="line.568">   *</a>
+<span class="sourceLineNo">569</span><a id="line.569">   * &lt;p&gt;Elements are copied from the argument collection as if by {@code collection.toArray()}.</a>
+<span class="sourceLineNo">570</span><a id="line.570">   * Calling this method is as thread-safe as calling that method.</a>
+<span class="sourceLineNo">571</span><a id="line.571">   *</a>
+<span class="sourceLineNo">572</span><a id="line.572">   * @param collection a collection of {@code Number} instances</a>
+<span class="sourceLineNo">573</span><a id="line.573">   * @return an array containing the same values as {@code collection}, in the same order, converted</a>
+<span class="sourceLineNo">574</span><a id="line.574">   *     to primitives</a>
+<span class="sourceLineNo">575</span><a id="line.575">   * @throws NullPointerException if {@code collection} or any of its elements is null</a>
+<span class="sourceLineNo">576</span><a id="line.576">   * @since 1.0 (parameter was {@code Collection&lt;Short&gt;} before 12.0)</a>
+<span class="sourceLineNo">577</span><a id="line.577">   */</a>
+<span class="sourceLineNo">578</span><a id="line.578">  public static short[] toArray(Collection&lt;? extends Number&gt; collection) {</a>
+<span class="sourceLineNo">579</span><a id="line.579">    if (collection instanceof ShortArrayAsList) {</a>
+<span class="sourceLineNo">580</span><a id="line.580">      return ((ShortArrayAsList) collection).toShortArray();</a>
+<span class="sourceLineNo">581</span><a id="line.581">    }</a>
+<span class="sourceLineNo">582</span><a id="line.582"></a>
+<span class="sourceLineNo">583</span><a id="line.583">    Object[] boxedArray = collection.toArray();</a>
+<span class="sourceLineNo">584</span><a id="line.584">    int len = boxedArray.length;</a>
+<span class="sourceLineNo">585</span><a id="line.585">    short[] array = new short[len];</a>
+<span class="sourceLineNo">586</span><a id="line.586">    for (int i = 0; i &lt; len; i++) {</a>
+<span class="sourceLineNo">587</span><a id="line.587">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">588</span><a id="line.588">      array[i] = ((Number) checkNotNull(boxedArray[i])).shortValue();</a>
+<span class="sourceLineNo">589</span><a id="line.589">    }</a>
+<span class="sourceLineNo">590</span><a id="line.590">    return array;</a>
+<span class="sourceLineNo">591</span><a id="line.591">  }</a>
+<span class="sourceLineNo">592</span><a id="line.592"></a>
+<span class="sourceLineNo">593</span><a id="line.593">  /**</a>
+<span class="sourceLineNo">594</span><a id="line.594">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
+<span class="sourceLineNo">595</span><a id="line.595">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
+<span class="sourceLineNo">596</span><a id="line.596">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
+<span class="sourceLineNo">597</span><a id="line.597">   *</a>
+<span class="sourceLineNo">598</span><a id="line.598">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Short} objects</a>
+<span class="sourceLineNo">599</span><a id="line.599">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
+<span class="sourceLineNo">600</span><a id="line.600">   * the returned list is unspecified.</a>
+<span class="sourceLineNo">601</span><a id="line.601">   *</a>
+<span class="sourceLineNo">602</span><a id="line.602">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">603</span><a id="line.603">   * @return a list view of the array</a>
+<span class="sourceLineNo">604</span><a id="line.604">   */</a>
+<span class="sourceLineNo">605</span><a id="line.605">  public static List&lt;Short&gt; asList(short... backingArray) {</a>
+<span class="sourceLineNo">606</span><a id="line.606">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">607</span><a id="line.607">      return Collections.emptyList();</a>
+<span class="sourceLineNo">608</span><a id="line.608">    }</a>
+<span class="sourceLineNo">609</span><a id="line.609">    return new ShortArrayAsList(backingArray);</a>
+<span class="sourceLineNo">610</span><a id="line.610">  }</a>
+<span class="sourceLineNo">611</span><a id="line.611"></a>
+<span class="sourceLineNo">612</span><a id="line.612">  @GwtCompatible</a>
+<span class="sourceLineNo">613</span><a id="line.613">  private static class ShortArrayAsList extends AbstractList&lt;Short&gt;</a>
+<span class="sourceLineNo">614</span><a id="line.614">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">615</span><a id="line.615">    final short[] array;</a>
+<span class="sourceLineNo">616</span><a id="line.616">    final int start;</a>
+<span class="sourceLineNo">617</span><a id="line.617">    final int end;</a>
+<span class="sourceLineNo">618</span><a id="line.618"></a>
+<span class="sourceLineNo">619</span><a id="line.619">    ShortArrayAsList(short[] array) {</a>
+<span class="sourceLineNo">620</span><a id="line.620">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">621</span><a id="line.621">    }</a>
+<span class="sourceLineNo">622</span><a id="line.622"></a>
+<span class="sourceLineNo">623</span><a id="line.623">    ShortArrayAsList(short[] array, int start, int end) {</a>
+<span class="sourceLineNo">624</span><a id="line.624">      this.array = array;</a>
+<span class="sourceLineNo">625</span><a id="line.625">      this.start = start;</a>
+<span class="sourceLineNo">626</span><a id="line.626">      this.end = end;</a>
+<span class="sourceLineNo">627</span><a id="line.627">    }</a>
+<span class="sourceLineNo">628</span><a id="line.628"></a>
+<span class="sourceLineNo">629</span><a id="line.629">    @Override</a>
+<span class="sourceLineNo">630</span><a id="line.630">    public int size() {</a>
+<span class="sourceLineNo">631</span><a id="line.631">      return end - start;</a>
 <span class="sourceLineNo">632</span><a id="line.632">    }</a>
 <span class="sourceLineNo">633</span><a id="line.633"></a>
 <span class="sourceLineNo">634</span><a id="line.634">    @Override</a>
-<span class="sourceLineNo">635</span><a id="line.635">    public List&lt;Short&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">636</span><a id="line.636">      int size = size();</a>
-<span class="sourceLineNo">637</span><a id="line.637">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">638</span><a id="line.638">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">639</span><a id="line.639">        return Collections.emptyList();</a>
-<span class="sourceLineNo">640</span><a id="line.640">      }</a>
-<span class="sourceLineNo">641</span><a id="line.641">      return new ShortArrayAsList(array, start + fromIndex, start + toIndex);</a>
-<span class="sourceLineNo">642</span><a id="line.642">    }</a>
-<span class="sourceLineNo">643</span><a id="line.643"></a>
-<span class="sourceLineNo">644</span><a id="line.644">    @Override</a>
-<span class="sourceLineNo">645</span><a id="line.645">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">646</span><a id="line.646">      if (object == this) {</a>
-<span class="sourceLineNo">647</span><a id="line.647">        return true;</a>
-<span class="sourceLineNo">648</span><a id="line.648">      }</a>
-<span class="sourceLineNo">649</span><a id="line.649">      if (object instanceof ShortArrayAsList) {</a>
-<span class="sourceLineNo">650</span><a id="line.650">        ShortArrayAsList that = (ShortArrayAsList) object;</a>
-<span class="sourceLineNo">651</span><a id="line.651">        int size = size();</a>
-<span class="sourceLineNo">652</span><a id="line.652">        if (that.size() != size) {</a>
-<span class="sourceLineNo">653</span><a id="line.653">          return false;</a>
-<span class="sourceLineNo">654</span><a id="line.654">        }</a>
-<span class="sourceLineNo">655</span><a id="line.655">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">656</span><a id="line.656">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">657</span><a id="line.657">            return false;</a>
-<span class="sourceLineNo">658</span><a id="line.658">          }</a>
-<span class="sourceLineNo">659</span><a id="line.659">        }</a>
-<span class="sourceLineNo">660</span><a id="line.660">        return true;</a>
-<span class="sourceLineNo">661</span><a id="line.661">      }</a>
-<span class="sourceLineNo">662</span><a id="line.662">      return super.equals(object);</a>
-<span class="sourceLineNo">663</span><a id="line.663">    }</a>
-<span class="sourceLineNo">664</span><a id="line.664"></a>
-<span class="sourceLineNo">665</span><a id="line.665">    @Override</a>
-<span class="sourceLineNo">666</span><a id="line.666">    public int hashCode() {</a>
-<span class="sourceLineNo">667</span><a id="line.667">      int result = 1;</a>
-<span class="sourceLineNo">668</span><a id="line.668">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">669</span><a id="line.669">        result = 31 * result + Shorts.hashCode(array[i]);</a>
-<span class="sourceLineNo">670</span><a id="line.670">      }</a>
-<span class="sourceLineNo">671</span><a id="line.671">      return result;</a>
-<span class="sourceLineNo">672</span><a id="line.672">    }</a>
-<span class="sourceLineNo">673</span><a id="line.673"></a>
-<span class="sourceLineNo">674</span><a id="line.674">    @Override</a>
-<span class="sourceLineNo">675</span><a id="line.675">    public String toString() {</a>
-<span class="sourceLineNo">676</span><a id="line.676">      StringBuilder builder = new StringBuilder(size() * 6);</a>
-<span class="sourceLineNo">677</span><a id="line.677">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">678</span><a id="line.678">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">679</span><a id="line.679">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">680</span><a id="line.680">      }</a>
-<span class="sourceLineNo">681</span><a id="line.681">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">635</span><a id="line.635">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">636</span><a id="line.636">      return false;</a>
+<span class="sourceLineNo">637</span><a id="line.637">    }</a>
+<span class="sourceLineNo">638</span><a id="line.638"></a>
+<span class="sourceLineNo">639</span><a id="line.639">    @Override</a>
+<span class="sourceLineNo">640</span><a id="line.640">    public Short get(int index) {</a>
+<span class="sourceLineNo">641</span><a id="line.641">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">642</span><a id="line.642">      return array[start + index];</a>
+<span class="sourceLineNo">643</span><a id="line.643">    }</a>
+<span class="sourceLineNo">644</span><a id="line.644"></a>
+<span class="sourceLineNo">645</span><a id="line.645">    @Override</a>
+<span class="sourceLineNo">646</span><a id="line.646">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">647</span><a id="line.647">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">648</span><a id="line.648">      return (target instanceof Short) &amp;&amp; Shorts.indexOf(array, (Short) target, start, end) != -1;</a>
+<span class="sourceLineNo">649</span><a id="line.649">    }</a>
+<span class="sourceLineNo">650</span><a id="line.650"></a>
+<span class="sourceLineNo">651</span><a id="line.651">    @Override</a>
+<span class="sourceLineNo">652</span><a id="line.652">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">653</span><a id="line.653">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">654</span><a id="line.654">      if (target instanceof Short) {</a>
+<span class="sourceLineNo">655</span><a id="line.655">        int i = Shorts.indexOf(array, (Short) target, start, end);</a>
+<span class="sourceLineNo">656</span><a id="line.656">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">657</span><a id="line.657">          return i - start;</a>
+<span class="sourceLineNo">658</span><a id="line.658">        }</a>
+<span class="sourceLineNo">659</span><a id="line.659">      }</a>
+<span class="sourceLineNo">660</span><a id="line.660">      return -1;</a>
+<span class="sourceLineNo">661</span><a id="line.661">    }</a>
+<span class="sourceLineNo">662</span><a id="line.662"></a>
+<span class="sourceLineNo">663</span><a id="line.663">    @Override</a>
+<span class="sourceLineNo">664</span><a id="line.664">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">665</span><a id="line.665">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">666</span><a id="line.666">      if (target instanceof Short) {</a>
+<span class="sourceLineNo">667</span><a id="line.667">        int i = Shorts.lastIndexOf(array, (Short) target, start, end);</a>
+<span class="sourceLineNo">668</span><a id="line.668">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">669</span><a id="line.669">          return i - start;</a>
+<span class="sourceLineNo">670</span><a id="line.670">        }</a>
+<span class="sourceLineNo">671</span><a id="line.671">      }</a>
+<span class="sourceLineNo">672</span><a id="line.672">      return -1;</a>
+<span class="sourceLineNo">673</span><a id="line.673">    }</a>
+<span class="sourceLineNo">674</span><a id="line.674"></a>
+<span class="sourceLineNo">675</span><a id="line.675">    @Override</a>
+<span class="sourceLineNo">676</span><a id="line.676">    public Short set(int index, Short element) {</a>
+<span class="sourceLineNo">677</span><a id="line.677">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">678</span><a id="line.678">      short oldValue = array[start + index];</a>
+<span class="sourceLineNo">679</span><a id="line.679">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">680</span><a id="line.680">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">681</span><a id="line.681">      return oldValue;</a>
 <span class="sourceLineNo">682</span><a id="line.682">    }</a>
 <span class="sourceLineNo">683</span><a id="line.683"></a>
-<span class="sourceLineNo">684</span><a id="line.684">    short[] toShortArray() {</a>
-<span class="sourceLineNo">685</span><a id="line.685">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">686</span><a id="line.686">    }</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">689</span><a id="line.689">  }</a>
-<span class="sourceLineNo">690</span><a id="line.690">}</a>
+<span class="sourceLineNo">684</span><a id="line.684">    @Override</a>
+<span class="sourceLineNo">685</span><a id="line.685">    public List&lt;Short&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">686</span><a id="line.686">      int size = size();</a>
+<span class="sourceLineNo">687</span><a id="line.687">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">688</span><a id="line.688">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">689</span><a id="line.689">        return Collections.emptyList();</a>
+<span class="sourceLineNo">690</span><a id="line.690">      }</a>
+<span class="sourceLineNo">691</span><a id="line.691">      return new ShortArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">692</span><a id="line.692">    }</a>
+<span class="sourceLineNo">693</span><a id="line.693"></a>
+<span class="sourceLineNo">694</span><a id="line.694">    @Override</a>
+<span class="sourceLineNo">695</span><a id="line.695">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">696</span><a id="line.696">      if (object == this) {</a>
+<span class="sourceLineNo">697</span><a id="line.697">        return true;</a>
+<span class="sourceLineNo">698</span><a id="line.698">      }</a>
+<span class="sourceLineNo">699</span><a id="line.699">      if (object instanceof ShortArrayAsList) {</a>
+<span class="sourceLineNo">700</span><a id="line.700">        ShortArrayAsList that = (ShortArrayAsList) object;</a>
+<span class="sourceLineNo">701</span><a id="line.701">        int size = size();</a>
+<span class="sourceLineNo">702</span><a id="line.702">        if (that.size() != size) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">          return false;</a>
+<span class="sourceLineNo">704</span><a id="line.704">        }</a>
+<span class="sourceLineNo">705</span><a id="line.705">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">706</span><a id="line.706">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">707</span><a id="line.707">            return false;</a>
+<span class="sourceLineNo">708</span><a id="line.708">          }</a>
+<span class="sourceLineNo">709</span><a id="line.709">        }</a>
+<span class="sourceLineNo">710</span><a id="line.710">        return true;</a>
+<span class="sourceLineNo">711</span><a id="line.711">      }</a>
+<span class="sourceLineNo">712</span><a id="line.712">      return super.equals(object);</a>
+<span class="sourceLineNo">713</span><a id="line.713">    }</a>
+<span class="sourceLineNo">714</span><a id="line.714"></a>
+<span class="sourceLineNo">715</span><a id="line.715">    @Override</a>
+<span class="sourceLineNo">716</span><a id="line.716">    public int hashCode() {</a>
+<span class="sourceLineNo">717</span><a id="line.717">      int result = 1;</a>
+<span class="sourceLineNo">718</span><a id="line.718">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">719</span><a id="line.719">        result = 31 * result + Shorts.hashCode(array[i]);</a>
+<span class="sourceLineNo">720</span><a id="line.720">      }</a>
+<span class="sourceLineNo">721</span><a id="line.721">      return result;</a>
+<span class="sourceLineNo">722</span><a id="line.722">    }</a>
+<span class="sourceLineNo">723</span><a id="line.723"></a>
+<span class="sourceLineNo">724</span><a id="line.724">    @Override</a>
+<span class="sourceLineNo">725</span><a id="line.725">    public String toString() {</a>
+<span class="sourceLineNo">726</span><a id="line.726">      StringBuilder builder = new StringBuilder(size() * 6);</a>
+<span class="sourceLineNo">727</span><a id="line.727">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">728</span><a id="line.728">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">729</span><a id="line.729">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">730</span><a id="line.730">      }</a>
+<span class="sourceLineNo">731</span><a id="line.731">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">732</span><a id="line.732">    }</a>
+<span class="sourceLineNo">733</span><a id="line.733"></a>
+<span class="sourceLineNo">734</span><a id="line.734">    short[] toShortArray() {</a>
+<span class="sourceLineNo">735</span><a id="line.735">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">736</span><a id="line.736">    }</a>
+<span class="sourceLineNo">737</span><a id="line.737"></a>
+<span class="sourceLineNo">738</span><a id="line.738">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">739</span><a id="line.739">  }</a>
+<span class="sourceLineNo">740</span><a id="line.740">}</a>
 
 
 

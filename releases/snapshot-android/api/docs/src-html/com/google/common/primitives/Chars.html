@@ -498,154 +498,204 @@
 <span class="sourceLineNo">489</span><a id="line.489">  }</a>
 <span class="sourceLineNo">490</span><a id="line.490"></a>
 <span class="sourceLineNo">491</span><a id="line.491">  /**</a>
-<span class="sourceLineNo">492</span><a id="line.492">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
-<span class="sourceLineNo">493</span><a id="line.493">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
-<span class="sourceLineNo">494</span><a id="line.494">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
-<span class="sourceLineNo">495</span><a id="line.495">   *</a>
-<span class="sourceLineNo">496</span><a id="line.496">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Character} objects</a>
-<span class="sourceLineNo">497</span><a id="line.497">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
-<span class="sourceLineNo">498</span><a id="line.498">   * the returned list is unspecified.</a>
-<span class="sourceLineNo">499</span><a id="line.499">   *</a>
-<span class="sourceLineNo">500</span><a id="line.500">   * @param backingArray the array to back the list</a>
-<span class="sourceLineNo">501</span><a id="line.501">   * @return a list view of the array</a>
-<span class="sourceLineNo">502</span><a id="line.502">   */</a>
-<span class="sourceLineNo">503</span><a id="line.503">  public static List&lt;Character&gt; asList(char... backingArray) {</a>
-<span class="sourceLineNo">504</span><a id="line.504">    if (backingArray.length == 0) {</a>
-<span class="sourceLineNo">505</span><a id="line.505">      return Collections.emptyList();</a>
-<span class="sourceLineNo">506</span><a id="line.506">    }</a>
-<span class="sourceLineNo">507</span><a id="line.507">    return new CharArrayAsList(backingArray);</a>
-<span class="sourceLineNo">508</span><a id="line.508">  }</a>
-<span class="sourceLineNo">509</span><a id="line.509"></a>
-<span class="sourceLineNo">510</span><a id="line.510">  @GwtCompatible</a>
-<span class="sourceLineNo">511</span><a id="line.511">  private static class CharArrayAsList extends AbstractList&lt;Character&gt;</a>
-<span class="sourceLineNo">512</span><a id="line.512">      implements RandomAccess, Serializable {</a>
-<span class="sourceLineNo">513</span><a id="line.513">    final char[] array;</a>
-<span class="sourceLineNo">514</span><a id="line.514">    final int start;</a>
-<span class="sourceLineNo">515</span><a id="line.515">    final int end;</a>
-<span class="sourceLineNo">516</span><a id="line.516"></a>
-<span class="sourceLineNo">517</span><a id="line.517">    CharArrayAsList(char[] array) {</a>
-<span class="sourceLineNo">518</span><a id="line.518">      this(array, 0, array.length);</a>
-<span class="sourceLineNo">519</span><a id="line.519">    }</a>
-<span class="sourceLineNo">520</span><a id="line.520"></a>
-<span class="sourceLineNo">521</span><a id="line.521">    CharArrayAsList(char[] array, int start, int end) {</a>
-<span class="sourceLineNo">522</span><a id="line.522">      this.array = array;</a>
-<span class="sourceLineNo">523</span><a id="line.523">      this.start = start;</a>
-<span class="sourceLineNo">524</span><a id="line.524">      this.end = end;</a>
-<span class="sourceLineNo">525</span><a id="line.525">    }</a>
-<span class="sourceLineNo">526</span><a id="line.526"></a>
-<span class="sourceLineNo">527</span><a id="line.527">    @Override</a>
-<span class="sourceLineNo">528</span><a id="line.528">    public int size() {</a>
-<span class="sourceLineNo">529</span><a id="line.529">      return end - start;</a>
-<span class="sourceLineNo">530</span><a id="line.530">    }</a>
-<span class="sourceLineNo">531</span><a id="line.531"></a>
-<span class="sourceLineNo">532</span><a id="line.532">    @Override</a>
-<span class="sourceLineNo">533</span><a id="line.533">    public boolean isEmpty() {</a>
-<span class="sourceLineNo">534</span><a id="line.534">      return false;</a>
-<span class="sourceLineNo">535</span><a id="line.535">    }</a>
-<span class="sourceLineNo">536</span><a id="line.536"></a>
-<span class="sourceLineNo">537</span><a id="line.537">    @Override</a>
-<span class="sourceLineNo">538</span><a id="line.538">    public Character get(int index) {</a>
-<span class="sourceLineNo">539</span><a id="line.539">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">540</span><a id="line.540">      return array[start + index];</a>
-<span class="sourceLineNo">541</span><a id="line.541">    }</a>
-<span class="sourceLineNo">542</span><a id="line.542"></a>
-<span class="sourceLineNo">543</span><a id="line.543">    @Override</a>
-<span class="sourceLineNo">544</span><a id="line.544">    public boolean contains(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">545</span><a id="line.545">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">546</span><a id="line.546">      return (target instanceof Character)</a>
-<span class="sourceLineNo">547</span><a id="line.547">          &amp;&amp; Chars.indexOf(array, (Character) target, start, end) != -1;</a>
-<span class="sourceLineNo">548</span><a id="line.548">    }</a>
-<span class="sourceLineNo">549</span><a id="line.549"></a>
-<span class="sourceLineNo">550</span><a id="line.550">    @Override</a>
-<span class="sourceLineNo">551</span><a id="line.551">    public int indexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">552</span><a id="line.552">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">553</span><a id="line.553">      if (target instanceof Character) {</a>
-<span class="sourceLineNo">554</span><a id="line.554">        int i = Chars.indexOf(array, (Character) target, start, end);</a>
-<span class="sourceLineNo">555</span><a id="line.555">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">556</span><a id="line.556">          return i - start;</a>
-<span class="sourceLineNo">557</span><a id="line.557">        }</a>
-<span class="sourceLineNo">558</span><a id="line.558">      }</a>
-<span class="sourceLineNo">559</span><a id="line.559">      return -1;</a>
-<span class="sourceLineNo">560</span><a id="line.560">    }</a>
-<span class="sourceLineNo">561</span><a id="line.561"></a>
-<span class="sourceLineNo">562</span><a id="line.562">    @Override</a>
-<span class="sourceLineNo">563</span><a id="line.563">    public int lastIndexOf(@CheckForNull Object target) {</a>
-<span class="sourceLineNo">564</span><a id="line.564">      // Overridden to prevent a ton of boxing</a>
-<span class="sourceLineNo">565</span><a id="line.565">      if (target instanceof Character) {</a>
-<span class="sourceLineNo">566</span><a id="line.566">        int i = Chars.lastIndexOf(array, (Character) target, start, end);</a>
-<span class="sourceLineNo">567</span><a id="line.567">        if (i &gt;= 0) {</a>
-<span class="sourceLineNo">568</span><a id="line.568">          return i - start;</a>
-<span class="sourceLineNo">569</span><a id="line.569">        }</a>
-<span class="sourceLineNo">570</span><a id="line.570">      }</a>
-<span class="sourceLineNo">571</span><a id="line.571">      return -1;</a>
-<span class="sourceLineNo">572</span><a id="line.572">    }</a>
-<span class="sourceLineNo">573</span><a id="line.573"></a>
-<span class="sourceLineNo">574</span><a id="line.574">    @Override</a>
-<span class="sourceLineNo">575</span><a id="line.575">    public Character set(int index, Character element) {</a>
-<span class="sourceLineNo">576</span><a id="line.576">      checkElementIndex(index, size());</a>
-<span class="sourceLineNo">577</span><a id="line.577">      char oldValue = array[start + index];</a>
-<span class="sourceLineNo">578</span><a id="line.578">      // checkNotNull for GWT (do not optimize)</a>
-<span class="sourceLineNo">579</span><a id="line.579">      array[start + index] = checkNotNull(element);</a>
-<span class="sourceLineNo">580</span><a id="line.580">      return oldValue;</a>
-<span class="sourceLineNo">581</span><a id="line.581">    }</a>
-<span class="sourceLineNo">582</span><a id="line.582"></a>
-<span class="sourceLineNo">583</span><a id="line.583">    @Override</a>
-<span class="sourceLineNo">584</span><a id="line.584">    public List&lt;Character&gt; subList(int fromIndex, int toIndex) {</a>
-<span class="sourceLineNo">585</span><a id="line.585">      int size = size();</a>
-<span class="sourceLineNo">586</span><a id="line.586">      checkPositionIndexes(fromIndex, toIndex, size);</a>
-<span class="sourceLineNo">587</span><a id="line.587">      if (fromIndex == toIndex) {</a>
-<span class="sourceLineNo">588</span><a id="line.588">        return Collections.emptyList();</a>
-<span class="sourceLineNo">589</span><a id="line.589">      }</a>
-<span class="sourceLineNo">590</span><a id="line.590">      return new CharArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">492</span><a id="line.492">   * Performs a right rotation of {@code array} of "distance" places, so that the first element is</a>
+<span class="sourceLineNo">493</span><a id="line.493">   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance</a>
+<span class="sourceLineNo">494</span><a id="line.494">   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Chars.asList(array),</a>
+<span class="sourceLineNo">495</span><a id="line.495">   * distance)}, but is considerably faster and avoids allocation and garbage collection.</a>
+<span class="sourceLineNo">496</span><a id="line.496">   *</a>
+<span class="sourceLineNo">497</span><a id="line.497">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">498</span><a id="line.498">   *</a>
+<span class="sourceLineNo">499</span><a id="line.499">   * @since NEXT</a>
+<span class="sourceLineNo">500</span><a id="line.500">   */</a>
+<span class="sourceLineNo">501</span><a id="line.501">  public static void rotate(char[] array, int distance) {</a>
+<span class="sourceLineNo">502</span><a id="line.502">    rotate(array, distance, 0, array.length);</a>
+<span class="sourceLineNo">503</span><a id="line.503">  }</a>
+<span class="sourceLineNo">504</span><a id="line.504"></a>
+<span class="sourceLineNo">505</span><a id="line.505">  /**</a>
+<span class="sourceLineNo">506</span><a id="line.506">   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code</a>
+<span class="sourceLineNo">507</span><a id="line.507">   * toIndex} exclusive. This is equivalent to {@code</a>
+<span class="sourceLineNo">508</span><a id="line.508">   * Collections.rotate(Chars.asList(array).subList(fromIndex, toIndex), distance)}, but is</a>
+<span class="sourceLineNo">509</span><a id="line.509">   * considerably faster and avoids allocations and garbage collection.</a>
+<span class="sourceLineNo">510</span><a id="line.510">   *</a>
+<span class="sourceLineNo">511</span><a id="line.511">   * &lt;p&gt;The provided "distance" may be negative, which will rotate left.</a>
+<span class="sourceLineNo">512</span><a id="line.512">   *</a>
+<span class="sourceLineNo">513</span><a id="line.513">   * @throws IndexOutOfBoundsException if {@code fromIndex &lt; 0}, {@code toIndex &gt; array.length}, or</a>
+<span class="sourceLineNo">514</span><a id="line.514">   *     {@code toIndex &gt; fromIndex}</a>
+<span class="sourceLineNo">515</span><a id="line.515">   * @since NEXT</a>
+<span class="sourceLineNo">516</span><a id="line.516">   */</a>
+<span class="sourceLineNo">517</span><a id="line.517">  public static void rotate(char[] array, int distance, int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">518</span><a id="line.518">    // See Ints.rotate for more details about possible algorithms here.</a>
+<span class="sourceLineNo">519</span><a id="line.519">    checkNotNull(array);</a>
+<span class="sourceLineNo">520</span><a id="line.520">    checkPositionIndexes(fromIndex, toIndex, array.length);</a>
+<span class="sourceLineNo">521</span><a id="line.521">    if (array.length &lt;= 1) {</a>
+<span class="sourceLineNo">522</span><a id="line.522">      return;</a>
+<span class="sourceLineNo">523</span><a id="line.523">    }</a>
+<span class="sourceLineNo">524</span><a id="line.524"></a>
+<span class="sourceLineNo">525</span><a id="line.525">    int length = toIndex - fromIndex;</a>
+<span class="sourceLineNo">526</span><a id="line.526">    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many</a>
+<span class="sourceLineNo">527</span><a id="line.527">    // places left to rotate.</a>
+<span class="sourceLineNo">528</span><a id="line.528">    int m = -distance % length;</a>
+<span class="sourceLineNo">529</span><a id="line.529">    m = (m &lt; 0) ? m + length : m;</a>
+<span class="sourceLineNo">530</span><a id="line.530">    // The current index of what will become the first element of the rotated section.</a>
+<span class="sourceLineNo">531</span><a id="line.531">    int newFirstIndex = m + fromIndex;</a>
+<span class="sourceLineNo">532</span><a id="line.532">    if (newFirstIndex == fromIndex) {</a>
+<span class="sourceLineNo">533</span><a id="line.533">      return;</a>
+<span class="sourceLineNo">534</span><a id="line.534">    }</a>
+<span class="sourceLineNo">535</span><a id="line.535"></a>
+<span class="sourceLineNo">536</span><a id="line.536">    reverse(array, fromIndex, newFirstIndex);</a>
+<span class="sourceLineNo">537</span><a id="line.537">    reverse(array, newFirstIndex, toIndex);</a>
+<span class="sourceLineNo">538</span><a id="line.538">    reverse(array, fromIndex, toIndex);</a>
+<span class="sourceLineNo">539</span><a id="line.539">  }</a>
+<span class="sourceLineNo">540</span><a id="line.540"></a>
+<span class="sourceLineNo">541</span><a id="line.541">  /**</a>
+<span class="sourceLineNo">542</span><a id="line.542">   * Returns a fixed-size list backed by the specified array, similar to {@link</a>
+<span class="sourceLineNo">543</span><a id="line.543">   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to</a>
+<span class="sourceLineNo">544</span><a id="line.544">   * set a value to {@code null} will result in a {@link NullPointerException}.</a>
+<span class="sourceLineNo">545</span><a id="line.545">   *</a>
+<span class="sourceLineNo">546</span><a id="line.546">   * &lt;p&gt;The returned list maintains the values, but not the identities, of {@code Character} objects</a>
+<span class="sourceLineNo">547</span><a id="line.547">   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for</a>
+<span class="sourceLineNo">548</span><a id="line.548">   * the returned list is unspecified.</a>
+<span class="sourceLineNo">549</span><a id="line.549">   *</a>
+<span class="sourceLineNo">550</span><a id="line.550">   * @param backingArray the array to back the list</a>
+<span class="sourceLineNo">551</span><a id="line.551">   * @return a list view of the array</a>
+<span class="sourceLineNo">552</span><a id="line.552">   */</a>
+<span class="sourceLineNo">553</span><a id="line.553">  public static List&lt;Character&gt; asList(char... backingArray) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">    if (backingArray.length == 0) {</a>
+<span class="sourceLineNo">555</span><a id="line.555">      return Collections.emptyList();</a>
+<span class="sourceLineNo">556</span><a id="line.556">    }</a>
+<span class="sourceLineNo">557</span><a id="line.557">    return new CharArrayAsList(backingArray);</a>
+<span class="sourceLineNo">558</span><a id="line.558">  }</a>
+<span class="sourceLineNo">559</span><a id="line.559"></a>
+<span class="sourceLineNo">560</span><a id="line.560">  @GwtCompatible</a>
+<span class="sourceLineNo">561</span><a id="line.561">  private static class CharArrayAsList extends AbstractList&lt;Character&gt;</a>
+<span class="sourceLineNo">562</span><a id="line.562">      implements RandomAccess, Serializable {</a>
+<span class="sourceLineNo">563</span><a id="line.563">    final char[] array;</a>
+<span class="sourceLineNo">564</span><a id="line.564">    final int start;</a>
+<span class="sourceLineNo">565</span><a id="line.565">    final int end;</a>
+<span class="sourceLineNo">566</span><a id="line.566"></a>
+<span class="sourceLineNo">567</span><a id="line.567">    CharArrayAsList(char[] array) {</a>
+<span class="sourceLineNo">568</span><a id="line.568">      this(array, 0, array.length);</a>
+<span class="sourceLineNo">569</span><a id="line.569">    }</a>
+<span class="sourceLineNo">570</span><a id="line.570"></a>
+<span class="sourceLineNo">571</span><a id="line.571">    CharArrayAsList(char[] array, int start, int end) {</a>
+<span class="sourceLineNo">572</span><a id="line.572">      this.array = array;</a>
+<span class="sourceLineNo">573</span><a id="line.573">      this.start = start;</a>
+<span class="sourceLineNo">574</span><a id="line.574">      this.end = end;</a>
+<span class="sourceLineNo">575</span><a id="line.575">    }</a>
+<span class="sourceLineNo">576</span><a id="line.576"></a>
+<span class="sourceLineNo">577</span><a id="line.577">    @Override</a>
+<span class="sourceLineNo">578</span><a id="line.578">    public int size() {</a>
+<span class="sourceLineNo">579</span><a id="line.579">      return end - start;</a>
+<span class="sourceLineNo">580</span><a id="line.580">    }</a>
+<span class="sourceLineNo">581</span><a id="line.581"></a>
+<span class="sourceLineNo">582</span><a id="line.582">    @Override</a>
+<span class="sourceLineNo">583</span><a id="line.583">    public boolean isEmpty() {</a>
+<span class="sourceLineNo">584</span><a id="line.584">      return false;</a>
+<span class="sourceLineNo">585</span><a id="line.585">    }</a>
+<span class="sourceLineNo">586</span><a id="line.586"></a>
+<span class="sourceLineNo">587</span><a id="line.587">    @Override</a>
+<span class="sourceLineNo">588</span><a id="line.588">    public Character get(int index) {</a>
+<span class="sourceLineNo">589</span><a id="line.589">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">590</span><a id="line.590">      return array[start + index];</a>
 <span class="sourceLineNo">591</span><a id="line.591">    }</a>
 <span class="sourceLineNo">592</span><a id="line.592"></a>
 <span class="sourceLineNo">593</span><a id="line.593">    @Override</a>
-<span class="sourceLineNo">594</span><a id="line.594">    public boolean equals(@CheckForNull Object object) {</a>
-<span class="sourceLineNo">595</span><a id="line.595">      if (object == this) {</a>
-<span class="sourceLineNo">596</span><a id="line.596">        return true;</a>
-<span class="sourceLineNo">597</span><a id="line.597">      }</a>
-<span class="sourceLineNo">598</span><a id="line.598">      if (object instanceof CharArrayAsList) {</a>
-<span class="sourceLineNo">599</span><a id="line.599">        CharArrayAsList that = (CharArrayAsList) object;</a>
-<span class="sourceLineNo">600</span><a id="line.600">        int size = size();</a>
-<span class="sourceLineNo">601</span><a id="line.601">        if (that.size() != size) {</a>
-<span class="sourceLineNo">602</span><a id="line.602">          return false;</a>
-<span class="sourceLineNo">603</span><a id="line.603">        }</a>
-<span class="sourceLineNo">604</span><a id="line.604">        for (int i = 0; i &lt; size; i++) {</a>
-<span class="sourceLineNo">605</span><a id="line.605">          if (array[start + i] != that.array[that.start + i]) {</a>
-<span class="sourceLineNo">606</span><a id="line.606">            return false;</a>
-<span class="sourceLineNo">607</span><a id="line.607">          }</a>
-<span class="sourceLineNo">608</span><a id="line.608">        }</a>
-<span class="sourceLineNo">609</span><a id="line.609">        return true;</a>
-<span class="sourceLineNo">610</span><a id="line.610">      }</a>
-<span class="sourceLineNo">611</span><a id="line.611">      return super.equals(object);</a>
-<span class="sourceLineNo">612</span><a id="line.612">    }</a>
-<span class="sourceLineNo">613</span><a id="line.613"></a>
-<span class="sourceLineNo">614</span><a id="line.614">    @Override</a>
-<span class="sourceLineNo">615</span><a id="line.615">    public int hashCode() {</a>
-<span class="sourceLineNo">616</span><a id="line.616">      int result = 1;</a>
-<span class="sourceLineNo">617</span><a id="line.617">      for (int i = start; i &lt; end; i++) {</a>
-<span class="sourceLineNo">618</span><a id="line.618">        result = 31 * result + Chars.hashCode(array[i]);</a>
-<span class="sourceLineNo">619</span><a id="line.619">      }</a>
-<span class="sourceLineNo">620</span><a id="line.620">      return result;</a>
-<span class="sourceLineNo">621</span><a id="line.621">    }</a>
-<span class="sourceLineNo">622</span><a id="line.622"></a>
-<span class="sourceLineNo">623</span><a id="line.623">    @Override</a>
-<span class="sourceLineNo">624</span><a id="line.624">    public String toString() {</a>
-<span class="sourceLineNo">625</span><a id="line.625">      StringBuilder builder = new StringBuilder(size() * 3);</a>
-<span class="sourceLineNo">626</span><a id="line.626">      builder.append('[').append(array[start]);</a>
-<span class="sourceLineNo">627</span><a id="line.627">      for (int i = start + 1; i &lt; end; i++) {</a>
-<span class="sourceLineNo">628</span><a id="line.628">        builder.append(", ").append(array[i]);</a>
-<span class="sourceLineNo">629</span><a id="line.629">      }</a>
-<span class="sourceLineNo">630</span><a id="line.630">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">594</span><a id="line.594">    public boolean contains(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">595</span><a id="line.595">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">596</span><a id="line.596">      return (target instanceof Character)</a>
+<span class="sourceLineNo">597</span><a id="line.597">          &amp;&amp; Chars.indexOf(array, (Character) target, start, end) != -1;</a>
+<span class="sourceLineNo">598</span><a id="line.598">    }</a>
+<span class="sourceLineNo">599</span><a id="line.599"></a>
+<span class="sourceLineNo">600</span><a id="line.600">    @Override</a>
+<span class="sourceLineNo">601</span><a id="line.601">    public int indexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">602</span><a id="line.602">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">603</span><a id="line.603">      if (target instanceof Character) {</a>
+<span class="sourceLineNo">604</span><a id="line.604">        int i = Chars.indexOf(array, (Character) target, start, end);</a>
+<span class="sourceLineNo">605</span><a id="line.605">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">606</span><a id="line.606">          return i - start;</a>
+<span class="sourceLineNo">607</span><a id="line.607">        }</a>
+<span class="sourceLineNo">608</span><a id="line.608">      }</a>
+<span class="sourceLineNo">609</span><a id="line.609">      return -1;</a>
+<span class="sourceLineNo">610</span><a id="line.610">    }</a>
+<span class="sourceLineNo">611</span><a id="line.611"></a>
+<span class="sourceLineNo">612</span><a id="line.612">    @Override</a>
+<span class="sourceLineNo">613</span><a id="line.613">    public int lastIndexOf(@CheckForNull Object target) {</a>
+<span class="sourceLineNo">614</span><a id="line.614">      // Overridden to prevent a ton of boxing</a>
+<span class="sourceLineNo">615</span><a id="line.615">      if (target instanceof Character) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">        int i = Chars.lastIndexOf(array, (Character) target, start, end);</a>
+<span class="sourceLineNo">617</span><a id="line.617">        if (i &gt;= 0) {</a>
+<span class="sourceLineNo">618</span><a id="line.618">          return i - start;</a>
+<span class="sourceLineNo">619</span><a id="line.619">        }</a>
+<span class="sourceLineNo">620</span><a id="line.620">      }</a>
+<span class="sourceLineNo">621</span><a id="line.621">      return -1;</a>
+<span class="sourceLineNo">622</span><a id="line.622">    }</a>
+<span class="sourceLineNo">623</span><a id="line.623"></a>
+<span class="sourceLineNo">624</span><a id="line.624">    @Override</a>
+<span class="sourceLineNo">625</span><a id="line.625">    public Character set(int index, Character element) {</a>
+<span class="sourceLineNo">626</span><a id="line.626">      checkElementIndex(index, size());</a>
+<span class="sourceLineNo">627</span><a id="line.627">      char oldValue = array[start + index];</a>
+<span class="sourceLineNo">628</span><a id="line.628">      // checkNotNull for GWT (do not optimize)</a>
+<span class="sourceLineNo">629</span><a id="line.629">      array[start + index] = checkNotNull(element);</a>
+<span class="sourceLineNo">630</span><a id="line.630">      return oldValue;</a>
 <span class="sourceLineNo">631</span><a id="line.631">    }</a>
 <span class="sourceLineNo">632</span><a id="line.632"></a>
-<span class="sourceLineNo">633</span><a id="line.633">    char[] toCharArray() {</a>
-<span class="sourceLineNo">634</span><a id="line.634">      return Arrays.copyOfRange(array, start, end);</a>
-<span class="sourceLineNo">635</span><a id="line.635">    }</a>
-<span class="sourceLineNo">636</span><a id="line.636"></a>
-<span class="sourceLineNo">637</span><a id="line.637">    private static final long serialVersionUID = 0;</a>
-<span class="sourceLineNo">638</span><a id="line.638">  }</a>
-<span class="sourceLineNo">639</span><a id="line.639">}</a>
+<span class="sourceLineNo">633</span><a id="line.633">    @Override</a>
+<span class="sourceLineNo">634</span><a id="line.634">    public List&lt;Character&gt; subList(int fromIndex, int toIndex) {</a>
+<span class="sourceLineNo">635</span><a id="line.635">      int size = size();</a>
+<span class="sourceLineNo">636</span><a id="line.636">      checkPositionIndexes(fromIndex, toIndex, size);</a>
+<span class="sourceLineNo">637</span><a id="line.637">      if (fromIndex == toIndex) {</a>
+<span class="sourceLineNo">638</span><a id="line.638">        return Collections.emptyList();</a>
+<span class="sourceLineNo">639</span><a id="line.639">      }</a>
+<span class="sourceLineNo">640</span><a id="line.640">      return new CharArrayAsList(array, start + fromIndex, start + toIndex);</a>
+<span class="sourceLineNo">641</span><a id="line.641">    }</a>
+<span class="sourceLineNo">642</span><a id="line.642"></a>
+<span class="sourceLineNo">643</span><a id="line.643">    @Override</a>
+<span class="sourceLineNo">644</span><a id="line.644">    public boolean equals(@CheckForNull Object object) {</a>
+<span class="sourceLineNo">645</span><a id="line.645">      if (object == this) {</a>
+<span class="sourceLineNo">646</span><a id="line.646">        return true;</a>
+<span class="sourceLineNo">647</span><a id="line.647">      }</a>
+<span class="sourceLineNo">648</span><a id="line.648">      if (object instanceof CharArrayAsList) {</a>
+<span class="sourceLineNo">649</span><a id="line.649">        CharArrayAsList that = (CharArrayAsList) object;</a>
+<span class="sourceLineNo">650</span><a id="line.650">        int size = size();</a>
+<span class="sourceLineNo">651</span><a id="line.651">        if (that.size() != size) {</a>
+<span class="sourceLineNo">652</span><a id="line.652">          return false;</a>
+<span class="sourceLineNo">653</span><a id="line.653">        }</a>
+<span class="sourceLineNo">654</span><a id="line.654">        for (int i = 0; i &lt; size; i++) {</a>
+<span class="sourceLineNo">655</span><a id="line.655">          if (array[start + i] != that.array[that.start + i]) {</a>
+<span class="sourceLineNo">656</span><a id="line.656">            return false;</a>
+<span class="sourceLineNo">657</span><a id="line.657">          }</a>
+<span class="sourceLineNo">658</span><a id="line.658">        }</a>
+<span class="sourceLineNo">659</span><a id="line.659">        return true;</a>
+<span class="sourceLineNo">660</span><a id="line.660">      }</a>
+<span class="sourceLineNo">661</span><a id="line.661">      return super.equals(object);</a>
+<span class="sourceLineNo">662</span><a id="line.662">    }</a>
+<span class="sourceLineNo">663</span><a id="line.663"></a>
+<span class="sourceLineNo">664</span><a id="line.664">    @Override</a>
+<span class="sourceLineNo">665</span><a id="line.665">    public int hashCode() {</a>
+<span class="sourceLineNo">666</span><a id="line.666">      int result = 1;</a>
+<span class="sourceLineNo">667</span><a id="line.667">      for (int i = start; i &lt; end; i++) {</a>
+<span class="sourceLineNo">668</span><a id="line.668">        result = 31 * result + Chars.hashCode(array[i]);</a>
+<span class="sourceLineNo">669</span><a id="line.669">      }</a>
+<span class="sourceLineNo">670</span><a id="line.670">      return result;</a>
+<span class="sourceLineNo">671</span><a id="line.671">    }</a>
+<span class="sourceLineNo">672</span><a id="line.672"></a>
+<span class="sourceLineNo">673</span><a id="line.673">    @Override</a>
+<span class="sourceLineNo">674</span><a id="line.674">    public String toString() {</a>
+<span class="sourceLineNo">675</span><a id="line.675">      StringBuilder builder = new StringBuilder(size() * 3);</a>
+<span class="sourceLineNo">676</span><a id="line.676">      builder.append('[').append(array[start]);</a>
+<span class="sourceLineNo">677</span><a id="line.677">      for (int i = start + 1; i &lt; end; i++) {</a>
+<span class="sourceLineNo">678</span><a id="line.678">        builder.append(", ").append(array[i]);</a>
+<span class="sourceLineNo">679</span><a id="line.679">      }</a>
+<span class="sourceLineNo">680</span><a id="line.680">      return builder.append(']').toString();</a>
+<span class="sourceLineNo">681</span><a id="line.681">    }</a>
+<span class="sourceLineNo">682</span><a id="line.682"></a>
+<span class="sourceLineNo">683</span><a id="line.683">    char[] toCharArray() {</a>
+<span class="sourceLineNo">684</span><a id="line.684">      return Arrays.copyOfRange(array, start, end);</a>
+<span class="sourceLineNo">685</span><a id="line.685">    }</a>
+<span class="sourceLineNo">686</span><a id="line.686"></a>
+<span class="sourceLineNo">687</span><a id="line.687">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">688</span><a id="line.688">  }</a>
+<span class="sourceLineNo">689</span><a id="line.689">}</a>
 
 
 

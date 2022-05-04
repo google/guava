@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -285,6 +285,27 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i15" class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotate(boolean%5B%5D,int)">rotate</a></span>&#8203;(boolean[]&nbsp;array,
+      int&nbsp;distance)</code></th>
+<td class="colLast">
+<div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
+ moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
+ + i) mod array.length</code>.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>static void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotate(boolean%5B%5D,int,int,int)">rotate</a></span>&#8203;(boolean[]&nbsp;array,
+      int&nbsp;distance,
+      int&nbsp;fromIndex,
+      int&nbsp;toIndex)</code></th>
+<td class="colLast">
+<div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
+ toIndex</code> exclusive.</div>
+</td>
+</tr>
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>static boolean[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.util.Collection)">toArray</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;&nbsp;collection)</code></th>
 <td class="colLast">
@@ -292,7 +313,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  values.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang" class="externalLink">Boolean</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#trueFirst()">trueFirst</a></span>()</code></th>
 <td class="colLast">
@@ -648,7 +669,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <a id="reverse(boolean[],int,int)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.545">reverse</a>&#8203;(boolean[]&nbsp;array,
@@ -664,6 +685,51 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
      <code>toIndex &gt; fromIndex</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.1</dd>
+</dl>
+</li>
+</ul>
+<a id="rotate(boolean[],int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rotate</h4>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.565">rotate</a>&#8203;(boolean[]&nbsp;array,
+                          int&nbsp;distance)</pre>
+<div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
+ moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
+ + i) mod array.length</code>. This is equivalent to <code>Collections.rotate(Booleans.asList(array),
+ distance)</code>, but is somewhat faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
+<a id="rotate(boolean[],int,int,int)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>rotate</h4>
+<pre class="methodSignature">public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.581">rotate</a>&#8203;(boolean[]&nbsp;array,
+                          int&nbsp;distance,
+                          int&nbsp;fromIndex,
+                          int&nbsp;toIndex)</pre>
+<div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
+ toIndex</code> exclusive. This is equivalent to <code>
+ Collections.rotate(Booleans.asList(array).subList(fromIndex, toIndex), distance)</code>, but is
+ somewhat faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+     <code>toIndex &gt; fromIndex</code></dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>

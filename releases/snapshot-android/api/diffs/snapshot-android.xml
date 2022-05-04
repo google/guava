@@ -53307,6 +53307,44 @@
  @since 23.1]]>
       </doc>
     </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Booleans.asList(array),
+ distance)}, but is somewhat faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Booleans.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ somewhat faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Static utility methods pertaining to {@code boolean} primitives, that are not already found in
  either {@link Boolean} or {@link Arrays}.
@@ -53499,6 +53537,44 @@
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
  @since 23.1]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),
+ distance)}, but is somewhat faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is somewhat
+ faster.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -53877,6 +53953,44 @@
  @since 23.1]]>
       </doc>
     </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Chars.asList(array),
+ distance)}, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Chars.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="asList" return="java.util.List&lt;java.lang.Character&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -54234,6 +54348,44 @@
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
  @since 23.1]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Bytes.asList(array),
+ distance)}, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Bytes.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="double[]"
@@ -54639,6 +54791,44 @@
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
  @since 23.1]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Floats.asList(array),
+ distance)}, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Floats.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="float[]"
@@ -56868,6 +57058,44 @@
  @since 23.1]]>
       </doc>
     </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Longs.asList(array),
+ distance)}, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Longs.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="toArray" return="long[]"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -57378,6 +57606,44 @@
  @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
      {@code toIndex > fromIndex}
  @since 23.1]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <param name="distance" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} of "distance" places, so that the first element is
+ moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+ + i) mod array.length}. This is equivalent to {@code Collections.rotate(Shorts.asList(array),
+ distance)}, but is considerably faster and avoids allocation and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="rotate"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <param name="distance" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+ toIndex} exclusive. This is equivalent to {@code
+ Collections.rotate(Shorts.asList(array).subList(fromIndex, toIndex), distance)}, but is
+ considerably faster and avoids allocations and garbage collection.
+
+ <p>The provided "distance" may be negative, which will rotate left.
+
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code toIndex > fromIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="toArray" return="short[]"
