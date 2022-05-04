@@ -350,6 +350,103 @@ public class FloatsTest extends TestCase {
     testReverse(new float[] {-1, 1, -2, 2}, 1, 3, new float[] {-1, -2, 1, 2});
   }
 
+  private static void testRotate(float[] input, int distance, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      float[] input, int distance, int fromIndex, int toIndex, float[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Floats.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new float[] {}, -1, new float[] {});
+    testRotate(new float[] {}, 0, new float[] {});
+    testRotate(new float[] {}, 1, new float[] {});
+
+    testRotate(new float[] {1}, -2, new float[] {1});
+    testRotate(new float[] {1}, -1, new float[] {1});
+    testRotate(new float[] {1}, 0, new float[] {1});
+    testRotate(new float[] {1}, 1, new float[] {1});
+    testRotate(new float[] {1}, 2, new float[] {1});
+
+    testRotate(new float[] {1, 2}, -3, new float[] {2, 1});
+    testRotate(new float[] {1, 2}, -1, new float[] {2, 1});
+    testRotate(new float[] {1, 2}, -2, new float[] {1, 2});
+    testRotate(new float[] {1, 2}, 0, new float[] {1, 2});
+    testRotate(new float[] {1, 2}, 1, new float[] {2, 1});
+    testRotate(new float[] {1, 2}, 2, new float[] {1, 2});
+    testRotate(new float[] {1, 2}, 3, new float[] {2, 1});
+
+    testRotate(new float[] {1, 2, 3}, -5, new float[] {3, 1, 2});
+    testRotate(new float[] {1, 2, 3}, -4, new float[] {2, 3, 1});
+    testRotate(new float[] {1, 2, 3}, -3, new float[] {1, 2, 3});
+    testRotate(new float[] {1, 2, 3}, -2, new float[] {3, 1, 2});
+    testRotate(new float[] {1, 2, 3}, -1, new float[] {2, 3, 1});
+    testRotate(new float[] {1, 2, 3}, 0, new float[] {1, 2, 3});
+    testRotate(new float[] {1, 2, 3}, 1, new float[] {3, 1, 2});
+    testRotate(new float[] {1, 2, 3}, 2, new float[] {2, 3, 1});
+    testRotate(new float[] {1, 2, 3}, 3, new float[] {1, 2, 3});
+    testRotate(new float[] {1, 2, 3}, 4, new float[] {3, 1, 2});
+    testRotate(new float[] {1, 2, 3}, 5, new float[] {2, 3, 1});
+
+    testRotate(new float[] {1, 2, 3, 4}, -9, new float[] {2, 3, 4, 1});
+    testRotate(new float[] {1, 2, 3, 4}, -5, new float[] {2, 3, 4, 1});
+    testRotate(new float[] {1, 2, 3, 4}, -1, new float[] {2, 3, 4, 1});
+    testRotate(new float[] {1, 2, 3, 4}, 0, new float[] {1, 2, 3, 4});
+    testRotate(new float[] {1, 2, 3, 4}, 1, new float[] {4, 1, 2, 3});
+    testRotate(new float[] {1, 2, 3, 4}, 5, new float[] {4, 1, 2, 3});
+    testRotate(new float[] {1, 2, 3, 4}, 9, new float[] {4, 1, 2, 3});
+
+    testRotate(new float[] {1, 2, 3, 4, 5}, -6, new float[] {2, 3, 4, 5, 1});
+    testRotate(new float[] {1, 2, 3, 4, 5}, -4, new float[] {5, 1, 2, 3, 4});
+    testRotate(new float[] {1, 2, 3, 4, 5}, -3, new float[] {4, 5, 1, 2, 3});
+    testRotate(new float[] {1, 2, 3, 4, 5}, -1, new float[] {2, 3, 4, 5, 1});
+    testRotate(new float[] {1, 2, 3, 4, 5}, 0, new float[] {1, 2, 3, 4, 5});
+    testRotate(new float[] {1, 2, 3, 4, 5}, 1, new float[] {5, 1, 2, 3, 4});
+    testRotate(new float[] {1, 2, 3, 4, 5}, 3, new float[] {3, 4, 5, 1, 2});
+    testRotate(new float[] {1, 2, 3, 4, 5}, 4, new float[] {2, 3, 4, 5, 1});
+    testRotate(new float[] {1, 2, 3, 4, 5}, 6, new float[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new float[] {}, 0, 0, 0, new float[] {});
+
+    testRotate(new float[] {1}, 0, 0, 1, new float[] {1});
+    testRotate(new float[] {1}, 1, 0, 1, new float[] {1});
+    testRotate(new float[] {1}, 1, 1, 1, new float[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new float[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new float[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new float[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new float[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new float[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new float[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new float[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new float[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new float[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new float[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new float[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new float[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new float[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new float[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new float[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new float[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new float[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new float[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new float[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new float[] {0, 1, 2, 4, 5, 6, 3});
+  }
+
   public void testSortDescending() {
     testSortDescending(new float[] {}, new float[] {});
     testSortDescending(new float[] {1}, new float[] {1});

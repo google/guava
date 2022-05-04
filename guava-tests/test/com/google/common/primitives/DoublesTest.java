@@ -365,6 +365,103 @@ public class DoublesTest extends TestCase {
     testReverse(new double[] {-1, 1, -2, 2}, 1, 3, new double[] {-1, -2, 1, 2});
   }
 
+  private static void testRotate(double[] input, int distance, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      double[] input, int distance, int fromIndex, int toIndex, double[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Doubles.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new double[] {}, -1, new double[] {});
+    testRotate(new double[] {}, 0, new double[] {});
+    testRotate(new double[] {}, 1, new double[] {});
+
+    testRotate(new double[] {1}, -2, new double[] {1});
+    testRotate(new double[] {1}, -1, new double[] {1});
+    testRotate(new double[] {1}, 0, new double[] {1});
+    testRotate(new double[] {1}, 1, new double[] {1});
+    testRotate(new double[] {1}, 2, new double[] {1});
+
+    testRotate(new double[] {1, 2}, -3, new double[] {2, 1});
+    testRotate(new double[] {1, 2}, -1, new double[] {2, 1});
+    testRotate(new double[] {1, 2}, -2, new double[] {1, 2});
+    testRotate(new double[] {1, 2}, 0, new double[] {1, 2});
+    testRotate(new double[] {1, 2}, 1, new double[] {2, 1});
+    testRotate(new double[] {1, 2}, 2, new double[] {1, 2});
+    testRotate(new double[] {1, 2}, 3, new double[] {2, 1});
+
+    testRotate(new double[] {1, 2, 3}, -5, new double[] {3, 1, 2});
+    testRotate(new double[] {1, 2, 3}, -4, new double[] {2, 3, 1});
+    testRotate(new double[] {1, 2, 3}, -3, new double[] {1, 2, 3});
+    testRotate(new double[] {1, 2, 3}, -2, new double[] {3, 1, 2});
+    testRotate(new double[] {1, 2, 3}, -1, new double[] {2, 3, 1});
+    testRotate(new double[] {1, 2, 3}, 0, new double[] {1, 2, 3});
+    testRotate(new double[] {1, 2, 3}, 1, new double[] {3, 1, 2});
+    testRotate(new double[] {1, 2, 3}, 2, new double[] {2, 3, 1});
+    testRotate(new double[] {1, 2, 3}, 3, new double[] {1, 2, 3});
+    testRotate(new double[] {1, 2, 3}, 4, new double[] {3, 1, 2});
+    testRotate(new double[] {1, 2, 3}, 5, new double[] {2, 3, 1});
+
+    testRotate(new double[] {1, 2, 3, 4}, -9, new double[] {2, 3, 4, 1});
+    testRotate(new double[] {1, 2, 3, 4}, -5, new double[] {2, 3, 4, 1});
+    testRotate(new double[] {1, 2, 3, 4}, -1, new double[] {2, 3, 4, 1});
+    testRotate(new double[] {1, 2, 3, 4}, 0, new double[] {1, 2, 3, 4});
+    testRotate(new double[] {1, 2, 3, 4}, 1, new double[] {4, 1, 2, 3});
+    testRotate(new double[] {1, 2, 3, 4}, 5, new double[] {4, 1, 2, 3});
+    testRotate(new double[] {1, 2, 3, 4}, 9, new double[] {4, 1, 2, 3});
+
+    testRotate(new double[] {1, 2, 3, 4, 5}, -6, new double[] {2, 3, 4, 5, 1});
+    testRotate(new double[] {1, 2, 3, 4, 5}, -4, new double[] {5, 1, 2, 3, 4});
+    testRotate(new double[] {1, 2, 3, 4, 5}, -3, new double[] {4, 5, 1, 2, 3});
+    testRotate(new double[] {1, 2, 3, 4, 5}, -1, new double[] {2, 3, 4, 5, 1});
+    testRotate(new double[] {1, 2, 3, 4, 5}, 0, new double[] {1, 2, 3, 4, 5});
+    testRotate(new double[] {1, 2, 3, 4, 5}, 1, new double[] {5, 1, 2, 3, 4});
+    testRotate(new double[] {1, 2, 3, 4, 5}, 3, new double[] {3, 4, 5, 1, 2});
+    testRotate(new double[] {1, 2, 3, 4, 5}, 4, new double[] {2, 3, 4, 5, 1});
+    testRotate(new double[] {1, 2, 3, 4, 5}, 6, new double[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new double[] {}, 0, 0, 0, new double[] {});
+
+    testRotate(new double[] {1}, 0, 0, 1, new double[] {1});
+    testRotate(new double[] {1}, 1, 0, 1, new double[] {1});
+    testRotate(new double[] {1}, 1, 1, 1, new double[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new double[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new double[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new double[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new double[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new double[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new double[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new double[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new double[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new double[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new double[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new double[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new double[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new double[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new double[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new double[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new double[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new double[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new double[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new double[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new double[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new double[] {0, 1, 2, 4, 5, 6, 3});
+  }
+
   public void testSortDescending() {
     testSortDescending(new double[] {}, new double[] {});
     testSortDescending(new double[] {1}, new double[] {1});

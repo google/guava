@@ -270,6 +270,103 @@ public class BytesTest extends TestCase {
     testReverse(new byte[] {-1, 1, -2, 2}, 1, 3, new byte[] {-1, -2, 1, 2});
   }
 
+  private static void testRotate(byte[] input, int distance, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Bytes.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      byte[] input, int distance, int fromIndex, int toIndex, byte[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Bytes.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new byte[] {}, -1, new byte[] {});
+    testRotate(new byte[] {}, 0, new byte[] {});
+    testRotate(new byte[] {}, 1, new byte[] {});
+
+    testRotate(new byte[] {1}, -2, new byte[] {1});
+    testRotate(new byte[] {1}, -1, new byte[] {1});
+    testRotate(new byte[] {1}, 0, new byte[] {1});
+    testRotate(new byte[] {1}, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 2, new byte[] {1});
+
+    testRotate(new byte[] {1, 2}, -3, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, -1, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, -2, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 0, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 1, new byte[] {2, 1});
+    testRotate(new byte[] {1, 2}, 2, new byte[] {1, 2});
+    testRotate(new byte[] {1, 2}, 3, new byte[] {2, 1});
+
+    testRotate(new byte[] {1, 2, 3}, -5, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, -4, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, -3, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, -2, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, -1, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, 0, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, 1, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, 2, new byte[] {2, 3, 1});
+    testRotate(new byte[] {1, 2, 3}, 3, new byte[] {1, 2, 3});
+    testRotate(new byte[] {1, 2, 3}, 4, new byte[] {3, 1, 2});
+    testRotate(new byte[] {1, 2, 3}, 5, new byte[] {2, 3, 1});
+
+    testRotate(new byte[] {1, 2, 3, 4}, -9, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, -5, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, -1, new byte[] {2, 3, 4, 1});
+    testRotate(new byte[] {1, 2, 3, 4}, 0, new byte[] {1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4}, 1, new byte[] {4, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4}, 5, new byte[] {4, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4}, 9, new byte[] {4, 1, 2, 3});
+
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -6, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -4, new byte[] {5, 1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -3, new byte[] {4, 5, 1, 2, 3});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, -1, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 0, new byte[] {1, 2, 3, 4, 5});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 1, new byte[] {5, 1, 2, 3, 4});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 3, new byte[] {3, 4, 5, 1, 2});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 4, new byte[] {2, 3, 4, 5, 1});
+    testRotate(new byte[] {1, 2, 3, 4, 5}, 6, new byte[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new byte[] {}, 0, 0, 0, new byte[] {});
+
+    testRotate(new byte[] {1}, 0, 0, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 1, 0, 1, new byte[] {1});
+    testRotate(new byte[] {1}, 1, 1, 1, new byte[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new byte[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new byte[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new byte[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new byte[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new byte[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new byte[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new byte[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new byte[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new byte[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new byte[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new byte[] {0, 1, 2, 4, 5, 6, 3});
+  }
+
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Bytes.class);

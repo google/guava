@@ -359,6 +359,203 @@ public class CharsTest extends TestCase {
     testReverse(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
   }
 
+  private static void testRotate(char[] input, int distance, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      char[] input, int distance, int fromIndex, int toIndex, char[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Chars.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new char[] {}, -1, new char[] {});
+    testRotate(new char[] {}, 0, new char[] {});
+    testRotate(new char[] {}, 1, new char[] {});
+
+    testRotate(new char[] {'1'}, -2, new char[] {'1'});
+    testRotate(new char[] {'1'}, -1, new char[] {'1'});
+    testRotate(new char[] {'1'}, 0, new char[] {'1'});
+    testRotate(new char[] {'1'}, 1, new char[] {'1'});
+    testRotate(new char[] {'1'}, 2, new char[] {'1'});
+
+    testRotate(new char[] {'1', '2'}, -3, new char[] {'2', '1'});
+    testRotate(new char[] {'1', '2'}, -1, new char[] {'2', '1'});
+    testRotate(new char[] {'1', '2'}, -2, new char[] {'1', '2'});
+    testRotate(new char[] {'1', '2'}, 0, new char[] {'1', '2'});
+    testRotate(new char[] {'1', '2'}, 1, new char[] {'2', '1'});
+    testRotate(new char[] {'1', '2'}, 2, new char[] {'1', '2'});
+    testRotate(new char[] {'1', '2'}, 3, new char[] {'2', '1'});
+
+    testRotate(new char[] {'1', '2', '3'}, -5, new char[] {'3', '1', '2'});
+    testRotate(new char[] {'1', '2', '3'}, -4, new char[] {'2', '3', '1'});
+    testRotate(new char[] {'1', '2', '3'}, -3, new char[] {'1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3'}, -2, new char[] {'3', '1', '2'});
+    testRotate(new char[] {'1', '2', '3'}, -1, new char[] {'2', '3', '1'});
+    testRotate(new char[] {'1', '2', '3'}, 0, new char[] {'1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3'}, 1, new char[] {'3', '1', '2'});
+    testRotate(new char[] {'1', '2', '3'}, 2, new char[] {'2', '3', '1'});
+    testRotate(new char[] {'1', '2', '3'}, 3, new char[] {'1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3'}, 4, new char[] {'3', '1', '2'});
+    testRotate(new char[] {'1', '2', '3'}, 5, new char[] {'2', '3', '1'});
+
+    testRotate(new char[] {'1', '2', '3', '4'}, -9, new char[] {'2', '3', '4', '1'});
+    testRotate(new char[] {'1', '2', '3', '4'}, -5, new char[] {'2', '3', '4', '1'});
+    testRotate(new char[] {'1', '2', '3', '4'}, -1, new char[] {'2', '3', '4', '1'});
+    testRotate(new char[] {'1', '2', '3', '4'}, 0, new char[] {'1', '2', '3', '4'});
+    testRotate(new char[] {'1', '2', '3', '4'}, 1, new char[] {'4', '1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3', '4'}, 5, new char[] {'4', '1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3', '4'}, 9, new char[] {'4', '1', '2', '3'});
+
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, -6, new char[] {'2', '3', '4', '5', '1'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, -4, new char[] {'5', '1', '2', '3', '4'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, -3, new char[] {'4', '5', '1', '2', '3'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, -1, new char[] {'2', '3', '4', '5', '1'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, 0, new char[] {'1', '2', '3', '4', '5'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, 1, new char[] {'5', '1', '2', '3', '4'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, 3, new char[] {'3', '4', '5', '1', '2'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, 4, new char[] {'2', '3', '4', '5', '1'});
+    testRotate(new char[] {'1', '2', '3', '4', '5'}, 6, new char[] {'5', '1', '2', '3', '4'});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new char[] {}, 0, 0, 0, new char[] {});
+
+    testRotate(new char[] {'1'}, 0, 0, 1, new char[] {'1'});
+    testRotate(new char[] {'1'}, 1, 0, 1, new char[] {'1'});
+    testRotate(new char[] {'1'}, 1, 1, 1, new char[] {'1'});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -6,
+        1,
+        6,
+        new char[] {'0', '2', '3', '4', '5', '1', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -1,
+        1,
+        6,
+        new char[] {'0', '2', '3', '4', '5', '1', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        0,
+        1,
+        6,
+        new char[] {'0', '1', '2', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        5,
+        1,
+        6,
+        new char[] {'0', '1', '2', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        14,
+        1,
+        6,
+        new char[] {'0', '2', '3', '4', '5', '1', '6'});
+
+    // Rotate the first three elements
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -2,
+        0,
+        3,
+        new char[] {'2', '0', '1', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -1,
+        0,
+        3,
+        new char[] {'1', '2', '0', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        0,
+        0,
+        3,
+        new char[] {'0', '1', '2', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        1,
+        0,
+        3,
+        new char[] {'2', '0', '1', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        2,
+        0,
+        3,
+        new char[] {'1', '2', '0', '3', '4', '5', '6'});
+
+    // Rotate the last four elements
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -6,
+        3,
+        7,
+        new char[] {'0', '1', '2', '5', '6', '3', '4'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -5,
+        3,
+        7,
+        new char[] {'0', '1', '2', '4', '5', '6', '3'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -4,
+        3,
+        7,
+        new char[] {'0', '1', '2', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -3,
+        3,
+        7,
+        new char[] {'0', '1', '2', '6', '3', '4', '5'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -2,
+        3,
+        7,
+        new char[] {'0', '1', '2', '5', '6', '3', '4'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        -1,
+        3,
+        7,
+        new char[] {'0', '1', '2', '4', '5', '6', '3'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        0,
+        3,
+        7,
+        new char[] {'0', '1', '2', '3', '4', '5', '6'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        1,
+        3,
+        7,
+        new char[] {'0', '1', '2', '6', '3', '4', '5'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        2,
+        3,
+        7,
+        new char[] {'0', '1', '2', '5', '6', '3', '4'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4', '5', '6'},
+        3,
+        3,
+        7,
+        new char[] {'0', '1', '2', '4', '5', '6', '3'});
+  }
+
   public void testSortDescending() {
     testSortDescending(new char[] {}, new char[] {});
     testSortDescending(new char[] {'1'}, new char[] {'1'});

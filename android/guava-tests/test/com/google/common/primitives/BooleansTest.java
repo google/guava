@@ -209,6 +209,237 @@ public class BooleansTest extends TestCase {
         new boolean[] {true, true, false, false}, 1, 3, new boolean[] {true, false, true, false});
   }
 
+  private static void testRotate(boolean[] input, int distance, boolean[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Booleans.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      boolean[] input, int distance, int fromIndex, int toIndex, boolean[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Booleans.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new boolean[] {}, -1, new boolean[] {});
+    testRotate(new boolean[] {}, 0, new boolean[] {});
+    testRotate(new boolean[] {}, 1, new boolean[] {});
+
+    testRotate(new boolean[] {true}, -2, new boolean[] {true});
+    testRotate(new boolean[] {true}, -1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 0, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 2, new boolean[] {true});
+
+    testRotate(new boolean[] {true, false}, -3, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, -1, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, -2, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 0, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 1, new boolean[] {false, true});
+    testRotate(new boolean[] {true, false}, 2, new boolean[] {true, false});
+    testRotate(new boolean[] {true, false}, 3, new boolean[] {false, true});
+
+    testRotate(new boolean[] {true, false, true}, -5, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, -4, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, -3, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, -2, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, -1, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, 0, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, 1, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, 2, new boolean[] {false, true, true});
+    testRotate(new boolean[] {true, false, true}, 3, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, 4, new boolean[] {true, true, false});
+    testRotate(new boolean[] {true, false, true}, 5, new boolean[] {false, true, true});
+
+    testRotate(
+        new boolean[] {true, false, true, false}, -9, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, -5, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, -1, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 0, new boolean[] {true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false}, 1, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 5, new boolean[] {false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false}, 9, new boolean[] {false, true, false, true});
+
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -6,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -4,
+        new boolean[] {true, true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -3,
+        new boolean[] {false, true, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        -1,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        0,
+        new boolean[] {true, false, true, false, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        1,
+        new boolean[] {true, true, false, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        3,
+        new boolean[] {true, false, true, true, false});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        4,
+        new boolean[] {false, true, false, true, true});
+    testRotate(
+        new boolean[] {true, false, true, false, true},
+        6,
+        new boolean[] {true, true, false, true, false});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new boolean[] {}, 0, 0, 0, new boolean[] {});
+
+    testRotate(new boolean[] {true}, 0, 0, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, 0, 1, new boolean[] {true});
+    testRotate(new boolean[] {true}, 1, 1, 1, new boolean[] {true});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -6,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        1,
+        6,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        5,
+        1,
+        6,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        14,
+        1,
+        6,
+        new boolean[] {false, false, true, false, true, true, false});
+
+    // Rotate the first three elements
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -2,
+        0,
+        3,
+        new boolean[] {false, false, true, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        0,
+        3,
+        new boolean[] {true, false, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        0,
+        3,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        1,
+        0,
+        3,
+        new boolean[] {false, false, true, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        2,
+        0,
+        3,
+        new boolean[] {true, false, false, true, false, true, false});
+
+    // Rotate the last four elements
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -6,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -5,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -4,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -3,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -2,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        -1,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        0,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        1,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        2,
+        3,
+        7,
+        new boolean[] {false, true, false, true, false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, true, false, true, false},
+        3,
+        3,
+        7,
+        new boolean[] {false, true, false, false, true, false, true});
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Boolean> none = Arrays.<Boolean>asList();

@@ -366,6 +366,103 @@ public class ShortsTest extends TestCase {
     testReverse(new short[] {-1, 1, -2, 2}, 1, 3, new short[] {-1, -2, 1, 2});
   }
 
+  private static void testRotate(short[] input, int distance, short[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Shorts.rotate(input, distance);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  private static void testRotate(
+      short[] input, int distance, int fromIndex, int toIndex, short[] expectedOutput) {
+    input = Arrays.copyOf(input, input.length);
+    Shorts.rotate(input, distance, fromIndex, toIndex);
+    assertThat(input).isEqualTo(expectedOutput);
+  }
+
+  public void testRotate() {
+    testRotate(new short[] {}, -1, new short[] {});
+    testRotate(new short[] {}, 0, new short[] {});
+    testRotate(new short[] {}, 1, new short[] {});
+
+    testRotate(new short[] {1}, -2, new short[] {1});
+    testRotate(new short[] {1}, -1, new short[] {1});
+    testRotate(new short[] {1}, 0, new short[] {1});
+    testRotate(new short[] {1}, 1, new short[] {1});
+    testRotate(new short[] {1}, 2, new short[] {1});
+
+    testRotate(new short[] {1, 2}, -3, new short[] {2, 1});
+    testRotate(new short[] {1, 2}, -1, new short[] {2, 1});
+    testRotate(new short[] {1, 2}, -2, new short[] {1, 2});
+    testRotate(new short[] {1, 2}, 0, new short[] {1, 2});
+    testRotate(new short[] {1, 2}, 1, new short[] {2, 1});
+    testRotate(new short[] {1, 2}, 2, new short[] {1, 2});
+    testRotate(new short[] {1, 2}, 3, new short[] {2, 1});
+
+    testRotate(new short[] {1, 2, 3}, -5, new short[] {3, 1, 2});
+    testRotate(new short[] {1, 2, 3}, -4, new short[] {2, 3, 1});
+    testRotate(new short[] {1, 2, 3}, -3, new short[] {1, 2, 3});
+    testRotate(new short[] {1, 2, 3}, -2, new short[] {3, 1, 2});
+    testRotate(new short[] {1, 2, 3}, -1, new short[] {2, 3, 1});
+    testRotate(new short[] {1, 2, 3}, 0, new short[] {1, 2, 3});
+    testRotate(new short[] {1, 2, 3}, 1, new short[] {3, 1, 2});
+    testRotate(new short[] {1, 2, 3}, 2, new short[] {2, 3, 1});
+    testRotate(new short[] {1, 2, 3}, 3, new short[] {1, 2, 3});
+    testRotate(new short[] {1, 2, 3}, 4, new short[] {3, 1, 2});
+    testRotate(new short[] {1, 2, 3}, 5, new short[] {2, 3, 1});
+
+    testRotate(new short[] {1, 2, 3, 4}, -9, new short[] {2, 3, 4, 1});
+    testRotate(new short[] {1, 2, 3, 4}, -5, new short[] {2, 3, 4, 1});
+    testRotate(new short[] {1, 2, 3, 4}, -1, new short[] {2, 3, 4, 1});
+    testRotate(new short[] {1, 2, 3, 4}, 0, new short[] {1, 2, 3, 4});
+    testRotate(new short[] {1, 2, 3, 4}, 1, new short[] {4, 1, 2, 3});
+    testRotate(new short[] {1, 2, 3, 4}, 5, new short[] {4, 1, 2, 3});
+    testRotate(new short[] {1, 2, 3, 4}, 9, new short[] {4, 1, 2, 3});
+
+    testRotate(new short[] {1, 2, 3, 4, 5}, -6, new short[] {2, 3, 4, 5, 1});
+    testRotate(new short[] {1, 2, 3, 4, 5}, -4, new short[] {5, 1, 2, 3, 4});
+    testRotate(new short[] {1, 2, 3, 4, 5}, -3, new short[] {4, 5, 1, 2, 3});
+    testRotate(new short[] {1, 2, 3, 4, 5}, -1, new short[] {2, 3, 4, 5, 1});
+    testRotate(new short[] {1, 2, 3, 4, 5}, 0, new short[] {1, 2, 3, 4, 5});
+    testRotate(new short[] {1, 2, 3, 4, 5}, 1, new short[] {5, 1, 2, 3, 4});
+    testRotate(new short[] {1, 2, 3, 4, 5}, 3, new short[] {3, 4, 5, 1, 2});
+    testRotate(new short[] {1, 2, 3, 4, 5}, 4, new short[] {2, 3, 4, 5, 1});
+    testRotate(new short[] {1, 2, 3, 4, 5}, 6, new short[] {5, 1, 2, 3, 4});
+  }
+
+  public void testRotateIndexed() {
+    testRotate(new short[] {}, 0, 0, 0, new short[] {});
+
+    testRotate(new short[] {1}, 0, 0, 1, new short[] {1});
+    testRotate(new short[] {1}, 1, 0, 1, new short[] {1});
+    testRotate(new short[] {1}, 1, 1, 1, new short[] {1});
+
+    // Rotate the central 5 elements, leaving the ends as-is
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new short[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new short[] {0, 2, 3, 4, 5, 1, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 0, 1, 6, new short[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 5, 1, 6, new short[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 14, 1, 6, new short[] {0, 2, 3, 4, 5, 1, 6});
+
+    // Rotate the first three elements
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -2, 0, 3, new short[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -1, 0, 3, new short[] {1, 2, 0, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 0, 0, 3, new short[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 1, 0, 3, new short[] {2, 0, 1, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 2, 0, 3, new short[] {1, 2, 0, 3, 4, 5, 6});
+
+    // Rotate the last four elements
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -6, 3, 7, new short[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -5, 3, 7, new short[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -4, 3, 7, new short[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -3, 3, 7, new short[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -2, 3, 7, new short[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -1, 3, 7, new short[] {0, 1, 2, 4, 5, 6, 3});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 0, 3, 7, new short[] {0, 1, 2, 3, 4, 5, 6});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 1, 3, 7, new short[] {0, 1, 2, 6, 3, 4, 5});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 2, 3, 7, new short[] {0, 1, 2, 5, 6, 3, 4});
+    testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, 3, 3, 7, new short[] {0, 1, 2, 4, 5, 6, 3});
+  }
+
   public void testSortDescending() {
     testSortDescending(new short[] {}, new short[] {});
     testSortDescending(new short[] {1}, new short[] {1});
