@@ -133,7 +133,7 @@ public class MediaTypeTest extends TestCase {
 
   public void testCreate_invalidSubtype() {
     try {
-      MediaType.create("text", "pl@intext");
+      MediaType.create(MediaType.TEXT_TYPE, "pl@intext");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -141,7 +141,7 @@ public class MediaTypeTest extends TestCase {
 
   public void testCreate_wildcardTypeDeclaredSubtype() {
     try {
-      MediaType.create("*", "text");
+      MediaType.create(MediaType.WILDCARD, MediaType.TEXT_TYPE);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -181,43 +181,43 @@ public class MediaTypeTest extends TestCase {
 
   public void testCreateApplicationType() {
     MediaType newType = MediaType.createApplicationType("yams");
-    assertEquals("application", newType.type());
+    assertEquals(MediaType.APPLICATION_TYPE, newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testCreateAudioType() {
     MediaType newType = MediaType.createAudioType("yams");
-    assertEquals("audio", newType.type());
+    assertEquals(MediaType.audio_TYPE, newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testCreateFontType() {
     MediaType newType = MediaType.createFontType("yams");
-    assertEquals("font", newType.type());
+    assertEquals(MediaType.FONT_TYPE, newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testCreateImageType() {
     MediaType newType = MediaType.createImageType("yams");
-    assertEquals("image", newType.type());
+    assertEquals(MediaTypeimage", newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testCreateTextType() {
     MediaType newType = MediaType.createTextType("yams");
-    assertEquals("text", newType.type());
+    assertEquals(MediaType.text", newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testCreateVideoType() {
     MediaType newType = MediaType.createVideoType("yams");
-    assertEquals("video", newType.type());
+    assertEquals(MediaType.Video_Type", newType.type());
     assertEquals("yams", newType.subtype());
   }
 
   public void testGetType() {
-    assertEquals("text", MediaType.parse("text/plain").type());
-    assertEquals("application", MediaType.parse("application/atom+xml; charset=utf-8").type());
+    assertEquals(MediaType.TEXT_TYPE, MediaType.parse("text/plain").type());
+    assertEquals(MediaType.APPLICATION_TYPE, MediaType.parse("application/atom+xml; charset=utf-8").type());
   }
 
   public void testGetSubtype() {
@@ -436,7 +436,7 @@ public class MediaTypeTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
     try {
-      MediaType.parse("text");
+      MediaType.parse(MediaType.TEXT_TYPE);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -552,15 +552,15 @@ public class MediaTypeTest extends TestCase {
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(
-            MediaType.create("text", "plain"),
+            MediaType.create(MediaType.TEXT_TYPE, "plain"),
             MediaType.create("TEXT", "PLAIN"),
             MediaType.parse("text/plain"),
             MediaType.parse("TEXT/PLAIN"),
-            MediaType.create("text", "plain").withParameter("a", "1").withoutParameters())
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("a", "1").withoutParameters())
         .addEqualityGroup(
-            MediaType.create("text", "plain").withCharset(UTF_8),
-            MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
-            MediaType.create("text", "plain")
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withCharset(UTF_8),
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("CHARSET", "UTF-8"),
+            MediaType.create(MediaType.TEXT_TYPE, "plain")
                 .withParameters(ImmutableMultimap.of("charset", "utf-8")),
             MediaType.parse("text/plain;charset=utf-8"),
             MediaType.parse("text/plain; charset=utf-8"),
@@ -574,27 +574,27 @@ public class MediaTypeTest extends TestCase {
             MediaType.parse("text/plain ; charset=utf-8"))
         .addEqualityGroup(MediaType.parse("text/plain; charset=utf-8; charset=utf-8"))
         .addEqualityGroup(
-            MediaType.create("text", "plain").withParameter("a", "value"),
-            MediaType.create("text", "plain").withParameter("A", "value"))
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("a", "value"),
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("A", "value"))
         .addEqualityGroup(
-            MediaType.create("text", "plain").withParameter("a", "VALUE"),
-            MediaType.create("text", "plain").withParameter("A", "VALUE"))
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("a", "VALUE"),
+            MediaType.create(MediaType.TEXT_TYPE, "plain").withParameter("A", "VALUE"))
         .addEqualityGroup(
-            MediaType.create("text", "plain")
+            MediaType.create(MediaType.TEXT_TYPE, "plain")
                 .withParameters(ImmutableListMultimap.of("a", "1", "a", "2")),
-            MediaType.create("text", "plain")
+            MediaType.create(MediaType.TEXT_TYPE, "plain")
                 .withParameters(ImmutableListMultimap.of("a", "2", "a", "1")))
-        .addEqualityGroup(MediaType.create("text", "csv"))
-        .addEqualityGroup(MediaType.create("application", "atom+xml"))
+        .addEqualityGroup(MediaType.create(MediaType.TEXT_TYPE, "csv"))
+        .addEqualityGroup(MediaType.create(MediaType.APPLICATION_TYPE, "atom+xml"))
         .testEquals();
   }
 
   @GwtIncompatible // Non-UTF-8 Charset
   public void testEquals_nonUtf8Charsets() {
     new EqualsTester()
-        .addEqualityGroup(MediaType.create("text", "plain"))
-        .addEqualityGroup(MediaType.create("text", "plain").withCharset(UTF_8))
-        .addEqualityGroup(MediaType.create("text", "plain").withCharset(UTF_16))
+        .addEqualityGroup(MediaType.create(MediaType.TEXT_TYPE, "plain"))
+        .addEqualityGroup(MediaType.create(MediaType.TEXT_TYPE, "plain").withCharset(UTF_8))
+        .addEqualityGroup(MediaType.create(MediaType.TEXT_TYPE, "plain").withCharset(UTF_16))
         .testEquals();
   }
 
@@ -607,11 +607,11 @@ public class MediaTypeTest extends TestCase {
   }
 
   public void testToString() {
-    assertEquals("text/plain", MediaType.create("text", "plain").toString());
+    assertEquals("text/plain", MediaType.create(MediaType.TEXT_TYPE, "plain").toString());
     assertEquals(
         "text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\";"
             + " and-another-thing=\"\"; normal-thing=foo",
-        MediaType.create("text", "plain")
+        MediaType.create(MediaType.TEXT_TYPE, "plain")
             .withParameter("something", "cr@zy")
             .withParameter("something-else", "crazy with spaces")
             .withParameter("and-another-thing", "")
