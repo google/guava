@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -59,6 +60,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
     } catch (RuntimeException e) {
       throw new UncheckedExecutionException(e);
     } catch (Exception e) {
+      restoreInterruptIfIsInterruptedException(e);
       throw new ExecutionException(e);
     } catch (Error e) {
       throw new ExecutionError(e);
