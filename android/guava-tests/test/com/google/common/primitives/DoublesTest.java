@@ -476,9 +476,8 @@ public class DoublesTest extends TestCase {
   private static void testSortDescending(double[] input, double[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Doubles.sortDescending(input);
-    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
     for (int i = 0; i < input.length; i++) {
-      assertThat(Double.compare(expectedOutput[i], input[i])).isEqualTo(0);
+      assertThat(input[i]).isEqualTo(expectedOutput[i]);
     }
   }
 
@@ -486,9 +485,8 @@ public class DoublesTest extends TestCase {
       double[] input, int fromIndex, int toIndex, double[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Doubles.sortDescending(input, fromIndex, toIndex);
-    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
     for (int i = 0; i < input.length; i++) {
-      assertThat(Double.compare(expectedOutput[i], input[i])).isEqualTo(0);
+      assertThat(input[i]).isEqualTo(expectedOutput[i]);
     }
   }
 

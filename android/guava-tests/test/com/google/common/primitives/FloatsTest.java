@@ -460,9 +460,8 @@ public class FloatsTest extends TestCase {
   private static void testSortDescending(float[] input, float[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Floats.sortDescending(input);
-    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
     for (int i = 0; i < input.length; i++) {
-      assertThat(Float.compare(expectedOutput[i], input[i])).isEqualTo(0);
+      assertThat(input[i]).isEqualTo(expectedOutput[i]);
     }
   }
 
@@ -470,9 +469,8 @@ public class FloatsTest extends TestCase {
       float[] input, int fromIndex, int toIndex, float[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Floats.sortDescending(input, fromIndex, toIndex);
-    // GWT's Arrays.equals doesn't appear to handle NaN correctly, so test each element individually
     for (int i = 0; i < input.length; i++) {
-      assertThat(Float.compare(expectedOutput[i], input[i])).isEqualTo(0);
+      assertThat(input[i]).isEqualTo(expectedOutput[i]);
     }
   }
 
