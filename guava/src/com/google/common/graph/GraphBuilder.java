@@ -28,12 +28,18 @@ import com.google.errorprone.annotations.DoNotMock;
  * A builder for constructing instances of {@link MutableGraph} or {@link ImmutableGraph} with
  * user-defined properties.
  *
- * <p>A graph built by this class will have the following properties by default:
+ * <p>A {@code Graph} built by this class has the following default properties:
  *
  * <ul>
  *   <li>does not allow self-loops
- *   <li>orders {@link Graph#nodes()} in the order in which the elements were added
+ *   <li>orders {@link Graph#nodes()} in the order in which the elements were added (insertion
+ *       order)
  * </ul>
+ *
+ * <p>{@code Graph}s built by this class also guarantee that each collection-returning accessor
+ * returns a <b>(live) unmodifiable view</b>; see <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#accessor-behavior">the external
+ * documentation</a> for details.
  *
  * <p>Examples of use:
  *
