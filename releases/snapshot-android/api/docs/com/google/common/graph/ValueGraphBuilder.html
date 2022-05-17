@@ -140,17 +140,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.68">ValueGraphBuilder</a>&lt;N,&#8203;V&gt;
+public final class <a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.74">ValueGraphBuilder</a>&lt;N,&#8203;V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for constructing instances of <a href="MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> or <a href="ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a>
  with user-defined properties.
 
- <p>A graph built by this class will have the following properties by default:
+ <p>A <code>ValueGraph</code> built by this class has the following default properties:
 
  <ul>
    <li>does not allow self-loops
-   <li>orders <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a> in the order in which the elements were added
+   <li>orders <a href="ValueGraph.html#nodes()"><code>ValueGraph.nodes()</code></a> in the order in which the elements were added (insertion
+       order)
  </ul>
+
+ <p><code>ValueGraph</code>s built by this class also guarantee that each collection-returning accessor
+ returns a <b>(live) unmodifiable view</b>; see <a href="https://github.com/google/guava/wiki/GraphsExplained#accessor-behavior">the external
+ documentation</a> for details.
 
  <p>Examples of use:
 
@@ -292,7 +297,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>directed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.78">directed</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.84">directed</a>()</pre>
 <div class="block">Returns a <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> for building directed graphs.</div>
 </li>
 </ul>
@@ -302,7 +307,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>undirected</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.83">undirected</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.89">undirected</a>()</pre>
 <div class="block">Returns a <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> for building undirected graphs.</div>
 </li>
 </ul>
@@ -312,7 +317,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.95">from</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N,&#8203;V&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.101">from</a>&#8203;(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,&#8203;V&gt;&nbsp;graph)</pre>
 <div class="block">Returns a <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> initialized with all properties queryable from <code>
  graph</code>.
 
@@ -326,7 +331,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>immutable</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;V1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a>&lt;N1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.113">immutable</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;V1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a>&lt;N1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.119">immutable</a>()</pre>
 <div class="block">Returns an <a href="ImmutableValueGraph.Builder.html" title="class in com.google.common.graph"><code>ImmutableValueGraph.Builder</code></a> with the properties of this <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.
 
  <p>The returned builder can be used for populating an <a href="ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a>.
@@ -344,7 +349,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre class="methodSignature">public&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.125">allowsSelfLoops</a>&#8203;(boolean&nbsp;allowsSelfLoops)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.131">allowsSelfLoops</a>&#8203;(boolean&nbsp;allowsSelfLoops)</pre>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>UnsupportedOperationException</code></a>.
 
@@ -357,7 +362,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedNodeCount</h4>
-<pre class="methodSignature">public&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.135">expectedNodeCount</a>&#8203;(int&nbsp;expectedNodeCount)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.141">expectedNodeCount</a>&#8203;(int&nbsp;expectedNodeCount)</pre>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -371,7 +376,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.145">nodeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.151">nodeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a>.
 
  <p>The default value is <a href="ElementOrder.html#insertion()"><code>insertion order</code></a>.</div>
@@ -383,7 +388,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.164">incidentEdgeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,&#8203;<a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.170">incidentEdgeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="ValueGraph.html#edges()"><code>ValueGraph.edges()</code></a>, <a href="ValueGraph.html#adjacentNodes(N)"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="ValueGraph.html#predecessors(N)"><code>ValueGraph.predecessors(Object)</code></a>, <a href="ValueGraph.html#successors(N)"><code>ValueGraph.successors(Object)</code></a> and <a href="ValueGraph.html#incidentEdges(N)"><code>ValueGraph.incidentEdges(Object)</code></a>.
 
  <p>The default value is <a href="ElementOrder.html#unordered()"><code>unordered</code></a> for mutable graphs. For
@@ -403,7 +408,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;V1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.180">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,&#8203;V1 extends <a href="ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.186">build</a>()</pre>
 <div class="block">Returns an empty <a href="MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with the properties of this <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.</div>
 </li>
 </ul>
