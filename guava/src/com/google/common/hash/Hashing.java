@@ -373,9 +373,13 @@ public final class Hashing {
   }
 
   private static String hmacToString(String methodName, Key key) {
-    return String.format(
-        "Hashing.%s(Key[algorithm=%s, format=%s])",
-        methodName, key.getAlgorithm(), key.getFormat());
+    return "Hashing."
+        + methodName
+        + "(Key[algorithm="
+        + key.getAlgorithm()
+        + ", format="
+        + key.getFormat()
+        + "])";
   }
 
   /**
