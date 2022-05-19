@@ -103,7 +103,7 @@ public interface RangeMap<K extends Comparable, V> {
   void putCoalescing(Range<K> range, V value);
 
   /** Puts all the associations from {@code rangeMap} into this range map (optional operation). */
-  void putAll(RangeMap<K, V> rangeMap);
+  void putAll(RangeMap<K, ? extends V> rangeMap);
 
   /** Removes all associations from this range map (optional operation). */
   void clear();

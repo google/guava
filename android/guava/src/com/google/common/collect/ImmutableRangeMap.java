@@ -241,7 +241,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void putAll(RangeMap<K, V> rangeMap) {
+  public final void putAll(RangeMap<K, ? extends V> rangeMap) {
     throw new UnsupportedOperationException();
   }
 
