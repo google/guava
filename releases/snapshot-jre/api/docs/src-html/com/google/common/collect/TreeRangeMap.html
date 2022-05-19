@@ -178,8 +178,8 @@
 <span class="sourceLineNo">169</span><a id="line.169">  }</a>
 <span class="sourceLineNo">170</span><a id="line.170"></a>
 <span class="sourceLineNo">171</span><a id="line.171">  @Override</a>
-<span class="sourceLineNo">172</span><a id="line.172">  public void putAll(RangeMap&lt;K, V&gt; rangeMap) {</a>
-<span class="sourceLineNo">173</span><a id="line.173">    for (Entry&lt;Range&lt;K&gt;, V&gt; entry : rangeMap.asMapOfRanges().entrySet()) {</a>
+<span class="sourceLineNo">172</span><a id="line.172">  public void putAll(RangeMap&lt;K, ? extends V&gt; rangeMap) {</a>
+<span class="sourceLineNo">173</span><a id="line.173">    for (Entry&lt;Range&lt;K&gt;, ? extends V&gt; entry : rangeMap.asMapOfRanges().entrySet()) {</a>
 <span class="sourceLineNo">174</span><a id="line.174">      put(entry.getKey(), entry.getValue());</a>
 <span class="sourceLineNo">175</span><a id="line.175">    }</a>
 <span class="sourceLineNo">176</span><a id="line.176">  }</a>
@@ -426,7 +426,7 @@
 <span class="sourceLineNo">417</span><a id="line.417">        }</a>
 <span class="sourceLineNo">418</span><a id="line.418"></a>
 <span class="sourceLineNo">419</span><a id="line.419">        @Override</a>
-<span class="sourceLineNo">420</span><a id="line.420">        public void putAll(RangeMap&lt;Comparable&lt;?&gt;, Object&gt; rangeMap) {</a>
+<span class="sourceLineNo">420</span><a id="line.420">        public void putAll(RangeMap&lt;Comparable&lt;?&gt;, ? extends Object&gt; rangeMap) {</a>
 <span class="sourceLineNo">421</span><a id="line.421">          if (!rangeMap.asMapOfRanges().isEmpty()) {</a>
 <span class="sourceLineNo">422</span><a id="line.422">            throw new IllegalArgumentException(</a>
 <span class="sourceLineNo">423</span><a id="line.423">                "Cannot putAll(nonEmptyRangeMap) into an empty subRangeMap");</a>
@@ -543,7 +543,7 @@
 <span class="sourceLineNo">534</span><a id="line.534">    }</a>
 <span class="sourceLineNo">535</span><a id="line.535"></a>
 <span class="sourceLineNo">536</span><a id="line.536">    @Override</a>
-<span class="sourceLineNo">537</span><a id="line.537">    public void putAll(RangeMap&lt;K, V&gt; rangeMap) {</a>
+<span class="sourceLineNo">537</span><a id="line.537">    public void putAll(RangeMap&lt;K, ? extends V&gt; rangeMap) {</a>
 <span class="sourceLineNo">538</span><a id="line.538">      if (rangeMap.asMapOfRanges().isEmpty()) {</a>
 <span class="sourceLineNo">539</span><a id="line.539">        return;</a>
 <span class="sourceLineNo">540</span><a id="line.540">      }</a>

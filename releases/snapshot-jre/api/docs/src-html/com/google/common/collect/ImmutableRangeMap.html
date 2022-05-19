@@ -267,7 +267,7 @@
 <span class="sourceLineNo">258</span><a id="line.258">  @Deprecated</a>
 <span class="sourceLineNo">259</span><a id="line.259">  @Override</a>
 <span class="sourceLineNo">260</span><a id="line.260">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">261</span><a id="line.261">  public final void putAll(RangeMap&lt;K, V&gt; rangeMap) {</a>
+<span class="sourceLineNo">261</span><a id="line.261">  public final void putAll(RangeMap&lt;K, ? extends V&gt; rangeMap) {</a>
 <span class="sourceLineNo">262</span><a id="line.262">    throw new UnsupportedOperationException();</a>
 <span class="sourceLineNo">263</span><a id="line.263">  }</a>
 <span class="sourceLineNo">264</span><a id="line.264"></a>

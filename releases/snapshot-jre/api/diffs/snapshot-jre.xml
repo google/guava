@@ -20505,7 +20505,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="Unsupported operation.">
-      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
+      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
 
@@ -33337,7 +33337,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
+      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
       <doc>
       <![CDATA[Puts all the associations from {@code rangeMap} into this range map (optional operation).]]>
       </doc>
@@ -36820,7 +36820,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, V&gt;"/>
+      <param name="rangeMap" type="com.google.common.collect.RangeMap&lt;K, ? extends V&gt;"/>
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
