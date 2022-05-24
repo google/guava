@@ -15,6 +15,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -160,6 +162,11 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @Override
   Object writeReplace() {
     return new SerializedForm<>(domain);
+  }
+
+  @GwtIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   @GwtIncompatible // NavigableSet

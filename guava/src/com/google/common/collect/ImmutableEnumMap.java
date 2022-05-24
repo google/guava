@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Spliterator;
@@ -115,6 +117,10 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   @Override
   Object writeReplace() {
     return new EnumSerializedForm<>(delegate);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use EnumSerializedForm");
   }
 
   /*

@@ -22,6 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -390,6 +392,10 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /**

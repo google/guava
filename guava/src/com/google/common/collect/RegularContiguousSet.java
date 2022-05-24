@@ -22,6 +22,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.annotation.CheckForNull;
@@ -239,6 +241,11 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @Override
   Object writeReplace() {
     return new SerializedForm<>(range, domain);
+  }
+
+  @GwtIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   private static final long serialVersionUID = 0;

@@ -25,6 +25,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -365,6 +367,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
 
+    @GwtIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use EntrySetSerializedForm");
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -384,6 +391,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @GwtIncompatible
   @Override
   abstract Object writeReplace();
+
+  @GwtIncompatible
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link

@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
@@ -118,6 +120,11 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
   @Override
   Object writeReplace() {
     return new EntrySetSerializedForm<>(map());
+  }
+
+  @GwtIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use EntrySetSerializedForm");
   }
 
   @GwtIncompatible // serialization

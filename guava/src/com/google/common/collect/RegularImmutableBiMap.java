@@ -30,6 +30,8 @@ import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntr
 import com.google.common.collect.RegularImmutableMap.BucketOverflowException;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -294,6 +296,10 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     @Override
     Object writeReplace() {
       return new InverseSerializedForm<>(RegularImmutableBiMap.this);
+    }
+
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use InverseSerializedForm");
     }
   }
 

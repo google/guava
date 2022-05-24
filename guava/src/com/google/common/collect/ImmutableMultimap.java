@@ -29,6 +29,8 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -685,6 +687,11 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     @Override
     Object writeReplace() {
       return new KeysSerializedForm(ImmutableMultimap.this);
+    }
+
+    @GwtIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+      throw new InvalidObjectException("Use KeysSerializedForm");
     }
   }
 

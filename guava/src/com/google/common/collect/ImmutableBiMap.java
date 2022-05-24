@@ -25,6 +25,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -636,5 +638,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   @Override
   Object writeReplace() {
     return new SerializedForm<>(this);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

@@ -27,6 +27,7 @@ import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -2843,6 +2844,10 @@ class MapMakerInternalMap<
         entryHelper.valueStrength().defaultEquivalence(),
         concurrencyLevel,
         this);
+  }
+
+  private void readObject(ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializationProxy");
   }
 
   /**
