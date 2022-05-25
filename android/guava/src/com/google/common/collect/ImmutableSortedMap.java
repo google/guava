@@ -26,6 +26,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1137,6 +1139,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   @Override
   Object writeReplace() {
     return new SerializedForm<>(this);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   // This class is never actually serialized directly, but we have to make the

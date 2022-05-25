@@ -29,6 +29,8 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -382,6 +384,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   Object writeReplace() {
     return new SerializedForm(toArray());
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /**

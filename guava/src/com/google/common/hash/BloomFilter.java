@@ -31,6 +31,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -536,6 +538,10 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
 
   private Object writeReplace() {
     return new SerialForm<T>(this);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   private static class SerialForm<T extends @Nullable Object> implements Serializable {

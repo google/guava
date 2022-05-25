@@ -31,6 +31,8 @@ import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -1272,5 +1274,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   Object writeReplace() {
     return new SerializedForm<>(this);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

@@ -53,6 +53,7 @@ import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
@@ -4918,6 +4919,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Object writeReplace() {
       return new ManualSerializationProxy<>(localCache);
     }
+
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+      throw new InvalidObjectException("Use ManualSerializationProxy");
+    }
   }
 
   static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
@@ -4966,6 +4971,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     Object writeReplace() {
       return new LoadingSerializationProxy<>(localCache);
+    }
+
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+      throw new InvalidObjectException("Use LoadingSerializationProxy");
     }
   }
 }
