@@ -30,582 +30,588 @@
 <span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
 <span class="sourceLineNo">022</span><a id="line.22">import com.google.errorprone.annotations.DoNotCall;</a>
 <span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.concurrent.LazyInit;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import java.io.Serializable;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import java.util.Arrays;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import java.util.Collection;</a>
-<span class="sourceLineNo">027</span><a id="line.27">import java.util.Collections;</a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.util.Comparator;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.util.Iterator;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.List;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.function.Function;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.function.ToIntFunction;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import java.util.stream.Collector;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import javax.annotation.CheckForNull;</a>
-<span class="sourceLineNo">035</span><a id="line.35">import org.checkerframework.checker.nullness.qual.Nullable;</a>
-<span class="sourceLineNo">036</span><a id="line.36"></a>
-<span class="sourceLineNo">037</span><a id="line.37">/**</a>
-<span class="sourceLineNo">038</span><a id="line.38"> * A {@link SortedMultiset} whose contents will never change, with many other important properties</a>
-<span class="sourceLineNo">039</span><a id="line.39"> * detailed at {@link ImmutableCollection}.</a>
-<span class="sourceLineNo">040</span><a id="line.40"> *</a>
-<span class="sourceLineNo">041</span><a id="line.41"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; as with any sorted collection, you are strongly advised not to use a {@link</a>
-<span class="sourceLineNo">042</span><a id="line.42"> * Comparator} or {@link Comparable} type whose comparison behavior is &lt;i&gt;inconsistent with</a>
-<span class="sourceLineNo">043</span><a id="line.43"> * equals&lt;/i&gt;. That is, {@code a.compareTo(b)} or {@code comparator.compare(a, b)} should equal zero</a>
-<span class="sourceLineNo">044</span><a id="line.44"> * &lt;i&gt;if and only if&lt;/i&gt; {@code a.equals(b)}. If this advice is not followed, the resulting</a>
-<span class="sourceLineNo">045</span><a id="line.45"> * collection will not correctly obey its specification.</a>
-<span class="sourceLineNo">046</span><a id="line.46"> *</a>
-<span class="sourceLineNo">047</span><a id="line.47"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
-<span class="sourceLineNo">048</span><a id="line.48"> * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"&gt;immutable collections&lt;/a&gt;.</a>
-<span class="sourceLineNo">049</span><a id="line.49"> *</a>
-<span class="sourceLineNo">050</span><a id="line.50"> * @author Louis Wasserman</a>
-<span class="sourceLineNo">051</span><a id="line.51"> * @since 12.0</a>
-<span class="sourceLineNo">052</span><a id="line.52"> */</a>
-<span class="sourceLineNo">053</span><a id="line.53">@GwtIncompatible // hasn't been tested yet</a>
-<span class="sourceLineNo">054</span><a id="line.54">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">055</span><a id="line.55">public abstract class ImmutableSortedMultiset&lt;E&gt; extends ImmutableSortedMultisetFauxverideShim&lt;E&gt;</a>
-<span class="sourceLineNo">056</span><a id="line.56">    implements SortedMultiset&lt;E&gt; {</a>
-<span class="sourceLineNo">057</span><a id="line.57">  // TODO(lowasser): GWT compatibility</a>
-<span class="sourceLineNo">058</span><a id="line.58"></a>
-<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
-<span class="sourceLineNo">060</span><a id="line.60">   * Returns a {@code Collector} that accumulates the input elements into a new {@code</a>
-<span class="sourceLineNo">061</span><a id="line.61">   * ImmutableMultiset}. Elements are sorted by the specified comparator.</a>
-<span class="sourceLineNo">062</span><a id="line.62">   *</a>
-<span class="sourceLineNo">063</span><a id="line.63">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code comparator} should be &lt;i&gt;consistent with {@code equals}&lt;/i&gt; as</a>
-<span class="sourceLineNo">064</span><a id="line.64">   * explained in the {@link Comparator} documentation.</a>
-<span class="sourceLineNo">065</span><a id="line.65">   *</a>
-<span class="sourceLineNo">066</span><a id="line.66">   * @since 21.0</a>
-<span class="sourceLineNo">067</span><a id="line.67">   */</a>
-<span class="sourceLineNo">068</span><a id="line.68">  public static &lt;E&gt; Collector&lt;E, ?, ImmutableSortedMultiset&lt;E&gt;&gt; toImmutableSortedMultiset(</a>
-<span class="sourceLineNo">069</span><a id="line.69">      Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">070</span><a id="line.70">    return toImmutableSortedMultiset(comparator, Function.identity(), e -&gt; 1);</a>
-<span class="sourceLineNo">071</span><a id="line.71">  }</a>
-<span class="sourceLineNo">072</span><a id="line.72"></a>
-<span class="sourceLineNo">073</span><a id="line.73">  /**</a>
-<span class="sourceLineNo">074</span><a id="line.74">   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}</a>
-<span class="sourceLineNo">075</span><a id="line.75">   * whose elements are the result of applying {@code elementFunction} to the inputs, with counts</a>
-<span class="sourceLineNo">076</span><a id="line.76">   * equal to the result of applying {@code countFunction} to the inputs.</a>
-<span class="sourceLineNo">077</span><a id="line.77">   *</a>
-<span class="sourceLineNo">078</span><a id="line.78">   * &lt;p&gt;If the mapped elements contain duplicates (according to {@code comparator}), the first</a>
-<span class="sourceLineNo">079</span><a id="line.79">   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of</a>
-<span class="sourceLineNo">080</span><a id="line.80">   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.</a>
-<span class="sourceLineNo">081</span><a id="line.81">   *</a>
-<span class="sourceLineNo">082</span><a id="line.82">   * @since 22.0</a>
-<span class="sourceLineNo">083</span><a id="line.83">   */</a>
-<span class="sourceLineNo">084</span><a id="line.84">  public static &lt;T extends @Nullable Object, E&gt;</a>
-<span class="sourceLineNo">085</span><a id="line.85">      Collector&lt;T, ?, ImmutableSortedMultiset&lt;E&gt;&gt; toImmutableSortedMultiset(</a>
-<span class="sourceLineNo">086</span><a id="line.86">          Comparator&lt;? super E&gt; comparator,</a>
-<span class="sourceLineNo">087</span><a id="line.87">          Function&lt;? super T, ? extends E&gt; elementFunction,</a>
-<span class="sourceLineNo">088</span><a id="line.88">          ToIntFunction&lt;? super T&gt; countFunction) {</a>
-<span class="sourceLineNo">089</span><a id="line.89">    checkNotNull(comparator);</a>
-<span class="sourceLineNo">090</span><a id="line.90">    checkNotNull(elementFunction);</a>
-<span class="sourceLineNo">091</span><a id="line.91">    checkNotNull(countFunction);</a>
-<span class="sourceLineNo">092</span><a id="line.92">    return Collector.of(</a>
-<span class="sourceLineNo">093</span><a id="line.93">        () -&gt; TreeMultiset.create(comparator),</a>
-<span class="sourceLineNo">094</span><a id="line.94">        (multiset, t) -&gt;</a>
-<span class="sourceLineNo">095</span><a id="line.95">            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),</a>
-<span class="sourceLineNo">096</span><a id="line.96">        (multiset1, multiset2) -&gt; {</a>
-<span class="sourceLineNo">097</span><a id="line.97">          multiset1.addAll(multiset2);</a>
-<span class="sourceLineNo">098</span><a id="line.98">          return multiset1;</a>
-<span class="sourceLineNo">099</span><a id="line.99">        },</a>
-<span class="sourceLineNo">100</span><a id="line.100">        (Multiset&lt;E&gt; multiset) -&gt; copyOfSortedEntries(comparator, multiset.entrySet()));</a>
-<span class="sourceLineNo">101</span><a id="line.101">  }</a>
-<span class="sourceLineNo">102</span><a id="line.102"></a>
-<span class="sourceLineNo">103</span><a id="line.103">  /**</a>
-<span class="sourceLineNo">104</span><a id="line.104">   * Returns the empty immutable sorted multiset.</a>
-<span class="sourceLineNo">105</span><a id="line.105">   *</a>
-<span class="sourceLineNo">106</span><a id="line.106">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; the instance returned is a singleton.</a>
-<span class="sourceLineNo">107</span><a id="line.107">   */</a>
-<span class="sourceLineNo">108</span><a id="line.108">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">109</span><a id="line.109">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of() {</a>
-<span class="sourceLineNo">110</span><a id="line.110">    return (ImmutableSortedMultiset) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;</a>
-<span class="sourceLineNo">111</span><a id="line.111">  }</a>
-<span class="sourceLineNo">112</span><a id="line.112"></a>
-<span class="sourceLineNo">113</span><a id="line.113">  /** Returns an immutable sorted multiset containing a single element. */</a>
-<span class="sourceLineNo">114</span><a id="line.114">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E element) {</a>
-<span class="sourceLineNo">115</span><a id="line.115">    RegularImmutableSortedSet&lt;E&gt; elementSet =</a>
-<span class="sourceLineNo">116</span><a id="line.116">        (RegularImmutableSortedSet&lt;E&gt;) ImmutableSortedSet.of(element);</a>
-<span class="sourceLineNo">117</span><a id="line.117">    long[] cumulativeCounts = {0, 1};</a>
-<span class="sourceLineNo">118</span><a id="line.118">    return new RegularImmutableSortedMultiset&lt;E&gt;(elementSet, cumulativeCounts, 0, 1);</a>
-<span class="sourceLineNo">119</span><a id="line.119">  }</a>
-<span class="sourceLineNo">120</span><a id="line.120"></a>
-<span class="sourceLineNo">121</span><a id="line.121">  /**</a>
-<span class="sourceLineNo">122</span><a id="line.122">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * ordering.</a>
-<span class="sourceLineNo">124</span><a id="line.124">   *</a>
-<span class="sourceLineNo">125</span><a id="line.125">   * @throws NullPointerException if any element is null</a>
-<span class="sourceLineNo">126</span><a id="line.126">   */</a>
-<span class="sourceLineNo">127</span><a id="line.127">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2) {</a>
-<span class="sourceLineNo">128</span><a id="line.128">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2));</a>
-<span class="sourceLineNo">129</span><a id="line.129">  }</a>
-<span class="sourceLineNo">130</span><a id="line.130"></a>
-<span class="sourceLineNo">131</span><a id="line.131">  /**</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * ordering.</a>
-<span class="sourceLineNo">134</span><a id="line.134">   *</a>
-<span class="sourceLineNo">135</span><a id="line.135">   * @throws NullPointerException if any element is null</a>
-<span class="sourceLineNo">136</span><a id="line.136">   */</a>
-<span class="sourceLineNo">137</span><a id="line.137">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2, E e3) {</a>
-<span class="sourceLineNo">138</span><a id="line.138">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3));</a>
-<span class="sourceLineNo">139</span><a id="line.139">  }</a>
-<span class="sourceLineNo">140</span><a id="line.140"></a>
-<span class="sourceLineNo">141</span><a id="line.141">  /**</a>
-<span class="sourceLineNo">142</span><a id="line.142">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * ordering.</a>
-<span class="sourceLineNo">144</span><a id="line.144">   *</a>
-<span class="sourceLineNo">145</span><a id="line.145">   * @throws NullPointerException if any element is null</a>
-<span class="sourceLineNo">146</span><a id="line.146">   */</a>
-<span class="sourceLineNo">147</span><a id="line.147">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
-<span class="sourceLineNo">148</span><a id="line.148">      E e1, E e2, E e3, E e4) {</a>
-<span class="sourceLineNo">149</span><a id="line.149">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));</a>
-<span class="sourceLineNo">150</span><a id="line.150">  }</a>
-<span class="sourceLineNo">151</span><a id="line.151"></a>
-<span class="sourceLineNo">152</span><a id="line.152">  /**</a>
-<span class="sourceLineNo">153</span><a id="line.153">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * ordering.</a>
-<span class="sourceLineNo">155</span><a id="line.155">   *</a>
-<span class="sourceLineNo">156</span><a id="line.156">   * @throws NullPointerException if any element is null</a>
-<span class="sourceLineNo">157</span><a id="line.157">   */</a>
-<span class="sourceLineNo">158</span><a id="line.158">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
-<span class="sourceLineNo">159</span><a id="line.159">      E e1, E e2, E e3, E e4, E e5) {</a>
-<span class="sourceLineNo">160</span><a id="line.160">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));</a>
-<span class="sourceLineNo">161</span><a id="line.161">  }</a>
-<span class="sourceLineNo">162</span><a id="line.162"></a>
-<span class="sourceLineNo">163</span><a id="line.163">  /**</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * ordering.</a>
-<span class="sourceLineNo">166</span><a id="line.166">   *</a>
-<span class="sourceLineNo">167</span><a id="line.167">   * @throws NullPointerException if any element is null</a>
-<span class="sourceLineNo">168</span><a id="line.168">   */</a>
-<span class="sourceLineNo">169</span><a id="line.169">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
-<span class="sourceLineNo">170</span><a id="line.170">      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {</a>
-<span class="sourceLineNo">171</span><a id="line.171">    int size = remaining.length + 6;</a>
-<span class="sourceLineNo">172</span><a id="line.172">    List&lt;E&gt; all = Lists.newArrayListWithCapacity(size);</a>
-<span class="sourceLineNo">173</span><a id="line.173">    Collections.addAll(all, e1, e2, e3, e4, e5, e6);</a>
-<span class="sourceLineNo">174</span><a id="line.174">    Collections.addAll(all, remaining);</a>
-<span class="sourceLineNo">175</span><a id="line.175">    return copyOf(Ordering.natural(), all);</a>
-<span class="sourceLineNo">176</span><a id="line.176">  }</a>
-<span class="sourceLineNo">177</span><a id="line.177"></a>
-<span class="sourceLineNo">178</span><a id="line.178">  /**</a>
-<span class="sourceLineNo">179</span><a id="line.179">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">180</span><a id="line.180">   * ordering.</a>
-<span class="sourceLineNo">181</span><a id="line.181">   *</a>
-<span class="sourceLineNo">182</span><a id="line.182">   * @throws NullPointerException if any of {@code elements} is null</a>
-<span class="sourceLineNo">183</span><a id="line.183">   */</a>
-<span class="sourceLineNo">184</span><a id="line.184">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(E[] elements) {</a>
-<span class="sourceLineNo">185</span><a id="line.185">    return copyOf(Ordering.natural(), Arrays.asList(elements));</a>
-<span class="sourceLineNo">186</span><a id="line.186">  }</a>
-<span class="sourceLineNo">187</span><a id="line.187"></a>
-<span class="sourceLineNo">188</span><a id="line.188">  /**</a>
-<span class="sourceLineNo">189</span><a id="line.189">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">190</span><a id="line.190">   * ordering. To create a copy of a {@code SortedMultiset} that preserves the comparator, call</a>
-<span class="sourceLineNo">191</span><a id="line.191">   * {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.</a>
-<span class="sourceLineNo">192</span><a id="line.192">   *</a>
-<span class="sourceLineNo">193</span><a id="line.193">   * &lt;p&gt;Note that if {@code s} is a {@code Multiset&lt;String&gt;}, then {@code</a>
-<span class="sourceLineNo">194</span><a id="line.194">   * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset&lt;String&gt;}</a>
-<span class="sourceLineNo">195</span><a id="line.195">   * containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}</a>
-<span class="sourceLineNo">196</span><a id="line.196">   * returns an {@code ImmutableSortedMultiset&lt;Multiset&lt;String&gt;&gt;} containing one element (the given</a>
-<span class="sourceLineNo">197</span><a id="line.197">   * multiset itself).</a>
-<span class="sourceLineNo">198</span><a id="line.198">   *</a>
-<span class="sourceLineNo">199</span><a id="line.199">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">200</span><a id="line.200">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">201</span><a id="line.201">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">202</span><a id="line.202">   *</a>
-<span class="sourceLineNo">203</span><a id="line.203">   * &lt;p&gt;This method is not type-safe, as it may be called on elements that are not mutually</a>
-<span class="sourceLineNo">204</span><a id="line.204">   * comparable.</a>
-<span class="sourceLineNo">205</span><a id="line.205">   *</a>
-<span class="sourceLineNo">206</span><a id="line.206">   * @throws ClassCastException if the elements are not mutually comparable</a>
-<span class="sourceLineNo">207</span><a id="line.207">   * @throws NullPointerException if any of {@code elements} is null</a>
-<span class="sourceLineNo">208</span><a id="line.208">   */</a>
-<span class="sourceLineNo">209</span><a id="line.209">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">210</span><a id="line.210">    // Hack around E not being a subtype of Comparable.</a>
-<span class="sourceLineNo">211</span><a id="line.211">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
-<span class="sourceLineNo">212</span><a id="line.212">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">213</span><a id="line.213">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
-<span class="sourceLineNo">214</span><a id="line.214">    return copyOf(naturalOrder, elements);</a>
-<span class="sourceLineNo">215</span><a id="line.215">  }</a>
-<span class="sourceLineNo">216</span><a id="line.216"></a>
-<span class="sourceLineNo">217</span><a id="line.217">  /**</a>
-<span class="sourceLineNo">218</span><a id="line.218">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
-<span class="sourceLineNo">219</span><a id="line.219">   * ordering.</a>
-<span class="sourceLineNo">220</span><a id="line.220">   *</a>
-<span class="sourceLineNo">221</span><a id="line.221">   * &lt;p&gt;This method is not type-safe, as it may be called on elements that are not mutually</a>
-<span class="sourceLineNo">222</span><a id="line.222">   * comparable.</a>
-<span class="sourceLineNo">223</span><a id="line.223">   *</a>
-<span class="sourceLineNo">224</span><a id="line.224">   * @throws ClassCastException if the elements are not mutually comparable</a>
-<span class="sourceLineNo">225</span><a id="line.225">   * @throws NullPointerException if any of {@code elements} is null</a>
-<span class="sourceLineNo">226</span><a id="line.226">   */</a>
-<span class="sourceLineNo">227</span><a id="line.227">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">228</span><a id="line.228">    // Hack around E not being a subtype of Comparable.</a>
-<span class="sourceLineNo">229</span><a id="line.229">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
-<span class="sourceLineNo">230</span><a id="line.230">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">231</span><a id="line.231">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
-<span class="sourceLineNo">232</span><a id="line.232">    return copyOf(naturalOrder, elements);</a>
-<span class="sourceLineNo">233</span><a id="line.233">  }</a>
-<span class="sourceLineNo">234</span><a id="line.234"></a>
-<span class="sourceLineNo">235</span><a id="line.235">  /**</a>
-<span class="sourceLineNo">236</span><a id="line.236">   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code</a>
-<span class="sourceLineNo">237</span><a id="line.237">   * Comparator}.</a>
-<span class="sourceLineNo">238</span><a id="line.238">   *</a>
-<span class="sourceLineNo">239</span><a id="line.239">   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null</a>
-<span class="sourceLineNo">240</span><a id="line.240">   */</a>
-<span class="sourceLineNo">241</span><a id="line.241">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(</a>
-<span class="sourceLineNo">242</span><a id="line.242">      Comparator&lt;? super E&gt; comparator, Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">243</span><a id="line.243">    checkNotNull(comparator);</a>
-<span class="sourceLineNo">244</span><a id="line.244">    return new Builder&lt;E&gt;(comparator).addAll(elements).build();</a>
-<span class="sourceLineNo">245</span><a id="line.245">  }</a>
-<span class="sourceLineNo">246</span><a id="line.246"></a>
-<span class="sourceLineNo">247</span><a id="line.247">  /**</a>
-<span class="sourceLineNo">248</span><a id="line.248">   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code</a>
-<span class="sourceLineNo">249</span><a id="line.249">   * Comparator}. This method iterates over {@code elements} at most once.</a>
-<span class="sourceLineNo">250</span><a id="line.250">   *</a>
-<span class="sourceLineNo">251</span><a id="line.251">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">252</span><a id="line.252">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">253</span><a id="line.253">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">254</span><a id="line.254">   *</a>
-<span class="sourceLineNo">255</span><a id="line.255">   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null</a>
-<span class="sourceLineNo">256</span><a id="line.256">   */</a>
-<span class="sourceLineNo">257</span><a id="line.257">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(</a>
-<span class="sourceLineNo">258</span><a id="line.258">      Comparator&lt;? super E&gt; comparator, Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">259</span><a id="line.259">    if (elements instanceof ImmutableSortedMultiset) {</a>
-<span class="sourceLineNo">260</span><a id="line.260">      @SuppressWarnings("unchecked") // immutable collections are always safe for covariant casts</a>
-<span class="sourceLineNo">261</span><a id="line.261">      ImmutableSortedMultiset&lt;E&gt; multiset = (ImmutableSortedMultiset&lt;E&gt;) elements;</a>
-<span class="sourceLineNo">262</span><a id="line.262">      if (comparator.equals(multiset.comparator())) {</a>
-<span class="sourceLineNo">263</span><a id="line.263">        if (multiset.isPartialView()) {</a>
-<span class="sourceLineNo">264</span><a id="line.264">          return copyOfSortedEntries(comparator, multiset.entrySet().asList());</a>
-<span class="sourceLineNo">265</span><a id="line.265">        } else {</a>
-<span class="sourceLineNo">266</span><a id="line.266">          return multiset;</a>
-<span class="sourceLineNo">267</span><a id="line.267">        }</a>
-<span class="sourceLineNo">268</span><a id="line.268">      }</a>
-<span class="sourceLineNo">269</span><a id="line.269">    }</a>
-<span class="sourceLineNo">270</span><a id="line.270">    elements = Lists.newArrayList(elements); // defensive copy</a>
-<span class="sourceLineNo">271</span><a id="line.271">    TreeMultiset&lt;E&gt; sortedCopy = TreeMultiset.create(checkNotNull(comparator));</a>
-<span class="sourceLineNo">272</span><a id="line.272">    Iterables.addAll(sortedCopy, elements);</a>
-<span class="sourceLineNo">273</span><a id="line.273">    return copyOfSortedEntries(comparator, sortedCopy.entrySet());</a>
-<span class="sourceLineNo">274</span><a id="line.274">  }</a>
-<span class="sourceLineNo">275</span><a id="line.275"></a>
-<span class="sourceLineNo">276</span><a id="line.276">  /**</a>
-<span class="sourceLineNo">277</span><a id="line.277">   * Returns an immutable sorted multiset containing the elements of a sorted multiset, sorted by</a>
-<span class="sourceLineNo">278</span><a id="line.278">   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which always</a>
-<span class="sourceLineNo">279</span><a id="line.279">   * uses the natural ordering of the elements.</a>
-<span class="sourceLineNo">280</span><a id="line.280">   *</a>
-<span class="sourceLineNo">281</span><a id="line.281">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
-<span class="sourceLineNo">282</span><a id="line.282">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
-<span class="sourceLineNo">283</span><a id="line.283">   * undocumented and subject to change.</a>
-<span class="sourceLineNo">284</span><a id="line.284">   *</a>
-<span class="sourceLineNo">285</span><a id="line.285">   * &lt;p&gt;This method is safe to use even when {@code sortedMultiset} is a synchronized or concurrent</a>
-<span class="sourceLineNo">286</span><a id="line.286">   * collection that is currently being modified by another thread.</a>
-<span class="sourceLineNo">287</span><a id="line.287">   *</a>
-<span class="sourceLineNo">288</span><a id="line.288">   * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null</a>
-<span class="sourceLineNo">289</span><a id="line.289">   */</a>
-<span class="sourceLineNo">290</span><a id="line.290">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOfSorted(SortedMultiset&lt;E&gt; sortedMultiset) {</a>
-<span class="sourceLineNo">291</span><a id="line.291">    return copyOfSortedEntries(</a>
-<span class="sourceLineNo">292</span><a id="line.292">        sortedMultiset.comparator(), Lists.newArrayList(sortedMultiset.entrySet()));</a>
-<span class="sourceLineNo">293</span><a id="line.293">  }</a>
-<span class="sourceLineNo">294</span><a id="line.294"></a>
-<span class="sourceLineNo">295</span><a id="line.295">  private static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOfSortedEntries(</a>
-<span class="sourceLineNo">296</span><a id="line.296">      Comparator&lt;? super E&gt; comparator, Collection&lt;Entry&lt;E&gt;&gt; entries) {</a>
-<span class="sourceLineNo">297</span><a id="line.297">    if (entries.isEmpty()) {</a>
-<span class="sourceLineNo">298</span><a id="line.298">      return emptyMultiset(comparator);</a>
-<span class="sourceLineNo">299</span><a id="line.299">    }</a>
-<span class="sourceLineNo">300</span><a id="line.300">    ImmutableList.Builder&lt;E&gt; elementsBuilder = new ImmutableList.Builder&lt;E&gt;(entries.size());</a>
-<span class="sourceLineNo">301</span><a id="line.301">    long[] cumulativeCounts = new long[entries.size() + 1];</a>
-<span class="sourceLineNo">302</span><a id="line.302">    int i = 0;</a>
-<span class="sourceLineNo">303</span><a id="line.303">    for (Entry&lt;E&gt; entry : entries) {</a>
-<span class="sourceLineNo">304</span><a id="line.304">      elementsBuilder.add(entry.getElement());</a>
-<span class="sourceLineNo">305</span><a id="line.305">      cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();</a>
-<span class="sourceLineNo">306</span><a id="line.306">      i++;</a>
-<span class="sourceLineNo">307</span><a id="line.307">    }</a>
-<span class="sourceLineNo">308</span><a id="line.308">    return new RegularImmutableSortedMultiset&lt;E&gt;(</a>
-<span class="sourceLineNo">309</span><a id="line.309">        new RegularImmutableSortedSet&lt;E&gt;(elementsBuilder.build(), comparator),</a>
-<span class="sourceLineNo">310</span><a id="line.310">        cumulativeCounts,</a>
-<span class="sourceLineNo">311</span><a id="line.311">        0,</a>
-<span class="sourceLineNo">312</span><a id="line.312">        entries.size());</a>
-<span class="sourceLineNo">313</span><a id="line.313">  }</a>
-<span class="sourceLineNo">314</span><a id="line.314"></a>
-<span class="sourceLineNo">315</span><a id="line.315">  @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">316</span><a id="line.316">  static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; emptyMultiset(Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">317</span><a id="line.317">    if (Ordering.natural().equals(comparator)) {</a>
-<span class="sourceLineNo">318</span><a id="line.318">      return (ImmutableSortedMultiset&lt;E&gt;) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;</a>
-<span class="sourceLineNo">319</span><a id="line.319">    } else {</a>
-<span class="sourceLineNo">320</span><a id="line.320">      return new RegularImmutableSortedMultiset&lt;E&gt;(comparator);</a>
-<span class="sourceLineNo">321</span><a id="line.321">    }</a>
-<span class="sourceLineNo">322</span><a id="line.322">  }</a>
-<span class="sourceLineNo">323</span><a id="line.323"></a>
-<span class="sourceLineNo">324</span><a id="line.324">  ImmutableSortedMultiset() {}</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.io.InvalidObjectException;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.io.ObjectInputStream;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.io.Serializable;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.Arrays;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.util.Collection;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.Collections;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.Comparator;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Iterator;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.List;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.function.Function;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.function.ToIntFunction;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.util.stream.Collector;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">/**</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * A {@link SortedMultiset} whose contents will never change, with many other important properties</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * detailed at {@link ImmutableCollection}.</a>
+<span class="sourceLineNo">042</span><a id="line.42"> *</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; as with any sorted collection, you are strongly advised not to use a {@link</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * Comparator} or {@link Comparable} type whose comparison behavior is &lt;i&gt;inconsistent with</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * equals&lt;/i&gt;. That is, {@code a.compareTo(b)} or {@code comparator.compare(a, b)} should equal zero</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;i&gt;if and only if&lt;/i&gt; {@code a.equals(b)}. If this advice is not followed, the resulting</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * collection will not correctly obey its specification.</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"&gt;immutable collections&lt;/a&gt;.</a>
+<span class="sourceLineNo">051</span><a id="line.51"> *</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * @since 12.0</a>
+<span class="sourceLineNo">054</span><a id="line.54"> */</a>
+<span class="sourceLineNo">055</span><a id="line.55">@GwtIncompatible // hasn't been tested yet</a>
+<span class="sourceLineNo">056</span><a id="line.56">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">057</span><a id="line.57">public abstract class ImmutableSortedMultiset&lt;E&gt; extends ImmutableSortedMultisetFauxverideShim&lt;E&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58">    implements SortedMultiset&lt;E&gt; {</a>
+<span class="sourceLineNo">059</span><a id="line.59">  // TODO(lowasser): GWT compatibility</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">  /**</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * Returns a {@code Collector} that accumulates the input elements into a new {@code</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * ImmutableMultiset}. Elements are sorted by the specified comparator.</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code comparator} should be &lt;i&gt;consistent with {@code equals}&lt;/i&gt; as</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * explained in the {@link Comparator} documentation.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   *</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * @since 21.0</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public static &lt;E&gt; Collector&lt;E, ?, ImmutableSortedMultiset&lt;E&gt;&gt; toImmutableSortedMultiset(</a>
+<span class="sourceLineNo">071</span><a id="line.71">      Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return toImmutableSortedMultiset(comparator, Function.identity(), e -&gt; 1);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  /**</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * whose elements are the result of applying {@code elementFunction} to the inputs, with counts</a>
+<span class="sourceLineNo">078</span><a id="line.78">   * equal to the result of applying {@code countFunction} to the inputs.</a>
+<span class="sourceLineNo">079</span><a id="line.79">   *</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * &lt;p&gt;If the mapped elements contain duplicates (according to {@code comparator}), the first</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * occurrence in encounter order appears in the resulting multiset, with count equal to the sum of</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * the outputs of {@code countFunction.applyAsInt(t)} for each {@code t} mapped to that element.</a>
+<span class="sourceLineNo">083</span><a id="line.83">   *</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * @since 22.0</a>
+<span class="sourceLineNo">085</span><a id="line.85">   */</a>
+<span class="sourceLineNo">086</span><a id="line.86">  public static &lt;T extends @Nullable Object, E&gt;</a>
+<span class="sourceLineNo">087</span><a id="line.87">      Collector&lt;T, ?, ImmutableSortedMultiset&lt;E&gt;&gt; toImmutableSortedMultiset(</a>
+<span class="sourceLineNo">088</span><a id="line.88">          Comparator&lt;? super E&gt; comparator,</a>
+<span class="sourceLineNo">089</span><a id="line.89">          Function&lt;? super T, ? extends E&gt; elementFunction,</a>
+<span class="sourceLineNo">090</span><a id="line.90">          ToIntFunction&lt;? super T&gt; countFunction) {</a>
+<span class="sourceLineNo">091</span><a id="line.91">    checkNotNull(comparator);</a>
+<span class="sourceLineNo">092</span><a id="line.92">    checkNotNull(elementFunction);</a>
+<span class="sourceLineNo">093</span><a id="line.93">    checkNotNull(countFunction);</a>
+<span class="sourceLineNo">094</span><a id="line.94">    return Collector.of(</a>
+<span class="sourceLineNo">095</span><a id="line.95">        () -&gt; TreeMultiset.create(comparator),</a>
+<span class="sourceLineNo">096</span><a id="line.96">        (multiset, t) -&gt;</a>
+<span class="sourceLineNo">097</span><a id="line.97">            multiset.add(checkNotNull(elementFunction.apply(t)), countFunction.applyAsInt(t)),</a>
+<span class="sourceLineNo">098</span><a id="line.98">        (multiset1, multiset2) -&gt; {</a>
+<span class="sourceLineNo">099</span><a id="line.99">          multiset1.addAll(multiset2);</a>
+<span class="sourceLineNo">100</span><a id="line.100">          return multiset1;</a>
+<span class="sourceLineNo">101</span><a id="line.101">        },</a>
+<span class="sourceLineNo">102</span><a id="line.102">        (Multiset&lt;E&gt; multiset) -&gt; copyOfSortedEntries(comparator, multiset.entrySet()));</a>
+<span class="sourceLineNo">103</span><a id="line.103">  }</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">  /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * Returns the empty immutable sorted multiset.</a>
+<span class="sourceLineNo">107</span><a id="line.107">   *</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; the instance returned is a singleton.</a>
+<span class="sourceLineNo">109</span><a id="line.109">   */</a>
+<span class="sourceLineNo">110</span><a id="line.110">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">111</span><a id="line.111">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; of() {</a>
+<span class="sourceLineNo">112</span><a id="line.112">    return (ImmutableSortedMultiset) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;</a>
+<span class="sourceLineNo">113</span><a id="line.113">  }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">  /** Returns an immutable sorted multiset containing a single element. */</a>
+<span class="sourceLineNo">116</span><a id="line.116">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E element) {</a>
+<span class="sourceLineNo">117</span><a id="line.117">    RegularImmutableSortedSet&lt;E&gt; elementSet =</a>
+<span class="sourceLineNo">118</span><a id="line.118">        (RegularImmutableSortedSet&lt;E&gt;) ImmutableSortedSet.of(element);</a>
+<span class="sourceLineNo">119</span><a id="line.119">    long[] cumulativeCounts = {0, 1};</a>
+<span class="sourceLineNo">120</span><a id="line.120">    return new RegularImmutableSortedMultiset&lt;E&gt;(elementSet, cumulativeCounts, 0, 1);</a>
+<span class="sourceLineNo">121</span><a id="line.121">  }</a>
+<span class="sourceLineNo">122</span><a id="line.122"></a>
+<span class="sourceLineNo">123</span><a id="line.123">  /**</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * ordering.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * @throws NullPointerException if any element is null</a>
+<span class="sourceLineNo">128</span><a id="line.128">   */</a>
+<span class="sourceLineNo">129</span><a id="line.129">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2));</a>
+<span class="sourceLineNo">131</span><a id="line.131">  }</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">  /**</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * ordering.</a>
+<span class="sourceLineNo">136</span><a id="line.136">   *</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @throws NullPointerException if any element is null</a>
+<span class="sourceLineNo">138</span><a id="line.138">   */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(E e1, E e2, E e3) {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3));</a>
+<span class="sourceLineNo">141</span><a id="line.141">  }</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">  /**</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * ordering.</a>
+<span class="sourceLineNo">146</span><a id="line.146">   *</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @throws NullPointerException if any element is null</a>
+<span class="sourceLineNo">148</span><a id="line.148">   */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
+<span class="sourceLineNo">150</span><a id="line.150">      E e1, E e2, E e3, E e4) {</a>
+<span class="sourceLineNo">151</span><a id="line.151">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));</a>
+<span class="sourceLineNo">152</span><a id="line.152">  }</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">  /**</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * ordering.</a>
+<span class="sourceLineNo">157</span><a id="line.157">   *</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * @throws NullPointerException if any element is null</a>
+<span class="sourceLineNo">159</span><a id="line.159">   */</a>
+<span class="sourceLineNo">160</span><a id="line.160">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
+<span class="sourceLineNo">161</span><a id="line.161">      E e1, E e2, E e3, E e4, E e5) {</a>
+<span class="sourceLineNo">162</span><a id="line.162">    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));</a>
+<span class="sourceLineNo">163</span><a id="line.163">  }</a>
+<span class="sourceLineNo">164</span><a id="line.164"></a>
+<span class="sourceLineNo">165</span><a id="line.165">  /**</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * ordering.</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * @throws NullPointerException if any element is null</a>
+<span class="sourceLineNo">170</span><a id="line.170">   */</a>
+<span class="sourceLineNo">171</span><a id="line.171">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; of(</a>
+<span class="sourceLineNo">172</span><a id="line.172">      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {</a>
+<span class="sourceLineNo">173</span><a id="line.173">    int size = remaining.length + 6;</a>
+<span class="sourceLineNo">174</span><a id="line.174">    List&lt;E&gt; all = Lists.newArrayListWithCapacity(size);</a>
+<span class="sourceLineNo">175</span><a id="line.175">    Collections.addAll(all, e1, e2, e3, e4, e5, e6);</a>
+<span class="sourceLineNo">176</span><a id="line.176">    Collections.addAll(all, remaining);</a>
+<span class="sourceLineNo">177</span><a id="line.177">    return copyOf(Ordering.natural(), all);</a>
+<span class="sourceLineNo">178</span><a id="line.178">  }</a>
+<span class="sourceLineNo">179</span><a id="line.179"></a>
+<span class="sourceLineNo">180</span><a id="line.180">  /**</a>
+<span class="sourceLineNo">181</span><a id="line.181">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * ordering.</a>
+<span class="sourceLineNo">183</span><a id="line.183">   *</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * @throws NullPointerException if any of {@code elements} is null</a>
+<span class="sourceLineNo">185</span><a id="line.185">   */</a>
+<span class="sourceLineNo">186</span><a id="line.186">  public static &lt;E extends Comparable&lt;? super E&gt;&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(E[] elements) {</a>
+<span class="sourceLineNo">187</span><a id="line.187">    return copyOf(Ordering.natural(), Arrays.asList(elements));</a>
+<span class="sourceLineNo">188</span><a id="line.188">  }</a>
+<span class="sourceLineNo">189</span><a id="line.189"></a>
+<span class="sourceLineNo">190</span><a id="line.190">  /**</a>
+<span class="sourceLineNo">191</span><a id="line.191">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">192</span><a id="line.192">   * ordering. To create a copy of a {@code SortedMultiset} that preserves the comparator, call</a>
+<span class="sourceLineNo">193</span><a id="line.193">   * {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.</a>
+<span class="sourceLineNo">194</span><a id="line.194">   *</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * &lt;p&gt;Note that if {@code s} is a {@code Multiset&lt;String&gt;}, then {@code</a>
+<span class="sourceLineNo">196</span><a id="line.196">   * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset&lt;String&gt;}</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * returns an {@code ImmutableSortedMultiset&lt;Multiset&lt;String&gt;&gt;} containing one element (the given</a>
+<span class="sourceLineNo">199</span><a id="line.199">   * multiset itself).</a>
+<span class="sourceLineNo">200</span><a id="line.200">   *</a>
+<span class="sourceLineNo">201</span><a id="line.201">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">202</span><a id="line.202">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">203</span><a id="line.203">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">204</span><a id="line.204">   *</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * &lt;p&gt;This method is not type-safe, as it may be called on elements that are not mutually</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * comparable.</a>
+<span class="sourceLineNo">207</span><a id="line.207">   *</a>
+<span class="sourceLineNo">208</span><a id="line.208">   * @throws ClassCastException if the elements are not mutually comparable</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * @throws NullPointerException if any of {@code elements} is null</a>
+<span class="sourceLineNo">210</span><a id="line.210">   */</a>
+<span class="sourceLineNo">211</span><a id="line.211">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">212</span><a id="line.212">    // Hack around E not being a subtype of Comparable.</a>
+<span class="sourceLineNo">213</span><a id="line.213">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
+<span class="sourceLineNo">214</span><a id="line.214">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">215</span><a id="line.215">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
+<span class="sourceLineNo">216</span><a id="line.216">    return copyOf(naturalOrder, elements);</a>
+<span class="sourceLineNo">217</span><a id="line.217">  }</a>
+<span class="sourceLineNo">218</span><a id="line.218"></a>
+<span class="sourceLineNo">219</span><a id="line.219">  /**</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * Returns an immutable sorted multiset containing the given elements sorted by their natural</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * ordering.</a>
+<span class="sourceLineNo">222</span><a id="line.222">   *</a>
+<span class="sourceLineNo">223</span><a id="line.223">   * &lt;p&gt;This method is not type-safe, as it may be called on elements that are not mutually</a>
+<span class="sourceLineNo">224</span><a id="line.224">   * comparable.</a>
+<span class="sourceLineNo">225</span><a id="line.225">   *</a>
+<span class="sourceLineNo">226</span><a id="line.226">   * @throws ClassCastException if the elements are not mutually comparable</a>
+<span class="sourceLineNo">227</span><a id="line.227">   * @throws NullPointerException if any of {@code elements} is null</a>
+<span class="sourceLineNo">228</span><a id="line.228">   */</a>
+<span class="sourceLineNo">229</span><a id="line.229">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">230</span><a id="line.230">    // Hack around E not being a subtype of Comparable.</a>
+<span class="sourceLineNo">231</span><a id="line.231">    // Unsafe, see ImmutableSortedMultisetFauxverideShim.</a>
+<span class="sourceLineNo">232</span><a id="line.232">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">233</span><a id="line.233">    Ordering&lt;E&gt; naturalOrder = (Ordering&lt;E&gt;) Ordering.&lt;Comparable&gt;natural();</a>
+<span class="sourceLineNo">234</span><a id="line.234">    return copyOf(naturalOrder, elements);</a>
+<span class="sourceLineNo">235</span><a id="line.235">  }</a>
+<span class="sourceLineNo">236</span><a id="line.236"></a>
+<span class="sourceLineNo">237</span><a id="line.237">  /**</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * Comparator}.</a>
+<span class="sourceLineNo">240</span><a id="line.240">   *</a>
+<span class="sourceLineNo">241</span><a id="line.241">   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null</a>
+<span class="sourceLineNo">242</span><a id="line.242">   */</a>
+<span class="sourceLineNo">243</span><a id="line.243">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(</a>
+<span class="sourceLineNo">244</span><a id="line.244">      Comparator&lt;? super E&gt; comparator, Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">245</span><a id="line.245">    checkNotNull(comparator);</a>
+<span class="sourceLineNo">246</span><a id="line.246">    return new Builder&lt;E&gt;(comparator).addAll(elements).build();</a>
+<span class="sourceLineNo">247</span><a id="line.247">  }</a>
+<span class="sourceLineNo">248</span><a id="line.248"></a>
+<span class="sourceLineNo">249</span><a id="line.249">  /**</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * Comparator}. This method iterates over {@code elements} at most once.</a>
+<span class="sourceLineNo">252</span><a id="line.252">   *</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">256</span><a id="line.256">   *</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null</a>
+<span class="sourceLineNo">258</span><a id="line.258">   */</a>
+<span class="sourceLineNo">259</span><a id="line.259">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOf(</a>
+<span class="sourceLineNo">260</span><a id="line.260">      Comparator&lt;? super E&gt; comparator, Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">261</span><a id="line.261">    if (elements instanceof ImmutableSortedMultiset) {</a>
+<span class="sourceLineNo">262</span><a id="line.262">      @SuppressWarnings("unchecked") // immutable collections are always safe for covariant casts</a>
+<span class="sourceLineNo">263</span><a id="line.263">      ImmutableSortedMultiset&lt;E&gt; multiset = (ImmutableSortedMultiset&lt;E&gt;) elements;</a>
+<span class="sourceLineNo">264</span><a id="line.264">      if (comparator.equals(multiset.comparator())) {</a>
+<span class="sourceLineNo">265</span><a id="line.265">        if (multiset.isPartialView()) {</a>
+<span class="sourceLineNo">266</span><a id="line.266">          return copyOfSortedEntries(comparator, multiset.entrySet().asList());</a>
+<span class="sourceLineNo">267</span><a id="line.267">        } else {</a>
+<span class="sourceLineNo">268</span><a id="line.268">          return multiset;</a>
+<span class="sourceLineNo">269</span><a id="line.269">        }</a>
+<span class="sourceLineNo">270</span><a id="line.270">      }</a>
+<span class="sourceLineNo">271</span><a id="line.271">    }</a>
+<span class="sourceLineNo">272</span><a id="line.272">    elements = Lists.newArrayList(elements); // defensive copy</a>
+<span class="sourceLineNo">273</span><a id="line.273">    TreeMultiset&lt;E&gt; sortedCopy = TreeMultiset.create(checkNotNull(comparator));</a>
+<span class="sourceLineNo">274</span><a id="line.274">    Iterables.addAll(sortedCopy, elements);</a>
+<span class="sourceLineNo">275</span><a id="line.275">    return copyOfSortedEntries(comparator, sortedCopy.entrySet());</a>
+<span class="sourceLineNo">276</span><a id="line.276">  }</a>
+<span class="sourceLineNo">277</span><a id="line.277"></a>
+<span class="sourceLineNo">278</span><a id="line.278">  /**</a>
+<span class="sourceLineNo">279</span><a id="line.279">   * Returns an immutable sorted multiset containing the elements of a sorted multiset, sorted by</a>
+<span class="sourceLineNo">280</span><a id="line.280">   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which always</a>
+<span class="sourceLineNo">281</span><a id="line.281">   * uses the natural ordering of the elements.</a>
+<span class="sourceLineNo">282</span><a id="line.282">   *</a>
+<span class="sourceLineNo">283</span><a id="line.283">   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is</a>
+<span class="sourceLineNo">284</span><a id="line.284">   * safe to do so. The exact circumstances under which a copy will or will not be performed are</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * undocumented and subject to change.</a>
+<span class="sourceLineNo">286</span><a id="line.286">   *</a>
+<span class="sourceLineNo">287</span><a id="line.287">   * &lt;p&gt;This method is safe to use even when {@code sortedMultiset} is a synchronized or concurrent</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * collection that is currently being modified by another thread.</a>
+<span class="sourceLineNo">289</span><a id="line.289">   *</a>
+<span class="sourceLineNo">290</span><a id="line.290">   * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null</a>
+<span class="sourceLineNo">291</span><a id="line.291">   */</a>
+<span class="sourceLineNo">292</span><a id="line.292">  public static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOfSorted(SortedMultiset&lt;E&gt; sortedMultiset) {</a>
+<span class="sourceLineNo">293</span><a id="line.293">    return copyOfSortedEntries(</a>
+<span class="sourceLineNo">294</span><a id="line.294">        sortedMultiset.comparator(), Lists.newArrayList(sortedMultiset.entrySet()));</a>
+<span class="sourceLineNo">295</span><a id="line.295">  }</a>
+<span class="sourceLineNo">296</span><a id="line.296"></a>
+<span class="sourceLineNo">297</span><a id="line.297">  private static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; copyOfSortedEntries(</a>
+<span class="sourceLineNo">298</span><a id="line.298">      Comparator&lt;? super E&gt; comparator, Collection&lt;Entry&lt;E&gt;&gt; entries) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">    if (entries.isEmpty()) {</a>
+<span class="sourceLineNo">300</span><a id="line.300">      return emptyMultiset(comparator);</a>
+<span class="sourceLineNo">301</span><a id="line.301">    }</a>
+<span class="sourceLineNo">302</span><a id="line.302">    ImmutableList.Builder&lt;E&gt; elementsBuilder = new ImmutableList.Builder&lt;E&gt;(entries.size());</a>
+<span class="sourceLineNo">303</span><a id="line.303">    long[] cumulativeCounts = new long[entries.size() + 1];</a>
+<span class="sourceLineNo">304</span><a id="line.304">    int i = 0;</a>
+<span class="sourceLineNo">305</span><a id="line.305">    for (Entry&lt;E&gt; entry : entries) {</a>
+<span class="sourceLineNo">306</span><a id="line.306">      elementsBuilder.add(entry.getElement());</a>
+<span class="sourceLineNo">307</span><a id="line.307">      cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();</a>
+<span class="sourceLineNo">308</span><a id="line.308">      i++;</a>
+<span class="sourceLineNo">309</span><a id="line.309">    }</a>
+<span class="sourceLineNo">310</span><a id="line.310">    return new RegularImmutableSortedMultiset&lt;E&gt;(</a>
+<span class="sourceLineNo">311</span><a id="line.311">        new RegularImmutableSortedSet&lt;E&gt;(elementsBuilder.build(), comparator),</a>
+<span class="sourceLineNo">312</span><a id="line.312">        cumulativeCounts,</a>
+<span class="sourceLineNo">313</span><a id="line.313">        0,</a>
+<span class="sourceLineNo">314</span><a id="line.314">        entries.size());</a>
+<span class="sourceLineNo">315</span><a id="line.315">  }</a>
+<span class="sourceLineNo">316</span><a id="line.316"></a>
+<span class="sourceLineNo">317</span><a id="line.317">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">318</span><a id="line.318">  static &lt;E&gt; ImmutableSortedMultiset&lt;E&gt; emptyMultiset(Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">319</span><a id="line.319">    if (Ordering.natural().equals(comparator)) {</a>
+<span class="sourceLineNo">320</span><a id="line.320">      return (ImmutableSortedMultiset&lt;E&gt;) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;</a>
+<span class="sourceLineNo">321</span><a id="line.321">    } else {</a>
+<span class="sourceLineNo">322</span><a id="line.322">      return new RegularImmutableSortedMultiset&lt;E&gt;(comparator);</a>
+<span class="sourceLineNo">323</span><a id="line.323">    }</a>
+<span class="sourceLineNo">324</span><a id="line.324">  }</a>
 <span class="sourceLineNo">325</span><a id="line.325"></a>
-<span class="sourceLineNo">326</span><a id="line.326">  @Override</a>
-<span class="sourceLineNo">327</span><a id="line.327">  public final Comparator&lt;? super E&gt; comparator() {</a>
-<span class="sourceLineNo">328</span><a id="line.328">    return elementSet().comparator();</a>
-<span class="sourceLineNo">329</span><a id="line.329">  }</a>
-<span class="sourceLineNo">330</span><a id="line.330"></a>
-<span class="sourceLineNo">331</span><a id="line.331">  @Override</a>
-<span class="sourceLineNo">332</span><a id="line.332">  public abstract ImmutableSortedSet&lt;E&gt; elementSet();</a>
-<span class="sourceLineNo">333</span><a id="line.333"></a>
-<span class="sourceLineNo">334</span><a id="line.334">  @LazyInit @CheckForNull transient ImmutableSortedMultiset&lt;E&gt; descendingMultiset;</a>
+<span class="sourceLineNo">326</span><a id="line.326">  ImmutableSortedMultiset() {}</a>
+<span class="sourceLineNo">327</span><a id="line.327"></a>
+<span class="sourceLineNo">328</span><a id="line.328">  @Override</a>
+<span class="sourceLineNo">329</span><a id="line.329">  public final Comparator&lt;? super E&gt; comparator() {</a>
+<span class="sourceLineNo">330</span><a id="line.330">    return elementSet().comparator();</a>
+<span class="sourceLineNo">331</span><a id="line.331">  }</a>
+<span class="sourceLineNo">332</span><a id="line.332"></a>
+<span class="sourceLineNo">333</span><a id="line.333">  @Override</a>
+<span class="sourceLineNo">334</span><a id="line.334">  public abstract ImmutableSortedSet&lt;E&gt; elementSet();</a>
 <span class="sourceLineNo">335</span><a id="line.335"></a>
-<span class="sourceLineNo">336</span><a id="line.336">  @Override</a>
-<span class="sourceLineNo">337</span><a id="line.337">  public ImmutableSortedMultiset&lt;E&gt; descendingMultiset() {</a>
-<span class="sourceLineNo">338</span><a id="line.338">    ImmutableSortedMultiset&lt;E&gt; result = descendingMultiset;</a>
-<span class="sourceLineNo">339</span><a id="line.339">    if (result == null) {</a>
-<span class="sourceLineNo">340</span><a id="line.340">      return descendingMultiset =</a>
-<span class="sourceLineNo">341</span><a id="line.341">          this.isEmpty()</a>
-<span class="sourceLineNo">342</span><a id="line.342">              ? emptyMultiset(Ordering.from(comparator()).reverse())</a>
-<span class="sourceLineNo">343</span><a id="line.343">              : new DescendingImmutableSortedMultiset&lt;E&gt;(this);</a>
-<span class="sourceLineNo">344</span><a id="line.344">    }</a>
-<span class="sourceLineNo">345</span><a id="line.345">    return result;</a>
-<span class="sourceLineNo">346</span><a id="line.346">  }</a>
-<span class="sourceLineNo">347</span><a id="line.347"></a>
-<span class="sourceLineNo">348</span><a id="line.348">  /**</a>
-<span class="sourceLineNo">349</span><a id="line.349">   * {@inheritDoc}</a>
-<span class="sourceLineNo">350</span><a id="line.350">   *</a>
-<span class="sourceLineNo">351</span><a id="line.351">   * &lt;p&gt;This implementation is guaranteed to throw an {@link UnsupportedOperationException}.</a>
+<span class="sourceLineNo">336</span><a id="line.336">  @LazyInit @CheckForNull transient ImmutableSortedMultiset&lt;E&gt; descendingMultiset;</a>
+<span class="sourceLineNo">337</span><a id="line.337"></a>
+<span class="sourceLineNo">338</span><a id="line.338">  @Override</a>
+<span class="sourceLineNo">339</span><a id="line.339">  public ImmutableSortedMultiset&lt;E&gt; descendingMultiset() {</a>
+<span class="sourceLineNo">340</span><a id="line.340">    ImmutableSortedMultiset&lt;E&gt; result = descendingMultiset;</a>
+<span class="sourceLineNo">341</span><a id="line.341">    if (result == null) {</a>
+<span class="sourceLineNo">342</span><a id="line.342">      return descendingMultiset =</a>
+<span class="sourceLineNo">343</span><a id="line.343">          this.isEmpty()</a>
+<span class="sourceLineNo">344</span><a id="line.344">              ? emptyMultiset(Ordering.from(comparator()).reverse())</a>
+<span class="sourceLineNo">345</span><a id="line.345">              : new DescendingImmutableSortedMultiset&lt;E&gt;(this);</a>
+<span class="sourceLineNo">346</span><a id="line.346">    }</a>
+<span class="sourceLineNo">347</span><a id="line.347">    return result;</a>
+<span class="sourceLineNo">348</span><a id="line.348">  }</a>
+<span class="sourceLineNo">349</span><a id="line.349"></a>
+<span class="sourceLineNo">350</span><a id="line.350">  /**</a>
+<span class="sourceLineNo">351</span><a id="line.351">   * {@inheritDoc}</a>
 <span class="sourceLineNo">352</span><a id="line.352">   *</a>
-<span class="sourceLineNo">353</span><a id="line.353">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">354</span><a id="line.354">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">355</span><a id="line.355">   */</a>
-<span class="sourceLineNo">356</span><a id="line.356">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">357</span><a id="line.357">  @Deprecated</a>
-<span class="sourceLineNo">358</span><a id="line.358">  @Override</a>
-<span class="sourceLineNo">359</span><a id="line.359">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">360</span><a id="line.360">  @CheckForNull</a>
-<span class="sourceLineNo">361</span><a id="line.361">  public final Entry&lt;E&gt; pollFirstEntry() {</a>
-<span class="sourceLineNo">362</span><a id="line.362">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">363</span><a id="line.363">  }</a>
-<span class="sourceLineNo">364</span><a id="line.364"></a>
-<span class="sourceLineNo">365</span><a id="line.365">  /**</a>
-<span class="sourceLineNo">366</span><a id="line.366">   * {@inheritDoc}</a>
-<span class="sourceLineNo">367</span><a id="line.367">   *</a>
-<span class="sourceLineNo">368</span><a id="line.368">   * &lt;p&gt;This implementation is guaranteed to throw an {@link UnsupportedOperationException}.</a>
+<span class="sourceLineNo">353</span><a id="line.353">   * &lt;p&gt;This implementation is guaranteed to throw an {@link UnsupportedOperationException}.</a>
+<span class="sourceLineNo">354</span><a id="line.354">   *</a>
+<span class="sourceLineNo">355</span><a id="line.355">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">356</span><a id="line.356">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">357</span><a id="line.357">   */</a>
+<span class="sourceLineNo">358</span><a id="line.358">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">359</span><a id="line.359">  @Deprecated</a>
+<span class="sourceLineNo">360</span><a id="line.360">  @Override</a>
+<span class="sourceLineNo">361</span><a id="line.361">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">362</span><a id="line.362">  @CheckForNull</a>
+<span class="sourceLineNo">363</span><a id="line.363">  public final Entry&lt;E&gt; pollFirstEntry() {</a>
+<span class="sourceLineNo">364</span><a id="line.364">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">365</span><a id="line.365">  }</a>
+<span class="sourceLineNo">366</span><a id="line.366"></a>
+<span class="sourceLineNo">367</span><a id="line.367">  /**</a>
+<span class="sourceLineNo">368</span><a id="line.368">   * {@inheritDoc}</a>
 <span class="sourceLineNo">369</span><a id="line.369">   *</a>
-<span class="sourceLineNo">370</span><a id="line.370">   * @throws UnsupportedOperationException always</a>
-<span class="sourceLineNo">371</span><a id="line.371">   * @deprecated Unsupported operation.</a>
-<span class="sourceLineNo">372</span><a id="line.372">   */</a>
-<span class="sourceLineNo">373</span><a id="line.373">  @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">374</span><a id="line.374">  @Deprecated</a>
-<span class="sourceLineNo">375</span><a id="line.375">  @Override</a>
-<span class="sourceLineNo">376</span><a id="line.376">  @DoNotCall("Always throws UnsupportedOperationException")</a>
-<span class="sourceLineNo">377</span><a id="line.377">  @CheckForNull</a>
-<span class="sourceLineNo">378</span><a id="line.378">  public final Entry&lt;E&gt; pollLastEntry() {</a>
-<span class="sourceLineNo">379</span><a id="line.379">    throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">380</span><a id="line.380">  }</a>
-<span class="sourceLineNo">381</span><a id="line.381"></a>
-<span class="sourceLineNo">382</span><a id="line.382">  @Override</a>
-<span class="sourceLineNo">383</span><a id="line.383">  public abstract ImmutableSortedMultiset&lt;E&gt; headMultiset(E upperBound, BoundType boundType);</a>
-<span class="sourceLineNo">384</span><a id="line.384"></a>
-<span class="sourceLineNo">385</span><a id="line.385">  @Override</a>
-<span class="sourceLineNo">386</span><a id="line.386">  public ImmutableSortedMultiset&lt;E&gt; subMultiset(</a>
-<span class="sourceLineNo">387</span><a id="line.387">      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {</a>
-<span class="sourceLineNo">388</span><a id="line.388">    checkArgument(</a>
-<span class="sourceLineNo">389</span><a id="line.389">        comparator().compare(lowerBound, upperBound) &lt;= 0,</a>
-<span class="sourceLineNo">390</span><a id="line.390">        "Expected lowerBound &lt;= upperBound but %s &gt; %s",</a>
-<span class="sourceLineNo">391</span><a id="line.391">        lowerBound,</a>
-<span class="sourceLineNo">392</span><a id="line.392">        upperBound);</a>
-<span class="sourceLineNo">393</span><a id="line.393">    return tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound, upperBoundType);</a>
-<span class="sourceLineNo">394</span><a id="line.394">  }</a>
-<span class="sourceLineNo">395</span><a id="line.395"></a>
-<span class="sourceLineNo">396</span><a id="line.396">  @Override</a>
-<span class="sourceLineNo">397</span><a id="line.397">  public abstract ImmutableSortedMultiset&lt;E&gt; tailMultiset(E lowerBound, BoundType boundType);</a>
-<span class="sourceLineNo">398</span><a id="line.398"></a>
-<span class="sourceLineNo">399</span><a id="line.399">  /**</a>
-<span class="sourceLineNo">400</span><a id="line.400">   * Returns a builder that creates immutable sorted multisets with an explicit comparator. If the</a>
-<span class="sourceLineNo">401</span><a id="line.401">   * comparator has a more general type than the set being generated, such as creating a {@code</a>
-<span class="sourceLineNo">402</span><a id="line.402">   * SortedMultiset&lt;Integer&gt;} with a {@code Comparator&lt;Number&gt;}, use the {@link Builder} constructor</a>
-<span class="sourceLineNo">403</span><a id="line.403">   * instead.</a>
-<span class="sourceLineNo">404</span><a id="line.404">   *</a>
-<span class="sourceLineNo">405</span><a id="line.405">   * @throws NullPointerException if {@code comparator} is null</a>
-<span class="sourceLineNo">406</span><a id="line.406">   */</a>
-<span class="sourceLineNo">407</span><a id="line.407">  public static &lt;E&gt; Builder&lt;E&gt; orderedBy(Comparator&lt;E&gt; comparator) {</a>
-<span class="sourceLineNo">408</span><a id="line.408">    return new Builder&lt;E&gt;(comparator);</a>
-<span class="sourceLineNo">409</span><a id="line.409">  }</a>
-<span class="sourceLineNo">410</span><a id="line.410"></a>
-<span class="sourceLineNo">411</span><a id="line.411">  /**</a>
-<span class="sourceLineNo">412</span><a id="line.412">   * Returns a builder that creates immutable sorted multisets whose elements are ordered by the</a>
-<span class="sourceLineNo">413</span><a id="line.413">   * reverse of their natural ordering.</a>
-<span class="sourceLineNo">414</span><a id="line.414">   *</a>
-<span class="sourceLineNo">415</span><a id="line.415">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
-<span class="sourceLineNo">416</span><a id="line.416">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
-<span class="sourceLineNo">417</span><a id="line.417">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
-<span class="sourceLineNo">418</span><a id="line.418">   */</a>
-<span class="sourceLineNo">419</span><a id="line.419">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
-<span class="sourceLineNo">420</span><a id="line.420">    return new Builder&lt;E&gt;(Ordering.natural().reverse());</a>
-<span class="sourceLineNo">421</span><a id="line.421">  }</a>
-<span class="sourceLineNo">422</span><a id="line.422"></a>
-<span class="sourceLineNo">423</span><a id="line.423">  /**</a>
-<span class="sourceLineNo">424</span><a id="line.424">   * Returns a builder that creates immutable sorted multisets whose elements are ordered by their</a>
-<span class="sourceLineNo">425</span><a id="line.425">   * natural ordering. The sorted multisets use {@link Ordering#natural()} as the comparator. This</a>
-<span class="sourceLineNo">426</span><a id="line.426">   * method provides more type-safety than {@link #builder}, as it can be called only for classes</a>
-<span class="sourceLineNo">427</span><a id="line.427">   * that implement {@link Comparable}.</a>
-<span class="sourceLineNo">428</span><a id="line.428">   *</a>
-<span class="sourceLineNo">429</span><a id="line.429">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
-<span class="sourceLineNo">430</span><a id="line.430">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
-<span class="sourceLineNo">431</span><a id="line.431">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
-<span class="sourceLineNo">432</span><a id="line.432">   */</a>
-<span class="sourceLineNo">433</span><a id="line.433">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {</a>
-<span class="sourceLineNo">434</span><a id="line.434">    return new Builder&lt;E&gt;(Ordering.natural());</a>
-<span class="sourceLineNo">435</span><a id="line.435">  }</a>
-<span class="sourceLineNo">436</span><a id="line.436"></a>
-<span class="sourceLineNo">437</span><a id="line.437">  /**</a>
-<span class="sourceLineNo">438</span><a id="line.438">   * A builder for creating immutable multiset instances, especially {@code public static final}</a>
-<span class="sourceLineNo">439</span><a id="line.439">   * multisets ("constant multisets"). Example:</a>
-<span class="sourceLineNo">440</span><a id="line.440">   *</a>
-<span class="sourceLineNo">441</span><a id="line.441">   * &lt;pre&gt;{@code</a>
-<span class="sourceLineNo">442</span><a id="line.442">   * public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =</a>
-<span class="sourceLineNo">443</span><a id="line.443">   *     new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())</a>
-<span class="sourceLineNo">444</span><a id="line.444">   *         .addCopies(Bean.COCOA, 4)</a>
-<span class="sourceLineNo">445</span><a id="line.445">   *         .addCopies(Bean.GARDEN, 6)</a>
-<span class="sourceLineNo">446</span><a id="line.446">   *         .addCopies(Bean.RED, 8)</a>
-<span class="sourceLineNo">447</span><a id="line.447">   *         .addCopies(Bean.BLACK_EYED, 10)</a>
-<span class="sourceLineNo">448</span><a id="line.448">   *         .build();</a>
-<span class="sourceLineNo">449</span><a id="line.449">   * }&lt;/pre&gt;</a>
-<span class="sourceLineNo">450</span><a id="line.450">   *</a>
-<span class="sourceLineNo">451</span><a id="line.451">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</a>
-<span class="sourceLineNo">452</span><a id="line.452">   * multiple multisets in series.</a>
-<span class="sourceLineNo">453</span><a id="line.453">   *</a>
-<span class="sourceLineNo">454</span><a id="line.454">   * @since 12.0</a>
-<span class="sourceLineNo">455</span><a id="line.455">   */</a>
-<span class="sourceLineNo">456</span><a id="line.456">  public static class Builder&lt;E&gt; extends ImmutableMultiset.Builder&lt;E&gt; {</a>
-<span class="sourceLineNo">457</span><a id="line.457">    /**</a>
-<span class="sourceLineNo">458</span><a id="line.458">     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link</a>
-<span class="sourceLineNo">459</span><a id="line.459">     * ImmutableSortedMultiset#orderedBy(Comparator)}.</a>
-<span class="sourceLineNo">460</span><a id="line.460">     */</a>
-<span class="sourceLineNo">461</span><a id="line.461">    public Builder(Comparator&lt;? super E&gt; comparator) {</a>
-<span class="sourceLineNo">462</span><a id="line.462">      super(TreeMultiset.&lt;E&gt;create(checkNotNull(comparator)));</a>
-<span class="sourceLineNo">463</span><a id="line.463">    }</a>
-<span class="sourceLineNo">464</span><a id="line.464"></a>
-<span class="sourceLineNo">465</span><a id="line.465">    /**</a>
-<span class="sourceLineNo">466</span><a id="line.466">     * Adds {@code element} to the {@code ImmutableSortedMultiset}.</a>
-<span class="sourceLineNo">467</span><a id="line.467">     *</a>
-<span class="sourceLineNo">468</span><a id="line.468">     * @param element the element to add</a>
-<span class="sourceLineNo">469</span><a id="line.469">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">470</span><a id="line.470">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">471</span><a id="line.471">     */</a>
-<span class="sourceLineNo">472</span><a id="line.472">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">473</span><a id="line.473">    @Override</a>
-<span class="sourceLineNo">474</span><a id="line.474">    public Builder&lt;E&gt; add(E element) {</a>
-<span class="sourceLineNo">475</span><a id="line.475">      super.add(element);</a>
-<span class="sourceLineNo">476</span><a id="line.476">      return this;</a>
-<span class="sourceLineNo">477</span><a id="line.477">    }</a>
-<span class="sourceLineNo">478</span><a id="line.478"></a>
-<span class="sourceLineNo">479</span><a id="line.479">    /**</a>
-<span class="sourceLineNo">480</span><a id="line.480">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
-<span class="sourceLineNo">481</span><a id="line.481">     *</a>
-<span class="sourceLineNo">482</span><a id="line.482">     * @param elements the elements to add</a>
-<span class="sourceLineNo">483</span><a id="line.483">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">484</span><a id="line.484">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">485</span><a id="line.485">     */</a>
-<span class="sourceLineNo">486</span><a id="line.486">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">487</span><a id="line.487">    @Override</a>
-<span class="sourceLineNo">488</span><a id="line.488">    public Builder&lt;E&gt; add(E... elements) {</a>
-<span class="sourceLineNo">489</span><a id="line.489">      super.add(elements);</a>
-<span class="sourceLineNo">490</span><a id="line.490">      return this;</a>
-<span class="sourceLineNo">491</span><a id="line.491">    }</a>
-<span class="sourceLineNo">492</span><a id="line.492"></a>
-<span class="sourceLineNo">493</span><a id="line.493">    /**</a>
-<span class="sourceLineNo">494</span><a id="line.494">     * Adds a number of occurrences of an element to this {@code ImmutableSortedMultiset}.</a>
-<span class="sourceLineNo">495</span><a id="line.495">     *</a>
-<span class="sourceLineNo">496</span><a id="line.496">     * @param element the element to add</a>
-<span class="sourceLineNo">497</span><a id="line.497">     * @param occurrences the number of occurrences of the element to add. May be zero, in which</a>
-<span class="sourceLineNo">498</span><a id="line.498">     *     case no change will be made.</a>
-<span class="sourceLineNo">499</span><a id="line.499">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">500</span><a id="line.500">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">501</span><a id="line.501">     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation</a>
-<span class="sourceLineNo">502</span><a id="line.502">     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element</a>
-<span class="sourceLineNo">503</span><a id="line.503">     */</a>
-<span class="sourceLineNo">504</span><a id="line.504">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">505</span><a id="line.505">    @Override</a>
-<span class="sourceLineNo">506</span><a id="line.506">    public Builder&lt;E&gt; addCopies(E element, int occurrences) {</a>
-<span class="sourceLineNo">507</span><a id="line.507">      super.addCopies(element, occurrences);</a>
-<span class="sourceLineNo">508</span><a id="line.508">      return this;</a>
-<span class="sourceLineNo">509</span><a id="line.509">    }</a>
-<span class="sourceLineNo">510</span><a id="line.510"></a>
-<span class="sourceLineNo">511</span><a id="line.511">    /**</a>
-<span class="sourceLineNo">512</span><a id="line.512">     * Adds or removes the necessary occurrences of an element such that the element attains the</a>
-<span class="sourceLineNo">513</span><a id="line.513">     * desired count.</a>
-<span class="sourceLineNo">514</span><a id="line.514">     *</a>
-<span class="sourceLineNo">515</span><a id="line.515">     * @param element the element to add or remove occurrences of</a>
-<span class="sourceLineNo">516</span><a id="line.516">     * @param count the desired count of the element in this multiset</a>
-<span class="sourceLineNo">517</span><a id="line.517">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">518</span><a id="line.518">     * @throws NullPointerException if {@code element} is null</a>
-<span class="sourceLineNo">519</span><a id="line.519">     * @throws IllegalArgumentException if {@code count} is negative</a>
-<span class="sourceLineNo">520</span><a id="line.520">     */</a>
-<span class="sourceLineNo">521</span><a id="line.521">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">522</span><a id="line.522">    @Override</a>
-<span class="sourceLineNo">523</span><a id="line.523">    public Builder&lt;E&gt; setCount(E element, int count) {</a>
-<span class="sourceLineNo">524</span><a id="line.524">      super.setCount(element, count);</a>
-<span class="sourceLineNo">525</span><a id="line.525">      return this;</a>
-<span class="sourceLineNo">526</span><a id="line.526">    }</a>
-<span class="sourceLineNo">527</span><a id="line.527"></a>
-<span class="sourceLineNo">528</span><a id="line.528">    /**</a>
-<span class="sourceLineNo">529</span><a id="line.529">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
-<span class="sourceLineNo">530</span><a id="line.530">     *</a>
-<span class="sourceLineNo">531</span><a id="line.531">     * @param elements the {@code Iterable} to add to the {@code ImmutableSortedMultiset}</a>
-<span class="sourceLineNo">532</span><a id="line.532">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">533</span><a id="line.533">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">534</span><a id="line.534">     */</a>
-<span class="sourceLineNo">535</span><a id="line.535">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">536</span><a id="line.536">    @Override</a>
-<span class="sourceLineNo">537</span><a id="line.537">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">538</span><a id="line.538">      super.addAll(elements);</a>
-<span class="sourceLineNo">539</span><a id="line.539">      return this;</a>
-<span class="sourceLineNo">540</span><a id="line.540">    }</a>
-<span class="sourceLineNo">541</span><a id="line.541"></a>
-<span class="sourceLineNo">542</span><a id="line.542">    /**</a>
-<span class="sourceLineNo">543</span><a id="line.543">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
-<span class="sourceLineNo">544</span><a id="line.544">     *</a>
-<span class="sourceLineNo">545</span><a id="line.545">     * @param elements the elements to add to the {@code ImmutableSortedMultiset}</a>
-<span class="sourceLineNo">546</span><a id="line.546">     * @return this {@code Builder} object</a>
-<span class="sourceLineNo">547</span><a id="line.547">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
-<span class="sourceLineNo">548</span><a id="line.548">     */</a>
-<span class="sourceLineNo">549</span><a id="line.549">    @CanIgnoreReturnValue</a>
-<span class="sourceLineNo">550</span><a id="line.550">    @Override</a>
-<span class="sourceLineNo">551</span><a id="line.551">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
-<span class="sourceLineNo">552</span><a id="line.552">      super.addAll(elements);</a>
-<span class="sourceLineNo">553</span><a id="line.553">      return this;</a>
-<span class="sourceLineNo">554</span><a id="line.554">    }</a>
-<span class="sourceLineNo">555</span><a id="line.555"></a>
-<span class="sourceLineNo">556</span><a id="line.556">    /**</a>
-<span class="sourceLineNo">557</span><a id="line.557">     * Returns a newly-created {@code ImmutableSortedMultiset} based on the contents of the {@code</a>
-<span class="sourceLineNo">558</span><a id="line.558">     * Builder}.</a>
-<span class="sourceLineNo">559</span><a id="line.559">     */</a>
-<span class="sourceLineNo">560</span><a id="line.560">    @Override</a>
-<span class="sourceLineNo">561</span><a id="line.561">    public ImmutableSortedMultiset&lt;E&gt; build() {</a>
-<span class="sourceLineNo">562</span><a id="line.562">      return copyOfSorted((SortedMultiset&lt;E&gt;) contents);</a>
-<span class="sourceLineNo">563</span><a id="line.563">    }</a>
-<span class="sourceLineNo">564</span><a id="line.564">  }</a>
-<span class="sourceLineNo">565</span><a id="line.565"></a>
-<span class="sourceLineNo">566</span><a id="line.566">  private static final class SerializedForm&lt;E&gt; implements Serializable {</a>
-<span class="sourceLineNo">567</span><a id="line.567">    final Comparator&lt;? super E&gt; comparator;</a>
-<span class="sourceLineNo">568</span><a id="line.568">    final E[] elements;</a>
-<span class="sourceLineNo">569</span><a id="line.569">    final int[] counts;</a>
-<span class="sourceLineNo">570</span><a id="line.570"></a>
-<span class="sourceLineNo">571</span><a id="line.571">    @SuppressWarnings("unchecked")</a>
-<span class="sourceLineNo">572</span><a id="line.572">    SerializedForm(SortedMultiset&lt;E&gt; multiset) {</a>
-<span class="sourceLineNo">573</span><a id="line.573">      this.comparator = multiset.comparator();</a>
-<span class="sourceLineNo">574</span><a id="line.574">      int n = multiset.entrySet().size();</a>
-<span class="sourceLineNo">575</span><a id="line.575">      elements = (E[]) new Object[n];</a>
-<span class="sourceLineNo">576</span><a id="line.576">      counts = new int[n];</a>
-<span class="sourceLineNo">577</span><a id="line.577">      int i = 0;</a>
-<span class="sourceLineNo">578</span><a id="line.578">      for (Entry&lt;E&gt; entry : multiset.entrySet()) {</a>
-<span class="sourceLineNo">579</span><a id="line.579">        elements[i] = entry.getElement();</a>
-<span class="sourceLineNo">580</span><a id="line.580">        counts[i] = entry.getCount();</a>
-<span class="sourceLineNo">581</span><a id="line.581">        i++;</a>
-<span class="sourceLineNo">582</span><a id="line.582">      }</a>
-<span class="sourceLineNo">583</span><a id="line.583">    }</a>
-<span class="sourceLineNo">584</span><a id="line.584"></a>
-<span class="sourceLineNo">585</span><a id="line.585">    Object readResolve() {</a>
-<span class="sourceLineNo">586</span><a id="line.586">      int n = elements.length;</a>
-<span class="sourceLineNo">587</span><a id="line.587">      Builder&lt;E&gt; builder = new Builder&lt;&gt;(comparator);</a>
-<span class="sourceLineNo">588</span><a id="line.588">      for (int i = 0; i &lt; n; i++) {</a>
-<span class="sourceLineNo">589</span><a id="line.589">        builder.addCopies(elements[i], counts[i]);</a>
-<span class="sourceLineNo">590</span><a id="line.590">      }</a>
-<span class="sourceLineNo">591</span><a id="line.591">      return builder.build();</a>
-<span class="sourceLineNo">592</span><a id="line.592">    }</a>
-<span class="sourceLineNo">593</span><a id="line.593">  }</a>
-<span class="sourceLineNo">594</span><a id="line.594"></a>
-<span class="sourceLineNo">595</span><a id="line.595">  @Override</a>
-<span class="sourceLineNo">596</span><a id="line.596">  Object writeReplace() {</a>
-<span class="sourceLineNo">597</span><a id="line.597">    return new SerializedForm&lt;E&gt;(this);</a>
-<span class="sourceLineNo">598</span><a id="line.598">  }</a>
-<span class="sourceLineNo">599</span><a id="line.599">}</a>
+<span class="sourceLineNo">370</span><a id="line.370">   * &lt;p&gt;This implementation is guaranteed to throw an {@link UnsupportedOperationException}.</a>
+<span class="sourceLineNo">371</span><a id="line.371">   *</a>
+<span class="sourceLineNo">372</span><a id="line.372">   * @throws UnsupportedOperationException always</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * @deprecated Unsupported operation.</a>
+<span class="sourceLineNo">374</span><a id="line.374">   */</a>
+<span class="sourceLineNo">375</span><a id="line.375">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">376</span><a id="line.376">  @Deprecated</a>
+<span class="sourceLineNo">377</span><a id="line.377">  @Override</a>
+<span class="sourceLineNo">378</span><a id="line.378">  @DoNotCall("Always throws UnsupportedOperationException")</a>
+<span class="sourceLineNo">379</span><a id="line.379">  @CheckForNull</a>
+<span class="sourceLineNo">380</span><a id="line.380">  public final Entry&lt;E&gt; pollLastEntry() {</a>
+<span class="sourceLineNo">381</span><a id="line.381">    throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">382</span><a id="line.382">  }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">  @Override</a>
+<span class="sourceLineNo">385</span><a id="line.385">  public abstract ImmutableSortedMultiset&lt;E&gt; headMultiset(E upperBound, BoundType boundType);</a>
+<span class="sourceLineNo">386</span><a id="line.386"></a>
+<span class="sourceLineNo">387</span><a id="line.387">  @Override</a>
+<span class="sourceLineNo">388</span><a id="line.388">  public ImmutableSortedMultiset&lt;E&gt; subMultiset(</a>
+<span class="sourceLineNo">389</span><a id="line.389">      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {</a>
+<span class="sourceLineNo">390</span><a id="line.390">    checkArgument(</a>
+<span class="sourceLineNo">391</span><a id="line.391">        comparator().compare(lowerBound, upperBound) &lt;= 0,</a>
+<span class="sourceLineNo">392</span><a id="line.392">        "Expected lowerBound &lt;= upperBound but %s &gt; %s",</a>
+<span class="sourceLineNo">393</span><a id="line.393">        lowerBound,</a>
+<span class="sourceLineNo">394</span><a id="line.394">        upperBound);</a>
+<span class="sourceLineNo">395</span><a id="line.395">    return tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound, upperBoundType);</a>
+<span class="sourceLineNo">396</span><a id="line.396">  }</a>
+<span class="sourceLineNo">397</span><a id="line.397"></a>
+<span class="sourceLineNo">398</span><a id="line.398">  @Override</a>
+<span class="sourceLineNo">399</span><a id="line.399">  public abstract ImmutableSortedMultiset&lt;E&gt; tailMultiset(E lowerBound, BoundType boundType);</a>
+<span class="sourceLineNo">400</span><a id="line.400"></a>
+<span class="sourceLineNo">401</span><a id="line.401">  /**</a>
+<span class="sourceLineNo">402</span><a id="line.402">   * Returns a builder that creates immutable sorted multisets with an explicit comparator. If the</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * comparator has a more general type than the set being generated, such as creating a {@code</a>
+<span class="sourceLineNo">404</span><a id="line.404">   * SortedMultiset&lt;Integer&gt;} with a {@code Comparator&lt;Number&gt;}, use the {@link Builder} constructor</a>
+<span class="sourceLineNo">405</span><a id="line.405">   * instead.</a>
+<span class="sourceLineNo">406</span><a id="line.406">   *</a>
+<span class="sourceLineNo">407</span><a id="line.407">   * @throws NullPointerException if {@code comparator} is null</a>
+<span class="sourceLineNo">408</span><a id="line.408">   */</a>
+<span class="sourceLineNo">409</span><a id="line.409">  public static &lt;E&gt; Builder&lt;E&gt; orderedBy(Comparator&lt;E&gt; comparator) {</a>
+<span class="sourceLineNo">410</span><a id="line.410">    return new Builder&lt;E&gt;(comparator);</a>
+<span class="sourceLineNo">411</span><a id="line.411">  }</a>
+<span class="sourceLineNo">412</span><a id="line.412"></a>
+<span class="sourceLineNo">413</span><a id="line.413">  /**</a>
+<span class="sourceLineNo">414</span><a id="line.414">   * Returns a builder that creates immutable sorted multisets whose elements are ordered by the</a>
+<span class="sourceLineNo">415</span><a id="line.415">   * reverse of their natural ordering.</a>
+<span class="sourceLineNo">416</span><a id="line.416">   *</a>
+<span class="sourceLineNo">417</span><a id="line.417">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
+<span class="sourceLineNo">418</span><a id="line.418">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
+<span class="sourceLineNo">419</span><a id="line.419">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
+<span class="sourceLineNo">420</span><a id="line.420">   */</a>
+<span class="sourceLineNo">421</span><a id="line.421">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {</a>
+<span class="sourceLineNo">422</span><a id="line.422">    return new Builder&lt;E&gt;(Ordering.natural().reverse());</a>
+<span class="sourceLineNo">423</span><a id="line.423">  }</a>
+<span class="sourceLineNo">424</span><a id="line.424"></a>
+<span class="sourceLineNo">425</span><a id="line.425">  /**</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * Returns a builder that creates immutable sorted multisets whose elements are ordered by their</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * natural ordering. The sorted multisets use {@link Ordering#natural()} as the comparator. This</a>
+<span class="sourceLineNo">428</span><a id="line.428">   * method provides more type-safety than {@link #builder}, as it can be called only for classes</a>
+<span class="sourceLineNo">429</span><a id="line.429">   * that implement {@link Comparable}.</a>
+<span class="sourceLineNo">430</span><a id="line.430">   *</a>
+<span class="sourceLineNo">431</span><a id="line.431">   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code</a>
+<span class="sourceLineNo">432</span><a id="line.432">   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a</a>
+<span class="sourceLineNo">433</span><a id="line.433">   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.</a>
+<span class="sourceLineNo">434</span><a id="line.434">   */</a>
+<span class="sourceLineNo">435</span><a id="line.435">  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {</a>
+<span class="sourceLineNo">436</span><a id="line.436">    return new Builder&lt;E&gt;(Ordering.natural());</a>
+<span class="sourceLineNo">437</span><a id="line.437">  }</a>
+<span class="sourceLineNo">438</span><a id="line.438"></a>
+<span class="sourceLineNo">439</span><a id="line.439">  /**</a>
+<span class="sourceLineNo">440</span><a id="line.440">   * A builder for creating immutable multiset instances, especially {@code public static final}</a>
+<span class="sourceLineNo">441</span><a id="line.441">   * multisets ("constant multisets"). Example:</a>
+<span class="sourceLineNo">442</span><a id="line.442">   *</a>
+<span class="sourceLineNo">443</span><a id="line.443">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">444</span><a id="line.444">   * public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =</a>
+<span class="sourceLineNo">445</span><a id="line.445">   *     new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())</a>
+<span class="sourceLineNo">446</span><a id="line.446">   *         .addCopies(Bean.COCOA, 4)</a>
+<span class="sourceLineNo">447</span><a id="line.447">   *         .addCopies(Bean.GARDEN, 6)</a>
+<span class="sourceLineNo">448</span><a id="line.448">   *         .addCopies(Bean.RED, 8)</a>
+<span class="sourceLineNo">449</span><a id="line.449">   *         .addCopies(Bean.BLACK_EYED, 10)</a>
+<span class="sourceLineNo">450</span><a id="line.450">   *         .build();</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">452</span><a id="line.452">   *</a>
+<span class="sourceLineNo">453</span><a id="line.453">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</a>
+<span class="sourceLineNo">454</span><a id="line.454">   * multiple multisets in series.</a>
+<span class="sourceLineNo">455</span><a id="line.455">   *</a>
+<span class="sourceLineNo">456</span><a id="line.456">   * @since 12.0</a>
+<span class="sourceLineNo">457</span><a id="line.457">   */</a>
+<span class="sourceLineNo">458</span><a id="line.458">  public static class Builder&lt;E&gt; extends ImmutableMultiset.Builder&lt;E&gt; {</a>
+<span class="sourceLineNo">459</span><a id="line.459">    /**</a>
+<span class="sourceLineNo">460</span><a id="line.460">     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link</a>
+<span class="sourceLineNo">461</span><a id="line.461">     * ImmutableSortedMultiset#orderedBy(Comparator)}.</a>
+<span class="sourceLineNo">462</span><a id="line.462">     */</a>
+<span class="sourceLineNo">463</span><a id="line.463">    public Builder(Comparator&lt;? super E&gt; comparator) {</a>
+<span class="sourceLineNo">464</span><a id="line.464">      super(TreeMultiset.&lt;E&gt;create(checkNotNull(comparator)));</a>
+<span class="sourceLineNo">465</span><a id="line.465">    }</a>
+<span class="sourceLineNo">466</span><a id="line.466"></a>
+<span class="sourceLineNo">467</span><a id="line.467">    /**</a>
+<span class="sourceLineNo">468</span><a id="line.468">     * Adds {@code element} to the {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">469</span><a id="line.469">     *</a>
+<span class="sourceLineNo">470</span><a id="line.470">     * @param element the element to add</a>
+<span class="sourceLineNo">471</span><a id="line.471">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">472</span><a id="line.472">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">473</span><a id="line.473">     */</a>
+<span class="sourceLineNo">474</span><a id="line.474">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">475</span><a id="line.475">    @Override</a>
+<span class="sourceLineNo">476</span><a id="line.476">    public Builder&lt;E&gt; add(E element) {</a>
+<span class="sourceLineNo">477</span><a id="line.477">      super.add(element);</a>
+<span class="sourceLineNo">478</span><a id="line.478">      return this;</a>
+<span class="sourceLineNo">479</span><a id="line.479">    }</a>
+<span class="sourceLineNo">480</span><a id="line.480"></a>
+<span class="sourceLineNo">481</span><a id="line.481">    /**</a>
+<span class="sourceLineNo">482</span><a id="line.482">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">483</span><a id="line.483">     *</a>
+<span class="sourceLineNo">484</span><a id="line.484">     * @param elements the elements to add</a>
+<span class="sourceLineNo">485</span><a id="line.485">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">486</span><a id="line.486">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">487</span><a id="line.487">     */</a>
+<span class="sourceLineNo">488</span><a id="line.488">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">489</span><a id="line.489">    @Override</a>
+<span class="sourceLineNo">490</span><a id="line.490">    public Builder&lt;E&gt; add(E... elements) {</a>
+<span class="sourceLineNo">491</span><a id="line.491">      super.add(elements);</a>
+<span class="sourceLineNo">492</span><a id="line.492">      return this;</a>
+<span class="sourceLineNo">493</span><a id="line.493">    }</a>
+<span class="sourceLineNo">494</span><a id="line.494"></a>
+<span class="sourceLineNo">495</span><a id="line.495">    /**</a>
+<span class="sourceLineNo">496</span><a id="line.496">     * Adds a number of occurrences of an element to this {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">497</span><a id="line.497">     *</a>
+<span class="sourceLineNo">498</span><a id="line.498">     * @param element the element to add</a>
+<span class="sourceLineNo">499</span><a id="line.499">     * @param occurrences the number of occurrences of the element to add. May be zero, in which</a>
+<span class="sourceLineNo">500</span><a id="line.500">     *     case no change will be made.</a>
+<span class="sourceLineNo">501</span><a id="line.501">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">502</span><a id="line.502">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">503</span><a id="line.503">     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation</a>
+<span class="sourceLineNo">504</span><a id="line.504">     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element</a>
+<span class="sourceLineNo">505</span><a id="line.505">     */</a>
+<span class="sourceLineNo">506</span><a id="line.506">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">507</span><a id="line.507">    @Override</a>
+<span class="sourceLineNo">508</span><a id="line.508">    public Builder&lt;E&gt; addCopies(E element, int occurrences) {</a>
+<span class="sourceLineNo">509</span><a id="line.509">      super.addCopies(element, occurrences);</a>
+<span class="sourceLineNo">510</span><a id="line.510">      return this;</a>
+<span class="sourceLineNo">511</span><a id="line.511">    }</a>
+<span class="sourceLineNo">512</span><a id="line.512"></a>
+<span class="sourceLineNo">513</span><a id="line.513">    /**</a>
+<span class="sourceLineNo">514</span><a id="line.514">     * Adds or removes the necessary occurrences of an element such that the element attains the</a>
+<span class="sourceLineNo">515</span><a id="line.515">     * desired count.</a>
+<span class="sourceLineNo">516</span><a id="line.516">     *</a>
+<span class="sourceLineNo">517</span><a id="line.517">     * @param element the element to add or remove occurrences of</a>
+<span class="sourceLineNo">518</span><a id="line.518">     * @param count the desired count of the element in this multiset</a>
+<span class="sourceLineNo">519</span><a id="line.519">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">520</span><a id="line.520">     * @throws NullPointerException if {@code element} is null</a>
+<span class="sourceLineNo">521</span><a id="line.521">     * @throws IllegalArgumentException if {@code count} is negative</a>
+<span class="sourceLineNo">522</span><a id="line.522">     */</a>
+<span class="sourceLineNo">523</span><a id="line.523">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">524</span><a id="line.524">    @Override</a>
+<span class="sourceLineNo">525</span><a id="line.525">    public Builder&lt;E&gt; setCount(E element, int count) {</a>
+<span class="sourceLineNo">526</span><a id="line.526">      super.setCount(element, count);</a>
+<span class="sourceLineNo">527</span><a id="line.527">      return this;</a>
+<span class="sourceLineNo">528</span><a id="line.528">    }</a>
+<span class="sourceLineNo">529</span><a id="line.529"></a>
+<span class="sourceLineNo">530</span><a id="line.530">    /**</a>
+<span class="sourceLineNo">531</span><a id="line.531">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">532</span><a id="line.532">     *</a>
+<span class="sourceLineNo">533</span><a id="line.533">     * @param elements the {@code Iterable} to add to the {@code ImmutableSortedMultiset}</a>
+<span class="sourceLineNo">534</span><a id="line.534">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">535</span><a id="line.535">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">536</span><a id="line.536">     */</a>
+<span class="sourceLineNo">537</span><a id="line.537">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">538</span><a id="line.538">    @Override</a>
+<span class="sourceLineNo">539</span><a id="line.539">    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">540</span><a id="line.540">      super.addAll(elements);</a>
+<span class="sourceLineNo">541</span><a id="line.541">      return this;</a>
+<span class="sourceLineNo">542</span><a id="line.542">    }</a>
+<span class="sourceLineNo">543</span><a id="line.543"></a>
+<span class="sourceLineNo">544</span><a id="line.544">    /**</a>
+<span class="sourceLineNo">545</span><a id="line.545">     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.</a>
+<span class="sourceLineNo">546</span><a id="line.546">     *</a>
+<span class="sourceLineNo">547</span><a id="line.547">     * @param elements the elements to add to the {@code ImmutableSortedMultiset}</a>
+<span class="sourceLineNo">548</span><a id="line.548">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">549</span><a id="line.549">     * @throws NullPointerException if {@code elements} is null or contains a null element</a>
+<span class="sourceLineNo">550</span><a id="line.550">     */</a>
+<span class="sourceLineNo">551</span><a id="line.551">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">552</span><a id="line.552">    @Override</a>
+<span class="sourceLineNo">553</span><a id="line.553">    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {</a>
+<span class="sourceLineNo">554</span><a id="line.554">      super.addAll(elements);</a>
+<span class="sourceLineNo">555</span><a id="line.555">      return this;</a>
+<span class="sourceLineNo">556</span><a id="line.556">    }</a>
+<span class="sourceLineNo">557</span><a id="line.557"></a>
+<span class="sourceLineNo">558</span><a id="line.558">    /**</a>
+<span class="sourceLineNo">559</span><a id="line.559">     * Returns a newly-created {@code ImmutableSortedMultiset} based on the contents of the {@code</a>
+<span class="sourceLineNo">560</span><a id="line.560">     * Builder}.</a>
+<span class="sourceLineNo">561</span><a id="line.561">     */</a>
+<span class="sourceLineNo">562</span><a id="line.562">    @Override</a>
+<span class="sourceLineNo">563</span><a id="line.563">    public ImmutableSortedMultiset&lt;E&gt; build() {</a>
+<span class="sourceLineNo">564</span><a id="line.564">      return copyOfSorted((SortedMultiset&lt;E&gt;) contents);</a>
+<span class="sourceLineNo">565</span><a id="line.565">    }</a>
+<span class="sourceLineNo">566</span><a id="line.566">  }</a>
+<span class="sourceLineNo">567</span><a id="line.567"></a>
+<span class="sourceLineNo">568</span><a id="line.568">  private static final class SerializedForm&lt;E&gt; implements Serializable {</a>
+<span class="sourceLineNo">569</span><a id="line.569">    final Comparator&lt;? super E&gt; comparator;</a>
+<span class="sourceLineNo">570</span><a id="line.570">    final E[] elements;</a>
+<span class="sourceLineNo">571</span><a id="line.571">    final int[] counts;</a>
+<span class="sourceLineNo">572</span><a id="line.572"></a>
+<span class="sourceLineNo">573</span><a id="line.573">    @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">574</span><a id="line.574">    SerializedForm(SortedMultiset&lt;E&gt; multiset) {</a>
+<span class="sourceLineNo">575</span><a id="line.575">      this.comparator = multiset.comparator();</a>
+<span class="sourceLineNo">576</span><a id="line.576">      int n = multiset.entrySet().size();</a>
+<span class="sourceLineNo">577</span><a id="line.577">      elements = (E[]) new Object[n];</a>
+<span class="sourceLineNo">578</span><a id="line.578">      counts = new int[n];</a>
+<span class="sourceLineNo">579</span><a id="line.579">      int i = 0;</a>
+<span class="sourceLineNo">580</span><a id="line.580">      for (Entry&lt;E&gt; entry : multiset.entrySet()) {</a>
+<span class="sourceLineNo">581</span><a id="line.581">        elements[i] = entry.getElement();</a>
+<span class="sourceLineNo">582</span><a id="line.582">        counts[i] = entry.getCount();</a>
+<span class="sourceLineNo">583</span><a id="line.583">        i++;</a>
+<span class="sourceLineNo">584</span><a id="line.584">      }</a>
+<span class="sourceLineNo">585</span><a id="line.585">    }</a>
+<span class="sourceLineNo">586</span><a id="line.586"></a>
+<span class="sourceLineNo">587</span><a id="line.587">    Object readResolve() {</a>
+<span class="sourceLineNo">588</span><a id="line.588">      int n = elements.length;</a>
+<span class="sourceLineNo">589</span><a id="line.589">      Builder&lt;E&gt; builder = new Builder&lt;&gt;(comparator);</a>
+<span class="sourceLineNo">590</span><a id="line.590">      for (int i = 0; i &lt; n; i++) {</a>
+<span class="sourceLineNo">591</span><a id="line.591">        builder.addCopies(elements[i], counts[i]);</a>
+<span class="sourceLineNo">592</span><a id="line.592">      }</a>
+<span class="sourceLineNo">593</span><a id="line.593">      return builder.build();</a>
+<span class="sourceLineNo">594</span><a id="line.594">    }</a>
+<span class="sourceLineNo">595</span><a id="line.595">  }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">  @Override</a>
+<span class="sourceLineNo">598</span><a id="line.598">  Object writeReplace() {</a>
+<span class="sourceLineNo">599</span><a id="line.599">    return new SerializedForm&lt;E&gt;(this);</a>
+<span class="sourceLineNo">600</span><a id="line.600">  }</a>
+<span class="sourceLineNo">601</span><a id="line.601"></a>
+<span class="sourceLineNo">602</span><a id="line.602">  private void readObject(ObjectInputStream stream) throws InvalidObjectException {</a>
+<span class="sourceLineNo">603</span><a id="line.603">    throw new InvalidObjectException("Use SerializedForm");</a>
+<span class="sourceLineNo">604</span><a id="line.604">  }</a>
+<span class="sourceLineNo">605</span><a id="line.605">}</a>
 
 
 

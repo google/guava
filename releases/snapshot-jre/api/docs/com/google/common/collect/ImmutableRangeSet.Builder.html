@@ -135,7 +135,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</dd>
 </dl>
 <hr>
-<pre>public static class <a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.732">ImmutableRangeSet.Builder</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;
+<pre>public static class <a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line.738">ImmutableRangeSet.Builder</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for immutable range sets.</div>
 <dl>
@@ -241,7 +241,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.735">Builder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.741">Builder</a>()</pre>
 </li>
 </ul>
 </li>
@@ -261,7 +261,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>add</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.747">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;range)</pre>
+public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.753">add</a>&#8203;(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;range)</pre>
 <div class="block">Add the specified range to this builder. Adjacent ranges are permitted and will be merged,
  but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is called.</div>
 <dl>
@@ -277,7 +277,7 @@ public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.759">addAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;ranges)</pre>
+public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.765">addAll</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;ranges)</pre>
 <div class="block">Add all ranges from the specified range set to this builder. Adjacent ranges are permitted
  and will be merged, but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is
  called.</div>
@@ -290,7 +290,7 @@ public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.771">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&gt;&nbsp;ranges)</pre>
+public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.777">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&gt;&nbsp;ranges)</pre>
 <div class="block">Add all of the specified ranges to this builder. Adjacent ranges are permitted and will be
  merged, but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is called.</div>
 <dl>
@@ -307,7 +307,7 @@ public&nbsp;<a href="ImmutableRangeSet.Builder.html" title="class in com.google.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.790">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line.796">build</a>()</pre>
 <div class="block">Returns an <code>ImmutableRangeSet</code> containing the ranges added to this builder.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>

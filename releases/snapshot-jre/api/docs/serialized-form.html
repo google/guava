@@ -494,7 +494,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/EnumMultiset.
 <li class="blockList">
 <h4>readObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashBiMap.html#line.787">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashBiMap.html#line.793">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a>,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassNotFoundException</a></pre>
 <dl>
@@ -506,7 +506,7 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashBiMap.htm
 <li class="blockListLast">
 <h4>writeObject</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashBiMap.html#line.781">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashBiMap.html#line.787">writeObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectOutputStream</a>&nbsp;stream)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
 <dl>
 <dt><span class="simpleTagLabel">Serial Data:</span></dt>
@@ -609,9 +609,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableBiMap.html#line.643">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableBiMap.html#line.636">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableBiMap.html#line.638">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -650,9 +659,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/HashMultiset.
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.397">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.390">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableCollection.html#line.392">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -732,9 +750,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1279">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1273">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableMap.html#line.1275">writeReplace</a>()</pre>
 <div class="block">Returns a serializable form of this object. Non-public subclasses should not override this
  method. Publicly-accessible subclasses must override this method and should return a subclass
  of SerializedForm whose readResolve() method returns objects of the subclass type.</div>
@@ -760,10 +787,20 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableMultiset.html#line.439">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
 <pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableMultiset.html#line.426">writeReplace</a>()</pre>
+<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableMultiset.html#line.433">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -781,9 +818,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.444">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.438">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeMap.html#line.440">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -797,9 +843,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.852">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.842">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableRangeSet.html#line.848">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -813,9 +868,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableList
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.428">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.421">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSet.html#line.423">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -874,9 +938,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1165">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1158">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMap.html#line.1160">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -890,9 +963,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.602">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.595">writeReplace</a>()</pre>
+<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.597">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -931,9 +1013,19 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableSetM
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature"><a href="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.509">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.502">writeReplace</a>()</pre>
+<pre class="methodSignature">final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/ImmutableTable.html#line.505">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -1071,9 +1163,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/LinkedListMul
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.188">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">private&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.182">writeReplace</a>()</pre>
+<pre class="methodSignature">private&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.184">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
@@ -1254,9 +1355,18 @@ private&nbsp;void&nbsp;<a href="src-html/com/google/common/collect/TreeMultiset.
 <li class="blockList">
 <h3>Serialization Methods</h3>
 <ul class="blockList">
+<li class="blockList">
+<h4>readObject</h4>
+<pre class="methodSignature">private&nbsp;void&nbsp;<a href="src-html/com/google/common/hash/BloomFilter.html#line.543">readObject</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">ObjectInputStream</a>&nbsp;stream)
+                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io" class="externalLink">InvalidObjectException</a></code></dd>
+</dl>
+</li>
 <li class="blockListLast">
 <h4>writeReplace</h4>
-<pre class="methodSignature">private&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/hash/BloomFilter.html#line.537">writeReplace</a>()</pre>
+<pre class="methodSignature">private&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="src-html/com/google/common/hash/BloomFilter.html#line.539">writeReplace</a>()</pre>
 </li>
 </ul>
 </li>
