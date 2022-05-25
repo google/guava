@@ -28,7 +28,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -63,15 +65,43 @@ public final class Graphs {
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
     }
-    if (!graph.isDirected() && numEdges >= graph.nodes().size()) {
+    int numNodes = graph.nodes().size();
+    if (!graph.isDirected() && numEdges >= numNodes) {
       return true; // Optimization for the undirected case: at least one cycle must exist.
     }
-
-    Map<Object, NodeVisitState> visitedNodes =
-        Maps.newHashMapWithExpectedSize(graph.nodes().size());
-    for (N node : graph.nodes()) {
-      if (subgraphHasCycle(graph, visitedNodes, node, null)) {
-        return true;
+    Deque<NodeVisitFrame<N>> nodeVisitFrame = new ArrayDeque<>(2 * numNodes);
+    Map<N, NodeVisitState> nodesVisitState = Maps.newHashMapWithExpectedSize(numNodes);
+    for (N start : graph.nodes()) {
+      if (nodesVisitState.get(start) == NodeVisitState.COMPLETE) {
+        continue;
+      }
+      if (nodesVisitState.get(start) == NodeVisitState.PENDING) {
+        throw new AssertionError();
+      }
+      nodeVisitFrame.push(new NodeVisitFrame<>(NodeVisitPhase.ENTER, start, null));
+      while (!nodeVisitFrame.isEmpty()) {
+        NodeVisitFrame<N> visit = nodeVisitFrame.pop();
+        switch (visit.phase) {
+          case ENTER:
+            nodesVisitState.put(visit.currentNode, NodeVisitState.PENDING);
+            nodeVisitFrame.push(new NodeVisitFrame<>(NodeVisitPhase.EXIT, visit.currentNode, visit.previousNode));
+            for (N nextNode : graph.successors(visit.currentNode)) {
+              if (!canTraverseWithoutReusingEdge(graph, visit.previousNode, nextNode)) {
+                continue;
+              }
+              if (nodesVisitState.get(nextNode) == NodeVisitState.COMPLETE) {
+                continue;
+              }
+              if (nodesVisitState.get(nextNode) == NodeVisitState.PENDING) {
+                return true;
+              }
+              nodeVisitFrame.push(new NodeVisitFrame<>(NodeVisitPhase.ENTER, nextNode, visit.currentNode));
+            }
+            break;
+          case EXIT:
+            nodesVisitState.put(visit.currentNode, NodeVisitState.COMPLETE);
+            break;
+        }
       }
     }
     return false;
@@ -96,42 +126,13 @@ public final class Graphs {
   }
 
   /**
-   * Performs a traversal of the nodes reachable from {@code node}. If we ever reach a node we've
-   * already visited (following only outgoing edges and without reusing edges), we know there's a
-   * cycle in the graph.
-   */
-  private static <N> boolean subgraphHasCycle(
-      Graph<N> graph,
-      Map<Object, NodeVisitState> visitedNodes,
-      N node,
-      @CheckForNull N previousNode) {
-    NodeVisitState state = visitedNodes.get(node);
-    if (state == NodeVisitState.COMPLETE) {
-      return false;
-    }
-    if (state == NodeVisitState.PENDING) {
-      return true;
-    }
-
-    visitedNodes.put(node, NodeVisitState.PENDING);
-    for (N nextNode : graph.successors(node)) {
-      if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
-          && subgraphHasCycle(graph, visitedNodes, nextNode, node)) {
-        return true;
-      }
-    }
-    visitedNodes.put(node, NodeVisitState.COMPLETE);
-    return false;
-  }
-
-  /**
    * Determines whether an edge has already been used during traversal. In the directed case a cycle
    * is always detected before reusing an edge, so no special logic is required. In the undirected
    * case, we must take care not to "backtrack" over an edge (i.e. going from A to B and then going
    * from B to A).
    */
-  private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, @CheckForNull Object previousNode) {
+  private static <N> boolean canTraverseWithoutReusingEdge(
+      Graph<N> graph, N nextNode, @CheckForNull N previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -642,5 +643,25 @@ public final class Graphs {
   private enum NodeVisitState {
     PENDING,
     COMPLETE
+  }
+
+  // TODO javadoc
+  private enum NodeVisitPhase {
+    ENTER,
+    EXIT
+  }
+
+  // TODO javadoc
+  private static final class NodeVisitFrame<N> {
+    private final NodeVisitPhase phase;
+    private final N currentNode;
+    @CheckForNull
+    private final N previousNode;
+    
+    public NodeVisitFrame(NodeVisitPhase phase, N currentNode, N previousNode) {
+      this.phase = phase;
+      this.currentNode = currentNode;
+      this.previousNode = previousNode;
+    }
   }
 }

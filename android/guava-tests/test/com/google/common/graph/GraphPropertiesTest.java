@@ -156,6 +156,18 @@ public class GraphPropertiesTest {
   }
 
   @Test
+  public void hasCycle_noStackOverflowError() {
+    int enoughForEventualStackOverflowError = 100_000;
+    for (MutableGraph<Integer> graph : graphsToTest) {
+      for (int i = 0; i < enoughForEventualStackOverflowError; i++) {
+        graph.putEdge(i, (i + 1) % enoughForEventualStackOverflowError);
+      }
+    }
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isTrue();
+  }
+
+  @Test
   public void hasCycle_twoParallelEdges() {
     for (MutableNetwork<Integer, String> network : networksToTest) {
       network.addEdge(1, 2, "1-2a");
