@@ -175,8 +175,8 @@ public final class ValueGraphTest {
   public void hasEdgeConnecting_undirected_mismatch() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "A");
-    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(1, 2))).isTrue();
-    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(2, 1))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(1, 2))).isFalse();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(2, 1))).isFalse();
   }
 
   @Test
@@ -224,8 +224,19 @@ public final class ValueGraphTest {
   public void edgeValue_undirected_mismatch() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "A");
-    assertThat(graph.edgeValue(EndpointPair.ordered(1, 2))).hasValue("A");
-    assertThat(graph.edgeValue(EndpointPair.ordered(2, 1))).hasValue("A");
+    // Check that edgeValue() throws on each possible ordering of an ordered EndpointPair
+    try {
+      Optional<String> unused = graph.edgeValue(EndpointPair.ordered(1, 2));
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
+    try {
+      Optional<String> unused = graph.edgeValue(EndpointPair.ordered(2, 1));
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
@@ -274,8 +285,19 @@ public final class ValueGraphTest {
   public void edgeValueOrDefault_undirected_mismatch() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "A");
-    assertThat(graph.edgeValueOrDefault(EndpointPair.ordered(2, 1), "default")).isEqualTo("A");
-    assertThat(graph.edgeValueOrDefault(EndpointPair.ordered(2, 1), "default")).isEqualTo("A");
+    // Check that edgeValueOrDefault() throws on each possible ordering of an ordered EndpointPair
+    try {
+      String unused = graph.edgeValueOrDefault(EndpointPair.ordered(1, 2), "default");
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
+    try {
+      String unused = graph.edgeValueOrDefault(EndpointPair.ordered(2, 1), "default");
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
@@ -302,7 +324,12 @@ public final class ValueGraphTest {
   @Test
   public void putEdgeValue_undirected_orderMismatch() {
     graph = ValueGraphBuilder.undirected().build();
-    assertThat(graph.putEdgeValue(EndpointPair.ordered(1, 2), "irrelevant")).isNull();
+    try {
+      graph.putEdgeValue(EndpointPair.ordered(1, 2), "irrelevant");
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
@@ -362,7 +389,19 @@ public final class ValueGraphTest {
   public void removeEdge_undirected_orderMismatch() {
     graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "1-2");
-    assertThat(graph.removeEdge(EndpointPair.ordered(1, 2))).isEqualTo("1-2");
+    // Check that removeEdge() throws on each possible ordering of an ordered EndpointPair
+    try {
+      graph.removeEdge(EndpointPair.ordered(1, 2));
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
+    try {
+      graph.removeEdge(EndpointPair.ordered(2, 1));
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test

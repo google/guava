@@ -177,7 +177,11 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);
   }
 
+  /**
+   * Returns {@code true} iff {@code endpoints}' ordering is compatible with the directionality of
+   * this graph.
+   */
   protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
-    return endpoints.isOrdered() || !this.isDirected();
+    return endpoints.isOrdered() == this.isDirected();
   }
 }

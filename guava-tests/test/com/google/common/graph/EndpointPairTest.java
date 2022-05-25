@@ -214,8 +214,8 @@ public final class EndpointPairTest {
     assertThat(edges).contains(EndpointPair.unordered(N1, N2));
     assertThat(edges).contains(EndpointPair.unordered(N2, N1)); // equal to unordered(N1, N2)
 
-    // ordered endpoints OK for undirected graph (because ordering is irrelevant)
-    assertThat(edges).contains(EndpointPair.ordered(N1, N2));
+    // ordered endpoints not compatible with undirected graph
+    assertThat(edges).doesNotContain(EndpointPair.ordered(N1, N2));
 
     assertThat(edges).doesNotContain(EndpointPair.unordered(N2, N2)); // edge not present
     assertThat(edges).doesNotContain(EndpointPair.unordered(N3, N4)); // nodes not in graph
