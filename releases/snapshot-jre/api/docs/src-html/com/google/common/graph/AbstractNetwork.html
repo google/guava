@@ -262,7 +262,7 @@
 <span class="sourceLineNo">253</span><a id="line.253">  }</a>
 <span class="sourceLineNo">254</span><a id="line.254"></a>
 <span class="sourceLineNo">255</span><a id="line.255">  protected final boolean isOrderingCompatible(EndpointPair&lt;?&gt; endpoints) {</a>
-<span class="sourceLineNo">256</span><a id="line.256">    return endpoints.isOrdered() || !this.isDirected();</a>
+<span class="sourceLineNo">256</span><a id="line.256">    return endpoints.isOrdered() == this.isDirected();</a>
 <span class="sourceLineNo">257</span><a id="line.257">  }</a>
 <span class="sourceLineNo">258</span><a id="line.258"></a>
 <span class="sourceLineNo">259</span><a id="line.259">  @Override</a>
