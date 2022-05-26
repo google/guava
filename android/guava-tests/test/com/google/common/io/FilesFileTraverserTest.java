@@ -34,6 +34,7 @@ import junit.framework.TestCase;
  * @author Jens Nyman
  */
 
+@AndroidIncompatible // Android forbids much filesystem access. Maybe we could make it work?
 public class FilesFileTraverserTest extends TestCase {
 
   private File rootDir;

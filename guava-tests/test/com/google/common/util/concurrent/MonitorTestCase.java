@@ -26,7 +26,6 @@ import junit.framework.TestCase;
  *
  * @author Justin T. Sampson
  */
-
 public abstract class MonitorTestCase extends TestCase {
 
   public class TestGuard extends Monitor.Guard {

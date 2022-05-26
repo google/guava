@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -25,6 +26,7 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.CheckForNull;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -45,12 +47,13 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @CanIgnoreReturnValue
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ThreadFactoryBuilder {
-  private String nameFormat = null;
-  private Boolean daemon = null;
-  private Integer priority = null;
-  private UncaughtExceptionHandler uncaughtExceptionHandler = null;
-  private ThreadFactory backingThreadFactory = null;
+  @CheckForNull private String nameFormat = null;
+  @CheckForNull private Boolean daemon = null;
+  @CheckForNull private Integer priority = null;
+  @CheckForNull private UncaughtExceptionHandler uncaughtExceptionHandler = null;
+  @CheckForNull private ThreadFactory backingThreadFactory = null;
 
   /** Creates a new {@link ThreadFactory} builder. */
   public ThreadFactoryBuilder() {}
@@ -148,21 +151,22 @@ public final class ThreadFactoryBuilder {
   // Split out so that the anonymous ThreadFactory can't contain a reference back to the builder.
   // At least, I assume that's why. TODO(cpovirk): Check, and maybe add a test for this.
   private static ThreadFactory doBuild(ThreadFactoryBuilder builder) {
-    final String nameFormat = builder.nameFormat;
-    final Boolean daemon = builder.daemon;
-    final Integer priority = builder.priority;
-    final UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
-    final ThreadFactory backingThreadFactory =
+    String nameFormat = builder.nameFormat;
+    Boolean daemon = builder.daemon;
+    Integer priority = builder.priority;
+    UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
+    ThreadFactory backingThreadFactory =
         (builder.backingThreadFactory != null)
             ? builder.backingThreadFactory
             : Executors.defaultThreadFactory();
-    final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
+    AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
     return new ThreadFactory() {
       @Override
       public Thread newThread(Runnable runnable) {
         Thread thread = backingThreadFactory.newThread(runnable);
         if (nameFormat != null) {
-          thread.setName(format(nameFormat, count.getAndIncrement()));
+          // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.
+          thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));
         }
         if (daemon != null) {
           thread.setDaemon(daemon);

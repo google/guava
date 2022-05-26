@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
@@ -103,7 +102,6 @@ import java.util.concurrent.TimeoutException;
  * @author Martin Buchholz
  * @since 11.0
  */
-@Beta
 @GwtIncompatible
 @J2ObjCIncompatible // gc
 public final class GcFinalization {
@@ -138,8 +136,8 @@ public final class GcFinalization {
     if (future.isDone()) {
       return;
     }
-    final long timeoutSeconds = timeoutSeconds();
-    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
+    long timeoutSeconds = timeoutSeconds();
+    long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (future.isDone()) {
@@ -170,8 +168,8 @@ public final class GcFinalization {
     if (predicate.isDone()) {
       return;
     }
-    final long timeoutSeconds = timeoutSeconds();
-    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
+    long timeoutSeconds = timeoutSeconds();
+    long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (predicate.isDone()) {
@@ -198,8 +196,8 @@ public final class GcFinalization {
     if (latch.getCount() == 0) {
       return;
     }
-    final long timeoutSeconds = timeoutSeconds();
-    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
+    long timeoutSeconds = timeoutSeconds();
+    long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (latch.getCount() == 0) {
@@ -222,13 +220,14 @@ public final class GcFinalization {
    * Creates a garbage object that counts down the latch in its finalizer. Sequestered into a
    * separate method to make it somewhat more likely to be unreachable.
    */
-  private static void createUnreachableLatchFinalizer(final CountDownLatch latch) {
-    new Object() {
-      @Override
-      protected void finalize() {
-        latch.countDown();
-      }
-    };
+  private static void createUnreachableLatchFinalizer(CountDownLatch latch) {
+    Object unused =
+        new Object() {
+          @Override
+          protected void finalize() {
+            latch.countDown();
+          }
+        };
   }
 
   /**
@@ -263,7 +262,7 @@ public final class GcFinalization {
    *
    * @throws RuntimeException if timed out or interrupted while waiting
    */
-  public static void awaitClear(final WeakReference<?> ref) {
+  public static void awaitClear(WeakReference<?> ref) {
     awaitDone(
         new FinalizationPredicate() {
           @Override
@@ -296,9 +295,9 @@ public final class GcFinalization {
    * @since 12.0
    */
   public static void awaitFullGc() {
-    final CountDownLatch finalizerRan = new CountDownLatch(1);
+    CountDownLatch finalizerRan = new CountDownLatch(1);
     WeakReference<Object> ref =
-        new WeakReference<Object>(
+        new WeakReference<>(
             new Object() {
               @Override
               protected void finalize() {

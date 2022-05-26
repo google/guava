@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
-// TODO(azana/cpovirk): Should this be merged into UninterruptiblesTest?
+// TODO(cpovirk): Should this be merged into UninterruptiblesTest?
 /**
  * Unit test for {@link Uninterruptibles#getUninterruptibly}
  *
@@ -77,7 +77,6 @@ public class UninterruptibleFutureTest extends TestCase {
    * This first test doesn't test anything in Uninterruptibles, just demonstrates some normal
    * behavior of futures so that you can contrast the next test with it.
    */
-
   public void testRegularFutureInterrupted() throws ExecutionException {
 
     /*
@@ -211,7 +210,6 @@ public class UninterruptibleFutureTest extends TestCase {
   /**
    * Confirms that the test code triggers {@link InterruptedException} in a standard {@link Future}.
    */
-
   public void testMakeUninterruptible_plainFutureSanityCheck() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
     FutureTask<Boolean> wasInterrupted = untimedInterruptReporter(future, true);

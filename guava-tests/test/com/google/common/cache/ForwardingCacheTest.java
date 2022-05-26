@@ -34,7 +34,6 @@ public class ForwardingCacheTest extends TestCase {
   private Cache<String, Boolean> forward;
   private Cache<String, Boolean> mock;
 
-  // go/do-not-mock-common-types-lsc
   @SuppressWarnings({"unchecked", "DoNotMock"}) // mock
   @Override
   public void setUp() throws Exception {

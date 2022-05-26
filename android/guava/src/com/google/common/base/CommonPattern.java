@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
  * javadoc for details.
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 abstract class CommonPattern {
   public abstract CommonMatcher matcher(CharSequence t);
 

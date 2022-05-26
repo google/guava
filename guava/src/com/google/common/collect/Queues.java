@@ -32,6 +32,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class Queues {
   private Queues() {}
 
@@ -74,7 +76,7 @@ public final class Queues {
    */
   public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ArrayDeque<E>(Collections2.cast(elements));
+      return new ArrayDeque<E>((Collection<? extends E>) elements);
     }
     ArrayDeque<E> deque = new ArrayDeque<E>();
     Iterables.addAll(deque, elements);
@@ -97,7 +99,7 @@ public final class Queues {
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ConcurrentLinkedQueue<E>(Collections2.cast(elements));
+      return new ConcurrentLinkedQueue<E>((Collection<? extends E>) elements);
     }
     ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
     Iterables.addAll(queue, elements);
@@ -137,7 +139,7 @@ public final class Queues {
   @GwtIncompatible // LinkedBlockingDeque
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingDeque<E>(Collections2.cast(elements));
+      return new LinkedBlockingDeque<E>((Collection<? extends E>) elements);
     }
     LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
     Iterables.addAll(deque, elements);
@@ -173,7 +175,7 @@ public final class Queues {
   @GwtIncompatible // LinkedBlockingQueue
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingQueue<E>(Collections2.cast(elements));
+      return new LinkedBlockingQueue<E>((Collection<? extends E>) elements);
     }
     LinkedBlockingQueue<E> queue = new LinkedBlockingQueue<E>();
     Iterables.addAll(queue, elements);
@@ -188,7 +190,8 @@ public final class Queues {
    * Creates an empty {@code PriorityBlockingQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
@@ -201,13 +204,14 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   @GwtIncompatible // PriorityBlockingQueue
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityBlockingQueue<E>(Collections2.cast(elements));
+      return new PriorityBlockingQueue<E>((Collection<? extends E>) elements);
     }
     PriorityBlockingQueue<E> queue = new PriorityBlockingQueue<E>();
     Iterables.addAll(queue, elements);
@@ -220,7 +224,8 @@ public final class Queues {
    * Creates an empty {@code PriorityQueue} with the ordering given by its elements' natural
    * ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
     return new PriorityQueue<E>();
@@ -232,12 +237,13 @@ public final class Queues {
    * <p><b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
    *
-   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
+   * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
+   *     in 15.0)
    */
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityQueue<E>(Collections2.cast(elements));
+      return new PriorityQueue<E>((Collection<? extends E>) elements);
     }
     PriorityQueue<E> queue = new PriorityQueue<E>();
     Iterables.addAll(queue, elements);
@@ -432,7 +438,7 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
-  public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
+  public static <E extends @Nullable Object> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
 
@@ -465,7 +471,7 @@ public final class Queues {
    * @return a synchronized view of the specified deque
    * @since 15.0
    */
-  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
+  public static <E extends @Nullable Object> Deque<E> synchronizedDeque(Deque<E> deque) {
     return Synchronized.deque(deque, null);
   }
 }

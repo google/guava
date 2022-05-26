@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -153,7 +155,7 @@ public final class TestingExecutors {
         implements ListenableScheduledFuture<V> {
 
       static <V> NeverScheduledFuture<V> create() {
-        return new NeverScheduledFuture<V>();
+        return new NeverScheduledFuture<>();
       }
 
       @Override
@@ -163,7 +165,7 @@ public final class TestingExecutors {
 
       @Override
       public int compareTo(Delayed other) {
-        return Longs.compare(getDelay(TimeUnit.NANOSECONDS), other.getDelay(TimeUnit.NANOSECONDS));
+        return Longs.compare(getDelay(NANOSECONDS), other.getDelay(NANOSECONDS));
       }
     }
   }

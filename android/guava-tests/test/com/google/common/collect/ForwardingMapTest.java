@@ -170,7 +170,7 @@ public class ForwardingMapTest extends TestCase {
                     for (Entry<String, String> entry : entries) {
                       builder.put(entry.getKey(), entry.getValue());
                     }
-                    return new StandardImplForwardingMap<>(builder.build());
+                    return new StandardImplForwardingMap<>(builder.buildOrThrow());
                   }
                 })
             .named("ForwardingMap[ImmutableMap] with standard implementations")

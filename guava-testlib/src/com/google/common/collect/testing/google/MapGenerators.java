@@ -54,7 +54,7 @@ public class MapGenerators {
       for (Entry<String, String> entry : entries) {
         builder.put(entry.getKey(), entry.getValue());
       }
-      return builder.build();
+      return builder.buildOrThrow();
     }
   }
 
@@ -86,7 +86,7 @@ public class MapGenerators {
       for (UnhashableObject value : elements) {
         builder.put(key++, value);
       }
-      return builder.build().values();
+      return builder.buildOrThrow().values();
     }
   }
 
@@ -97,7 +97,7 @@ public class MapGenerators {
       for (int i = 0; i < elements.length; i++) {
         builder.put(elements[i], i);
       }
-      return builder.build().keySet().asList();
+      return builder.buildOrThrow().keySet().asList();
     }
   }
 
@@ -108,7 +108,7 @@ public class MapGenerators {
       for (int i = 0; i < elements.length; i++) {
         builder.put(i, elements[i]);
       }
-      return builder.build().values().asList();
+      return builder.buildOrThrow().values().asList();
     }
   }
 
@@ -144,7 +144,7 @@ public class MapGenerators {
         Entry<String, Integer> entry = (Entry<String, Integer>) o;
         builder.put(entry);
       }
-      return builder.build().entrySet().asList();
+      return builder.buildOrThrow().entrySet().asList();
     }
   }
 
@@ -210,7 +210,7 @@ public class MapGenerators {
         Integer value = Iterables.getOnlyElement(entry.getValue());
         builder.put(entry.getKey(), value);
       }
-      return builder.build().asMultimap().asMap();
+      return builder.buildOrThrow().asMultimap().asMap();
     }
 
     @Override

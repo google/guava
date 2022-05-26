@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -41,21 +41,22 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
  * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher
  * @since 2.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
   /*
@@ -86,7 +87,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)
     // ConcurrentMap implementors. One possibility is to extract most of this class into
     // an AbstractConcurrentMapMultiset.
-    return new ConcurrentHashMultiset<E>(new ConcurrentHashMap<E, AtomicInteger>());
+    return new ConcurrentHashMultiset<>(new ConcurrentHashMap<E, AtomicInteger>());
   }
 
   /**
@@ -119,7 +120,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @Beta
   public static <E> ConcurrentHashMultiset<E> create(ConcurrentMap<E, AtomicInteger> countMap) {
-    return new ConcurrentHashMultiset<E>(countMap);
+    return new ConcurrentHashMultiset<>(countMap);
   }
 
   @VisibleForTesting
@@ -137,7 +138,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the nonnegative number of occurrences of the element
    */
   @Override
-  public int count(@NullableDecl Object element) {
+  public int count(@CheckForNull Object element) {
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -168,7 +169,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
-  public <T> T[] toArray(T[] array) {
+  @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+  public <T extends @Nullable Object> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
 
@@ -205,7 +207,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     while (true) {
       AtomicInteger existingCounter = Maps.safeGet(countMap, element);
@@ -261,17 +263,17 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * if occurrences == 0. This satisfies both NullPointerTester and
    * CollectionRemoveTester.testRemove_nullAllowed, but it's not clear that it's
    * a good policy, especially because, in order for the test to pass, the
-   * parameter must be misleadingly annotated as @NullableDecl. I suspect that
-   * we'll want to remove @NullableDecl, add an eager checkNotNull, and loosen up
+   * parameter must be misleadingly annotated as @Nullable. I suspect that
+   * we'll want to remove @Nullable, add an eager checkNotNull, and loosen up
    * testRemove_nullAllowed.
    */
   @CanIgnoreReturnValue
   @Override
-  public int remove(@NullableDecl Object element, int occurrences) {
+  public int remove(@CheckForNull Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {
@@ -308,11 +310,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  public boolean removeExactly(@NullableDecl Object element, int occurrences) {
+  public boolean removeExactly(@CheckForNull Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
-    CollectPreconditions.checkPositive(occurrences, "occurences");
+    CollectPreconditions.checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {
@@ -446,7 +448,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   @Override
   Set<E> createElementSet() {
-    final Set<E> delegate = countMap.keySet();
+    Set<E> delegate = countMap.keySet();
     return new ForwardingSet<E>() {
       @Override
       protected Set<E> delegate() {
@@ -454,7 +456,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean contains(@NullableDecl Object object) {
+      public boolean contains(@CheckForNull Object object) {
         return object != null && Collections2.safeContains(delegate, object);
       }
 
@@ -464,7 +466,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean remove(Object object) {
+      public boolean remove(@CheckForNull Object object) {
         return object != null && Collections2.safeRemove(delegate, object);
       }
 
@@ -501,12 +503,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   Iterator<Entry<E>> entryIterator() {
     // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
-    final Iterator<Entry<E>> readOnlyIterator =
+    Iterator<Entry<E>> readOnlyIterator =
         new AbstractIterator<Entry<E>>() {
           private final Iterator<Map.Entry<E, AtomicInteger>> mapEntries =
               countMap.entrySet().iterator();
 
           @Override
+          @CheckForNull
           protected Entry<E> computeNext() {
             while (true) {
               if (!mapEntries.hasNext()) {
@@ -522,7 +525,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         };
 
     return new ForwardingIterator<Entry<E>>() {
-      @NullableDecl private Entry<E> last;
+      @CheckForNull private Entry<E> last;
 
       @Override
       protected Iterator<Entry<E>> delegate() {
@@ -537,7 +540,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
       @Override
       public void remove() {
-        checkRemove(last != null);
+        checkState(last != null, "no calls to next() since the last call to remove()");
         ConcurrentHashMultiset.this.setCount(last.getElement(), 0);
         last = null;
       }
@@ -572,7 +575,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
 
     @Override
-    public <T> T[] toArray(T[] array) {
+    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }
 

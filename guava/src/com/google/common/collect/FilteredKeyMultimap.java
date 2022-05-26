@@ -16,6 +16,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -36,7 +39,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
+@ElementTypesAreNonnullByDefault
+class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
   final Predicate<? super K> keyPredicate;
 
@@ -65,7 +70,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@CheckForNull Object key) {
     if (unfiltered.containsKey(key)) {
       @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
       K k = (K) key;
@@ -75,15 +80,15 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public Collection<V> removeAll(Object key) {
+  public Collection<V> removeAll(@CheckForNull Object key) {
     return containsKey(key) ? unfiltered.removeAll(key) : unmodifiableEmptyCollection();
   }
 
   Collection<V> unmodifiableEmptyCollection() {
     if (unfiltered instanceof SetMultimap) {
-      return ImmutableSet.of();
+      return emptySet();
     } else {
-      return ImmutableList.of();
+      return emptyList();
     }
   }
 
@@ -98,7 +103,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public Collection<V> get(K key) {
+  public Collection<V> get(@ParametricNullness K key) {
     if (keyPredicate.apply(key)) {
       return unfiltered.get(key);
     } else if (unfiltered instanceof SetMultimap) {
@@ -108,15 +113,16 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     }
   }
 
-  static class AddRejectingSet<K, V> extends ForwardingSet<V> {
-    final K key;
+  static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingSet<V> {
+    @ParametricNullness final K key;
 
-    AddRejectingSet(K key) {
+    AddRejectingSet(@ParametricNullness K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add(V element) {
+    public boolean add(@ParametricNullness V element) {
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
 
@@ -132,21 +138,22 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     }
   }
 
-  static class AddRejectingList<K, V> extends ForwardingList<V> {
-    final K key;
+  static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingList<V> {
+    @ParametricNullness final K key;
 
-    AddRejectingList(K key) {
+    AddRejectingList(@ParametricNullness K key) {
       this.key = key;
     }
 
     @Override
-    public boolean add(V v) {
+    public boolean add(@ParametricNullness V v) {
       add(0, v);
       return true;
     }
 
     @Override
-    public void add(int index, V element) {
+    public void add(int index, @ParametricNullness V element) {
       checkPositionIndex(index, 0);
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
@@ -190,7 +197,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(@CheckForNull Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())

@@ -79,7 +79,9 @@ public class EnumsTest extends TestCase {
     assertThat(Enums.getIfPresent(TestEnum.class, "WOMBAT")).isAbsent();
   }
 
+
   @GwtIncompatible // weak references
+  @AndroidIncompatible // depends on details of GC and classloading
   public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
     WeakReference<?> shadowLoaderReference = doTestClassUnloading();
     GcFinalization.awaitClear(shadowLoaderReference);

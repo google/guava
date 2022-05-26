@@ -32,6 +32,7 @@ import junit.framework.TestCase;
  * @author Martin Buchholz
  * @author mike nonemacher
  */
+@AndroidIncompatible // depends on details of gc
 
 public class GcFinalizationTest extends TestCase {
 

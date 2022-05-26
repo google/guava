@@ -46,7 +46,6 @@ import junit.framework.TestCase;
  *
  * @author Dimitris Andreou
  */
-
 public class QueuesTest extends TestCase {
   /*
    * All the following tests relate to BlockingQueue methods in Queues.
@@ -101,15 +100,15 @@ public class QueuesTest extends TestCase {
 
   private void testMultipleProducers(BlockingQueue<Object> q) throws InterruptedException {
     for (boolean interruptibly : new boolean[] {true, false}) {
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError = threadPool.submit(new Producer(q, 20));
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError1 = threadPool.submit(new Producer(q, 20));
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError2 = threadPool.submit(new Producer(q, 20));
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError3 = threadPool.submit(new Producer(q, 20));
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError4 = threadPool.submit(new Producer(q, 20));
 
       List<Object> buf = newArrayList();
@@ -182,7 +181,7 @@ public class QueuesTest extends TestCase {
   }
 
   private void testNegativeMaxElements(BlockingQueue<Object> q) throws InterruptedException {
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = threadPool.submit(new Producer(q, 1));
 
     List<Object> buf = newArrayList();
@@ -201,7 +200,7 @@ public class QueuesTest extends TestCase {
   }
 
   private void testDrain_throws(BlockingQueue<Object> q) {
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
     try {
       Queues.drain(q, ImmutableList.of(), 100, MAX_VALUE, NANOSECONDS);
@@ -218,7 +217,7 @@ public class QueuesTest extends TestCase {
 
   private void testDrainUninterruptibly_doesNotThrow(final BlockingQueue<Object> q) {
     final Thread mainThread = currentThread();
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         threadPool.submit(
             new Callable<Void>() {
@@ -276,7 +275,7 @@ public class QueuesTest extends TestCase {
     }
 
     // but does the wait actually occurs?
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
     try {
       // if waiting works, this should get stuck
@@ -292,7 +291,7 @@ public class QueuesTest extends TestCase {
     assertEquals(0, Queues.drainUninterruptibly(q, ImmutableList.of(), 0, 10, MILLISECONDS));
 
     // but does the wait actually occurs?
-    @SuppressWarnings("unused") // go/futurereturn-lsc
+    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
 
     Stopwatch timer = Stopwatch.createStarted();

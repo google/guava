@@ -23,9 +23,9 @@ import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
+import com.google.errorprone.annotations.CheckReturnValue;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 /**
@@ -56,6 +56,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class CacheLoader<K, V> {
   /** Constructor for use by subclasses. */
   protected CacheLoader() {}
@@ -135,6 +136,7 @@ public abstract class CacheLoader<K, V> {
    * @param function the function to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by passing each key to {@code function}
    */
+  @CheckReturnValue
   public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
     return new FunctionToCacheLoader<>(function);
   }
@@ -148,8 +150,9 @@ public abstract class CacheLoader<K, V> {
    * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the
    *     key
    */
+  @CheckReturnValue
   public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
-    return new SupplierToCacheLoader<V>(supplier);
+    return new SupplierToCacheLoader<>(supplier);
   }
 
   private static final class FunctionToCacheLoader<K, V> extends CacheLoader<K, V>
@@ -177,6 +180,7 @@ public abstract class CacheLoader<K, V> {
    *
    * @since 17.0
    */
+  @CheckReturnValue
   @GwtIncompatible // Executor + Futures
   public static <K, V> CacheLoader<K, V> asyncReloading(
       final CacheLoader<K, V> loader, final Executor executor) {
@@ -189,15 +193,9 @@ public abstract class CacheLoader<K, V> {
       }
 
       @Override
-      public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
+      public ListenableFuture<V> reload(final K key, final V oldValue) {
         ListenableFutureTask<V> task =
-            ListenableFutureTask.create(
-                new Callable<V>() {
-                  @Override
-                  public V call() throws Exception {
-                    return loader.reload(key, oldValue).get();
-                  }
-                });
+            ListenableFutureTask.create(() -> loader.reload(key, oldValue).get());
         executor.execute(task);
         return task;
       }

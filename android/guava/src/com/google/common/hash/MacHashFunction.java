@@ -30,6 +30,7 @@ import javax.crypto.Mac;
  * @author Kurt Alfred Kluever
  */
 @Immutable
+@ElementTypesAreNonnullByDefault
 final class MacHashFunction extends AbstractHashFunction {
 
   @SuppressWarnings("Immutable") // cloned before each use
@@ -57,7 +58,7 @@ final class MacHashFunction extends AbstractHashFunction {
 
   private static boolean supportsClone(Mac mac) {
     try {
-      mac.clone();
+      Object unused = mac.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;

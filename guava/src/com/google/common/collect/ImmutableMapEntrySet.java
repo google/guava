@@ -18,10 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -31,7 +34,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
+@ElementTypesAreNonnullByDefault
+abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     private final transient ImmutableMap<K, V> map;
     private final transient ImmutableList<Entry<K, V>> entries;
@@ -52,7 +56,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
 
     @Override
     @GwtIncompatible("not used in GWT")
-    int copyIntoArray(Object[] dst, int offset) {
+    int copyIntoArray(@Nullable Object[] dst, int offset) {
       return entries.copyIntoArray(dst, offset);
     }
 
@@ -87,7 +91,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@CheckForNull Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());
@@ -116,6 +120,11 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   @Override
   Object writeReplace() {
     return new EntrySetSerializedForm<>(map());
+  }
+
+  @GwtIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use EntrySetSerializedForm");
   }
 
   @GwtIncompatible // serialization

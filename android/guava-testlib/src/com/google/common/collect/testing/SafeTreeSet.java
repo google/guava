@@ -117,7 +117,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> descendingSet() {
-    return new SafeTreeSet<E>(delegate.descendingSet());
+    return new SafeTreeSet<>(delegate.descendingSet());
   }
 
   @Override
@@ -137,7 +137,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.headSet(checkValid(toElement), inclusive));
+    return new SafeTreeSet<>(delegate.headSet(checkValid(toElement), inclusive));
   }
 
   @Override
@@ -198,7 +198,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   @Override
   public NavigableSet<E> subSet(
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-    return new SafeTreeSet<E>(
+    return new SafeTreeSet<>(
         delegate.subSet(
             checkValid(fromElement), fromInclusive, checkValid(toElement), toInclusive));
   }
@@ -215,7 +215,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override
   public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement), inclusive));
+    return new SafeTreeSet<>(delegate.tailSet(checkValid(fromElement), inclusive));
   }
 
   @Override

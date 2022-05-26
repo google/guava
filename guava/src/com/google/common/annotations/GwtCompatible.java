@@ -54,7 +54,6 @@ import java.lang.annotation.Target;
  *
  * <p>Note that a {@code GwtCompatible} type may have some {@link GwtIncompatible} methods.
  *
- *
  * @author Charles Fry
  * @author Hayward Chan
  */

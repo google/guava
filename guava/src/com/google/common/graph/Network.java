@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An interface for <a
@@ -104,6 +104,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @DoNotMock("Use NetworkBuilder to create a real instance")
+@ElementTypesAreNonnullByDefault
 public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
@@ -348,7 +349,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @Nullable
+  @CheckForNull
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
@@ -363,7 +364,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @Nullable
+  @CheckForNull
   E edgeConnectingOrNull(EndpointPair<N> endpoints);
 
   /**
@@ -415,7 +416,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
@@ -26,11 +25,12 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -71,9 +71,9 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Catherine Berry
  * @since 5.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 @Immutable
+@ElementTypesAreNonnullByDefault
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -162,7 +162,7 @@ public final class InternetDomainName {
    * Otherwise, it finds the first suffix of any type.
    */
   private int findSuffixOfType(Optional<PublicSuffixType> desiredType) {
-    final int partsSize = parts.size();
+    int partsSize = parts.size();
 
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
@@ -200,12 +200,12 @@ public final class InternetDomainName {
    *       href="https://tools.ietf.org/html/rfc1123#section-2">RFC 1123</a>.
    * </ul>
    *
-   *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code domain} is not syntactically valid according to
    *     {@link #isValid}
    * @since 10.0 (previously named {@code fromLenient})
    */
+  @CanIgnoreReturnValue // TODO(b/219820829): consider removing
   public static InternetDomainName from(String domain) {
     return new InternetDomainName(checkNotNull(domain));
   }
@@ -217,7 +217,7 @@ public final class InternetDomainName {
    * @return Is the domain name syntactically valid?
    */
   private static boolean validateSyntax(List<String> parts) {
-    final int lastIndex = parts.size() - 1;
+    int lastIndex = parts.size() - 1;
 
     // Validate the last part specially, as it has different syntax rules.
 
@@ -354,6 +354,7 @@ public final class InternetDomainName {
    *
    * @since 6.0
    */
+  @CheckForNull
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
   }
@@ -462,6 +463,7 @@ public final class InternetDomainName {
    *
    * @since 23.3
    */
+  @CheckForNull
   public InternetDomainName registrySuffix() {
     return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;
   }
@@ -582,7 +584,7 @@ public final class InternetDomainName {
    */
   public static boolean isValid(String name) {
     try {
-      from(name);
+      InternetDomainName unused = from(name);
       return true;
     } catch (IllegalArgumentException e) {
       return false;
@@ -622,7 +624,7 @@ public final class InternetDomainName {
    * version of the same domain name would not be considered equal.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

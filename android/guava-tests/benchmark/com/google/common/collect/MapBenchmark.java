@@ -139,7 +139,7 @@ public class MapBenchmark {
         for (Element element : keys) {
           builder.put(element, element);
         }
-        return builder.build();
+        return builder.buildOrThrow();
       }
     },
     ImmutableSorted {

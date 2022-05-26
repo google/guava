@@ -16,7 +16,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A mutable value of type {@code int}, for multisets to use in tracking counts of values.
@@ -24,6 +24,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class Count implements Serializable {
   private int value;
 
@@ -59,7 +60,7 @@ final class Count implements Serializable {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     return obj instanceof Count && ((Count) obj).value == value;
   }
 

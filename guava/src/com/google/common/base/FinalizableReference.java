@@ -26,6 +26,7 @@ import com.google.errorprone.annotations.DoNotMock;
  */
 @DoNotMock("Use an instance of one of the Finalizable*Reference classes")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface FinalizableReference {
   /**
    * Invoked on a background thread after the referent has been garbage collected unless security

@@ -159,9 +159,9 @@ public final class DerivedGoogleCollectionGenerators {
     public BiMapValueSetGenerator(
         OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
-      final SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
+      SampleElements<Entry<K, V>> mapSamples = this.mapGenerator.samples();
       this.samples =
-          new SampleElements<V>(
+          new SampleElements<>(
               mapSamples.e0().getValue(),
               mapSamples.e1().getValue(),
               mapSamples.e2().getValue(),
@@ -194,7 +194,7 @@ public final class DerivedGoogleCollectionGenerators {
 
     @Override
     public V[] createArray(int length) {
-      final V[] vs =
+      V[] vs =
           ((TestBiMapGenerator<K, V>) mapGenerator.getInnerGenerator()).createValueArray(length);
       return vs;
     }

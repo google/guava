@@ -55,8 +55,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Unit test for {@code Multimaps}.
@@ -267,8 +267,8 @@ public class MultimapsTest extends TestCase {
   private static void checkUnmodifiableMultimap(
       Multimap<String, Integer> multimap,
       boolean permitsDuplicates,
-      @NullableDecl String nullKey,
-      @NullableDecl Integer nullValue) {
+      @CheckForNull String nullKey,
+      @CheckForNull Integer nullValue) {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(multimap, permitsDuplicates, nullKey, nullValue);
 
@@ -297,8 +297,8 @@ public class MultimapsTest extends TestCase {
   private static Multimap<String, Integer> prepareUnmodifiableTests(
       Multimap<String, Integer> multimap,
       boolean permitsDuplicates,
-      @NullableDecl String nullKey,
-      @NullableDecl Integer nullValue) {
+      @CheckForNull String nullKey,
+      @CheckForNull Integer nullValue) {
     multimap.clear();
     multimap.put("foo", 1);
     multimap.put("foo", 2);
@@ -610,7 +610,8 @@ public class MultimapsTest extends TestCase {
     assertEquals("[3, 1, 4]", ummodifiable.get(Color.BLUE).toString());
 
     Collection<Integer> collection = multimap.get(Color.BLUE);
-    assertEquals(collection, collection);
+    // Explicitly call `equals`; `assertEquals` might return fast
+    assertTrue(collection.equals(collection));
 
     assertFalse(multimap.keySet() instanceof SortedSet);
     assertFalse(multimap.asMap() instanceof SortedMap);

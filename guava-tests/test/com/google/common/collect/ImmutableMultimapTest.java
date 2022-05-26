@@ -17,11 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Unhashables;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
@@ -123,5 +125,14 @@ public class ImmutableMultimapTest extends TestCase {
         .addEqualityGroup(
             ImmutableMultimap.of(1, "a", 2, "b"), ImmutableMultimap.of(2, "b", 1, "a"))
         .testEquals();
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableMultimap.class);
+    tester.ignore(ImmutableListMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableMultimap.of("a", 1));
   }
 }

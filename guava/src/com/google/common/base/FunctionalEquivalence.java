@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -29,14 +30,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serializable {
 
   private static final long serialVersionUID = 0;
 
-  private final Function<F, ? extends T> function;
+  private final Function<? super F, ? extends @Nullable T> function;
   private final Equivalence<T> resultEquivalence;
 
-  FunctionalEquivalence(Function<F, ? extends T> function, Equivalence<T> resultEquivalence) {
+  FunctionalEquivalence(
+      Function<? super F, ? extends @Nullable T> function, Equivalence<T> resultEquivalence) {
     this.function = checkNotNull(function);
     this.resultEquivalence = checkNotNull(resultEquivalence);
   }
@@ -52,7 +55,7 @@ final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serial
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@CheckForNull Object obj) {
     if (obj == this) {
       return true;
     }

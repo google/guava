@@ -22,6 +22,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Multiset} which maintains the ordering of its elements, according to either their
@@ -35,14 +37,15 @@ import java.util.Set;
  * Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterable<E> {
+@ElementTypesAreNonnullByDefault
+public interface SortedMultiset<E extends @Nullable Object>
+    extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**
    * Returns the comparator that orders this multiset, or {@link Ordering#natural()} if the natural
    * ordering of the elements is used.
@@ -54,24 +57,28 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * Returns the entry of the first element in this multiset, or {@code null} if this multiset is
    * empty.
    */
+  @CheckForNull
   Entry<E> firstEntry();
 
   /**
    * Returns the entry of the last element in this multiset, or {@code null} if this multiset is
    * empty.
    */
+  @CheckForNull
   Entry<E> lastEntry();
 
   /**
    * Returns and removes the entry associated with the lowest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
+  @CheckForNull
   Entry<E> pollFirstEntry();
 
   /**
    * Returns and removes the entry associated with the greatest element in this multiset, or returns
    * {@code null} if this multiset is empty.
    */
+  @CheckForNull
   Entry<E> pollLastEntry();
 
   /**
@@ -115,7 +122,7 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
+  SortedMultiset<E> headMultiset(@ParametricNullness E upperBound, BoundType boundType);
 
   /**
    * Returns a view of this multiset restricted to the range between {@code lowerBound} and {@code
@@ -130,7 +137,10 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * lowerBoundType).headMultiset(upperBound, upperBoundType)}.
    */
   SortedMultiset<E> subMultiset(
-      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
+      @ParametricNullness E lowerBound,
+      BoundType lowerBoundType,
+      @ParametricNullness E upperBound,
+      BoundType upperBoundType);
 
   /**
    * Returns a view of this multiset restricted to the elements greater than {@code lowerBound},
@@ -141,5 +151,5 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on attempts to add
    * elements outside its range.
    */
-  SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
+  SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType);
 }

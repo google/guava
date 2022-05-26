@@ -19,11 +19,12 @@ import static com.google.common.base.Verify.verifyNotNull;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 /** Unit test for {@link com.google.common.base.Verify}. */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class VerifyTest extends TestCase {
   public void testVerify_simple_success() {
     verify(true);
@@ -90,6 +91,11 @@ public class VerifyTest extends TestCase {
     } catch (VerifyException expected) {
       checkMessage(expected);
     }
+  }
+
+  @GwtIncompatible // NullPointerTester
+  public void testNullPointers() {
+    // Don't bother testing: Verify is like Preconditions. See the discussion on that class.
   }
 
   private static final Object IGNORE_ME =

@@ -85,7 +85,7 @@ public class EscapersTest extends TestCase {
                 .put('x', "<hello>".toCharArray())
                 .put('\uD800', "<hi>".toCharArray())
                 .put('\uDC00', "<lo>".toCharArray())
-                .build());
+                .buildOrThrow());
     UnicodeEscaper unicodeEscaper = Escapers.asUnicodeEscaper(charEscaper);
     EscaperAsserts.assertBasic(unicodeEscaper);
     assertEquals("<hello><hi><lo>", charEscaper.escape("x\uD800\uDC00"));

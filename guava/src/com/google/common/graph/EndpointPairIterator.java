@@ -17,24 +17,30 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Iterator;
 import java.util.Set;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class to facilitate the set returned by {@link Graph#edges()}.
  *
  * @author James Sexton
  */
+@ElementTypesAreNonnullByDefault
 abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>> {
   private final BaseGraph<N> graph;
   private final Iterator<N> nodeIterator;
 
-  protected N node = null; // null is safe as an initial value because graphs don't allow null nodes
-  protected Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
+  @CheckForNull
+  N node = null; // null is safe as an initial value because graphs don't allow null nodes
+
+  Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
   static <N> EndpointPairIterator<N> of(BaseGraph<N> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
@@ -49,7 +55,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node
    * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.
    */
-  protected final boolean advance() {
+  final boolean advance() {
     checkState(!successorIterator.hasNext());
     if (!nodeIterator.hasNext()) {
       return false;
@@ -69,10 +75,12 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
     }
 
     @Override
+    @CheckForNull
     protected EndpointPair<N> computeNext() {
       while (true) {
         if (successorIterator.hasNext()) {
-          return EndpointPair.ordered(node, successorIterator.next());
+          // requireNonNull is safe because successorIterator is empty until we set this.node.
+          return EndpointPair.ordered(requireNonNull(node), successorIterator.next());
         }
         if (!advance()) {
           return endOfData();
@@ -108,20 +116,28 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * </pre>
    */
   private static final class Undirected<N> extends EndpointPairIterator<N> {
-    private Set<N> visitedNodes;
+    // It's a little weird that we add `null` to this set, but it makes for slightly simpler code.
+    @CheckForNull private Set<@Nullable N> visitedNodes;
 
     private Undirected(BaseGraph<N> graph) {
       super(graph);
-      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
+      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size() + 1);
     }
 
     @Override
+    @CheckForNull
     protected EndpointPair<N> computeNext() {
       while (true) {
+        /*
+         * requireNonNull is safe because visitedNodes isn't cleared until this method calls
+         * endOfData() (after which this method is never called again).
+         */
+        requireNonNull(visitedNodes);
         while (successorIterator.hasNext()) {
           N otherNode = successorIterator.next();
           if (!visitedNodes.contains(otherNode)) {
-            return EndpointPair.unordered(node, otherNode);
+            // requireNonNull is safe because successorIterator is empty until we set node.
+            return EndpointPair.unordered(requireNonNull(node), otherNode);
           }
         }
         // Add to visited set *after* processing neighbors so we still include self-loops.

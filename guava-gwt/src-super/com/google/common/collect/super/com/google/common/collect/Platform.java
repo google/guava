@@ -17,8 +17,10 @@
 package com.google.common.collect;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -41,6 +43,14 @@ final class Platform {
 
   static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newConcurrentHashSet() {
+    // GWT's ConcurrentHashMap is a wrapper around HashMap, but it rejects null keys, which matches
+    // the behaviour of the non-GWT implementation of newConcurrentHashSet().
+    // On the other hand HashSet might be better for code size if apps aren't
+    // already using Collections.newSetFromMap and ConcurrentHashMap.
+    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
   static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {

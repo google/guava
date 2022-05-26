@@ -22,7 +22,8 @@ import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLongArray;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collections of strategies of generating the k * log(M) bits required for an element to be mapped
@@ -36,6 +37,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
  */
+@ElementTypesAreNonnullByDefault
 enum BloomFilterStrategies implements BloomFilter.Strategy {
   /**
    * See "Less Hashing, Same Performance: Building a Better Bloom Filter" by Adam Kirsch and Michael
@@ -44,8 +46,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    */
   MURMUR128_MITZ_32() {
     @Override
-    public <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
+    public <T extends @Nullable Object> boolean put(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -64,8 +69,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
+    public <T extends @Nullable Object> boolean mightContain(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -92,8 +100,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    */
   MURMUR128_MITZ_64() {
     @Override
-    public <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
+    public <T extends @Nullable Object> boolean put(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -110,8 +121,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
+    public <T extends @Nullable Object> boolean mightContain(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -249,29 +263,40 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
           data.length(),
           other.data.length());
       for (int i = 0; i < data.length(); i++) {
-        long otherLong = other.data.get(i);
-
-        long ourLongOld;
-        long ourLongNew;
-        boolean changedAnyBits = true;
-        do {
-          ourLongOld = data.get(i);
-          ourLongNew = ourLongOld | otherLong;
-          if (ourLongOld == ourLongNew) {
-            changedAnyBits = false;
-            break;
-          }
-        } while (!data.compareAndSet(i, ourLongOld, ourLongNew));
-
-        if (changedAnyBits) {
-          int bitsAdded = Long.bitCount(ourLongNew) - Long.bitCount(ourLongOld);
-          bitCount.add(bitsAdded);
-        }
+        putData(i, other.data.get(i));
       }
     }
 
+    /**
+     * ORs the bits encoded in the {@code i}th {@code long} in the underlying {@link
+     * AtomicLongArray} with the given value.
+     */
+    void putData(int i, long longValue) {
+      long ourLongOld;
+      long ourLongNew;
+      boolean changedAnyBits = true;
+      do {
+        ourLongOld = data.get(i);
+        ourLongNew = ourLongOld | longValue;
+        if (ourLongOld == ourLongNew) {
+          changedAnyBits = false;
+          break;
+        }
+      } while (!data.compareAndSet(i, ourLongOld, ourLongNew));
+
+      if (changedAnyBits) {
+        int bitsAdded = Long.bitCount(ourLongNew) - Long.bitCount(ourLongOld);
+        bitCount.add(bitsAdded);
+      }
+    }
+
+    /** Returns the number of {@code long}s in the underlying {@link AtomicLongArray}. */
+    int dataLength() {
+      return data.length();
+    }
+
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@CheckForNull Object o) {
       if (o instanceof LockFreeBitArray) {
         LockFreeBitArray lockFreeBitArray = (LockFreeBitArray) o;
         // TODO(lowasser): avoid allocation here

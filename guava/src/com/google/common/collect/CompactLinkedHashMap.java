@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -27,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -50,11 +53,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
+@ElementTypesAreNonnullByDefault
+class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
   /** Creates an empty {@code CompactLinkedHashMap} instance. */
-  public static <K, V> CompactLinkedHashMap<K, V> create() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
 
@@ -67,7 +73,8 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactLinkedHashMap<>(expectedSize);
   }
 
@@ -82,7 +89,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting transient long @Nullable [] links;
+  @CheckForNull @VisibleForTesting transient long[] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -132,23 +139,29 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     return result;
   }
 
+  /*
+   * For discussion of the safety of the following methods for operating on predecessors and
+   * successors, see the comments near the end of CompactHashMap, noting that the methods here call
+   * link(), which is defined at the end of this file.
+   */
+
   private int getPredecessor(int entry) {
-    return ((int) (links[entry] >>> 32)) - 1;
+    return ((int) (link(entry) >>> 32)) - 1;
   }
 
   @Override
   int getSuccessor(int entry) {
-    return ((int) links[entry]) - 1;
+    return ((int) link(entry)) - 1;
   }
 
   private void setSuccessor(int entry, int succ) {
     long succMask = (~0L) >>> 32;
-    links[entry] = (links[entry] & ~succMask) | ((succ + 1) & succMask);
+    setLink(entry, (link(entry) & ~succMask) | ((succ + 1) & succMask));
   }
 
   private void setPredecessor(int entry, int pred) {
     long predMask = ~0L << 32;
-    links[entry] = (links[entry] & ~predMask) | ((long) (pred + 1) << 32);
+    setLink(entry, (link(entry) & ~predMask) | ((long) (pred + 1) << 32));
   }
 
   private void setSucceeds(int pred, int succ) {
@@ -166,7 +179,8 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   @Override
-  void insertEntry(int entryIndex, @Nullable K key, @Nullable V value, int hash, int mask) {
+  void insertEntry(
+      int entryIndex, @ParametricNullness K key, @ParametricNullness V value, int hash, int mask) {
     super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
@@ -194,13 +208,13 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    links[srcIndex] = 0;
+    setLink(srcIndex, 0);
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    links = Arrays.copyOf(links, newCapacity);
+    links = Arrays.copyOf(requireLinks(), newCapacity);
   }
 
   @Override
@@ -230,12 +244,13 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     @WeakOuter
     class KeySetImpl extends KeySetView {
       @Override
-      public Object[] toArray() {
+      public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
-      public <T> T[] toArray(T[] a) {
+      @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+      public <T extends @Nullable Object> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }
 
@@ -252,12 +267,13 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     @WeakOuter
     class ValuesImpl extends ValuesView {
       @Override
-      public Object[] toArray() {
+      public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
-      public <T> T[] toArray(T[] a) {
+      @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+      public <T extends @Nullable Object> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }
 
@@ -281,4 +297,27 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     }
     super.clear();
   }
+
+  /*
+   * For discussion of the safety of the following methods, see the comments near the end of
+   * CompactHashMap.
+   */
+
+  private long[] requireLinks() {
+    return requireNonNull(links);
+  }
+
+  private long link(int i) {
+    return requireLinks()[i];
+  }
+
+  private void setLink(int i, long value) {
+    requireLinks()[i] = value;
+  }
+
+  /*
+   * We don't define getPredecessor+getSuccessor and setPredecessor+setSuccessor here because
+   * they're defined above -- including logic to add and subtract 1 to map between the values stored
+   * in the predecessor/successor arrays and the indexes in the elements array that they identify.
+   */
 }

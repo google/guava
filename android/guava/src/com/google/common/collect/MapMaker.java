@@ -30,7 +30,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped
@@ -86,6 +86,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class MapMaker {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -98,10 +99,10 @@ public final class MapMaker {
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
 
-  @NullableDecl Strength keyStrength;
-  @NullableDecl Strength valueStrength;
+  @CheckForNull Strength keyStrength;
+  @CheckForNull Strength valueStrength;
 
-  @NullableDecl Equivalence<Object> keyEquivalence;
+  @CheckForNull Equivalence<Object> keyEquivalence;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong

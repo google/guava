@@ -84,7 +84,6 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   @GwtIncompatible // blocking wait
-
   public void testCancel_interrupted() throws Exception {
     final AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
     final CountDownLatch enterLatch = new CountDownLatch(1);
@@ -135,7 +134,6 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   @GwtIncompatible // blocking wait
-
   public void testRunIdempotency() throws Exception {
     final int numThreads = 10;
     final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
@@ -171,7 +169,6 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   @GwtIncompatible // blocking wait
-
   public void testToString() throws Exception {
     final CountDownLatch enterLatch = new CountDownLatch(1);
     final CountDownLatch exitLatch = new CountDownLatch(1);

@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -29,7 +30,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * elements.
  */
 @GwtCompatible(serializable = true)
-final class ByFunctionOrdering<F, T> extends Ordering<F> implements Serializable {
+@ElementTypesAreNonnullByDefault
+final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
+    extends Ordering<F> implements Serializable {
   final Function<F, ? extends T> function;
   final Ordering<T> ordering;
 
@@ -39,12 +42,12 @@ final class ByFunctionOrdering<F, T> extends Ordering<F> implements Serializable
   }
 
   @Override
-  public int compare(F left, F right) {
+  public int compare(@ParametricNullness F left, @ParametricNullness F right) {
     return ordering.compare(function.apply(left), function.apply(right));
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

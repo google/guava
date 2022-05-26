@@ -11,15 +11,13 @@
   <name>Guava GWT compatible libs</name>
   <description>
     Guava is a suite of core and expanded libraries that include
-    utility classes, google's collections, io classes, and much
+    utility classes, Google's collections, I/O classes, and
     much more.
 
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <!-- We skip GWT tests by default. To run, pass -Dgwt.test.include=**/GwtTestSuite.java -->
-    <gwt.test.include>**/DoesNotMatchAnyTests.java</gwt.test.include>
-    <gwt.version>2.8.2</gwt.version>
+    <gwt.version>2.9.0</gwt.version>
     <gwt.plugin.version>2.8.2</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
@@ -57,7 +55,7 @@
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-promise</artifactId>
-      <version>1.0.0-RC1</version>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -89,7 +87,7 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
@@ -151,7 +149,9 @@
             <!-- 4. Don't build Javadoc for it (since that, too, would require a *non-test* dep on gwt-user. -->
             <sourceFileExclude>**/ForceGuavaCompilation*</sourceFileExclude>
           </sourceFileExcludes>
-          <!-- After removing GWT-RPC support, we will have no real classes to build Javadoc for. This would result in an empty Javadoc jar, which the Sonatype repository manager would reject. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
+          <!-- The above exclusion doesn't actually matter unless I prevent Javadoc from autodiscovering the source in the sourcepath, which defaults to the source directory :\ Boo for -sourcepath. -->
+          <sourcepath>doesnotexist</sourcepath>
+          <!-- Note that we do need to build Javadoc for *some* class. Otherwise, we get an empty Javadoc jar, which the Sonatype repository manager rejects. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
           <show>package</show>
         </configuration>
       </plugin>
@@ -304,6 +304,12 @@
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
+                <replace token="@Nullable" value="">
+                  <fileset dir="${project.build.directory}">
+                    <include name="guava-gwt-sources/**/*.java"/>
+                    <include name="guava-test-gwt-sources/**/*.java"/>
+                  </fileset>
+                </replace>
               </target>
             </configuration>
           </execution>
@@ -373,7 +379,7 @@
             </goals>
             <configuration>
               <module>com.google.common.GuavaTests</module>
-              <includes>${gwt.test.include}</includes>
+              <includes>**/GwtTestSuite.java</includes>
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>

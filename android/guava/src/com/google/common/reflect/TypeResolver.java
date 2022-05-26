@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Arrays.asList;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
@@ -35,7 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -51,7 +50,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Ben Yu
  * @since 15.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public final class TypeResolver {
 
   private final TypeTable typeTable;
@@ -122,7 +121,7 @@ public final class TypeResolver {
   }
 
   private static void populateTypeMappings(
-      final Map<TypeVariableKey, Type> mappings, final Type from, final Type to) {
+      Map<TypeVariableKey, Type> mappings, Type from, Type to) {
     if (from.equals(to)) {
       return;
     }
@@ -295,11 +294,11 @@ public final class TypeResolver {
         checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);
         builder.put(variable, type);
       }
-      return new TypeTable(builder.build());
+      return new TypeTable(builder.buildOrThrow());
     }
 
-    final Type resolve(final TypeVariable<?> var) {
-      final TypeTable unguarded = this;
+    final Type resolve(TypeVariable<?> var) {
+      TypeTable unguarded = this;
       TypeTable guarded =
           new TypeTable() {
             @Override
@@ -413,7 +412,7 @@ public final class TypeResolver {
       visit(t.getUpperBounds());
     }
 
-    private void map(final TypeVariableKey var, final Type arg) {
+    private void map(TypeVariableKey var, Type arg) {
       if (mappings.containsKey(var)) {
         // Mapping already established
         // This is possible when following both superClass -> enclosingClass
@@ -503,12 +502,12 @@ public final class TypeResolver {
       return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);
     }
 
-    private WildcardCapturer forTypeVariable(final TypeVariable<?> typeParam) {
+    private WildcardCapturer forTypeVariable(TypeVariable<?> typeParam) {
       return new WildcardCapturer(id) {
         @Override
         TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
           Set<Type> combined = new LinkedHashSet<>(asList(upperBounds));
-          // Since this is an artifically generated type variable, we don't bother checking
+          // Since this is an artificially generated type variable, we don't bother checking
           // subtyping between declared type bound and actual type bound. So it's possible that we
           // may generate something like <capture#1-of ? extends Foo&SubFoo>.
           // Checking subtype between declared and actual type bounds
@@ -527,7 +526,8 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(@NullableDecl Type type) {
+    @CheckForNull
+    private Type captureNullable(@CheckForNull Type type) {
       if (type == null) {
         return null;
       }
@@ -561,7 +561,7 @@ public final class TypeResolver {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@CheckForNull Object obj) {
       if (obj instanceof TypeVariableKey) {
         TypeVariableKey that = (TypeVariableKey) obj;
         return equalsTypeVariable(that.var);
@@ -576,6 +576,7 @@ public final class TypeResolver {
     }
 
     /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */
+    @CheckForNull
     static TypeVariableKey forLookup(Type t) {
       if (t instanceof TypeVariable) {
         return new TypeVariableKey((TypeVariable<?>) t);

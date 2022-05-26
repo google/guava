@@ -30,20 +30,20 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Multiset implementation specialized for enum elements, supporting all single-element operations
  * in O(1).
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code
- * Multiset}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *
  * @author Jared Levy
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     implements Serializable {
   /** Creates an empty {@code EnumMultiset}. */
@@ -93,7 +93,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     this.counts = new int[enumConstants.length];
   }
 
-  private boolean isActuallyE(@NullableDecl Object o) {
+  private boolean isActuallyE(@CheckForNull Object o) {
     if (o instanceof Enum) {
       Enum<?> e = (Enum<?>) o;
       int index = e.ordinal();
@@ -106,7 +106,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
    * Returns {@code element} cast to {@code E}, if it actually is a nonnull E. Otherwise, throws
    * either a NullPointerException or a ClassCastException as appropriate.
    */
-  void checkIsE(@NullableDecl Object element) {
+  private void checkIsE(Object element) {
     checkNotNull(element);
     if (!isActuallyE(element)) {
       throw new ClassCastException("Expected an " + type + " but got " + element);
@@ -124,8 +124,9 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  public int count(@NullableDecl Object element) {
-    if (!isActuallyE(element)) {
+  public int count(@CheckForNull Object element) {
+    // isActuallyE checks for null, but we check explicitly to help nullness checkers.
+    if (element == null || !isActuallyE(element)) {
       return 0;
     }
     Enum<?> e = (Enum<?>) element;
@@ -156,8 +157,9 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   // Modification Operations
   @CanIgnoreReturnValue
   @Override
-  public int remove(@NullableDecl Object element, int occurrences) {
-    if (!isActuallyE(element)) {
+  public int remove(@CheckForNull Object element, int occurrences) {
+    // isActuallyE checks for null, but we check explicitly to help nullness checkers.
+    if (element == null || !isActuallyE(element)) {
       return 0;
     }
     Enum<?> e = (Enum<?>) element;

@@ -18,17 +18,23 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link BiMap} whose contents will never change, with many other important properties detailed
@@ -38,6 +44,7 @@ import java.util.stream.Collectors;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<K, V>
     implements BiMap<K, V> {
 
@@ -53,13 +60,18 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    *
    * @since 21.0
    */
-  public static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);
   }
 
-  /** Returns the empty bimap. */
+  /**
+   * Returns the empty bimap.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
+   */
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableBiMap<K, V> of() {
@@ -110,7 +122,165 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
   }
 
-  // looking for of() with > 5 entries? Use the builder instead.
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are added
+   * @since 31.0
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return RegularImmutableBiMap.fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6));
+  }
+
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are added
+   * @since 31.0
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return RegularImmutableBiMap.fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7));
+  }
+
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are added
+   * @since 31.0
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return RegularImmutableBiMap.fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8));
+  }
+
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are added
+   * @since 31.0
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return RegularImmutableBiMap.fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9));
+  }
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are added
+   * @since 31.0
+   */
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return RegularImmutableBiMap.fromEntries(
+        entryOf(k1, v1),
+        entryOf(k2, v2),
+        entryOf(k3, v3),
+        entryOf(k4, v4),
+        entryOf(k5, v5),
+        entryOf(k6, v6),
+        entryOf(k7, v7),
+        entryOf(k8, v8),
+        entryOf(k9, v9),
+        entryOf(k10, v10));
+  }
+
+  // looking for of() with > 10 entries? Use the builder or ofEntries instead.
+
+  /**
+   * Returns an immutable map containing the given entries, in order.
+   *
+   * @throws IllegalArgumentException if duplicate keys or values are provided
+   * @since 31.0
+   */
+  @SafeVarargs
+  public static <K, V> ImmutableBiMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    @SuppressWarnings("unchecked") // we will only ever read these
+    Entry<K, V>[] entries2 = (Entry<K, V>[]) entries;
+    return RegularImmutableBiMap.fromEntries(entries2);
+  }
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
@@ -148,7 +318,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    *         .put("one", 1)
    *         .put("two", 2)
    *         .put("three", 3)
-   *         .build();
+   *         .buildOrThrow();
    * }</pre>
    *
    * <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more
@@ -161,8 +331,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * want a different order, consider using {@link #orderEntriesByValue(Comparator)}, which changes
    * this builder to sort entries by value.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
-   * multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #buildOrThrow} multiple times to
+   * build multiple bimaps in series. Each bimap is a superset of the bimaps created before it.
    *
    * @since 2.0
    */
@@ -260,15 +430,35 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
      * order in which entries were inserted into the builder, unless {@link #orderEntriesByValue}
      * was called, in which case entries are sorted by value.
      *
+     * <p>Prefer the equivalent method {@link #buildOrThrow()} to make it explicit that the method
+     * will throw an exception if there are duplicate keys or values. The {@code build()} method
+     * will soon be deprecated.
+     *
      * @throws IllegalArgumentException if duplicate keys or values were added
      */
     @Override
     public ImmutableBiMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    /**
+     * Returns a newly-created immutable bimap, or throws an exception if any key or value was added
+     * more than once. The iteration order of the returned bimap is the order in which entries were
+     * inserted into the builder, unless {@link #orderEntriesByValue} was called, in which case
+     * entries are sorted by value.
+     *
+     * @throws IllegalArgumentException if duplicate keys or values were added
+     * @since 31.0
+     */
+    @Override
+    public ImmutableBiMap<K, V> buildOrThrow() {
       switch (size) {
         case 0:
           return of();
         case 1:
-          return of(entries[0].getKey(), entries[0].getValue());
+          // requireNonNull is safe because the first `size` elements have been filled in.
+          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
+          return of(onlyEntry.getKey(), onlyEntry.getValue());
         default:
           /*
            * If entries is full, or if hash flooding is detected, then this implementation may end
@@ -292,6 +482,21 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
       }
     }
 
+    /**
+     * Throws {@link UnsupportedOperationException}. This method is inherited from {@link
+     * ImmutableMap.Builder}, but it does not make sense for bimaps.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated This method does not make sense for bimaps and should not be called.
+     * @since 31.1
+     */
+    @DoNotCall
+    @Deprecated
+    @Override
+    public ImmutableBiMap<K, V> buildKeepingLast() {
+      throw new UnsupportedOperationException("Not supported for bimaps");
+    }
+
     @Override
     @VisibleForTesting
     ImmutableBiMap<K, V> buildJdkBacked() {
@@ -302,7 +507,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
         case 0:
           return of();
         case 1:
-          return of(entries[0].getKey(), entries[0].getValue());
+          // requireNonNull is safe because the first `size` elements have been filled in.
+          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
+          return of(onlyEntry.getKey(), onlyEntry.getValue());
         default:
           entriesUsed = true;
           return RegularImmutableBiMap.fromEntryArray(size, entries);
@@ -401,7 +608,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public V forcePut(K key, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
+  public final V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -413,15 +622,14 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
    * <p>Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the
    * bimap and its inverse in sync during serialization, the way AbstractBiMap does.
    */
-  private static class SerializedForm extends ImmutableMap.SerializedForm {
-    SerializedForm(ImmutableBiMap<?, ?> bimap) {
+  private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
+    SerializedForm(ImmutableBiMap<K, V> bimap) {
       super(bimap);
     }
 
     @Override
-    Object readResolve() {
-      Builder<Object, Object> builder = new Builder<>();
-      return createMap(builder);
+    Builder<K, V> makeBuilder(int size) {
+      return new Builder<>(size);
     }
 
     private static final long serialVersionUID = 0;
@@ -429,6 +637,10 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableBiMapFauxverideShim<
 
   @Override
   Object writeReplace() {
-    return new SerializedForm(this);
+    return new SerializedForm<>(this);
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 }

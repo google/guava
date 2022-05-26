@@ -13,6 +13,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
@@ -20,6 +21,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.ImmutableLongArray;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.DoubleUnaryOperator;
 
 /**
  * A {@code double} array in which elements may be updated atomically. See the {@link
@@ -44,6 +47,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * @since 11.0
  */
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public class AtomicDoubleArray implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -68,7 +72,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    * @throws NullPointerException if array is null
    */
   public AtomicDoubleArray(double[] array) {
-    final int len = array.length;
+    int len = array.length;
     long[] longArray = new long[len];
     for (int i = 0; i < len; i++) {
       longArray[i] = doubleToRawLongBits(array[i]);
@@ -96,7 +100,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
   }
 
   /**
-   * Sets the element at position {@code i} to the given value.
+   * Atomically sets the element at position {@code i} to the given value.
    *
    * @param i the index
    * @param newValue the new value
@@ -170,15 +174,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    */
   @CanIgnoreReturnValue
   public final double getAndAdd(int i, double delta) {
-    while (true) {
-      long current = longs.get(i);
-      double currentVal = longBitsToDouble(current);
-      double nextVal = currentVal + delta;
-      long next = doubleToRawLongBits(nextVal);
-      if (longs.compareAndSet(i, current, next)) {
-        return currentVal;
-      }
-    }
+    return getAndAccumulate(i, delta, Double::sum);
   }
 
   /**
@@ -190,10 +186,78 @@ public class AtomicDoubleArray implements java.io.Serializable {
    */
   @CanIgnoreReturnValue
   public double addAndGet(int i, double delta) {
+    return accumulateAndGet(i, delta, Double::sum);
+  }
+
+  /**
+   * Atomically updates the element at index {@code i} with the results of applying the given
+   * function to the curernt and given values.
+   *
+   * @param i the index to update
+   * @param x the update value
+   * @param accumulatorFunction the accumulator function
+   * @return the previous value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double getAndAccumulate(int i, double x, DoubleBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return getAndUpdate(i, oldValue -> accumulatorFunction.applyAsDouble(oldValue, x));
+  }
+
+  /**
+   * Atomically updates the element at index {@code i} with the results of applying the given
+   * function to the curernt and given values.
+   *
+   * @param i the index to update
+   * @param x the update value
+   * @param accumulatorFunction the accumulator function
+   * @return the updated value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double accumulateAndGet(int i, double x, DoubleBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return updateAndGet(i, oldValue -> accumulatorFunction.applyAsDouble(oldValue, x));
+  }
+
+  /**
+   * Atomically updates the element at index {@code i} with the results of applying the given
+   * function to the curernt value.
+   *
+   * @param i the index to update
+   * @param updaterFunction the update function
+   * @return the previous value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double getAndUpdate(int i, DoubleUnaryOperator updaterFunction) {
     while (true) {
       long current = longs.get(i);
       double currentVal = longBitsToDouble(current);
-      double nextVal = currentVal + delta;
+      double nextVal = updaterFunction.applyAsDouble(currentVal);
+      long next = doubleToRawLongBits(nextVal);
+      if (longs.compareAndSet(i, current, next)) {
+        return currentVal;
+      }
+    }
+  }
+
+  /**
+   * Atomically updates the element at index {@code i} with the results of applying the given
+   * function to the curernt value.
+   *
+   * @param i the index to update
+   * @param updaterFunction the update function
+   * @return the updated value
+   * @since 31.1
+   */
+  @CanIgnoreReturnValue
+  public final double updateAndGet(int i, DoubleUnaryOperator updaterFunction) {
+    while (true) {
+      long current = longs.get(i);
+      double currentVal = longBitsToDouble(current);
+      double nextVal = updaterFunction.applyAsDouble(currentVal);
       long next = doubleToRawLongBits(nextVal);
       if (longs.compareAndSet(i, current, next)) {
         return nextVal;

@@ -29,6 +29,7 @@ import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
@@ -387,6 +388,20 @@ public class ImmutableListMultimapTest extends TestCase {
     }
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableListMultimap once CollectorTester is usable.
+  public void testToImmutableListMultimap_java7_combine() {
+    ImmutableListMultimap.Builder<String, Integer> zis =
+        ImmutableListMultimap.<String, Integer>builder().put("a", 1).put("b", 2);
+    ImmutableListMultimap.Builder<String, Integer> zat =
+        ImmutableListMultimap.<String, Integer>builder().put("a", 3).put("c", 4);
+    ImmutableListMultimap<String, Integer> multimap = zis.combine(zat).build();
+    assertThat(multimap.keySet()).containsExactly("a", "b", "c").inOrder();
+    assertThat(multimap.values()).containsExactly(1, 3, 2, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(1, 3).inOrder();
+    assertThat(multimap.get("b")).containsExactly(2);
+    assertThat(multimap.get("c")).containsExactly(4);
+  }
+
   public void testEmptyMultimapReads() {
     Multimap<String, Integer> multimap = ImmutableListMultimap.of();
     assertFalse(multimap.containsKey("foo"));
@@ -556,5 +571,14 @@ public class ImmutableListMultimapTest extends TestCase {
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableListMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableListMultimap.class);
+    tester.ignore(ImmutableListMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableListMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableListMultimap.of("a", 1));
   }
 }

@@ -15,8 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A listening executor service which forwards all its method calls to another listening executor
@@ -27,8 +27,8 @@ import java.util.concurrent.Callable;
  * @author Isaac Shum
  * @since 10.0
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */
@@ -38,7 +38,7 @@ public abstract class ForwardingListeningExecutorService extends ForwardingExecu
   protected abstract ListeningExecutorService delegate();
 
   @Override
-  public <T> ListenableFuture<T> submit(Callable<T> task) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(Callable<T> task) {
     return delegate().submit(task);
   }
 
@@ -48,7 +48,8 @@ public abstract class ForwardingListeningExecutorService extends ForwardingExecu
   }
 
   @Override
-  public <T> ListenableFuture<T> submit(Runnable task, T result) {
+  public <T extends @Nullable Object> ListenableFuture<T> submit(
+      Runnable task, @ParametricNullness T result) {
     return delegate().submit(task, result);
   }
 }

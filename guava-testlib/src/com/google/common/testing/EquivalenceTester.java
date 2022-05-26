@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
@@ -49,7 +48,6 @@ import java.util.List;
  * @author Gregory Kick
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public final class EquivalenceTester<T> {
   private static final int REPETITIONS = 3;
@@ -60,12 +58,11 @@ public final class EquivalenceTester<T> {
 
   private EquivalenceTester(Equivalence<? super T> equivalence) {
     this.equivalence = checkNotNull(equivalence);
-    this.delegate =
-        new RelationshipTester<T>(equivalence, "equivalent", "hash", new ItemReporter());
+    this.delegate = new RelationshipTester<>(equivalence, "equivalent", "hash", new ItemReporter());
   }
 
   public static <T> EquivalenceTester<T> of(Equivalence<? super T> equivalence) {
-    return new EquivalenceTester<T>(equivalence);
+    return new EquivalenceTester<>(equivalence);
   }
 
   /**

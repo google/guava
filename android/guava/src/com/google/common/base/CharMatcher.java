@@ -61,6 +61,7 @@ import java.util.BitSet;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 public abstract class CharMatcher implements Predicate<Character> {
   /*
    *           N777777777NO
@@ -1460,10 +1461,10 @@ public abstract class CharMatcher implements Predicate<Character> {
     // [[[:Zs:][:Zl:][:Zp:][:Cc:][:Cf:][:Cs:][:Co:]]&[\u0000-\uFFFF]]
     // with the "Abbreviate" option, and get the ranges from there.
     private static final String RANGE_STARTS =
-        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u08e2\u1680\u180e\u2000\u2028\u205f\u2066"
+        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u0890\u08e2\u1680\u180e\u2000\u2028\u205f\u2066"
             + "\u3000\ud800\ufeff\ufff9";
     private static final String RANGE_ENDS = // inclusive ends
-        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"
+        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u0891\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"
             + "\u3000\uf8ff\ufeff\ufffb";
 
     static final Invisible INSTANCE = new Invisible();

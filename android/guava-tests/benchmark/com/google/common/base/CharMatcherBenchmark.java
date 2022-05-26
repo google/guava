@@ -29,7 +29,6 @@ import java.util.Random;
 /**
  * Benchmark for the {@link CharMatcher} class.
  *
- *
  * @author David Beaumont
  * @author Kevin Bourrillion
  * @author David Richter

@@ -51,7 +51,7 @@ public final class MinimalIterable<E> implements Iterable<E> {
   /** Returns an iterable whose iterator returns the given elements in order. */
   public static <E> MinimalIterable<E> of(E... elements) {
     // Make sure to get an unmodifiable iterator
-    return new MinimalIterable<E>(Arrays.asList(elements).iterator());
+    return new MinimalIterable<>(Arrays.asList(elements).iterator());
   }
 
   /**
@@ -59,7 +59,7 @@ public final class MinimalIterable<E> implements Iterable<E> {
    * out of the source collection at the time this method is called.
    */
   @SuppressWarnings("unchecked") // Es come in, Es go out
-  public static <E> MinimalIterable<E> from(final Collection<E> elements) {
+  public static <E> MinimalIterable<E> from(Collection<E> elements) {
     return (MinimalIterable) of(elements.toArray());
   }
 

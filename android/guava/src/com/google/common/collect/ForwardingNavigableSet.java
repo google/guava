@@ -21,6 +21,8 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
@@ -49,8 +51,9 @@ import java.util.SortedSet;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
-    implements NavigableSet<E> {
+@ElementTypesAreNonnullByDefault
+public abstract class ForwardingNavigableSet<E extends @Nullable Object>
+    extends ForwardingSortedSet<E> implements NavigableSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableSet() {}
@@ -59,7 +62,8 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   protected abstract NavigableSet<E> delegate();
 
   @Override
-  public E lower(E e) {
+  @CheckForNull
+  public E lower(@ParametricNullness E e) {
     return delegate().lower(e);
   }
 
@@ -68,12 +72,14 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #lower} to forward to this implementation.
    */
-  protected E standardLower(E e) {
+  @CheckForNull
+  protected E standardLower(@ParametricNullness E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
   @Override
-  public E floor(E e) {
+  @CheckForNull
+  public E floor(@ParametricNullness E e) {
     return delegate().floor(e);
   }
 
@@ -82,12 +88,14 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #floor} to forward to this implementation.
    */
-  protected E standardFloor(E e) {
+  @CheckForNull
+  protected E standardFloor(@ParametricNullness E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   @Override
-  public E ceiling(E e) {
+  @CheckForNull
+  public E ceiling(@ParametricNullness E e) {
     return delegate().ceiling(e);
   }
 
@@ -96,12 +104,14 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #ceiling} to forward to this implementation.
    */
-  protected E standardCeiling(E e) {
+  @CheckForNull
+  protected E standardCeiling(@ParametricNullness E e) {
     return Iterators.getNext(tailSet(e, true).iterator(), null);
   }
 
   @Override
-  public E higher(E e) {
+  @CheckForNull
+  public E higher(@ParametricNullness E e) {
     return delegate().higher(e);
   }
 
@@ -110,11 +120,13 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #higher} to forward to this implementation.
    */
-  protected E standardHigher(E e) {
+  @CheckForNull
+  protected E standardHigher(@ParametricNullness E e) {
     return Iterators.getNext(tailSet(e, false).iterator(), null);
   }
 
   @Override
+  @CheckForNull
   public E pollFirst() {
     return delegate().pollFirst();
   }
@@ -124,11 +136,13 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * override {@link #iterator} you may wish to override {@link #pollFirst} to forward to this
    * implementation.
    */
+  @CheckForNull
   protected E standardPollFirst() {
     return Iterators.pollNext(iterator());
   }
 
   @Override
+  @CheckForNull
   public E pollLast() {
     return delegate().pollLast();
   }
@@ -138,14 +152,17 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * If you override {@link #descendingIterator} you may wish to override {@link #pollLast} to
    * forward to this implementation.
    */
+  @CheckForNull
   protected E standardPollLast() {
     return Iterators.pollNext(descendingIterator());
   }
 
+  @ParametricNullness
   protected E standardFirst() {
     return iterator().next();
   }
 
+  @ParametricNullness
   protected E standardLast() {
     return descendingIterator().next();
   }
@@ -179,7 +196,10 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
 
   @Override
   public NavigableSet<E> subSet(
-      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+      @ParametricNullness E fromElement,
+      boolean fromInclusive,
+      @ParametricNullness E toElement,
+      boolean toInclusive) {
     return delegate().subSet(fromElement, fromInclusive, toElement, toInclusive);
   }
 
@@ -190,7 +210,10 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    */
   @Beta
   protected NavigableSet<E> standardSubSet(
-      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+      @ParametricNullness E fromElement,
+      boolean fromInclusive,
+      @ParametricNullness E toElement,
+      boolean toInclusive) {
     return tailSet(fromElement, fromInclusive).headSet(toElement, toInclusive);
   }
 
@@ -201,12 +224,13 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * implementation.
    */
   @Override
-  protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
+  protected SortedSet<E> standardSubSet(
+      @ParametricNullness E fromElement, @ParametricNullness E toElement) {
     return subSet(fromElement, true, toElement, false);
   }
 
   @Override
-  public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+  public NavigableSet<E> headSet(@ParametricNullness E toElement, boolean inclusive) {
     return delegate().headSet(toElement, inclusive);
   }
 
@@ -215,12 +239,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * boolean)} method. If you override {@link #headSet(Object, boolean)}, you may wish to override
    * {@link #headSet(Object)} to forward to this implementation.
    */
-  protected SortedSet<E> standardHeadSet(E toElement) {
+  protected SortedSet<E> standardHeadSet(@ParametricNullness E toElement) {
     return headSet(toElement, false);
   }
 
   @Override
-  public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+  public NavigableSet<E> tailSet(@ParametricNullness E fromElement, boolean inclusive) {
     return delegate().tailSet(fromElement, inclusive);
   }
 
@@ -229,7 +253,7 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * boolean)} method. If you override {@link #tailSet(Object, boolean)}, you may wish to override
    * {@link #tailSet(Object)} to forward to this implementation.
    */
-  protected SortedSet<E> standardTailSet(E fromElement) {
+  protected SortedSet<E> standardTailSet(@ParametricNullness E fromElement) {
     return tailSet(fromElement, true);
   }
 }

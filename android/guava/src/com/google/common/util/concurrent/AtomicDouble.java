@@ -49,6 +49,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Martin Buchholz
  * @since 11.0
  */
+@ElementTypesAreNonnullByDefault
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -163,6 +164,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @param delta the value to add
    * @return the updated value
+   * @since 31.1
    */
   @CanIgnoreReturnValue
   public final double addAndGet(double delta) {

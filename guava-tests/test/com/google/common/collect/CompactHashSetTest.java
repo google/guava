@@ -53,7 +53,6 @@ public class CompactHashSetTest extends TestCase {
 
     TestSuite suite = new TestSuite();
     suite.addTestSuite(CompactHashSetTest.class);
-    suite.addTestSuite(FloodingTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(
                 new TestStringSetGenerator() {
@@ -124,12 +123,4 @@ public class CompactHashSetTest extends TestCase {
     }
   }
 
-  public static class FloodingTest extends AbstractHashFloodingTest<Set<Object>> {
-    public FloodingTest() {
-      super(
-          ImmutableList.of(Construction.setFromElements(CompactHashSet::create)),
-          n -> n * Math.log(n),
-          ImmutableList.of(QueryOp.SET_CONTAINS));
-    }
-  }
 }

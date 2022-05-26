@@ -326,6 +326,7 @@ public class SetsTest extends TestCase {
     D
   }
 
+  @SuppressWarnings("DoNotCall")
   public void testImmutableEnumSet() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 

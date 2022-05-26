@@ -37,4 +37,5 @@ import com.google.common.annotations.GwtCompatible;
  * and make types non-final.
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 abstract class ImmutableMultisetGwtSerializationDependencies<E> extends ImmutableCollection<E> {}

@@ -34,6 +34,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
@@ -45,6 +47,7 @@ import java.util.concurrent.TimeoutException;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;
@@ -70,32 +73,27 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @Override
   public <T> T newProxy(
-      final T target,
-      Class<T> interfaceType,
-      final long timeoutDuration,
-      final TimeUnit timeoutUnit) {
+      T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit) {
     checkNotNull(target);
     checkNotNull(interfaceType);
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
     checkArgument(interfaceType.isInterface(), "interfaceType must be an interface type");
 
-    final Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
+    Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
 
     InvocationHandler handler =
         new InvocationHandler() {
           @Override
-          public Object invoke(Object obj, final Method method, final Object[] args)
+          @CheckForNull
+          public Object invoke(Object obj, Method method, @CheckForNull @Nullable Object[] args)
               throws Throwable {
-            Callable<Object> callable =
-                new Callable<Object>() {
-                  @Override
-                  public Object call() throws Exception {
-                    try {
-                      return method.invoke(target, args);
-                    } catch (InvocationTargetException e) {
-                      throw throwCause(e, false /* combineStackTraces */);
-                    }
+            Callable<@Nullable Object> callable =
+                () -> {
+                  try {
+                    return method.invoke(target, args);
+                  } catch (InvocationTargetException e) {
+                    throw throwCause(e, false /* combineStackTraces */);
                   }
                 };
             return callWithTimeout(
@@ -113,7 +111,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
-  private <T> T callWithTimeout(
+  private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
     checkNotNull(callable);
@@ -143,7 +141,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  public <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
@@ -164,7 +163,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callUninterruptiblyWithTimeout(
+  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {
     checkNotNull(callable);

@@ -14,11 +14,12 @@
 
 package com.google.common.reflect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 
 /**
  * A type-to-instance map backed by an {@link ImmutableMap}. See also {@link
@@ -27,18 +28,18 @@ import java.util.Map;
  * @author Ben Yu
  * @since 13.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<? extends B>, B>
     implements TypeToInstanceMap<B> {
 
   /** Returns an empty type to instance map. */
   public static <B> ImmutableTypeToInstanceMap<B> of() {
-    return new ImmutableTypeToInstanceMap<B>(ImmutableMap.<TypeToken<? extends B>, B>of());
+    return new ImmutableTypeToInstanceMap<>(ImmutableMap.<TypeToken<? extends B>, B>of());
   }
 
   /** Returns a new builder. */
   public static <B> Builder<B> builder() {
-    return new Builder<B>();
+    return new Builder<>();
   }
 
   /**
@@ -57,7 +58,6 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    *
    * @since 13.0
    */
-  @Beta
   public static final class Builder<B> {
     private final ImmutableMap.Builder<TypeToken<? extends B>, B> mapBuilder =
         ImmutableMap.builder();
@@ -90,7 +90,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableTypeToInstanceMap<B> build() {
-      return new ImmutableTypeToInstanceMap<B>(mapBuilder.build());
+      return new ImmutableTypeToInstanceMap<>(mapBuilder.buildOrThrow());
     }
   }
 
@@ -101,11 +101,13 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   }
 
   @Override
+  @CheckForNull
   public <T extends B> T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
+  @CheckForNull
   public <T extends B> T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
@@ -119,6 +121,8 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public <T extends B> T putInstance(TypeToken<T> type, T value) {
     throw new UnsupportedOperationException();
   }
@@ -132,6 +136,8 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
@@ -145,6 +151,8 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  @CheckForNull
   public B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException();
   }
@@ -157,6 +165,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
     throw new UnsupportedOperationException();
   }
@@ -167,6 +176,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
+  @CheckForNull
   private <T extends B> T trustedGet(TypeToken<T> type) {
     return (T) delegate.get(type);
   }

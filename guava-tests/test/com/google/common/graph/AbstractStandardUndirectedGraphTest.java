@@ -166,8 +166,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Test
   public void hasEdgeConnecting_mismatch() {
     putEdge(N1, N2);
-    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N1, N2))).isTrue();
-    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N1, N2))).isFalse();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isFalse();
   }
 
   @Test

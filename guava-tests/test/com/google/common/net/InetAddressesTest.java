@@ -63,6 +63,7 @@ public class InetAddressesTest extends TestCase {
             "42.42.42.42.",
             "42.42.42.42...",
             ".42.42.42.42",
+            ".42.42.42",
             "...42.42.42.42",
             "42.42.42.-0",
             "42.42.42.+0",
@@ -74,6 +75,7 @@ public class InetAddressesTest extends TestCase {
             "12345.67899.-54321.-98765",
             "257.0.0.0",
             "42.42.42.-42",
+            "42.42.42.ab",
             "3ffe::1.net",
             "3ffe::1::1",
             "1::2::3::4:5",
@@ -83,6 +85,7 @@ public class InetAddressesTest extends TestCase {
             "FEDC:9878",
             "+1.+2.+3.4",
             "1.2.3.4e0",
+            "6:5:4:3:2:1:0", // too few parts
             "::7:6:5:4:3:2:1:0", // too many parts
             "7:6:5:4:3:2:1:0::", // too many parts
             "9:8:7:6:5:4:3::2:1", // too many parts
@@ -132,10 +135,38 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  public void testForStringIPv4NonAsciiInput() throws UnknownHostException {
+    String ipStr = "૧૯૨.૧૬૮.૦.૧"; // 192.168.0.1 in Gujarati digits
+    // Shouldn't hit DNS, because it's an IP string literal.
+    InetAddress ipv4Addr;
+    try {
+      ipv4Addr = InetAddress.getByName(ipStr);
+    } catch (UnknownHostException e) {
+      // OK: this is probably Android, which is stricter.
+      return;
+    }
+    assertEquals(ipv4Addr, InetAddresses.forString(ipStr));
+    assertTrue(InetAddresses.isInetAddress(ipStr));
+  }
+
   public void testForStringIPv6Input() throws UnknownHostException {
     String ipStr = "3ffe::1";
     // Shouldn't hit DNS, because it's an IP string literal.
     InetAddress ipv6Addr = InetAddress.getByName(ipStr);
+    assertEquals(ipv6Addr, InetAddresses.forString(ipStr));
+    assertTrue(InetAddresses.isInetAddress(ipStr));
+  }
+
+  public void testForStringIPv6NonAsciiInput() throws UnknownHostException {
+    String ipStr = "૩ffe::૧"; // 3ffe::1 with Gujarati digits for 3 and 1
+    // Shouldn't hit DNS, because it's an IP string literal.
+    InetAddress ipv6Addr;
+    try {
+      ipv6Addr = InetAddress.getByName(ipStr);
+    } catch (UnknownHostException e) {
+      // OK: this is probably Android, which is stricter.
+      return;
+    }
     assertEquals(ipv6Addr, InetAddresses.forString(ipStr));
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }

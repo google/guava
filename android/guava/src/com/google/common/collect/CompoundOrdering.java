@@ -20,10 +20,14 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that tries several comparators in order. */
 @GwtCompatible(serializable = true)
-final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
+@ElementTypesAreNonnullByDefault
+final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
+    implements Serializable {
   final Comparator<? super T>[] comparators;
 
   CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {
@@ -35,7 +39,7 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public int compare(T left, T right) {
+  public int compare(@ParametricNullness T left, @ParametricNullness T right) {
     for (int i = 0; i < comparators.length; i++) {
       int result = comparators[i].compare(left, right);
       if (result != 0) {
@@ -46,7 +50,7 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }

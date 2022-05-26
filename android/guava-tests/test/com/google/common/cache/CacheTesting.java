@@ -44,7 +44,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * A collection of utilities for {@link Cache} testing.
@@ -367,7 +367,7 @@ class CacheTesting {
   }
 
   interface Receiver<T> {
-    void accept(@NullableDecl T object);
+    void accept(@CheckForNull T object);
   }
 
   /**

@@ -33,7 +33,6 @@ public class HashingOutputStreamTest extends TestCase {
   private HashFunction hashFunction;
   private final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-  // go/do-not-mock-common-types-lsc
   @SuppressWarnings("DoNotMock")
   @Override
   protected void setUp() throws Exception {

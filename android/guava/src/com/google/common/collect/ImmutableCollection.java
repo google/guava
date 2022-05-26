@@ -22,7 +22,10 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Arrays;
@@ -31,7 +34,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Collection} whose contents will never change, and which offers a few additional
@@ -154,13 +158,14 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <h3>See also</h3>
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
  *
  * @since 2.0
  */
 @DoNotMock("Use ImmutableList.of or another implementation")
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+@ElementTypesAreNonnullByDefault
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
@@ -180,7 +185,20 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @CanIgnoreReturnValue
   @Override
-  public final <T> T[] toArray(T[] other) {
+  /*
+   * This suppression is here for two reasons:
+   *
+   * 1. b/192354773 in our checker affects toArray declarations.
+   *
+   * 2. `other[size] = null` is unsound. We could "fix" this by requiring callers to pass in an
+   * array with a nullable element type. But probably they usually want an array with a non-nullable
+   * type. That said, we could *accept* a `@Nullable T[]` (which, given that we treat arrays as
+   * covariant, would still permit a plain `T[]`) and return a plain `T[]`. But of course that would
+   * require its own suppression, since it is also unsound. toArray(T[]) is just a mess from a
+   * nullness perspective. The signature below at least has the virtue of being relatively simple.
+   */
+  @SuppressWarnings("nullness")
+  public final <T extends @Nullable Object> T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
 
@@ -198,7 +216,8 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   /** If this collection is backed by an array of its elements in insertion order, returns it. */
-  @NullableDecl
+  @CheckForNull
+  @Nullable
   Object[] internalArray() {
     return null;
   }
@@ -220,7 +239,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @Override
-  public abstract boolean contains(@NullableDecl Object object);
+  public abstract boolean contains(@CheckForNull Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.
@@ -231,6 +250,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final boolean add(E e) {
     throw new UnsupportedOperationException();
   }
@@ -244,7 +264,8 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final boolean remove(Object object) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final boolean remove(@CheckForNull Object object) {
     throw new UnsupportedOperationException();
   }
 
@@ -257,6 +278,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final boolean addAll(Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
   }
@@ -270,6 +292,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final boolean removeAll(Collection<?> oldElements) {
     throw new UnsupportedOperationException();
   }
@@ -283,6 +306,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final boolean retainAll(Collection<?> elementsToKeep) {
     throw new UnsupportedOperationException();
   }
@@ -295,6 +319,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    */
   @Deprecated
   @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
   public final void clear() {
     throw new UnsupportedOperationException();
   }
@@ -326,7 +351,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * offset. Returns {@code offset + size()}.
    */
   @CanIgnoreReturnValue
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     for (E e : this) {
       dst[offset++] = e;
     }
@@ -336,6 +361,10 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
+  }
+
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   /**
@@ -442,13 +471,14 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
-    Object[] contents;
+    // The first `size` elements are non-null.
+    @Nullable Object[] contents;
     int size;
     boolean forceCopy;
 
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
-      this.contents = new Object[initialCapacity];
+      this.contents = new @Nullable Object[initialCapacity];
       this.size = 0;
     }
 
@@ -480,11 +510,23 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
-      checkElementsNotNull(elements);
-      getReadyToExpandTo(size + elements.length);
-      System.arraycopy(elements, 0, contents, size, elements.length);
-      size += elements.length;
+      addAll(elements, elements.length);
       return this;
+    }
+
+    final void addAll(@Nullable Object[] elements, int n) {
+      checkElementsNotNull(elements, n);
+      getReadyToExpandTo(size + n);
+      /*
+       * The following call is not statically checked, since arraycopy accepts plain Object for its
+       * parameters. If it were statically checked, the checker would still be OK with it, since
+       * we're copying into a `contents` array whose type allows it to contain nulls. Still, it's
+       * worth noting that we promise not to put nulls into the array in the first `size` elements.
+       * We uphold that promise here because our callers promise that `elements` will not contain
+       * nulls in its first `n` elements.
+       */
+      System.arraycopy(elements, 0, contents, size, n);
+      size += n;
     }
 
     @CanIgnoreReturnValue

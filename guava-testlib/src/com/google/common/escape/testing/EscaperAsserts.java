@@ -18,7 +18,6 @@ package com.google.common.escape.testing;
 
 import static com.google.common.escape.Escapers.computeReplacement;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.CharEscaper;
 import com.google.common.escape.Escaper;
@@ -32,7 +31,6 @@ import junit.framework.Assert;
  * @author David Beaumont
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 public final class EscaperAsserts {
   private EscaperAsserts() {}

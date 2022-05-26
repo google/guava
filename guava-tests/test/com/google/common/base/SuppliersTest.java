@@ -279,7 +279,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -292,7 +291,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -305,7 +303,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-  public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+  private void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
     final AtomicReference<Throwable> thrown = new AtomicReference<>(null);
@@ -381,7 +379,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe =
         new Supplier<Integer>() {

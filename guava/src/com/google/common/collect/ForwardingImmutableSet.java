@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@ElementTypesAreNonnullByDefault
 abstract class ForwardingImmutableSet<E> {
   private ForwardingImmutableSet() {}
 }

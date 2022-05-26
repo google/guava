@@ -965,7 +965,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(Iterables.elementsEqual(LegacyComparable.VALUES_BACKWARD, set));
   }
 
-  @SuppressWarnings({"deprecation", "static-access"})
+  @SuppressWarnings({"deprecation", "static-access", "DoNotCall"})
   public void testBuilderMethod() {
     try {
       ImmutableSortedSet.builder();

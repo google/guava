@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
@@ -74,6 +73,7 @@ import com.google.common.io.CharSource;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
+import com.google.errorprone.annotations.Keep;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -171,7 +171,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Ben Yu
  * @since 12.0
  */
-@Beta
 @GwtIncompatible
 public final class ArbitraryInstances {
 
@@ -439,6 +438,7 @@ public final class ArbitraryInstances {
     }
 
     public static final class DeterministicRandom extends Random {
+      @Keep
       public DeterministicRandom() {
         super(0);
       }

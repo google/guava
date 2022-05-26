@@ -16,14 +16,15 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
+import java.util.Optional;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Test;
@@ -196,29 +197,41 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   @Test
   public void edges_containsOrderMismatch() {
     addEdge(N1, N2, E12);
-    assertThat(network.asGraph().edges()).contains(ENDPOINTS_N2N1);
-    assertThat(network.asGraph().edges()).contains(ENDPOINTS_N1N2);
+    assertThat(network.asGraph().edges()).doesNotContain(ENDPOINTS_N2N1);
+    assertThat(network.asGraph().edges()).doesNotContain(ENDPOINTS_N1N2);
   }
 
   @Test
   public void edgesConnecting_orderMismatch() {
     addEdge(N1, N2, E12);
-    assertThat(network.edgesConnecting(ENDPOINTS_N2N1)).containsExactly(E12);
-    assertThat(network.edgesConnecting(ENDPOINTS_N1N2)).containsExactly(E12);
+    try {
+      Set<String> unused = network.edgesConnecting(ENDPOINTS_N1N2);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
   public void edgeConnecting_orderMismatch() {
     addEdge(N1, N2, E12);
-    assertThat(network.edgeConnecting(ENDPOINTS_N2N1)).hasValue(E12);
-    assertThat(network.edgeConnecting(ENDPOINTS_N1N2)).hasValue(E12);
+    try {
+      Optional<String> unused = network.edgeConnecting(ENDPOINTS_N1N2);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
   public void edgeConnectingOrNull_orderMismatch() {
     addEdge(N1, N2, E12);
-    assertThat(network.edgeConnectingOrNull(ENDPOINTS_N2N1)).isEqualTo(E12);
-    assertThat(network.edgeConnectingOrNull(ENDPOINTS_N1N2)).isEqualTo(E12);
+    try {
+      String unused = network.edgeConnectingOrNull(ENDPOINTS_N1N2);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
@@ -433,7 +446,7 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
       networkAsMutableNetwork.addEdge(N4, N5, E12);
       fail(ERROR_ADDED_EXISTING_EDGE);
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     }
   }
 
@@ -447,13 +460,13 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
       networkAsMutableNetwork.addEdge(N1, N2, EDGE_NOT_IN_GRAPH);
       fail(ERROR_ADDED_PARALLEL_EDGE);
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
     }
     try {
       networkAsMutableNetwork.addEdge(N2, N1, EDGE_NOT_IN_GRAPH);
       fail(ERROR_ADDED_PARALLEL_EDGE);
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
     }
   }
 
@@ -473,7 +486,12 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assume().that(graphIsMutable()).isTrue();
 
     EndpointPair<Integer> endpoints = EndpointPair.ordered(N1, N2);
-    assertThat(networkAsMutableNetwork.addEdge(endpoints, E12)).isTrue();
+    try {
+      networkAsMutableNetwork.addEdge(endpoints, E12);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   @Test
@@ -542,20 +560,20 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
       networkAsMutableNetwork.addEdge(N1, N2, E11);
       fail("Reusing an existing self-loop edge to connect different nodes succeeded");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     }
     try {
       networkAsMutableNetwork.addEdge(N2, N2, E11);
       fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     }
     addEdge(N1, N2, E12);
     try {
       networkAsMutableNetwork.addEdge(N1, N1, E12);
       fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_REUSE_EDGE);
     }
   }
 
@@ -570,7 +588,7 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
       networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
       fail("Adding a parallel self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+      assertThat(e).hasMessageThat().contains(ERROR_PARALLEL_EDGE);
     }
   }
 

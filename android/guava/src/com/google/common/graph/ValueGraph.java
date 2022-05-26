@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Collection;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * An interface for <a
@@ -107,6 +107,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 20.0
  */
 @Beta
+@ElementTypesAreNonnullByDefault
 public interface ValueGraph<N, V> extends BaseGraph<N> {
   //
   // ValueGraph-level accessors
@@ -285,8 +286,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
    */
-  @NullableDecl
-  V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue);
+  @CheckForNull
+  V edgeValueOrDefault(N nodeU, N nodeV, @CheckForNull V defaultValue);
 
   /**
    * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
@@ -298,8 +299,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @since 27.1
    */
-  @NullableDecl
-  V edgeValueOrDefault(EndpointPair<N> endpoints, @NullableDecl V defaultValue);
+  @CheckForNull
+  V edgeValueOrDefault(EndpointPair<N> endpoints, @CheckForNull V defaultValue);
 
   //
   // ValueGraph identity
@@ -326,7 +327,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@CheckForNull Object object);
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a

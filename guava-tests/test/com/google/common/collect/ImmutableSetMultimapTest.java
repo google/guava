@@ -32,6 +32,7 @@ import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
@@ -623,5 +624,14 @@ public class ImmutableSetMultimapTest extends TestCase {
         .put("bar", 2)
         .put("foo", 3)
         .build();
+  }
+
+  @GwtIncompatible // reflection
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ImmutableSetMultimap.class);
+    tester.ignore(ImmutableSetMultimap.class.getMethod("get", Object.class));
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of());
+    tester.testAllPublicInstanceMethods(ImmutableSetMultimap.of("a", 1));
   }
 }

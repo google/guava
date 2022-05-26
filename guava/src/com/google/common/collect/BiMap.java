@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -28,13 +29,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * bimap containing the same entries as this bimap but with reversed keys and values.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">{@code BiMap}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
  */
 @GwtCompatible
-public interface BiMap<K, V> extends Map<K, V> {
+@ElementTypesAreNonnullByDefault
+public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> extends Map<K, V> {
   // Modification Operations
 
   /**
@@ -46,8 +48,8 @@ public interface BiMap<K, V> extends Map<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  V put(@Nullable K key, @Nullable V value);
+  @CheckForNull
+  V put(@ParametricNullness K key, @ParametricNullness V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry with the value {@code
@@ -62,12 +64,14 @@ public interface BiMap<K, V> extends Map<K, V> {
    *
    * @param key the key with which the specified value is to be associated
    * @param value the value to be associated with the specified key
-   * @return the value which was previously associated with the key, which may be {@code null}, or
-   *     {@code null} if there was no previous entry
+   * @return the value that was previously associated with the key, or {@code null} if there was no
+   *     previous entry. (If the bimap contains null values, then {@code forcePut}, like {@code
+   *     put}, returns {@code null} both if the key is absent and if it is present with a null
+   *     value.)
    */
   @CanIgnoreReturnValue
-  @Nullable
-  V forcePut(@Nullable K key, @Nullable V value);
+  @CheckForNull
+  V forcePut(@ParametricNullness K key, @ParametricNullness V value);
 
   // Bulk Operations
 

@@ -36,7 +36,7 @@ import junit.framework.TestSuite;
  *
  * @author Colin Decker
  */
-@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // TODO(b/230620681): Make this available (even though we won't run it).
 public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkFactory> {
 
   private static final ImmutableList<Method> testMethods = getTestMethods(ByteSinkTester.class);

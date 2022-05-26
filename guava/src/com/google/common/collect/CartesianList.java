@@ -22,7 +22,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -30,6 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class CartesianList<E> extends AbstractList<List<E>> implements RandomAccess {
 
   private final transient ImmutableList<List<E>> axes;
@@ -44,7 +45,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
       }
       axesBuilder.add(copy);
     }
-    return new CartesianList<E>(axesBuilder.build());
+    return new CartesianList<>(axesBuilder.build());
   }
 
   CartesianList(ImmutableList<List<E>> axes) {
@@ -67,7 +68,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public int indexOf(Object o) {
+  public int indexOf(@CheckForNull Object o) {
     if (!(o instanceof List)) {
       return -1;
     }
@@ -89,7 +90,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public int lastIndexOf(Object o) {
+  public int lastIndexOf(@CheckForNull Object o) {
     if (!(o instanceof List)) {
       return -1;
     }
@@ -111,7 +112,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public ImmutableList<E> get(final int index) {
+  public ImmutableList<E> get(int index) {
     checkElementIndex(index, size());
     return new ImmutableList<E>() {
 
@@ -140,7 +141,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@CheckForNull Object object) {
     if (!(object instanceof List)) {
       return false;
     }

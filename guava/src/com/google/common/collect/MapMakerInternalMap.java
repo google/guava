@@ -27,6 +27,7 @@ import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -63,9 +64,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Charles Fry
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-// TODO(kak/cpovirk): Consider removing @CanIgnoreReturnValue from this class.
+// TODO(kak): Consider removing @CanIgnoreReturnValue from this class.
 @GwtIncompatible
-@SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
+@SuppressWarnings({
+  "GuardedBy", // TODO(b/35466881): Fix or suppress.
+  "nullness", // too much trouble for the payoff
+})
+// TODO(cpovirk): Annotate for nullness.
 class MapMakerInternalMap<
         K,
         V,
@@ -2834,6 +2839,10 @@ class MapMakerInternalMap<
         entryHelper.valueStrength().defaultEquivalence(),
         concurrencyLevel,
         this);
+  }
+
+  private void readObject(ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializationProxy");
   }
 
   /**

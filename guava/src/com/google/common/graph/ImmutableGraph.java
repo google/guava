@@ -45,6 +45,7 @@ import com.google.errorprone.annotations.Immutable;
  */
 @Beta
 @Immutable(containerOf = {"N"})
+@ElementTypesAreNonnullByDefault
 public class ImmutableGraph<N> extends ForwardingGraph<N> {
   @SuppressWarnings("Immutable") // The backing graph must be immutable.
   private final BaseGraph<N> backingGraph;
@@ -86,7 +87,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
-    return nodeConnections.build();
+    return nodeConnections.buildOrThrow();
   }
 
   @SuppressWarnings("unchecked")
@@ -100,7 +101,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
   }
 
   @Override
-  protected BaseGraph<N> delegate() {
+  BaseGraph<N> delegate() {
     return backingGraph;
   }
 

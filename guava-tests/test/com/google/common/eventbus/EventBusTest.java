@@ -239,7 +239,6 @@ public class EventBusTest extends TestCase {
 
   // NOTE: This test will always pass if register() is thread-safe but may also
   // pass if it isn't, though this is unlikely.
-
   public void testRegisterThreadSafety() throws Exception {
     List<StringCatcher> catchers = Lists.newCopyOnWriteArrayList();
     List<Future<?>> futures = Lists.newArrayList();
@@ -287,6 +286,18 @@ public class EventBusTest extends TestCase {
     bus.post("hello");
 
     assertEquals(1, calls.get());
+  }
+
+  public void testPrimitiveSubscribeFails() {
+    class SubscribesToPrimitive {
+      @Subscribe
+      public void toInt(int i) {}
+    }
+    try {
+      bus.register(new SubscribesToPrimitive());
+      fail("should have thrown");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   /** Records thrown exception information. */

@@ -93,7 +93,6 @@ public class FunnelsTest extends TestCase {
   }
 
   public void testSequential() {
-    // go/do-not-mock-common-types-lsc
     @SuppressWarnings({"unchecked", "DoNotMock"})
     Funnel<Object> elementFunnel = mock(Funnel.class);
     PrimitiveSink primitiveSink = mock(PrimitiveSink.class);

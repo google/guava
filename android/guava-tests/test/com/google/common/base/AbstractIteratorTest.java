@@ -171,7 +171,9 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
+
   @GwtIncompatible // weak references
+  @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
     Iterator<Object> itr =
         new AbstractIterator<Object>() {
@@ -204,7 +206,7 @@ public class AbstractIteratorTest extends TestCase {
   // hasNext/next), but we'll cop out for now, knowing that
   // next() both start by invoking hasNext() anyway.
 
-  /** Throws a undeclared checked exception. */
+  /** Throws an undeclared checked exception. */
   private static void sneakyThrow(Throwable t) {
     class SneakyThrower<T extends Throwable> {
       @SuppressWarnings("unchecked") // intentionally unsafe for test

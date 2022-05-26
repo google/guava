@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Objects;
@@ -34,6 +33,7 @@ import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -41,9 +41,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -52,7 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
  * parameter whose declaration or type isn't annotated with an annotation with the simple name
- * {@code Nullable}, {@lcode CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
+ * {@code Nullable}, {@code CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code
@@ -65,7 +67,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtIncompatible
 public final class NullPointerTester {
 
@@ -473,7 +474,8 @@ public final class NullPointerTester {
   }
 
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
-      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
+      ImmutableSet.of(
+          "CheckForNull", "Nullable", "NullableDecl", "NullableType", "ParametricNullness");
 
   static boolean isNullable(Invokable<?, ?> invokable) {
     return isNullable(invokable.getAnnotatedReturnType().getAnnotations())
@@ -482,7 +484,24 @@ public final class NullPointerTester {
 
   static boolean isNullable(Parameter param) {
     return isNullable(param.getAnnotatedType().getAnnotations())
-        || isNullable(param.getAnnotations());
+        || isNullable(param.getAnnotations())
+        || isNullableTypeVariable(param.getAnnotatedType().getType());
+  }
+
+  private static boolean isNullableTypeVariable(Type type) {
+    if (!(type instanceof TypeVariable)) {
+      return false;
+    }
+    TypeVariable<?> var = (TypeVariable<?>) type;
+    AnnotatedType[] bounds = GET_ANNOTATED_BOUNDS.apply(var);
+    for (AnnotatedType bound : bounds) {
+      // Until Java 15, the isNullableTypeVariable case here won't help:
+      // https://bugs.openjdk.java.net/browse/JDK-8202469
+      if (isNullable(bound.getAnnotations()) || isNullableTypeVariable(bound.getType())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean isNullable(Annotation[] annotations) {
@@ -494,12 +513,33 @@ public final class NullPointerTester {
     return false;
   }
 
+  // This is currently required because of j2objc restrictions.
+  private static final Function<TypeVariable<?>, AnnotatedType[]> GET_ANNOTATED_BOUNDS =
+      initGetAnnotatedBounds();
+
+  private static Function<TypeVariable<?>, AnnotatedType[]> initGetAnnotatedBounds() {
+    AnnotatedType[] noBounds = new AnnotatedType[0];
+    Method getAnnotatedBounds;
+    try {
+      getAnnotatedBounds = TypeVariable.class.getMethod("getAnnotatedBounds");
+    } catch (ReflectiveOperationException e) {
+      return v -> noBounds;
+    }
+    return v -> {
+      try {
+        return (AnnotatedType[]) getAnnotatedBounds.invoke(v);
+      } catch (ReflectiveOperationException e) {
+        return noBounds;
+      }
+    };
+  }
+
   private boolean isIgnored(Member member) {
     return member.isSynthetic() || ignoredMembers.contains(member) || isEquals(member);
   }
 
   /**
-   * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
+   * Returns true if the given member is a method that overrides {@link Object#equals(Object)}.
    *
    * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
    * explicit {@code @Nullable} annotation (see <a

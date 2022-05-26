@@ -46,7 +46,6 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
 import junit.framework.TestCase;
@@ -537,7 +536,7 @@ public class MediaTypeTest extends TestCase {
     try {
       mediaType.charset();
       fail();
-    } catch (IllegalCharsetNameException expected) {
+    } catch (IllegalArgumentException expected) {
     }
   }
 

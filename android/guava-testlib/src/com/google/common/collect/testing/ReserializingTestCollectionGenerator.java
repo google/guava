@@ -42,7 +42,7 @@ public class ReserializingTestCollectionGenerator<E> implements TestCollectionGe
 
   public static <E> ReserializingTestCollectionGenerator<E> newInstance(
       TestCollectionGenerator<E> delegate) {
-    return new ReserializingTestCollectionGenerator<E>(delegate);
+    return new ReserializingTestCollectionGenerator<>(delegate);
   }
 
   @Override

@@ -31,7 +31,6 @@ import java.lang.annotation.Target;
  * work during upgrades. However it is generally inadvisable for <i>libraries</i> (which get
  * included on users' CLASSPATHs, outside the library developers' control) to do so.
  *
- *
  * @author Kevin Bourrillion
  */
 @Retention(RetentionPolicy.CLASS)

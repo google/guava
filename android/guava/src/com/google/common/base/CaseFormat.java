@@ -15,10 +15,11 @@
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -28,6 +29,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public enum CaseFormat {
   /** Hyphenated variable naming convention, e.g., "lower-hyphen". */
   LOWER_HYPHEN(CharMatcher.is('-'), "-") {
@@ -138,14 +140,14 @@ public enum CaseFormat {
         out = new StringBuilder(s.length() + 4 * format.wordSeparator.length());
         out.append(format.normalizeFirstWord(s.substring(i, j)));
       } else {
-        out.append(format.normalizeWord(s.substring(i, j)));
+        requireNonNull(out).append(format.normalizeWord(s.substring(i, j)));
       }
       out.append(format.wordSeparator);
       i = j + wordSeparator.length();
     }
     return (i == 0)
         ? format.normalizeFirstWord(s)
-        : out.append(format.normalizeWord(s.substring(i))).toString();
+        : requireNonNull(out).append(format.normalizeWord(s.substring(i))).toString();
   }
 
   /**
@@ -179,7 +181,7 @@ public enum CaseFormat {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object instanceof StringConverter) {
         StringConverter that = (StringConverter) object;
         return sourceFormat.equals(that.sourceFormat) && targetFormat.equals(that.targetFormat);

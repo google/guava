@@ -38,6 +38,25 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     return builder.build();
   }
 
+  // TODO(b/172823566): Use mainline testToImmutableMap once CollectorTester is usable to java7.
+  public void testToImmutableTable_java7_combine() {
+    ImmutableTable.Builder<String, String, Integer> zis =
+        ImmutableTable.<String, String, Integer>builder().put("one", "uno", 1).put("two", "dos", 2);
+    ImmutableTable.Builder<String, String, Integer> zat =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "eins", 1)
+            .put("two", "twei", 2);
+    ImmutableTable<String, String, Integer> table = zis.combine(zat).build();
+    ImmutableTable<String, String, Integer> expected =
+        ImmutableTable.<String, String, Integer>builder()
+            .put("one", "uno", 1)
+            .put("two", "dos", 2)
+            .put("one", "eins", 1)
+            .put("two", "twei", 2)
+            .build();
+    assertThat(table).isEqualTo(expected);
+  }
+
   public void testBuilder() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
     assertEquals(ImmutableTable.of(), builder.build());

@@ -30,6 +30,10 @@ final class RegularImmutableMap<K, V> extends ForwardingImmutableMap<K, V> {
   }
 
   RegularImmutableMap(Entry<? extends K, ? extends V>... entries) {
-    super(entries);
+    this(/* throwIfDuplicateKeys= */ true, entries);
+  }
+
+  RegularImmutableMap(boolean throwIfDuplicateKeys, Entry<? extends K, ? extends V>[] entries) {
+    super(throwIfDuplicateKeys, entries);
   }
 }

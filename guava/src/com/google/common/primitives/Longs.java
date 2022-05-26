@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
@@ -45,6 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public final class Longs {
   private Longs() {}
 
@@ -363,7 +364,8 @@ public final class Longs {
    * @since 14.0
    */
   @Beta
-  public static @Nullable Long tryParse(String string) {
+  @CheckForNull
+  public static Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -388,7 +390,8 @@ public final class Longs {
    * @since 19.0
    */
   @Beta
-  public static @Nullable Long tryParse(String string, int radix) {
+  @CheckForNull
+  public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }
@@ -606,6 +609,56 @@ public final class Longs {
   }
 
   /**
+   * Performs a right rotation of {@code array} of "distance" places, so that the first element is
+   * moved to index "distance", and the element at index {@code i} ends up at index {@code (distance
+   * + i) mod array.length}. This is equivalent to {@code Collections.rotate(Longs.asList(array),
+   * distance)}, but is considerably faster and avoids allocation and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @since NEXT
+   */
+  public static void rotate(long[] array, int distance) {
+    rotate(array, distance, 0, array.length);
+  }
+
+  /**
+   * Performs a right rotation of {@code array} between {@code fromIndex} inclusive and {@code
+   * toIndex} exclusive. This is equivalent to {@code
+   * Collections.rotate(Longs.asList(array).subList(fromIndex, toIndex), distance)}, but is
+   * considerably faster and avoids allocations and garbage collection.
+   *
+   * <p>The provided "distance" may be negative, which will rotate left.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *     {@code toIndex > fromIndex}
+   * @since NEXT
+   */
+  public static void rotate(long[] array, int distance, int fromIndex, int toIndex) {
+    // See Ints.rotate for more details about possible algorithms here.
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    if (array.length <= 1) {
+      return;
+    }
+
+    int length = toIndex - fromIndex;
+    // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
+    // places left to rotate.
+    int m = -distance % length;
+    m = (m < 0) ? m + length : m;
+    // The current index of what will become the first element of the rotated section.
+    int newFirstIndex = m + fromIndex;
+    if (newFirstIndex == fromIndex) {
+      return;
+    }
+
+    reverse(array, fromIndex, newFirstIndex);
+    reverse(array, newFirstIndex, toIndex);
+    reverse(array, fromIndex, toIndex);
+  }
+
+  /**
    * Returns an array containing each value of {@code collection}, converted to a {@code long} value
    * in the manner of {@link Number#longValue}.
    *
@@ -694,13 +747,13 @@ public final class Longs {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Long) && Longs.indexOf(array, (Long) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.indexOf(array, (Long) target, start, end);
@@ -712,7 +765,7 @@ public final class Longs {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@CheckForNull Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.lastIndexOf(array, (Long) target, start, end);
@@ -743,7 +796,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@CheckForNull Object object) {
       if (object == this) {
         return true;
       }

@@ -15,7 +15,11 @@
 package com.google.common.hash;
 
 import com.google.common.primitives.Longs;
+import java.lang.reflect.Field;
 import java.nio.ByteOrder;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import sun.misc.Unsafe;
 
 /**
@@ -24,6 +28,7 @@ import sun.misc.Unsafe;
  * @author Kevin Damm
  * @author Kyle Maddison
  */
+@ElementTypesAreNonnullByDefault
 final class LittleEndianByteArray {
 
   /** The instance that actually does the work; delegates to Unsafe or a pure-Java fallback. */
@@ -159,34 +164,32 @@ final class LittleEndianByteArray {
     private static final int BYTE_ARRAY_BASE_OFFSET;
 
     /**
-     * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple
-     * call to Unsafe.getUnsafe when integrating into a jdk.
+     * Returns an Unsafe. Suitable for use in a 3rd party package. Replace with a simple call to
+     * Unsafe.getUnsafe when integrating into a JDK.
      *
-     * @return a sun.misc.Unsafe instance if successful
+     * @return an Unsafe instance if successful
      */
-    private static sun.misc.Unsafe getUnsafe() {
+    private static Unsafe getUnsafe() {
       try {
-        return sun.misc.Unsafe.getUnsafe();
+        return Unsafe.getUnsafe();
       } catch (SecurityException tryReflectionInstead) {
         // We'll try reflection instead.
       }
       try {
-        return java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
-              @Override
-              public sun.misc.Unsafe run() throws Exception {
-                Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                for (java.lang.reflect.Field f : k.getDeclaredFields()) {
-                  f.setAccessible(true);
-                  Object x = f.get(null);
-                  if (k.isInstance(x)) {
-                    return k.cast(x);
+        return AccessController.doPrivileged(
+            (PrivilegedExceptionAction<Unsafe>)
+                () -> {
+                  Class<Unsafe> k = Unsafe.class;
+                  for (Field f : k.getDeclaredFields()) {
+                    f.setAccessible(true);
+                    Object x = f.get(null);
+                    if (k.isInstance(x)) {
+                      return k.cast(x);
+                    }
                   }
-                }
-                throw new NoSuchFieldError("the Unsafe");
-              }
-            });
-      } catch (java.security.PrivilegedActionException e) {
+                  throw new NoSuchFieldError("the Unsafe");
+                });
+      } catch (PrivilegedActionException e) {
         throw new RuntimeException("Could not initialize intrinsics", e.getCause());
       }
     }
@@ -225,24 +228,24 @@ final class LittleEndianByteArray {
           sink[offset + i] = (byte) ((value & mask) >> (i * 8));
         }
       }
-    };
+    }
   }
 
   static {
     LittleEndianBytes theGetter = JavaLittleEndianBytes.INSTANCE;
     try {
       /*
-        UnsafeByteArray uses Unsafe.getLong() in an unsupported way, which is known to cause crashes
-        on Android when running in 32-bit mode. For maximum safety, we shouldn't use
-        Unsafe.getLong() at all, but the performance benefit on x86_64 is too great to ignore, so as
-        a compromise, we enable the optimization only on platforms that we specifically know to
-        work.
-
-        In the future, the use of Unsafe.getLong() should be replaced by ByteBuffer.getLong(), which
-        will have an efficient native implementation in JDK 9.
-
-      */
-      final String arch = System.getProperty("os.arch");
+       * UnsafeByteArray uses Unsafe.getLong() in an unsupported way, which is known to cause
+       * crashes on Android when running in 32-bit mode. For maximum safety, we shouldn't use
+       * Unsafe.getLong() at all, but the performance benefit on x86_64 is too great to ignore, so
+       * as a compromise, we enable the optimization only on platforms that we specifically know to
+       * work.
+       *
+       * In the future, the use of Unsafe.getLong() should be replaced by ByteBuffer.getLong(),
+       * which will have an efficient native implementation in JDK 9.
+       *
+       */
+      String arch = System.getProperty("os.arch");
       if ("amd64".equals(arch)) {
         theGetter =
             ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)

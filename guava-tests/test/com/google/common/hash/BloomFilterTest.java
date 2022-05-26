@@ -522,7 +522,10 @@ public class BloomFilterTest extends TestCase {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     bf.writeTo(out);
 
-    assertEquals(bf, BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel));
+    BloomFilter<byte[]> read =
+        BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel);
+    assertThat(read).isEqualTo(bf);
+    assertThat(read.expectedFpp()).isGreaterThan(0);
   }
 
   /**
@@ -534,6 +537,7 @@ public class BloomFilterTest extends TestCase {
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64, BloomFilterStrategies.values()[1]);
   }
+
 
   public void testNoRaceConditions() throws Exception {
     final BloomFilter<Integer> bloomFilter =

@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
@@ -74,7 +73,6 @@ import java.util.List;
  * @author Jige Yu
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
@@ -122,11 +120,16 @@ public final class EqualsTester {
       assertTrue(
           item + " must not be Object#equals to an arbitrary object of another class",
           !item.equals(NotAnInstance.EQUAL_TO_NOTHING));
-      assertEquals(item + " must be Object#equals to itself", item, item);
+      assertTrue(item + " must be Object#equals to itself", item.equals(item));
       assertEquals(
           "the Object#hashCode of " + item + " must be consistent",
           item.hashCode(),
           item.hashCode());
+      if (!(item instanceof String)) {
+        assertTrue(
+            item + " must not be Object#equals to its Object#toString representation",
+            !item.equals(item.toString()));
+      }
     }
   }
 

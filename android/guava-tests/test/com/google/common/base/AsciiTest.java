@@ -54,8 +54,8 @@ public class AsciiTest extends TestCase {
   public void testCharsIgnored() {
     for (char c : IGNORED.toCharArray()) {
       String str = String.valueOf(c);
-      assertTrue(str, c == Ascii.toLowerCase(c));
-      assertTrue(str, c == Ascii.toUpperCase(c));
+      assertEquals(str, c, Ascii.toLowerCase(c));
+      assertEquals(str, c, Ascii.toUpperCase(c));
       assertFalse(str, Ascii.isLowerCase(c));
       assertFalse(str, Ascii.isUpperCase(c));
     }
@@ -98,27 +98,26 @@ public class AsciiTest extends TestCase {
   }
 
   public void testTruncateIllegalArguments() {
-    String truncated = null;
     try {
-      truncated = Ascii.truncate("foobar", 2, "...");
+      Ascii.truncate("foobar", 2, "...");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", 8, "1234567890");
+      Ascii.truncate("foobar", 8, "1234567890");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "...");
+      Ascii.truncate("foobar", -1, "...");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      truncated = Ascii.truncate("foobar", -1, "");
+      Ascii.truncate("foobar", -1, "");
       fail();
     } catch (IllegalArgumentException expected) {
     }

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * File name filter that only accepts files matching a regular expression. This class is thread-safe
@@ -32,6 +31,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public final class PatternFilenameFilter implements FilenameFilter {
 
   private final Pattern pattern;
@@ -55,8 +55,21 @@ public final class PatternFilenameFilter implements FilenameFilter {
     this.pattern = Preconditions.checkNotNull(pattern);
   }
 
+  /*
+   * Our implementation works fine with a null `dir`. However, there's nothing in the documentation
+   * of the supertype that suggests that implementations are expected to tolerate null. That said, I
+   * see calls in Google code that pass a null `dir` to a FilenameFilter.... So let's declare the
+   * parameter as non-nullable (since passing null to a FilenameFilter is unsafe in general), but if
+   * someone still manages to pass null, let's continue to have the method work.
+   *
+   * (PatternFilenameFilter is of course one of those classes that shouldn't be a publicly visible
+   * class to begin with but rather something returned from a static factory method whose declared
+   * return type is plain FilenameFilter. If we made such a change, then the annotation we choose
+   * here would have no significance to end users, who would be forced to conform to the signature
+   * used in FilenameFilter.)
+   */
   @Override
-  public boolean accept(@NullableDecl File dir, String fileName) {
+  public boolean accept(File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }

@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -28,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -124,11 +126,20 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
-    assertEquals(2, startupTimes.size());
-    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
-    assertTrue(startupTimes.get(a) >= 150);
-    // TODO(kak): Use assertThat(startupTimes.get(b)).isAtLeast(353);
-    assertTrue(startupTimes.get(b) >= 353);
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(150);
+    assertThat(startupTimes.get(b)).isAtLeast(353);
+  }
+
+  public void testServiceStartupDurations() {
+    Service a = new NoOpDelayedService(150);
+    Service b = new NoOpDelayedService(353);
+    ServiceManager serviceManager = new ServiceManager(asList(a, b));
+    serviceManager.startAsync().awaitHealthy();
+    ImmutableMap<Service, Duration> startupTimes = serviceManager.startupDurations();
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(Duration.ofMillis(150));
+    assertThat(startupTimes.get(b)).isAtLeast(Duration.ofMillis(353));
   }
 
   public void testServiceStartupTimes_selfStartingServices() {
@@ -156,9 +167,8 @@ public class ServiceManagerTest extends TestCase {
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
-    assertEquals(2, startupTimes.size());
-    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
-    assertTrue(startupTimes.get(a) >= 150);
+    assertThat(startupTimes).hasSize(2);
+    assertThat(startupTimes.get(a)).isAtLeast(150);
     // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
     // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either
     // of our sleep calls can be arbitrarily delayed we should just assert that there is a time
@@ -171,7 +181,7 @@ public class ServiceManagerTest extends TestCase {
     Service b = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
     assertFalse(manager.isHealthy());
     manager.startAsync().awaitHealthy();
@@ -195,7 +205,7 @@ public class ServiceManagerTest extends TestCase {
     Service e = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b, c, d, e));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b, c, d, e);
     try {
       manager.startAsync().awaitHealthy();
@@ -219,7 +229,7 @@ public class ServiceManagerTest extends TestCase {
     Service b = new FailRunService();
     ServiceManager manager = new ServiceManager(asList(a, b));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     assertState(manager, Service.State.NEW, a, b);
     try {
       manager.startAsync().awaitHealthy();
@@ -242,7 +252,7 @@ public class ServiceManagerTest extends TestCase {
     Service c = new NoOpService();
     ServiceManager manager = new ServiceManager(asList(a, b, c));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
 
     manager.startAsync().awaitHealthy();
     assertTrue(listener.healthyCalled);
@@ -292,7 +302,7 @@ public class ServiceManagerTest extends TestCase {
     Service a = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     try {
       manager.startAsync().awaitHealthy();
       fail();
@@ -309,7 +319,7 @@ public class ServiceManagerTest extends TestCase {
     Service a = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a));
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     try {
       manager.startAsync().awaitHealthy();
       fail();
@@ -334,7 +344,8 @@ public class ServiceManagerTest extends TestCase {
           public void failure(Service service) {
             manager.stopAsync();
           }
-        });
+        },
+        directExecutor());
     manager.startAsync();
     manager.awaitStopped(10, TimeUnit.MILLISECONDS);
   }
@@ -408,7 +419,7 @@ public class ServiceManagerTest extends TestCase {
     logger.addHandler(logHandler);
     ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener);
+    manager.addListener(listener, directExecutor());
     manager.startAsync().awaitHealthy();
     assertTrue(manager.isHealthy());
     assertTrue(listener.healthyCalled);
@@ -439,7 +450,6 @@ public class ServiceManagerTest extends TestCase {
    * Tests that a ServiceManager can be fully shut down if one of its failure listeners is slow or
    * even permanently blocked.
    */
-
   public void testListenerDeadlock() throws InterruptedException {
     final CountDownLatch failEnter = new CountDownLatch(1);
     final CountDownLatch failLeave = new CountDownLatch(1);
@@ -476,7 +486,8 @@ public class ServiceManagerTest extends TestCase {
             // block until after the service manager is shutdown
             Uninterruptibles.awaitUninterruptibly(failLeave);
           }
-        });
+        },
+        directExecutor());
     manager.startAsync();
     afterStarted.countDown();
     // We do not call awaitHealthy because, due to races, that method may throw an exception.  But
@@ -599,7 +610,6 @@ public class ServiceManagerTest extends TestCase {
    *
    * <p>Before the bug was fixed this test would fail at least 30% of the time.
    */
-
   public void testTransitionRace() throws TimeoutException {
     for (int k = 0; k < 1000; k++) {
       List<Service> services = Lists.newArrayList();

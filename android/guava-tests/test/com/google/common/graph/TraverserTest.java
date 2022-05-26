@@ -185,6 +185,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirst_infinite() {
+    Iterable<Integer> result =
+        Traverser.forGraph(fixedSuccessors(Iterables.cycle(1, 2, 3))).breadthFirst(0);
+    assertThat(Iterables.limit(result, 4)).containsExactly(0, 1, 2, 3).inOrder();
+  }
+
+  @Test
   public void forGraph_breadthFirst_diamond() {
     Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
     assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
@@ -374,6 +381,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrder_infinite() {
+    Iterable<Integer> result =
+        Traverser.forGraph(fixedSuccessors(Iterables.cycle(1, 2, 3))).depthFirstPreOrder(0);
+    assertThat(Iterables.limit(result, 3)).containsExactly(0, 1, 2).inOrder();
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_diamond() {
     Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
     assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abdc");
@@ -519,11 +533,11 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('a');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'd', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b');
   }
 
   @Test
@@ -532,11 +546,11 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder(charactersOf("ac"));
 
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'c', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'c');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
-    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'c', 'd', 'd');
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'c');
   }
 
   @Test
@@ -785,6 +799,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirst_infinite() {
+    Iterable<Integer> result =
+        Traverser.forTree(fixedSuccessors(Iterables.cycle(1, 2, 3))).breadthFirst(0);
+    assertThat(Iterables.limit(result, 8)).containsExactly(0, 1, 2, 3, 1, 2, 3, 1).inOrder();
+  }
+
+  @Test
   public void forTree_breadthFirst_tree() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(TREE);
 
@@ -913,6 +934,13 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrder_infinite() {
+    Iterable<Integer> result =
+        Traverser.forTree(fixedSuccessors(Iterables.cycle(1, 2, 3))).depthFirstPreOrder(0);
+    assertThat(Iterables.limit(result, 3)).containsExactly(0, 1, 1).inOrder();
+  }
+
+  @Test
   public void forTree_depthFirstPreOrderIterable_tree() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(TREE);
 
@@ -1022,11 +1050,11 @@ public class TraverserTest {
     Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder('h');
 
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd', 'a');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'd');
 
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "hd");
-    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd', 'a', 'a');
+    assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd');
   }
 
   @Test
@@ -1237,5 +1265,14 @@ public class TraverserTest {
       requestedNodes.add(node);
       return delegate.successors(node);
     }
+  }
+
+  private static <N> SuccessorsFunction<N> fixedSuccessors(final Iterable<N> successors) {
+    return new SuccessorsFunction<N>() {
+      @Override
+      public Iterable<N> successors(N n) {
+        return successors;
+      }
+    };
   }
 }

@@ -22,13 +22,15 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author Louis Wasserman
  */
+@ElementTypesAreNonnullByDefault
 final class LongAddables {
   private static final Supplier<LongAddable> SUPPLIER;
 
   static {
     Supplier<LongAddable> supplier;
     try {
-      new LongAdder(); // trigger static initialization of the LongAdder class, which may fail
+      // trigger static initialization of the LongAdder class, which may fail
+      LongAdder unused = new LongAdder();
       supplier =
           new Supplier<LongAddable>() {
             @Override

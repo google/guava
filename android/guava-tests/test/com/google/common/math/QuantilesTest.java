@@ -41,8 +41,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import javax.annotation.CheckForNull;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link Quantiles}.
@@ -92,7 +92,7 @@ public class QuantilesTest extends TestCase {
       Correspondence.from(
           new BinaryPredicate<Double, Double>() {
             @Override
-            public boolean apply(@NullableDecl Double actual, @NullableDecl Double expected) {
+            public boolean apply(@CheckForNull Double actual, @CheckForNull Double expected) {
               // Test for equality to allow non-finite values to match; otherwise, use the finite
               // test.
               return actual.equals(expected)
@@ -557,7 +557,7 @@ public class QuantilesTest extends TestCase {
         }
         assertThat(percentiles().indexes(index1, index2).compute(PSEUDORANDOM_DATASET))
             .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-            .containsExactlyEntriesIn(expectedBuilder.build());
+            .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
       }
     }
   }
@@ -573,7 +573,7 @@ public class QuantilesTest extends TestCase {
     Collections.shuffle(indexes, random);
     assertThat(percentiles().indexes(Ints.toArray(indexes)).compute(PSEUDORANDOM_DATASET))
         .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-        .containsExactlyEntriesIn(expectedBuilder.build());
+        .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
   }
 
   @AndroidIncompatible // slow
@@ -589,7 +589,7 @@ public class QuantilesTest extends TestCase {
     Collections.shuffle(indexes, random);
     assertThat(percentiles().indexes(Ints.toArray(indexes)).computeInPlace(dataset))
         .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
-        .containsExactlyEntriesIn(expectedBuilder.build());
+        .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
     assertThat(dataset).usingExactEquality().containsExactlyElementsIn(PSEUDORANDOM_DATASET);
   }
 

@@ -25,6 +25,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeoutException;
 @Beta
 @DoNotMock("Use FakeTimeLimiter")
 @GwtIncompatible
+@ElementTypesAreNonnullByDefault
 public interface TimeLimiter {
 
   /**
@@ -144,7 +146,8 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
 
   /**
@@ -164,7 +167,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
+  default <T extends @Nullable Object> T callWithTimeout(Callable<T> callable, Duration timeout)
       throws TimeoutException, InterruptedException, ExecutionException {
     return callWithTimeout(callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
@@ -190,7 +193,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T> T callUninterruptiblyWithTimeout(
+  <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
 
@@ -213,8 +216,8 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T> T callUninterruptiblyWithTimeout(Callable<T> callable, Duration timeout)
-      throws TimeoutException, ExecutionException {
+  default <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+      Callable<T> callable, Duration timeout) throws TimeoutException, ExecutionException {
     return callUninterruptiblyWithTimeout(
         callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }

@@ -17,7 +17,6 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
@@ -26,7 +25,7 @@ import java.lang.reflect.Proxy;
  *
  * @since 12.0
  */
-@Beta
+@ElementTypesAreNonnullByDefault
 public final class Reflection {
 
   /**

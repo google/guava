@@ -49,7 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * the presence of expensive {@code compareTo} and {@code compare} implementations.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"> {@code
+ * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  * ComparisonChain}</a>.
  *
  * @author Mark Davis
@@ -57,6 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 public abstract class ComparisonChain {
   private ComparisonChain() {}
 
@@ -67,15 +68,15 @@ public abstract class ComparisonChain {
 
   private static final ComparisonChain ACTIVE =
       new ComparisonChain() {
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") // unsafe; see discussion on supertype
         @Override
-        public ComparisonChain compare(Comparable left, Comparable right) {
-          return classify(left.compareTo(right));
+        public ComparisonChain compare(Comparable<?> left, Comparable<?> right) {
+          return classify(((Comparable<Object>) left).compareTo(right));
         }
 
         @Override
-        public <T> ComparisonChain compare(
-            @Nullable T left, @Nullable T right, Comparator<T> comparator) {
+        public <T extends @Nullable Object> ComparisonChain compare(
+            @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
         }
 
@@ -131,13 +132,13 @@ public abstract class ComparisonChain {
     }
 
     @Override
-    public ComparisonChain compare(@Nullable Comparable left, @Nullable Comparable right) {
+    public ComparisonChain compare(Comparable<?> left, Comparable<?> right) {
       return this;
     }
 
     @Override
-    public <T> ComparisonChain compare(
-        @Nullable T left, @Nullable T right, @Nullable Comparator<T> comparator) {
+    public <T extends @Nullable Object> ComparisonChain compare(
+        @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator) {
       return this;
     }
 
@@ -180,6 +181,18 @@ public abstract class ComparisonChain {
   /**
    * Compares two comparable objects as specified by {@link Comparable#compareTo}, <i>if</i> the
    * result of this comparison chain has not already been determined.
+   *
+   * <p>This method is declared to accept any 2 {@code Comparable} objects, even if they are not <a
+   * href="https://docs.oracle.com/javase/tutorial/collections/interfaces/order.html">mutually
+   * comparable</a>. If you pass objects that are not mutually comparable, this method may throw an
+   * exception. (The reason for this decision is lost to time, but the reason <i>might</i> be that
+   * we wanted to support legacy classes that implement the raw type {@code Comparable} (instead of
+   * implementing {@code Comparable<Foo>}) without producing warnings. If so, we would prefer today
+   * to produce warnings in that case, and we may change this method to do so in the future. Support
+   * for raw {@code Comparable} types in Guava in general is tracked as <a
+   * href="https://github.com/google/guava/issues/989">#989</a>.)
+   *
+   * @throws ClassCastException if the parameters are not mutually comparable
    */
   public abstract ComparisonChain compare(Comparable<?> left, Comparable<?> right);
 
@@ -187,8 +200,8 @@ public abstract class ComparisonChain {
    * Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
    * already been determined.
    */
-  public abstract <T> ComparisonChain compare(
-      @Nullable T left, @Nullable T right, Comparator<T> comparator);
+  public abstract <T extends @Nullable Object> ComparisonChain compare(
+      @ParametricNullness T left, @ParametricNullness T right, Comparator<T> comparator);
 
   /**
    * Compares two {@code int} values as specified by {@link Ints#compare}, <i>if</i> the result of

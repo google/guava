@@ -162,7 +162,7 @@ public class FakeTickerTest extends TestCase {
     final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
     final CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {
-      @SuppressWarnings("unused") // go/futurereturn-lsc
+      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           executorService.submit(
               new Callable<Void>() {

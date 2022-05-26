@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utilities for dealing with sorted collections of all types.
@@ -26,6 +27,7 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@ElementTypesAreNonnullByDefault
 final class SortedIterables {
   private SortedIterables() {}
 
@@ -49,7 +51,8 @@ final class SortedIterables {
 
   @SuppressWarnings("unchecked")
   // if sortedSet.comparator() is null, the set must be naturally ordered
-  public static <E> Comparator<? super E> comparator(SortedSet<E> sortedSet) {
+  public static <E extends @Nullable Object> Comparator<? super E> comparator(
+      SortedSet<E> sortedSet) {
     Comparator<? super E> result = sortedSet.comparator();
     if (result == null) {
       result = (Comparator<? super E>) Ordering.natural();

@@ -15,10 +15,12 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * An empty contiguous set.
@@ -27,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
+@ElementTypesAreNonnullByDefault
 final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   EmptyContiguousSet(DiscreteDomain<C> domain) {
     super(domain);
@@ -79,13 +82,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@CheckForNull Object object) {
     return false;
   }
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(Object target) {
+  int indexOf(@CheckForNull Object target) {
     return -1;
   }
 
@@ -121,7 +124,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return that.isEmpty();
@@ -149,7 +152,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     }
 
     private Object readResolve() {
-      return new EmptyContiguousSet<C>(domain);
+      return new EmptyContiguousSet<>(domain);
     }
 
     private static final long serialVersionUID = 0;
@@ -158,7 +161,12 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
-    return new SerializedForm<C>(domain);
+    return new SerializedForm<>(domain);
+  }
+
+  @GwtIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
   }
 
   @GwtIncompatible // NavigableSet

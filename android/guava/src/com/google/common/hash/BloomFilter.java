@@ -23,6 +23,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.math.LongMath;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -30,10 +31,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import javax.annotation.CheckForNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -41,7 +45,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * but if it claims that an element is <i>not</i> contained in it, then this is definitely true.
  *
  * <p>If you are unfamiliar with Bloom filters, this nice <a
- * href="http://llimllib.github.com/bloomfilter-tutorial/">tutorial</a> may help you understand how
+ * href="http://llimllib.github.io/bloomfilter-tutorial/">tutorial</a> may help you understand how
  * they work.
  *
  * <p>The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability
@@ -63,7 +67,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 11.0 (thread-safe since 23.0)
  */
 @Beta
-public final class BloomFilter<T> implements Predicate<T>, Serializable {
+@ElementTypesAreNonnullByDefault
+public final class BloomFilter<T extends @Nullable Object> implements Predicate<T>, Serializable {
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
    *
@@ -76,15 +81,21 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
      *
      * <p>Returns whether any bits changed as a result of this operation.
      */
-    <T> boolean put(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+    <T extends @Nullable Object> boolean put(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
      * returns {@code true} if and only if all selected bits are set.
      */
-    <T> boolean mightContain(
-        T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits);
+    <T extends @Nullable Object> boolean mightContain(
+        @ParametricNullness T object,
+        Funnel<? super T> funnel,
+        int numHashFunctions,
+        LockFreeBitArray bits);
 
     /**
      * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only
@@ -134,7 +145,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, {@code
    * false} if this is <i>definitely</i> not the case.
    */
-  public boolean mightContain(T object) {
+  public boolean mightContain(@ParametricNullness T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
   }
 
@@ -144,7 +155,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   @Deprecated
   @Override
-  public boolean apply(T input) {
+  public boolean apply(@ParametricNullness T input) {
     return mightContain(input);
   }
 
@@ -160,7 +171,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue
-  public boolean put(T object) {
+  public boolean put(@ParametricNullness T object) {
     return strategy.put(object, funnel, numHashFunctions, bits);
   }
 
@@ -176,7 +187,6 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @since 14.0 (since 11.0 as expectedFalsePositiveProbability())
    */
   public double expectedFpp() {
-    // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
     return Math.pow((double) bits.bitCount() / bitSize(), numHashFunctions);
   }
 
@@ -268,7 +278,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@CheckForNull Object object) {
     if (object == this) {
       return true;
     }
@@ -307,7 +317,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(
+  public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, int expectedInsertions, double fpp) {
     return create(funnel, (long) expectedInsertions, fpp);
   }
@@ -333,13 +343,13 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @return a {@code BloomFilter}
    * @since 19.0
    */
-  public static <T> BloomFilter<T> create(
+  public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {
     return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);
   }
 
   @VisibleForTesting
-  static <T> BloomFilter<T> create(
+  static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp, Strategy strategy) {
     checkNotNull(funnel);
     checkArgument(
@@ -384,7 +394,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *     BloomFilter}; must be positive
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(Funnel<? super T> funnel, int expectedInsertions) {
+  public static <T extends @Nullable Object> BloomFilter<T> create(
+      Funnel<? super T> funnel, int expectedInsertions) {
     return create(funnel, (long) expectedInsertions);
   }
 
@@ -408,7 +419,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @return a {@code BloomFilter}
    * @since 19.0
    */
-  public static <T> BloomFilter<T> create(Funnel<? super T> funnel, long expectedInsertions) {
+  public static <T extends @Nullable Object> BloomFilter<T> create(
+      Funnel<? super T> funnel, long expectedInsertions) {
     return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions
   }
 
@@ -461,7 +473,11 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     return new SerialForm<T>(this);
   }
 
-  private static class SerialForm<T> implements Serializable {
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
+
+  private static class SerialForm<T extends @Nullable Object> implements Serializable {
     final long[] data;
     final int numHashFunctions;
     final Funnel<? super T> funnel;
@@ -514,8 +530,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
    *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
    */
-  public static <T> BloomFilter<T> readFrom(InputStream in, Funnel<? super T> funnel)
-      throws IOException {
+  public static <T extends @Nullable Object> BloomFilter<T> readFrom(
+      InputStream in, Funnel<? super T> funnel) throws IOException {
     checkNotNull(in, "InputStream");
     checkNotNull(funnel, "Funnel");
     int strategyOrdinal = -1;
@@ -531,11 +547,13 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
       dataLength = din.readInt();
 
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
-      long[] data = new long[dataLength];
-      for (int i = 0; i < data.length; i++) {
-        data[i] = din.readLong();
+
+      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));
+      for (int i = 0; i < dataLength; i++) {
+        dataArray.putData(i, din.readLong());
       }
-      return new BloomFilter<T>(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);
+
+      return new BloomFilter<T>(dataArray, numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
       String message =
           "Unable to deserialize BloomFilter from InputStream."
