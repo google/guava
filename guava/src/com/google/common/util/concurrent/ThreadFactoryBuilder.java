@@ -20,7 +20,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
@@ -45,7 +44,6 @@ import javax.annotation.CheckForNull;
  * @author Kurt Alfred Kluever
  * @since 4.0
  */
-@CanIgnoreReturnValue
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class ThreadFactoryBuilder {
@@ -69,6 +67,7 @@ public final class ThreadFactoryBuilder {
    *     "rpc-pool-1"}, {@code "rpc-pool-2"}, etc.
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
     String unused = format(nameFormat, 0); // fail fast if the format is bad or null
     this.nameFormat = nameFormat;
@@ -81,6 +80,7 @@ public final class ThreadFactoryBuilder {
    * @param daemon whether or not new Threads created with this ThreadFactory will be daemon threads
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setDaemon(boolean daemon) {
     this.daemon = daemon;
     return this;
@@ -95,6 +95,7 @@ public final class ThreadFactoryBuilder {
    * @param priority the priority for new Threads created with this ThreadFactory
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setPriority(int priority) {
     // Thread#setPriority() already checks for validity. These error messages
     // are nicer though and will fail-fast.
@@ -119,6 +120,7 @@ public final class ThreadFactoryBuilder {
    *     this ThreadFactory
    * @return this for the builder pattern
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setUncaughtExceptionHandler(
       UncaughtExceptionHandler uncaughtExceptionHandler) {
     this.uncaughtExceptionHandler = checkNotNull(uncaughtExceptionHandler);
@@ -134,6 +136,7 @@ public final class ThreadFactoryBuilder {
    * @return this for the builder pattern
    * @see MoreExecutors
    */
+  @CanIgnoreReturnValue
   public ThreadFactoryBuilder setThreadFactory(ThreadFactory backingThreadFactory) {
     this.backingThreadFactory = checkNotNull(backingThreadFactory);
     return this;
@@ -146,7 +149,6 @@ public final class ThreadFactoryBuilder {
    *
    * @return the fully constructed {@link ThreadFactory}
    */
-  @CheckReturnValue
   public ThreadFactory build() {
     return doBuild(this);
   }
