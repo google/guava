@@ -21,6 +21,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A builder for constructing instances of {@link MutableNetwork} or {@link ImmutableNetwork} with
@@ -127,6 +128,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> allowsParallelEdges(boolean allowsParallelEdges) {
     this.allowsParallelEdges = allowsParallelEdges;
     return this;
@@ -139,6 +141,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
@@ -149,6 +152,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
     this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
@@ -159,6 +163,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedEdgeCount} is negative
    */
+  @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
     this.expectedEdgeCount = Optional.of(checkNonNegative(expectedEdgeCount));
     return this;
