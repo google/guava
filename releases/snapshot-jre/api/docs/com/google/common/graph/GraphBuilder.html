@@ -139,7 +139,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>
-public final class <a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.71">GraphBuilder</a>&lt;N&gt;
+public final class <a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.72">GraphBuilder</a>&lt;N&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
 <div class="block">A builder for constructing instances of <a href="MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> or <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> with
  user-defined properties.
@@ -294,7 +294,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>directed</h4>
-<pre class="methodSignature">public static&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.82">directed</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.83">directed</a>()</pre>
 <div class="block">Returns a <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building directed graphs.</div>
 </li>
 </ul>
@@ -304,7 +304,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>undirected</h4>
-<pre class="methodSignature">public static&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.87">undirected</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.88">undirected</a>()</pre>
 <div class="block">Returns a <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building undirected graphs.</div>
 </li>
 </ul>
@@ -314,7 +314,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.98">from</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;N&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.99">from</a>&#8203;(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns a <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.
 
  <p>The "queryable" properties are those that are exposed through the <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface,
@@ -328,7 +328,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>immutable</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.115">immutable</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.116">immutable</a>()</pre>
 <div class="block">Returns an <a href="ImmutableGraph.Builder.html" title="class in com.google.common.graph"><code>ImmutableGraph.Builder</code></a> with the properties of this <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.
 
  <p>The returned builder can be used for populating an <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a>.
@@ -346,7 +346,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre class="methodSignature">public&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.127">allowsSelfLoops</a>&#8203;(boolean&nbsp;allowsSelfLoops)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.128">allowsSelfLoops</a>&#8203;(boolean&nbsp;allowsSelfLoops)</pre>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>UnsupportedOperationException</code></a>.
 
@@ -359,7 +360,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedNodeCount</h4>
-<pre class="methodSignature">public&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.137">expectedNodeCount</a>&#8203;(int&nbsp;expectedNodeCount)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.139">expectedNodeCount</a>&#8203;(int&nbsp;expectedNodeCount)</pre>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -373,7 +375,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.147">nodeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.150">nodeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="Graph.html#nodes()"><code>Graph.nodes()</code></a>.
 
  <p>The default value is <a href="ElementOrder.html#insertion()"><code>insertion order</code></a>.</div>
@@ -385,7 +387,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.166">incidentEdgeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.169">incidentEdgeOrder</a>&#8203;(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="Graph.html#edges()"><code>Graph.edges()</code></a>, <a href="Graph.html#adjacentNodes(N)"><code>Graph.adjacentNodes(Object)</code></a>, <a href="Graph.html#predecessors(N)"><code>Graph.predecessors(Object)</code></a>, <a href="Graph.html#successors(N)"><code>Graph.successors(Object)</code></a> and <a href="Graph.html#incidentEdges(N)"><code>Graph.incidentEdges(Object)</code></a>.
 
  <p>The default value is <a href="ElementOrder.html#unordered()"><code>unordered</code></a> for mutable graphs. For
@@ -405,7 +407,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.179">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;N1 extends <a href="GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.182">build</a>()</pre>
 <div class="block">Returns an empty <a href="MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with the properties of this <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
 </li>
 </ul>
