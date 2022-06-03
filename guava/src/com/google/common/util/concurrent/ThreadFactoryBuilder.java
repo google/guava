@@ -89,6 +89,9 @@ public final class ThreadFactoryBuilder {
   /**
    * Sets the priority for new threads created with this ThreadFactory.
    *
+   * <p><b>Warning:</b> relying on the thread scheduler is <a
+   * href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.
+   *
    * @param priority the priority for new Threads created with this ThreadFactory
    * @return this for the builder pattern
    */
