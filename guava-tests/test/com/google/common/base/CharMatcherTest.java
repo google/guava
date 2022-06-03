@@ -636,6 +636,14 @@ public class CharMatcherTest extends TestCase {
     }
   }
 
+  public void testRetainFrom() {
+    assertEquals("aaa", is('a').retainFrom("bazaar"));
+    assertEquals("aa", is('a').retainFrom("bazar"));
+    assertEquals("oo", is('o').retainFrom("bozor"));
+    assertEquals("i", is('i').retainFrom("bizr"));
+    assertEquals(">", is('>').retainFrom("baz>ar"));
+  }
+
   public void testReplaceFrom() {
     assertEquals("yoho", is('a').replaceFrom("yaha", 'o'));
     assertEquals("yh", is('a').replaceFrom("yaha", ""));
