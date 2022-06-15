@@ -36,10 +36,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 1.0
  */
 @Beta
-@CanIgnoreReturnValue
 @GwtIncompatible
 @ElementTypesAreNonnullByDefault
 public final class FakeTimeLimiter implements TimeLimiter {
+  @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
   public <T> T newProxy(
       T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit) {
@@ -49,6 +49,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
     return target; // ha ha
   }
 
+  @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
   @ParametricNullness
   public <T extends @Nullable Object> T callWithTimeout(
@@ -67,6 +68,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
     }
   }
 
+  @CanIgnoreReturnValue // TODO(kak): consider removing this
   @Override
   @ParametricNullness
   public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
