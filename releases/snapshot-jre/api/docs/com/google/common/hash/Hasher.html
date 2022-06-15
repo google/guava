@@ -128,7 +128,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public interface <a href="../../../../src-html/com/google/common/hash/Hasher.html#line.56">Hasher</a>
 extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></pre>
 <div class="block">A <a href="PrimitiveSink.html" title="interface in com.google.common.hash"><code>PrimitiveSink</code></a> that can compute a hash code after reading the input. Each hasher should
@@ -326,7 +325,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putByte</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.60">putByte</a>&#8203;(byte&nbsp;b)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.59">putByte</a>&#8203;(byte&nbsp;b)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putByte(byte)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a byte into this sink.</div>
 <dl>
@@ -345,7 +345,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.63">putBytes</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.63">putBytes</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putBytes(byte%5B%5D)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts an array of bytes into this sink.</div>
 <dl>
@@ -364,7 +365,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.66">putBytes</a>&#8203;(byte[]&nbsp;bytes,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.67">putBytes</a>&#8203;(byte[]&nbsp;bytes,
                 int&nbsp;off,
                 int&nbsp;len)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putBytes(byte%5B%5D,int,int)">PrimitiveSink</a></code></span></div>
@@ -388,7 +390,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putBytes</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.69">putBytes</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.71">putBytes</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putBytes(java.nio.ByteBuffer)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts the remaining bytes of a byte buffer into this sink. <code>bytes.position()</code> is the first
  byte written, <code>bytes.limit() - 1</code> is the last. The position of the buffer will be equal
@@ -409,7 +412,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putShort</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.72">putShort</a>&#8203;(short&nbsp;s)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.75">putShort</a>&#8203;(short&nbsp;s)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putShort(short)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a short into this sink.</div>
 <dl>
@@ -424,7 +428,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putInt</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.75">putInt</a>&#8203;(int&nbsp;i)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.79">putInt</a>&#8203;(int&nbsp;i)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putInt(int)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts an int into this sink.</div>
 <dl>
@@ -439,7 +444,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putLong</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.78">putLong</a>&#8203;(long&nbsp;l)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.83">putLong</a>&#8203;(long&nbsp;l)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putLong(long)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a long into this sink.</div>
 <dl>
@@ -454,7 +460,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putFloat</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.82">putFloat</a>&#8203;(float&nbsp;f)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.88">putFloat</a>&#8203;(float&nbsp;f)</pre>
 <div class="block">Equivalent to <code>putInt(Float.floatToRawIntBits(f))</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -468,7 +475,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putDouble</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.86">putDouble</a>&#8203;(double&nbsp;d)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.93">putDouble</a>&#8203;(double&nbsp;d)</pre>
 <div class="block">Equivalent to <code>putLong(Double.doubleToRawLongBits(d))</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -482,7 +490,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putBoolean</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.90">putBoolean</a>&#8203;(boolean&nbsp;b)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.98">putBoolean</a>&#8203;(boolean&nbsp;b)</pre>
 <div class="block">Equivalent to <code>putByte(b ? (byte) 1 : (byte) 0)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -496,7 +505,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putChar</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.93">putChar</a>&#8203;(char&nbsp;c)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.102">putChar</a>&#8203;(char&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putChar(char)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts a character into this sink.</div>
 <dl>
@@ -511,7 +521,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putUnencodedChars</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.109">putUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.119">putUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</pre>
 <div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order. In
  other words, no character encoding is performed; the low byte and high byte of each <code>
  char</code> are hashed directly (in that order). The input must not be updated while this method is
@@ -535,7 +546,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putString</h4>
-<pre class="methodSignature"><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.120">putString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.131">putString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
                  <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
 <div class="block">Equivalent to <code>putBytes(charSequence.toString().getBytes(charset))</code>.
 
@@ -557,7 +569,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>putObject</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.124">putObject</a>&#8203;(T&nbsp;instance,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.136">putObject</a>&#8203;(T&nbsp;instance,
                                               <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">A simple convenience for <code>funnel.funnel(object, this)</code>.</div>
 </li>
@@ -568,7 +581,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.131">hash</a>()</pre>
+<pre class="methodSignature"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.144">hash</a>()</pre>
 <div class="block">Computes a hash code based on the data that have been provided to this hasher. The result is
  unspecified if this method is called more than once on the same instance.</div>
 </li>
@@ -580,7 +593,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.139">hashCode</a>()</pre>
+int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.152">hashCode</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>
      hash().asInt()</code>.</div>

@@ -45,10 +45,10 @@
 <span class="sourceLineNo">036</span><a id="line.36"> * @since 1.0</a>
 <span class="sourceLineNo">037</span><a id="line.37"> */</a>
 <span class="sourceLineNo">038</span><a id="line.38">@Beta</a>
-<span class="sourceLineNo">039</span><a id="line.39">@CanIgnoreReturnValue</a>
-<span class="sourceLineNo">040</span><a id="line.40">@GwtIncompatible</a>
-<span class="sourceLineNo">041</span><a id="line.41">@ElementTypesAreNonnullByDefault</a>
-<span class="sourceLineNo">042</span><a id="line.42">public final class FakeTimeLimiter implements TimeLimiter {</a>
+<span class="sourceLineNo">039</span><a id="line.39">@GwtIncompatible</a>
+<span class="sourceLineNo">040</span><a id="line.40">@ElementTypesAreNonnullByDefault</a>
+<span class="sourceLineNo">041</span><a id="line.41">public final class FakeTimeLimiter implements TimeLimiter {</a>
+<span class="sourceLineNo">042</span><a id="line.42">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
 <span class="sourceLineNo">043</span><a id="line.43">  @Override</a>
 <span class="sourceLineNo">044</span><a id="line.44">  public &lt;T&gt; T newProxy(</a>
 <span class="sourceLineNo">045</span><a id="line.45">      T target, Class&lt;T&gt; interfaceType, long timeoutDuration, TimeUnit timeoutUnit) {</a>
@@ -58,50 +58,52 @@
 <span class="sourceLineNo">049</span><a id="line.49">    return target; // ha ha</a>
 <span class="sourceLineNo">050</span><a id="line.50">  }</a>
 <span class="sourceLineNo">051</span><a id="line.51"></a>
-<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
-<span class="sourceLineNo">053</span><a id="line.53">  @ParametricNullness</a>
-<span class="sourceLineNo">054</span><a id="line.54">  public &lt;T extends @Nullable Object&gt; T callWithTimeout(</a>
-<span class="sourceLineNo">055</span><a id="line.55">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
-<span class="sourceLineNo">056</span><a id="line.56">    checkNotNull(callable);</a>
-<span class="sourceLineNo">057</span><a id="line.57">    checkNotNull(timeoutUnit);</a>
-<span class="sourceLineNo">058</span><a id="line.58">    try {</a>
-<span class="sourceLineNo">059</span><a id="line.59">      return callable.call();</a>
-<span class="sourceLineNo">060</span><a id="line.60">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">061</span><a id="line.61">      throw new UncheckedExecutionException(e);</a>
-<span class="sourceLineNo">062</span><a id="line.62">    } catch (Exception e) {</a>
-<span class="sourceLineNo">063</span><a id="line.63">      restoreInterruptIfIsInterruptedException(e);</a>
-<span class="sourceLineNo">064</span><a id="line.64">      throw new ExecutionException(e);</a>
-<span class="sourceLineNo">065</span><a id="line.65">    } catch (Error e) {</a>
-<span class="sourceLineNo">066</span><a id="line.66">      throw new ExecutionError(e);</a>
-<span class="sourceLineNo">067</span><a id="line.67">    }</a>
-<span class="sourceLineNo">068</span><a id="line.68">  }</a>
-<span class="sourceLineNo">069</span><a id="line.69"></a>
-<span class="sourceLineNo">070</span><a id="line.70">  @Override</a>
-<span class="sourceLineNo">071</span><a id="line.71">  @ParametricNullness</a>
-<span class="sourceLineNo">072</span><a id="line.72">  public &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
-<span class="sourceLineNo">073</span><a id="line.73">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
-<span class="sourceLineNo">074</span><a id="line.74">    return callWithTimeout(callable, timeoutDuration, timeoutUnit);</a>
-<span class="sourceLineNo">075</span><a id="line.75">  }</a>
-<span class="sourceLineNo">076</span><a id="line.76"></a>
-<span class="sourceLineNo">077</span><a id="line.77">  @Override</a>
-<span class="sourceLineNo">078</span><a id="line.78">  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
-<span class="sourceLineNo">079</span><a id="line.79">    checkNotNull(runnable);</a>
-<span class="sourceLineNo">080</span><a id="line.80">    checkNotNull(timeoutUnit);</a>
-<span class="sourceLineNo">081</span><a id="line.81">    try {</a>
-<span class="sourceLineNo">082</span><a id="line.82">      runnable.run();</a>
-<span class="sourceLineNo">083</span><a id="line.83">    } catch (RuntimeException e) {</a>
-<span class="sourceLineNo">084</span><a id="line.84">      throw new UncheckedExecutionException(e);</a>
-<span class="sourceLineNo">085</span><a id="line.85">    } catch (Error e) {</a>
-<span class="sourceLineNo">086</span><a id="line.86">      throw new ExecutionError(e);</a>
-<span class="sourceLineNo">087</span><a id="line.87">    }</a>
-<span class="sourceLineNo">088</span><a id="line.88">  }</a>
-<span class="sourceLineNo">089</span><a id="line.89"></a>
-<span class="sourceLineNo">090</span><a id="line.90">  @Override</a>
-<span class="sourceLineNo">091</span><a id="line.91">  public void runUninterruptiblyWithTimeout(</a>
-<span class="sourceLineNo">092</span><a id="line.92">      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
-<span class="sourceLineNo">093</span><a id="line.93">    runWithTimeout(runnable, timeoutDuration, timeoutUnit);</a>
-<span class="sourceLineNo">094</span><a id="line.94">  }</a>
-<span class="sourceLineNo">095</span><a id="line.95">}</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @Override</a>
+<span class="sourceLineNo">054</span><a id="line.54">  @ParametricNullness</a>
+<span class="sourceLineNo">055</span><a id="line.55">  public &lt;T extends @Nullable Object&gt; T callWithTimeout(</a>
+<span class="sourceLineNo">056</span><a id="line.56">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
+<span class="sourceLineNo">057</span><a id="line.57">    checkNotNull(callable);</a>
+<span class="sourceLineNo">058</span><a id="line.58">    checkNotNull(timeoutUnit);</a>
+<span class="sourceLineNo">059</span><a id="line.59">    try {</a>
+<span class="sourceLineNo">060</span><a id="line.60">      return callable.call();</a>
+<span class="sourceLineNo">061</span><a id="line.61">    } catch (RuntimeException e) {</a>
+<span class="sourceLineNo">062</span><a id="line.62">      throw new UncheckedExecutionException(e);</a>
+<span class="sourceLineNo">063</span><a id="line.63">    } catch (Exception e) {</a>
+<span class="sourceLineNo">064</span><a id="line.64">      restoreInterruptIfIsInterruptedException(e);</a>
+<span class="sourceLineNo">065</span><a id="line.65">      throw new ExecutionException(e);</a>
+<span class="sourceLineNo">066</span><a id="line.66">    } catch (Error e) {</a>
+<span class="sourceLineNo">067</span><a id="line.67">      throw new ExecutionError(e);</a>
+<span class="sourceLineNo">068</span><a id="line.68">    }</a>
+<span class="sourceLineNo">069</span><a id="line.69">  }</a>
+<span class="sourceLineNo">070</span><a id="line.70"></a>
+<span class="sourceLineNo">071</span><a id="line.71">  @CanIgnoreReturnValue // TODO(kak): consider removing this</a>
+<span class="sourceLineNo">072</span><a id="line.72">  @Override</a>
+<span class="sourceLineNo">073</span><a id="line.73">  @ParametricNullness</a>
+<span class="sourceLineNo">074</span><a id="line.74">  public &lt;T extends @Nullable Object&gt; T callUninterruptiblyWithTimeout(</a>
+<span class="sourceLineNo">075</span><a id="line.75">      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {</a>
+<span class="sourceLineNo">076</span><a id="line.76">    return callWithTimeout(callable, timeoutDuration, timeoutUnit);</a>
+<span class="sourceLineNo">077</span><a id="line.77">  }</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  @Override</a>
+<span class="sourceLineNo">080</span><a id="line.80">  public void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">    checkNotNull(runnable);</a>
+<span class="sourceLineNo">082</span><a id="line.82">    checkNotNull(timeoutUnit);</a>
+<span class="sourceLineNo">083</span><a id="line.83">    try {</a>
+<span class="sourceLineNo">084</span><a id="line.84">      runnable.run();</a>
+<span class="sourceLineNo">085</span><a id="line.85">    } catch (RuntimeException e) {</a>
+<span class="sourceLineNo">086</span><a id="line.86">      throw new UncheckedExecutionException(e);</a>
+<span class="sourceLineNo">087</span><a id="line.87">    } catch (Error e) {</a>
+<span class="sourceLineNo">088</span><a id="line.88">      throw new ExecutionError(e);</a>
+<span class="sourceLineNo">089</span><a id="line.89">    }</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  @Override</a>
+<span class="sourceLineNo">093</span><a id="line.93">  public void runUninterruptiblyWithTimeout(</a>
+<span class="sourceLineNo">094</span><a id="line.94">      Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit) {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    runWithTimeout(runnable, timeoutDuration, timeoutUnit);</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97">}</a>
 
 
 

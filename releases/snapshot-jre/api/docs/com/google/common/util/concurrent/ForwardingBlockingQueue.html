@@ -154,8 +154,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink">Queue</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.39">ForwardingBlockingQueue</a>&lt;E&gt;
 extends <a href="../../collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;</pre>
@@ -366,7 +365,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingBlockingQueue</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.46">ForwardingBlockingQueue</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.45">ForwardingBlockingQueue</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -386,7 +385,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.48">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.47">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -404,7 +403,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>drainTo</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.51">drainTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.50">drainTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
                    int&nbsp;maxElements)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,int)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
 <div class="block">Removes at most the given number of available elements from
@@ -433,7 +433,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>drainTo</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.56">drainTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</pre>
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.56">drainTo</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? super <a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
 <div class="block">Removes all available elements from this queue and adds them
  to the given collection.  This operation may be more
@@ -463,7 +464,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>offer</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.61">offer</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.62">offer</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e,
                      long&nbsp;timeout,
                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
@@ -493,8 +495,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <ul class="blockList">
 <li class="blockList">
 <h4>poll</h4>
-<pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.66">poll</a>&#8203;(long&nbsp;timeout,
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.68">poll</a>&#8203;(long&nbsp;timeout,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#poll(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
@@ -524,7 +527,7 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.72">put</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.75">put</a>&#8203;(<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)
          throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
 <div class="block">Inserts the specified element into this queue, waiting if necessary
@@ -545,7 +548,7 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <ul class="blockList">
 <li class="blockList">
 <h4>remainingCapacity</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.77">remainingCapacity</a>()</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.80">remainingCapacity</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity()" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
 <div class="block">Returns the number of additional elements that this queue can ideally
  (in the absence of memory or resource constraints) accept without
@@ -570,7 +573,8 @@ public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in Forw
 <ul class="blockListLast">
 <li class="blockList">
 <h4>take</h4>
-<pre class="methodSignature">public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.82">take</a>()
+<pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.85">take</a>()
        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.BlockingQueue</a></code></span></div>
 <div class="block">Retrieves and removes the head of this queue, waiting if necessary
