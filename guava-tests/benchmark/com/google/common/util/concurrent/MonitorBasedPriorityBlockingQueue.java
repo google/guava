@@ -76,7 +76,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Justin T. Sampson
  * @param <E> the type of elements held in this collection
  */
-@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 
@@ -99,6 +98,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * Creates a {@code MonitorBasedPriorityBlockingQueue} with the default initial capacity (11) that
    * orders its elements according to their {@linkplain Comparable natural ordering}.
    */
+  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue() {
     q = new PriorityQueue<E>();
   }
@@ -110,6 +110,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @param initialCapacity the initial capacity for this priority queue
    * @throws IllegalArgumentException if {@code initialCapacity} is less than 1
    */
+  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(int initialCapacity) {
     q = new PriorityQueue<E>(initialCapacity, null);
   }
@@ -123,6 +124,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     null}, the {@linkplain Comparable natural ordering} of the elements will be used.
    * @throws IllegalArgumentException if {@code initialCapacity} is less than 1
    */
+  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(
       int initialCapacity, @Nullable Comparator<? super E> comparator) {
     q = new PriorityQueue<E>(initialCapacity, comparator);
@@ -139,6 +141,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     another according to the priority queue's ordering
    * @throws NullPointerException if the specified collection or any of its elements are null
    */
+  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(Collection<? extends E> c) {
     q = new PriorityQueue<E>(c);
   }
@@ -152,6 +155,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     in the priority queue according to the priority queue's ordering
    * @throws NullPointerException if the specified element is null
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public boolean add(E e) {
     return offer(e);
@@ -166,6 +170,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     in the priority queue according to the priority queue's ordering
    * @throws NullPointerException if the specified element is null
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public boolean offer(E e) {
     final Monitor monitor = this.monitor;
@@ -193,6 +198,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     in the priority queue according to the priority queue's ordering
    * @throws NullPointerException if the specified element is null
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public boolean offer(E e, long timeout, TimeUnit unit) {
     checkNotNull(unit);
@@ -213,6 +219,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     offer(e); // never need to block
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public E poll() {
     final Monitor monitor = this.monitor;
@@ -224,6 +231,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public E poll(long timeout, TimeUnit unit) throws InterruptedException {
     final Monitor monitor = this.monitor;
@@ -238,6 +246,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public E take() throws InterruptedException {
     final Monitor monitor = this.monitor;
@@ -249,6 +258,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public E peek() {
     final Monitor monitor = this.monitor;
@@ -267,10 +277,12 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @return the comparator used to order the elements in this queue, or {@code null} if this queue
    *     uses the natural ordering of its elements
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   public Comparator<? super E> comparator() {
     return q.comparator();
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public int size() {
     final Monitor monitor = this.monitor;
@@ -288,6 +300,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return {@code Integer.MAX_VALUE}
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public int remainingCapacity() {
     return Integer.MAX_VALUE;
@@ -302,6 +315,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @param o element to be removed from this queue, if present
    * @return {@code true} if this queue changed as a result of the call
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public boolean remove(@Nullable Object o) {
     final Monitor monitor = this.monitor;
@@ -321,6 +335,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @param o object to be checked for containment in this queue
    * @return {@code true} if this queue contains the specified element
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public boolean contains(@Nullable Object o) {
     final Monitor monitor = this.monitor;
@@ -344,6 +359,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return an array containing all of the elements in this queue
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public Object[] toArray() {
     final Monitor monitor = this.monitor;
@@ -384,6 +400,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     the runtime type of every element in this queue
    * @throws NullPointerException if the specified array is null
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public <T> T[] toArray(T[] a) {
     final Monitor monitor = this.monitor;
@@ -395,6 +412,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public String toString() {
     final Monitor monitor = this.monitor;
@@ -412,6 +430,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @throws NullPointerException {@inheritDoc}
    * @throws IllegalArgumentException {@inheritDoc}
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public int drainTo(Collection<? super E> c) {
     if (c == null) throw new NullPointerException();
@@ -437,6 +456,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @throws NullPointerException {@inheritDoc}
    * @throws IllegalArgumentException {@inheritDoc}
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public int drainTo(Collection<? super E> c, int maxElements) {
     if (c == null) throw new NullPointerException();
@@ -481,6 +501,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *
    * @return an iterator over the elements in this queue
    */
+  @CanIgnoreReturnValue // pushed down from class to method
   @Override
   public Iterator<E> iterator() {
     return new Itr(toArray());
@@ -492,16 +513,19 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     int cursor; // index of next element to return;
     int lastRet; // index of last element, or -1 if no such
 
+    @CanIgnoreReturnValue // pushed down from class to constructor
     Itr(Object[] array) {
       lastRet = -1;
       this.array = array;
     }
 
+    @CanIgnoreReturnValue // pushed down from class to method
     @Override
     public boolean hasNext() {
       return cursor < array.length;
     }
 
+    @CanIgnoreReturnValue // pushed down from class to method
     @Override
     public E next() {
       if (cursor >= array.length) throw new NoSuchElementException();

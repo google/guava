@@ -267,7 +267,6 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
     return HashCode.fromInt(h1);
   }
 
-  @CanIgnoreReturnValue
   private static final class Murmur3_32Hasher extends AbstractHasher {
     private int h1;
     private long buffer;
@@ -294,12 +293,14 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
       }
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putByte(byte b) {
       update(1, b & 0xFF);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putBytes(byte[] bytes, int off, int len) {
       checkPositionIndexes(off, off + len, bytes.length);
@@ -313,6 +314,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putBytes(ByteBuffer buffer) {
       ByteOrder bo = buffer.order();
@@ -327,12 +329,14 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putInt(int i) {
       update(4, i);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putLong(long l) {
       update(4, (int) l);
@@ -340,12 +344,14 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Hasher putChar(char c) {
       update(2, c);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @SuppressWarnings("deprecation") // need to use Charsets for Android tests to pass
     @Override
     public Hasher putString(CharSequence input, Charset charset) {
