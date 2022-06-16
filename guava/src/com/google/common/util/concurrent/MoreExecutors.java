@@ -447,10 +447,10 @@ public final class MoreExecutors {
    *             complete, the listener runs immediately in that thread.
    *         <li>When a thread attaches a listener to a {@code ListenableFuture} that's
    *             <em>in</em>complete and the {@code ListenableFuture} later completes normally, the
-   *             listener runs in the the thread that completes the {@code ListenableFuture}.
+   *             listener runs in the thread that completes the {@code ListenableFuture}.
    *         <li>When a listener is attached to a {@code ListenableFuture} and the {@code
-   *             ListenableFuture} gets cancelled, the listener runs immediately in the the thread
-   *             that cancelled the {@code Future}.
+   *             ListenableFuture} gets cancelled, the listener runs immediately in the thread that
+   *             cancelled the {@code Future}.
    *       </ol>
    *       Given all these possibilities, it is frequently possible for listeners to execute in UI
    *       threads, RPC network threads, or other latency-sensitive threads. In those cases, slow
