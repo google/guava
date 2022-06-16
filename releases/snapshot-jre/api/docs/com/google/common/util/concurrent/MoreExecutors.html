@@ -585,10 +585,10 @@ public static&nbsp;<a href="ListeningExecutorService.html" title="interface in c
              complete, the listener runs immediately in that thread.
          <li>When a thread attaches a listener to a <code>ListenableFuture</code> that's
              <em>in</em>complete and the <code>ListenableFuture</code> later completes normally, the
-             listener runs in the the thread that completes the <code>ListenableFuture</code>.
+             listener runs in the thread that completes the <code>ListenableFuture</code>.
          <li>When a listener is attached to a <code>ListenableFuture</code> and the <code>
-             ListenableFuture</code> gets cancelled, the listener runs immediately in the the thread
-             that cancelled the <code>Future</code>.
+             ListenableFuture</code> gets cancelled, the listener runs immediately in the thread that
+             cancelled the <code>Future</code>.
        </ol>
        Given all these possibilities, it is frequently possible for listeners to execute in UI
        threads, RPC network threads, or other latency-sensitive threads. In those cases, slow

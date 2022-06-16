@@ -456,10 +456,10 @@
 <span class="sourceLineNo">447</span><a id="line.447">   *             complete, the listener runs immediately in that thread.</a>
 <span class="sourceLineNo">448</span><a id="line.448">   *         &lt;li&gt;When a thread attaches a listener to a {@code ListenableFuture} that's</a>
 <span class="sourceLineNo">449</span><a id="line.449">   *             &lt;em&gt;in&lt;/em&gt;complete and the {@code ListenableFuture} later completes normally, the</a>
-<span class="sourceLineNo">450</span><a id="line.450">   *             listener runs in the the thread that completes the {@code ListenableFuture}.</a>
+<span class="sourceLineNo">450</span><a id="line.450">   *             listener runs in the thread that completes the {@code ListenableFuture}.</a>
 <span class="sourceLineNo">451</span><a id="line.451">   *         &lt;li&gt;When a listener is attached to a {@code ListenableFuture} and the {@code</a>
-<span class="sourceLineNo">452</span><a id="line.452">   *             ListenableFuture} gets cancelled, the listener runs immediately in the the thread</a>
-<span class="sourceLineNo">453</span><a id="line.453">   *             that cancelled the {@code Future}.</a>
+<span class="sourceLineNo">452</span><a id="line.452">   *             ListenableFuture} gets cancelled, the listener runs immediately in the thread that</a>
+<span class="sourceLineNo">453</span><a id="line.453">   *             cancelled the {@code Future}.</a>
 <span class="sourceLineNo">454</span><a id="line.454">   *       &lt;/ol&gt;</a>
 <span class="sourceLineNo">455</span><a id="line.455">   *       Given all these possibilities, it is frequently possible for listeners to execute in UI</a>
 <span class="sourceLineNo">456</span><a id="line.456">   *       threads, RPC network threads, or other latency-sensitive threads. In those cases, slow</a>
