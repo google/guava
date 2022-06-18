@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.skip;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -876,6 +877,11 @@ public class IterablesTest extends TestCase {
   public void testGetLast_sortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of("b", "c", "a");
     assertEquals("c", Iterables.getLast(sortedSet));
+  }
+
+  public void testGetLast_linkedList() {
+    List<String> list = newLinkedList(asList("a", "b", "c"));
+    assertEquals("c", Iterables.getLast(list));
   }
 
   public void testGetLast_withDefault_singleton() {
