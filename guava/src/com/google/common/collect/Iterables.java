@@ -30,6 +30,7 @@ import com.google.common.base.Predicates;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -882,6 +883,10 @@ public final class Iterables {
 
   @ParametricNullness
   private static <T extends @Nullable Object> T getLastInNonemptyList(List<T> list) {
+    if (list instanceof Deque){
+      Deque<T> deque = (Deque<T>) list;
+      return deque.peekLast();
+    }
     return list.get(list.size() - 1);
   }
 
