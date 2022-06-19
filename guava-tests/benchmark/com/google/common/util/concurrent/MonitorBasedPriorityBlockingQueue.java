@@ -98,7 +98,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * Creates a {@code MonitorBasedPriorityBlockingQueue} with the default initial capacity (11) that
    * orders its elements according to their {@linkplain Comparable natural ordering}.
    */
-  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue() {
     q = new PriorityQueue<E>();
   }
@@ -110,7 +109,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @param initialCapacity the initial capacity for this priority queue
    * @throws IllegalArgumentException if {@code initialCapacity} is less than 1
    */
-  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(int initialCapacity) {
     q = new PriorityQueue<E>(initialCapacity, null);
   }
@@ -124,7 +122,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     null}, the {@linkplain Comparable natural ordering} of the elements will be used.
    * @throws IllegalArgumentException if {@code initialCapacity} is less than 1
    */
-  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(
       int initialCapacity, @Nullable Comparator<? super E> comparator) {
     q = new PriorityQueue<E>(initialCapacity, comparator);
@@ -141,7 +138,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    *     another according to the priority queue's ordering
    * @throws NullPointerException if the specified collection or any of its elements are null
    */
-  @CanIgnoreReturnValue // pushed down from class to constructor
   public MonitorBasedPriorityBlockingQueue(Collection<? extends E> c) {
     q = new PriorityQueue<E>(c);
   }
@@ -513,7 +509,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     int cursor; // index of next element to return;
     int lastRet; // index of last element, or -1 if no such
 
-    @CanIgnoreReturnValue // pushed down from class to constructor
     Itr(Object[] array) {
       lastRet = -1;
       this.array = array;
