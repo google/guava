@@ -454,7 +454,7 @@ public class FloatsTest extends TestCase {
     testSortDescending(new float[] {1, 3, 1}, new float[] {3, 1, 1});
     testSortDescending(new float[] {-1, 1, -2, 2}, new float[] {2, 1, -1, -2});
     testSortDescending(
-        new float[] {-1, 1, Float.NaN, -2, -0, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0, -1, -2});
+        new float[] {-1, 1, Float.NaN, -2, -0f, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0f, -1, -2});
   }
 
   private static void testSortDescending(float[] input, float[] expectedOutput) {
