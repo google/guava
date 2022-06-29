@@ -41,7 +41,6 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class DoublesTest extends TestCase {
   private static final double[] EMPTY = {};
   private static final double[] ARRAY1 = {(double) 1};
@@ -469,8 +468,8 @@ public class DoublesTest extends TestCase {
     testSortDescending(new double[] {1, 3, 1}, new double[] {3, 1, 1});
     testSortDescending(new double[] {-1, 1, -2, 2}, new double[] {2, 1, -1, -2});
     testSortDescending(
-        new double[] {-1, 1, Double.NaN, -2, -0, 0, 2},
-        new double[] {Double.NaN, 2, 1, 0, -0, -1, -2});
+        new double[] {-1, 1, Double.NaN, -2, -0.0, 0, 2},
+        new double[] {Double.NaN, 2, 1, 0, -0.0, -1, -2});
   }
 
   private static void testSortDescending(double[] input, double[] expectedOutput) {
