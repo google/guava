@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -96,6 +97,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     listeners = new ArrayList<Listener>();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
@@ -152,6 +154,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
   }
 
+  @CanIgnoreReturnValue
   protected boolean setException(Throwable throwable) {
     checkNotNull(throwable);
     if (!state.permitsPublicUserToTransitionTo(State.FAILURE)) {
@@ -168,6 +171,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     notifyAndClearListeners();
   }
 
+  @CanIgnoreReturnValue
   protected boolean set(V value) {
     if (!state.permitsPublicUserToTransitionTo(State.VALUE)) {
       return false;
