@@ -22,6 +22,7 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
@@ -342,23 +343,27 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       this.comparator = checkNotNull(comparator);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       entries.add(entryOf(key, value));
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
@@ -367,6 +372,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<K, V> combine(Builder<K, V> other) {
       super.combine(other);
       return this;

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -141,6 +142,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
     public abstract Builder<E> add(E element);
 
+    @CanIgnoreReturnValue
     public Builder<E> add(E... elements) {
       checkNotNull(elements); // for GWT
       for (E element : elements) {
@@ -149,6 +151,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterable<? extends E> elements) {
       checkNotNull(elements); // for GWT
       for (E element : elements) {
@@ -157,6 +160,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterator<? extends E> elements) {
       checkNotNull(elements); // for GWT
       while (elements.hasNext()) {

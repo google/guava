@@ -77,6 +77,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
       super.addListener(listener, executor);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public final boolean cancel(boolean mayInterruptIfRunning) {
       return super.cancel(mayInterruptIfRunning);
@@ -187,6 +188,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     notifyAndClearListeners();
   }
 
+  @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
 
