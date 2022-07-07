@@ -140,6 +140,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return newCapacity;
     }
 
+    @CanIgnoreReturnValue
     public abstract Builder<E> add(E element);
 
     @CanIgnoreReturnValue
