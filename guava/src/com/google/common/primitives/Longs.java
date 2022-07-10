@@ -363,7 +363,6 @@ public final class Longs {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
-  @Beta
   @CheckForNull
   public static Long tryParse(String string) {
     return tryParse(string, 10);

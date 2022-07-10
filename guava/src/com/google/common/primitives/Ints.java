@@ -789,7 +789,6 @@ public final class Ints extends IntsMethodsForWeb {
    * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
-  @Beta
   @CheckForNull
   public static Integer tryParse(String string) {
     return tryParse(string, 10);
