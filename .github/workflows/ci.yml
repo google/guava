@@ -27,7 +27,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Set up JDK ${{ matrix.java }}'
-        uses: actions/setup-java@v3.4.0
+        uses: actions/setup-java@v3.4.1
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
@@ -53,7 +53,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v3.4.0
+        uses: actions/setup-java@v3.4.1
         with:
           java-version: 11
           distribution: 'zulu'
@@ -76,7 +76,7 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v3
       - name: 'Set up JDK 11'
-        uses: actions/setup-java@v3.4.0
+        uses: actions/setup-java@v3.4.1
         with:
           java-version: 11
           distribution: 'zulu'
