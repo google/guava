@@ -8,8 +8,14 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
     name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }}"
     strategy:
       matrix:
@@ -68,6 +74,8 @@ jobs:
         run: ./util/deploy_snapshot.sh
 
   generate_docs:
+    permissions:
+      contents: write
     name: 'Generate latest docs'
     needs: test
     if: github.event_name == 'push' && github.repository == 'google/guava'
