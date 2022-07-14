@@ -382,7 +382,7 @@ public abstract class AbstractScheduledService implements Service {
     }
     final ScheduledExecutorService executor =
         Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());
-    // Add a listener to shutdown the executor after the service is stopped. This ensures that the
+    // Add a listener to shut down the executor after the service is stopped. This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it
     // is called within doStart() so we know that the service cannot terminate or fail concurrently

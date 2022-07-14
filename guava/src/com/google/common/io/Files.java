@@ -119,9 +119,7 @@ public final class Files {
     return new FileByteSource(file);
   }
 
-  private static final class FileByteSource extends
-      ByteSource
-  {
+  private static final class FileByteSource extends ByteSource {
 
     private final File file;
 
@@ -342,8 +340,7 @@ public final class Files {
   @InlineMe(
       replacement = "Files.asCharSource(from, charset).copyTo(to)",
       imports = "com.google.common.io.Files")
-  public
-  static void copy(File from, Charset charset, Appendable to) throws IOException {
+  public static void copy(File from, Charset charset, Appendable to) throws IOException {
     asCharSource(from, charset).copyTo(to);
   }
 
@@ -362,8 +359,7 @@ public final class Files {
   @InlineMe(
       replacement = "Files.asCharSink(to, charset, FileWriteMode.APPEND).write(from)",
       imports = {"com.google.common.io.FileWriteMode", "com.google.common.io.Files"})
-  public
-  static void append(CharSequence from, File to, Charset charset) throws IOException {
+  public static void append(CharSequence from, File to, Charset charset) throws IOException {
     asCharSink(to, charset, FileWriteMode.APPEND).write(from);
   }
 
@@ -402,7 +398,7 @@ public final class Files {
    * be exploited to create security vulnerabilities, especially when executable files are to be
    * written into the directory.
    *
-   * <p>Depending on the environmment that this code is run in, the system temporary directory (and
+   * <p>Depending on the environment that this code is run in, the system temporary directory (and
    * thus the directory this method creates) may be more visible that a program would like - files
    * written to this directory may be read or overwritten by hostile programs running on the same
    * machine.
@@ -532,8 +528,7 @@ public final class Files {
       replacement = "Files.asCharSource(file, charset).readFirstLine()",
       imports = "com.google.common.io.Files")
   @CheckForNull
-  public
-  static String readFirstLine(File file, Charset charset) throws IOException {
+  public static String readFirstLine(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).readFirstLine();
   }
 
@@ -592,8 +587,7 @@ public final class Files {
       imports = "com.google.common.io.Files")
   @CanIgnoreReturnValue // some processors won't return a useful result
   @ParametricNullness
-  public
-  static <T extends @Nullable Object> T readLines(
+  public static <T extends @Nullable Object> T readLines(
       File file, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(file, charset).readLines(callback);
   }
@@ -615,8 +609,7 @@ public final class Files {
       imports = "com.google.common.io.Files")
   @CanIgnoreReturnValue // some processors won't return a useful result
   @ParametricNullness
-  public
-  static <T extends @Nullable Object> T readBytes(File file, ByteProcessor<T> processor)
+  public static <T extends @Nullable Object> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
     return asByteSource(file).read(processor);
   }
@@ -635,8 +628,7 @@ public final class Files {
   @InlineMe(
       replacement = "Files.asByteSource(file).hash(hashFunction)",
       imports = "com.google.common.io.Files")
-  public
-  static HashCode hash(File file, HashFunction hashFunction) throws IOException {
+  public static HashCode hash(File file, HashFunction hashFunction) throws IOException {
     return asByteSource(file).hash(hashFunction);
   }
 

@@ -106,7 +106,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
   //    it would just add an edge such that if done() observed non-null, then it would also
   //    definitely observe all earlier writes, but we still have no guarantee that done() would see
-  //    the inital write (just stronger guarantees if it does).
+  //    the initial write (just stronger guarantees if it does).
   //
   // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html
   // For a (long) discussion about this specific issue and the general futility of life.
@@ -378,7 +378,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>The delegate future is interrupted and cancelled if it times out.
    *
    * @param delegate The future to delegate to.
-   * @param time when to timeout the future
+   * @param time when to time out the future
    * @param scheduledExecutor The executor service to enforce the timeout.
    * @since 28.0
    */
@@ -396,7 +396,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <p>The delegate future is interrupted and cancelled if it times out.
    *
    * @param delegate The future to delegate to.
-   * @param time when to timeout the future
+   * @param time when to time out the future
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
    * @since 19.0

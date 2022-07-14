@@ -465,7 +465,7 @@ public class BaseEncodingTest extends TestCase {
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     // We use this somewhat weird pattern with an enum for each assertion we want to make as a way
     // of dealing with the fact that one of the assertions is @GwtIncompatible but we don't want to
-    // have to have duplicate @GwtIncompatible test methods just to make that assertion.
+    // have duplicate @GwtIncompatible test methods just to make that assertion.
     for (AssertFailsToDecodeStrategy strategy : AssertFailsToDecodeStrategy.values()) {
       strategy.assertFailsToDecode(encoding, cannotDecode, expectedMessage);
     }

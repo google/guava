@@ -1768,7 +1768,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    * up stale entries. As such it should only be called outside a segment context, such as during
    * iteration.
    */
-  @Nullable V getLiveValue(ReferenceEntry<K, V> entry, long now) {
+  @Nullable
+  V getLiveValue(ReferenceEntry<K, V> entry, long now) {
     if (entry.getKey() == null) {
       return null;
     }
@@ -2231,7 +2232,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
             valueReference = e.getValueReference();
             if (map.isExpired(e, now)) {
               // This is a duplicate check, as preWriteCleanup already purged expired
-              // entries, but let's accomodate an incorrect expiration queue.
+              // entries, but let's accommodate an incorrect expiration queue.
               enqueueNotification(
                   entryKey,
                   hash,

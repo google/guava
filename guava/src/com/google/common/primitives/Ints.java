@@ -552,7 +552,7 @@ public final class Ints extends IntsMethodsForWeb {
     // (3) "Successive". We can consider that we are exchanging a block of size d (a[0..d-1]) with a
     //     block of size n-d (a[d..n-1]), where in general these blocks have different sizes. If we
     //     imagine a line separating the first block from the second, we can proceed by exchanging
-    //     the smaller of these blocks with the far end of the other one. That leaves us with a
+    //     the smallest of these blocks with the far end of the other one. That leaves us with a
     //     smaller version of the same problem.
     //     Say we are rotating abcdefgh by 5. We start with abcde|fgh. The smaller block is [fgh]:
     //     [abc]de|[fgh] -> [fgh]de|[abc]. Now [fgh] is in the right place, but we need to swap [de]

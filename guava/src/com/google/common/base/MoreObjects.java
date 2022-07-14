@@ -349,7 +349,7 @@ public final class MoreObjects {
     }
 
     private static boolean isEmpty(Object value) {
-      // Put types estimated to be most frequent first.
+      // Put types estimated to be the most frequent first.
       if (value instanceof CharSequence) {
         return ((CharSequence) value).length() == 0;
       } else if (value instanceof Collection) {

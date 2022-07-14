@@ -118,7 +118,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
+   * Returns the result of adding this and {@code val}. If the result have more than 32 bits,
    * returns the low 32 bits of the result.
    *
    * @since 14.0
@@ -128,8 +128,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns the result of subtracting this and {@code val}. If the result would be negative,
-   * returns the low 32 bits of the result.
+   * Returns the result of subtracting this and {@code val}. If the result is negative, returns the
+   * low 32 bits of the result.
    *
    * @since 14.0
    */
@@ -138,8 +138,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns the result of multiplying this and {@code val}. If the result would have more than 32
-   * bits, returns the low 32 bits of the result.
+   * Returns the result of multiplying this and {@code val}. If the result have more than 32 bits,
+   * returns the low 32 bits of the result.
    *
    * @since 14.0
    */

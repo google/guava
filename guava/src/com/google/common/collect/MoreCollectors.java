@@ -51,7 +51,7 @@ public final class MoreCollectors {
           Collector.Characteristics.UNORDERED);
 
   /**
-   * A collector that converts a stream of zero or one elements to an {@code Optional}.
+   * A collector that converts a stream of zero or one element to an {@code Optional}.
    *
    * @throws IllegalArgumentException if the stream consists of two or more elements.
    * @throws NullPointerException if any element in the stream is {@code null}.

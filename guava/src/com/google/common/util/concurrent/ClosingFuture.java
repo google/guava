@@ -416,7 +416,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
   /**
    * Starts a {@link ClosingFuture} pipeline with a {@link ListenableFuture}.
    *
-   * <p>If {@code future} succeeds, its value will be closed (using {@code closingExecutor)} when
+   * <p>If {@code future} succeeds, its value will be closed (using {@code closingExecutor)}) when
    * the pipeline is done, even if the pipeline is canceled or fails.
    *
    * <p>Cancelling the pipeline will not cancel {@code future}, so that the pipeline can access its

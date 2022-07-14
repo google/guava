@@ -94,7 +94,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   },
   /**
    * This strategy uses all 128 bits of {@link Hashing#murmur3_128} when hashing. It looks different
-   * than the implementation in MURMUR128_MITZ_32 because we're avoiding the multiplication in the
+   * from the implementation in MURMUR128_MITZ_32 because we're avoiding the multiplication in the
    * loop and doing a (much simpler) += hash2. We're also changing the index to a positive number by
    * AND'ing with Long.MAX_VALUE instead of flipping the bits.
    */

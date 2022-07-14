@@ -125,7 +125,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns the result of adding this and {@code val}. If the result would have more than 64 bits,
+   * Returns the result of adding this and {@code val}. If the result have more than 64 bits,
    * returns the low 64 bits of the result.
    *
    * @since 14.0
@@ -135,8 +135,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns the result of subtracting this and {@code val}. If the result would have more than 64
-   * bits, returns the low 64 bits of the result.
+   * Returns the result of subtracting this and {@code val}. If the result have more than 64 bits,
+   * returns the low 64 bits of the result.
    *
    * @since 14.0
    */
@@ -145,8 +145,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns the result of multiplying this and {@code val}. If the result would have more than 64
-   * bits, returns the low 64 bits of the result.
+   * Returns the result of multiplying this and {@code val}. If the result have more than 64 bits,
+   * returns the low 64 bits of the result.
    *
    * @since 14.0
    */

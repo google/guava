@@ -839,11 +839,10 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
    * elements will appear in the returned list in the same order they appeared in {@code elements}.
    *
-   * <p><b>Performance note:</b> According to our
-   * benchmarking
-   * on Open JDK 7, {@link #immutableSortedCopy} generally performs better (in both time and space)
-   * than this method, and this method in turn generally performs better than copying the list and
-   * calling {@link Collections#sort(List)}.
+   * <p><b>Performance note:</b> According to our benchmarking on OpenJDK 7, {@link
+   * #immutableSortedCopy} generally performs better (in both time and space) than this method, and
+   * this method in turn generally performs better than copying the list and calling {@link
+   * Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
@@ -861,9 +860,8 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
    * elements will appear in the returned list in the same order they appeared in {@code elements}.
    *
-   * <p><b>Performance note:</b> According to our
-   * benchmarking
-   * on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.
+   * <p><b>Performance note:</b> According to our benchmarking on OpenJDK 7, this method is the most
+   * efficient way to make a sorted copy of a collection.
    *
    * @throws NullPointerException if any element of {@code elements} is {@code null}
    * @since 3.0
@@ -931,8 +929,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.
    */
   @Deprecated
-  public int binarySearch(
-      List<? extends T> sortedList, @ParametricNullness T key) {
+  public int binarySearch(List<? extends T> sortedList, @ParametricNullness T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 

@@ -117,9 +117,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * Maximum allowed false positive probability of detecting a hash flooding attack given random
    * input.
    */
-  @VisibleForTesting(
-      )
-  static final double HASH_FLOODING_FPP = 0.001;
+  @VisibleForTesting() static final double HASH_FLOODING_FPP = 0.001;
 
   /**
    * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
@@ -413,7 +411,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   private void resizeMeMaybe(int newSize) {
     int entriesSize = requireEntries().length;
     if (newSize > entriesSize) {
-      // 1.5x but round up to nearest odd (this is optimal for memory consumption on Android)
+      // 1.5x but round up to the nearest odd (this is optimal for memory consumption on Android)
       int newCapacity =
           Math.min(CompactHashing.MAX_SIZE, (entriesSize + Math.max(1, entriesSize >>> 1)) | 1);
       if (newCapacity != entriesSize) {

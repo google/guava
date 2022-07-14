@@ -1159,7 +1159,7 @@ public final class Multisets {
   }
 
   /**
-   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is
+   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is the
    * highest count first, with ties broken by the iteration order of the original multiset.
    *
    * @since 11.0

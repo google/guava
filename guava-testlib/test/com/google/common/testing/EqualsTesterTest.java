@@ -114,7 +114,7 @@ public class EqualsTesterTest extends TestCase {
   }
 
   /** Test proper handling of case where an object is not equal to itself */
-  public void testNonreflexiveEquals() {
+  public void testNonReflexiveEquals() {
     Object obj = new NonReflexiveObject();
     equalsTester.addEqualityGroup(obj);
     try {

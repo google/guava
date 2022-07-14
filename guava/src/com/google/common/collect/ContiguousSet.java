@@ -245,7 +245,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     return new DescendingImmutableSortedSet<>(this);
   }
 
-  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */
+  /** Returns a shorthand representation of the contents such as {@code "[1..100]"}. */
   @Override
   public String toString() {
     return range().toString();

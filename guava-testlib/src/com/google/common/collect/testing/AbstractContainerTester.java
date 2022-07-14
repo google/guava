@@ -210,7 +210,7 @@ public abstract class AbstractContainerTester<C, E>
 
   /**
    * Returns the {@linkplain #getSampleElements() sample elements} as ordered by {@link
-   * TestContainerGenerator#order(List)}. Tests should used this method only if they declare
+   * TestContainerGenerator#order(List)}. Tests should use this method only if they declare
    * requirement {@link com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}.
    */
   protected List<E> getOrderedElements() {

@@ -212,11 +212,11 @@ public class ClassSanityTesterTest extends TestCase {
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testEqualsAndSerializableOnReturnValues_good() throws Exception {
     tester
-        .forAllPublicStaticMethods(GoodEqualsAndSerialiableFactory.class)
+        .forAllPublicStaticMethods(GoodEqualsAndSerializableFactory.class)
         .testEqualsAndSerializable();
   }
 
-  public static class GoodEqualsAndSerialiableFactory {
+  public static class GoodEqualsAndSerializableFactory {
     public static Object good(AnInterface s) {
       return Functions.constant(s);
     }
@@ -432,8 +432,8 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(GoodNulls.class);
   }
 
-  public void testNoNullCheckNeededDespitNotInstantiable() throws Exception {
-    tester.doTestNulls(NoNullCheckNeededDespitNotInstantiable.class, Visibility.PACKAGE);
+  public void testNoNullCheckNeededDespiteNotInstantiable() throws Exception {
+    tester.doTestNulls(NoNullCheckNeededDespiteNotInstantiable.class, Visibility.PACKAGE);
   }
 
   public void testNulls_interface() {
@@ -1163,9 +1163,9 @@ public class ClassSanityTesterTest extends TestCase {
     public void failsToRejectNull(@SuppressWarnings("unused") String s) {}
   }
 
-  public static class NoNullCheckNeededDespitNotInstantiable {
+  public static class NoNullCheckNeededDespiteNotInstantiable {
 
-    public NoNullCheckNeededDespitNotInstantiable(NotInstantiable x) {
+    public NoNullCheckNeededDespiteNotInstantiable(NotInstantiable x) {
       checkNotNull(x);
     }
 

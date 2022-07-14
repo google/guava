@@ -98,7 +98,7 @@ class CacheTesting {
   }
 
   /**
-   * Forces the segment containing the given {@code key} to expand (see {@link Segment#expand()}.
+   * Forces the segment containing the given {@code key} to expand (see {@link Segment#expand()}).
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
     checkNotNull(cache);

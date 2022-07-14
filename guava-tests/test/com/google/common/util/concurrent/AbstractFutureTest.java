@@ -424,7 +424,6 @@ public class AbstractFutureTest extends TestCase {
    * He did the bash, he did the future bash The future bash, it was a concurrency smash He did the
    * bash, it caught on in a flash He did the bash, he did the future bash
    */
-
   public void testFutureBash() {
     final CyclicBarrier barrier =
         new CyclicBarrier(
@@ -559,7 +558,7 @@ public class AbstractFutureTest extends TestCase {
     allTasks.add(setFutureCancelRunnable);
     for (int k = 0; k < 50; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
-      // get usecase and another task that adds it as a listener to the future to exercise both
+      // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       final Runnable listener =
           k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
@@ -683,7 +682,7 @@ public class AbstractFutureTest extends TestCase {
     allTasks.add(setFutureCompleteSuccessfullyRunnable);
     for (int k = 0; k < size; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
-      // get usecase and another task that adds it as a listener to the future to exercise both
+      // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       final Runnable listener =
           k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
