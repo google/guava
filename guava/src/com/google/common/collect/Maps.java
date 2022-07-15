@@ -296,7 +296,7 @@ public final class Maps {
       // computed from that capacity. Because the internal table is only allocated on the first
       // write, we won't see copying because of the new threshold. So it is always OK to use the
       // calculation here.
-      return (int) Math.ceil(expectedSize / 0.75);
+      return 1 << (int) Math.ceil(Math.log10(expectedSize / 0.75) / Math.log10(2));
     }
     return Integer.MAX_VALUE; // any large value
   }
