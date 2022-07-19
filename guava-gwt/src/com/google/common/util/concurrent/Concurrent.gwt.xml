@@ -33,5 +33,4 @@
 <inherits name="com.google.common.collect.Collect" />
 <inherits name="com.google.gwt.core.Core" />
 <inherits name="com.google.gwt.user.User" />
-<inherits name="elemental2.promise.Promise" />
 </module>

@@ -14,31 +14,27 @@
 
 package com.google.common.util.concurrent;
 
-import elemental2.promise.IThenable;
-import elemental2.promise.Promise;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOptional;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 /**
  * Java super source for ListenableFuture, implementing a structural thenable via a default method.
  * For restrictions, please refer to the documentation of the then() method.
- *
- * <p>This class is not (explicitly) implementing IThenable<V> because "then" is overloaded there
- * and the single parameter version would need to be marked native, which does not seem to be
- * feasible in interfaces (see "subclassing a class with overloaded methods" in jsinterop
- * documentation).
  */
-public interface ListenableFuture<V> extends Future<V>, Thenable<V> {
+public interface ListenableFuture<V> extends Future<V>, IThenable<V> {
   void addListener(Runnable listener, Executor executor);
 
   /** Note that this method is not expected to be overridden. */
   @JsMethod
   @Override
   default <R> IThenable<R> then(
-      @JsOptional ThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
-      @JsOptional ThenOnRejectedCallbackFn<? extends R> onRejected) {
+      @JsOptional IThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
+      @JsOptional IThenOnRejectedCallbackFn<? extends R> onRejected) {
     return new Promise<V>(
             (resolve, reject) -> {
               Futures.addCallback(
@@ -56,14 +52,54 @@ public interface ListenableFuture<V> extends Future<V>, Thenable<V> {
                   },
                   MoreExecutors.directExecutor());
             })
-        .then(
-            (IThenable.ThenOnFulfilledCallbackFn) onFulfilled,
-            (IThenable.ThenOnRejectedCallbackFn) onRejected);
+        .then(onFulfilled, onRejected);
+  }
+}
+
+/**
+ * Subset of the elemental2 IThenable interface without the single-parameter overload, which allows
+ * us to implement it using a default implementation in J2cl ListenableFuture.
+ */
+@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "IThenable")
+interface IThenable<T> {
+  <V> IThenable<V> then(
+      @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
+      @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
+
+  @JsFunction
+  interface IThenOnFulfilledCallbackFn<T, V> {
+    V onInvoke(T p0);
   }
 
-  // TODO(b/141673833): If this would work, it would allow us to implement IThenable properly:
-  // default <R> Promise<R> then(IThenable.ThenOnFulfilledCallbackFn<? super V, ? extends R>
-  // onFulfilled) {
-  //   return then(onFulfilled, null);
-  // }
+  @JsFunction
+  interface IThenOnRejectedCallbackFn<V> {
+    V onInvoke(Object p0);
+  }
+}
+
+/** Subset of the elemental2 Promise API. */
+@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Promise")
+class Promise<T> implements IThenable<T> {
+
+  @JsFunction
+  interface PromiseExecutorCallbackFn<T> {
+    @JsFunction
+    interface ResolveCallbackFn<T> {
+      void onInvoke(T value);
+    }
+
+    @JsFunction
+    interface RejectCallbackFn {
+      void onInvoke(Object error);
+    }
+
+    void onInvoke(ResolveCallbackFn<T> resolve, RejectCallbackFn reject);
+  }
+
+  public Promise(PromiseExecutorCallbackFn<T> executor) {}
+
+  @Override
+  public native <V> Promise<V> then(
+      @JsOptional IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
+      @JsOptional IThenOnRejectedCallbackFn<? extends V> onRejected);
 }
