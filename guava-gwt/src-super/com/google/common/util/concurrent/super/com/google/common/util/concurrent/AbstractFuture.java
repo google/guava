@@ -51,11 +51,13 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   interface Trusted<V> extends ListenableFuture<V> {}
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> implements Trusted<V> {
+    @CanIgnoreReturnValue
     @Override
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
+    @CanIgnoreReturnValue
     @Override
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
@@ -132,12 +134,14 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   /*
    * ForwardingFluentFuture needs to override those methods, so they are not final.
    */
+  @CanIgnoreReturnValue
   @Override
   public V get() throws InterruptedException, ExecutionException {
     state.maybeThrowOnGet(throwable);
     return value;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -31,6 +32,7 @@ public final class MapMaker {
 
   public MapMaker() {}
 
+  @CanIgnoreReturnValue
   public MapMaker initialCapacity(int initialCapacity) {
     if (initialCapacity < 0) {
       throw new IllegalArgumentException();
@@ -39,6 +41,7 @@ public final class MapMaker {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     checkArgument(
         concurrencyLevel >= 1, "concurrency level (%s) must be at least 1", concurrencyLevel);
