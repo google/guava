@@ -52284,6 +52284,19 @@
  @since 27.1]]>
       </doc>
     </field>
+    <field name="SUPPORTS_LOADING_MODE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/opt-in.md">{@code
+ Supports-Loading-Mode}</a> header field name. This can be used to specify, for example, <a
+ href="https://developer.chrome.com/docs/privacy-sandbox/fenced-frame/#server-opt-in">fenced
+ frames</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="STRICT_TRANSPORT_SECURITY" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
