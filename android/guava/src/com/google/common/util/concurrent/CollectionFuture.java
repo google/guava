@@ -102,7 +102,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
 
   /** The result of a successful {@code Future}. */
   private static final class Present<V extends @Nullable Object> {
-    final V value;
+    V value;
 
     Present(V value) {
       this.value = value;
