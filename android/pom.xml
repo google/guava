@@ -18,6 +18,7 @@
     <checker-framework.version>3.12.0</checker-framework.version>
     <animal.sniffer.version>1.20</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <javac.version>9+181-r4173-1</javac.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
@@ -122,6 +123,7 @@
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
+            <encoding>UTF-8</encoding>
             <compilerArgs>
               <!--
                    Make includes/excludes fully work:
@@ -131,7 +133,18 @@
               -->
               <arg>-sourcepath</arg>
               <arg>doesnotexist</arg>
+              <!-- https://errorprone.info/docs/installation#maven -->
+              <arg>-XDcompilePolicy=simple</arg>
+              <arg>-Xplugin:ErrorProne</arg>
             </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <!-- https://errorprone.info/docs/installation#jdk-8 -->
+                <version>2.10.0</version>
+              </path>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
         <plugin>
@@ -426,6 +439,27 @@
           --add-opens java.base/sun.security.jca=ALL-UNNAMED
         </test.add.opens>
       </properties>
+    </profile>
+    <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-8 -->
+    <profile>
+      <id>jdk8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <fork>true</fork>
+              <compilerArgs combine.children="append">
+                <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
