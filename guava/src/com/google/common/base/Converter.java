@@ -191,7 +191,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
-  @CanIgnoreReturnValue
   @CheckForNull
   public final B convert(@CheckForNull A a) {
     return correctedDoForward(a);
