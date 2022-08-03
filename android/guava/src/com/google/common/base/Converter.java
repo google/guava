@@ -18,7 +18,6 @@ import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.InlineMe;
@@ -260,7 +259,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
    */
-  @CanIgnoreReturnValue
   /*
    * Just as Converter could implement `Function<@Nullable A, @Nullable B>` instead of `Function<A,
    * B>`, convertAll could accept and return iterables with nullable element types. In both cases,
@@ -460,7 +458,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  @CanIgnoreReturnValue
   /*
    * Even though we implement `Function<A, B>` instead of `Function<@Nullable A, @Nullable B>` (as
    * discussed in a code comment at the top of the class), we declare our override of Function.apply
