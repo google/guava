@@ -29,6 +29,7 @@ import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.util.ConcurrentModificationException;
@@ -193,6 +194,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 @ElementTypesAreNonnullByDefault
+@CheckReturnValue
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -306,7 +308,6 @@ public final class CacheBuilder<K, V> {
    * <p>Note that while this return type is {@code CacheBuilder<Object, Object>}, type parameters on
    * the {@link #build} methods allow you to create a cache of any key and value type desired.
    */
-  @CheckReturnValue
   public static CacheBuilder<Object, Object> newBuilder() {
     return new CacheBuilder<>();
   }
@@ -317,7 +318,6 @@ public final class CacheBuilder<K, V> {
    * @since 12.0
    */
   @GwtIncompatible // To be supported
-  @CheckReturnValue
   public static CacheBuilder<Object, Object> from(CacheBuilderSpec spec) {
     return spec.toCacheBuilder().lenientParsing();
   }
@@ -330,7 +330,6 @@ public final class CacheBuilder<K, V> {
    * @since 12.0
    */
   @GwtIncompatible // To be supported
-  @CheckReturnValue
   public static CacheBuilder<Object, Object> from(String spec) {
     return from(CacheBuilderSpec.parse(spec));
   }
@@ -341,6 +340,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
+  @CanIgnoreReturnValue
   CacheBuilder<K, V> lenientParsing() {
     strictParsing = false;
     return this;
@@ -355,6 +355,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
+  @CanIgnoreReturnValue
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -375,6 +376,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
+  @CanIgnoreReturnValue
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
     checkState(
         valueEquivalence == null, "value equivalence was already set to %s", valueEquivalence);
@@ -397,6 +399,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code initialCapacity} is negative
    * @throws IllegalStateException if an initial capacity was already set
    */
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> initialCapacity(int initialCapacity) {
     checkState(
         this.initialCapacity == UNSET_INT,
@@ -442,6 +445,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
    * @throws IllegalStateException if a concurrency level was already set
    */
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> concurrencyLevel(int concurrencyLevel) {
     checkState(
         this.concurrencyLevel == UNSET_INT,
@@ -477,6 +481,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code maximumSize} is negative
    * @throws IllegalStateException if a maximum size or weight was already set
    */
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> maximumSize(long maximumSize) {
     checkState(
         this.maximumSize == UNSET_INT, "maximum size was already set to %s", this.maximumSize);
@@ -518,6 +523,7 @@ public final class CacheBuilder<K, V> {
    * @since 11.0
    */
   @GwtIncompatible // To be supported
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> maximumWeight(long maximumWeight) {
     checkState(
         this.maximumWeight == UNSET_INT,
@@ -607,10 +613,12 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the key strength was already set
    */
   @GwtIncompatible // java.lang.ref.WeakReference
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
 
+  @CanIgnoreReturnValue
   CacheBuilder<K, V> setKeyStrength(Strength strength) {
     checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);
     keyStrength = checkNotNull(strength);
@@ -639,6 +647,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the value strength was already set
    */
   @GwtIncompatible // java.lang.ref.WeakReference
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -664,10 +673,12 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the value strength was already set
    */
   @GwtIncompatible // java.lang.ref.SoftReference
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> softValues() {
     return setValueStrength(Strength.SOFT);
   }
 
+  @CanIgnoreReturnValue
   CacheBuilder<K, V> setValueStrength(Strength strength) {
     checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);
     valueStrength = checkNotNull(strength);
@@ -701,6 +712,7 @@ public final class CacheBuilder<K, V> {
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterWrite(java.time.Duration duration) {
     return expireAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
@@ -728,6 +740,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if {@link #expireAfterWrite} was already set
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
     checkState(
         expireAfterWriteNanos == UNSET_INT,
@@ -771,6 +784,7 @@ public final class CacheBuilder<K, V> {
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterAccess(java.time.Duration duration) {
     return expireAfterAccess(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
@@ -803,6 +817,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if {@link #expireAfterAccess} was already set
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
     checkState(
         expireAfterAccessNanos == UNSET_INT,
@@ -850,6 +865,7 @@ public final class CacheBuilder<K, V> {
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> refreshAfterWrite(java.time.Duration duration) {
     return refreshAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
@@ -886,6 +902,7 @@ public final class CacheBuilder<K, V> {
    */
   @GwtIncompatible // To be supported (synchronously).
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
@@ -909,6 +926,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if a ticker was already set
    */
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> ticker(Ticker ticker) {
     checkState(this.ticker == null);
     this.ticker = checkNotNull(ticker);
@@ -943,7 +961,6 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if a removal listener was already set
    */
-  @CheckReturnValue
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(
       RemovalListener<? super K1, ? super V1> listener) {
     checkState(this.removalListener == null);
@@ -971,6 +988,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @since 12.0 (previously, stats collection was automatic)
    */
+  @CanIgnoreReturnValue
   public CacheBuilder<K, V> recordStats() {
     statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
@@ -996,7 +1014,6 @@ public final class CacheBuilder<K, V> {
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    */
-  @CheckReturnValue
   public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(
       CacheLoader<? super K1, V1> loader) {
     checkWeightWithWeigher();
@@ -1015,7 +1032,6 @@ public final class CacheBuilder<K, V> {
    * @return a cache having the requested features
    * @since 11.0
    */
-  @CheckReturnValue
   public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
     checkWeightWithWeigher();
     checkNonLoadingCache();

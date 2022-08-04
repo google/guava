@@ -4569,7 +4569,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
       }
       if (weigher != OneWeigher.INSTANCE) {
-        builder.weigher(weigher);
+        Object unused = builder.weigher(weigher);
         if (maxWeight != UNSET_INT) {
           builder.maximumWeight(maxWeight);
         }
