@@ -1747,6 +1747,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("RestrictedApiChecker") // crashes under JDK8, which EP no longer supports
   public <T> void testRejectTypeVariable_withOwnerType() {
     // Neither has subclass
     assertHasTypeVariable(new From<Integer>().new To<String>().type());
