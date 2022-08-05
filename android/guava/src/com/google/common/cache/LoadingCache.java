@@ -68,6 +68,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   V get(K key) throws ExecutionException;
 
   /**
