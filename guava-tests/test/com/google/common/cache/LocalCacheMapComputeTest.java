@@ -165,7 +165,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         count,
         n -> {
           try {
-            cache.get(key, () -> key);
+            String unused = cache.get(key, () -> key);
             cache.asMap().compute(key, (k, v) -> null);
           } catch (ExecutionException e) {
             throw new UncheckedExecutionException(e);
