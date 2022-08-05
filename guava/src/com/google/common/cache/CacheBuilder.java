@@ -566,6 +566,7 @@ public final class CacheBuilder<K, V> {
    * @since 11.0
    */
   @GwtIncompatible // To be supported
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
       Weigher<? super K1, ? super V1> weigher) {
     checkState(this.weigher == null);

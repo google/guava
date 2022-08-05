@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -45,6 +46,7 @@ public abstract class AbstractLoadingCache<K, V> extends AbstractCache<K, V>
   /** Constructor for use by subclasses. */
   protected AbstractLoadingCache() {}
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   @Override
   public V getUnchecked(K key) {
     try {
