@@ -298,8 +298,8 @@ public class CacheBuilderGwtTest extends TestCase {
     // Expire the two present elements.
     fakeTicker.advance(1001, TimeUnit.MILLISECONDS);
 
-    cache.getIfPresent(23);
-    cache.getIfPresent(56);
+    Integer unused1 = cache.getIfPresent(23);
+    Integer unused2 = cache.getIfPresent(56);
 
     // Add two elements and invalidate them.
     cache.put(1, 4);

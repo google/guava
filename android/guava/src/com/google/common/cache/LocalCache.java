@@ -50,6 +50,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
@@ -2015,6 +2016,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     // loading
 
+    @CanIgnoreReturnValue
     V get(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
       checkNotNull(key);
       checkNotNull(loader);
@@ -2213,6 +2215,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     /** Waits uninterruptibly for {@code newValue} to be loaded, and then records loading stats. */
+    @CanIgnoreReturnValue
     V getAndRecordStats(
         K key,
         int hash,
@@ -2260,6 +2263,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * {@code null} if another thread is performing the refresh or if an error occurs during
      * refresh.
      */
+    @CanIgnoreReturnValue
     @CheckForNull
     V refresh(K key, int hash, CacheLoader<? super K, V> loader, boolean checkTime) {
       final LoadingValueReference<K, V> loadingValueReference =
@@ -2677,6 +2681,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
+    @CanIgnoreReturnValue
     @CheckForNull
     V put(K key, int hash, V value, boolean onlyIfAbsent) {
       lock();
@@ -3031,6 +3036,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
+    @CanIgnoreReturnValue
     boolean storeLoadedValue(
         K key, int hash, LoadingValueReference<K, V> oldValueReference, V newValue) {
       lock();
@@ -3183,6 +3189,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     /** Removes an entry whose key has been garbage collected. */
+    @CanIgnoreReturnValue
     boolean reclaimKey(ReferenceEntry<K, V> entry, int hash) {
       lock();
       try {
@@ -3218,6 +3225,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     /** Removes an entry whose value has been garbage collected. */
+    @CanIgnoreReturnValue
     boolean reclaimValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
@@ -3261,6 +3269,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
+    @CanIgnoreReturnValue
     boolean removeLoadingValue(K key, int hash, LoadingValueReference<K, V> valueReference) {
       lock();
       try {
@@ -3296,6 +3305,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @VisibleForTesting
     @GuardedBy("this")
+    @CanIgnoreReturnValue
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       int newCount = this.count - 1;
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3406,10 +3416,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return oldValue.getWeight();
     }
 
+    @CanIgnoreReturnValue
     public boolean set(@CheckForNull V newValue) {
       return futureValue.set(newValue);
     }
 
+    @CanIgnoreReturnValue
     public boolean setException(Throwable t) {
       return futureValue.setException(t);
     }
@@ -3575,6 +3587,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     @SuppressWarnings("unchecked")
+    @CanIgnoreReturnValue
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry<K, V>) o;
       ReferenceEntry<K, V> previous = e.getPreviousInWriteQueue();
@@ -3714,6 +3727,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     @SuppressWarnings("unchecked")
+    @CanIgnoreReturnValue
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry<K, V>) o;
       ReferenceEntry<K, V> previous = e.getPreviousInAccessQueue();
@@ -3826,6 +3840,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return Ints.saturatedCast(longSize());
   }
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   @Override
   @CheckForNull
   public V get(@CheckForNull Object key) {
@@ -3836,6 +3851,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).get(key, hash);
   }
 
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   V get(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
     int hash = hash(checkNotNull(key));
     return segmentFor(hash).get(key, hash, loader);
@@ -4063,6 +4079,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return false;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, V value) {
     checkNotNull(key);
@@ -4086,6 +4103,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@CheckForNull Object key) {
     if (key == null) {
@@ -4095,6 +4113,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).remove(key, hash);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@CheckForNull Object key, @CheckForNull Object value) {
     if (key == null || value == null) {
@@ -4104,6 +4123,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).remove(key, hash, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean replace(K key, @CheckForNull V oldValue, V newValue) {
     checkNotNull(key);
@@ -4115,6 +4135,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).replace(key, hash, oldValue, newValue);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V replace(K key, V value) {
     checkNotNull(key);
@@ -4770,6 +4791,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return localCache.getOrLoad(key);
     }
 
+    @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
     @Override
     public V getUnchecked(K key) {
       try {
