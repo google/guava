@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
 import com.google.errorprone.annotations.DoNotMock;
@@ -52,6 +53,7 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   @CheckForNull
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?
   V getIfPresent(@CompatibleWith("K") Object key);
 
   /**

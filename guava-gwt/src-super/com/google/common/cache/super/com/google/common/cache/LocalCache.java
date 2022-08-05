@@ -26,6 +26,7 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -112,6 +113,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, V value) {
     checkNotNull(key);
@@ -124,6 +126,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return oldValue.getValue();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(Object key) {
     Timestamped<V> stamped = cachingHashMap.remove(key);
@@ -166,6 +169,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return put(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(Object key, Object value) {
     if (value.equals(get(key))) {
