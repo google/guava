@@ -333,6 +333,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return put(key, value, true);
   }
 
+  @CanIgnoreReturnValue
   @CheckForNull
   private K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {
     int valueHash = smearedHash(value);

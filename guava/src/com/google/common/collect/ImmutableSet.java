@@ -555,6 +555,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<E> combine(Builder<E> other) {
       requireNonNull(impl);
       requireNonNull(other.impl);
