@@ -122,6 +122,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * @throws ExecutionError if an error was thrown while loading the values
    * @since 11.0
    */
+  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this
   ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
 
   /**
