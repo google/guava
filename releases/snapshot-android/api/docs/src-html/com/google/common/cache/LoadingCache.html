@@ -131,48 +131,49 @@
 <span class="sourceLineNo">122</span><a id="line.122">   * @throws ExecutionError if an error was thrown while loading the values</a>
 <span class="sourceLineNo">123</span><a id="line.123">   * @since 11.0</a>
 <span class="sourceLineNo">124</span><a id="line.124">   */</a>
-<span class="sourceLineNo">125</span><a id="line.125">  ImmutableMap&lt;K, V&gt; getAll(Iterable&lt;? extends K&gt; keys) throws ExecutionException;</a>
-<span class="sourceLineNo">126</span><a id="line.126"></a>
-<span class="sourceLineNo">127</span><a id="line.127">  /**</a>
-<span class="sourceLineNo">128</span><a id="line.128">   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or {@link</a>
-<span class="sourceLineNo">129</span><a id="line.129">   *     #getUnchecked} instead.</a>
-<span class="sourceLineNo">130</span><a id="line.130">   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As</a>
-<span class="sourceLineNo">131</span><a id="line.131">   *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be</a>
-<span class="sourceLineNo">132</span><a id="line.132">   *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)</a>
-<span class="sourceLineNo">133</span><a id="line.133">   */</a>
-<span class="sourceLineNo">134</span><a id="line.134">  @Deprecated</a>
-<span class="sourceLineNo">135</span><a id="line.135">  @Override</a>
-<span class="sourceLineNo">136</span><a id="line.136">  V apply(K key);</a>
-<span class="sourceLineNo">137</span><a id="line.137"></a>
-<span class="sourceLineNo">138</span><a id="line.138">  /**</a>
-<span class="sourceLineNo">139</span><a id="line.139">   * Loads a new value for {@code key}, possibly asynchronously. While the new value is loading the</a>
-<span class="sourceLineNo">140</span><a id="line.140">   * previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.</a>
-<span class="sourceLineNo">141</span><a id="line.141">   * If the new value is loaded successfully it will replace the previous value in the cache; if an</a>
-<span class="sourceLineNo">142</span><a id="line.142">   * exception is thrown while refreshing the previous value will remain, &lt;i&gt;and the exception will</a>
-<span class="sourceLineNo">143</span><a id="line.143">   * be logged (using {@link java.util.logging.Logger}) and swallowed&lt;/i&gt;.</a>
-<span class="sourceLineNo">144</span><a id="line.144">   *</a>
-<span class="sourceLineNo">145</span><a id="line.145">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is</a>
-<span class="sourceLineNo">147</span><a id="line.147">   * asynchronous only if {@link CacheLoader#reload} was overridden with an asynchronous</a>
-<span class="sourceLineNo">148</span><a id="line.148">   * implementation.</a>
-<span class="sourceLineNo">149</span><a id="line.149">   *</a>
-<span class="sourceLineNo">150</span><a id="line.150">   * &lt;p&gt;Returns without doing anything if another thread is currently loading the value for {@code</a>
-<span class="sourceLineNo">151</span><a id="line.151">   * key}. If the cache loader associated with this cache performs refresh asynchronously then this</a>
-<span class="sourceLineNo">152</span><a id="line.152">   * method may return before refresh completes.</a>
-<span class="sourceLineNo">153</span><a id="line.153">   *</a>
-<span class="sourceLineNo">154</span><a id="line.154">   * @since 11.0</a>
-<span class="sourceLineNo">155</span><a id="line.155">   */</a>
-<span class="sourceLineNo">156</span><a id="line.156">  void refresh(K key);</a>
-<span class="sourceLineNo">157</span><a id="line.157"></a>
-<span class="sourceLineNo">158</span><a id="line.158">  /**</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * {@inheritDoc}</a>
-<span class="sourceLineNo">160</span><a id="line.160">   *</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * &lt;p&gt;&lt;b&gt;Note that although the view &lt;i&gt;is&lt;/i&gt; modifiable, no method on the returned map will ever</a>
-<span class="sourceLineNo">162</span><a id="line.162">   * cause entries to be automatically loaded.&lt;/b&gt;</a>
-<span class="sourceLineNo">163</span><a id="line.163">   */</a>
-<span class="sourceLineNo">164</span><a id="line.164">  @Override</a>
-<span class="sourceLineNo">165</span><a id="line.165">  ConcurrentMap&lt;K, V&gt; asMap();</a>
-<span class="sourceLineNo">166</span><a id="line.166">}</a>
+<span class="sourceLineNo">125</span><a id="line.125">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this</a>
+<span class="sourceLineNo">126</span><a id="line.126">  ImmutableMap&lt;K, V&gt; getAll(Iterable&lt;? extends K&gt; keys) throws ExecutionException;</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">  /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or {@link</a>
+<span class="sourceLineNo">130</span><a id="line.130">   *     #getUnchecked} instead.</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be</a>
+<span class="sourceLineNo">133</span><a id="line.133">   *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)</a>
+<span class="sourceLineNo">134</span><a id="line.134">   */</a>
+<span class="sourceLineNo">135</span><a id="line.135">  @Deprecated</a>
+<span class="sourceLineNo">136</span><a id="line.136">  @Override</a>
+<span class="sourceLineNo">137</span><a id="line.137">  V apply(K key);</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">  /**</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * Loads a new value for {@code key}, possibly asynchronously. While the new value is loading the</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * If the new value is loaded successfully it will replace the previous value in the cache; if an</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * exception is thrown while refreshing the previous value will remain, &lt;i&gt;and the exception will</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * be logged (using {@link java.util.logging.Logger}) and swallowed&lt;/i&gt;.</a>
+<span class="sourceLineNo">145</span><a id="line.145">   *</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * asynchronous only if {@link CacheLoader#reload} was overridden with an asynchronous</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * implementation.</a>
+<span class="sourceLineNo">150</span><a id="line.150">   *</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * &lt;p&gt;Returns without doing anything if another thread is currently loading the value for {@code</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * key}. If the cache loader associated with this cache performs refresh asynchronously then this</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * method may return before refresh completes.</a>
+<span class="sourceLineNo">154</span><a id="line.154">   *</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * @since 11.0</a>
+<span class="sourceLineNo">156</span><a id="line.156">   */</a>
+<span class="sourceLineNo">157</span><a id="line.157">  void refresh(K key);</a>
+<span class="sourceLineNo">158</span><a id="line.158"></a>
+<span class="sourceLineNo">159</span><a id="line.159">  /**</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * {@inheritDoc}</a>
+<span class="sourceLineNo">161</span><a id="line.161">   *</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * &lt;p&gt;&lt;b&gt;Note that although the view &lt;i&gt;is&lt;/i&gt; modifiable, no method on the returned map will ever</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * cause entries to be automatically loaded.&lt;/b&gt;</a>
+<span class="sourceLineNo">164</span><a id="line.164">   */</a>
+<span class="sourceLineNo">165</span><a id="line.165">  @Override</a>
+<span class="sourceLineNo">166</span><a id="line.166">  ConcurrentMap&lt;K, V&gt; asMap();</a>
+<span class="sourceLineNo">167</span><a id="line.167">}</a>
 
 
 

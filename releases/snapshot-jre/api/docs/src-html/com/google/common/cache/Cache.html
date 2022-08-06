@@ -111,90 +111,91 @@
 <span class="sourceLineNo">102</span><a id="line.102">   * @throws ExecutionError if an error was thrown while loading the value</a>
 <span class="sourceLineNo">103</span><a id="line.103">   * @since 11.0</a>
 <span class="sourceLineNo">104</span><a id="line.104">   */</a>
-<span class="sourceLineNo">105</span><a id="line.105">  V get(K key, Callable&lt;? extends V&gt; loader) throws ExecutionException;</a>
-<span class="sourceLineNo">106</span><a id="line.106"></a>
-<span class="sourceLineNo">107</span><a id="line.107">  /**</a>
-<span class="sourceLineNo">108</span><a id="line.108">   * Returns a map of the values associated with {@code keys} in this cache. The returned map will</a>
-<span class="sourceLineNo">109</span><a id="line.109">   * only contain entries which are already present in the cache.</a>
-<span class="sourceLineNo">110</span><a id="line.110">   *</a>
-<span class="sourceLineNo">111</span><a id="line.111">   * @since 11.0</a>
-<span class="sourceLineNo">112</span><a id="line.112">   */</a>
-<span class="sourceLineNo">113</span><a id="line.113">  /*</a>
-<span class="sourceLineNo">114</span><a id="line.114">   * &lt;? extends Object&gt; is mostly the same as &lt;?&gt; to plain Java. But to nullness checkers, they</a>
-<span class="sourceLineNo">115</span><a id="line.115">   * differ: &lt;? extends Object&gt; means "non-null types," while &lt;?&gt; means "all types."</a>
-<span class="sourceLineNo">116</span><a id="line.116">   */</a>
-<span class="sourceLineNo">117</span><a id="line.117">  ImmutableMap&lt;K, V&gt; getAllPresent(Iterable&lt;? extends Object&gt; keys);</a>
-<span class="sourceLineNo">118</span><a id="line.118"></a>
-<span class="sourceLineNo">119</span><a id="line.119">  /**</a>
-<span class="sourceLineNo">120</span><a id="line.120">   * Associates {@code value} with {@code key} in this cache. If the cache previously contained a</a>
-<span class="sourceLineNo">121</span><a id="line.121">   * value associated with {@code key}, the old value is replaced by {@code value}.</a>
-<span class="sourceLineNo">122</span><a id="line.122">   *</a>
-<span class="sourceLineNo">123</span><a id="line.123">   * &lt;p&gt;Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return;</a>
-<span class="sourceLineNo">124</span><a id="line.124">   * otherwise create, cache and return" pattern.</a>
-<span class="sourceLineNo">125</span><a id="line.125">   *</a>
-<span class="sourceLineNo">126</span><a id="line.126">   * @since 11.0</a>
-<span class="sourceLineNo">127</span><a id="line.127">   */</a>
-<span class="sourceLineNo">128</span><a id="line.128">  void put(K key, V value);</a>
-<span class="sourceLineNo">129</span><a id="line.129"></a>
-<span class="sourceLineNo">130</span><a id="line.130">  /**</a>
-<span class="sourceLineNo">131</span><a id="line.131">   * Copies all of the mappings from the specified map to the cache. The effect of this call is</a>
-<span class="sourceLineNo">132</span><a id="line.132">   * equivalent to that of calling {@code put(k, v)} on this map once for each mapping from key</a>
-<span class="sourceLineNo">133</span><a id="line.133">   * {@code k} to value {@code v} in the specified map. The behavior of this operation is undefined</a>
-<span class="sourceLineNo">134</span><a id="line.134">   * if the specified map is modified while the operation is in progress.</a>
-<span class="sourceLineNo">135</span><a id="line.135">   *</a>
-<span class="sourceLineNo">136</span><a id="line.136">   * @since 12.0</a>
-<span class="sourceLineNo">137</span><a id="line.137">   */</a>
-<span class="sourceLineNo">138</span><a id="line.138">  void putAll(Map&lt;? extends K, ? extends V&gt; m);</a>
-<span class="sourceLineNo">139</span><a id="line.139"></a>
-<span class="sourceLineNo">140</span><a id="line.140">  /** Discards any cached value for key {@code key}. */</a>
-<span class="sourceLineNo">141</span><a id="line.141">  void invalidate(@CompatibleWith("K") Object key);</a>
-<span class="sourceLineNo">142</span><a id="line.142"></a>
-<span class="sourceLineNo">143</span><a id="line.143">  /**</a>
-<span class="sourceLineNo">144</span><a id="line.144">   * Discards any cached values for keys {@code keys}.</a>
-<span class="sourceLineNo">145</span><a id="line.145">   *</a>
-<span class="sourceLineNo">146</span><a id="line.146">   * @since 11.0</a>
-<span class="sourceLineNo">147</span><a id="line.147">   */</a>
-<span class="sourceLineNo">148</span><a id="line.148">  // For discussion of &lt;? extends Object&gt;, see getAllPresent.</a>
-<span class="sourceLineNo">149</span><a id="line.149">  void invalidateAll(Iterable&lt;? extends Object&gt; keys);</a>
-<span class="sourceLineNo">150</span><a id="line.150"></a>
-<span class="sourceLineNo">151</span><a id="line.151">  /** Discards all entries in the cache. */</a>
-<span class="sourceLineNo">152</span><a id="line.152">  void invalidateAll();</a>
-<span class="sourceLineNo">153</span><a id="line.153"></a>
-<span class="sourceLineNo">154</span><a id="line.154">  /** Returns the approximate number of entries in this cache. */</a>
-<span class="sourceLineNo">155</span><a id="line.155">  @CheckReturnValue</a>
-<span class="sourceLineNo">156</span><a id="line.156">  long size();</a>
-<span class="sourceLineNo">157</span><a id="line.157"></a>
-<span class="sourceLineNo">158</span><a id="line.158">  /**</a>
-<span class="sourceLineNo">159</span><a id="line.159">   * Returns a current snapshot of this cache's cumulative statistics, or a set of default values if</a>
-<span class="sourceLineNo">160</span><a id="line.160">   * the cache is not recording statistics. All statistics begin at zero and never decrease over the</a>
-<span class="sourceLineNo">161</span><a id="line.161">   * lifetime of the cache.</a>
-<span class="sourceLineNo">162</span><a id="line.162">   *</a>
-<span class="sourceLineNo">163</span><a id="line.163">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this cache may not be recording statistical data. For example, a cache</a>
-<span class="sourceLineNo">164</span><a id="line.164">   * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method</a>
-<span class="sourceLineNo">165</span><a id="line.165">   * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for</a>
-<span class="sourceLineNo">166</span><a id="line.166">   * all values is returned.</a>
-<span class="sourceLineNo">167</span><a id="line.167">   *</a>
-<span class="sourceLineNo">168</span><a id="line.168">   */</a>
-<span class="sourceLineNo">169</span><a id="line.169">  @CheckReturnValue</a>
-<span class="sourceLineNo">170</span><a id="line.170">  CacheStats stats();</a>
-<span class="sourceLineNo">171</span><a id="line.171"></a>
-<span class="sourceLineNo">172</span><a id="line.172">  /**</a>
-<span class="sourceLineNo">173</span><a id="line.173">   * Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to</a>
-<span class="sourceLineNo">174</span><a id="line.174">   * the map directly affect the cache.</a>
-<span class="sourceLineNo">175</span><a id="line.175">   *</a>
-<span class="sourceLineNo">176</span><a id="line.176">   * &lt;p&gt;Iterators from the returned map are at least &lt;i&gt;weakly consistent&lt;/i&gt;: they are safe for</a>
-<span class="sourceLineNo">177</span><a id="line.177">   * concurrent use, but if the cache is modified (including by eviction) after the iterator is</a>
-<span class="sourceLineNo">178</span><a id="line.178">   * created, it is undefined which of the changes (if any) will be reflected in that iterator.</a>
-<span class="sourceLineNo">179</span><a id="line.179">   */</a>
-<span class="sourceLineNo">180</span><a id="line.180">  @CheckReturnValue</a>
-<span class="sourceLineNo">181</span><a id="line.181">  ConcurrentMap&lt;K, V&gt; asMap();</a>
-<span class="sourceLineNo">182</span><a id="line.182"></a>
-<span class="sourceLineNo">183</span><a id="line.183">  /**</a>
-<span class="sourceLineNo">184</span><a id="line.184">   * Performs any pending maintenance operations needed by the cache. Exactly which activities are</a>
-<span class="sourceLineNo">185</span><a id="line.185">   * performed -- if any -- is implementation-dependent.</a>
-<span class="sourceLineNo">186</span><a id="line.186">   */</a>
-<span class="sourceLineNo">187</span><a id="line.187">  void cleanUp();</a>
-<span class="sourceLineNo">188</span><a id="line.188">}</a>
+<span class="sourceLineNo">105</span><a id="line.105">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this</a>
+<span class="sourceLineNo">106</span><a id="line.106">  V get(K key, Callable&lt;? extends V&gt; loader) throws ExecutionException;</a>
+<span class="sourceLineNo">107</span><a id="line.107"></a>
+<span class="sourceLineNo">108</span><a id="line.108">  /**</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * Returns a map of the values associated with {@code keys} in this cache. The returned map will</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * only contain entries which are already present in the cache.</a>
+<span class="sourceLineNo">111</span><a id="line.111">   *</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * @since 11.0</a>
+<span class="sourceLineNo">113</span><a id="line.113">   */</a>
+<span class="sourceLineNo">114</span><a id="line.114">  /*</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * &lt;? extends Object&gt; is mostly the same as &lt;?&gt; to plain Java. But to nullness checkers, they</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * differ: &lt;? extends Object&gt; means "non-null types," while &lt;?&gt; means "all types."</a>
+<span class="sourceLineNo">117</span><a id="line.117">   */</a>
+<span class="sourceLineNo">118</span><a id="line.118">  ImmutableMap&lt;K, V&gt; getAllPresent(Iterable&lt;? extends Object&gt; keys);</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">  /**</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * Associates {@code value} with {@code key} in this cache. If the cache previously contained a</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * value associated with {@code key}, the old value is replaced by {@code value}.</a>
+<span class="sourceLineNo">123</span><a id="line.123">   *</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * &lt;p&gt;Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return;</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * otherwise create, cache and return" pattern.</a>
+<span class="sourceLineNo">126</span><a id="line.126">   *</a>
+<span class="sourceLineNo">127</span><a id="line.127">   * @since 11.0</a>
+<span class="sourceLineNo">128</span><a id="line.128">   */</a>
+<span class="sourceLineNo">129</span><a id="line.129">  void put(K key, V value);</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">  /**</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * Copies all of the mappings from the specified map to the cache. The effect of this call is</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * equivalent to that of calling {@code put(k, v)} on this map once for each mapping from key</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * {@code k} to value {@code v} in the specified map. The behavior of this operation is undefined</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * if the specified map is modified while the operation is in progress.</a>
+<span class="sourceLineNo">136</span><a id="line.136">   *</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @since 12.0</a>
+<span class="sourceLineNo">138</span><a id="line.138">   */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  void putAll(Map&lt;? extends K, ? extends V&gt; m);</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  /** Discards any cached value for key {@code key}. */</a>
+<span class="sourceLineNo">142</span><a id="line.142">  void invalidate(@CompatibleWith("K") Object key);</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">  /**</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * Discards any cached values for keys {@code keys}.</a>
+<span class="sourceLineNo">146</span><a id="line.146">   *</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @since 11.0</a>
+<span class="sourceLineNo">148</span><a id="line.148">   */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  // For discussion of &lt;? extends Object&gt;, see getAllPresent.</a>
+<span class="sourceLineNo">150</span><a id="line.150">  void invalidateAll(Iterable&lt;? extends Object&gt; keys);</a>
+<span class="sourceLineNo">151</span><a id="line.151"></a>
+<span class="sourceLineNo">152</span><a id="line.152">  /** Discards all entries in the cache. */</a>
+<span class="sourceLineNo">153</span><a id="line.153">  void invalidateAll();</a>
+<span class="sourceLineNo">154</span><a id="line.154"></a>
+<span class="sourceLineNo">155</span><a id="line.155">  /** Returns the approximate number of entries in this cache. */</a>
+<span class="sourceLineNo">156</span><a id="line.156">  @CheckReturnValue</a>
+<span class="sourceLineNo">157</span><a id="line.157">  long size();</a>
+<span class="sourceLineNo">158</span><a id="line.158"></a>
+<span class="sourceLineNo">159</span><a id="line.159">  /**</a>
+<span class="sourceLineNo">160</span><a id="line.160">   * Returns a current snapshot of this cache's cumulative statistics, or a set of default values if</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * the cache is not recording statistics. All statistics begin at zero and never decrease over the</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * lifetime of the cache.</a>
+<span class="sourceLineNo">163</span><a id="line.163">   *</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this cache may not be recording statistical data. For example, a cache</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * all values is returned.</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   */</a>
+<span class="sourceLineNo">170</span><a id="line.170">  @CheckReturnValue</a>
+<span class="sourceLineNo">171</span><a id="line.171">  CacheStats stats();</a>
+<span class="sourceLineNo">172</span><a id="line.172"></a>
+<span class="sourceLineNo">173</span><a id="line.173">  /**</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * the map directly affect the cache.</a>
+<span class="sourceLineNo">176</span><a id="line.176">   *</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * &lt;p&gt;Iterators from the returned map are at least &lt;i&gt;weakly consistent&lt;/i&gt;: they are safe for</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * concurrent use, but if the cache is modified (including by eviction) after the iterator is</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * created, it is undefined which of the changes (if any) will be reflected in that iterator.</a>
+<span class="sourceLineNo">180</span><a id="line.180">   */</a>
+<span class="sourceLineNo">181</span><a id="line.181">  @CheckReturnValue</a>
+<span class="sourceLineNo">182</span><a id="line.182">  ConcurrentMap&lt;K, V&gt; asMap();</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  /**</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * Performs any pending maintenance operations needed by the cache. Exactly which activities are</a>
+<span class="sourceLineNo">186</span><a id="line.186">   * performed -- if any -- is implementation-dependent.</a>
+<span class="sourceLineNo">187</span><a id="line.187">   */</a>
+<span class="sourceLineNo">188</span><a id="line.188">  void cleanUp();</a>
+<span class="sourceLineNo">189</span><a id="line.189">}</a>
 
 
 

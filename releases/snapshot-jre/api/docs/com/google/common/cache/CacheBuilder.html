@@ -676,6 +676,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>weigher</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.568">weigher</a>&#8203;(<a href="Weigher.html" title="interface in com.google.common.cache">Weigher</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;weigher)</pre>
 <div class="block">Specifies the weigher to use in determining the weight of entries. Entry weight is taken into
  consideration by <a href="#maximumWeight(long)"><code>maximumWeight(long)</code></a> when determining which entries to evict, and use
@@ -719,7 +720,7 @@ public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in 
 <h4>weakKeys</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.615">weakKeys</a>()</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.616">weakKeys</a>()</pre>
 <div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
 
  <p><b>Warning:</b> when this method is used, the resulting cache will use identity (<code>==</code>)
@@ -746,7 +747,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>weakValues</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.649">weakValues</a>()</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.650">weakValues</a>()</pre>
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
 
  <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
@@ -774,7 +775,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>softValues</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.675">softValues</a>()</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.676">softValues</a>()</pre>
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a <code>SoftReference</code> (by default, strong references are used). Softly-referenced objects will be
  garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
  demand.
@@ -804,7 +805,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>expireAfterWrite</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.712">expireAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.713">expireAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.
 
@@ -836,7 +837,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>expireAfterWrite</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.742">expireAfterWrite</a>&#8203;(long&nbsp;duration,
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.743">expireAfterWrite</a>&#8203;(long&nbsp;duration,
                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.
@@ -871,7 +872,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>expireAfterAccess</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.784">expireAfterAccess</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.785">expireAfterAccess</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including <code>
@@ -908,7 +909,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>expireAfterAccess</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.819">expireAfterAccess</a>&#8203;(long&nbsp;duration,
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.820">expireAfterAccess</a>&#8203;(long&nbsp;duration,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
@@ -948,7 +949,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>refreshAfterWrite</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.865">refreshAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.866">refreshAfterWrite</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time" class="externalLink">Duration</a>&nbsp;duration)</pre>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value. The semantics
  of refreshes are specified in <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>, and are performed by calling <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a>.
@@ -987,7 +988,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <h4>refreshAfterWrite</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.903">refreshAfterWrite</a>&#8203;(long&nbsp;duration,
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.904">refreshAfterWrite</a>&#8203;(long&nbsp;duration,
                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value. The semantics
@@ -1029,7 +1030,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>ticker</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.929">ticker</a>&#8203;(<a href="../base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.930">ticker</a>&#8203;(<a href="../base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Specifies a nanosecond-precision time source for this cache. By default, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> is used.
 
  <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
@@ -1048,7 +1049,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>removalListener</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.964">removalListener</a>&#8203;(<a href="RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;listener)</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.965">removalListener</a>&#8203;(<a href="RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,&#8203;? super V1&gt;&nbsp;listener)</pre>
 <div class="block">Specifies a listener instance that caches should notify each time an entry is removed for any
  <a href="RemovalCause.html" title="enum in com.google.common.cache">reason</a>. Each cache created by this builder will invoke this listener
  as part of the routine maintenance described in the class documentation above.
@@ -1079,7 +1080,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <li class="blockList">
 <h4>recordStats</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.991">recordStats</a>()</pre>
+public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;<a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.992">recordStats</a>()</pre>
 <div class="block">Enable the accumulation of <a href="CacheStats.html" title="class in com.google.common.cache"><code>CacheStats</code></a> during the operation of the cache. Without this
  <a href="Cache.html#stats()"><code>Cache.stats()</code></a> will return zero for all statistics. Note that recording stats requires
  bookkeeping to be performed with each operation, and thus imposes a performance penalty on
@@ -1098,7 +1099,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1017">build</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,&#8203;V1&gt;&nbsp;loader)</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1018">build</a>&#8203;(<a href="CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,&#8203;V1&gt;&nbsp;loader)</pre>
 <div class="block">Builds a cache, which either returns an already-loaded value for a given key or atomically
  computes or retrieves it using the supplied <code>CacheLoader</code>. If another thread is currently
  loading the value for this key, simply waits for that thread to finish and returns its loaded
@@ -1120,7 +1121,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1035">build</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;K1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,&#8203;V1 extends <a href="CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,&#8203;V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1036">build</a>()</pre>
 <div class="block">Builds a cache which does not automatically load values when keys are requested.
 
  <p>Consider <a href="#build(com.google.common.cache.CacheLoader)"><code>build(CacheLoader)</code></a> instead, if it is feasible to implement a <code>
@@ -1142,7 +1143,7 @@ public&nbsp;<a href="CacheBuilder.html" title="class in com.google.common.cache"
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1063">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.1064">toString</a>()</pre>
 <div class="block">Returns a string representation for this CacheBuilder instance. The exact form of the returned
  string is not specified.</div>
 <dl>
