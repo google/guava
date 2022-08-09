@@ -54873,6 +54873,16 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="JWT" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[For <a href="https://tools.ietf.org/html/7519">JWT objects using the compact Serialization</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="MANIFEST_JSON_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
