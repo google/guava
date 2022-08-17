@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.Collection;
 
 /**
  * Implementation of {@link ImmutableListMultimap} with no entries.
@@ -30,6 +31,15 @@ class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
 
   private EmptyImmutableSetMultimap() {
     super(ImmutableMap.<Object, ImmutableSet<Object>>of(), 0, null);
+  }
+
+  /*
+   * TODO(b/242884182): Figure out why this helps produce the same class file when compiling the
+   * mainline as when compiling the backport, and ideally find a nicer way to accomplish that.
+   */
+  @Override
+  public ImmutableMap<Object, Collection<Object>> asMap() {
+    return super.asMap();
   }
 
   private Object readResolve() {
