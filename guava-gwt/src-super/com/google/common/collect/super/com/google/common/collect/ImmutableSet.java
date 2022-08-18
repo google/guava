@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -237,12 +238,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       this.contents = Lists.newArrayListWithCapacity(initialCapacity);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       checkNotNull(elements); // for GWT
@@ -251,6 +254,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
@@ -261,12 +265,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<E> combine(Builder<E> builder) {
       contents.addAll(builder.contents);
       return this;

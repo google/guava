@@ -22,6 +22,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A builder for constructing instances of {@link MutableValueGraph} or {@link ImmutableValueGraph}
@@ -128,6 +129,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * <p>The default value is {@code false}.
    */
+  @CanIgnoreReturnValue
   public ValueGraphBuilder<N, V> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
@@ -138,6 +140,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
+  @CanIgnoreReturnValue
   public ValueGraphBuilder<N, V> expectedNodeCount(int expectedNodeCount) {
     this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;

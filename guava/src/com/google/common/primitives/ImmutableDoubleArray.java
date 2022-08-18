@@ -21,7 +21,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -210,7 +209,6 @@ public final class ImmutableDoubleArray implements Serializable {
    * A builder for {@link ImmutableDoubleArray} instances; obtained using {@link
    * ImmutableDoubleArray#builder}.
    */
-  @CanIgnoreReturnValue
   public static final class Builder {
     private double[] array;
     private int count = 0; // <= array.length
@@ -223,6 +221,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends {@code value} to the end of the values the built {@link ImmutableDoubleArray} will
      * contain.
      */
+    @CanIgnoreReturnValue
     public Builder add(double value) {
       ensureRoomFor(1);
       array[count] = value;
@@ -234,6 +233,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(double[] values) {
       ensureRoomFor(values.length);
       System.arraycopy(values, 0, array, count, values.length);
@@ -245,6 +245,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(Iterable<Double> values) {
       if (values instanceof Collection) {
         return addAll((Collection<Double>) values);
@@ -259,6 +260,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(Collection<Double> values) {
       ensureRoomFor(values.size());
       for (Double value : values) {
@@ -271,6 +273,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends all values from {@code stream}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(DoubleStream stream) {
       Spliterator.OfDouble spliterator = stream.spliterator();
       long size = spliterator.getExactSizeIfKnown();
@@ -285,6 +288,7 @@ public final class ImmutableDoubleArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableDoubleArray} will contain.
      */
+    @CanIgnoreReturnValue
     public Builder addAll(ImmutableDoubleArray values) {
       ensureRoomFor(values.length());
       System.arraycopy(values.array, values.start, array, count, values.length());
@@ -323,7 +327,6 @@ public final class ImmutableDoubleArray implements Serializable {
      * no data is copied as part of this step, but this may occupy more memory than strictly
      * necessary. To copy the data to a right-sized backing array, use {@code .build().trimmed()}.
      */
-    @CheckReturnValue
     public ImmutableDoubleArray build() {
       return count == 0 ? EMPTY : new ImmutableDoubleArray(array, 0, count);
     }

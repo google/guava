@@ -339,7 +339,7 @@ public class CacheExpirationTest extends TestCase {
     assertThat(keySet).containsExactly(2, 3, 4, 5, 6, 7, 8, 9, 0);
 
     // get(K, Callable) doesn't stop 2 from expiring
-    cache.get(2, Callables.returning(-2));
+    Integer unused = cache.get(2, Callables.returning(-2));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
     assertThat(keySet).containsExactly(3, 4, 5, 6, 7, 8, 9, 0);
@@ -403,7 +403,7 @@ public class CacheExpirationTest extends TestCase {
 
     // get(K, Callable) fails to save 8, replace saves 6
     cache.asMap().replace(6, -6);
-    cache.get(8, Callables.returning(-8));
+    Integer unused = cache.get(8, Callables.returning(-8));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
     assertThat(keySet).containsExactly(3, 6);

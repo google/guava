@@ -34,7 +34,7 @@ final class Platform {
 
   // Class.cast is not supported in GWT.  This method is a no-op in GWT.
   static void checkCast(Class<?> clazz, Object obj) {
-    clazz.cast(obj);
+    Object unused = clazz.cast(obj);
   }
 
   static String format(String template, Object... args) {
