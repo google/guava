@@ -34,8 +34,10 @@ class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Object> {
   }
 
   /*
-   * TODO(b/242884182): Figure out why this helps produce the same class file when compiling the
-   * mainline as when compiling the backport, and ideally find a nicer way to accomplish that.
+   * TODO(b/242884182): Figure out why this helps produce the same class file when we compile most
+   * of common.collect a second time with the results of the first compilation on the classpath. Or
+   * just back this out once we stop doing that (which we'll do after our internal GWT setup
+   * changes).
    */
   @Override
   public ImmutableMap<Object, Collection<Object>> asMap() {
