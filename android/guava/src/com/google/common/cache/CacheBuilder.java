@@ -572,7 +572,7 @@ public final class CacheBuilder<K, V> {
     if (strictParsing) {
       checkState(
           this.maximumSize == UNSET_INT,
-          "weigher can not be combined with maximum size",
+          "weigher can not be combined with maximum size (%s provided)",
           this.maximumSize);
     }
 
