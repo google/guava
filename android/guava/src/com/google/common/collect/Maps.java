@@ -1282,7 +1282,12 @@ public final class Maps {
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
-    // TODO(lowasser): consider presizing the builder if values is a Collection
+    if (values instanceof Collection) {
+      return uniqueIndex(
+          values.iterator(),
+          keyFunction,
+          ImmutableMap.builderWithExpectedSize(((Collection<?>) values).size()));
+    }
     return uniqueIndex(values.iterator(), keyFunction);
   }
 
@@ -1318,8 +1323,12 @@ public final class Maps {
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterator<V> values, Function<? super V, K> keyFunction) {
+    return uniqueIndex(values, keyFunction, ImmutableMap.builder());
+  }
+
+  private static <K, V> ImmutableMap<K, V> uniqueIndex(
+      Iterator<V> values, Function<? super V, K> keyFunction, ImmutableMap.Builder<K, V> builder) {
     checkNotNull(keyFunction);
-    ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
     while (values.hasNext()) {
       V value = values.next();
       builder.put(keyFunction.apply(value), value);
