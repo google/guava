@@ -262,7 +262,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase32UpperCaseIsNoOp() {
-    assertSame(base32(), base32().upperCase());
+    assertThat(base32().upperCase()).isSameInstanceAs(base32());
   }
 
   public void testBase32Offset() {
@@ -318,7 +318,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase32HexUpperCaseIsNoOp() {
-    assertSame(base32Hex(), base32Hex().upperCase());
+    assertThat(base32Hex().upperCase()).isSameInstanceAs(base32Hex());
   }
 
   public void testBase16() {
@@ -332,7 +332,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase16UpperCaseIsNoOp() {
-    assertSame(base16(), base16().upperCase());
+    assertThat(base16().upperCase()).isSameInstanceAs(base16());
   }
 
   public void testBase16InvalidDecodings() {
@@ -391,12 +391,12 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
-    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.canDecode(encoded)).isTrue();
     assertThat(encoding.decode(encoded)).isEqualTo(decoded.getBytes(UTF_8));
   }
 
   private static void testDecodesByBytes(BaseEncoding encoding, String encoded, byte[] decoded) {
-    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.canDecode(encoded)).isTrue();
     assertThat(encoding.decode(encoded)).isEqualTo(decoded);
   }
 
@@ -441,7 +441,7 @@ public class BaseEncodingTest extends TestCase {
       @Override
       void assertFailsToDecode(
           BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
-        assertFalse(encoding.canDecode(cannotDecode));
+        assertThat(encoding.canDecode(cannotDecode)).isFalse();
       }
     },
     DECODE {
@@ -512,9 +512,9 @@ public class BaseEncodingTest extends TestCase {
   private static void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     StringWriter writer = new StringWriter();
-    OutputStream encodingStream = encoding.encodingStream(writer);
-    encodingStream.write(decoded.getBytes(UTF_8));
-    encodingStream.close();
+    try (OutputStream encodingStream = encoding.encodingStream(writer)) {
+      encodingStream.write(decoded.getBytes(UTF_8));
+    }
     assertThat(writer.toString()).isEqualTo(encoded);
   }
 
@@ -522,22 +522,21 @@ public class BaseEncodingTest extends TestCase {
   private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
     byte[] bytes = decoded.getBytes(UTF_8);
-    InputStream decodingStream = encoding.decodingStream(new StringReader(encoded));
-    for (int i = 0; i < bytes.length; i++) {
-      assertThat(decodingStream.read()).isEqualTo(bytes[i] & 0xFF);
+    try (InputStream decodingStream = encoding.decodingStream(new StringReader(encoded))) {
+      for (int i = 0; i < bytes.length; i++) {
+        assertThat(decodingStream.read()).isEqualTo(bytes[i] & 0xFF);
+      }
+      assertThat(decodingStream.read()).isEqualTo(-1);
     }
-    assertThat(decodingStream.read()).isEqualTo(-1);
-    decodingStream.close();
   }
 
   public void testToString() {
-    assertEquals("BaseEncoding.base64().withPadChar('=')", base64().toString());
-    assertEquals("BaseEncoding.base32Hex().omitPadding()", base32Hex().omitPadding().toString());
-    assertEquals(
-        "BaseEncoding.base32().lowerCase().withPadChar('$')",
-        base32().lowerCase().withPadChar('$').toString());
-    assertEquals(
-        "BaseEncoding.base16().withSeparator(\"\n\", 10)",
-        base16().withSeparator("\n", 10).toString());
+    assertThat(base64().toString()).isEqualTo("BaseEncoding.base64().withPadChar('=')");
+    assertThat(base32Hex().omitPadding().toString())
+        .isEqualTo("BaseEncoding.base32Hex().omitPadding()");
+    assertThat(base32().lowerCase().withPadChar('$').toString())
+        .isEqualTo("BaseEncoding.base32().lowerCase().withPadChar('$')");
+    assertThat(base16().withSeparator("\n", 10).toString())
+        .isEqualTo("BaseEncoding.base16().withSeparator(\"\n\", 10)");
   }
 }
