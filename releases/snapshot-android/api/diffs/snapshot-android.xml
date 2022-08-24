@@ -42428,6 +42428,18 @@
      lower-case characters]]>
       </doc>
     </method>
+    <method name="ignoreCase" return="com.google.common.io.BaseEncoding"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an encoding that behaves equivalently to this encoding, but decodes letters without
+ regard to case.
+
+ @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
+     lower-case characters]]>
+      </doc>
+    </method>
     <method name="base64" return="com.google.common.io.BaseEncoding"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

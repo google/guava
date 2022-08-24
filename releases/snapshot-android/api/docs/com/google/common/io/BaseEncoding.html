@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":6,"i6":10,"i7":10,"i8":6,"i9":10,"i10":10,"i11":10,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":6,"i6":10,"i7":10,"i8":6,"i9":10,"i10":10,"i11":10,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6,"i18":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -368,13 +368,21 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ignoreCase()">ignoreCase</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns an encoding that behaves equivalently to this encoding, but decodes letters without
+ regard to case.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lowerCase()">lowerCase</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but encodes and decodes with
  lowercase letters.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#omitPadding()">omitPadding</a></span>()</code></th>
 <td class="colLast">
@@ -383,7 +391,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  section 3.2</a>, Padding of Encoded Data.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#upperCase()">upperCase</a></span>()</code></th>
 <td class="colLast">
@@ -391,7 +399,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  uppercase letters.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withPadChar(char)">withPadChar</a></span>&#8203;(char&nbsp;padChar)</code></th>
 <td class="colLast">
@@ -399,7 +407,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  for padding.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withSeparator(java.lang.String,int)">withSeparator</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator,
              int&nbsp;n)</code></th>
@@ -613,13 +621,29 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 </dl>
 </li>
 </ul>
+<a id="ignoreCase()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ignoreCase</h4>
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.328">ignoreCase</a>()</pre>
+<div class="block">Returns an encoding that behaves equivalently to this encoding, but decodes letters without
+ regard to case.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
+     lower-case characters</dd>
+</dl>
+</li>
+</ul>
 <a id="base64()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>base64</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.338">base64</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.347">base64</a>()</pre>
 <div class="block">The "base64" base encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64 Encoding.
  (This is the same as the base 64 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-3">RFC 3548</a>.)
 
@@ -635,7 +659,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base64Url</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.360">base64Url</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.369">base64Url</a>()</pre>
 <div class="block">The "base64url" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
  with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64." (This
  is the same as the base 64 encoding with URL and filename safe alphabet from <a href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)
@@ -652,7 +676,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.379">base32</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.388">base32</a>()</pre>
 <div class="block">The "base32" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-6">RFC
  4648 section 6</a>, Base 32 Encoding. (This is the same as the base 32 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-5">RFC 3548</a>.)
 
@@ -668,7 +692,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>base32Hex</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.398">base32Hex</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.407">base32Hex</a>()</pre>
 <div class="block">The "base32hex" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
  with Extended Hex Alphabet. There is no corresponding encoding in RFC 3548.
 
@@ -684,7 +708,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockListLast">
 <li class="blockList">
 <h4>base16</h4>
-<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.417">base16</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.426">base16</a>()</pre>
 <div class="block">The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
  4648 section 8</a>, Base 16 Encoding. (This is the same as the base 16 encoding from <a href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
  "hexadecimal" format.
