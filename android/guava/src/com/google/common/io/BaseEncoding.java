@@ -568,7 +568,8 @@ public abstract class BaseEncoding {
       for (int i = 0; i < chars.length; i++) {
         upperCased[i] = Ascii.toUpperCase(chars[i]);
       }
-      return new Alphabet(name + ".upperCase()", upperCased);
+      Alphabet upperCase = new Alphabet(name + ".upperCase()", upperCased);
+      return ignoreCase ? upperCase.ignoreCase() : upperCase;
     }
 
     Alphabet lowerCase() {
@@ -580,7 +581,8 @@ public abstract class BaseEncoding {
       for (int i = 0; i < chars.length; i++) {
         lowerCased[i] = Ascii.toLowerCase(chars[i]);
       }
-      return new Alphabet(name + ".lowerCase()", lowerCased);
+      Alphabet lowerCase = new Alphabet(name + ".lowerCase()", lowerCased);
+      return ignoreCase ? lowerCase.ignoreCase() : lowerCase;
     }
 
     public boolean matches(char c) {
