@@ -125,7 +125,6 @@ public class BaseEncodingTest extends TestCase {
       base64().upperCase();
       fail();
     } catch (IllegalStateException expected) {
-      // success
     }
   }
 
@@ -134,7 +133,14 @@ public class BaseEncodingTest extends TestCase {
       base64().lowerCase();
       fail();
     } catch (IllegalStateException expected) {
-      // success
+    }
+  }
+
+  public void testBase64CannotIgnoreCase() {
+    try {
+      base64().ignoreCase();
+      fail();
+    } catch (IllegalStateException expected) {
     }
   }
 
@@ -265,6 +271,18 @@ public class BaseEncodingTest extends TestCase {
     assertThat(base32().upperCase()).isSameInstanceAs(base32());
   }
 
+  public void testBase32LowerCase() {
+    testEncodingWithCasing(base32().lowerCase(), "foobar", "mzxw6ytboi======");
+  }
+
+  public void testBase32IgnoreCase() {
+    BaseEncoding ignoreCase = base32().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base32());
+    assertThat(ignoreCase).isSameInstanceAs(base32().ignoreCase());
+    testDecodes(ignoreCase, "MZXW6YTBOI======", "foobar");
+    testDecodes(ignoreCase, "mzxw6ytboi======", "foobar");
+  }
+
   public void testBase32Offset() {
     testEncodesWithOffset(base32(), "foobar", 0, 6, "MZXW6YTBOI======");
     testEncodesWithOffset(base32(), "foobar", 1, 5, "N5XWEYLS");
@@ -335,6 +353,33 @@ public class BaseEncodingTest extends TestCase {
     assertThat(base16().upperCase()).isSameInstanceAs(base16());
   }
 
+  public void testBase16LowerCase() {
+    BaseEncoding lowerCase = base16().lowerCase();
+    assertThat(lowerCase).isNotSameInstanceAs(base16());
+    assertThat(lowerCase).isSameInstanceAs(base16().lowerCase());
+    testEncodingWithCasing(lowerCase, "foobar", "666f6f626172");
+  }
+
+  public void testBase16IgnoreCase() {
+    BaseEncoding ignoreCase = base16().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    assertThat(ignoreCase).isSameInstanceAs(base16().ignoreCase());
+    testEncodingWithCasing(ignoreCase, "foobar", "666F6F626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
+  }
+
+  public void testBase16LowerCaseIgnoreCase() {
+    BaseEncoding ignoreCase = base16().lowerCase().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    assertThat(ignoreCase).isSameInstanceAs(base16().lowerCase().ignoreCase());
+    testEncodingWithCasing(ignoreCase, "foobar", "666f6f626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
+  }
+
   public void testBase16InvalidDecodings() {
     // These contain bytes not in the decodabet.
     assertFailsToDecode(base16(), "\n\n", "Unrecognized character: 0xa");
@@ -344,6 +389,8 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base16(), "ABC");
     // These have a combination of invalid length and unrecognized characters.
     assertFailsToDecode(base16(), "?", "Invalid input length 1");
+    assertFailsToDecode(base16(), "ab");
+    assertFailsToDecode(base16().lowerCase(), "AB");
   }
 
   public void testBase16Offset() {
