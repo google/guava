@@ -91,7 +91,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * keys and values are the result of applying the provided mapping functions to the input
    * elements.
    *
-   * <p>If the mapped keys contain duplicates (according to the comparator), the the values are
+   * <p>If the mapped keys contain duplicates (according to the comparator), the values are
    * merged using the specified merging function. Entries will appear in the encounter order of the
    * first occurrence of the key.
    *

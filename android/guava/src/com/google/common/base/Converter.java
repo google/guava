@@ -480,7 +480,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *   NullPointerException.
    *
    * [*] Granted, such tools could conceivably be smart enough to recognize that the apply() method
-   * on a a Function<Foo, Bar> should never allow null inputs and never produce null outputs even if
+   * on a Function<Foo, Bar> should never allow null inputs and never produce null outputs even if
    * this specific subclass claims otherwise. Such tools might still produce NPE for calls to this
    * method. And that is one reason that we should be nervous about "lying" by extending Function<A,
    * B> in the first place. But for now, we're giving it a try, since extending Function<@Nullable
