@@ -489,7 +489,7 @@
 <span class="sourceLineNo">480</span><a id="line.480">   *   NullPointerException.</a>
 <span class="sourceLineNo">481</span><a id="line.481">   *</a>
 <span class="sourceLineNo">482</span><a id="line.482">   * [*] Granted, such tools could conceivably be smart enough to recognize that the apply() method</a>
-<span class="sourceLineNo">483</span><a id="line.483">   * on a a Function&lt;Foo, Bar&gt; should never allow null inputs and never produce null outputs even if</a>
+<span class="sourceLineNo">483</span><a id="line.483">   * on a Function&lt;Foo, Bar&gt; should never allow null inputs and never produce null outputs even if</a>
 <span class="sourceLineNo">484</span><a id="line.484">   * this specific subclass claims otherwise. Such tools might still produce NPE for calls to this</a>
 <span class="sourceLineNo">485</span><a id="line.485">   * method. And that is one reason that we should be nervous about "lying" by extending Function&lt;A,</a>
 <span class="sourceLineNo">486</span><a id="line.486">   * B&gt; in the first place. But for now, we're giving it a try, since extending Function&lt;@Nullable</a>
