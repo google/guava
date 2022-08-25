@@ -577,675 +577,677 @@
 <span class="sourceLineNo">568</span><a id="line.568">      for (int i = 0; i &lt; chars.length; i++) {</a>
 <span class="sourceLineNo">569</span><a id="line.569">        upperCased[i] = Ascii.toUpperCase(chars[i]);</a>
 <span class="sourceLineNo">570</span><a id="line.570">      }</a>
-<span class="sourceLineNo">571</span><a id="line.571">      return new Alphabet(name + ".upperCase()", upperCased);</a>
-<span class="sourceLineNo">572</span><a id="line.572">    }</a>
-<span class="sourceLineNo">573</span><a id="line.573"></a>
-<span class="sourceLineNo">574</span><a id="line.574">    Alphabet lowerCase() {</a>
-<span class="sourceLineNo">575</span><a id="line.575">      if (!hasUpperCase()) {</a>
-<span class="sourceLineNo">576</span><a id="line.576">        return this;</a>
-<span class="sourceLineNo">577</span><a id="line.577">      }</a>
-<span class="sourceLineNo">578</span><a id="line.578">      checkState(!hasLowerCase(), "Cannot call lowerCase() on a mixed-case alphabet");</a>
-<span class="sourceLineNo">579</span><a id="line.579">      char[] lowerCased = new char[chars.length];</a>
-<span class="sourceLineNo">580</span><a id="line.580">      for (int i = 0; i &lt; chars.length; i++) {</a>
-<span class="sourceLineNo">581</span><a id="line.581">        lowerCased[i] = Ascii.toLowerCase(chars[i]);</a>
-<span class="sourceLineNo">582</span><a id="line.582">      }</a>
-<span class="sourceLineNo">583</span><a id="line.583">      return new Alphabet(name + ".lowerCase()", lowerCased);</a>
-<span class="sourceLineNo">584</span><a id="line.584">    }</a>
-<span class="sourceLineNo">585</span><a id="line.585"></a>
-<span class="sourceLineNo">586</span><a id="line.586">    public boolean matches(char c) {</a>
-<span class="sourceLineNo">587</span><a id="line.587">      return c &lt; decodabet.length &amp;&amp; decodabet[c] != -1;</a>
-<span class="sourceLineNo">588</span><a id="line.588">    }</a>
-<span class="sourceLineNo">589</span><a id="line.589"></a>
-<span class="sourceLineNo">590</span><a id="line.590">    @Override</a>
-<span class="sourceLineNo">591</span><a id="line.591">    public String toString() {</a>
-<span class="sourceLineNo">592</span><a id="line.592">      return name;</a>
-<span class="sourceLineNo">593</span><a id="line.593">    }</a>
-<span class="sourceLineNo">594</span><a id="line.594"></a>
-<span class="sourceLineNo">595</span><a id="line.595">    @Override</a>
-<span class="sourceLineNo">596</span><a id="line.596">    public boolean equals(@CheckForNull Object other) {</a>
-<span class="sourceLineNo">597</span><a id="line.597">      if (other instanceof Alphabet) {</a>
-<span class="sourceLineNo">598</span><a id="line.598">        Alphabet that = (Alphabet) other;</a>
-<span class="sourceLineNo">599</span><a id="line.599">        return this.ignoreCase == that.ignoreCase &amp;&amp; Arrays.equals(this.chars, that.chars);</a>
-<span class="sourceLineNo">600</span><a id="line.600">      }</a>
-<span class="sourceLineNo">601</span><a id="line.601">      return false;</a>
-<span class="sourceLineNo">602</span><a id="line.602">    }</a>
-<span class="sourceLineNo">603</span><a id="line.603"></a>
-<span class="sourceLineNo">604</span><a id="line.604">    @Override</a>
-<span class="sourceLineNo">605</span><a id="line.605">    public int hashCode() {</a>
-<span class="sourceLineNo">606</span><a id="line.606">      return Arrays.hashCode(chars) + (ignoreCase ? 1231 : 1237);</a>
-<span class="sourceLineNo">607</span><a id="line.607">    }</a>
-<span class="sourceLineNo">608</span><a id="line.608">  }</a>
-<span class="sourceLineNo">609</span><a id="line.609"></a>
-<span class="sourceLineNo">610</span><a id="line.610">  static class StandardBaseEncoding extends BaseEncoding {</a>
-<span class="sourceLineNo">611</span><a id="line.611">    // TODO(lowasser): provide a useful toString</a>
-<span class="sourceLineNo">612</span><a id="line.612">    final Alphabet alphabet;</a>
-<span class="sourceLineNo">613</span><a id="line.613"></a>
-<span class="sourceLineNo">614</span><a id="line.614">    @CheckForNull final Character paddingChar;</a>
+<span class="sourceLineNo">571</span><a id="line.571">      Alphabet upperCase = new Alphabet(name + ".upperCase()", upperCased);</a>
+<span class="sourceLineNo">572</span><a id="line.572">      return ignoreCase ? upperCase.ignoreCase() : upperCase;</a>
+<span class="sourceLineNo">573</span><a id="line.573">    }</a>
+<span class="sourceLineNo">574</span><a id="line.574"></a>
+<span class="sourceLineNo">575</span><a id="line.575">    Alphabet lowerCase() {</a>
+<span class="sourceLineNo">576</span><a id="line.576">      if (!hasUpperCase()) {</a>
+<span class="sourceLineNo">577</span><a id="line.577">        return this;</a>
+<span class="sourceLineNo">578</span><a id="line.578">      }</a>
+<span class="sourceLineNo">579</span><a id="line.579">      checkState(!hasLowerCase(), "Cannot call lowerCase() on a mixed-case alphabet");</a>
+<span class="sourceLineNo">580</span><a id="line.580">      char[] lowerCased = new char[chars.length];</a>
+<span class="sourceLineNo">581</span><a id="line.581">      for (int i = 0; i &lt; chars.length; i++) {</a>
+<span class="sourceLineNo">582</span><a id="line.582">        lowerCased[i] = Ascii.toLowerCase(chars[i]);</a>
+<span class="sourceLineNo">583</span><a id="line.583">      }</a>
+<span class="sourceLineNo">584</span><a id="line.584">      Alphabet lowerCase = new Alphabet(name + ".lowerCase()", lowerCased);</a>
+<span class="sourceLineNo">585</span><a id="line.585">      return ignoreCase ? lowerCase.ignoreCase() : lowerCase;</a>
+<span class="sourceLineNo">586</span><a id="line.586">    }</a>
+<span class="sourceLineNo">587</span><a id="line.587"></a>
+<span class="sourceLineNo">588</span><a id="line.588">    public boolean matches(char c) {</a>
+<span class="sourceLineNo">589</span><a id="line.589">      return c &lt; decodabet.length &amp;&amp; decodabet[c] != -1;</a>
+<span class="sourceLineNo">590</span><a id="line.590">    }</a>
+<span class="sourceLineNo">591</span><a id="line.591"></a>
+<span class="sourceLineNo">592</span><a id="line.592">    @Override</a>
+<span class="sourceLineNo">593</span><a id="line.593">    public String toString() {</a>
+<span class="sourceLineNo">594</span><a id="line.594">      return name;</a>
+<span class="sourceLineNo">595</span><a id="line.595">    }</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">    @Override</a>
+<span class="sourceLineNo">598</span><a id="line.598">    public boolean equals(@CheckForNull Object other) {</a>
+<span class="sourceLineNo">599</span><a id="line.599">      if (other instanceof Alphabet) {</a>
+<span class="sourceLineNo">600</span><a id="line.600">        Alphabet that = (Alphabet) other;</a>
+<span class="sourceLineNo">601</span><a id="line.601">        return this.ignoreCase == that.ignoreCase &amp;&amp; Arrays.equals(this.chars, that.chars);</a>
+<span class="sourceLineNo">602</span><a id="line.602">      }</a>
+<span class="sourceLineNo">603</span><a id="line.603">      return false;</a>
+<span class="sourceLineNo">604</span><a id="line.604">    }</a>
+<span class="sourceLineNo">605</span><a id="line.605"></a>
+<span class="sourceLineNo">606</span><a id="line.606">    @Override</a>
+<span class="sourceLineNo">607</span><a id="line.607">    public int hashCode() {</a>
+<span class="sourceLineNo">608</span><a id="line.608">      return Arrays.hashCode(chars) + (ignoreCase ? 1231 : 1237);</a>
+<span class="sourceLineNo">609</span><a id="line.609">    }</a>
+<span class="sourceLineNo">610</span><a id="line.610">  }</a>
+<span class="sourceLineNo">611</span><a id="line.611"></a>
+<span class="sourceLineNo">612</span><a id="line.612">  static class StandardBaseEncoding extends BaseEncoding {</a>
+<span class="sourceLineNo">613</span><a id="line.613">    // TODO(lowasser): provide a useful toString</a>
+<span class="sourceLineNo">614</span><a id="line.614">    final Alphabet alphabet;</a>
 <span class="sourceLineNo">615</span><a id="line.615"></a>
-<span class="sourceLineNo">616</span><a id="line.616">    StandardBaseEncoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">617</span><a id="line.617">      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);</a>
-<span class="sourceLineNo">618</span><a id="line.618">    }</a>
-<span class="sourceLineNo">619</span><a id="line.619"></a>
-<span class="sourceLineNo">620</span><a id="line.620">    StandardBaseEncoding(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">621</span><a id="line.621">      this.alphabet = checkNotNull(alphabet);</a>
-<span class="sourceLineNo">622</span><a id="line.622">      checkArgument(</a>
-<span class="sourceLineNo">623</span><a id="line.623">          paddingChar == null || !alphabet.matches(paddingChar),</a>
-<span class="sourceLineNo">624</span><a id="line.624">          "Padding character %s was already in alphabet",</a>
-<span class="sourceLineNo">625</span><a id="line.625">          paddingChar);</a>
-<span class="sourceLineNo">626</span><a id="line.626">      this.paddingChar = paddingChar;</a>
-<span class="sourceLineNo">627</span><a id="line.627">    }</a>
-<span class="sourceLineNo">628</span><a id="line.628"></a>
-<span class="sourceLineNo">629</span><a id="line.629">    @Override</a>
-<span class="sourceLineNo">630</span><a id="line.630">    int maxEncodedSize(int bytes) {</a>
-<span class="sourceLineNo">631</span><a id="line.631">      return alphabet.charsPerChunk * divide(bytes, alphabet.bytesPerChunk, CEILING);</a>
-<span class="sourceLineNo">632</span><a id="line.632">    }</a>
-<span class="sourceLineNo">633</span><a id="line.633"></a>
-<span class="sourceLineNo">634</span><a id="line.634">    @GwtIncompatible // Writer,OutputStream</a>
-<span class="sourceLineNo">635</span><a id="line.635">    @Override</a>
-<span class="sourceLineNo">636</span><a id="line.636">    public OutputStream encodingStream(Writer out) {</a>
-<span class="sourceLineNo">637</span><a id="line.637">      checkNotNull(out);</a>
-<span class="sourceLineNo">638</span><a id="line.638">      return new OutputStream() {</a>
-<span class="sourceLineNo">639</span><a id="line.639">        int bitBuffer = 0;</a>
-<span class="sourceLineNo">640</span><a id="line.640">        int bitBufferLength = 0;</a>
-<span class="sourceLineNo">641</span><a id="line.641">        int writtenChars = 0;</a>
-<span class="sourceLineNo">642</span><a id="line.642"></a>
-<span class="sourceLineNo">643</span><a id="line.643">        @Override</a>
-<span class="sourceLineNo">644</span><a id="line.644">        public void write(int b) throws IOException {</a>
-<span class="sourceLineNo">645</span><a id="line.645">          bitBuffer &lt;&lt;= 8;</a>
-<span class="sourceLineNo">646</span><a id="line.646">          bitBuffer |= b &amp; 0xFF;</a>
-<span class="sourceLineNo">647</span><a id="line.647">          bitBufferLength += 8;</a>
-<span class="sourceLineNo">648</span><a id="line.648">          while (bitBufferLength &gt;= alphabet.bitsPerChar) {</a>
-<span class="sourceLineNo">649</span><a id="line.649">            int charIndex = (bitBuffer &gt;&gt; (bitBufferLength - alphabet.bitsPerChar)) &amp; alphabet.mask;</a>
-<span class="sourceLineNo">650</span><a id="line.650">            out.write(alphabet.encode(charIndex));</a>
-<span class="sourceLineNo">651</span><a id="line.651">            writtenChars++;</a>
-<span class="sourceLineNo">652</span><a id="line.652">            bitBufferLength -= alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">653</span><a id="line.653">          }</a>
-<span class="sourceLineNo">654</span><a id="line.654">        }</a>
-<span class="sourceLineNo">655</span><a id="line.655"></a>
-<span class="sourceLineNo">656</span><a id="line.656">        @Override</a>
-<span class="sourceLineNo">657</span><a id="line.657">        public void flush() throws IOException {</a>
-<span class="sourceLineNo">658</span><a id="line.658">          out.flush();</a>
-<span class="sourceLineNo">659</span><a id="line.659">        }</a>
-<span class="sourceLineNo">660</span><a id="line.660"></a>
-<span class="sourceLineNo">661</span><a id="line.661">        @Override</a>
-<span class="sourceLineNo">662</span><a id="line.662">        public void close() throws IOException {</a>
-<span class="sourceLineNo">663</span><a id="line.663">          if (bitBufferLength &gt; 0) {</a>
-<span class="sourceLineNo">664</span><a id="line.664">            int charIndex = (bitBuffer &lt;&lt; (alphabet.bitsPerChar - bitBufferLength)) &amp; alphabet.mask;</a>
-<span class="sourceLineNo">665</span><a id="line.665">            out.write(alphabet.encode(charIndex));</a>
-<span class="sourceLineNo">666</span><a id="line.666">            writtenChars++;</a>
-<span class="sourceLineNo">667</span><a id="line.667">            if (paddingChar != null) {</a>
-<span class="sourceLineNo">668</span><a id="line.668">              while (writtenChars % alphabet.charsPerChunk != 0) {</a>
-<span class="sourceLineNo">669</span><a id="line.669">                out.write(paddingChar.charValue());</a>
-<span class="sourceLineNo">670</span><a id="line.670">                writtenChars++;</a>
-<span class="sourceLineNo">671</span><a id="line.671">              }</a>
-<span class="sourceLineNo">672</span><a id="line.672">            }</a>
-<span class="sourceLineNo">673</span><a id="line.673">          }</a>
-<span class="sourceLineNo">674</span><a id="line.674">          out.close();</a>
-<span class="sourceLineNo">675</span><a id="line.675">        }</a>
-<span class="sourceLineNo">676</span><a id="line.676">      };</a>
-<span class="sourceLineNo">677</span><a id="line.677">    }</a>
-<span class="sourceLineNo">678</span><a id="line.678"></a>
-<span class="sourceLineNo">679</span><a id="line.679">    @Override</a>
-<span class="sourceLineNo">680</span><a id="line.680">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">681</span><a id="line.681">      checkNotNull(target);</a>
-<span class="sourceLineNo">682</span><a id="line.682">      checkPositionIndexes(off, off + len, bytes.length);</a>
-<span class="sourceLineNo">683</span><a id="line.683">      for (int i = 0; i &lt; len; i += alphabet.bytesPerChunk) {</a>
-<span class="sourceLineNo">684</span><a id="line.684">        encodeChunkTo(target, bytes, off + i, Math.min(alphabet.bytesPerChunk, len - i));</a>
-<span class="sourceLineNo">685</span><a id="line.685">      }</a>
-<span class="sourceLineNo">686</span><a id="line.686">    }</a>
-<span class="sourceLineNo">687</span><a id="line.687"></a>
-<span class="sourceLineNo">688</span><a id="line.688">    void encodeChunkTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">689</span><a id="line.689">      checkNotNull(target);</a>
-<span class="sourceLineNo">690</span><a id="line.690">      checkPositionIndexes(off, off + len, bytes.length);</a>
-<span class="sourceLineNo">691</span><a id="line.691">      checkArgument(len &lt;= alphabet.bytesPerChunk);</a>
-<span class="sourceLineNo">692</span><a id="line.692">      long bitBuffer = 0;</a>
-<span class="sourceLineNo">693</span><a id="line.693">      for (int i = 0; i &lt; len; ++i) {</a>
-<span class="sourceLineNo">694</span><a id="line.694">        bitBuffer |= bytes[off + i] &amp; 0xFF;</a>
-<span class="sourceLineNo">695</span><a id="line.695">        bitBuffer &lt;&lt;= 8; // Add additional zero byte in the end.</a>
-<span class="sourceLineNo">696</span><a id="line.696">      }</a>
-<span class="sourceLineNo">697</span><a id="line.697">      // Position of first character is length of bitBuffer minus bitsPerChar.</a>
-<span class="sourceLineNo">698</span><a id="line.698">      int bitOffset = (len + 1) * 8 - alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">699</span><a id="line.699">      int bitsProcessed = 0;</a>
-<span class="sourceLineNo">700</span><a id="line.700">      while (bitsProcessed &lt; len * 8) {</a>
-<span class="sourceLineNo">701</span><a id="line.701">        int charIndex = (int) (bitBuffer &gt;&gt;&gt; (bitOffset - bitsProcessed)) &amp; alphabet.mask;</a>
-<span class="sourceLineNo">702</span><a id="line.702">        target.append(alphabet.encode(charIndex));</a>
-<span class="sourceLineNo">703</span><a id="line.703">        bitsProcessed += alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">704</span><a id="line.704">      }</a>
-<span class="sourceLineNo">705</span><a id="line.705">      if (paddingChar != null) {</a>
-<span class="sourceLineNo">706</span><a id="line.706">        while (bitsProcessed &lt; alphabet.bytesPerChunk * 8) {</a>
-<span class="sourceLineNo">707</span><a id="line.707">          target.append(paddingChar.charValue());</a>
-<span class="sourceLineNo">708</span><a id="line.708">          bitsProcessed += alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">709</span><a id="line.709">        }</a>
-<span class="sourceLineNo">710</span><a id="line.710">      }</a>
-<span class="sourceLineNo">711</span><a id="line.711">    }</a>
-<span class="sourceLineNo">712</span><a id="line.712"></a>
-<span class="sourceLineNo">713</span><a id="line.713">    @Override</a>
-<span class="sourceLineNo">714</span><a id="line.714">    int maxDecodedSize(int chars) {</a>
-<span class="sourceLineNo">715</span><a id="line.715">      return (int) ((alphabet.bitsPerChar * (long) chars + 7L) / 8L);</a>
-<span class="sourceLineNo">716</span><a id="line.716">    }</a>
-<span class="sourceLineNo">717</span><a id="line.717"></a>
-<span class="sourceLineNo">718</span><a id="line.718">    @Override</a>
-<span class="sourceLineNo">719</span><a id="line.719">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
-<span class="sourceLineNo">720</span><a id="line.720">      checkNotNull(chars);</a>
-<span class="sourceLineNo">721</span><a id="line.721">      if (paddingChar == null) {</a>
-<span class="sourceLineNo">722</span><a id="line.722">        return chars;</a>
-<span class="sourceLineNo">723</span><a id="line.723">      }</a>
-<span class="sourceLineNo">724</span><a id="line.724">      char padChar = paddingChar.charValue();</a>
-<span class="sourceLineNo">725</span><a id="line.725">      int l;</a>
-<span class="sourceLineNo">726</span><a id="line.726">      for (l = chars.length() - 1; l &gt;= 0; l--) {</a>
-<span class="sourceLineNo">727</span><a id="line.727">        if (chars.charAt(l) != padChar) {</a>
-<span class="sourceLineNo">728</span><a id="line.728">          break;</a>
-<span class="sourceLineNo">729</span><a id="line.729">        }</a>
-<span class="sourceLineNo">730</span><a id="line.730">      }</a>
-<span class="sourceLineNo">731</span><a id="line.731">      return chars.subSequence(0, l + 1);</a>
-<span class="sourceLineNo">732</span><a id="line.732">    }</a>
-<span class="sourceLineNo">733</span><a id="line.733"></a>
-<span class="sourceLineNo">734</span><a id="line.734">    @Override</a>
-<span class="sourceLineNo">735</span><a id="line.735">    public boolean canDecode(CharSequence chars) {</a>
-<span class="sourceLineNo">736</span><a id="line.736">      checkNotNull(chars);</a>
-<span class="sourceLineNo">737</span><a id="line.737">      chars = trimTrailingPadding(chars);</a>
-<span class="sourceLineNo">738</span><a id="line.738">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
-<span class="sourceLineNo">739</span><a id="line.739">        return false;</a>
-<span class="sourceLineNo">740</span><a id="line.740">      }</a>
-<span class="sourceLineNo">741</span><a id="line.741">      for (int i = 0; i &lt; chars.length(); i++) {</a>
-<span class="sourceLineNo">742</span><a id="line.742">        if (!alphabet.canDecode(chars.charAt(i))) {</a>
-<span class="sourceLineNo">743</span><a id="line.743">          return false;</a>
-<span class="sourceLineNo">744</span><a id="line.744">        }</a>
-<span class="sourceLineNo">745</span><a id="line.745">      }</a>
-<span class="sourceLineNo">746</span><a id="line.746">      return true;</a>
-<span class="sourceLineNo">747</span><a id="line.747">    }</a>
-<span class="sourceLineNo">748</span><a id="line.748"></a>
-<span class="sourceLineNo">749</span><a id="line.749">    @Override</a>
-<span class="sourceLineNo">750</span><a id="line.750">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
-<span class="sourceLineNo">751</span><a id="line.751">      checkNotNull(target);</a>
-<span class="sourceLineNo">752</span><a id="line.752">      chars = trimTrailingPadding(chars);</a>
-<span class="sourceLineNo">753</span><a id="line.753">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
-<span class="sourceLineNo">754</span><a id="line.754">        throw new DecodingException("Invalid input length " + chars.length());</a>
-<span class="sourceLineNo">755</span><a id="line.755">      }</a>
-<span class="sourceLineNo">756</span><a id="line.756">      int bytesWritten = 0;</a>
-<span class="sourceLineNo">757</span><a id="line.757">      for (int charIdx = 0; charIdx &lt; chars.length(); charIdx += alphabet.charsPerChunk) {</a>
-<span class="sourceLineNo">758</span><a id="line.758">        long chunk = 0;</a>
-<span class="sourceLineNo">759</span><a id="line.759">        int charsProcessed = 0;</a>
-<span class="sourceLineNo">760</span><a id="line.760">        for (int i = 0; i &lt; alphabet.charsPerChunk; i++) {</a>
-<span class="sourceLineNo">761</span><a id="line.761">          chunk &lt;&lt;= alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">762</span><a id="line.762">          if (charIdx + i &lt; chars.length()) {</a>
-<span class="sourceLineNo">763</span><a id="line.763">            chunk |= alphabet.decode(chars.charAt(charIdx + charsProcessed++));</a>
-<span class="sourceLineNo">764</span><a id="line.764">          }</a>
-<span class="sourceLineNo">765</span><a id="line.765">        }</a>
-<span class="sourceLineNo">766</span><a id="line.766">        int minOffset = alphabet.bytesPerChunk * 8 - charsProcessed * alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">767</span><a id="line.767">        for (int offset = (alphabet.bytesPerChunk - 1) * 8; offset &gt;= minOffset; offset -= 8) {</a>
-<span class="sourceLineNo">768</span><a id="line.768">          target[bytesWritten++] = (byte) ((chunk &gt;&gt;&gt; offset) &amp; 0xFF);</a>
-<span class="sourceLineNo">769</span><a id="line.769">        }</a>
-<span class="sourceLineNo">770</span><a id="line.770">      }</a>
-<span class="sourceLineNo">771</span><a id="line.771">      return bytesWritten;</a>
-<span class="sourceLineNo">772</span><a id="line.772">    }</a>
-<span class="sourceLineNo">773</span><a id="line.773"></a>
-<span class="sourceLineNo">774</span><a id="line.774">    @Override</a>
-<span class="sourceLineNo">775</span><a id="line.775">    @GwtIncompatible // Reader,InputStream</a>
-<span class="sourceLineNo">776</span><a id="line.776">    public InputStream decodingStream(Reader reader) {</a>
-<span class="sourceLineNo">777</span><a id="line.777">      checkNotNull(reader);</a>
-<span class="sourceLineNo">778</span><a id="line.778">      return new InputStream() {</a>
-<span class="sourceLineNo">779</span><a id="line.779">        int bitBuffer = 0;</a>
-<span class="sourceLineNo">780</span><a id="line.780">        int bitBufferLength = 0;</a>
-<span class="sourceLineNo">781</span><a id="line.781">        int readChars = 0;</a>
-<span class="sourceLineNo">782</span><a id="line.782">        boolean hitPadding = false;</a>
-<span class="sourceLineNo">783</span><a id="line.783"></a>
-<span class="sourceLineNo">784</span><a id="line.784">        @Override</a>
-<span class="sourceLineNo">785</span><a id="line.785">        public int read() throws IOException {</a>
-<span class="sourceLineNo">786</span><a id="line.786">          while (true) {</a>
-<span class="sourceLineNo">787</span><a id="line.787">            int readChar = reader.read();</a>
-<span class="sourceLineNo">788</span><a id="line.788">            if (readChar == -1) {</a>
-<span class="sourceLineNo">789</span><a id="line.789">              if (!hitPadding &amp;&amp; !alphabet.isValidPaddingStartPosition(readChars)) {</a>
-<span class="sourceLineNo">790</span><a id="line.790">                throw new DecodingException("Invalid input length " + readChars);</a>
-<span class="sourceLineNo">791</span><a id="line.791">              }</a>
-<span class="sourceLineNo">792</span><a id="line.792">              return -1;</a>
-<span class="sourceLineNo">793</span><a id="line.793">            }</a>
-<span class="sourceLineNo">794</span><a id="line.794">            readChars++;</a>
-<span class="sourceLineNo">795</span><a id="line.795">            char ch = (char) readChar;</a>
-<span class="sourceLineNo">796</span><a id="line.796">            if (paddingChar != null &amp;&amp; paddingChar.charValue() == ch) {</a>
-<span class="sourceLineNo">797</span><a id="line.797">              if (!hitPadding</a>
-<span class="sourceLineNo">798</span><a id="line.798">                  &amp;&amp; (readChars == 1 || !alphabet.isValidPaddingStartPosition(readChars - 1))) {</a>
-<span class="sourceLineNo">799</span><a id="line.799">                throw new DecodingException("Padding cannot start at index " + readChars);</a>
-<span class="sourceLineNo">800</span><a id="line.800">              }</a>
-<span class="sourceLineNo">801</span><a id="line.801">              hitPadding = true;</a>
-<span class="sourceLineNo">802</span><a id="line.802">            } else if (hitPadding) {</a>
-<span class="sourceLineNo">803</span><a id="line.803">              throw new DecodingException(</a>
-<span class="sourceLineNo">804</span><a id="line.804">                  "Expected padding character but found '" + ch + "' at index " + readChars);</a>
-<span class="sourceLineNo">805</span><a id="line.805">            } else {</a>
-<span class="sourceLineNo">806</span><a id="line.806">              bitBuffer &lt;&lt;= alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">807</span><a id="line.807">              bitBuffer |= alphabet.decode(ch);</a>
-<span class="sourceLineNo">808</span><a id="line.808">              bitBufferLength += alphabet.bitsPerChar;</a>
-<span class="sourceLineNo">809</span><a id="line.809"></a>
-<span class="sourceLineNo">810</span><a id="line.810">              if (bitBufferLength &gt;= 8) {</a>
-<span class="sourceLineNo">811</span><a id="line.811">                bitBufferLength -= 8;</a>
-<span class="sourceLineNo">812</span><a id="line.812">                return (bitBuffer &gt;&gt; bitBufferLength) &amp; 0xFF;</a>
-<span class="sourceLineNo">813</span><a id="line.813">              }</a>
-<span class="sourceLineNo">814</span><a id="line.814">            }</a>
-<span class="sourceLineNo">815</span><a id="line.815">          }</a>
-<span class="sourceLineNo">816</span><a id="line.816">        }</a>
-<span class="sourceLineNo">817</span><a id="line.817"></a>
-<span class="sourceLineNo">818</span><a id="line.818">        @Override</a>
-<span class="sourceLineNo">819</span><a id="line.819">        public int read(byte[] buf, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">820</span><a id="line.820">          // Overriding this to work around the fact that InputStream's default implementation of</a>
-<span class="sourceLineNo">821</span><a id="line.821">          // this method will silently swallow exceptions thrown by the single-byte read() method</a>
-<span class="sourceLineNo">822</span><a id="line.822">          // (other than on the first call to it), which in this case can cause invalid encoded</a>
-<span class="sourceLineNo">823</span><a id="line.823">          // strings to not throw an exception.</a>
-<span class="sourceLineNo">824</span><a id="line.824">          // See https://github.com/google/guava/issues/3542</a>
-<span class="sourceLineNo">825</span><a id="line.825">          checkPositionIndexes(off, off + len, buf.length);</a>
-<span class="sourceLineNo">826</span><a id="line.826"></a>
-<span class="sourceLineNo">827</span><a id="line.827">          int i = off;</a>
-<span class="sourceLineNo">828</span><a id="line.828">          for (; i &lt; off + len; i++) {</a>
-<span class="sourceLineNo">829</span><a id="line.829">            int b = read();</a>
-<span class="sourceLineNo">830</span><a id="line.830">            if (b == -1) {</a>
-<span class="sourceLineNo">831</span><a id="line.831">              int read = i - off;</a>
-<span class="sourceLineNo">832</span><a id="line.832">              return read == 0 ? -1 : read;</a>
-<span class="sourceLineNo">833</span><a id="line.833">            }</a>
-<span class="sourceLineNo">834</span><a id="line.834">            buf[i] = (byte) b;</a>
-<span class="sourceLineNo">835</span><a id="line.835">          }</a>
-<span class="sourceLineNo">836</span><a id="line.836">          return i - off;</a>
-<span class="sourceLineNo">837</span><a id="line.837">        }</a>
-<span class="sourceLineNo">838</span><a id="line.838"></a>
-<span class="sourceLineNo">839</span><a id="line.839">        @Override</a>
-<span class="sourceLineNo">840</span><a id="line.840">        public void close() throws IOException {</a>
-<span class="sourceLineNo">841</span><a id="line.841">          reader.close();</a>
-<span class="sourceLineNo">842</span><a id="line.842">        }</a>
-<span class="sourceLineNo">843</span><a id="line.843">      };</a>
-<span class="sourceLineNo">844</span><a id="line.844">    }</a>
-<span class="sourceLineNo">845</span><a id="line.845"></a>
-<span class="sourceLineNo">846</span><a id="line.846">    @Override</a>
-<span class="sourceLineNo">847</span><a id="line.847">    public BaseEncoding omitPadding() {</a>
-<span class="sourceLineNo">848</span><a id="line.848">      return (paddingChar == null) ? this : newInstance(alphabet, null);</a>
-<span class="sourceLineNo">849</span><a id="line.849">    }</a>
-<span class="sourceLineNo">850</span><a id="line.850"></a>
-<span class="sourceLineNo">851</span><a id="line.851">    @Override</a>
-<span class="sourceLineNo">852</span><a id="line.852">    public BaseEncoding withPadChar(char padChar) {</a>
-<span class="sourceLineNo">853</span><a id="line.853">      if (8 % alphabet.bitsPerChar == 0</a>
-<span class="sourceLineNo">854</span><a id="line.854">          || (paddingChar != null &amp;&amp; paddingChar.charValue() == padChar)) {</a>
-<span class="sourceLineNo">855</span><a id="line.855">        return this;</a>
-<span class="sourceLineNo">856</span><a id="line.856">      } else {</a>
-<span class="sourceLineNo">857</span><a id="line.857">        return newInstance(alphabet, padChar);</a>
-<span class="sourceLineNo">858</span><a id="line.858">      }</a>
-<span class="sourceLineNo">859</span><a id="line.859">    }</a>
-<span class="sourceLineNo">860</span><a id="line.860"></a>
-<span class="sourceLineNo">861</span><a id="line.861">    @Override</a>
-<span class="sourceLineNo">862</span><a id="line.862">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">863</span><a id="line.863">      for (int i = 0; i &lt; separator.length(); i++) {</a>
-<span class="sourceLineNo">864</span><a id="line.864">        checkArgument(</a>
-<span class="sourceLineNo">865</span><a id="line.865">            !alphabet.matches(separator.charAt(i)),</a>
-<span class="sourceLineNo">866</span><a id="line.866">            "Separator (%s) cannot contain alphabet characters",</a>
-<span class="sourceLineNo">867</span><a id="line.867">            separator);</a>
-<span class="sourceLineNo">868</span><a id="line.868">      }</a>
-<span class="sourceLineNo">869</span><a id="line.869">      if (paddingChar != null) {</a>
-<span class="sourceLineNo">870</span><a id="line.870">        checkArgument(</a>
-<span class="sourceLineNo">871</span><a id="line.871">            separator.indexOf(paddingChar.charValue()) &lt; 0,</a>
-<span class="sourceLineNo">872</span><a id="line.872">            "Separator (%s) cannot contain padding character",</a>
-<span class="sourceLineNo">873</span><a id="line.873">            separator);</a>
-<span class="sourceLineNo">874</span><a id="line.874">      }</a>
-<span class="sourceLineNo">875</span><a id="line.875">      return new SeparatedBaseEncoding(this, separator, afterEveryChars);</a>
-<span class="sourceLineNo">876</span><a id="line.876">    }</a>
-<span class="sourceLineNo">877</span><a id="line.877"></a>
-<span class="sourceLineNo">878</span><a id="line.878">    @LazyInit @CheckForNull private transient BaseEncoding upperCase;</a>
-<span class="sourceLineNo">879</span><a id="line.879">    @LazyInit @CheckForNull private transient BaseEncoding lowerCase;</a>
-<span class="sourceLineNo">880</span><a id="line.880">    @LazyInit @CheckForNull private transient BaseEncoding ignoreCase;</a>
-<span class="sourceLineNo">881</span><a id="line.881"></a>
-<span class="sourceLineNo">882</span><a id="line.882">    @Override</a>
-<span class="sourceLineNo">883</span><a id="line.883">    public BaseEncoding upperCase() {</a>
-<span class="sourceLineNo">884</span><a id="line.884">      BaseEncoding result = upperCase;</a>
-<span class="sourceLineNo">885</span><a id="line.885">      if (result == null) {</a>
-<span class="sourceLineNo">886</span><a id="line.886">        Alphabet upper = alphabet.upperCase();</a>
-<span class="sourceLineNo">887</span><a id="line.887">        result = upperCase = (upper == alphabet) ? this : newInstance(upper, paddingChar);</a>
-<span class="sourceLineNo">888</span><a id="line.888">      }</a>
-<span class="sourceLineNo">889</span><a id="line.889">      return result;</a>
-<span class="sourceLineNo">890</span><a id="line.890">    }</a>
-<span class="sourceLineNo">891</span><a id="line.891"></a>
-<span class="sourceLineNo">892</span><a id="line.892">    @Override</a>
-<span class="sourceLineNo">893</span><a id="line.893">    public BaseEncoding lowerCase() {</a>
-<span class="sourceLineNo">894</span><a id="line.894">      BaseEncoding result = lowerCase;</a>
-<span class="sourceLineNo">895</span><a id="line.895">      if (result == null) {</a>
-<span class="sourceLineNo">896</span><a id="line.896">        Alphabet lower = alphabet.lowerCase();</a>
-<span class="sourceLineNo">897</span><a id="line.897">        result = lowerCase = (lower == alphabet) ? this : newInstance(lower, paddingChar);</a>
-<span class="sourceLineNo">898</span><a id="line.898">      }</a>
-<span class="sourceLineNo">899</span><a id="line.899">      return result;</a>
-<span class="sourceLineNo">900</span><a id="line.900">    }</a>
-<span class="sourceLineNo">901</span><a id="line.901"></a>
-<span class="sourceLineNo">902</span><a id="line.902">    @Override</a>
-<span class="sourceLineNo">903</span><a id="line.903">    public BaseEncoding ignoreCase() {</a>
-<span class="sourceLineNo">904</span><a id="line.904">      BaseEncoding result = ignoreCase;</a>
-<span class="sourceLineNo">905</span><a id="line.905">      if (result == null) {</a>
-<span class="sourceLineNo">906</span><a id="line.906">        Alphabet ignore = alphabet.ignoreCase();</a>
-<span class="sourceLineNo">907</span><a id="line.907">        result = ignoreCase = (ignore == alphabet) ? this : newInstance(ignore, paddingChar);</a>
-<span class="sourceLineNo">908</span><a id="line.908">      }</a>
-<span class="sourceLineNo">909</span><a id="line.909">      return result;</a>
-<span class="sourceLineNo">910</span><a id="line.910">    }</a>
-<span class="sourceLineNo">911</span><a id="line.911"></a>
-<span class="sourceLineNo">912</span><a id="line.912">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">913</span><a id="line.913">      return new StandardBaseEncoding(alphabet, paddingChar);</a>
-<span class="sourceLineNo">914</span><a id="line.914">    }</a>
-<span class="sourceLineNo">915</span><a id="line.915"></a>
-<span class="sourceLineNo">916</span><a id="line.916">    @Override</a>
-<span class="sourceLineNo">917</span><a id="line.917">    public String toString() {</a>
-<span class="sourceLineNo">918</span><a id="line.918">      StringBuilder builder = new StringBuilder("BaseEncoding.");</a>
-<span class="sourceLineNo">919</span><a id="line.919">      builder.append(alphabet);</a>
-<span class="sourceLineNo">920</span><a id="line.920">      if (8 % alphabet.bitsPerChar != 0) {</a>
-<span class="sourceLineNo">921</span><a id="line.921">        if (paddingChar == null) {</a>
-<span class="sourceLineNo">922</span><a id="line.922">          builder.append(".omitPadding()");</a>
-<span class="sourceLineNo">923</span><a id="line.923">        } else {</a>
-<span class="sourceLineNo">924</span><a id="line.924">          builder.append(".withPadChar('").append(paddingChar).append("')");</a>
-<span class="sourceLineNo">925</span><a id="line.925">        }</a>
-<span class="sourceLineNo">926</span><a id="line.926">      }</a>
-<span class="sourceLineNo">927</span><a id="line.927">      return builder.toString();</a>
-<span class="sourceLineNo">928</span><a id="line.928">    }</a>
-<span class="sourceLineNo">929</span><a id="line.929"></a>
-<span class="sourceLineNo">930</span><a id="line.930">    @Override</a>
-<span class="sourceLineNo">931</span><a id="line.931">    public boolean equals(@CheckForNull Object other) {</a>
-<span class="sourceLineNo">932</span><a id="line.932">      if (other instanceof StandardBaseEncoding) {</a>
-<span class="sourceLineNo">933</span><a id="line.933">        StandardBaseEncoding that = (StandardBaseEncoding) other;</a>
-<span class="sourceLineNo">934</span><a id="line.934">        return this.alphabet.equals(that.alphabet)</a>
-<span class="sourceLineNo">935</span><a id="line.935">            &amp;&amp; Objects.equal(this.paddingChar, that.paddingChar);</a>
-<span class="sourceLineNo">936</span><a id="line.936">      }</a>
-<span class="sourceLineNo">937</span><a id="line.937">      return false;</a>
-<span class="sourceLineNo">938</span><a id="line.938">    }</a>
-<span class="sourceLineNo">939</span><a id="line.939"></a>
-<span class="sourceLineNo">940</span><a id="line.940">    @Override</a>
-<span class="sourceLineNo">941</span><a id="line.941">    public int hashCode() {</a>
-<span class="sourceLineNo">942</span><a id="line.942">      return alphabet.hashCode() ^ Objects.hashCode(paddingChar);</a>
-<span class="sourceLineNo">943</span><a id="line.943">    }</a>
-<span class="sourceLineNo">944</span><a id="line.944">  }</a>
-<span class="sourceLineNo">945</span><a id="line.945"></a>
-<span class="sourceLineNo">946</span><a id="line.946">  static final class Base16Encoding extends StandardBaseEncoding {</a>
-<span class="sourceLineNo">947</span><a id="line.947">    final char[] encoding = new char[512];</a>
-<span class="sourceLineNo">948</span><a id="line.948"></a>
-<span class="sourceLineNo">949</span><a id="line.949">    Base16Encoding(String name, String alphabetChars) {</a>
-<span class="sourceLineNo">950</span><a id="line.950">      this(new Alphabet(name, alphabetChars.toCharArray()));</a>
-<span class="sourceLineNo">951</span><a id="line.951">    }</a>
-<span class="sourceLineNo">952</span><a id="line.952"></a>
-<span class="sourceLineNo">953</span><a id="line.953">    private Base16Encoding(Alphabet alphabet) {</a>
-<span class="sourceLineNo">954</span><a id="line.954">      super(alphabet, null);</a>
-<span class="sourceLineNo">955</span><a id="line.955">      checkArgument(alphabet.chars.length == 16);</a>
-<span class="sourceLineNo">956</span><a id="line.956">      for (int i = 0; i &lt; 256; ++i) {</a>
-<span class="sourceLineNo">957</span><a id="line.957">        encoding[i] = alphabet.encode(i &gt;&gt;&gt; 4);</a>
-<span class="sourceLineNo">958</span><a id="line.958">        encoding[i | 0x100] = alphabet.encode(i &amp; 0xF);</a>
-<span class="sourceLineNo">959</span><a id="line.959">      }</a>
-<span class="sourceLineNo">960</span><a id="line.960">    }</a>
-<span class="sourceLineNo">961</span><a id="line.961"></a>
-<span class="sourceLineNo">962</span><a id="line.962">    @Override</a>
-<span class="sourceLineNo">963</span><a id="line.963">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">964</span><a id="line.964">      checkNotNull(target);</a>
-<span class="sourceLineNo">965</span><a id="line.965">      checkPositionIndexes(off, off + len, bytes.length);</a>
-<span class="sourceLineNo">966</span><a id="line.966">      for (int i = 0; i &lt; len; ++i) {</a>
-<span class="sourceLineNo">967</span><a id="line.967">        int b = bytes[off + i] &amp; 0xFF;</a>
-<span class="sourceLineNo">968</span><a id="line.968">        target.append(encoding[b]);</a>
-<span class="sourceLineNo">969</span><a id="line.969">        target.append(encoding[b | 0x100]);</a>
-<span class="sourceLineNo">970</span><a id="line.970">      }</a>
-<span class="sourceLineNo">971</span><a id="line.971">    }</a>
-<span class="sourceLineNo">972</span><a id="line.972"></a>
-<span class="sourceLineNo">973</span><a id="line.973">    @Override</a>
-<span class="sourceLineNo">974</span><a id="line.974">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
-<span class="sourceLineNo">975</span><a id="line.975">      checkNotNull(target);</a>
-<span class="sourceLineNo">976</span><a id="line.976">      if (chars.length() % 2 == 1) {</a>
-<span class="sourceLineNo">977</span><a id="line.977">        throw new DecodingException("Invalid input length " + chars.length());</a>
-<span class="sourceLineNo">978</span><a id="line.978">      }</a>
-<span class="sourceLineNo">979</span><a id="line.979">      int bytesWritten = 0;</a>
-<span class="sourceLineNo">980</span><a id="line.980">      for (int i = 0; i &lt; chars.length(); i += 2) {</a>
-<span class="sourceLineNo">981</span><a id="line.981">        int decoded = alphabet.decode(chars.charAt(i)) &lt;&lt; 4 | alphabet.decode(chars.charAt(i + 1));</a>
-<span class="sourceLineNo">982</span><a id="line.982">        target[bytesWritten++] = (byte) decoded;</a>
-<span class="sourceLineNo">983</span><a id="line.983">      }</a>
-<span class="sourceLineNo">984</span><a id="line.984">      return bytesWritten;</a>
-<span class="sourceLineNo">985</span><a id="line.985">    }</a>
-<span class="sourceLineNo">986</span><a id="line.986"></a>
-<span class="sourceLineNo">987</span><a id="line.987">    @Override</a>
-<span class="sourceLineNo">988</span><a id="line.988">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">989</span><a id="line.989">      return new Base16Encoding(alphabet);</a>
-<span class="sourceLineNo">990</span><a id="line.990">    }</a>
-<span class="sourceLineNo">991</span><a id="line.991">  }</a>
-<span class="sourceLineNo">992</span><a id="line.992"></a>
-<span class="sourceLineNo">993</span><a id="line.993">  static final class Base64Encoding extends StandardBaseEncoding {</a>
-<span class="sourceLineNo">994</span><a id="line.994">    Base64Encoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">995</span><a id="line.995">      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);</a>
-<span class="sourceLineNo">996</span><a id="line.996">    }</a>
-<span class="sourceLineNo">997</span><a id="line.997"></a>
-<span class="sourceLineNo">998</span><a id="line.998">    private Base64Encoding(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">999</span><a id="line.999">      super(alphabet, paddingChar);</a>
-<span class="sourceLineNo">1000</span><a id="line.1000">      checkArgument(alphabet.chars.length == 64);</a>
-<span class="sourceLineNo">1001</span><a id="line.1001">    }</a>
-<span class="sourceLineNo">1002</span><a id="line.1002"></a>
-<span class="sourceLineNo">1003</span><a id="line.1003">    @Override</a>
-<span class="sourceLineNo">1004</span><a id="line.1004">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1005</span><a id="line.1005">      checkNotNull(target);</a>
-<span class="sourceLineNo">1006</span><a id="line.1006">      checkPositionIndexes(off, off + len, bytes.length);</a>
-<span class="sourceLineNo">1007</span><a id="line.1007">      int i = off;</a>
-<span class="sourceLineNo">1008</span><a id="line.1008">      for (int remaining = len; remaining &gt;= 3; remaining -= 3) {</a>
-<span class="sourceLineNo">1009</span><a id="line.1009">        int chunk = (bytes[i++] &amp; 0xFF) &lt;&lt; 16 | (bytes[i++] &amp; 0xFF) &lt;&lt; 8 | bytes[i++] &amp; 0xFF;</a>
-<span class="sourceLineNo">1010</span><a id="line.1010">        target.append(alphabet.encode(chunk &gt;&gt;&gt; 18));</a>
-<span class="sourceLineNo">1011</span><a id="line.1011">        target.append(alphabet.encode((chunk &gt;&gt;&gt; 12) &amp; 0x3F));</a>
-<span class="sourceLineNo">1012</span><a id="line.1012">        target.append(alphabet.encode((chunk &gt;&gt;&gt; 6) &amp; 0x3F));</a>
-<span class="sourceLineNo">1013</span><a id="line.1013">        target.append(alphabet.encode(chunk &amp; 0x3F));</a>
-<span class="sourceLineNo">1014</span><a id="line.1014">      }</a>
-<span class="sourceLineNo">1015</span><a id="line.1015">      if (i &lt; off + len) {</a>
-<span class="sourceLineNo">1016</span><a id="line.1016">        encodeChunkTo(target, bytes, i, off + len - i);</a>
-<span class="sourceLineNo">1017</span><a id="line.1017">      }</a>
-<span class="sourceLineNo">1018</span><a id="line.1018">    }</a>
-<span class="sourceLineNo">1019</span><a id="line.1019"></a>
-<span class="sourceLineNo">1020</span><a id="line.1020">    @Override</a>
-<span class="sourceLineNo">1021</span><a id="line.1021">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
-<span class="sourceLineNo">1022</span><a id="line.1022">      checkNotNull(target);</a>
-<span class="sourceLineNo">1023</span><a id="line.1023">      chars = trimTrailingPadding(chars);</a>
-<span class="sourceLineNo">1024</span><a id="line.1024">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
-<span class="sourceLineNo">1025</span><a id="line.1025">        throw new DecodingException("Invalid input length " + chars.length());</a>
-<span class="sourceLineNo">1026</span><a id="line.1026">      }</a>
-<span class="sourceLineNo">1027</span><a id="line.1027">      int bytesWritten = 0;</a>
-<span class="sourceLineNo">1028</span><a id="line.1028">      for (int i = 0; i &lt; chars.length(); ) {</a>
-<span class="sourceLineNo">1029</span><a id="line.1029">        int chunk = alphabet.decode(chars.charAt(i++)) &lt;&lt; 18;</a>
-<span class="sourceLineNo">1030</span><a id="line.1030">        chunk |= alphabet.decode(chars.charAt(i++)) &lt;&lt; 12;</a>
-<span class="sourceLineNo">1031</span><a id="line.1031">        target[bytesWritten++] = (byte) (chunk &gt;&gt;&gt; 16);</a>
-<span class="sourceLineNo">1032</span><a id="line.1032">        if (i &lt; chars.length()) {</a>
-<span class="sourceLineNo">1033</span><a id="line.1033">          chunk |= alphabet.decode(chars.charAt(i++)) &lt;&lt; 6;</a>
-<span class="sourceLineNo">1034</span><a id="line.1034">          target[bytesWritten++] = (byte) ((chunk &gt;&gt;&gt; 8) &amp; 0xFF);</a>
-<span class="sourceLineNo">1035</span><a id="line.1035">          if (i &lt; chars.length()) {</a>
-<span class="sourceLineNo">1036</span><a id="line.1036">            chunk |= alphabet.decode(chars.charAt(i++));</a>
-<span class="sourceLineNo">1037</span><a id="line.1037">            target[bytesWritten++] = (byte) (chunk &amp; 0xFF);</a>
-<span class="sourceLineNo">1038</span><a id="line.1038">          }</a>
-<span class="sourceLineNo">1039</span><a id="line.1039">        }</a>
-<span class="sourceLineNo">1040</span><a id="line.1040">      }</a>
-<span class="sourceLineNo">1041</span><a id="line.1041">      return bytesWritten;</a>
-<span class="sourceLineNo">1042</span><a id="line.1042">    }</a>
-<span class="sourceLineNo">1043</span><a id="line.1043"></a>
-<span class="sourceLineNo">1044</span><a id="line.1044">    @Override</a>
-<span class="sourceLineNo">1045</span><a id="line.1045">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
-<span class="sourceLineNo">1046</span><a id="line.1046">      return new Base64Encoding(alphabet, paddingChar);</a>
-<span class="sourceLineNo">1047</span><a id="line.1047">    }</a>
-<span class="sourceLineNo">1048</span><a id="line.1048">  }</a>
-<span class="sourceLineNo">1049</span><a id="line.1049"></a>
-<span class="sourceLineNo">1050</span><a id="line.1050">  @GwtIncompatible</a>
-<span class="sourceLineNo">1051</span><a id="line.1051">  static Reader ignoringReader(Reader delegate, String toIgnore) {</a>
-<span class="sourceLineNo">1052</span><a id="line.1052">    checkNotNull(delegate);</a>
-<span class="sourceLineNo">1053</span><a id="line.1053">    checkNotNull(toIgnore);</a>
-<span class="sourceLineNo">1054</span><a id="line.1054">    return new Reader() {</a>
-<span class="sourceLineNo">1055</span><a id="line.1055">      @Override</a>
-<span class="sourceLineNo">1056</span><a id="line.1056">      public int read() throws IOException {</a>
-<span class="sourceLineNo">1057</span><a id="line.1057">        int readChar;</a>
-<span class="sourceLineNo">1058</span><a id="line.1058">        do {</a>
-<span class="sourceLineNo">1059</span><a id="line.1059">          readChar = delegate.read();</a>
-<span class="sourceLineNo">1060</span><a id="line.1060">        } while (readChar != -1 &amp;&amp; toIgnore.indexOf((char) readChar) &gt;= 0);</a>
-<span class="sourceLineNo">1061</span><a id="line.1061">        return readChar;</a>
-<span class="sourceLineNo">1062</span><a id="line.1062">      }</a>
-<span class="sourceLineNo">1063</span><a id="line.1063"></a>
-<span class="sourceLineNo">1064</span><a id="line.1064">      @Override</a>
-<span class="sourceLineNo">1065</span><a id="line.1065">      public int read(char[] cbuf, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1066</span><a id="line.1066">        throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1067</span><a id="line.1067">      }</a>
-<span class="sourceLineNo">1068</span><a id="line.1068"></a>
-<span class="sourceLineNo">1069</span><a id="line.1069">      @Override</a>
-<span class="sourceLineNo">1070</span><a id="line.1070">      public void close() throws IOException {</a>
-<span class="sourceLineNo">1071</span><a id="line.1071">        delegate.close();</a>
-<span class="sourceLineNo">1072</span><a id="line.1072">      }</a>
-<span class="sourceLineNo">1073</span><a id="line.1073">    };</a>
-<span class="sourceLineNo">1074</span><a id="line.1074">  }</a>
-<span class="sourceLineNo">1075</span><a id="line.1075"></a>
-<span class="sourceLineNo">1076</span><a id="line.1076">  static Appendable separatingAppendable(</a>
-<span class="sourceLineNo">1077</span><a id="line.1077">      Appendable delegate, String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1078</span><a id="line.1078">    checkNotNull(delegate);</a>
-<span class="sourceLineNo">1079</span><a id="line.1079">    checkNotNull(separator);</a>
-<span class="sourceLineNo">1080</span><a id="line.1080">    checkArgument(afterEveryChars &gt; 0);</a>
-<span class="sourceLineNo">1081</span><a id="line.1081">    return new Appendable() {</a>
-<span class="sourceLineNo">1082</span><a id="line.1082">      int charsUntilSeparator = afterEveryChars;</a>
-<span class="sourceLineNo">1083</span><a id="line.1083"></a>
-<span class="sourceLineNo">1084</span><a id="line.1084">      @Override</a>
-<span class="sourceLineNo">1085</span><a id="line.1085">      public Appendable append(char c) throws IOException {</a>
-<span class="sourceLineNo">1086</span><a id="line.1086">        if (charsUntilSeparator == 0) {</a>
-<span class="sourceLineNo">1087</span><a id="line.1087">          delegate.append(separator);</a>
-<span class="sourceLineNo">1088</span><a id="line.1088">          charsUntilSeparator = afterEveryChars;</a>
-<span class="sourceLineNo">1089</span><a id="line.1089">        }</a>
-<span class="sourceLineNo">1090</span><a id="line.1090">        delegate.append(c);</a>
-<span class="sourceLineNo">1091</span><a id="line.1091">        charsUntilSeparator--;</a>
-<span class="sourceLineNo">1092</span><a id="line.1092">        return this;</a>
-<span class="sourceLineNo">1093</span><a id="line.1093">      }</a>
-<span class="sourceLineNo">1094</span><a id="line.1094"></a>
-<span class="sourceLineNo">1095</span><a id="line.1095">      @Override</a>
-<span class="sourceLineNo">1096</span><a id="line.1096">      public Appendable append(@CheckForNull CharSequence chars, int off, int len) {</a>
-<span class="sourceLineNo">1097</span><a id="line.1097">        throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1098</span><a id="line.1098">      }</a>
-<span class="sourceLineNo">1099</span><a id="line.1099"></a>
-<span class="sourceLineNo">1100</span><a id="line.1100">      @Override</a>
-<span class="sourceLineNo">1101</span><a id="line.1101">      public Appendable append(@CheckForNull CharSequence chars) {</a>
-<span class="sourceLineNo">1102</span><a id="line.1102">        throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1103</span><a id="line.1103">      }</a>
-<span class="sourceLineNo">1104</span><a id="line.1104">    };</a>
-<span class="sourceLineNo">1105</span><a id="line.1105">  }</a>
-<span class="sourceLineNo">1106</span><a id="line.1106"></a>
-<span class="sourceLineNo">1107</span><a id="line.1107">  @GwtIncompatible // Writer</a>
-<span class="sourceLineNo">1108</span><a id="line.1108">  static Writer separatingWriter(Writer delegate, String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1109</span><a id="line.1109">    Appendable separatingAppendable = separatingAppendable(delegate, separator, afterEveryChars);</a>
-<span class="sourceLineNo">1110</span><a id="line.1110">    return new Writer() {</a>
-<span class="sourceLineNo">1111</span><a id="line.1111">      @Override</a>
-<span class="sourceLineNo">1112</span><a id="line.1112">      public void write(int c) throws IOException {</a>
-<span class="sourceLineNo">1113</span><a id="line.1113">        separatingAppendable.append((char) c);</a>
-<span class="sourceLineNo">1114</span><a id="line.1114">      }</a>
-<span class="sourceLineNo">1115</span><a id="line.1115"></a>
-<span class="sourceLineNo">1116</span><a id="line.1116">      @Override</a>
-<span class="sourceLineNo">1117</span><a id="line.1117">      public void write(char[] chars, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1118</span><a id="line.1118">        throw new UnsupportedOperationException();</a>
-<span class="sourceLineNo">1119</span><a id="line.1119">      }</a>
-<span class="sourceLineNo">1120</span><a id="line.1120"></a>
-<span class="sourceLineNo">1121</span><a id="line.1121">      @Override</a>
-<span class="sourceLineNo">1122</span><a id="line.1122">      public void flush() throws IOException {</a>
-<span class="sourceLineNo">1123</span><a id="line.1123">        delegate.flush();</a>
-<span class="sourceLineNo">1124</span><a id="line.1124">      }</a>
-<span class="sourceLineNo">1125</span><a id="line.1125"></a>
-<span class="sourceLineNo">1126</span><a id="line.1126">      @Override</a>
-<span class="sourceLineNo">1127</span><a id="line.1127">      public void close() throws IOException {</a>
-<span class="sourceLineNo">1128</span><a id="line.1128">        delegate.close();</a>
-<span class="sourceLineNo">1129</span><a id="line.1129">      }</a>
-<span class="sourceLineNo">1130</span><a id="line.1130">    };</a>
-<span class="sourceLineNo">1131</span><a id="line.1131">  }</a>
-<span class="sourceLineNo">1132</span><a id="line.1132"></a>
-<span class="sourceLineNo">1133</span><a id="line.1133">  static final class SeparatedBaseEncoding extends BaseEncoding {</a>
-<span class="sourceLineNo">1134</span><a id="line.1134">    private final BaseEncoding delegate;</a>
-<span class="sourceLineNo">1135</span><a id="line.1135">    private final String separator;</a>
-<span class="sourceLineNo">1136</span><a id="line.1136">    private final int afterEveryChars;</a>
-<span class="sourceLineNo">1137</span><a id="line.1137"></a>
-<span class="sourceLineNo">1138</span><a id="line.1138">    SeparatedBaseEncoding(BaseEncoding delegate, String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1139</span><a id="line.1139">      this.delegate = checkNotNull(delegate);</a>
-<span class="sourceLineNo">1140</span><a id="line.1140">      this.separator = checkNotNull(separator);</a>
-<span class="sourceLineNo">1141</span><a id="line.1141">      this.afterEveryChars = afterEveryChars;</a>
-<span class="sourceLineNo">1142</span><a id="line.1142">      checkArgument(</a>
-<span class="sourceLineNo">1143</span><a id="line.1143">          afterEveryChars &gt; 0, "Cannot add a separator after every %s chars", afterEveryChars);</a>
-<span class="sourceLineNo">1144</span><a id="line.1144">    }</a>
-<span class="sourceLineNo">1145</span><a id="line.1145"></a>
-<span class="sourceLineNo">1146</span><a id="line.1146">    @Override</a>
-<span class="sourceLineNo">1147</span><a id="line.1147">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
-<span class="sourceLineNo">1148</span><a id="line.1148">      return delegate.trimTrailingPadding(chars);</a>
-<span class="sourceLineNo">1149</span><a id="line.1149">    }</a>
-<span class="sourceLineNo">1150</span><a id="line.1150"></a>
-<span class="sourceLineNo">1151</span><a id="line.1151">    @Override</a>
-<span class="sourceLineNo">1152</span><a id="line.1152">    int maxEncodedSize(int bytes) {</a>
-<span class="sourceLineNo">1153</span><a id="line.1153">      int unseparatedSize = delegate.maxEncodedSize(bytes);</a>
-<span class="sourceLineNo">1154</span><a id="line.1154">      return unseparatedSize</a>
-<span class="sourceLineNo">1155</span><a id="line.1155">          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);</a>
-<span class="sourceLineNo">1156</span><a id="line.1156">    }</a>
-<span class="sourceLineNo">1157</span><a id="line.1157"></a>
-<span class="sourceLineNo">1158</span><a id="line.1158">    @GwtIncompatible // Writer,OutputStream</a>
-<span class="sourceLineNo">1159</span><a id="line.1159">    @Override</a>
-<span class="sourceLineNo">1160</span><a id="line.1160">    public OutputStream encodingStream(Writer output) {</a>
-<span class="sourceLineNo">1161</span><a id="line.1161">      return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));</a>
-<span class="sourceLineNo">1162</span><a id="line.1162">    }</a>
-<span class="sourceLineNo">1163</span><a id="line.1163"></a>
-<span class="sourceLineNo">1164</span><a id="line.1164">    @Override</a>
-<span class="sourceLineNo">1165</span><a id="line.1165">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
-<span class="sourceLineNo">1166</span><a id="line.1166">      delegate.encodeTo(separatingAppendable(target, separator, afterEveryChars), bytes, off, len);</a>
-<span class="sourceLineNo">1167</span><a id="line.1167">    }</a>
-<span class="sourceLineNo">1168</span><a id="line.1168"></a>
-<span class="sourceLineNo">1169</span><a id="line.1169">    @Override</a>
-<span class="sourceLineNo">1170</span><a id="line.1170">    int maxDecodedSize(int chars) {</a>
-<span class="sourceLineNo">1171</span><a id="line.1171">      return delegate.maxDecodedSize(chars);</a>
-<span class="sourceLineNo">1172</span><a id="line.1172">    }</a>
-<span class="sourceLineNo">1173</span><a id="line.1173"></a>
-<span class="sourceLineNo">1174</span><a id="line.1174">    @Override</a>
-<span class="sourceLineNo">1175</span><a id="line.1175">    public boolean canDecode(CharSequence chars) {</a>
-<span class="sourceLineNo">1176</span><a id="line.1176">      StringBuilder builder = new StringBuilder();</a>
-<span class="sourceLineNo">1177</span><a id="line.1177">      for (int i = 0; i &lt; chars.length(); i++) {</a>
-<span class="sourceLineNo">1178</span><a id="line.1178">        char c = chars.charAt(i);</a>
-<span class="sourceLineNo">1179</span><a id="line.1179">        if (separator.indexOf(c) &lt; 0) {</a>
-<span class="sourceLineNo">1180</span><a id="line.1180">          builder.append(c);</a>
-<span class="sourceLineNo">1181</span><a id="line.1181">        }</a>
-<span class="sourceLineNo">1182</span><a id="line.1182">      }</a>
-<span class="sourceLineNo">1183</span><a id="line.1183">      return delegate.canDecode(builder);</a>
-<span class="sourceLineNo">1184</span><a id="line.1184">    }</a>
-<span class="sourceLineNo">1185</span><a id="line.1185"></a>
-<span class="sourceLineNo">1186</span><a id="line.1186">    @Override</a>
-<span class="sourceLineNo">1187</span><a id="line.1187">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
-<span class="sourceLineNo">1188</span><a id="line.1188">      StringBuilder stripped = new StringBuilder(chars.length());</a>
-<span class="sourceLineNo">1189</span><a id="line.1189">      for (int i = 0; i &lt; chars.length(); i++) {</a>
-<span class="sourceLineNo">1190</span><a id="line.1190">        char c = chars.charAt(i);</a>
-<span class="sourceLineNo">1191</span><a id="line.1191">        if (separator.indexOf(c) &lt; 0) {</a>
-<span class="sourceLineNo">1192</span><a id="line.1192">          stripped.append(c);</a>
-<span class="sourceLineNo">1193</span><a id="line.1193">        }</a>
-<span class="sourceLineNo">1194</span><a id="line.1194">      }</a>
-<span class="sourceLineNo">1195</span><a id="line.1195">      return delegate.decodeTo(target, stripped);</a>
-<span class="sourceLineNo">1196</span><a id="line.1196">    }</a>
-<span class="sourceLineNo">1197</span><a id="line.1197"></a>
-<span class="sourceLineNo">1198</span><a id="line.1198">    @Override</a>
-<span class="sourceLineNo">1199</span><a id="line.1199">    @GwtIncompatible // Reader,InputStream</a>
-<span class="sourceLineNo">1200</span><a id="line.1200">    public InputStream decodingStream(Reader reader) {</a>
-<span class="sourceLineNo">1201</span><a id="line.1201">      return delegate.decodingStream(ignoringReader(reader, separator));</a>
-<span class="sourceLineNo">1202</span><a id="line.1202">    }</a>
-<span class="sourceLineNo">1203</span><a id="line.1203"></a>
-<span class="sourceLineNo">1204</span><a id="line.1204">    @Override</a>
-<span class="sourceLineNo">1205</span><a id="line.1205">    public BaseEncoding omitPadding() {</a>
-<span class="sourceLineNo">1206</span><a id="line.1206">      return delegate.omitPadding().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1207</span><a id="line.1207">    }</a>
-<span class="sourceLineNo">1208</span><a id="line.1208"></a>
-<span class="sourceLineNo">1209</span><a id="line.1209">    @Override</a>
-<span class="sourceLineNo">1210</span><a id="line.1210">    public BaseEncoding withPadChar(char padChar) {</a>
-<span class="sourceLineNo">1211</span><a id="line.1211">      return delegate.withPadChar(padChar).withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1212</span><a id="line.1212">    }</a>
-<span class="sourceLineNo">1213</span><a id="line.1213"></a>
-<span class="sourceLineNo">1214</span><a id="line.1214">    @Override</a>
-<span class="sourceLineNo">1215</span><a id="line.1215">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
-<span class="sourceLineNo">1216</span><a id="line.1216">      throw new UnsupportedOperationException("Already have a separator");</a>
-<span class="sourceLineNo">1217</span><a id="line.1217">    }</a>
-<span class="sourceLineNo">1218</span><a id="line.1218"></a>
-<span class="sourceLineNo">1219</span><a id="line.1219">    @Override</a>
-<span class="sourceLineNo">1220</span><a id="line.1220">    public BaseEncoding upperCase() {</a>
-<span class="sourceLineNo">1221</span><a id="line.1221">      return delegate.upperCase().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1222</span><a id="line.1222">    }</a>
-<span class="sourceLineNo">1223</span><a id="line.1223"></a>
-<span class="sourceLineNo">1224</span><a id="line.1224">    @Override</a>
-<span class="sourceLineNo">1225</span><a id="line.1225">    public BaseEncoding lowerCase() {</a>
-<span class="sourceLineNo">1226</span><a id="line.1226">      return delegate.lowerCase().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1227</span><a id="line.1227">    }</a>
-<span class="sourceLineNo">1228</span><a id="line.1228"></a>
-<span class="sourceLineNo">1229</span><a id="line.1229">    @Override</a>
-<span class="sourceLineNo">1230</span><a id="line.1230">    public BaseEncoding ignoreCase() {</a>
-<span class="sourceLineNo">1231</span><a id="line.1231">      return delegate.ignoreCase().withSeparator(separator, afterEveryChars);</a>
-<span class="sourceLineNo">1232</span><a id="line.1232">    }</a>
-<span class="sourceLineNo">1233</span><a id="line.1233"></a>
-<span class="sourceLineNo">1234</span><a id="line.1234">    @Override</a>
-<span class="sourceLineNo">1235</span><a id="line.1235">    public String toString() {</a>
-<span class="sourceLineNo">1236</span><a id="line.1236">      return delegate + ".withSeparator(\"" + separator + "\", " + afterEveryChars + ")";</a>
-<span class="sourceLineNo">1237</span><a id="line.1237">    }</a>
-<span class="sourceLineNo">1238</span><a id="line.1238">  }</a>
-<span class="sourceLineNo">1239</span><a id="line.1239">}</a>
+<span class="sourceLineNo">616</span><a id="line.616">    @CheckForNull final Character paddingChar;</a>
+<span class="sourceLineNo">617</span><a id="line.617"></a>
+<span class="sourceLineNo">618</span><a id="line.618">    StandardBaseEncoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">619</span><a id="line.619">      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);</a>
+<span class="sourceLineNo">620</span><a id="line.620">    }</a>
+<span class="sourceLineNo">621</span><a id="line.621"></a>
+<span class="sourceLineNo">622</span><a id="line.622">    StandardBaseEncoding(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">623</span><a id="line.623">      this.alphabet = checkNotNull(alphabet);</a>
+<span class="sourceLineNo">624</span><a id="line.624">      checkArgument(</a>
+<span class="sourceLineNo">625</span><a id="line.625">          paddingChar == null || !alphabet.matches(paddingChar),</a>
+<span class="sourceLineNo">626</span><a id="line.626">          "Padding character %s was already in alphabet",</a>
+<span class="sourceLineNo">627</span><a id="line.627">          paddingChar);</a>
+<span class="sourceLineNo">628</span><a id="line.628">      this.paddingChar = paddingChar;</a>
+<span class="sourceLineNo">629</span><a id="line.629">    }</a>
+<span class="sourceLineNo">630</span><a id="line.630"></a>
+<span class="sourceLineNo">631</span><a id="line.631">    @Override</a>
+<span class="sourceLineNo">632</span><a id="line.632">    int maxEncodedSize(int bytes) {</a>
+<span class="sourceLineNo">633</span><a id="line.633">      return alphabet.charsPerChunk * divide(bytes, alphabet.bytesPerChunk, CEILING);</a>
+<span class="sourceLineNo">634</span><a id="line.634">    }</a>
+<span class="sourceLineNo">635</span><a id="line.635"></a>
+<span class="sourceLineNo">636</span><a id="line.636">    @GwtIncompatible // Writer,OutputStream</a>
+<span class="sourceLineNo">637</span><a id="line.637">    @Override</a>
+<span class="sourceLineNo">638</span><a id="line.638">    public OutputStream encodingStream(Writer out) {</a>
+<span class="sourceLineNo">639</span><a id="line.639">      checkNotNull(out);</a>
+<span class="sourceLineNo">640</span><a id="line.640">      return new OutputStream() {</a>
+<span class="sourceLineNo">641</span><a id="line.641">        int bitBuffer = 0;</a>
+<span class="sourceLineNo">642</span><a id="line.642">        int bitBufferLength = 0;</a>
+<span class="sourceLineNo">643</span><a id="line.643">        int writtenChars = 0;</a>
+<span class="sourceLineNo">644</span><a id="line.644"></a>
+<span class="sourceLineNo">645</span><a id="line.645">        @Override</a>
+<span class="sourceLineNo">646</span><a id="line.646">        public void write(int b) throws IOException {</a>
+<span class="sourceLineNo">647</span><a id="line.647">          bitBuffer &lt;&lt;= 8;</a>
+<span class="sourceLineNo">648</span><a id="line.648">          bitBuffer |= b &amp; 0xFF;</a>
+<span class="sourceLineNo">649</span><a id="line.649">          bitBufferLength += 8;</a>
+<span class="sourceLineNo">650</span><a id="line.650">          while (bitBufferLength &gt;= alphabet.bitsPerChar) {</a>
+<span class="sourceLineNo">651</span><a id="line.651">            int charIndex = (bitBuffer &gt;&gt; (bitBufferLength - alphabet.bitsPerChar)) &amp; alphabet.mask;</a>
+<span class="sourceLineNo">652</span><a id="line.652">            out.write(alphabet.encode(charIndex));</a>
+<span class="sourceLineNo">653</span><a id="line.653">            writtenChars++;</a>
+<span class="sourceLineNo">654</span><a id="line.654">            bitBufferLength -= alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">655</span><a id="line.655">          }</a>
+<span class="sourceLineNo">656</span><a id="line.656">        }</a>
+<span class="sourceLineNo">657</span><a id="line.657"></a>
+<span class="sourceLineNo">658</span><a id="line.658">        @Override</a>
+<span class="sourceLineNo">659</span><a id="line.659">        public void flush() throws IOException {</a>
+<span class="sourceLineNo">660</span><a id="line.660">          out.flush();</a>
+<span class="sourceLineNo">661</span><a id="line.661">        }</a>
+<span class="sourceLineNo">662</span><a id="line.662"></a>
+<span class="sourceLineNo">663</span><a id="line.663">        @Override</a>
+<span class="sourceLineNo">664</span><a id="line.664">        public void close() throws IOException {</a>
+<span class="sourceLineNo">665</span><a id="line.665">          if (bitBufferLength &gt; 0) {</a>
+<span class="sourceLineNo">666</span><a id="line.666">            int charIndex = (bitBuffer &lt;&lt; (alphabet.bitsPerChar - bitBufferLength)) &amp; alphabet.mask;</a>
+<span class="sourceLineNo">667</span><a id="line.667">            out.write(alphabet.encode(charIndex));</a>
+<span class="sourceLineNo">668</span><a id="line.668">            writtenChars++;</a>
+<span class="sourceLineNo">669</span><a id="line.669">            if (paddingChar != null) {</a>
+<span class="sourceLineNo">670</span><a id="line.670">              while (writtenChars % alphabet.charsPerChunk != 0) {</a>
+<span class="sourceLineNo">671</span><a id="line.671">                out.write(paddingChar.charValue());</a>
+<span class="sourceLineNo">672</span><a id="line.672">                writtenChars++;</a>
+<span class="sourceLineNo">673</span><a id="line.673">              }</a>
+<span class="sourceLineNo">674</span><a id="line.674">            }</a>
+<span class="sourceLineNo">675</span><a id="line.675">          }</a>
+<span class="sourceLineNo">676</span><a id="line.676">          out.close();</a>
+<span class="sourceLineNo">677</span><a id="line.677">        }</a>
+<span class="sourceLineNo">678</span><a id="line.678">      };</a>
+<span class="sourceLineNo">679</span><a id="line.679">    }</a>
+<span class="sourceLineNo">680</span><a id="line.680"></a>
+<span class="sourceLineNo">681</span><a id="line.681">    @Override</a>
+<span class="sourceLineNo">682</span><a id="line.682">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">683</span><a id="line.683">      checkNotNull(target);</a>
+<span class="sourceLineNo">684</span><a id="line.684">      checkPositionIndexes(off, off + len, bytes.length);</a>
+<span class="sourceLineNo">685</span><a id="line.685">      for (int i = 0; i &lt; len; i += alphabet.bytesPerChunk) {</a>
+<span class="sourceLineNo">686</span><a id="line.686">        encodeChunkTo(target, bytes, off + i, Math.min(alphabet.bytesPerChunk, len - i));</a>
+<span class="sourceLineNo">687</span><a id="line.687">      }</a>
+<span class="sourceLineNo">688</span><a id="line.688">    }</a>
+<span class="sourceLineNo">689</span><a id="line.689"></a>
+<span class="sourceLineNo">690</span><a id="line.690">    void encodeChunkTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">691</span><a id="line.691">      checkNotNull(target);</a>
+<span class="sourceLineNo">692</span><a id="line.692">      checkPositionIndexes(off, off + len, bytes.length);</a>
+<span class="sourceLineNo">693</span><a id="line.693">      checkArgument(len &lt;= alphabet.bytesPerChunk);</a>
+<span class="sourceLineNo">694</span><a id="line.694">      long bitBuffer = 0;</a>
+<span class="sourceLineNo">695</span><a id="line.695">      for (int i = 0; i &lt; len; ++i) {</a>
+<span class="sourceLineNo">696</span><a id="line.696">        bitBuffer |= bytes[off + i] &amp; 0xFF;</a>
+<span class="sourceLineNo">697</span><a id="line.697">        bitBuffer &lt;&lt;= 8; // Add additional zero byte in the end.</a>
+<span class="sourceLineNo">698</span><a id="line.698">      }</a>
+<span class="sourceLineNo">699</span><a id="line.699">      // Position of first character is length of bitBuffer minus bitsPerChar.</a>
+<span class="sourceLineNo">700</span><a id="line.700">      int bitOffset = (len + 1) * 8 - alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">701</span><a id="line.701">      int bitsProcessed = 0;</a>
+<span class="sourceLineNo">702</span><a id="line.702">      while (bitsProcessed &lt; len * 8) {</a>
+<span class="sourceLineNo">703</span><a id="line.703">        int charIndex = (int) (bitBuffer &gt;&gt;&gt; (bitOffset - bitsProcessed)) &amp; alphabet.mask;</a>
+<span class="sourceLineNo">704</span><a id="line.704">        target.append(alphabet.encode(charIndex));</a>
+<span class="sourceLineNo">705</span><a id="line.705">        bitsProcessed += alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">706</span><a id="line.706">      }</a>
+<span class="sourceLineNo">707</span><a id="line.707">      if (paddingChar != null) {</a>
+<span class="sourceLineNo">708</span><a id="line.708">        while (bitsProcessed &lt; alphabet.bytesPerChunk * 8) {</a>
+<span class="sourceLineNo">709</span><a id="line.709">          target.append(paddingChar.charValue());</a>
+<span class="sourceLineNo">710</span><a id="line.710">          bitsProcessed += alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">711</span><a id="line.711">        }</a>
+<span class="sourceLineNo">712</span><a id="line.712">      }</a>
+<span class="sourceLineNo">713</span><a id="line.713">    }</a>
+<span class="sourceLineNo">714</span><a id="line.714"></a>
+<span class="sourceLineNo">715</span><a id="line.715">    @Override</a>
+<span class="sourceLineNo">716</span><a id="line.716">    int maxDecodedSize(int chars) {</a>
+<span class="sourceLineNo">717</span><a id="line.717">      return (int) ((alphabet.bitsPerChar * (long) chars + 7L) / 8L);</a>
+<span class="sourceLineNo">718</span><a id="line.718">    }</a>
+<span class="sourceLineNo">719</span><a id="line.719"></a>
+<span class="sourceLineNo">720</span><a id="line.720">    @Override</a>
+<span class="sourceLineNo">721</span><a id="line.721">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
+<span class="sourceLineNo">722</span><a id="line.722">      checkNotNull(chars);</a>
+<span class="sourceLineNo">723</span><a id="line.723">      if (paddingChar == null) {</a>
+<span class="sourceLineNo">724</span><a id="line.724">        return chars;</a>
+<span class="sourceLineNo">725</span><a id="line.725">      }</a>
+<span class="sourceLineNo">726</span><a id="line.726">      char padChar = paddingChar.charValue();</a>
+<span class="sourceLineNo">727</span><a id="line.727">      int l;</a>
+<span class="sourceLineNo">728</span><a id="line.728">      for (l = chars.length() - 1; l &gt;= 0; l--) {</a>
+<span class="sourceLineNo">729</span><a id="line.729">        if (chars.charAt(l) != padChar) {</a>
+<span class="sourceLineNo">730</span><a id="line.730">          break;</a>
+<span class="sourceLineNo">731</span><a id="line.731">        }</a>
+<span class="sourceLineNo">732</span><a id="line.732">      }</a>
+<span class="sourceLineNo">733</span><a id="line.733">      return chars.subSequence(0, l + 1);</a>
+<span class="sourceLineNo">734</span><a id="line.734">    }</a>
+<span class="sourceLineNo">735</span><a id="line.735"></a>
+<span class="sourceLineNo">736</span><a id="line.736">    @Override</a>
+<span class="sourceLineNo">737</span><a id="line.737">    public boolean canDecode(CharSequence chars) {</a>
+<span class="sourceLineNo">738</span><a id="line.738">      checkNotNull(chars);</a>
+<span class="sourceLineNo">739</span><a id="line.739">      chars = trimTrailingPadding(chars);</a>
+<span class="sourceLineNo">740</span><a id="line.740">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
+<span class="sourceLineNo">741</span><a id="line.741">        return false;</a>
+<span class="sourceLineNo">742</span><a id="line.742">      }</a>
+<span class="sourceLineNo">743</span><a id="line.743">      for (int i = 0; i &lt; chars.length(); i++) {</a>
+<span class="sourceLineNo">744</span><a id="line.744">        if (!alphabet.canDecode(chars.charAt(i))) {</a>
+<span class="sourceLineNo">745</span><a id="line.745">          return false;</a>
+<span class="sourceLineNo">746</span><a id="line.746">        }</a>
+<span class="sourceLineNo">747</span><a id="line.747">      }</a>
+<span class="sourceLineNo">748</span><a id="line.748">      return true;</a>
+<span class="sourceLineNo">749</span><a id="line.749">    }</a>
+<span class="sourceLineNo">750</span><a id="line.750"></a>
+<span class="sourceLineNo">751</span><a id="line.751">    @Override</a>
+<span class="sourceLineNo">752</span><a id="line.752">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      checkNotNull(target);</a>
+<span class="sourceLineNo">754</span><a id="line.754">      chars = trimTrailingPadding(chars);</a>
+<span class="sourceLineNo">755</span><a id="line.755">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
+<span class="sourceLineNo">756</span><a id="line.756">        throw new DecodingException("Invalid input length " + chars.length());</a>
+<span class="sourceLineNo">757</span><a id="line.757">      }</a>
+<span class="sourceLineNo">758</span><a id="line.758">      int bytesWritten = 0;</a>
+<span class="sourceLineNo">759</span><a id="line.759">      for (int charIdx = 0; charIdx &lt; chars.length(); charIdx += alphabet.charsPerChunk) {</a>
+<span class="sourceLineNo">760</span><a id="line.760">        long chunk = 0;</a>
+<span class="sourceLineNo">761</span><a id="line.761">        int charsProcessed = 0;</a>
+<span class="sourceLineNo">762</span><a id="line.762">        for (int i = 0; i &lt; alphabet.charsPerChunk; i++) {</a>
+<span class="sourceLineNo">763</span><a id="line.763">          chunk &lt;&lt;= alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">764</span><a id="line.764">          if (charIdx + i &lt; chars.length()) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">            chunk |= alphabet.decode(chars.charAt(charIdx + charsProcessed++));</a>
+<span class="sourceLineNo">766</span><a id="line.766">          }</a>
+<span class="sourceLineNo">767</span><a id="line.767">        }</a>
+<span class="sourceLineNo">768</span><a id="line.768">        int minOffset = alphabet.bytesPerChunk * 8 - charsProcessed * alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">769</span><a id="line.769">        for (int offset = (alphabet.bytesPerChunk - 1) * 8; offset &gt;= minOffset; offset -= 8) {</a>
+<span class="sourceLineNo">770</span><a id="line.770">          target[bytesWritten++] = (byte) ((chunk &gt;&gt;&gt; offset) &amp; 0xFF);</a>
+<span class="sourceLineNo">771</span><a id="line.771">        }</a>
+<span class="sourceLineNo">772</span><a id="line.772">      }</a>
+<span class="sourceLineNo">773</span><a id="line.773">      return bytesWritten;</a>
+<span class="sourceLineNo">774</span><a id="line.774">    }</a>
+<span class="sourceLineNo">775</span><a id="line.775"></a>
+<span class="sourceLineNo">776</span><a id="line.776">    @Override</a>
+<span class="sourceLineNo">777</span><a id="line.777">    @GwtIncompatible // Reader,InputStream</a>
+<span class="sourceLineNo">778</span><a id="line.778">    public InputStream decodingStream(Reader reader) {</a>
+<span class="sourceLineNo">779</span><a id="line.779">      checkNotNull(reader);</a>
+<span class="sourceLineNo">780</span><a id="line.780">      return new InputStream() {</a>
+<span class="sourceLineNo">781</span><a id="line.781">        int bitBuffer = 0;</a>
+<span class="sourceLineNo">782</span><a id="line.782">        int bitBufferLength = 0;</a>
+<span class="sourceLineNo">783</span><a id="line.783">        int readChars = 0;</a>
+<span class="sourceLineNo">784</span><a id="line.784">        boolean hitPadding = false;</a>
+<span class="sourceLineNo">785</span><a id="line.785"></a>
+<span class="sourceLineNo">786</span><a id="line.786">        @Override</a>
+<span class="sourceLineNo">787</span><a id="line.787">        public int read() throws IOException {</a>
+<span class="sourceLineNo">788</span><a id="line.788">          while (true) {</a>
+<span class="sourceLineNo">789</span><a id="line.789">            int readChar = reader.read();</a>
+<span class="sourceLineNo">790</span><a id="line.790">            if (readChar == -1) {</a>
+<span class="sourceLineNo">791</span><a id="line.791">              if (!hitPadding &amp;&amp; !alphabet.isValidPaddingStartPosition(readChars)) {</a>
+<span class="sourceLineNo">792</span><a id="line.792">                throw new DecodingException("Invalid input length " + readChars);</a>
+<span class="sourceLineNo">793</span><a id="line.793">              }</a>
+<span class="sourceLineNo">794</span><a id="line.794">              return -1;</a>
+<span class="sourceLineNo">795</span><a id="line.795">            }</a>
+<span class="sourceLineNo">796</span><a id="line.796">            readChars++;</a>
+<span class="sourceLineNo">797</span><a id="line.797">            char ch = (char) readChar;</a>
+<span class="sourceLineNo">798</span><a id="line.798">            if (paddingChar != null &amp;&amp; paddingChar.charValue() == ch) {</a>
+<span class="sourceLineNo">799</span><a id="line.799">              if (!hitPadding</a>
+<span class="sourceLineNo">800</span><a id="line.800">                  &amp;&amp; (readChars == 1 || !alphabet.isValidPaddingStartPosition(readChars - 1))) {</a>
+<span class="sourceLineNo">801</span><a id="line.801">                throw new DecodingException("Padding cannot start at index " + readChars);</a>
+<span class="sourceLineNo">802</span><a id="line.802">              }</a>
+<span class="sourceLineNo">803</span><a id="line.803">              hitPadding = true;</a>
+<span class="sourceLineNo">804</span><a id="line.804">            } else if (hitPadding) {</a>
+<span class="sourceLineNo">805</span><a id="line.805">              throw new DecodingException(</a>
+<span class="sourceLineNo">806</span><a id="line.806">                  "Expected padding character but found '" + ch + "' at index " + readChars);</a>
+<span class="sourceLineNo">807</span><a id="line.807">            } else {</a>
+<span class="sourceLineNo">808</span><a id="line.808">              bitBuffer &lt;&lt;= alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">809</span><a id="line.809">              bitBuffer |= alphabet.decode(ch);</a>
+<span class="sourceLineNo">810</span><a id="line.810">              bitBufferLength += alphabet.bitsPerChar;</a>
+<span class="sourceLineNo">811</span><a id="line.811"></a>
+<span class="sourceLineNo">812</span><a id="line.812">              if (bitBufferLength &gt;= 8) {</a>
+<span class="sourceLineNo">813</span><a id="line.813">                bitBufferLength -= 8;</a>
+<span class="sourceLineNo">814</span><a id="line.814">                return (bitBuffer &gt;&gt; bitBufferLength) &amp; 0xFF;</a>
+<span class="sourceLineNo">815</span><a id="line.815">              }</a>
+<span class="sourceLineNo">816</span><a id="line.816">            }</a>
+<span class="sourceLineNo">817</span><a id="line.817">          }</a>
+<span class="sourceLineNo">818</span><a id="line.818">        }</a>
+<span class="sourceLineNo">819</span><a id="line.819"></a>
+<span class="sourceLineNo">820</span><a id="line.820">        @Override</a>
+<span class="sourceLineNo">821</span><a id="line.821">        public int read(byte[] buf, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">822</span><a id="line.822">          // Overriding this to work around the fact that InputStream's default implementation of</a>
+<span class="sourceLineNo">823</span><a id="line.823">          // this method will silently swallow exceptions thrown by the single-byte read() method</a>
+<span class="sourceLineNo">824</span><a id="line.824">          // (other than on the first call to it), which in this case can cause invalid encoded</a>
+<span class="sourceLineNo">825</span><a id="line.825">          // strings to not throw an exception.</a>
+<span class="sourceLineNo">826</span><a id="line.826">          // See https://github.com/google/guava/issues/3542</a>
+<span class="sourceLineNo">827</span><a id="line.827">          checkPositionIndexes(off, off + len, buf.length);</a>
+<span class="sourceLineNo">828</span><a id="line.828"></a>
+<span class="sourceLineNo">829</span><a id="line.829">          int i = off;</a>
+<span class="sourceLineNo">830</span><a id="line.830">          for (; i &lt; off + len; i++) {</a>
+<span class="sourceLineNo">831</span><a id="line.831">            int b = read();</a>
+<span class="sourceLineNo">832</span><a id="line.832">            if (b == -1) {</a>
+<span class="sourceLineNo">833</span><a id="line.833">              int read = i - off;</a>
+<span class="sourceLineNo">834</span><a id="line.834">              return read == 0 ? -1 : read;</a>
+<span class="sourceLineNo">835</span><a id="line.835">            }</a>
+<span class="sourceLineNo">836</span><a id="line.836">            buf[i] = (byte) b;</a>
+<span class="sourceLineNo">837</span><a id="line.837">          }</a>
+<span class="sourceLineNo">838</span><a id="line.838">          return i - off;</a>
+<span class="sourceLineNo">839</span><a id="line.839">        }</a>
+<span class="sourceLineNo">840</span><a id="line.840"></a>
+<span class="sourceLineNo">841</span><a id="line.841">        @Override</a>
+<span class="sourceLineNo">842</span><a id="line.842">        public void close() throws IOException {</a>
+<span class="sourceLineNo">843</span><a id="line.843">          reader.close();</a>
+<span class="sourceLineNo">844</span><a id="line.844">        }</a>
+<span class="sourceLineNo">845</span><a id="line.845">      };</a>
+<span class="sourceLineNo">846</span><a id="line.846">    }</a>
+<span class="sourceLineNo">847</span><a id="line.847"></a>
+<span class="sourceLineNo">848</span><a id="line.848">    @Override</a>
+<span class="sourceLineNo">849</span><a id="line.849">    public BaseEncoding omitPadding() {</a>
+<span class="sourceLineNo">850</span><a id="line.850">      return (paddingChar == null) ? this : newInstance(alphabet, null);</a>
+<span class="sourceLineNo">851</span><a id="line.851">    }</a>
+<span class="sourceLineNo">852</span><a id="line.852"></a>
+<span class="sourceLineNo">853</span><a id="line.853">    @Override</a>
+<span class="sourceLineNo">854</span><a id="line.854">    public BaseEncoding withPadChar(char padChar) {</a>
+<span class="sourceLineNo">855</span><a id="line.855">      if (8 % alphabet.bitsPerChar == 0</a>
+<span class="sourceLineNo">856</span><a id="line.856">          || (paddingChar != null &amp;&amp; paddingChar.charValue() == padChar)) {</a>
+<span class="sourceLineNo">857</span><a id="line.857">        return this;</a>
+<span class="sourceLineNo">858</span><a id="line.858">      } else {</a>
+<span class="sourceLineNo">859</span><a id="line.859">        return newInstance(alphabet, padChar);</a>
+<span class="sourceLineNo">860</span><a id="line.860">      }</a>
+<span class="sourceLineNo">861</span><a id="line.861">    }</a>
+<span class="sourceLineNo">862</span><a id="line.862"></a>
+<span class="sourceLineNo">863</span><a id="line.863">    @Override</a>
+<span class="sourceLineNo">864</span><a id="line.864">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">865</span><a id="line.865">      for (int i = 0; i &lt; separator.length(); i++) {</a>
+<span class="sourceLineNo">866</span><a id="line.866">        checkArgument(</a>
+<span class="sourceLineNo">867</span><a id="line.867">            !alphabet.matches(separator.charAt(i)),</a>
+<span class="sourceLineNo">868</span><a id="line.868">            "Separator (%s) cannot contain alphabet characters",</a>
+<span class="sourceLineNo">869</span><a id="line.869">            separator);</a>
+<span class="sourceLineNo">870</span><a id="line.870">      }</a>
+<span class="sourceLineNo">871</span><a id="line.871">      if (paddingChar != null) {</a>
+<span class="sourceLineNo">872</span><a id="line.872">        checkArgument(</a>
+<span class="sourceLineNo">873</span><a id="line.873">            separator.indexOf(paddingChar.charValue()) &lt; 0,</a>
+<span class="sourceLineNo">874</span><a id="line.874">            "Separator (%s) cannot contain padding character",</a>
+<span class="sourceLineNo">875</span><a id="line.875">            separator);</a>
+<span class="sourceLineNo">876</span><a id="line.876">      }</a>
+<span class="sourceLineNo">877</span><a id="line.877">      return new SeparatedBaseEncoding(this, separator, afterEveryChars);</a>
+<span class="sourceLineNo">878</span><a id="line.878">    }</a>
+<span class="sourceLineNo">879</span><a id="line.879"></a>
+<span class="sourceLineNo">880</span><a id="line.880">    @LazyInit @CheckForNull private transient BaseEncoding upperCase;</a>
+<span class="sourceLineNo">881</span><a id="line.881">    @LazyInit @CheckForNull private transient BaseEncoding lowerCase;</a>
+<span class="sourceLineNo">882</span><a id="line.882">    @LazyInit @CheckForNull private transient BaseEncoding ignoreCase;</a>
+<span class="sourceLineNo">883</span><a id="line.883"></a>
+<span class="sourceLineNo">884</span><a id="line.884">    @Override</a>
+<span class="sourceLineNo">885</span><a id="line.885">    public BaseEncoding upperCase() {</a>
+<span class="sourceLineNo">886</span><a id="line.886">      BaseEncoding result = upperCase;</a>
+<span class="sourceLineNo">887</span><a id="line.887">      if (result == null) {</a>
+<span class="sourceLineNo">888</span><a id="line.888">        Alphabet upper = alphabet.upperCase();</a>
+<span class="sourceLineNo">889</span><a id="line.889">        result = upperCase = (upper == alphabet) ? this : newInstance(upper, paddingChar);</a>
+<span class="sourceLineNo">890</span><a id="line.890">      }</a>
+<span class="sourceLineNo">891</span><a id="line.891">      return result;</a>
+<span class="sourceLineNo">892</span><a id="line.892">    }</a>
+<span class="sourceLineNo">893</span><a id="line.893"></a>
+<span class="sourceLineNo">894</span><a id="line.894">    @Override</a>
+<span class="sourceLineNo">895</span><a id="line.895">    public BaseEncoding lowerCase() {</a>
+<span class="sourceLineNo">896</span><a id="line.896">      BaseEncoding result = lowerCase;</a>
+<span class="sourceLineNo">897</span><a id="line.897">      if (result == null) {</a>
+<span class="sourceLineNo">898</span><a id="line.898">        Alphabet lower = alphabet.lowerCase();</a>
+<span class="sourceLineNo">899</span><a id="line.899">        result = lowerCase = (lower == alphabet) ? this : newInstance(lower, paddingChar);</a>
+<span class="sourceLineNo">900</span><a id="line.900">      }</a>
+<span class="sourceLineNo">901</span><a id="line.901">      return result;</a>
+<span class="sourceLineNo">902</span><a id="line.902">    }</a>
+<span class="sourceLineNo">903</span><a id="line.903"></a>
+<span class="sourceLineNo">904</span><a id="line.904">    @Override</a>
+<span class="sourceLineNo">905</span><a id="line.905">    public BaseEncoding ignoreCase() {</a>
+<span class="sourceLineNo">906</span><a id="line.906">      BaseEncoding result = ignoreCase;</a>
+<span class="sourceLineNo">907</span><a id="line.907">      if (result == null) {</a>
+<span class="sourceLineNo">908</span><a id="line.908">        Alphabet ignore = alphabet.ignoreCase();</a>
+<span class="sourceLineNo">909</span><a id="line.909">        result = ignoreCase = (ignore == alphabet) ? this : newInstance(ignore, paddingChar);</a>
+<span class="sourceLineNo">910</span><a id="line.910">      }</a>
+<span class="sourceLineNo">911</span><a id="line.911">      return result;</a>
+<span class="sourceLineNo">912</span><a id="line.912">    }</a>
+<span class="sourceLineNo">913</span><a id="line.913"></a>
+<span class="sourceLineNo">914</span><a id="line.914">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">915</span><a id="line.915">      return new StandardBaseEncoding(alphabet, paddingChar);</a>
+<span class="sourceLineNo">916</span><a id="line.916">    }</a>
+<span class="sourceLineNo">917</span><a id="line.917"></a>
+<span class="sourceLineNo">918</span><a id="line.918">    @Override</a>
+<span class="sourceLineNo">919</span><a id="line.919">    public String toString() {</a>
+<span class="sourceLineNo">920</span><a id="line.920">      StringBuilder builder = new StringBuilder("BaseEncoding.");</a>
+<span class="sourceLineNo">921</span><a id="line.921">      builder.append(alphabet);</a>
+<span class="sourceLineNo">922</span><a id="line.922">      if (8 % alphabet.bitsPerChar != 0) {</a>
+<span class="sourceLineNo">923</span><a id="line.923">        if (paddingChar == null) {</a>
+<span class="sourceLineNo">924</span><a id="line.924">          builder.append(".omitPadding()");</a>
+<span class="sourceLineNo">925</span><a id="line.925">        } else {</a>
+<span class="sourceLineNo">926</span><a id="line.926">          builder.append(".withPadChar('").append(paddingChar).append("')");</a>
+<span class="sourceLineNo">927</span><a id="line.927">        }</a>
+<span class="sourceLineNo">928</span><a id="line.928">      }</a>
+<span class="sourceLineNo">929</span><a id="line.929">      return builder.toString();</a>
+<span class="sourceLineNo">930</span><a id="line.930">    }</a>
+<span class="sourceLineNo">931</span><a id="line.931"></a>
+<span class="sourceLineNo">932</span><a id="line.932">    @Override</a>
+<span class="sourceLineNo">933</span><a id="line.933">    public boolean equals(@CheckForNull Object other) {</a>
+<span class="sourceLineNo">934</span><a id="line.934">      if (other instanceof StandardBaseEncoding) {</a>
+<span class="sourceLineNo">935</span><a id="line.935">        StandardBaseEncoding that = (StandardBaseEncoding) other;</a>
+<span class="sourceLineNo">936</span><a id="line.936">        return this.alphabet.equals(that.alphabet)</a>
+<span class="sourceLineNo">937</span><a id="line.937">            &amp;&amp; Objects.equal(this.paddingChar, that.paddingChar);</a>
+<span class="sourceLineNo">938</span><a id="line.938">      }</a>
+<span class="sourceLineNo">939</span><a id="line.939">      return false;</a>
+<span class="sourceLineNo">940</span><a id="line.940">    }</a>
+<span class="sourceLineNo">941</span><a id="line.941"></a>
+<span class="sourceLineNo">942</span><a id="line.942">    @Override</a>
+<span class="sourceLineNo">943</span><a id="line.943">    public int hashCode() {</a>
+<span class="sourceLineNo">944</span><a id="line.944">      return alphabet.hashCode() ^ Objects.hashCode(paddingChar);</a>
+<span class="sourceLineNo">945</span><a id="line.945">    }</a>
+<span class="sourceLineNo">946</span><a id="line.946">  }</a>
+<span class="sourceLineNo">947</span><a id="line.947"></a>
+<span class="sourceLineNo">948</span><a id="line.948">  static final class Base16Encoding extends StandardBaseEncoding {</a>
+<span class="sourceLineNo">949</span><a id="line.949">    final char[] encoding = new char[512];</a>
+<span class="sourceLineNo">950</span><a id="line.950"></a>
+<span class="sourceLineNo">951</span><a id="line.951">    Base16Encoding(String name, String alphabetChars) {</a>
+<span class="sourceLineNo">952</span><a id="line.952">      this(new Alphabet(name, alphabetChars.toCharArray()));</a>
+<span class="sourceLineNo">953</span><a id="line.953">    }</a>
+<span class="sourceLineNo">954</span><a id="line.954"></a>
+<span class="sourceLineNo">955</span><a id="line.955">    private Base16Encoding(Alphabet alphabet) {</a>
+<span class="sourceLineNo">956</span><a id="line.956">      super(alphabet, null);</a>
+<span class="sourceLineNo">957</span><a id="line.957">      checkArgument(alphabet.chars.length == 16);</a>
+<span class="sourceLineNo">958</span><a id="line.958">      for (int i = 0; i &lt; 256; ++i) {</a>
+<span class="sourceLineNo">959</span><a id="line.959">        encoding[i] = alphabet.encode(i &gt;&gt;&gt; 4);</a>
+<span class="sourceLineNo">960</span><a id="line.960">        encoding[i | 0x100] = alphabet.encode(i &amp; 0xF);</a>
+<span class="sourceLineNo">961</span><a id="line.961">      }</a>
+<span class="sourceLineNo">962</span><a id="line.962">    }</a>
+<span class="sourceLineNo">963</span><a id="line.963"></a>
+<span class="sourceLineNo">964</span><a id="line.964">    @Override</a>
+<span class="sourceLineNo">965</span><a id="line.965">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">966</span><a id="line.966">      checkNotNull(target);</a>
+<span class="sourceLineNo">967</span><a id="line.967">      checkPositionIndexes(off, off + len, bytes.length);</a>
+<span class="sourceLineNo">968</span><a id="line.968">      for (int i = 0; i &lt; len; ++i) {</a>
+<span class="sourceLineNo">969</span><a id="line.969">        int b = bytes[off + i] &amp; 0xFF;</a>
+<span class="sourceLineNo">970</span><a id="line.970">        target.append(encoding[b]);</a>
+<span class="sourceLineNo">971</span><a id="line.971">        target.append(encoding[b | 0x100]);</a>
+<span class="sourceLineNo">972</span><a id="line.972">      }</a>
+<span class="sourceLineNo">973</span><a id="line.973">    }</a>
+<span class="sourceLineNo">974</span><a id="line.974"></a>
+<span class="sourceLineNo">975</span><a id="line.975">    @Override</a>
+<span class="sourceLineNo">976</span><a id="line.976">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
+<span class="sourceLineNo">977</span><a id="line.977">      checkNotNull(target);</a>
+<span class="sourceLineNo">978</span><a id="line.978">      if (chars.length() % 2 == 1) {</a>
+<span class="sourceLineNo">979</span><a id="line.979">        throw new DecodingException("Invalid input length " + chars.length());</a>
+<span class="sourceLineNo">980</span><a id="line.980">      }</a>
+<span class="sourceLineNo">981</span><a id="line.981">      int bytesWritten = 0;</a>
+<span class="sourceLineNo">982</span><a id="line.982">      for (int i = 0; i &lt; chars.length(); i += 2) {</a>
+<span class="sourceLineNo">983</span><a id="line.983">        int decoded = alphabet.decode(chars.charAt(i)) &lt;&lt; 4 | alphabet.decode(chars.charAt(i + 1));</a>
+<span class="sourceLineNo">984</span><a id="line.984">        target[bytesWritten++] = (byte) decoded;</a>
+<span class="sourceLineNo">985</span><a id="line.985">      }</a>
+<span class="sourceLineNo">986</span><a id="line.986">      return bytesWritten;</a>
+<span class="sourceLineNo">987</span><a id="line.987">    }</a>
+<span class="sourceLineNo">988</span><a id="line.988"></a>
+<span class="sourceLineNo">989</span><a id="line.989">    @Override</a>
+<span class="sourceLineNo">990</span><a id="line.990">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">991</span><a id="line.991">      return new Base16Encoding(alphabet);</a>
+<span class="sourceLineNo">992</span><a id="line.992">    }</a>
+<span class="sourceLineNo">993</span><a id="line.993">  }</a>
+<span class="sourceLineNo">994</span><a id="line.994"></a>
+<span class="sourceLineNo">995</span><a id="line.995">  static final class Base64Encoding extends StandardBaseEncoding {</a>
+<span class="sourceLineNo">996</span><a id="line.996">    Base64Encoding(String name, String alphabetChars, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">997</span><a id="line.997">      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);</a>
+<span class="sourceLineNo">998</span><a id="line.998">    }</a>
+<span class="sourceLineNo">999</span><a id="line.999"></a>
+<span class="sourceLineNo">1000</span><a id="line.1000">    private Base64Encoding(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">      super(alphabet, paddingChar);</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">      checkArgument(alphabet.chars.length == 64);</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">    }</a>
+<span class="sourceLineNo">1004</span><a id="line.1004"></a>
+<span class="sourceLineNo">1005</span><a id="line.1005">    @Override</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">      checkNotNull(target);</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">      checkPositionIndexes(off, off + len, bytes.length);</a>
+<span class="sourceLineNo">1009</span><a id="line.1009">      int i = off;</a>
+<span class="sourceLineNo">1010</span><a id="line.1010">      for (int remaining = len; remaining &gt;= 3; remaining -= 3) {</a>
+<span class="sourceLineNo">1011</span><a id="line.1011">        int chunk = (bytes[i++] &amp; 0xFF) &lt;&lt; 16 | (bytes[i++] &amp; 0xFF) &lt;&lt; 8 | bytes[i++] &amp; 0xFF;</a>
+<span class="sourceLineNo">1012</span><a id="line.1012">        target.append(alphabet.encode(chunk &gt;&gt;&gt; 18));</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">        target.append(alphabet.encode((chunk &gt;&gt;&gt; 12) &amp; 0x3F));</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">        target.append(alphabet.encode((chunk &gt;&gt;&gt; 6) &amp; 0x3F));</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">        target.append(alphabet.encode(chunk &amp; 0x3F));</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">      }</a>
+<span class="sourceLineNo">1017</span><a id="line.1017">      if (i &lt; off + len) {</a>
+<span class="sourceLineNo">1018</span><a id="line.1018">        encodeChunkTo(target, bytes, i, off + len - i);</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">      }</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">    }</a>
+<span class="sourceLineNo">1021</span><a id="line.1021"></a>
+<span class="sourceLineNo">1022</span><a id="line.1022">    @Override</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
+<span class="sourceLineNo">1024</span><a id="line.1024">      checkNotNull(target);</a>
+<span class="sourceLineNo">1025</span><a id="line.1025">      chars = trimTrailingPadding(chars);</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">      if (!alphabet.isValidPaddingStartPosition(chars.length())) {</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">        throw new DecodingException("Invalid input length " + chars.length());</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">      }</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">      int bytesWritten = 0;</a>
+<span class="sourceLineNo">1030</span><a id="line.1030">      for (int i = 0; i &lt; chars.length(); ) {</a>
+<span class="sourceLineNo">1031</span><a id="line.1031">        int chunk = alphabet.decode(chars.charAt(i++)) &lt;&lt; 18;</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">        chunk |= alphabet.decode(chars.charAt(i++)) &lt;&lt; 12;</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">        target[bytesWritten++] = (byte) (chunk &gt;&gt;&gt; 16);</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">        if (i &lt; chars.length()) {</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">          chunk |= alphabet.decode(chars.charAt(i++)) &lt;&lt; 6;</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">          target[bytesWritten++] = (byte) ((chunk &gt;&gt;&gt; 8) &amp; 0xFF);</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">          if (i &lt; chars.length()) {</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">            chunk |= alphabet.decode(chars.charAt(i++));</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">            target[bytesWritten++] = (byte) (chunk &amp; 0xFF);</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">          }</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">        }</a>
+<span class="sourceLineNo">1042</span><a id="line.1042">      }</a>
+<span class="sourceLineNo">1043</span><a id="line.1043">      return bytesWritten;</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">    }</a>
+<span class="sourceLineNo">1045</span><a id="line.1045"></a>
+<span class="sourceLineNo">1046</span><a id="line.1046">    @Override</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">    BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">      return new Base64Encoding(alphabet, paddingChar);</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">    }</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">  }</a>
+<span class="sourceLineNo">1051</span><a id="line.1051"></a>
+<span class="sourceLineNo">1052</span><a id="line.1052">  @GwtIncompatible</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">  static Reader ignoringReader(Reader delegate, String toIgnore) {</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">    checkNotNull(delegate);</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">    checkNotNull(toIgnore);</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">    return new Reader() {</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">      @Override</a>
+<span class="sourceLineNo">1058</span><a id="line.1058">      public int read() throws IOException {</a>
+<span class="sourceLineNo">1059</span><a id="line.1059">        int readChar;</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">        do {</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">          readChar = delegate.read();</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">        } while (readChar != -1 &amp;&amp; toIgnore.indexOf((char) readChar) &gt;= 0);</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">        return readChar;</a>
+<span class="sourceLineNo">1064</span><a id="line.1064">      }</a>
+<span class="sourceLineNo">1065</span><a id="line.1065"></a>
+<span class="sourceLineNo">1066</span><a id="line.1066">      @Override</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">      public int read(char[] cbuf, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">        throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">      }</a>
+<span class="sourceLineNo">1070</span><a id="line.1070"></a>
+<span class="sourceLineNo">1071</span><a id="line.1071">      @Override</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">      public void close() throws IOException {</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">        delegate.close();</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">      }</a>
+<span class="sourceLineNo">1075</span><a id="line.1075">    };</a>
+<span class="sourceLineNo">1076</span><a id="line.1076">  }</a>
+<span class="sourceLineNo">1077</span><a id="line.1077"></a>
+<span class="sourceLineNo">1078</span><a id="line.1078">  static Appendable separatingAppendable(</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">      Appendable delegate, String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">    checkNotNull(delegate);</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">    checkNotNull(separator);</a>
+<span class="sourceLineNo">1082</span><a id="line.1082">    checkArgument(afterEveryChars &gt; 0);</a>
+<span class="sourceLineNo">1083</span><a id="line.1083">    return new Appendable() {</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">      int charsUntilSeparator = afterEveryChars;</a>
+<span class="sourceLineNo">1085</span><a id="line.1085"></a>
+<span class="sourceLineNo">1086</span><a id="line.1086">      @Override</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">      public Appendable append(char c) throws IOException {</a>
+<span class="sourceLineNo">1088</span><a id="line.1088">        if (charsUntilSeparator == 0) {</a>
+<span class="sourceLineNo">1089</span><a id="line.1089">          delegate.append(separator);</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">          charsUntilSeparator = afterEveryChars;</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">        }</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">        delegate.append(c);</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">        charsUntilSeparator--;</a>
+<span class="sourceLineNo">1094</span><a id="line.1094">        return this;</a>
+<span class="sourceLineNo">1095</span><a id="line.1095">      }</a>
+<span class="sourceLineNo">1096</span><a id="line.1096"></a>
+<span class="sourceLineNo">1097</span><a id="line.1097">      @Override</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">      public Appendable append(@CheckForNull CharSequence chars, int off, int len) {</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">        throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">      }</a>
+<span class="sourceLineNo">1101</span><a id="line.1101"></a>
+<span class="sourceLineNo">1102</span><a id="line.1102">      @Override</a>
+<span class="sourceLineNo">1103</span><a id="line.1103">      public Appendable append(@CheckForNull CharSequence chars) {</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">        throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">      }</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">    };</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">  }</a>
+<span class="sourceLineNo">1108</span><a id="line.1108"></a>
+<span class="sourceLineNo">1109</span><a id="line.1109">  @GwtIncompatible // Writer</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">  static Writer separatingWriter(Writer delegate, String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">    Appendable separatingAppendable = separatingAppendable(delegate, separator, afterEveryChars);</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">    return new Writer() {</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">      @Override</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">      public void write(int c) throws IOException {</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">        separatingAppendable.append((char) c);</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">      }</a>
+<span class="sourceLineNo">1117</span><a id="line.1117"></a>
+<span class="sourceLineNo">1118</span><a id="line.1118">      @Override</a>
+<span class="sourceLineNo">1119</span><a id="line.1119">      public void write(char[] chars, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1120</span><a id="line.1120">        throw new UnsupportedOperationException();</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">      }</a>
+<span class="sourceLineNo">1122</span><a id="line.1122"></a>
+<span class="sourceLineNo">1123</span><a id="line.1123">      @Override</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">      public void flush() throws IOException {</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">        delegate.flush();</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">      }</a>
+<span class="sourceLineNo">1127</span><a id="line.1127"></a>
+<span class="sourceLineNo">1128</span><a id="line.1128">      @Override</a>
+<span class="sourceLineNo">1129</span><a id="line.1129">      public void close() throws IOException {</a>
+<span class="sourceLineNo">1130</span><a id="line.1130">        delegate.close();</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">      }</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">    };</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">  }</a>
+<span class="sourceLineNo">1134</span><a id="line.1134"></a>
+<span class="sourceLineNo">1135</span><a id="line.1135">  static final class SeparatedBaseEncoding extends BaseEncoding {</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">    private final BaseEncoding delegate;</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">    private final String separator;</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">    private final int afterEveryChars;</a>
+<span class="sourceLineNo">1139</span><a id="line.1139"></a>
+<span class="sourceLineNo">1140</span><a id="line.1140">    SeparatedBaseEncoding(BaseEncoding delegate, String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1141</span><a id="line.1141">      this.delegate = checkNotNull(delegate);</a>
+<span class="sourceLineNo">1142</span><a id="line.1142">      this.separator = checkNotNull(separator);</a>
+<span class="sourceLineNo">1143</span><a id="line.1143">      this.afterEveryChars = afterEveryChars;</a>
+<span class="sourceLineNo">1144</span><a id="line.1144">      checkArgument(</a>
+<span class="sourceLineNo">1145</span><a id="line.1145">          afterEveryChars &gt; 0, "Cannot add a separator after every %s chars", afterEveryChars);</a>
+<span class="sourceLineNo">1146</span><a id="line.1146">    }</a>
+<span class="sourceLineNo">1147</span><a id="line.1147"></a>
+<span class="sourceLineNo">1148</span><a id="line.1148">    @Override</a>
+<span class="sourceLineNo">1149</span><a id="line.1149">    CharSequence trimTrailingPadding(CharSequence chars) {</a>
+<span class="sourceLineNo">1150</span><a id="line.1150">      return delegate.trimTrailingPadding(chars);</a>
+<span class="sourceLineNo">1151</span><a id="line.1151">    }</a>
+<span class="sourceLineNo">1152</span><a id="line.1152"></a>
+<span class="sourceLineNo">1153</span><a id="line.1153">    @Override</a>
+<span class="sourceLineNo">1154</span><a id="line.1154">    int maxEncodedSize(int bytes) {</a>
+<span class="sourceLineNo">1155</span><a id="line.1155">      int unseparatedSize = delegate.maxEncodedSize(bytes);</a>
+<span class="sourceLineNo">1156</span><a id="line.1156">      return unseparatedSize</a>
+<span class="sourceLineNo">1157</span><a id="line.1157">          + separator.length() * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);</a>
+<span class="sourceLineNo">1158</span><a id="line.1158">    }</a>
+<span class="sourceLineNo">1159</span><a id="line.1159"></a>
+<span class="sourceLineNo">1160</span><a id="line.1160">    @GwtIncompatible // Writer,OutputStream</a>
+<span class="sourceLineNo">1161</span><a id="line.1161">    @Override</a>
+<span class="sourceLineNo">1162</span><a id="line.1162">    public OutputStream encodingStream(Writer output) {</a>
+<span class="sourceLineNo">1163</span><a id="line.1163">      return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));</a>
+<span class="sourceLineNo">1164</span><a id="line.1164">    }</a>
+<span class="sourceLineNo">1165</span><a id="line.1165"></a>
+<span class="sourceLineNo">1166</span><a id="line.1166">    @Override</a>
+<span class="sourceLineNo">1167</span><a id="line.1167">    void encodeTo(Appendable target, byte[] bytes, int off, int len) throws IOException {</a>
+<span class="sourceLineNo">1168</span><a id="line.1168">      delegate.encodeTo(separatingAppendable(target, separator, afterEveryChars), bytes, off, len);</a>
+<span class="sourceLineNo">1169</span><a id="line.1169">    }</a>
+<span class="sourceLineNo">1170</span><a id="line.1170"></a>
+<span class="sourceLineNo">1171</span><a id="line.1171">    @Override</a>
+<span class="sourceLineNo">1172</span><a id="line.1172">    int maxDecodedSize(int chars) {</a>
+<span class="sourceLineNo">1173</span><a id="line.1173">      return delegate.maxDecodedSize(chars);</a>
+<span class="sourceLineNo">1174</span><a id="line.1174">    }</a>
+<span class="sourceLineNo">1175</span><a id="line.1175"></a>
+<span class="sourceLineNo">1176</span><a id="line.1176">    @Override</a>
+<span class="sourceLineNo">1177</span><a id="line.1177">    public boolean canDecode(CharSequence chars) {</a>
+<span class="sourceLineNo">1178</span><a id="line.1178">      StringBuilder builder = new StringBuilder();</a>
+<span class="sourceLineNo">1179</span><a id="line.1179">      for (int i = 0; i &lt; chars.length(); i++) {</a>
+<span class="sourceLineNo">1180</span><a id="line.1180">        char c = chars.charAt(i);</a>
+<span class="sourceLineNo">1181</span><a id="line.1181">        if (separator.indexOf(c) &lt; 0) {</a>
+<span class="sourceLineNo">1182</span><a id="line.1182">          builder.append(c);</a>
+<span class="sourceLineNo">1183</span><a id="line.1183">        }</a>
+<span class="sourceLineNo">1184</span><a id="line.1184">      }</a>
+<span class="sourceLineNo">1185</span><a id="line.1185">      return delegate.canDecode(builder);</a>
+<span class="sourceLineNo">1186</span><a id="line.1186">    }</a>
+<span class="sourceLineNo">1187</span><a id="line.1187"></a>
+<span class="sourceLineNo">1188</span><a id="line.1188">    @Override</a>
+<span class="sourceLineNo">1189</span><a id="line.1189">    int decodeTo(byte[] target, CharSequence chars) throws DecodingException {</a>
+<span class="sourceLineNo">1190</span><a id="line.1190">      StringBuilder stripped = new StringBuilder(chars.length());</a>
+<span class="sourceLineNo">1191</span><a id="line.1191">      for (int i = 0; i &lt; chars.length(); i++) {</a>
+<span class="sourceLineNo">1192</span><a id="line.1192">        char c = chars.charAt(i);</a>
+<span class="sourceLineNo">1193</span><a id="line.1193">        if (separator.indexOf(c) &lt; 0) {</a>
+<span class="sourceLineNo">1194</span><a id="line.1194">          stripped.append(c);</a>
+<span class="sourceLineNo">1195</span><a id="line.1195">        }</a>
+<span class="sourceLineNo">1196</span><a id="line.1196">      }</a>
+<span class="sourceLineNo">1197</span><a id="line.1197">      return delegate.decodeTo(target, stripped);</a>
+<span class="sourceLineNo">1198</span><a id="line.1198">    }</a>
+<span class="sourceLineNo">1199</span><a id="line.1199"></a>
+<span class="sourceLineNo">1200</span><a id="line.1200">    @Override</a>
+<span class="sourceLineNo">1201</span><a id="line.1201">    @GwtIncompatible // Reader,InputStream</a>
+<span class="sourceLineNo">1202</span><a id="line.1202">    public InputStream decodingStream(Reader reader) {</a>
+<span class="sourceLineNo">1203</span><a id="line.1203">      return delegate.decodingStream(ignoringReader(reader, separator));</a>
+<span class="sourceLineNo">1204</span><a id="line.1204">    }</a>
+<span class="sourceLineNo">1205</span><a id="line.1205"></a>
+<span class="sourceLineNo">1206</span><a id="line.1206">    @Override</a>
+<span class="sourceLineNo">1207</span><a id="line.1207">    public BaseEncoding omitPadding() {</a>
+<span class="sourceLineNo">1208</span><a id="line.1208">      return delegate.omitPadding().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1209</span><a id="line.1209">    }</a>
+<span class="sourceLineNo">1210</span><a id="line.1210"></a>
+<span class="sourceLineNo">1211</span><a id="line.1211">    @Override</a>
+<span class="sourceLineNo">1212</span><a id="line.1212">    public BaseEncoding withPadChar(char padChar) {</a>
+<span class="sourceLineNo">1213</span><a id="line.1213">      return delegate.withPadChar(padChar).withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1214</span><a id="line.1214">    }</a>
+<span class="sourceLineNo">1215</span><a id="line.1215"></a>
+<span class="sourceLineNo">1216</span><a id="line.1216">    @Override</a>
+<span class="sourceLineNo">1217</span><a id="line.1217">    public BaseEncoding withSeparator(String separator, int afterEveryChars) {</a>
+<span class="sourceLineNo">1218</span><a id="line.1218">      throw new UnsupportedOperationException("Already have a separator");</a>
+<span class="sourceLineNo">1219</span><a id="line.1219">    }</a>
+<span class="sourceLineNo">1220</span><a id="line.1220"></a>
+<span class="sourceLineNo">1221</span><a id="line.1221">    @Override</a>
+<span class="sourceLineNo">1222</span><a id="line.1222">    public BaseEncoding upperCase() {</a>
+<span class="sourceLineNo">1223</span><a id="line.1223">      return delegate.upperCase().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1224</span><a id="line.1224">    }</a>
+<span class="sourceLineNo">1225</span><a id="line.1225"></a>
+<span class="sourceLineNo">1226</span><a id="line.1226">    @Override</a>
+<span class="sourceLineNo">1227</span><a id="line.1227">    public BaseEncoding lowerCase() {</a>
+<span class="sourceLineNo">1228</span><a id="line.1228">      return delegate.lowerCase().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1229</span><a id="line.1229">    }</a>
+<span class="sourceLineNo">1230</span><a id="line.1230"></a>
+<span class="sourceLineNo">1231</span><a id="line.1231">    @Override</a>
+<span class="sourceLineNo">1232</span><a id="line.1232">    public BaseEncoding ignoreCase() {</a>
+<span class="sourceLineNo">1233</span><a id="line.1233">      return delegate.ignoreCase().withSeparator(separator, afterEveryChars);</a>
+<span class="sourceLineNo">1234</span><a id="line.1234">    }</a>
+<span class="sourceLineNo">1235</span><a id="line.1235"></a>
+<span class="sourceLineNo">1236</span><a id="line.1236">    @Override</a>
+<span class="sourceLineNo">1237</span><a id="line.1237">    public String toString() {</a>
+<span class="sourceLineNo">1238</span><a id="line.1238">      return delegate + ".withSeparator(\"" + separator + "\", " + afterEveryChars + ")";</a>
+<span class="sourceLineNo">1239</span><a id="line.1239">    }</a>
+<span class="sourceLineNo">1240</span><a id="line.1240">  }</a>
+<span class="sourceLineNo">1241</span><a id="line.1241">}</a>
 
 
 
