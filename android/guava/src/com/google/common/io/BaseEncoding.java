@@ -27,7 +27,6 @@ import static java.math.RoundingMode.UNNECESSARY;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +34,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Objects;
 import javax.annotation.CheckForNull;
 
 /**
@@ -452,17 +452,16 @@ public abstract class BaseEncoding {
         throw new IllegalArgumentException("Illegal alphabet length " + chars.length, e);
       }
 
-      /*
-       * e.g. for base64, bitsPerChar == 6, charsPerChunk == 4, and bytesPerChunk == 3. This makes
-       * for the smallest chunk size that still has charsPerChunk * bitsPerChar be a multiple of 8.
-       */
-      int gcd = Math.min(8, Integer.lowestOneBit(bitsPerChar));
-      try {
-        this.charsPerChunk = 8 / gcd;
-        this.bytesPerChunk = bitsPerChar / gcd;
-      } catch (ArithmeticException e) {
-        throw new IllegalArgumentException("Illegal alphabet " + new String(chars), e);
-      }
+      // Compute how input bytes are chunked. For example, with base64 we chunk every 3 bytes into
+      // 4 characters. We have bitsPerChar == 6, charsPerChunk == 4, and bytesPerChunk == 3.
+      // We're looking for the smallest charsPerChunk such that bitsPerChar * charsPerChunk is a
+      // multiple of 8. A multiple of 8 has 3 low zero bits, so we just need to figure out how many
+      // extra zero bits we need to add to the end of bitsPerChar to get 3 in total.
+      // The logic here would be wrong for bitsPerChar > 8, but since we require distinct ASCII
+      // characters that can't happen.
+      int zeroesInBitsPerChar = Integer.numberOfTrailingZeros(bitsPerChar);
+      this.charsPerChunk = 1 << (3 - zeroesInBitsPerChar);
+      this.bytesPerChunk = bitsPerChar >> zeroesInBitsPerChar;
 
       this.mask = chars.length - 1;
 
@@ -610,7 +609,6 @@ public abstract class BaseEncoding {
   }
 
   static class StandardBaseEncoding extends BaseEncoding {
-    // TODO(lowasser): provide a useful toString
     final Alphabet alphabet;
 
     @CheckForNull final Character paddingChar;
@@ -877,9 +875,9 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    @LazyInit @CheckForNull private transient BaseEncoding upperCase;
-    @LazyInit @CheckForNull private transient BaseEncoding lowerCase;
-    @LazyInit @CheckForNull private transient BaseEncoding ignoreCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding upperCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding lowerCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding ignoreCase;
 
     @Override
     public BaseEncoding upperCase() {
@@ -934,7 +932,7 @@ public abstract class BaseEncoding {
       if (other instanceof StandardBaseEncoding) {
         StandardBaseEncoding that = (StandardBaseEncoding) other;
         return this.alphabet.equals(that.alphabet)
-            && Objects.equal(this.paddingChar, that.paddingChar);
+            && Objects.equals(this.paddingChar, that.paddingChar);
       }
       return false;
     }
