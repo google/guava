@@ -522,7 +522,7 @@ public final class Preconditions {
       boolean expression,
       /*
        * TODO(cpovirk): Consider removing @CheckForNull here, as we've done with the other methods'
-       * errorMessageTemplate parameters: It it unlikely that callers intend for their string
+       * errorMessageTemplate parameters: It is unlikely that callers intend for their string
        * template to be null (though we do handle that case gracefully at runtime). I've left this
        * one as it is because one of our users has defined a wrapper API around Preconditions,
        * declaring a checkState method that accepts a possibly null template. So we'd need to update
