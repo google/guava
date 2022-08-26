@@ -531,7 +531,7 @@
 <span class="sourceLineNo">522</span><a id="line.522">      boolean expression,</a>
 <span class="sourceLineNo">523</span><a id="line.523">      /*</a>
 <span class="sourceLineNo">524</span><a id="line.524">       * TODO(cpovirk): Consider removing @CheckForNull here, as we've done with the other methods'</a>
-<span class="sourceLineNo">525</span><a id="line.525">       * errorMessageTemplate parameters: It it unlikely that callers intend for their string</a>
+<span class="sourceLineNo">525</span><a id="line.525">       * errorMessageTemplate parameters: It is unlikely that callers intend for their string</a>
 <span class="sourceLineNo">526</span><a id="line.526">       * template to be null (though we do handle that case gracefully at runtime). I've left this</a>
 <span class="sourceLineNo">527</span><a id="line.527">       * one as it is because one of our users has defined a wrapper API around Preconditions,</a>
 <span class="sourceLineNo">528</span><a id="line.528">       * declaring a checkState method that accepts a possibly null template. So we'd need to update</a>
