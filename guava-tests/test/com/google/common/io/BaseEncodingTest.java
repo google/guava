@@ -380,6 +380,16 @@ public class BaseEncodingTest extends TestCase {
     testDecodes(ignoreCase, "666F6f626172", "foobar");
   }
 
+  // order the methods are called should not matter
+  public void testBase16IgnoreCaseLowerCase() {
+    BaseEncoding ignoreCase = base16().ignoreCase().lowerCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    testEncodingWithCasing(ignoreCase, "foobar", "666f6f626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
+  }
+
   public void testBase16InvalidDecodings() {
     // These contain bytes not in the decodabet.
     assertFailsToDecode(base16(), "\n\n", "Unrecognized character: 0xa");
