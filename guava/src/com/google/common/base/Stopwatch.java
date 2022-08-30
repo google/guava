@@ -27,6 +27,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
@@ -217,6 +218,7 @@ public final class Stopwatch {
    * @since 22.0
    */
   @GwtIncompatible
+  @J2ObjCIncompatible
   public Duration elapsed() {
     return Duration.ofNanos(elapsedNanos());
   }
