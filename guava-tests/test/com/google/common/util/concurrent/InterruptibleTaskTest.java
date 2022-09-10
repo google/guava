@@ -17,11 +17,10 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.lang.reflect.Method;
+import com.google.common.util.concurrent.InterruptibleTask.Blocker;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 import junit.framework.TestCase;
 
@@ -152,12 +151,8 @@ public final class InterruptibleTaskTest extends TestCase {
     // waiting for the slow interrupting thread to complete Thread.interrupt
     awaitBlockedOnInstanceOf(runner, InterruptibleTask.Blocker.class);
 
-    Object blocker = LockSupport.getBlocker(runner);
-    assertThat(blocker).isInstanceOf(AbstractOwnableSynchronizer.class);
-    Method getExclusiveOwnerThread =
-        AbstractOwnableSynchronizer.class.getDeclaredMethod("getExclusiveOwnerThread");
-    getExclusiveOwnerThread.setAccessible(true);
-    Thread owner = (Thread) getExclusiveOwnerThread.invoke(blocker);
+    Blocker blocker = (Blocker) LockSupport.getBlocker(runner);
+    Thread owner = blocker.getOwner();
     assertThat(owner).isSameInstanceAs(interrupter);
 
     slowChannel.exitClose.countDown(); // release the interrupter

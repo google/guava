@@ -700,6 +700,13 @@ public final class HttpHeaders {
    */
   public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";
   /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-wow64">{@code
+   * Sec-CH-UA-WoW64}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_WOW64 = "Sec-CH-UA-WoW64";
+  /**
    * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua-bitness">{@code
    * Sec-CH-UA-Bitness}</a> header field name.
    *
