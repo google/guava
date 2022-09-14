@@ -13858,7 +13858,7 @@
     static="false" final="false" visibility="protected"
     deprecated="not deprecated">
     <constructor name="StandardEntrySet"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
