@@ -258,7 +258,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
   @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
     /** Constructor for use by subclasses. */
-    public StandardEntrySet() {}
+    protected StandardEntrySet() {}
 
     @Override
     Map<K, V> map() {
