@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -36,77 +38,84 @@ public class ComparisonChainTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public void testCompareBooleans() {
-    assertEquals(
-        0,
-        ComparisonChain.start()
-            .compare(true, true)
-            .compare(true, Boolean.TRUE)
-            .compare(Boolean.TRUE, true)
-            .compare(Boolean.TRUE, Boolean.TRUE)
-            .result());
+    assertThat(
+            ComparisonChain.start()
+                .compare(true, true)
+                .compare(true, Boolean.TRUE)
+                .compare(Boolean.TRUE, true)
+                .compare(Boolean.TRUE, Boolean.TRUE)
+                .result())
+        .isEqualTo(0);
   }
 
   public void testDegenerate() {
     // kinda bogus, but who cares?
-    assertEquals(0, ComparisonChain.start().result());
+    assertThat(ComparisonChain.start().result()).isEqualTo(0);
   }
 
   public void testOneEqual() {
-    assertEquals(0, ComparisonChain.start().compare("a", "a").result());
+    assertThat(ComparisonChain.start().compare("a", "a").result()).isEqualTo(0);
   }
 
   public void testOneEqualUsingComparator() {
-    assertEquals(
-        0, ComparisonChain.start().compare("a", "A", String.CASE_INSENSITIVE_ORDER).result());
+    assertThat(ComparisonChain.start().compare("a", "A", String.CASE_INSENSITIVE_ORDER).result())
+        .isEqualTo(0);
   }
 
   public void testManyEqual() {
-    assertEquals(
-        0,
-        ComparisonChain.start()
-            .compare(1, 1)
-            .compare(1L, 1L)
-            .compareFalseFirst(true, true)
-            .compare(1.0, 1.0)
-            .compare(1.0f, 1.0f)
-            .compare("a", "a", Ordering.usingToString())
-            .result());
+    assertThat(
+            ComparisonChain.start()
+                .compare(1, 1)
+                .compare(1L, 1L)
+                .compareFalseFirst(true, true)
+                .compare(1.0, 1.0)
+                .compare(1.0f, 1.0f)
+                .compare("a", "a", Ordering.usingToString())
+                .result())
+        .isEqualTo(0);
   }
 
   public void testShortCircuitLess() {
-    assertTrue(
-        ComparisonChain.start().compare("a", "b").compare(DONT_COMPARE_ME, DONT_COMPARE_ME).result()
-            < 0);
+    assertThat(
+            ComparisonChain.start()
+                .compare("a", "b")
+                .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
+                .result())
+        .isLessThan(0);
   }
 
   public void testShortCircuitGreater() {
-    assertTrue(
-        ComparisonChain.start().compare("b", "a").compare(DONT_COMPARE_ME, DONT_COMPARE_ME).result()
-            > 0);
+    assertThat(
+            ComparisonChain.start()
+                .compare("b", "a")
+                .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
+                .result())
+        .isGreaterThan(0);
   }
 
   public void testShortCircuitSecondStep() {
-    assertTrue(
-        ComparisonChain.start()
+    assertThat(
+            ComparisonChain.start()
                 .compare("a", "a")
                 .compare("a", "b")
                 .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
-                .result()
-            < 0);
+                .result())
+        .isLessThan(0);
   }
 
   public void testCompareFalseFirst() {
-    assertTrue(ComparisonChain.start().compareFalseFirst(true, true).result() == 0);
-    assertTrue(ComparisonChain.start().compareFalseFirst(true, false).result() > 0);
-    assertTrue(ComparisonChain.start().compareFalseFirst(false, true).result() < 0);
-    assertTrue(ComparisonChain.start().compareFalseFirst(false, false).result() == 0);
+    assertThat(ComparisonChain.start().compareFalseFirst(true, true).result()).isEqualTo(0);
+    assertThat(ComparisonChain.start().compareFalseFirst(true, false).result()).isGreaterThan(0);
+    assertThat(ComparisonChain.start().compareFalseFirst(false, true).result()).isLessThan(0);
+    assertThat(ComparisonChain.start().compareFalseFirst(false, false).result()).isEqualTo(0);
   }
 
   public void testCompareTrueFirst() {
-    assertTrue(ComparisonChain.start().compareTrueFirst(true, true).result() == 0);
-    assertTrue(ComparisonChain.start().compareTrueFirst(true, false).result() < 0);
-    assertTrue(ComparisonChain.start().compareTrueFirst(false, true).result() > 0);
-    assertTrue(ComparisonChain.start().compareTrueFirst(false, false).result() == 0);
+    assertThat(ComparisonChain.start().compareTrueFirst(true, true).result()).isEqualTo(0);
+    assertThat(ComparisonChain.start().compareTrueFirst(true, false).result()).isLessThan(0);
+    assertThat(ComparisonChain.start().compareTrueFirst(false, true).result()).isGreaterThan(0);
+    assertThat(ComparisonChain.start().compareTrueFirst(false, false).result()).isEqualTo(0);
   }
 }
