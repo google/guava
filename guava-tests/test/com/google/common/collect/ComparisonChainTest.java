@@ -16,11 +16,20 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+import static java.lang.Integer.signum;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.primitives.Booleans;
+import java.util.Comparator;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ComparisonChain}.
@@ -117,5 +126,96 @@ public class ComparisonChainTest extends TestCase {
     assertThat(ComparisonChain.start().compareTrueFirst(true, false).result()).isLessThan(0);
     assertThat(ComparisonChain.start().compareTrueFirst(false, true).result()).isGreaterThan(0);
     assertThat(ComparisonChain.start().compareTrueFirst(false, false).result()).isEqualTo(0);
+  }
+
+  enum TriState {
+    FALSE,
+    MAYBE,
+    TRUE,
+  }
+
+  static class Foo {
+    private final String aString;
+    private final int anInt;
+    private final @Nullable TriState anEnum;
+
+    Foo(String aString, int anInt, @Nullable TriState anEnum) {
+      this.aString = aString;
+      this.anInt = anInt;
+      this.anEnum = anEnum;
+    }
+
+    @Override
+    public String toString() {
+      return toStringHelper(this)
+          .add("aString", aString)
+          .add("anInt", anInt)
+          .add("anEnum", anEnum)
+          .toString();
+    }
+  }
+
+  /** Validates that the Comparator equivalent we document is correct. */
+  public void testComparatorEquivalent() {
+    Comparator<Foo> comparatorUsingComparisonChain =
+        (a, b) ->
+            ComparisonChain.start()
+                .compare(a.aString, b.aString)
+                .compare(a.anInt, b.anInt)
+                .compare(a.anEnum, b.anEnum, Ordering.natural().nullsLast())
+                .result();
+    Comparator<Foo> comparatorUsingComparatorMethods =
+        comparing((Foo foo) -> foo.aString)
+            .thenComparing(foo -> foo.anInt)
+            .thenComparing(foo -> foo.anEnum, nullsLast(naturalOrder()));
+    ImmutableList<Foo> instances =
+        ImmutableList.of(
+            new Foo("a", 1, TriState.TRUE),
+            new Foo("a", 2, TriState.TRUE),
+            new Foo("b", 1, TriState.FALSE),
+            new Foo("b", 1, TriState.TRUE),
+            new Foo("b", 1, null));
+    for (Foo a : instances) {
+      for (Foo b : instances) {
+        int comparedUsingComparisonChain = signum(comparatorUsingComparisonChain.compare(a, b));
+        int comparedUsingComparatorMethods = signum(comparatorUsingComparatorMethods.compare(a, b));
+        assertWithMessage("%s vs %s", a, b)
+            .that(comparedUsingComparatorMethods)
+            .isEqualTo(comparedUsingComparisonChain);
+      }
+    }
+  }
+
+  static class Bar {
+    private final boolean isBaz;
+
+    Bar(boolean isBaz) {
+      this.isBaz = isBaz;
+    }
+
+    boolean isBaz() {
+      return isBaz;
+    }
+  }
+
+  /**
+   * Validates that {@link Booleans#trueFirst()} and {@link Booleans#falseFirst()} can be used with
+   * {@link Comparator} when replacing {@link ComparisonChain#compareTrueFirst} and {@link
+   * ComparisonChain#compareFalseFirst}, as we document.
+   */
+  public void testTrueFirstFalseFirst() {
+    Bar trueBar = new Bar(true);
+    Bar falseBar = new Bar(false);
+
+    assertThat(ComparisonChain.start().compareTrueFirst(trueBar.isBaz(), falseBar.isBaz()).result())
+        .isLessThan(0);
+    Comparator<Bar> trueFirstComparator = comparing(Bar::isBaz, Booleans.trueFirst());
+    assertThat(trueFirstComparator.compare(trueBar, falseBar)).isLessThan(0);
+
+    assertThat(
+            ComparisonChain.start().compareFalseFirst(falseBar.isBaz(), trueBar.isBaz()).result())
+        .isLessThan(0);
+    Comparator<Bar> falseFirstComparator = comparing(Bar::isBaz, Booleans.falseFirst());
+    assertThat(falseFirstComparator.compare(falseBar, trueBar)).isLessThan(0);
   }
 }
