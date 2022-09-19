@@ -28,6 +28,7 @@ import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.testing.ForwardingWrapperTester;
 import com.google.common.testing.NullPointerTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
@@ -579,6 +580,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
   /** An interface for the 2 ways that a chaining call might be defined. */
   private interface ChainingCalls {
     // A method that is defined to 'return this'
+    @CanIgnoreReturnValue
     ChainingCalls chainingCall();
     // A method that just happens to return a ChainingCalls object
     ChainingCalls nonChainingCall();
@@ -591,6 +593,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       this.delegate = delegate;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public ForwardingChainingCalls chainingCall() {
       delegate.chainingCall();

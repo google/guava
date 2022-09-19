@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -138,6 +139,7 @@ public final class CollectorTester<T, A, R> {
    * inputs, regardless of how the elements are divided.
    */
   @SafeVarargs
+  @CanIgnoreReturnValue
   public final CollectorTester<T, A, R> expectCollects(@Nullable R expectedResult, T... inputs) {
     List<T> list = Arrays.asList(inputs);
     doExpectCollects(expectedResult, list);
