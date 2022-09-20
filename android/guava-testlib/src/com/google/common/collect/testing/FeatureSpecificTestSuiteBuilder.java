@@ -24,6 +24,7 @@ import com.google.common.collect.testing.features.ConflictingRequirementsExcepti
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
 import com.google.common.collect.testing.features.TesterRequirements;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,6 +68,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   // Gets run at the conclusion of every test.
   private Runnable tearDown;
 
+  @CanIgnoreReturnValue
   protected B usingGenerator(G subjectGenerator) {
     this.subjectGenerator = subjectGenerator;
     return self();
@@ -76,6 +78,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return subjectGenerator;
   }
 
+  @CanIgnoreReturnValue
   public B withSetUp(Runnable setUp) {
     this.setUp = setUp;
     return self();
@@ -85,6 +88,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return setUp;
   }
 
+  @CanIgnoreReturnValue
   public B withTearDown(Runnable tearDown) {
     this.tearDown = tearDown;
     return self();
@@ -102,10 +106,12 @@ public abstract class FeatureSpecificTestSuiteBuilder<
    * Configures this builder to produce tests appropriate for the given features. This method may be
    * called more than once to add features in multiple groups.
    */
+  @CanIgnoreReturnValue
   public B withFeatures(Feature<?>... features) {
     return withFeatures(Arrays.asList(features));
   }
 
+  @CanIgnoreReturnValue
   public B withFeatures(Iterable<? extends Feature<?>> features) {
     for (Feature<?> feature : features) {
       this.features.add(feature);
@@ -122,6 +128,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   private String name;
 
   /** Configures this builder produce a TestSuite with the given name. */
+  @CanIgnoreReturnValue
   public B named(String name) {
     if (name.contains("(")) {
       throw new IllegalArgumentException(
@@ -147,10 +154,12 @@ public abstract class FeatureSpecificTestSuiteBuilder<
    * semantics of an implementation disagree in unforeseen ways with the semantics expected by a
    * test, or to keep dependent builds clean in spite of an erroneous test.
    */
+  @CanIgnoreReturnValue
   public B suppressing(Method... methods) {
     return suppressing(Arrays.asList(methods));
   }
 
+  @CanIgnoreReturnValue
   public B suppressing(Collection<Method> methods) {
     suppressedTests.addAll(methods);
     return self();

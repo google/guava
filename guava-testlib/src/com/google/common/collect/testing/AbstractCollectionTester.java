@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import org.junit.Ignore;
 
@@ -41,6 +42,7 @@ public abstract class AbstractCollectionTester<E>
 
   // TODO: dispose of this once collection is encapsulated.
   @Override
+  @CanIgnoreReturnValue
   protected Collection<E> resetContainer(Collection<E> newContents) {
     collection = super.resetContainer(newContents);
     return collection;

@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -180,6 +181,7 @@ public class Helpers {
     }
   }
 
+  @CanIgnoreReturnValue
   public static <E> boolean addAll(Collection<E> addTo, Iterable<? extends E> elementsToAdd) {
     boolean modified = false;
     for (E e : elementsToAdd) {

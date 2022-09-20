@@ -52,7 +52,8 @@ public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
     E[] array = createArrayWithNullElement();
 
     try {
-      getSubjectGenerator().create(array);
+      // TODO(kak): remove unused capture
+      Object unused = getSubjectGenerator().create(array);
       fail("Creating a collection containing null should fail");
     } catch (NullPointerException expected) {
     }
