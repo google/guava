@@ -133,7 +133,7 @@ public class SuppliersTest extends TestCase {
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
     assertThat(memoizedSupplier.toString())
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
@@ -153,12 +153,12 @@ public class SuppliersTest extends TestCase {
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
     assertThat(memoizedSupplier.toString())
         .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
     Supplier<Integer> copy = reserialize(memoizedSupplier);
-    memoizedSupplier.get();
+    Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
         (CountingSupplier) ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
@@ -230,10 +230,10 @@ public class SuppliersTest extends TestCase {
     Supplier<Integer> memoizedSupplier =
         Suppliers.memoizeWithExpiration(countingSupplier, 75, TimeUnit.MILLISECONDS);
     // Calls to the original memoized supplier shouldn't affect its copy.
-    memoizedSupplier.get();
+    Object unused = memoizedSupplier.get();
 
     Supplier<Integer> copy = reserialize(memoizedSupplier);
-    memoizedSupplier.get();
+    Object unused2 = memoizedSupplier.get();
 
     CountingSupplier countingCopy =
         (CountingSupplier) ((Suppliers.ExpiringMemoizingSupplier<Integer>) copy).delegate;
@@ -402,7 +402,7 @@ public class SuppliersTest extends TestCase {
             @Override
             public void run() {
               for (int j = 0; j < iterations; j++) {
-                Suppliers.synchronizedSupplier(nonThreadSafe).get();
+                Object unused = Suppliers.synchronizedSupplier(nonThreadSafe).get();
               }
             }
           };
