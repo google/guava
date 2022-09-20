@@ -25,6 +25,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.testing.RelationshipTester.ItemReporter;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 
 /**
@@ -69,11 +70,13 @@ public final class EquivalenceTester<T> {
    * Adds a group of objects that are supposed to be equivalent to each other and not equivalent to
    * objects in any other equivalence group added to this tester.
    */
+  @CanIgnoreReturnValue
   public EquivalenceTester<T> addEquivalenceGroup(T first, T... rest) {
     addEquivalenceGroup(Lists.asList(first, rest));
     return this;
   }
 
+  @CanIgnoreReturnValue
   public EquivalenceTester<T> addEquivalenceGroup(Iterable<T> group) {
     delegate.addRelatedGroup(group);
     items.addAll(ImmutableList.copyOf(group));
@@ -81,6 +84,7 @@ public final class EquivalenceTester<T> {
   }
 
   /** Run tests on equivalence methods, throwing a failure on an invalid test */
+  @CanIgnoreReturnValue
   public EquivalenceTester<T> test() {
     for (int run = 0; run < REPETITIONS; run++) {
       testItems();

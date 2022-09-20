@@ -28,6 +28,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Reflection;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -61,6 +62,7 @@ public final class ForwardingWrapperTester {
    * Asks for {@link Object#equals} and {@link Object#hashCode} to be tested. That is, forwarding
    * wrappers of equal instances should be equal.
    */
+  @CanIgnoreReturnValue
   public ForwardingWrapperTester includingEquals() {
     this.testsEquals = true;
     return this;

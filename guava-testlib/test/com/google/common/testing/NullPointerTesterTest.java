@@ -37,6 +37,7 @@ import com.google.common.collect.Table;
 import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -962,6 +963,7 @@ public class NullPointerTesterTest extends TestCase {
 
     private final Map<Integer, Object> arguments = Maps.newHashMap();
 
+    @CanIgnoreReturnValue
     final DefaultValueChecker runTester() {
       new NullPointerTester().testInstanceMethods(this, Visibility.PACKAGE);
       return this;

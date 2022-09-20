@@ -25,6 +25,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 
 /**
@@ -93,6 +94,7 @@ public final class EqualsTester {
    * Adds {@code equalityGroup} with objects that are supposed to be equal to each other and not
    * equal to any other equality groups added to this tester.
    */
+  @CanIgnoreReturnValue
   public EqualsTester addEqualityGroup(Object... equalityGroup) {
     checkNotNull(equalityGroup);
     equalityGroups.add(ImmutableList.copyOf(equalityGroup));
@@ -100,6 +102,7 @@ public final class EqualsTester {
   }
 
   /** Run tests on equals method, throwing a failure on an invalid test */
+  @CanIgnoreReturnValue
   public EqualsTester testEquals() {
     RelationshipTester<Object> delegate =
         new RelationshipTester<>(

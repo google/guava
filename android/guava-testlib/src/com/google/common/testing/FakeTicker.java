@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ticker;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -42,12 +43,14 @@ public class FakeTicker extends Ticker {
 
   /** Advances the ticker value by {@code time} in {@code timeUnit}. */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public FakeTicker advance(long time, TimeUnit timeUnit) {
     return advance(timeUnit.toNanos(time));
   }
 
   /** Advances the ticker value by {@code nanoseconds}. */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public FakeTicker advance(long nanoseconds) {
     nanos.addAndGet(nanoseconds);
     return this;
@@ -60,6 +63,7 @@ public class FakeTicker extends Ticker {
    * queried.
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @CanIgnoreReturnValue
   public FakeTicker setAutoIncrementStep(long autoIncrementStep, TimeUnit timeUnit) {
     checkArgument(autoIncrementStep >= 0, "May not auto-increment by a negative amount");
     this.autoIncrementStepNanos = timeUnit.toNanos(autoIncrementStep);
