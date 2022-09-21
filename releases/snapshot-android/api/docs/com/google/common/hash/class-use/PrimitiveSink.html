@@ -178,7 +178,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(java.nio.ByteBuffer&nbsp;bytes)</code></th>
 <td class="colLast">
 <div class="block">Puts the remaining bytes of a byte buffer into this sink.</div>
 </td>
@@ -227,17 +227,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence,
+         java.nio.charset.Charset&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Puts a string into this sink using the given charset.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">PrimitiveSink.</span><code><span class="memberNameLink"><a href="../PrimitiveSink.html#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence)</code></th>
 <td class="colLast">
-<div class="block">Puts each 16-bit code unit from the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>CharSequence</code></a> into this sink.</div>
+<div class="block">Puts each 16-bit code unit from the <code>CharSequence</code> into this sink.</div>
 </td>
 </tr>
 </tbody>
@@ -251,10 +251,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></code></td>
+<td class="colFirst"><code>static java.io.OutputStream</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Funnels.</span><code><span class="memberNameLink"><a href="../Funnels.html#asOutputStream(com.google.common.hash.PrimitiveSink)">asOutputStream</a></span>&#8203;(<a href="../PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;sink)</code></th>
 <td class="colLast">
-<div class="block">Wraps a <code>PrimitiveSink</code> as an <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a>, so it is easy to <a href="../Funnel.html#funnel(T,com.google.common.hash.PrimitiveSink)"><code>funnel</code></a> an object to a <code>PrimitiveSink</code> if there is already a way to write the contents of
+<div class="block">Wraps a <code>PrimitiveSink</code> as an <code>OutputStream</code>, so it is easy to <a href="../Funnel.html#funnel(T,com.google.common.hash.PrimitiveSink)"><code>funnel</code></a> an object to a <code>PrimitiveSink</code> if there is already a way to write the contents of
  the object to an <code>OutputStream</code>.</div>
 </td>
 </tr>

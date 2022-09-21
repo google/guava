@@ -130,19 +130,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&gt;<br><a href="../ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ClosingFuture.</span><code><span class="memberNameLink"><a href="../ClosingFuture.html#catching(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)">catching</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;exceptionType,
+<td class="colFirst"><code>&lt;X extends java.lang.Throwable&gt;<br><a href="../ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="../ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ClosingFuture.</span><code><span class="memberNameLink"><a href="../ClosingFuture.html#catching(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)">catching</a></span>&#8203;(java.lang.Class&lt;X&gt;&nbsp;exceptionType,
         <a href="../ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super X,&#8203;? extends <a href="../ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;fallback,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
+        java.util.concurrent.Executor&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
  to its exception if it is an instance of a given exception type.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>&lt;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;</code></td>
+<td class="colFirst"><code>&lt;U extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;U&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ClosingFuture.</span><code><span class="memberNameLink"><a href="../ClosingFuture.html#transform(com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)">transform</a></span>&#8203;(<a href="../ClosingFuture.ClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ClosingFunction</a>&lt;? super <a href="../ClosingFuture.html" title="type parameter in ClosingFuture">V</a>,&#8203;U&gt;&nbsp;function,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
+         java.util.concurrent.Executor&nbsp;executor)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
  to its value.</div>

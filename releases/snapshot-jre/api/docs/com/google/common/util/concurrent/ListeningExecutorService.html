@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>java.util.concurrent.Executor</code>, <code>java.util.concurrent.ExecutorService</code></dd>
 </dl>
 <dl>
 <dt>All Known Subinterfaces:</dt>
@@ -138,9 +138,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@DoNotMock</a>("Use TestingExecutors.sameThreadScheduledExecutor, or wrap a real Executor from java.util.concurrent.Executors with MoreExecutors.listeningDecorator")
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.36">ListeningExecutorService</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></pre>
-<div class="block">An <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutorService</code></a> that returns <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. To create an instance
- from an existing <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ExecutorService</code></a>, call <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>.</div>
+extends java.util.concurrent.ExecutorService</pre>
+<div class="block">An <code>ExecutorService</code> that returns <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. To create an instance
+ from an existing <code>ExecutorService</code>, call <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>10.0</dd>
@@ -168,18 +168,18 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;T&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection)">invokeAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)</code></th>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)</code></th>
 <td class="colLast">
 <div class="block">Executes the given tasks, returning a list of Futures holding
  their status and results when all complete.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;T&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)">invokeAll</a></span>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Executes the given tasks, returning a list of Futures holding
  their status and results
@@ -188,15 +188,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;task)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task)</code></th>
 <td class="colLast">
 <div class="block">Submits a Runnable task for execution and returns a Future
  representing that task.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;task,
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.lang.Runnable,T)">submit</a></span>&#8203;(java.lang.Runnable&nbsp;task,
       T&nbsp;result)</code></th>
 <td class="colLast">
 <div class="block">Submits a Runnable task for execution and returns a Future
@@ -204,8 +204,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;task)</code></th>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submit(java.util.concurrent.Callable)">submit</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</code></th>
 <td class="colLast">
 <div class="block">Submits a value-returning task for execution and returns a
  Future representing the pending results of the task.</div>
@@ -216,15 +216,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <li class="blockList"><a id="methods.inherited.from.class.java.util.concurrent.Executor">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">execute</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.concurrent.Executor</h3>
+<code>execute</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.concurrent.ExecutorService">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.concurrent.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#awaitTermination(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">awaitTermination</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAny(java.util.Collection)" title="class or interface in java.util.concurrent" class="externalLink">invokeAny</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAny(java.util.Collection,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">invokeAny</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#isShutdown()" title="class or interface in java.util.concurrent" class="externalLink">isShutdown</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#isTerminated()" title="class or interface in java.util.concurrent" class="externalLink">isTerminated</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdown()" title="class or interface in java.util.concurrent" class="externalLink">shutdown</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#shutdownNow()" title="class or interface in java.util.concurrent" class="externalLink">shutdownNow</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.concurrent.ExecutorService</h3>
+<code>awaitTermination, invokeAny, invokeAny, isShutdown, isTerminated, shutdown, shutdownNow</code></li>
 </ul>
 </li>
 </ul>
@@ -248,8 +248,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.46">submit</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.util.concurrent.Callable)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.ExecutorService</a></code></span></div>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.46">submit</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;task)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
 <div class="block">Submits a value-returning task for execution and returns a
  Future representing the pending results of the task. The
  Future's <code>get</code> method will return the task's result upon
@@ -260,13 +260,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
  for a task, you can use constructions of the form
  <code>result = exec.submit(aCallable).get();</code>
 
- <p>Note: The <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Executors</code></a> class includes a set of methods
+ <p>Note: The <code>Executors</code> class includes a set of methods
  that can convert some other common closure-like objects,
- for example, <a href="https://docs.oracle.com/javase/9/docs/api/java/security/PrivilegedAction.html?is-external=true" title="class or interface in java.security" class="externalLink"><code>PrivilegedAction</code></a> to
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>Callable</code></a> form so they can be submitted.</div>
+ for example, <code>PrivilegedAction</code> to
+ <code>Callable</code> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.util.concurrent.Callable)" title="class or interface in java.util.concurrent" class="externalLink">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type of the task's result</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -274,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if the task cannot be
+<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
          scheduled for execution</dd>
 </dl>
 </li>
@@ -285,20 +285,20 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.53">submit</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.ExecutorService</a></code></span></div>
+<pre class="methodSignature"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.53">submit</a>&#8203;(java.lang.Runnable&nbsp;task)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
 <div class="block">Submits a Runnable task for execution and returns a Future
  representing that task. The Future's <code>get</code> method will
  return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if the task cannot be
+<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
          scheduled for execution</dd>
 </dl>
 </li>
@@ -311,15 +311,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.60">submit</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;task,
-                                                        T&nbsp;result)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.lang.Runnable,T)" title="class or interface in java.util.concurrent" class="externalLink">java.util.concurrent.ExecutorService</a></code></span></div>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.60">submit</a>&#8203;(java.lang.Runnable&nbsp;task,
+                                                                  T&nbsp;result)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.concurrent.ExecutorService</code></span></div>
 <div class="block">Submits a Runnable task for execution and returns a Future
  representing that task. The Future's <code>get</code> method will
  return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.lang.Runnable,T)" title="class or interface in java.util.concurrent" class="externalLink">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>submit</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type of the result</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -328,7 +328,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if the task cannot be
+<dd><code>java.util.concurrent.RejectedExecutionException</code> - if the task cannot be
          scheduled for execution</dd>
 </dl>
 </li>
@@ -339,11 +339,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockList">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.82">invokeAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
-                                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.82">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks)
+                                                                                         throws java.lang.InterruptedException</pre>
 <div class="block">Executes the given tasks, returning a list of Futures holding
  their status and results when all complete.
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink"><code>Future.isDone()</code></a> is <code>true</code> for each
+ <code>Future.isDone()</code> is <code>true</code> for each
  element of the returned list.
  Note that a <em>completed</em> task could have
  terminated either normally or by throwing an exception.
@@ -360,7 +360,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
  </pre></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll(java.util.Collection)" title="class or interface in java.util.concurrent" class="externalLink">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type of the values returned from the tasks</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -370,10 +370,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
      sequential order as produced by the iterator for the given task list, each of which has
      completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if any task cannot be
+<dd><code>java.util.concurrent.RejectedExecutionException</code> - if any task cannot be
          scheduled for execution</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any task is null</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting, in
+<dd><code>java.lang.NullPointerException</code> - if any task is null</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
          which case unfinished tasks are cancelled</dd>
 </dl>
 </li>
@@ -384,14 +384,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.105">invokeAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
-                                                       long&nbsp;timeout,
-                                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+<pre class="methodSignature">&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.105">invokeAll</a>&#8203;(java.util.Collection&lt;? extends java.util.concurrent.Callable&lt;T&gt;&gt;&nbsp;tasks,
+                                                                                                long&nbsp;timeout,
+                                                                                                java.util.concurrent.TimeUnit&nbsp;unit)
+                                                                                         throws java.lang.InterruptedException</pre>
 <div class="block">Executes the given tasks, returning a list of Futures holding
  their status and results
  when all complete or the timeout expires, whichever happens first.
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent" class="externalLink"><code>Future.isDone()</code></a> is <code>true</code> for each
+ <code>Future.isDone()</code> is <code>true</code> for each
  element of the returned list.
  Upon return, tasks that have not completed are cancelled.
  Note that a <em>completed</em> task could have
@@ -409,7 +409,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
  </pre></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll(java.util.Collection,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a></code></dd>
+<dd><code>invokeAll</code>&nbsp;in interface&nbsp;<code>java.util.concurrent.ExecutorService</code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type of the values returned from the tasks</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -422,10 +422,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
      not time out, each task will have completed. If it did time out, some of these tasks will
      not have completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">RejectedExecutionException</a></code> - if any task cannot be scheduled
+<dd><code>java.util.concurrent.RejectedExecutionException</code> - if any task cannot be scheduled
          for execution</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any task is null</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting, in
+<dd><code>java.lang.NullPointerException</code> - if any task is null</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting, in
          which case unfinished tasks are cancelled</dd>
 </dl>
 </li>

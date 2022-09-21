@@ -136,10 +136,10 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 
  <p><b>Warning:</b> The result of calling any methods after calling <a href="#hash()"><code>hash()</code></a> is undefined.
 
- <p><b>Warning:</b> Using a specific character encoding when hashing a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>CharSequence</code></a> with
+ <p><b>Warning:</b> Using a specific character encoding when hashing a <code>CharSequence</code> with
  <a href="#putString(java.lang.CharSequence,java.nio.charset.Charset)"><code>putString(CharSequence, Charset)</code></a> is generally only useful for cross-language
  compatibility (otherwise prefer <a href="#putUnencodedChars(java.lang.CharSequence)"><code>putUnencodedChars(java.lang.CharSequence)</code></a>). However, the character encodings
- must be identical across languages. Also beware that <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>Charset</code></a> definitions may occasionally
+ must be identical across languages. Also beware that <code>Charset</code> definitions may occasionally
  change between Java releases.
 
  <p><b>Warning:</b> Chunks of data that are put into the <a href="Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a> are not delimited. The
@@ -195,7 +195,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>
+<div class="deprecationComment">This returns <code>Object.hashCode()</code>; you almost certainly mean to call <code>
      hash().asInt()</code>.</div>
 </div>
 </td>
@@ -232,7 +232,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(java.nio.ByteBuffer&nbsp;bytes)</code></th>
 <td class="colLast">
 <div class="block">Puts the remaining bytes of a byte buffer into this sink.</div>
 </td>
@@ -273,7 +273,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putObject(T,com.google.common.hash.Funnel)">putObject</a></span>&#8203;(T&nbsp;instance,
          <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></th>
 <td class="colLast">
@@ -289,15 +289,15 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence,
+         java.nio.charset.Charset&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to <code>putBytes(charSequence.toString().getBytes(charset))</code>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order.</div>
 </td>
@@ -391,7 +391,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>putBytes</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.71">putBytes</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</pre>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.71">putBytes</a>&#8203;(java.nio.ByteBuffer&nbsp;bytes)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="PrimitiveSink.html#putBytes(java.nio.ByteBuffer)">PrimitiveSink</a></code></span></div>
 <div class="block">Puts the remaining bytes of a byte buffer into this sink. <code>bytes.position()</code> is the first
  byte written, <code>bytes.limit() - 1</code> is the last. The position of the buffer will be equal
@@ -522,7 +522,7 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>putUnencodedChars</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.119">putUnencodedChars</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</pre>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.119">putUnencodedChars</a>&#8203;(java.lang.CharSequence&nbsp;charSequence)</pre>
 <div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order. In
  other words, no character encoding is performed; the low byte and high byte of each <code>
  char</code> are hashed directly (in that order). The input must not be updated while this method is
@@ -547,8 +547,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>putString</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.131">putString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
-                 <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
+<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.131">putString</a>&#8203;(java.lang.CharSequence&nbsp;charSequence,
+                 java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Equivalent to <code>putBytes(charSequence.toString().getBytes(charset))</code>.
 
  <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
@@ -570,8 +570,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <li class="blockList">
 <h4>putObject</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.136">putObject</a>&#8203;(T&nbsp;instance,
-                                              <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
+&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;<a href="Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.136">putObject</a>&#8203;(T&nbsp;instance,
+                                                        <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">A simple convenience for <code>funnel.funnel(object, this)</code>.</div>
 </li>
 </ul>
@@ -592,15 +592,15 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.152">hashCode</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
-<div class="deprecationComment">This returns <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>
+<div class="deprecationComment">This returns <code>Object.hashCode()</code>; you almost certainly mean to call <code>
      hash().asInt()</code>.</div>
 </div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a>.
+ <code>HashMap</code>.
  <p>
  The general contract of <code>hashCode</code> is:
  <ul>
@@ -614,7 +614,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.1
      method, then calling the <code>hashCode</code> method on each of
      the two objects must produce the same integer result.
  <li>It is <em>not</em> required that if two objects are unequal
-     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>
+     according to the <code>Object.equals(java.lang.Object)</code>
      method, then calling the <code>hashCode</code> method on each of the
      two objects must produce distinct integer results.  However, the
      programmer should be aware that producing distinct integer results
@@ -628,12 +628,12 @@ int&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.1
  in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>

@@ -153,7 +153,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable multimap containing the specified entries.</div>
 </td>
@@ -168,7 +168,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../Multimaps.html#index(java.lang.Iterable,com.google.common.base.Function)">index</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;V&gt;&nbsp;values,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../Multimaps.html#index(java.lang.Iterable,com.google.common.base.Function)">index</a></span>&#8203;(java.lang.Iterable&lt;V&gt;&nbsp;values,
      <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,&#8203;K&gt;&nbsp;keyFunction)</code></th>
 <td class="colLast">
 <div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
@@ -177,7 +177,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../Multimaps.html#index(java.util.Iterator,com.google.common.base.Function)">index</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;V&gt;&nbsp;values,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Multimaps.</span><code><span class="memberNameLink"><a href="../Multimaps.html#index(java.util.Iterator,com.google.common.base.Function)">index</a></span>&#8203;(java.util.Iterator&lt;V&gt;&nbsp;values,
      <a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,&#8203;K&gt;&nbsp;keyFunction)</code></th>
 <td class="colLast">
 <div class="block">Creates an index <code>ImmutableListMultimap</code> that contains the results of applying a
@@ -269,19 +269,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#flatteningToImmutableListMultimap(java.util.function.Function,java.util.function.Function)">flatteningToImmutableListMultimap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;? extends V&gt;&gt;&nbsp;valuesFunction)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#flatteningToImmutableListMultimap(java.util.function.Function,java.util.function.Function)">flatteningToImmutableListMultimap</a></span>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                                 java.util.function.Function&lt;? super T,&#8203;? extends java.util.stream.Stream&lt;? extends V&gt;&gt;&nbsp;valuesFunction)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableListMultimap</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#toImmutableListMultimap(java.util.function.Function,java.util.function.Function)">toImmutableListMultimap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">ImmutableListMultimap.</span><code><span class="memberNameLink"><a href="../ImmutableListMultimap.html#toImmutableListMultimap(java.util.function.Function,java.util.function.Function)">toImmutableListMultimap</a></span>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                       java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Collector</code></a> that accumulates elements into an <code>ImmutableListMultimap</code>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableListMultimap</code>
  whose keys and values are the result of applying the provided mapping functions to the input
  elements.</div>
 </td>
@@ -323,7 +323,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;java.lang.String,&#8203;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MediaType.</span><code><span class="memberNameLink"><a href="../../net/MediaType.html#parameters()">parameters</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a multimap containing the parameters of this media type.</div>

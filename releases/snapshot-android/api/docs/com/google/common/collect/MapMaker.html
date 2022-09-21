@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.MapMaker</li>
@@ -133,9 +133,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.88">MapMaker</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">A builder of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentMap</code></a> instances that can have keys or values automatically wrapped
- in <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink">weak</a> references.
+extends java.lang.Object</pre>
+<div class="block">A builder of <code>ConcurrentMap</code> instances that can have keys or values automatically wrapped
+ in weak references.
 
  <p>Usage example:
 
@@ -147,35 +147,35 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  </code></pre>
 
  <p>These features are all optional; <code>new MapMaker().makeMap()</code> returns a valid concurrent
- map that behaves similarly to a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentHashMap</code></a>.
+ map that behaves similarly to a <code>ConcurrentHashMap</code>.
 
  <p>The returned map is implemented as a hash table with similar performance characteristics to
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentHashMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>ConcurrentHashMap</code></a>. It supports all optional operations of the <code>ConcurrentMap</code>
+ <code>ConcurrentHashMap</code>. It supports all optional operations of the <code>ConcurrentMap</code>
  interface. It does not permit null keys or values.
 
- <p><b>Note:</b> by default, the returned map uses equality comparisons (the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>equals</code></a> method) to determine equality for keys or values. However, if <a href="#weakKeys()"><code>weakKeys()</code></a> was
+ <p><b>Note:</b> by default, the returned map uses equality comparisons (the <code>equals</code> method) to determine equality for keys or values. However, if <a href="#weakKeys()"><code>weakKeys()</code></a> was
  specified, the map uses identity (<code>==</code>) comparisons instead for keys. Likewise, if <a href="#weakValues()"><code>weakValues()</code></a> was specified, the map uses identity comparisons for values.
 
  <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
  that they are safe for concurrent use, but if other threads modify the map after the iterator is
  created, it is undefined which of these changes, if any, are reflected in that iterator. These
- iterators never throw <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ConcurrentModificationException.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>ConcurrentModificationException</code></a>.
+ iterators never throw <code>ConcurrentModificationException</code>.
 
  <p>If <a href="#weakKeys()"><code>weakKeys()</code></a> or <a href="#weakValues()"><code>weakValues()</code></a> are requested, it is possible for a key or value
  present in the map to be reclaimed by the garbage collector. Entries with reclaimed keys or
  values may be removed from the map on each map modification or on occasional map accesses; such
- entries may be counted by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util" class="externalLink"><code>Map.size()</code></a>, but will never be visible to read or write
- operations. A partially-reclaimed entry is never exposed to the user. Any <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map.Entry</code></a>
- instance retrieved from the map's <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util" class="externalLink">entry set</a> is a snapshot of that
- entry's state at the time of retrieval; such entries do, however, support <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util" class="externalLink"><code>Map.Entry.setValue(V)</code></a>, which simply calls <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put(K,V)" title="class or interface in java.util" class="externalLink"><code>Map.put(K, V)</code></a> on the entry's key.
+ entries may be counted by <code>Map.size()</code>, but will never be visible to read or write
+ operations. A partially-reclaimed entry is never exposed to the user. Any <code>Map.Entry</code>
+ instance retrieved from the map's entry set is a snapshot of that
+ entry's state at the time of retrieval; such entries do, however, support <code>Map.Entry.setValue(V)</code>, which simply calls <code>Map.put(K, V)</code> on the entry's key.
 
  <p>The maps produced by <code>MapMaker</code> are serializable, and the deserialized maps retain all
  the configuration properties of the original map. During deserialization, if the original map had
  used weak references, the entries are reconstructed as they were, but it's not unlikely they'll
  be quickly garbage-collected before they are ever accessed.
 
- <p><code>new MapMaker().weakKeys().makeMap()</code> is a recommended replacement for <a href="https://docs.oracle.com/javase/9/docs/api/java/util/WeakHashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>WeakHashMap</code></a>, but note that it compares keys using object identity whereas <code>
- WeakHashMap</code> uses <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>.</div>
+ <p><code>new MapMaker().weakKeys().makeMap()</code> is a recommended replacement for <code>WeakHashMap</code>, but note that it compares keys using object identity whereas <code>
+ WeakHashMap</code> uses <code>Object.equals(java.lang.Object)</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
@@ -241,14 +241,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>&lt;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;K,&#8203;V&gt;</code></td>
+<td class="colFirst"><code>&lt;K,&#8203;V&gt;<br>java.util.concurrent.ConcurrentMap&lt;K,&#8203;V&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#makeMap()">makeMap</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Builds a thread-safe map.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation for this MapMaker instance.</div>
@@ -258,14 +258,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code><a href="MapMaker.html" title="class in com.google.common.collect">MapMaker</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weakKeys()">weakKeys</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Specifies that each key (not value) stored in the map should be wrapped in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).</div>
+<div class="block">Specifies that each key (not value) stored in the map should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="MapMaker.html" title="class in com.google.common.collect">MapMaker</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weakValues()">weakValues</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Specifies that each value (not key) stored in the map should be wrapped in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).</div>
+<div class="block">Specifies that each value (not key) stored in the map should be wrapped in a <code>WeakReference</code> (by default, strong references are used).</div>
 </td>
 </tr>
 </table>
@@ -273,8 +273,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -328,8 +328,8 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
  high wastes memory.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>initialCapacity</code> is negative</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if an initial capacity was already set</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>initialCapacity</code> is negative</dd>
+<dd><code>java.lang.IllegalStateException</code> - if an initial capacity was already set</dd>
 </dl>
 </li>
 </ul>
@@ -357,8 +357,8 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
  explicitly.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>concurrencyLevel</code> is nonpositive</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if a concurrency level was already set</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>concurrencyLevel</code> is nonpositive</dd>
+<dd><code>java.lang.IllegalStateException</code> - if a concurrency level was already set</dd>
 </dl>
 </li>
 </ul>
@@ -371,16 +371,16 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.203">weakKeys</a>()</pre>
-<div class="block">Specifies that each key (not value) stored in the map should be wrapped in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).
+<div class="block">Specifies that each key (not value) stored in the map should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
 
  <p><b>Warning:</b> when this method is used, the resulting map will use identity (<code>==</code>)
- comparison to determine equality of keys, which is a technical violation of the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a>
+ comparison to determine equality of keys, which is a technical violation of the <code>Map</code>
  specification, and may not be what you expect.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the key strength was already set</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the key strength was already set</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a></dd>
+<dd><code>WeakReference</code></dd>
 </dl>
 </li>
 </ul>
@@ -393,20 +393,20 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.239">weakValues</a>()</pre>
-<div class="block">Specifies that each value (not key) stored in the map should be wrapped in a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a> (by default, strong references are used).
+<div class="block">Specifies that each value (not key) stored in the map should be wrapped in a <code>WeakReference</code> (by default, strong references are used).
 
  <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
  candidate for caching.
 
  <p><b>Warning:</b> when this method is used, the resulting map will use identity (<code>==</code>)
  comparison to determine equality of values. This technically violates the specifications of the
- methods <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>containsValue</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove(java.lang.Object,java.lang.Object)" title="class or interface in java.util.concurrent" class="externalLink"><code>remove(Object, Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace(K,V,V)" title="class or interface in java.util.concurrent" class="externalLink"><code>replace(K, V,
- V)</code></a>, and may not be what you expect.</div>
+ methods <code>containsValue</code>, <code>remove(Object, Object)</code> and <code>replace(K, V,
+ V)</code>, and may not be what you expect.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the value strength was already set</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the value strength was already set</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref" class="externalLink"><code>WeakReference</code></a></dd>
+<dd><code>WeakReference</code></dd>
 </dl>
 </li>
 </ul>
@@ -416,7 +416,7 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
 <ul class="blockList">
 <li class="blockList">
 <h4>makeMap</h4>
-<pre class="methodSignature">public&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ConcurrentMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.280">makeMap</a>()</pre>
+<pre class="methodSignature">public&nbsp;&lt;K,&#8203;V&gt;&nbsp;java.util.concurrent.ConcurrentMap&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.280">makeMap</a>()</pre>
 <div class="block">Builds a thread-safe map. This method does not alter the state of this <code>MapMaker</code>
  instance, so it can be invoked again to create multiple independent maps.
 
@@ -436,12 +436,12 @@ public&nbsp;<a href="MapMaker.html" title="class in com.google.common.collect">M
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.291">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.291">toString</a>()</pre>
 <div class="block">Returns a string representation for this MapMaker instance. The exact form of the returned
  string is not specified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>

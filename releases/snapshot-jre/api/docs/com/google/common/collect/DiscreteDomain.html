@@ -116,11 +116,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class DiscreteDomain" class="title">Class DiscreteDomain&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</h2>
+<h2 title="Class DiscreteDomain" class="title">Class DiscreteDomain&lt;C extends java.lang.Comparable&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.DiscreteDomain&lt;C&gt;</li>
@@ -132,9 +132,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.46">DiscreteDomain</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">A descriptor for a <i>discrete</i> <code>Comparable</code> domain such as all <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Integer</code></a>
+public abstract class <a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.46">DiscreteDomain</a>&lt;C extends java.lang.Comparable&gt;
+extends java.lang.Object</pre>
+<div class="block">A descriptor for a <i>discrete</i> <code>Comparable</code> domain such as all <code>Integer</code>
  instances. A discrete domain is one that supports the three basic operations: <a href="#next(C)"><code>next(C)</code></a>,
  <a href="#previous(C)"><code>previous(C)</code></a> and <a href="#distance(C,C)"><code>distance(C, C)</code></a>, according to their specifications. The methods <a href="#minValue()"><code>minValue()</code></a> and <a href="#maxValue()"><code>maxValue()</code></a> should also be overridden for bounded types.
 
@@ -195,7 +195,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.math.BigInteger&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bigIntegers()">bigIntegers</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the discrete domain for values of type <code>BigInteger</code>.</div>
@@ -211,14 +211,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.lang.Integer&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#integers()">integers</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the discrete domain for values of type <code>Integer</code>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#longs()">longs</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the discrete domain for values of type <code>Long</code>.</div>
@@ -259,8 +259,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -304,7 +304,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>integers</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.55">integers</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.lang.Integer&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.55">integers</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>Integer</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -318,7 +318,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>longs</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.118">longs</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.lang.Long&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.118">longs</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>Long</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -332,7 +332,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>bigIntegers</h4>
-<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink">BigInteger</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.192">bigIntegers</a>()</pre>
+<pre class="methodSignature">public static&nbsp;<a href="DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;java.math.BigInteger&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.192">bigIntegers</a>()</pre>
 <div class="block">Returns the discrete domain for values of type <code>BigInteger</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -400,7 +400,7 @@ public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in Disc
  <p>Note that this function is necessarily well-defined for any discrete type.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the distance as described above, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MIN_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MIN_VALUE</code></a> or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if
+<dd>the distance as described above, or <code>Long.MIN_VALUE</code> or <code>Long.MAX_VALUE</code> if
      the distance is too small or too large, respectively.</dd>
 </dl>
 </li>
@@ -414,7 +414,7 @@ public abstract&nbsp;<a href="DiscreteDomain.html" title="type parameter in Disc
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.315">minValue</a>()</pre>
 <div class="block">Returns the minimum value of type <code>C</code>, if it has one. The minimum value is the unique
- value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(Object)</code></a> never returns a positive value for any
+ value for which <code>Comparable.compareTo(Object)</code> never returns a positive value for any
  input of type <code>C</code>.
 
  <p>The default implementation throws <code>NoSuchElementException</code>.</div>
@@ -422,8 +422,8 @@ public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomai
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the minimum value of type <code>C</code>; never null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if the type has no (practical) minimum value; for example,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink"><code>BigInteger</code></a></dd>
+<dd><code>java.util.NoSuchElementException</code> - if the type has no (practical) minimum value; for example,
+     <code>BigInteger</code></dd>
 </dl>
 </li>
 </ul>
@@ -436,7 +436,7 @@ public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomai
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomain">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/DiscreteDomain.html#line.331">maxValue</a>()</pre>
 <div class="block">Returns the maximum value of type <code>C</code>, if it has one. The maximum value is the unique
- value for which <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>Comparable.compareTo(Object)</code></a> never returns a negative value for any
+ value for which <code>Comparable.compareTo(Object)</code> never returns a negative value for any
  input of type <code>C</code>.
 
  <p>The default implementation throws <code>NoSuchElementException</code>.</div>
@@ -444,8 +444,8 @@ public&nbsp;<a href="DiscreteDomain.html" title="type parameter in DiscreteDomai
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the maximum value of type <code>C</code>; never null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if the type has no (practical) maximum value; for example,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink"><code>BigInteger</code></a></dd>
+<dd><code>java.util.NoSuchElementException</code> - if the type has no (practical) maximum value; for example,
+     <code>BigInteger</code></dd>
 </dl>
 </li>
 </ul>

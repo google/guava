@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.reflect.TypeToken&lt;T&gt;</li>
@@ -132,15 +132,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
+<dd><code>java.io.Serializable</code></dd>
 </dl>
 <hr>
 <pre>public abstract class <a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.100">TypeToken</a>&lt;T&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
-<div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a> with generics.
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">A <code>Type</code> with generics.
 
- <p>Operations that are otherwise only available in <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Class</code></a> are implemented to support
+ <p>Operations that are otherwise only available in <code>Class</code> are implemented to support
  <code>Type</code>, for example <a href="#isSubtypeOf(com.google.common.reflect.TypeToken)"><code>isSubtypeOf(com.google.common.reflect.TypeToken&lt;?&gt;)</code></a>, <a href="#isArray()"><code>isArray()</code></a> and <a href="#getComponentType()"><code>getComponentType()</code></a>.
  It also provides additional utilities such as <a href="#getTypes()"><code>getTypes()</code></a>, <a href="#resolveType(java.lang.reflect.Type)"><code>resolveType(java.lang.reflect.Type)</code></a>, etc.
 
@@ -241,7 +241,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected </code></td>
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Class)">TypeToken</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;declaringClass)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.Class)">TypeToken</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;declaringClass)</code></th>
 <td class="colLast">
 <div class="block">Constructs a new type token of <code>T</code> while resolving free type variables in the context of
  <code>declaringClass</code>.</div>
@@ -267,16 +267,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#constructor(java.lang.reflect.Constructor)">constructor</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;?&gt;&nbsp;constructor)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#constructor(java.lang.reflect.Constructor)">constructor</a></span>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</code></th>
 <td class="colLast">
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;o)</code></th>
 <td class="colLast">
-<div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a>.</div>
+<div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <code>Type</code>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -288,7 +288,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
+<td class="colFirst"><code>java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRawType()">getRawType</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the raw type of <code>T</code>.</div>
@@ -296,20 +296,20 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubtype(java.lang.Class)">getSubtype</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;subclass)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubtype(java.lang.Class)">getSubtype</a></span>&#8203;(java.lang.Class&lt;?&gt;&nbsp;subclass)</code></th>
 <td class="colLast">
 <div class="block">Returns subtype of <code>this</code> with <code>subclass</code> as the raw class.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSupertype(java.lang.Class)">getSupertype</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSupertype(java.lang.Class)">getSupertype</a></span>&#8203;(java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</code></th>
 <td class="colLast">
 <div class="block">Returns the generic form of <code>superclass</code>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a></code></td>
+<td class="colFirst"><code>java.lang.reflect.Type</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getType()">getType</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the represented type.</div>
@@ -353,7 +353,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSubtypeOf(java.lang.reflect.Type)">isSubtypeOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;supertype)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSubtypeOf(java.lang.reflect.Type)">isSubtypeOf</a></span>&#8203;(java.lang.reflect.Type&nbsp;supertype)</code></th>
 <td class="colLast">
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>.</div>
 </td>
@@ -367,41 +367,41 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSupertypeOf(java.lang.reflect.Type)">isSupertypeOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSupertypeOf(java.lang.reflect.Type)">isSupertypeOf</a></span>&#8203;(java.lang.reflect.Type&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#method(java.lang.reflect.Method)">method</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</code></th>
+<td class="colFirst"><code><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#method(java.lang.reflect.Method)">method</a></span>&#8203;(java.lang.reflect.Method&nbsp;method)</code></th>
 <td class="colLast">
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.Class)">of</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.Class)">of</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static <a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.reflect.Type)">of</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#of(java.lang.reflect.Type)">of</a></span>&#8203;(java.lang.reflect.Type&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolveType(java.lang.reflect.Type)">resolveType</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolveType(java.lang.reflect.Type)">resolveType</a></span>&#8203;(java.lang.reflect.Type&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Resolves the given <code>type</code> against the type context represented by this type.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of the object.</div>
@@ -427,7 +427,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#where(com.google.common.reflect.TypeParameter,java.lang.Class)">where</a></span>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;typeArg)</code></th>
+     java.lang.Class&lt;X&gt;&nbsp;typeArg)</code></th>
 <td class="colLast">
 <div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
  substituted by <code>typeArg</code>.</div>
@@ -442,7 +442,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></td>
+<td class="colFirst"><code>protected java.lang.Object</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeReplace()">writeReplace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Implemented to support serialization of subclasses.</div>
@@ -453,8 +453,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -497,7 +497,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TypeToken</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.155">TypeToken</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;declaringClass)</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.155">TypeToken</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;declaringClass)</pre>
 <div class="block">Constructs a new type token of <code>T</code> while resolving free type variables in the context of
  <code>declaringClass</code>.
 
@@ -533,7 +533,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.169">of</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.169">of</a>&#8203;(java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </li>
 </ul>
@@ -543,7 +543,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature">public static&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.174">of</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.174">of</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </li>
 </ul>
@@ -553,14 +553,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getRawType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.193">getRawType</a>()</pre>
-<div class="block">Returns the raw type of <code>T</code>. Formally speaking, if <code>T</code> is returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true#getGenericReturnType()" title="class or interface in java.lang.reflect" class="externalLink"><code>Method.getGenericReturnType()</code></a>, the raw type is what's returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true#getReturnType()" title="class or interface in java.lang.reflect" class="externalLink"><code>Method.getReturnType()</code></a> of the same method object. Specifically:
+<pre class="methodSignature">public final&nbsp;java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.193">getRawType</a>()</pre>
+<div class="block">Returns the raw type of <code>T</code>. Formally speaking, if <code>T</code> is returned by <code>Method.getGenericReturnType()</code>, the raw type is what's returned by <code>Method.getReturnType()</code> of the same method object. Specifically:
 
  <ul>
    <li>If <code>T</code> is a <code>Class</code> itself, <code>T</code> itself is returned.
-   <li>If <code>T</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/ParameterizedType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>ParameterizedType</code></a>, the raw type of the parameterized type is
+   <li>If <code>T</code> is a <code>ParameterizedType</code>, the raw type of the parameterized type is
        returned.
-   <li>If <code>T</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/GenericArrayType.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>GenericArrayType</code></a>, the returned type is the corresponding array
+   <li>If <code>T</code> is a <code>GenericArrayType</code>, the returned type is the corresponding array
        class. For example: <code>List&lt;Integer&gt;[] =&gt; List[]</code>.
    <li>If <code>T</code> is a type variable or a wildcard type, the raw type of the first upper bound
        is returned. For example: <code>&lt;X extends Foo&gt; =&gt; Foo</code>.
@@ -573,7 +573,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.202">getType</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.reflect.Type&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.202">getType</a>()</pre>
 <div class="block">Returns the represented type.</div>
 </li>
 </ul>
@@ -613,7 +613,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>where</h4>
 <pre class="methodSignature">public final&nbsp;&lt;X&gt;&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.267">where</a>&#8203;(<a href="TypeParameter.html" title="class in com.google.common.reflect">TypeParameter</a>&lt;X&gt;&nbsp;typeParam,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;X&gt;&nbsp;typeArg)</pre>
+                                    java.lang.Class&lt;X&gt;&nbsp;typeArg)</pre>
 <div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
  substituted by <code>typeArg</code>. For example, it can be used to construct <code>Map&lt;K, V&gt;</code> for
  any <code>K</code> and <code>V</code> type:
@@ -641,7 +641,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>resolveType</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.280">resolveType</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.280">resolveType</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Resolves the given <code>type</code> against the type context represented by this type. For example:
 
  <pre><code>
@@ -675,7 +675,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getSupertype</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.398">getSupertype</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.398">getSupertype</a>&#8203;(java.lang.Class&lt;? super <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;superclass)</pre>
 <div class="block">Returns the generic form of <code>superclass</code>. For example, if this is <code>
  ArrayList&lt;String&gt;</code>, <code>Iterable&lt;String&gt;</code> is returned given the input <code>
  Iterable.class</code>.</div>
@@ -687,7 +687,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getSubtype</h4>
-<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.424">getSubtype</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;?&gt;&nbsp;subclass)</pre>
+<pre class="methodSignature">public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.424">getSubtype</a>&#8203;(java.lang.Class&lt;?&gt;&nbsp;subclass)</pre>
 <div class="block">Returns subtype of <code>this</code> with <code>subclass</code> as the raw class. For example, if this is
  <code>Iterable&lt;String&gt;</code> and <code>subclass</code> is <code>List</code>, <code>List&lt;String&gt;</code> is
  returned.</div>
@@ -715,7 +715,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>isSupertypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.465">isSupertypeOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;type)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.465">isSupertypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;type)</pre>
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -747,7 +747,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>isSubtypeOf</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.489">isSubtypeOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Type</a>&nbsp;supertype)</pre>
+<pre class="methodSignature">public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.489">isSubtypeOf</a>&#8203;(java.lang.reflect.Type&nbsp;supertype)</pre>
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>. "Subtype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
  arguments</a> introduced with Java generics.</div>
@@ -831,7 +831,7 @@ public final&nbsp;<a href="TypeToken.html" title="class in com.google.common.ref
 <li class="blockList">
 <h4>method</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.593">method</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</pre>
+public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.593">method</a>&#8203;(java.lang.reflect.Method&nbsp;method)</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -846,7 +846,7 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
 <li class="blockList">
 <h4>constructor</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.633">constructor</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;?&gt;&nbsp;constructor)</pre>
+public final&nbsp;<a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.633">constructor</a>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</pre>
 <div class="block">Returns the <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -861,19 +861,19 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.831">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
-<div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink"><code>Type</code></a>.</div>
+                      java.lang.Object&nbsp;o)</pre>
+<div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <code>Type</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>o</code> - the reference object with which to compare.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this object is the same as the obj
           argument; <code>false</code> otherwise.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a></dd>
+<dd><code>Object.hashCode()</code>, 
+<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -884,10 +884,10 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.840">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a>.
+ <code>HashMap</code>.
  <p>
  The general contract of <code>hashCode</code> is:
  <ul>
@@ -901,7 +901,7 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
      method, then calling the <code>hashCode</code> method on each of
      the two objects must produce the same integer result.
  <li>It is <em>not</em> required that if two objects are unequal
-     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>
+     according to the <code>Object.equals(java.lang.Object)</code>
      method, then calling the <code>hashCode</code> method on each of the
      two objects must produce distinct integer results.  However, the
      programmer should be aware that producing distinct integer results
@@ -915,12 +915,12 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
  in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -930,8 +930,8 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.845">toString</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.845">toString</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
  "textually represents" this object. The result should
@@ -951,7 +951,7 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
  </pre></blockquote></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>
@@ -963,7 +963,7 @@ public final&nbsp;<a href="Invokable.html" title="class in com.google.common.ref
 <ul class="blockListLast">
 <li class="blockList">
 <h4>writeReplace</h4>
-<pre class="methodSignature">protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.851">writeReplace</a>()</pre>
+<pre class="methodSignature">protected&nbsp;java.lang.Object&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.851">writeReplace</a>()</pre>
 <div class="block">Implemented to support serialization of subclasses.</div>
 </li>
 </ul>

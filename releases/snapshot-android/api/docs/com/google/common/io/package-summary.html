@@ -130,24 +130,24 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colFirst" scope="row"><a href="ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></th>
 <td class="colLast">
 <div class="block">An extension of <code>DataInput</code> for reading from in-memory byte arrays; its methods offer
- identical functionality but do not throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.</div>
+ identical functionality but do not throw <code>IOException</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a></th>
 <td class="colLast">
 <div class="block">An extension of <code>DataOutput</code> for writing to in-memory byte arrays; its methods offer
- identical functionality but do not throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.</div>
+ identical functionality but do not throw <code>IOException</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</th>
+<th class="colFirst" scope="row"><a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">A callback interface to process bytes from a stream.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</th>
+<th class="colFirst" scope="row"><a href="LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</th>
 <td class="colLast">
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
 </td>
@@ -209,20 +209,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Closeables.html" title="class in com.google.common.io">Closeables</a></th>
 <td class="colLast">
-<div class="block">Utility methods for working with <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a> objects.</div>
+<div class="block">Utility methods for working with <code>Closeable</code> objects.</div>
 </td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Closer.html" title="class in com.google.common.io">Closer</a></th>
 <td class="colLast">
-<div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
+<div class="block">A <code>Closeable</code> that collects <code>Closeable</code> resources and closes them all when it is
  <a href="Closer.html#close()">closed</a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="CountingInputStream.html" title="class in com.google.common.io">CountingInputStream</a></th>
 <td class="colLast">
-<div class="block">An <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>InputStream</code></a> that counts the number of bytes read.</div>
+<div class="block">An <code>InputStream</code> that counts the number of bytes read.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -234,20 +234,20 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="FileBackedOutputStream.html" title="class in com.google.common.io">FileBackedOutputStream</a></th>
 <td class="colLast">
-<div class="block">An <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> that starts buffering to a byte array, but switches to file buffering
+<div class="block">An <code>OutputStream</code> that starts buffering to a byte array, but switches to file buffering
  once the data reaches a configurable size.</div>
 </td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="Files.html" title="class in com.google.common.io">Files</a></th>
 <td class="colLast">
-<div class="block">Provides utility methods for working with <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io" class="externalLink">files</a>.</div>
+<div class="block">Provides utility methods for working with files.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Flushables.html" title="class in com.google.common.io">Flushables</a></th>
 <td class="colLast">
-<div class="block">Utility methods for working with <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>Flushable</code></a> objects.</div>
+<div class="block">Utility methods for working with <code>Flushable</code> objects.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -259,14 +259,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="LittleEndianDataInputStream.html" title="class in com.google.common.io">LittleEndianDataInputStream</a></th>
 <td class="colLast">
-<div class="block">An implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>DataInput</code></a> that uses little-endian byte ordering for reading <code>
+<div class="block">An implementation of <code>DataInput</code> that uses little-endian byte ordering for reading <code>
  short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
 </td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></th>
 <td class="colLast">
-<div class="block">An implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>DataOutput</code></a> that uses little-endian byte ordering for writing <code>
+<div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
  char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
 </td>
 </tr>

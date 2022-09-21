@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.FakeTimeLimiter</li>
@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.38">FakeTimeLimiter</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+extends java.lang.Object
 implements <a href="TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></pre>
 <div class="block">A TimeLimiter implementation which actually does not attempt to limit time at all. This may be
  desirable to use in some unit tests. More importantly, attempting to debug a call which is
@@ -192,19 +192,19 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#callUninterruptiblyWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">callUninterruptiblyWithTimeout</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;callable,
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#callUninterruptiblyWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">callUninterruptiblyWithTimeout</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
                               long&nbsp;timeoutDuration,
-                              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</code></th>
+                              java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</code></th>
 <td class="colLast">
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#callWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">callWithTimeout</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;callable,
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#callWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">callWithTimeout</a></span>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
                long&nbsp;timeoutDuration,
-               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</code></th>
+               java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</code></th>
 <td class="colLast">
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
 </td>
@@ -212,9 +212,9 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newProxy(T,java.lang.Class,long,java.util.concurrent.TimeUnit)">newProxy</a></span>&#8203;(T&nbsp;target,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;interfaceType,
+        java.lang.Class&lt;T&gt;&nbsp;interfaceType,
         long&nbsp;timeoutDuration,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</code></th>
+        java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</code></th>
 <td class="colLast">
 <div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>
  target</code> object, enforcing the specified time limit on each call.</div>
@@ -222,18 +222,18 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runUninterruptiblyWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">runUninterruptiblyWithTimeout</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;runnable,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runUninterruptiblyWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">runUninterruptiblyWithTimeout</a></span>&#8203;(java.lang.Runnable&nbsp;runnable,
                              long&nbsp;timeoutDuration,
-                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</code></th>
+                             java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</code></th>
 <td class="colLast">
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">runWithTimeout</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;runnable,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">runWithTimeout</a></span>&#8203;(java.lang.Runnable&nbsp;runnable,
               long&nbsp;timeoutDuration,
-              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</code></th>
+              java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</code></th>
 <td class="colLast">
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
 </td>
@@ -243,8 +243,8 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -291,13 +291,13 @@ implements <a href="TimeLimiter.html" title="interface in com.google.common.util
 <h4>newProxy</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.42">newProxy</a>&#8203;(T&nbsp;target,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;interfaceType,
+                      java.lang.Class&lt;T&gt;&nbsp;interfaceType,
                       long&nbsp;timeoutDuration,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</pre>
+                      java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#newProxy(T,java.lang.Class,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
 <div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>
  target</code> object, enforcing the specified time limit on each call. This time-limited delegation
- is also performed for calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink"><code>Object.toString()</code></a>.
+ is also performed for calls to <code>Object.equals(java.lang.Object)</code>, <code>Object.hashCode()</code>, and <code>Object.toString()</code>.
 
  <p>If the target method call finishes before the limit is reached, the return value or
  exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
@@ -344,15 +344,15 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/co
 <li class="blockList">
 <h4>callWithTimeout</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.52">callWithTimeout</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;callable,
-                                                      long&nbsp;timeoutDuration,
-                                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)
-                                               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.52">callWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+                                                                long&nbsp;timeoutDuration,
+                                                                java.util.concurrent.TimeUnit&nbsp;timeoutUnit)
+                                                         throws java.util.concurrent.ExecutionException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finishes before the limit is reached, the return value or a wrapped exception is
  propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
- the target, and throw a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> to the caller.</div>
+ the target, and throw a <code>TimeoutException</code> to the caller.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">callWithTimeout</a></code>&nbsp;in interface&nbsp;<code><a href="TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>
@@ -363,7 +363,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the result returned by the Callable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if <code>callable</code> throws a checked exception</dd>
+<dd><code>java.util.concurrent.ExecutionException</code> - if <code>callable</code> throws a checked exception</dd>
 </dl>
 </li>
 </ul>
@@ -374,15 +374,15 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <li class="blockList">
 <h4>callUninterruptiblyWithTimeout</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.71">callUninterruptiblyWithTimeout</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Callable</a>&lt;T&gt;&nbsp;callable,
-                                                                     long&nbsp;timeoutDuration,
-                                                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)
-                                                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
+public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.71">callUninterruptiblyWithTimeout</a>&#8203;(java.util.concurrent.Callable&lt;T&gt;&nbsp;callable,
+                                                                               long&nbsp;timeoutDuration,
+                                                                               java.util.concurrent.TimeUnit&nbsp;timeoutUnit)
+                                                                        throws java.util.concurrent.ExecutionException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#callUninterruptiblyWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finishes before the limit is reached, the return value or a wrapped exception is
  propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
- the target, and throw a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> to the caller.
+ the target, and throw a <code>TimeoutException</code> to the caller.
 
  <p>The difference with <a href="TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit)"><code>TimeLimiter.callWithTimeout(Callable, long, TimeUnit)</code></a> is that this method
  will ignore interrupts on the current thread.</div>
@@ -396,7 +396,7 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the result returned by the Callable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if <code>callable</code> throws a checked exception</dd>
+<dd><code>java.util.concurrent.ExecutionException</code> - if <code>callable</code> throws a checked exception</dd>
 </dl>
 </li>
 </ul>
@@ -406,14 +406,14 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockList">
 <li class="blockList">
 <h4>runWithTimeout</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.79">runWithTimeout</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;runnable,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.79">runWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
                            long&nbsp;timeoutDuration,
-                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</pre>
+                           java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit. If the target method
  run finishes before the limit is reached, this method returns or a wrapped exception is
  propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
- throw a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> to the caller.</div>
+ throw a <code>TimeoutException</code> to the caller.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TimeLimiter.html#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">runWithTimeout</a></code>&nbsp;in interface&nbsp;<code><a href="TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>
@@ -430,14 +430,14 @@ public&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>runUninterruptiblyWithTimeout</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.92">runUninterruptiblyWithTimeout</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Runnable</a>&nbsp;runnable,
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FakeTimeLimiter.html#line.92">runUninterruptiblyWithTimeout</a>&#8203;(java.lang.Runnable&nbsp;runnable,
                                           long&nbsp;timeoutDuration,
-                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;timeoutUnit)</pre>
+                                          java.util.concurrent.TimeUnit&nbsp;timeoutUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TimeLimiter.html#runUninterruptiblyWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)">TimeLimiter</a></code></span></div>
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit. If the target method
  run finishes before the limit is reached, this method returns or a wrapped exception is
  propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
- throw a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeoutException</code></a> to the caller.
+ throw a <code>TimeoutException</code> to the caller.
 
  <p>The difference with <a href="TimeLimiter.html#runWithTimeout(java.lang.Runnable,long,java.util.concurrent.TimeUnit)"><code>TimeLimiter.runWithTimeout(Runnable, long, TimeUnit)</code></a> is that this method
  will ignore interrupts on the current thread.</div>

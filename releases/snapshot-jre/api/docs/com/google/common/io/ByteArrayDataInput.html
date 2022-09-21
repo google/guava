@@ -124,17 +124,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>java.io.DataInput</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public interface <a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.35">ByteArrayDataInput</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></pre>
+extends java.io.DataInput</pre>
 <div class="block">An extension of <code>DataInput</code> for reading from in-memory byte arrays; its methods offer
- identical functionality but do not throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.
+ identical functionality but do not throw <code>IOException</code>.
 
  <p><b>Warning:</b> The caller is responsible for not attempting to read past the end of the
- array. If any method encounters the end of the array prematurely, it throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a> to signify <i>programmer error</i>. This behavior is a technical violation
+ array. If any method encounters the end of the array prematurely, it throws <code>IllegalStateException</code> to signify <i>programmer error</i>. This behavior is a technical violation
  of the supertype's contract, which specifies a checked exception.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -230,7 +230,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readLine()">readLine</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Reads the next line of text from the input stream.</div>
@@ -273,7 +273,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readUTF()">readUTF</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Reads in a string that has been encoded using a
@@ -315,7 +315,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 <li class="blockList">
 <h4>readFully</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.38">readFully</a>&#8203;(byte[]&nbsp;b)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D)" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads some bytes from an input
  stream and stores them into the buffer
  array <code>b</code>. The number of bytes
@@ -351,7 +351,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
  updated with data from the input stream.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D)" title="class or interface in java.io" class="externalLink">readFully</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readFully</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the buffer into which the data is read.</dd>
 </dl>
@@ -366,7 +366,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.41">readFully</a>&#8203;(byte[]&nbsp;b,
                int&nbsp;off,
                int&nbsp;len)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads <code>len</code>
  bytes from
  an input stream.
@@ -403,7 +403,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
  at most, equal to <code>len</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFully(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">readFully</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readFully</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the buffer into which the data is read.</dd>
 <dd><code>off</code> - an int specifying the offset in the data array <code>b</code>.</dd>
@@ -418,7 +418,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 <li class="blockList">
 <h4>skipBytes</h4>
 <pre class="methodSignature">int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.46">skipBytes</a>&#8203;(int&nbsp;n)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#skipBytes(int)" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Makes an attempt to skip over
  <code>n</code> bytes
  of data from the input
@@ -436,7 +436,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
  number of bytes skipped is returned.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#skipBytes(int)" title="class or interface in java.io" class="externalLink">skipBytes</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>skipBytes</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>n</code> - the number of bytes to be skipped.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -452,7 +452,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.htm
 <h4>readBoolean</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.49">readBoolean</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readBoolean()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads one input byte and returns
  <code>true</code> if that byte is nonzero,
  <code>false</code> if that byte is zero.
@@ -461,7 +461,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInp
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readBoolean()" title="class or interface in java.io" class="externalLink">readBoolean</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readBoolean</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>boolean</code> value read.</dd>
 </dl>
@@ -475,7 +475,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInp
 <h4>readByte</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 byte&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.53">readByte</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readByte()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads and returns one input byte.
  The byte is treated as a signed value in
  the range <code>-128</code> through <code>127</code>,
@@ -485,7 +485,7 @@ byte&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readByte()" title="class or interface in java.io" class="externalLink">readByte</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readByte</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the 8-bit value read.</dd>
 </dl>
@@ -499,7 +499,7 @@ byte&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
 <h4>readUnsignedByte</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.57">readUnsignedByte</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUnsignedByte()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads one input byte, zero-extends
  it to type <code>int</code>, and returns
  the result, which is therefore in the range
@@ -513,7 +513,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
  <code>0</code> through <code>255</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUnsignedByte()" title="class or interface in java.io" class="externalLink">readUnsignedByte</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readUnsignedByte</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the unsigned 8-bit value read.</dd>
 </dl>
@@ -527,7 +527,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
 <h4>readShort</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 short&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.61">readShort</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readShort()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads two input bytes and returns
  a <code>short</code> value. Let <code>a</code>
  be the first byte read and <code>b</code>
@@ -542,7 +542,7 @@ short&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput
  interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readShort()" title="class or interface in java.io" class="externalLink">readShort</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readShort</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the 16-bit value read.</dd>
 </dl>
@@ -556,7 +556,7 @@ short&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput
 <h4>readUnsignedShort</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.65">readUnsignedShort</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUnsignedShort()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads two input bytes and returns
  an <code>int</code> value in the range <code>0</code>
  through <code>65535</code>. Let <code>a</code>
@@ -573,7 +573,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
  <code>0</code> through <code>65535</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUnsignedShort()" title="class or interface in java.io" class="externalLink">readUnsignedShort</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readUnsignedShort</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the unsigned 16-bit value read.</dd>
 </dl>
@@ -587,7 +587,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
 <h4>readChar</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 char&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.69">readChar</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readChar()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads two input bytes and returns a <code>char</code> value.
  Let <code>a</code>
  be the first byte read and <code>b</code>
@@ -601,7 +601,7 @@ char&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
  <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readChar()" title="class or interface in java.io" class="externalLink">readChar</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readChar</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>char</code> value read.</dd>
 </dl>
@@ -615,7 +615,7 @@ char&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
 <h4>readInt</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.73">readInt</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readInt()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads four input bytes and returns an
  <code>int</code> value. Let <code>a-d</code>
  be the first through fourth bytes read. The value returned is:
@@ -628,7 +628,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readInt()" title="class or interface in java.io" class="externalLink">readInt</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readInt</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>int</code> value read.</dd>
 </dl>
@@ -642,7 +642,7 @@ int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.h
 <h4>readLong</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.77">readLong</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readLong()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads eight input bytes and returns
  a <code>long</code> value. Let <code>a-h</code>
  be the first through eighth bytes read.
@@ -663,7 +663,7 @@ long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readLong()" title="class or interface in java.io" class="externalLink">readLong</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readLong</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>long</code> value read.</dd>
 </dl>
@@ -677,7 +677,7 @@ long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.
 <h4>readFloat</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 float&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.81">readFloat</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFloat()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads four input bytes and returns
  a <code>float</code> value. It does this
  by first constructing an <code>int</code>
@@ -691,7 +691,7 @@ float&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readFloat()" title="class or interface in java.io" class="externalLink">readFloat</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readFloat</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>float</code> value read.</dd>
 </dl>
@@ -705,7 +705,7 @@ float&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput
 <h4>readDouble</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.85">readDouble</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readDouble()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads eight input bytes and returns
  a <code>double</code> value. It does this
  by first constructing a <code>long</code>
@@ -719,7 +719,7 @@ double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInpu
  method of interface <code>DataOutput</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readDouble()" title="class or interface in java.io" class="externalLink">readDouble</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readDouble</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <code>double</code> value read.</dd>
 </dl>
@@ -733,8 +733,8 @@ double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInpu
 <h4>readLine</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.89">readLine</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readLine()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.89">readLine</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads the next line of text from the input stream.
  It reads successive bytes, converting
  each byte separately into a character,
@@ -769,7 +769,7 @@ double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInpu
  that is, <code>(char)256</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readLine()" title="class or interface in java.io" class="externalLink">readLine</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readLine</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the next line of text from the input stream,
          or <code>null</code> if the end of file is
@@ -784,8 +784,8 @@ double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInpu
 <li class="blockList">
 <h4>readUTF</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.94">readUTF</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUTF()" title="class or interface in java.io" class="externalLink">java.io.DataInput</a></code></span></div>
+java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.94">readUTF</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataInput</code></span></div>
 <div class="block">Reads in a string that has been encoded using a
  <a href="#modified-utf-8">modified UTF-8</a>
  format.
@@ -865,7 +865,7 @@ double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInpu
  for reading by this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true#readUTF()" title="class or interface in java.io" class="externalLink">readUTF</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataInput</a></code></dd>
+<dd><code>readUTF</code>&nbsp;in interface&nbsp;<code>java.io.DataInput</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a Unicode string.</dd>
 </dl>

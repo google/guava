@@ -171,7 +171,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio" class="externalLink">ByteBuffer</a>&nbsp;bytes)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putBytes(java.nio.ByteBuffer)">putBytes</a></span>&#8203;(java.nio.ByteBuffer&nbsp;bytes)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -204,7 +204,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
+<td class="colFirst"><code>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putObject(T,com.google.common.hash.Funnel)">putObject</a></span>&#8203;(T&nbsp;instance,
          <a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></th>
 <td class="colLast">
@@ -218,15 +218,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putString(java.lang.CharSequence,java.nio.charset.Charset)">putString</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence,
+         java.nio.charset.Charset&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to <code>putBytes(charSequence.toString().getBytes(charset))</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../Hasher.html" title="interface in com.google.common.hash">Hasher</a></code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;charSequence)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Hasher.</span><code><span class="memberNameLink"><a href="../Hasher.html#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></span>&#8203;(java.lang.CharSequence&nbsp;charSequence)</code></th>
 <td class="colLast">
 <div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order.</div>
 </td>

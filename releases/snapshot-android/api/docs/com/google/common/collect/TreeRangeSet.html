@@ -116,11 +116,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class TreeRangeSet" class="title">Class TreeRangeSet&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</h2>
+<h2 title="Class TreeRangeSet" class="title">Class TreeRangeSet&lt;C extends java.lang.Comparable&lt;?&gt;&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.TreeRangeSet&lt;C&gt;</li>
@@ -132,15 +132,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code></dd>
+<dd><code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;</code>, <code>java.io.Serializable</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.41">TreeRangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
-<div class="block">An implementation of <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> backed by a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>TreeMap</code></a>.</div>
+public class <a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.41">TreeRangeSet</a>&lt;C extends java.lang.Comparable&lt;?&gt;&gt;
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">An implementation of <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a> backed by a <code>TreeMap</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -185,13 +185,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.lang.Iterable)">addAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.lang.Iterable)">addAll</a></span>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
 <td class="colLast">
 <div class="block">Adds all of the specified ranges to this range set (optional operation).</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asDescendingSetOfRanges()">asDescendingSetOfRanges</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a descending view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make
@@ -199,7 +199,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asRanges()">asRanges</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make up this
@@ -228,22 +228,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create()">create</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Creates an empty <code>TreeRangeSet</code> instance.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(com.google.common.collect.RangeSet)">create</a></span>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>TreeRangeSet</code> initialized with the ranges in the specified range set.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.lang.Iterable)">create</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#create(java.lang.Iterable)">create</a></span>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>TreeRangeSet</code> representing the union of the specified ranges.</div>
 </td>
@@ -265,7 +265,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enclosesAll(java.lang.Iterable)">enclosesAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enclosesAll(java.lang.Iterable)">enclosesAll</a></span>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if for each range in <code>other</code> there exists a member range in this
  range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> it.</div>
@@ -273,7 +273,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
 <td class="colLast">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </td>
@@ -325,7 +325,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Iterable)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Iterable)">removeAll</a></span>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</code></th>
 <td class="colLast">
 <div class="block">Removes all of the specified ranges from this range set (optional operation).</div>
 </td>
@@ -346,7 +346,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of the object.</div>
@@ -357,8 +357,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -382,7 +382,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.50">create</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.50">create</a>()</pre>
 <div class="block">Creates an empty <code>TreeRangeSet</code> instance.</div>
 </li>
 </ul>
@@ -392,7 +392,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.55">create</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.55">create</a>&#8203;(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C&gt;&nbsp;rangeSet)</pre>
 <div class="block">Returns a <code>TreeRangeSet</code> initialized with the ranges in the specified range set.</div>
 </li>
 </ul>
@@ -402,7 +402,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.70">create</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.70">create</a>&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block">Returns a <code>TreeRangeSet</code> representing the union of the specified ranges.
 
  <p>This is the smallest <code>RangeSet</code> which encloses each of the specified ranges. An
@@ -420,14 +420,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>asRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.83">asRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.83">asRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make up this
- range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink"><code>Iterable.iterator()</code></a> method return the ranges in increasing order of lower bound (equivalently,
+ range set. The returned set may be empty. The iterators returned by its <code>Iterable.iterator()</code> method return the ranges in increasing order of lower bound (equivalently,
  of upper bound).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#asRanges()">asRanges</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#asRanges()">asRanges</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -437,14 +437,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingSetOfRanges</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.89">asDescendingSetOfRanges</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeRangeSet.html#line.89">asDescendingSetOfRanges</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#asDescendingSetOfRanges()">RangeSet</a></code></span></div>
 <div class="block">Returns a descending view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make
- up this range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink"><code>Iterable.iterator()</code></a> method return the ranges in decreasing order of lower bound (equivalently,
+ up this range set. The returned set may be empty. The iterators returned by its <code>Iterable.iterator()</code> method return the ranges in decreasing order of lower bound (equivalently,
  of upper bound).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#asDescendingSetOfRanges()">asDescendingSetOfRanges</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#asDescendingSetOfRanges()">asDescendingSetOfRanges</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -463,7 +463,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  value</code>, or <code>null</code> if this range set does not contain <code>value</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#rangeContaining(C)">rangeContaining</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#rangeContaining(C)">rangeContaining</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -480,7 +480,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  subRangeSet(otherRange)</code> and testing whether the resulting range set is non-empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#intersects(com.google.common.collect.Range)">intersects</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#intersects(com.google.common.collect.Range)">intersects</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -495,7 +495,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <div class="block">Returns <code>true</code> if there exists a member range in this range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> the specified range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#encloses(com.google.common.collect.Range)">encloses</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#encloses(com.google.common.collect.Range)">encloses</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -511,7 +511,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  range set.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#span()">span</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#span()">span</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -532,7 +532,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <code>range</code> is empty, this is a no-op.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#add(com.google.common.collect.Range)">add</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#add(com.google.common.collect.Range)">add</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -550,7 +550,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <p>If <code>range</code> is empty, this is a no-op.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#remove(com.google.common.collect.Range)">remove</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#remove(com.google.common.collect.Range)">remove</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -568,7 +568,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <a href="RangeSet.html#remove(com.google.common.collect.Range)"><code>RangeSet.remove(com.google.common.collect.Range&lt;C&gt;)</code></a>, and vice versa.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#complement()">complement</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#complement()">complement</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -583,10 +583,10 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <div class="block">Returns a view of the intersection of this <code>RangeSet</code> with the specified range.
 
  <p>The returned view supports all optional operations supported by this <code>RangeSet</code>, with
- the caveat that an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a> is thrown on an attempt to <a href="RangeSet.html#add(com.google.common.collect.Range)">add</a> any range not <a href="Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by <code>view</code>.</div>
+ the caveat that an <code>IllegalArgumentException</code> is thrown on an attempt to <a href="RangeSet.html#add(com.google.common.collect.Range)">add</a> any range not <a href="Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by <code>view</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#subRangeSet(com.google.common.collect.Range)">subRangeSet</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;</code></dd>
+<dd><code><a href="RangeSet.html#subRangeSet(com.google.common.collect.Range)">subRangeSet</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a> extends java.lang.Comparable&lt;?&gt;&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -603,7 +603,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <div class="block">Determines whether any of this range set's member ranges contains <code>value</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#contains(C)">contains</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#contains(C)">contains</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -618,7 +618,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <div class="block">Returns <code>true</code> if this range set contains no ranges.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#isEmpty()">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#isEmpty()">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -636,7 +636,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <p>This is equivalent to <code>remove(Range.all())</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#clear()">clear</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#clear()">clear</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -657,7 +657,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <code>other</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#enclosesAll(com.google.common.collect.RangeSet)">enclosesAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#enclosesAll(com.google.common.collect.RangeSet)">enclosesAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -667,7 +667,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>enclosesAll</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;enclosesAll&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;enclosesAll&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#enclosesAll(java.lang.Iterable)">RangeSet</a></code></span></div>
 <div class="block">Returns <code>true</code> if for each range in <code>other</code> there exists a member range in this
  range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> it. Returns <code>true</code> if <code>other</code>
@@ -677,7 +677,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  other</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#enclosesAll(java.lang.Iterable)">enclosesAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#enclosesAll(java.lang.Iterable)">enclosesAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -695,7 +695,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <p>This is equivalent to calling <a href="RangeSet.html#add(com.google.common.collect.Range)"><code>RangeSet.add(com.google.common.collect.Range&lt;C&gt;)</code></a> on each of the ranges in <code>other</code> in turn.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#addAll(com.google.common.collect.RangeSet)">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#addAll(com.google.common.collect.RangeSet)">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -705,7 +705,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;addAll&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;addAll&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#addAll(java.lang.Iterable)">RangeSet</a></code></span></div>
 <div class="block">Adds all of the specified ranges to this range set (optional operation). After this operation,
  this range set is the minimal range set that <a href="RangeSet.html#enclosesAll(com.google.common.collect.RangeSet)">encloses</a> both
@@ -714,7 +714,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  <p>This is equivalent to calling <a href="RangeSet.html#add(com.google.common.collect.Range)"><code>RangeSet.add(com.google.common.collect.Range&lt;C&gt;)</code></a> on each of the ranges in <code>other</code> in turn.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#addAll(java.lang.Iterable)">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#addAll(java.lang.Iterable)">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -734,7 +734,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  turn.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#removeAll(com.google.common.collect.RangeSet)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#removeAll(com.google.common.collect.RangeSet)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -744,7 +744,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;removeAll&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;removeAll&#8203;(java.lang.Iterable&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&gt;&nbsp;ranges)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="RangeSet.html#removeAll(java.lang.Iterable)">RangeSet</a></code></span></div>
 <div class="block">Removes all of the specified ranges from this range set (optional operation).
 
@@ -752,7 +752,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  turn.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#removeAll(java.lang.Iterable)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#removeAll(java.lang.Iterable)">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -763,8 +763,8 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+                      java.lang.Object&nbsp;obj)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
  The <code>equals</code> method implements an equivalence relation
@@ -805,17 +805,17 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>obj</code> - the reference object with which to compare.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this object is the same as the obj
           argument; <code>false</code> otherwise.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a></dd>
+<dd><code>Object.hashCode()</code>, 
+<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -826,10 +826,10 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public final&nbsp;int&nbsp;hashCode()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a>.
+ <code>HashMap</code>.
  <p>
  The general contract of <code>hashCode</code> is:
  <ul>
@@ -843,7 +843,7 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
      method, then calling the <code>hashCode</code> method on each of
      the two objects must produce the same integer result.
  <li>It is <em>not</em> required that if two objects are unequal
-     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>
+     according to the <code>Object.equals(java.lang.Object)</code>
      method, then calling the <code>hashCode</code> method on each of the
      two objects must produce distinct integer results.  However, the
      programmer should be aware that producing distinct integer results
@@ -857,14 +857,14 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -874,8 +874,8 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;toString()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
  "textually represents" this object. The result should
@@ -895,9 +895,9 @@ public&nbsp;<a href="Range.html" title="class in com.google.common.collect">Rang
  </pre></blockquote></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="RangeSet.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="RangeSet.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>

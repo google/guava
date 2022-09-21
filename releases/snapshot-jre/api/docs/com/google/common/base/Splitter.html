@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.base.Splitter</li>
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/base/Splitter.html#line.102">Splitter</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
  a <i>separator</i> sequence. This separator can be specified as a single <a href="#on(char)">character</a>, fixed <a href="#on(java.lang.String)">string</a>, <a href="#onPattern(java.lang.String)">regular expression</a> or
  <a href="#on(com.google.common.base.CharMatcher)"><code>CharMatcher</code></a> instance. Or, instead of using a separator at all, a
@@ -283,45 +283,45 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static <a href="Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#on(java.lang.String)">on</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#on(java.lang.String)">on</a></span>&#8203;(java.lang.String&nbsp;separator)</code></th>
 <td class="colLast">
 <div class="block">Returns a splitter that uses the given fixed string as a separator.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static <a href="Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#on(java.util.regex.Pattern)">on</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a>&nbsp;separatorPattern)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#on(java.util.regex.Pattern)">on</a></span>&#8203;(java.util.regex.Pattern&nbsp;separatorPattern)</code></th>
 <td class="colLast">
 <div class="block">Returns a splitter that considers any subsequence matching <code>pattern</code> to be a separator.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static <a href="Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onPattern(java.lang.String)">onPattern</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separatorPattern)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onPattern(java.lang.String)">onPattern</a></span>&#8203;(java.lang.String&nbsp;separatorPattern)</code></th>
 <td class="colLast">
 <div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
  to be a separator.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#split(java.lang.CharSequence)">split</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</code></th>
+<td class="colFirst"><code>java.lang.Iterable&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#split(java.lang.CharSequence)">split</a></span>&#8203;(java.lang.CharSequence&nbsp;sequence)</code></th>
 <td class="colLast">
-<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a>, which may be lazily evaluated.</div>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <code>Iterator</code>, which may be lazily evaluated.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#splitToList(java.lang.CharSequence)">splitToList</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</code></th>
+<td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#splitToList(java.lang.CharSequence)">splitToList</a></span>&#8203;(java.lang.CharSequence&nbsp;sequence)</code></th>
 <td class="colLast">
 <div class="block">Splits <code>sequence</code> into string components and returns them as an immutable list.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#splitToStream(java.lang.CharSequence)">splitToStream</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</code></th>
+<td class="colFirst"><code>java.util.stream.Stream&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#splitToStream(java.lang.CharSequence)">splitToStream</a></span>&#8203;(java.lang.CharSequence&nbsp;sequence)</code></th>
 <td class="colLast">
-<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a>, which may be lazily evaluated.</div>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <code>Stream</code>, which may be lazily evaluated.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -359,7 +359,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withKeyValueSeparator(java.lang.String)">withKeyValueSeparator</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withKeyValueSeparator(java.lang.String)">withKeyValueSeparator</a></span>&#8203;(java.lang.String&nbsp;separator)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
@@ -370,8 +370,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -432,7 +432,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.172">on</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</pre>
+<pre class="methodSignature">public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.172">on</a>&#8203;(java.lang.String&nbsp;separator)</pre>
 <div class="block">Returns a splitter that uses the given fixed string as a separator. For example, <code>
  Splitter.on(", ").split("foo, bar,baz")</code> returns an iterable containing <code>["foo",
  "bar,baz"]</code>.</div>
@@ -451,7 +451,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>on</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.217">on</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex" class="externalLink">Pattern</a>&nbsp;separatorPattern)</pre>
+public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.217">on</a>&#8203;(java.util.regex.Pattern&nbsp;separatorPattern)</pre>
 <div class="block">Returns a splitter that considers any subsequence matching <code>pattern</code> to be a separator.
  For example, <code>Splitter.on(Pattern.compile("\r?\n")).split(entireFile)</code> splits a string
  into lines whether it uses DOS-style or UNIX-style line terminators.</div>
@@ -462,7 +462,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a splitter, with default settings, that uses this pattern</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>separatorPattern</code> matches the empty string</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>separatorPattern</code> matches the empty string</dd>
 </dl>
 </li>
 </ul>
@@ -473,7 +473,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <li class="blockList">
 <h4>onPattern</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.260">onPattern</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separatorPattern)</pre>
+public static&nbsp;<a href="Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.260">onPattern</a>&#8203;(java.lang.String&nbsp;separatorPattern)</pre>
 <div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
  to be a separator. For example, <code>Splitter.onPattern("\r?\n").split(entireFile)</code> splits a
  string into lines whether it uses DOS-style or UNIX-style line terminators. This is equivalent
@@ -485,7 +485,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a splitter, with default settings, that uses this pattern</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>separatorPattern</code> matches the empty string or is a
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>separatorPattern</code> matches the empty string or is a
      malformed expression</dd>
 </dl>
 </li>
@@ -515,7 +515,7 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a splitter, with default settings, that can split into fixed sized pieces</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>length</code> is zero or negative</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>length</code> is zero or negative</dd>
 </dl>
 </li>
 </ul>
@@ -615,8 +615,8 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>split</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.384">split</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
-<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a>, which may be lazily evaluated. If you want an eagerly computed <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a>, use
+<pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.384">split</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <code>Iterator</code>, which may be lazily evaluated. If you want an eagerly computed <code>List</code>, use
  <a href="#splitToList(java.lang.CharSequence)"><code>splitToList(CharSequence)</code></a>. Java 8 users may prefer <a href="#splitToStream(java.lang.CharSequence)"><code>splitToStream(java.lang.CharSequence)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -632,9 +632,9 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <ul class="blockList">
 <li class="blockList">
 <h4>splitToList</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.415">splitToList</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.415">splitToList</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and returns them as an immutable list. If you
- want an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> which may be lazily evaluated, use <a href="#split(java.lang.CharSequence)"><code>split(CharSequence)</code></a>.</div>
+ want an <code>Iterable</code> which may be lazily evaluated, use <a href="#split(java.lang.CharSequence)"><code>split(CharSequence)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>sequence</code> - the sequence of characters to split</dd>
@@ -652,8 +652,8 @@ public static&nbsp;<a href="Splitter.html" title="class in com.google.common.bas
 <li class="blockList">
 <h4>splitToStream</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.437">splitToStream</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;sequence)</pre>
-<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a>, which may be lazily evaluated. If you want an eagerly computed <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a>, use
+public&nbsp;java.util.stream.Stream&lt;java.lang.String&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.437">splitToStream</a>&#8203;(java.lang.CharSequence&nbsp;sequence)</pre>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <code>Stream</code>, which may be lazily evaluated. If you want an eagerly computed <code>List</code>, use
  <a href="#splitToList(java.lang.CharSequence)"><code>splitToList(CharSequence)</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -672,7 +672,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.449">withKeyValueSeparator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator)</pre>
+public&nbsp;<a href="Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.449">withKeyValueSeparator</a>&#8203;(java.lang.String&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>

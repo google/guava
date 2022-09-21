@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.io.BaseEncoding</li>
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public abstract class <a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.124">BaseEncoding</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
  strings. This class includes several constants for encoding schemes specified by <a href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
 
@@ -305,7 +305,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#canDecode(java.lang.CharSequence)">canDecode</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;chars)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#canDecode(java.lang.CharSequence)">canDecode</a></span>&#8203;(java.lang.CharSequence&nbsp;chars)</code></th>
 <td class="colLast">
 <div class="block">Determines whether the specified character sequence is a valid encoded string according to this
  encoding.</div>
@@ -313,7 +313,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>byte[]</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decode(java.lang.CharSequence)">decode</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;chars)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decode(java.lang.CharSequence)">decode</a></span>&#8203;(java.lang.CharSequence&nbsp;chars)</code></th>
 <td class="colLast">
 <div class="block">Decodes the specified character sequence, and returns the resulting <code>byte[]</code>.</div>
 </td>
@@ -327,22 +327,22 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decodingStream(java.io.Reader)">decodingStream</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</code></th>
+<td class="colFirst"><code>abstract java.io.InputStream</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#decodingStream(java.io.Reader)">decodingStream</a></span>&#8203;(java.io.Reader&nbsp;reader)</code></th>
 <td class="colLast">
 <div class="block">Returns an <code>InputStream</code> that decodes base-encoded input from the specified <code>
  Reader</code>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encode(byte%5B%5D)">encode</a></span>&#8203;(byte[]&nbsp;bytes)</code></th>
 <td class="colLast">
 <div class="block">Encodes the specified byte array, and returns the encoded <code>String</code>.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encode(byte%5B%5D,int,int)">encode</a></span>&#8203;(byte[]&nbsp;bytes,
       int&nbsp;off,
       int&nbsp;len)</code></th>
@@ -359,8 +359,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encodingStream(java.io.Writer)">encodingStream</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</code></th>
+<td class="colFirst"><code>abstract java.io.OutputStream</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encodingStream(java.io.Writer)">encodingStream</a></span>&#8203;(java.io.Writer&nbsp;writer)</code></th>
 <td class="colLast">
 <div class="block">Returns an <code>OutputStream</code> that encodes bytes using this encoding into the specified
  <code>Writer</code>.</div>
@@ -409,7 +409,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>abstract <a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withSeparator(java.lang.String,int)">withSeparator</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#withSeparator(java.lang.String,int)">withSeparator</a></span>&#8203;(java.lang.String&nbsp;separator,
              int&nbsp;n)</code></th>
 <td class="colLast">
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but adds a separator string
@@ -421,8 +421,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -446,7 +446,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>encode</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.148">encode</a>&#8203;(byte[]&nbsp;bytes)</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.148">encode</a>&#8203;(byte[]&nbsp;bytes)</pre>
 <div class="block">Encodes the specified byte array, and returns the encoded <code>String</code>.</div>
 </li>
 </ul>
@@ -456,9 +456,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>encode</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.156">encode</a>&#8203;(byte[]&nbsp;bytes,
-                           int&nbsp;off,
-                           int&nbsp;len)</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.156">encode</a>&#8203;(byte[]&nbsp;bytes,
+                                     int&nbsp;off,
+                                     int&nbsp;len)</pre>
 <div class="block">Encodes the specified range of the specified byte array, and returns the encoded <code>
  String</code>.</div>
 </li>
@@ -470,7 +470,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>encodingStream</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.172">encodingStream</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io" class="externalLink">Writer</a>&nbsp;writer)</pre>
+public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.172">encodingStream</a>&#8203;(java.io.Writer&nbsp;writer)</pre>
 <div class="block">Returns an <code>OutputStream</code> that encodes bytes using this encoding into the specified
  <code>Writer</code>. When the returned <code>OutputStream</code> is closed, so is the backing <code>
  Writer</code>.</div>
@@ -493,7 +493,7 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <ul class="blockList">
 <li class="blockList">
 <h4>canDecode</h4>
-<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.206">canDecode</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;chars)</pre>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.206">canDecode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Determines whether the specified character sequence is a valid encoded string according to this
  encoding.</div>
 <dl>
@@ -508,12 +508,12 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <ul class="blockList">
 <li class="blockList">
 <h4>decode</h4>
-<pre class="methodSignature">public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.215">decode</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang" class="externalLink">CharSequence</a>&nbsp;chars)</pre>
+<pre class="methodSignature">public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.215">decode</a>&#8203;(java.lang.CharSequence&nbsp;chars)</pre>
 <div class="block">Decodes the specified character sequence, and returns the resulting <code>byte[]</code>. This is the
  inverse operation to <a href="#encode(byte%5B%5D)"><code>encode(byte[])</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the input is not a valid encoded string according to this
+<dd><code>java.lang.IllegalArgumentException</code> - if the input is not a valid encoded string according to this
      encoding.</dd>
 </dl>
 </li>
@@ -525,7 +525,7 @@ public final&nbsp;<a href="ByteSink.html" title="class in com.google.common.io">
 <li class="blockList">
 <h4>decodingStream</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.242">decodingStream</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;reader)</pre>
+public abstract&nbsp;java.io.InputStream&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.242">decodingStream</a>&#8203;(java.io.Reader&nbsp;reader)</pre>
 <div class="block">Returns an <code>InputStream</code> that decodes base-encoded input from the specified <code>
  Reader</code>. The returned stream throws a <a href="BaseEncoding.DecodingException.html" title="class in com.google.common.io"><code>BaseEncoding.DecodingException</code></a> upon decoding-specific errors.</div>
 </li>
@@ -565,7 +565,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
  for padding.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if this padding character is already used in the alphabet or a
+<dd><code>java.lang.IllegalArgumentException</code> - if this padding character is already used in the alphabet or a
      separator</dd>
 </dl>
 </li>
@@ -576,16 +576,16 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
 <ul class="blockList">
 <li class="blockList">
 <h4>withSeparator</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.301">withSeparator</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;separator,
+<pre class="methodSignature">public abstract&nbsp;<a href="BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.301">withSeparator</a>&#8203;(java.lang.String&nbsp;separator,
                                            int&nbsp;n)</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but adds a separator string
  after every <code>n</code> characters. Any occurrences of any characters that occur in the separator
  are skipped over in decoding.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if any alphabet or padding characters appear in the separator
+<dd><code>java.lang.IllegalArgumentException</code> - if any alphabet or padding characters appear in the separator
      string, or if <code>n &lt;= 0</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - if this encoding already uses a separator</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - if this encoding already uses a separator</dd>
 </dl>
 </li>
 </ul>
@@ -600,7 +600,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
  uppercase letters. Padding and separator characters remain in their original case.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
+<dd><code>java.lang.IllegalStateException</code> - if the alphabet used by this encoding contains mixed upper- and
      lower-case characters</dd>
 </dl>
 </li>
@@ -616,7 +616,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
  lowercase letters. Padding and separator characters remain in their original case.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
+<dd><code>java.lang.IllegalStateException</code> - if the alphabet used by this encoding contains mixed upper- and
      lower-case characters</dd>
 </dl>
 </li>
@@ -632,7 +632,7 @@ public final&nbsp;<a href="ByteSource.html" title="class in com.google.common.io
  regard to case.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
+<dd><code>java.lang.IllegalStateException</code> - if the alphabet used by this encoding contains mixed upper- and
      lower-case characters</dd>
 </dl>
 </li>

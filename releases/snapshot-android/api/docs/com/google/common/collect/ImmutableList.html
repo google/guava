@@ -120,10 +120,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a>&lt;E&gt;</li>
+<li>java.util.AbstractCollection&lt;E&gt;</li>
 <li>
 <ul class="inheritance">
 <li><a href="ImmutableCollection.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableCollection</a>&lt;E&gt;</li>
@@ -142,15 +142,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink">RandomAccess</a></code></dd>
+<dd><code>java.io.Serializable</code>, <code>java.lang.Iterable&lt;E&gt;</code>, <code>java.util.Collection&lt;E&gt;</code>, <code>java.util.List&lt;E&gt;</code>, <code>java.util.RandomAccess</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.58">ImmutableList</a>&lt;E&gt;
 extends <a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink">RandomAccess</a></pre>
-<div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> whose contents will never change, with many other important properties detailed at
+implements java.util.List&lt;E&gt;, java.util.RandomAccess</pre>
+<div class="block">A <code>List</code> whose contents will never change, with many other important properties detailed at
  <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.</div>
@@ -223,7 +223,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(int,java.util.Collection)">addAll</a></span>&#8203;(int&nbsp;index,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</code></th>
+      java.util.Collection&lt;? extends <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -255,7 +255,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Object)">contains</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this collection contains the specified element.</div>
 </td>
@@ -269,28 +269,28 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Collection)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Collection)">copyOf</a></span>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Iterator)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Iterator)">copyOf</a></span>&#8203;(java.util.Iterator&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
 <td class="colLast">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </td>
@@ -304,7 +304,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(java.lang.Object)">indexOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(java.lang.Object)">indexOf</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Returns the index of the first occurrence of the specified element
  in this list, or -1 if this list does not contain the element.</div>
@@ -319,7 +319,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastIndexOf(java.lang.Object)">lastIndexOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastIndexOf(java.lang.Object)">lastIndexOf</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Returns the index of the last occurrence of the specified element
  in this list, or -1 if this list does not contain the element.</div>
@@ -526,8 +526,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </td>
 </tr>
 <tr id="i33" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortedCopyOf(java.lang.Iterable)">sortedCopyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortedCopyOf(java.lang.Iterable)">sortedCopyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing the given elements, sorted according to their natural
  order.</div>
@@ -535,8 +535,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortedCopyOf(java.util.Comparator,java.lang.Iterable)">sortedCopyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
-            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sortedCopyOf(java.util.Comparator,java.lang.Iterable)">sortedCopyOf</a></span>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
+            java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable list containing the given elements, in sorted order relative to the
  specified comparator.</div>
@@ -563,36 +563,36 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <li class="blockList"><a id="methods.inherited.from.class.java.util.AbstractCollection">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util" class="externalLink">AbstractCollection</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#toString()" title="class or interface in java.util" class="externalLink">toString</a></code></li>
+<h3>Methods inherited from class&nbsp;java.util.AbstractCollection</h3>
+<code>containsAll, isEmpty, size, toString</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Collection">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#parallelStream()" title="class or interface in java.util" class="externalLink">parallelStream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeIf(java.util.function.Predicate)" title="class or interface in java.util" class="externalLink">removeIf</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream()" title="class or interface in java.util" class="externalLink">stream</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray(java.util.function.IntFunction)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.Collection</h3>
+<code>parallelStream, removeIf, stream, toArray</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Iterable">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="externalLink">forEach</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.lang.Iterable</h3>
+<code>forEach</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.List">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#add(E)" title="class or interface in java.util" class="externalLink">add</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">containsAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#get(int)" title="class or interface in java.util" class="externalLink">get</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">removeAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#replaceAll(java.util.function.UnaryOperator)" title="class or interface in java.util" class="externalLink">replaceAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink">retainAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#sort(java.util.Comparator)" title="class or interface in java.util" class="externalLink">sort</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#spliterator()" title="class or interface in java.util" class="externalLink">spliterator</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#toArray()" title="class or interface in java.util" class="externalLink">toArray</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#toArray(T%5B%5D)" title="class or interface in java.util" class="externalLink">toArray</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.List</h3>
+<code>add, addAll, clear, containsAll, get, isEmpty, remove, removeAll, replaceAll, retainAll, size, sort, spliterator, toArray, toArray</code></li>
 </ul>
 </li>
 </ul>
@@ -617,7 +617,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.71">of</a>()</pre>
-<div class="block">Returns the empty immutable list. This list behaves and performs comparably to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptyList()" title="class or interface in java.util" class="externalLink"><code>Collections.emptyList()</code></a>, and is preferable mainly for consistency and maintainability of your
+<div class="block">Returns the empty immutable list. This list behaves and performs comparably to <code>Collections.emptyList()</code>, and is preferable mainly for consistency and maintainability of your
  code.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -639,7 +639,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <h4>of</h4>
 <pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.83">of</a>&#8203;(E&nbsp;element)</pre>
 <div class="block">Returns an immutable list containing a single element. This list behaves and performs
- comparably to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#singletonList(T)" title="class or interface in java.util" class="externalLink"><code>Collections.singletonList(T)</code></a>, but will not accept a null element. It is
+ comparably to <code>Collections.singletonList(T)</code>, but will not accept a null element. It is
  preferable mainly for consistency and maintainability of your code.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -649,7 +649,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified element</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if <code>element</code> is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if <code>element</code> is null</dd>
 </dl>
 </li>
 </ul>
@@ -673,7 +673,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -699,7 +699,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -727,7 +727,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -757,7 +757,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -789,7 +789,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -823,7 +823,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -859,7 +859,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -897,7 +897,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -937,7 +937,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the specified elements</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -963,7 +963,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 </dl>
 </li>
 </ul>
@@ -975,7 +975,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
+<pre class="methodSignature">@SafeVarargs
 public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.190">of</a>&#8203;(E&nbsp;e1,
                                       E&nbsp;e2,
                                       E&nbsp;e3,
@@ -994,7 +994,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  <p>The array <code>others</code> must not be longer than <code>Integer.MAX_VALUE - 12</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.0 (source-compatible since 2.0)</dd>
 </dl>
@@ -1006,13 +1006,13 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.219">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.219">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order. If <code>elements</code> is a
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a>, this method behaves exactly as <a href="#copyOf(java.util.Collection)"><code>copyOf(Collection)</code></a>; otherwise, it
+ <code>Collection</code>, this method behaves exactly as <a href="#copyOf(java.util.Collection)"><code>copyOf(Collection)</code></a>; otherwise, it
  behaves exactly as <code>copyOf(elements.iterator()</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if <code>elements</code> contains a null element</dd>
+<dd><code>java.lang.NullPointerException</code> - if <code>elements</code> contains a null element</dd>
 </dl>
 </li>
 </ul>
@@ -1022,7 +1022,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.243">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.243">copyOf</a>&#8203;(java.util.Collection&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.
 
  <p>Despite the method name, this method attempts to avoid actually copying the data when it is
@@ -1044,7 +1044,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>List</code> containing the elements of the given <code>Collection</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if <code>elements</code> contains a null element</dd>
+<dd><code>java.lang.NullPointerException</code> - if <code>elements</code> contains a null element</dd>
 </dl>
 </li>
 </ul>
@@ -1054,11 +1054,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.257">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.257">copyOf</a>&#8203;(java.util.Iterator&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if <code>elements</code> contains a null element</dd>
+<dd><code>java.lang.NullPointerException</code> - if <code>elements</code> contains a null element</dd>
 </dl>
 </li>
 </ul>
@@ -1074,7 +1074,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <div class="block">Returns an immutable list containing the given elements, in order.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if <code>elements</code> contains a null element</dd>
+<dd><code>java.lang.NullPointerException</code> - if <code>elements</code> contains a null element</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.0</dd>
 </dl>
@@ -1086,7 +1086,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.297">sortedCopyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.297">sortedCopyOf</a>&#8203;(java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, sorted according to their natural
  order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
  order in which they appear in the input.
@@ -1095,11 +1095,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  ImmutableSortedSet.copyOf(elements)</code>; if you want a <code>List</code> you can use its <code>
  asList()</code> view.
 
- <p><b>Java 8 users:</b> If you want to convert a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> to a sorted
+ <p><b>Java 8 users:</b> If you want to convert a <code>Stream</code> to a sorted
  <code>ImmutableList</code>, use <code>stream.sorted().collect(toImmutableList())</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element in the input is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element in the input is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
 </dl>
@@ -1111,8 +1111,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.320">sortedCopyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
-                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.320">sortedCopyOf</a>&#8203;(java.util.Comparator&lt;? super E&gt;&nbsp;comparator,
+                                                java.lang.Iterable&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable list containing the given elements, in sorted order relative to the
  specified comparator. The sorting algorithm used is stable, so elements that compare as equal
  will stay in the order in which they appear in the input.
@@ -1121,11 +1121,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  ImmutableSortedSet.copyOf(comparator, elements)</code>; if you want a <code>List</code> you can use its
  <code>asList()</code> view.
 
- <p><b>Java 8 users:</b> If you want to convert a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> to a sorted
+ <p><b>Java 8 users:</b> If you want to convert a <code>Stream</code> to a sorted
  <code>ImmutableList</code>, use <code>stream.sorted(comparator).collect(toImmutableList())</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any element in the input is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any element in the input is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>21.0</dd>
 </dl>
@@ -1142,11 +1142,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#iterator()" title="class or interface in java.util" class="externalLink">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ImmutableCollection.html#iterator()">iterator</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1161,12 +1161,12 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>listIterator</h4>
 <pre class="methodSignature">public&nbsp;<a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.361">listIterator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator()" title="class or interface in java.util" class="externalLink">java.util.List</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
 <div class="block">Returns a list iterator over the elements in this list (in proper
  sequence).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator()" title="class or interface in java.util" class="externalLink">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a list iterator over the elements in this list (in proper
          sequence)</dd>
@@ -1180,19 +1180,19 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>listIterator</h4>
 <pre class="methodSignature">public&nbsp;<a href="UnmodifiableListIterator.html" title="class in com.google.common.collect">UnmodifiableListIterator</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.366">listIterator</a>&#8203;(int&nbsp;index)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator(int)" title="class or interface in java.util" class="externalLink">java.util.List</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
 <div class="block">Returns a list iterator over the elements in this list (in proper
  sequence), starting at the specified position in the list.
  The specified index indicates the first element that would be
- returned by an initial call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next()" title="class or interface in java.util" class="externalLink"><code>next</code></a>.
- An initial call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous()" title="class or interface in java.util" class="externalLink"><code>previous</code></a> would
+ returned by an initial call to <code>next</code>.
+ An initial call to <code>previous</code> would
  return the element with the specified index minus one.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#listIterator(int)" title="class or interface in java.util" class="externalLink">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>listIterator</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - index of the first element to be returned from the
-        list iterator (by a call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next()" title="class or interface in java.util" class="externalLink"><code>next</code></a>)</dd>
+        list iterator (by a call to <code>next</code>)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a list iterator over the elements in this list (in proper
          sequence), starting at the specified position in the list</dd>
@@ -1206,8 +1206,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>indexOf</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.395">indexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#indexOf(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.List</a></code></span></div>
+                   java.lang.Object&nbsp;object)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
 <div class="block">Returns the index of the first occurrence of the specified element
  in this list, or -1 if this list does not contain the element.
  More formally, returns the lowest index <code>i</code> such that
@@ -1215,7 +1215,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  or -1 if there is no such index.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#indexOf(java.lang.Object)" title="class or interface in java.util" class="externalLink">indexOf</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>indexOf</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>object</code> - element to search for</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1231,8 +1231,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>lastIndexOf</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.400">lastIndexOf</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#lastIndexOf(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.List</a></code></span></div>
+                       java.lang.Object&nbsp;object)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.List</code></span></div>
 <div class="block">Returns the index of the last occurrence of the specified element
  in this list, or -1 if this list does not contain the element.
  More formally, returns the highest index <code>i</code> such that
@@ -1240,7 +1240,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  or -1 if there is no such index.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#lastIndexOf(java.lang.Object)" title="class or interface in java.util" class="externalLink">lastIndexOf</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>lastIndexOf</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>object</code> - element to search for</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1256,17 +1256,17 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>contains</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.405">contains</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractCollection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.AbstractCollection</a></code></span></div>
+                        java.lang.Object&nbsp;object)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.util.AbstractCollection</code></span></div>
 <div class="block">Returns <code>true</code> if this collection contains the specified element.
  More formally, returns <code>true</code> if and only if this collection
  contains at least one element <code>e</code> such that
  <code>Objects.equals(o, e)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink">contains</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>contains</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="ImmutableCollection.html#contains(java.lang.Object)">contains</a></code>&nbsp;in class&nbsp;<code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1290,7 +1290,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
  immutable list is returned.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#subList(int,int)" title="class or interface in java.util" class="externalLink">subList</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>subList</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>fromIndex</code> - low endpoint (inclusive) of the subList</dd>
 <dd><code>toIndex</code> - high endpoint (exclusive) of the subList</dd>
@@ -1306,16 +1306,16 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="ImmutableList.html" title="class in c
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.493">addAll</a>&#8203;(int&nbsp;index,
-                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;? extends <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</pre>
+                            java.util.Collection&lt;? extends <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;newElements)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#addAll(int,java.util.Collection)" title="class or interface in java.util" class="externalLink">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>addAll</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - index at which to insert the first element from the
               specified collection</dd>
@@ -1323,7 +1323,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this list changed as a result of the call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1336,7 +1336,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <li class="blockList">
 <h4>set</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.507">set</a>&#8203;(int&nbsp;index,
                    <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1345,14 +1345,14 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#set(int,E)" title="class or interface in java.util" class="externalLink">set</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>set</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - index of the element to replace</dd>
 <dd><code>element</code> - element to be stored at the specified position</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element previously at the specified position</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1364,7 +1364,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.521">add</a>&#8203;(int&nbsp;index,
                       <a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;element)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
@@ -1373,12 +1373,12 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#add(int,E)" title="class or interface in java.util" class="externalLink">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - index at which the specified element is to be inserted</dd>
 <dd><code>element</code> - element to be inserted</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1389,7 +1389,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>remove</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 public final&nbsp;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.534">remove</a>&#8203;(int&nbsp;index)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1397,13 +1397,13 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <div class="block">Guaranteed to throw an exception and leave the list unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#remove(int)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - the index of the element to be removed</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element previously at the specified position</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1414,7 +1414,7 @@ public final&nbsp;<a href="ImmutableList.html" title="type parameter in Immutabl
 <li class="blockList">
 <h4>asList</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html?is-external=true#replacement()" title="class or interface in com.google.errorprone.annotations" class="externalLink">replacement</a>="this")
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.548">asList</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">There is no reason to use this; it always returns <code>this</code>.</div>
@@ -1452,8 +1452,8 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.636">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;obj)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+                      java.lang.Object&nbsp;obj)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
  The <code>equals</code> method implements an equivalence relation
@@ -1494,19 +1494,19 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
  that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>obj</code> - the reference object with which to compare.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this object is the same as the obj
           argument; <code>false</code> otherwise.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a></dd>
+<dd><code>Object.hashCode()</code>, 
+<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1517,10 +1517,10 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableList.html#line.641">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a>.
+ <code>HashMap</code>.
  <p>
  The general contract of <code>hashCode</code> is:
  <ul>
@@ -1534,7 +1534,7 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
      method, then calling the <code>hashCode</code> method on each of
      the two objects must produce the same integer result.
  <li>It is <em>not</em> required that if two objects are unequal
-     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>
+     according to the <code>Object.equals(java.lang.Object)</code>
      method, then calling the <code>hashCode</code> method on each of the
      two objects must produce distinct integer results.  However, the
      programmer should be aware that producing distinct integer results
@@ -1548,16 +1548,16 @@ public final&nbsp;<a href="ImmutableList.html" title="class in com.google.common
  in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Collection&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
+<dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.List&lt;<a href="ImmutableList.html" title="type parameter in ImmutableList">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>

@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.Uninterruptibles</li>
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.45">Uninterruptibles</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
  interrupted during such a call, the call continues to block until the result is available or the
  timeout elapses, and only then re-interrupts the thread.</div>
@@ -165,131 +165,131 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)">awaitTerminationUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;executor)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>executor.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#awaitTermination(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>awaitTermination(long, TimeUnit)</code></a> uninterruptibly with no timeout.</div>
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">awaitTerminationUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;executor,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminationUninterruptibly(java.util.concurrent.ExecutorService,long,java.util.concurrent.TimeUnit)">awaitTerminationUninterruptibly</a></span>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                long&nbsp;timeout,
-                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                               java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>executor.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#awaitTermination(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>awaitTermination(long, TimeUnit)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.CountDownLatch)">awaitUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CountDownLatch</a>&nbsp;latch)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.CountDownLatch)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>latch.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await()" title="class or interface in java.util.concurrent" class="externalLink"><code>await()</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.CountDownLatch,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CountDownLatch</a>&nbsp;latch,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.CountDownLatch,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                     long&nbsp;timeout,
-                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>latch.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>await(timeout, unit)</code></a>
+<div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.locks.Condition,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">Condition</a>&nbsp;condition,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitUninterruptibly(java.util.concurrent.locks.Condition,long,java.util.concurrent.TimeUnit)">awaitUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                     long&nbsp;timeout,
-                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>await(timeout, unit)</code></a>
+<div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>V</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUninterruptibly(java.util.concurrent.Future)">getUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;&nbsp;future)</code></th>
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUninterruptibly(java.util.concurrent.Future)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>future.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent" class="externalLink"><code>get()</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>future.</code><code>get()</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>V</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUninterruptibly(java.util.concurrent.Future,long,java.util.concurrent.TimeUnit)">getUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;&nbsp;future,
+<td class="colFirst"><code>static &lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>V</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUninterruptibly(java.util.concurrent.Future,long,java.util.concurrent.TimeUnit)">getUninterruptibly</a></span>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
                   long&nbsp;timeout,
-                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                  java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>future.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>get(timeout, unit)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#joinUninterruptibly(java.lang.Thread)">joinUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;toJoin)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#joinUninterruptibly(java.lang.Thread)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>toJoin.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true#join()" title="class or interface in java.lang" class="externalLink"><code>join()</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>toJoin.</code><code>join()</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#joinUninterruptibly(java.lang.Thread,long,java.util.concurrent.TimeUnit)">joinUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;toJoin,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#joinUninterruptibly(java.lang.Thread,long,java.util.concurrent.TimeUnit)">joinUninterruptibly</a></span>&#8203;(java.lang.Thread&nbsp;toJoin,
                    long&nbsp;timeout,
-                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                   java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>unit.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#timedJoin(java.lang.Thread,long)" title="class or interface in java.util.concurrent" class="externalLink"><code>timedJoin(toJoin, timeout)</code></a>
+<div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
  uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putUninterruptibly(java.util.concurrent.BlockingQueue,E)">putUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;queue,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putUninterruptibly(java.util.concurrent.BlockingQueue,E)">putUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
                   E&nbsp;element)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent" class="externalLink"><code>put(element)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>queue.</code><code>put(element)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sleepUninterruptibly(long,java.util.concurrent.TimeUnit)">sleepUninterruptibly</a></span>&#8203;(long&nbsp;sleepFor,
-                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>unit.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#sleep(long)" title="class or interface in java.util.concurrent" class="externalLink"><code>sleep(sleepFor)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;E</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#takeUninterruptibly(java.util.concurrent.BlockingQueue)">takeUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;queue)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#takeUninterruptibly(java.util.concurrent.BlockingQueue)">takeUninterruptibly</a></span>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent" class="externalLink"><code>take()</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>queue.</code><code>take()</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Semaphore</a>&nbsp;semaphore,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,int,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          int&nbsp;permits,
                          long&nbsp;timeout,
-                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>semaphore.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>tryAcquire(permits,
- timeout, unit)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
+ timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Semaphore</a>&nbsp;semaphore,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">tryAcquireUninterruptibly</a></span>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                          long&nbsp;timeout,
-                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>semaphore.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>tryAcquire(1,
- timeout, unit)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
+ timeout, unit)</code> uninterruptibly.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryLockUninterruptibly(java.util.concurrent.locks.Lock,long,java.util.concurrent.TimeUnit)">tryLockUninterruptibly</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">Lock</a>&nbsp;lock,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryLockUninterruptibly(java.util.concurrent.locks.Lock,long,java.util.concurrent.TimeUnit)">tryLockUninterruptibly</a></span>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                       long&nbsp;timeout,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                      java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
-<div class="block">Invokes <code>lock.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Lock.html?is-external=true#tryLock(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>tryLock(timeout, unit)</code></a>
+<div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
  uninterruptibly.</div>
 </td>
 </tr>
@@ -298,8 +298,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -324,8 +324,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.53">awaitUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CountDownLatch</a>&nbsp;latch)</pre>
-<div class="block">Invokes <code>latch.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await()" title="class or interface in java.util.concurrent" class="externalLink"><code>await()</code></a> uninterruptibly.</div>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.53">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch)</pre>
+<div class="block">Invokes <code>latch.</code><code>await()</code> uninterruptibly.</div>
 </li>
 </ul>
 <a id="awaitUninterruptibly(java.util.concurrent.CountDownLatch,long,java.util.concurrent.TimeUnit)">
@@ -335,10 +335,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.76">awaitUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CountDownLatch</a>&nbsp;latch,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.76">awaitUninterruptibly</a>&#8203;(java.util.concurrent.CountDownLatch&nbsp;latch,
                                            long&nbsp;timeout,
-                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>latch.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>await(timeout, unit)</code></a>
+                                           java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>latch.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
 </li>
 </ul>
@@ -349,10 +349,10 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.106">awaitUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">Condition</a>&nbsp;condition,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.106">awaitUninterruptibly</a>&#8203;(java.util.concurrent.locks.Condition&nbsp;condition,
                                            long&nbsp;timeout,
-                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>await(timeout, unit)</code></a>
+                                           java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>condition.</code><code>await(timeout, unit)</code>
  uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -367,8 +367,8 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.130">joinUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;toJoin)</pre>
-<div class="block">Invokes <code>toJoin.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true#join()" title="class or interface in java.lang" class="externalLink"><code>join()</code></a> uninterruptibly.</div>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.130">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin)</pre>
+<div class="block">Invokes <code>toJoin.</code><code>join()</code> uninterruptibly.</div>
 </li>
 </ul>
 <a id="joinUninterruptibly(java.lang.Thread,long,java.util.concurrent.TimeUnit)">
@@ -378,10 +378,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.153">joinUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;toJoin,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.153">joinUninterruptibly</a>&#8203;(java.lang.Thread&nbsp;toJoin,
                                        long&nbsp;timeout,
-                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>unit.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#timedJoin(java.lang.Thread,long)" title="class or interface in java.util.concurrent" class="externalLink"><code>timedJoin(toJoin, timeout)</code></a>
+                                       java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>unit.</code><code>timedJoin(toJoin, timeout)</code>
  uninterruptibly.</div>
 </li>
 </ul>
@@ -392,21 +392,21 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>getUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.195">getUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;&nbsp;future)
-                                                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></pre>
-<div class="block">Invokes <code>future.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent" class="externalLink"><code>get()</code></a> uninterruptibly.
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.195">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future)
+                                                                   throws java.util.concurrent.ExecutionException</pre>
+<div class="block">Invokes <code>future.</code><code>get()</code> uninterruptibly.
 
  <p>Similar methods:
 
  <ul>
    <li>To retrieve a result from a <code>Future</code> that is already done, use <a href="Futures.html#getDone(java.util.concurrent.Future)"><code>Futures.getDone</code></a>.
-   <li>To treat <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>InterruptedException</code></a> uniformly with other exceptions, use <a href="Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)"><code>Futures.getChecked</code></a>.
+   <li>To treat <code>InterruptedException</code> uniformly with other exceptions, use <a href="Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)"><code>Futures.getChecked</code></a>.
    <li>To get uninterruptibility and remove checked exceptions, use <a href="Futures.html#getUnchecked(java.util.concurrent.Future)"><code>Futures.getUnchecked(java.util.concurrent.Future&lt;V&gt;)</code></a>.
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if the computation threw an exception</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CancellationException</a></code> - if the computation was cancelled</dd>
+<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an exception</dd>
+<dd><code>java.util.concurrent.CancellationException</code> - if the computation was cancelled</dd>
 </dl>
 </li>
 </ul>
@@ -418,25 +418,25 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <h4>getUninterruptibly</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.233">getUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Future</a>&lt;V&gt;&nbsp;future,
-                                                                long&nbsp;timeout,
-                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                                                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a>,
-                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
-<div class="block">Invokes <code>future.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>get(timeout, unit)</code></a> uninterruptibly.
+public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.233">getUninterruptibly</a>&#8203;(java.util.concurrent.Future&lt;V&gt;&nbsp;future,
+                                                                          long&nbsp;timeout,
+                                                                          java.util.concurrent.TimeUnit&nbsp;unit)
+                                                                   throws java.util.concurrent.ExecutionException,
+                                                                          java.util.concurrent.TimeoutException</pre>
+<div class="block">Invokes <code>future.</code><code>get(timeout, unit)</code> uninterruptibly.
 
  <p>Similar methods:
 
  <ul>
    <li>To retrieve a result from a <code>Future</code> that is already done, use <a href="Futures.html#getDone(java.util.concurrent.Future)"><code>Futures.getDone</code></a>.
-   <li>To treat <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>InterruptedException</code></a> uniformly with other exceptions, use <a href="Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,long,java.util.concurrent.TimeUnit)"><code>Futures.getChecked</code></a>.
+   <li>To treat <code>InterruptedException</code> uniformly with other exceptions, use <a href="Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class,long,java.util.concurrent.TimeUnit)"><code>Futures.getChecked</code></a>.
    <li>To get uninterruptibility and remove checked exceptions, use <a href="Futures.html#getUnchecked(java.util.concurrent.Future)"><code>Futures.getUnchecked(java.util.concurrent.Future&lt;V&gt;)</code></a>.
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutionException</a></code> - if the computation threw an exception</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">CancellationException</a></code> - if the computation was cancelled</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the wait timed out</dd>
+<dd><code>java.util.concurrent.ExecutionException</code> - if the computation threw an exception</dd>
+<dd><code>java.util.concurrent.CancellationException</code> - if the computation was cancelled</dd>
+<dd><code>java.util.concurrent.TimeoutException</code> - if the wait timed out</dd>
 </dl>
 </li>
 </ul>
@@ -447,8 +447,8 @@ public static&nbsp;&lt;V extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>takeUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.261">takeUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;queue)</pre>
-<div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent" class="externalLink"><code>take()</code></a> uninterruptibly.</div>
+public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.261">takeUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue)</pre>
+<div class="block">Invokes <code>queue.</code><code>take()</code> uninterruptibly.</div>
 </li>
 </ul>
 <a id="putUninterruptibly(java.util.concurrent.BlockingQueue,java.lang.Object)">
@@ -460,14 +460,14 @@ public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/go
 <li class="blockList">
 <h4>putUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.287">putUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">BlockingQueue</a>&lt;E&gt;&nbsp;queue,
+public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.287">putUninterruptibly</a>&#8203;(java.util.concurrent.BlockingQueue&lt;E&gt;&nbsp;queue,
                                           E&nbsp;element)</pre>
-<div class="block">Invokes <code>queue.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent" class="externalLink"><code>put(element)</code></a> uninterruptibly.</div>
+<div class="block">Invokes <code>queue.</code><code>put(element)</code> uninterruptibly.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if the class of the specified element prevents it from being added
+<dd><code>java.lang.ClassCastException</code> - if the class of the specified element prevents it from being added
      to the given queue</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if some property of the specified element prevents it from
+<dd><code>java.lang.IllegalArgumentException</code> - if some property of the specified element prevents it from
      being added to the given queue</dd>
 </dl>
 </li>
@@ -480,8 +480,8 @@ public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <h4>sleepUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.308">sleepUninterruptibly</a>&#8203;(long&nbsp;sleepFor,
-                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>unit.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#sleep(long)" title="class or interface in java.util.concurrent" class="externalLink"><code>sleep(sleepFor)</code></a> uninterruptibly.</div>
+                                        java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>unit.</code><code>sleep(sleepFor)</code> uninterruptibly.</div>
 </li>
 </ul>
 <a id="tryAcquireUninterruptibly(java.util.concurrent.Semaphore,long,java.util.concurrent.TimeUnit)">
@@ -491,11 +491,11 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.338">tryAcquireUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Semaphore</a>&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.338">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 long&nbsp;timeout,
-                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>semaphore.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>tryAcquire(1,
- timeout, unit)</code></a> uninterruptibly.</div>
+                                                java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(1,
+ timeout, unit)</code> uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18.0</dd>
@@ -509,12 +509,12 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.351">tryAcquireUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Semaphore</a>&nbsp;semaphore,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.351">tryAcquireUninterruptibly</a>&#8203;(java.util.concurrent.Semaphore&nbsp;semaphore,
                                                 int&nbsp;permits,
                                                 long&nbsp;timeout,
-                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>semaphore.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>tryAcquire(permits,
- timeout, unit)</code></a> uninterruptibly.</div>
+                                                java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>semaphore.</code><code>tryAcquire(permits,
+ timeout, unit)</code> uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>18.0</dd>
@@ -528,10 +528,10 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>tryLockUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.382">tryLockUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Lock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink">Lock</a>&nbsp;lock,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.382">tryLockUninterruptibly</a>&#8203;(java.util.concurrent.locks.Lock&nbsp;lock,
                                              long&nbsp;timeout,
-                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>lock.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Lock.html?is-external=true#tryLock(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>tryLock(timeout, unit)</code></a>
+                                             java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>lock.</code><code>tryLock(timeout, unit)</code>
  uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -546,8 +546,8 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <li class="blockList">
 <h4>awaitTerminationUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.411">awaitTerminationUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;executor)</pre>
-<div class="block">Invokes <code>executor.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#awaitTermination(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>awaitTermination(long, TimeUnit)</code></a> uninterruptibly with no timeout.</div>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.411">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor)</pre>
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly with no timeout.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>30.0</dd>
@@ -561,10 +561,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>awaitTerminationUninterruptibly</h4>
 <pre class="methodSignature"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.423">awaitTerminationUninterruptibly</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">ExecutorService</a>&nbsp;executor,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.423">awaitTerminationUninterruptibly</a>&#8203;(java.util.concurrent.ExecutorService&nbsp;executor,
                                                       long&nbsp;timeout,
-                                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Invokes <code>executor.</code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#awaitTermination(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="externalLink"><code>awaitTermination(long, TimeUnit)</code></a> uninterruptibly.</div>
+                                                      java.util.concurrent.TimeUnit&nbsp;unit)</pre>
+<div class="block">Invokes <code>executor.</code><code>awaitTermination(long, TimeUnit)</code> uninterruptibly.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>30.0</dd>

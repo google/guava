@@ -120,13 +120,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">java.io.OutputStream</a></li>
+<li>java.io.OutputStream</li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></li>
+<li>java.io.FilterOutputStream</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.hash.HashingOutputStream</li>
@@ -142,13 +142,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io" class="externalLink">Flushable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
+<dd><code>java.io.Closeable</code>, <code>java.io.Flushable</code>, <code>java.lang.AutoCloseable</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 public final class <a href="../../../../src-html/com/google/common/hash/HashingOutputStream.html#line.30">HashingOutputStream</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></pre>
-<div class="block">An <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> that maintains a hash of the data written to it.</div>
+extends java.io.FilterOutputStream</pre>
+<div class="block">An <code>OutputStream</code> that maintains a hash of the data written to it.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>16.0</dd>
@@ -172,8 +172,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <li class="blockList"><a id="fields.inherited.from.class.java.io.FilterOutputStream">
 <!--   -->
 </a>
-<h3>Fields inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#out" title="class or interface in java.io" class="externalLink">out</a></code></li>
+<h3>Fields inherited from class&nbsp;java.io.FilterOutputStream</h3>
+<code>out</code></li>
 </ul>
 </li>
 </ul>
@@ -193,10 +193,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(com.google.common.hash.HashFunction,java.io.OutputStream)">HashingOutputStream</a></span>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
-                   <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;out)</code></th>
+                   java.io.OutputStream&nbsp;out)</code></th>
 <td class="colLast">
 <div class="block">Creates an output stream that hashes using the given <a href="HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a>, and forwards all
- data written to it to the underlying <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a>.</div>
+ data written to it to the underlying <code>OutputStream</code>.</div>
 </td>
 </tr>
 </table>
@@ -255,22 +255,22 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <li class="blockList"><a id="methods.inherited.from.class.java.io.FilterOutputStream">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#flush()" title="class or interface in java.io" class="externalLink">flush</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D)" title="class or interface in java.io" class="externalLink">write</a></code></li>
+<h3>Methods inherited from class&nbsp;java.io.FilterOutputStream</h3>
+<code>flush, write</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.io.OutputStream">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true#nullOutputStream()" title="class or interface in java.io" class="externalLink">nullOutputStream</a></code></li>
+<h3>Methods inherited from class&nbsp;java.io.OutputStream</h3>
+<code>nullOutputStream</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -295,11 +295,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <li class="blockList">
 <h4>HashingOutputStream</h4>
 <pre>public&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingOutputStream.html#line.45">HashingOutputStream</a>&#8203;(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
-                           <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;out)</pre>
+                           java.io.OutputStream&nbsp;out)</pre>
 <div class="block">Creates an output stream that hashes using the given <a href="HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a>, and forwards all
- data written to it to the underlying <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a>.
+ data written to it to the underlying <code>OutputStream</code>.
 
- <p>The <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> should not be written to before or after the hand-off.</div>
+ <p>The <code>OutputStream</code> should not be written to before or after the hand-off.</div>
 </li>
 </ul>
 </li>
@@ -319,8 +319,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <li class="blockList">
 <h4>write</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingOutputStream.html#line.50">write</a>&#8203;(int&nbsp;b)
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></code></span></div>
+           throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
 <div class="block">Writes the specified <code>byte</code> to this output stream.
  <p>
  The <code>write</code> method of <code>FilterOutputStream</code>
@@ -330,11 +330,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
  Implements the abstract <code>write</code> method of <code>OutputStream</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></code></dd>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the <code>byte</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 </dl>
 </li>
 </ul>
@@ -347,8 +347,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingOutputStream.html#line.56">write</a>&#8203;(byte[]&nbsp;bytes,
                   int&nbsp;off,
                   int&nbsp;len)
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></code></span></div>
+           throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
 <div class="block">Writes <code>len</code> bytes from the specified
  <code>byte</code> array starting at offset <code>off</code> to
  this output stream.
@@ -363,15 +363,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
  implementation of this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></code></dd>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>bytes</code> - the data.</dd>
 <dd><code>off</code> - the start offset in the data.</dd>
 <dd><code>len</code> - the number of bytes to write.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.write(int)</code></a></dd>
+<dd><code>FilterOutputStream.write(int)</code></dd>
 </dl>
 </li>
 </ul>
@@ -393,8 +393,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
 <li class="blockList">
 <h4>close</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingOutputStream.html#line.73">close</a>()
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></code></span></div>
+           throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
 <div class="block">Closes this output stream and releases any system resources
  associated with the stream.
  <p>
@@ -403,16 +403,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputS
  calls the <code>close</code> method of its underlying output stream.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
+<dd><code>close</code>&nbsp;in interface&nbsp;<code>java.lang.AutoCloseable</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></code></dd>
+<dd><code>close</code>&nbsp;in interface&nbsp;<code>java.io.Closeable</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">close</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></code></dd>
+<dd><code>close</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#flush()" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.flush()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#out" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.out</code></a></dd>
+<dd><code>FilterOutputStream.flush()</code>, 
+<code>FilterOutputStream.out</code></dd>
 </dl>
 </li>
 </ul>

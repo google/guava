@@ -214,7 +214,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;</code></td>
+<td class="colFirst"><code>java.lang.Iterable&lt;? extends <a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#predecessors(N)">predecessors</a></span>&#8203;(<a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&nbsp;node)</code></th>
 <td class="colLast">
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
@@ -246,12 +246,12 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
 <ul class="blockListLast">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.105">predecessors</a>&#8203;(<a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&nbsp;node)</pre>
+<pre class="methodSignature">java.lang.Iterable&lt;? extends <a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/PredecessorsFunction.html#line.105">predecessors</a>&#8203;(<a href="PredecessorsFunction.html" title="type parameter in PredecessorsFunction">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
  <p>Some algorithms that operate on a <code>PredecessorsFunction</code> may produce undesired results
- if the returned <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> contains duplicate elements. Implementations of such
+ if the returned <code>Iterable</code> contains duplicate elements. Implementations of such
  algorithms should document their behavior in the presence of duplicates.
 
  <p>The elements of the returned <code>Iterable</code> must each be:
@@ -263,7 +263,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Predecess
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>node</code> is not an element of this graph</dd>
 </dl>
 </li>
 </ul>

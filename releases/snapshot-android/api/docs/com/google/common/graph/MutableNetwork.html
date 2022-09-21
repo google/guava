@@ -273,9 +273,9 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwor
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the network was modified as a result of this call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the graph and does not
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>edge</code> already exists in the graph and does not
      connect <code>nodeU</code> to <code>nodeV</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -310,10 +310,10 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwor
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the network was modified as a result of this call</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the graph and connects some
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>edge</code> already exists in the graph and connects some
      other endpoint pair that is not equal to <code>endpoints</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the endpoints are unordered and the graph is directed</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the endpoints are unordered and the graph is directed</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.1</dd>
 </dl>

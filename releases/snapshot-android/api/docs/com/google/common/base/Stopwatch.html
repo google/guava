@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.base.Stopwatch</li>
@@ -133,19 +133,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.88">Stopwatch</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">An object that accurately measures <i>elapsed time</i>: the measured duration between two
  successive readings of "now" in the same process.
 
  <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#currentTimeMillis()" title="class or interface in java.lang" class="externalLink"><code>System.currentTimeMillis()</code></a>, best represented as an <code>Instant</code>. Such values
+ <code>System.currentTimeMillis()</code>, best represented as an <code>Instant</code>. Such values
 
  <p><i>can</i> be subtracted to obtain a <code>Duration</code> (such as by <code>Duration.between</code>),
  but doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time
  readings are inherently approximate, routinely affected by periodic clock corrections. Because
- this class (by default) uses <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a>, it is unaffected by these changes.
+ this class (by default) uses <code>System.nanoTime()</code>, it is unaffected by these changes.
 
- <p>Use this class instead of direct calls to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> for two reasons:
+ <p>Use this class instead of direct calls to <code>System.nanoTime()</code> for two reasons:
 
  <ul>
    <li>The raw <code>long</code> values returned by <code>nanoTime</code> are meaningless and unsafe to use
@@ -215,7 +215,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static <a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createStarted()">createStarted</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates (and starts) a new stopwatch using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> as its time source.</div>
+<div class="block">Creates (and starts) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -229,7 +229,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static <a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createUnstarted()">createUnstarted</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Creates (but does not start) a new stopwatch using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> as its time source.</div>
+<div class="block">Creates (but does not start) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -241,7 +241,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>long</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elapsed(java.util.concurrent.TimeUnit)">elapsed</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;desiredUnit)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elapsed(java.util.concurrent.TimeUnit)">elapsed</a></span>&#8203;(java.util.concurrent.TimeUnit&nbsp;desiredUnit)</code></th>
 <td class="colLast">
 <div class="block">Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.</div>
@@ -277,7 +277,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of the current elapsed time.</div>
@@ -288,8 +288,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -314,7 +314,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>createUnstarted</h4>
 <pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.102">createUnstarted</a>()</pre>
-<div class="block">Creates (but does not start) a new stopwatch using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> as its time source.</div>
+<div class="block">Creates (but does not start) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -342,7 +342,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>createStarted</h4>
 <pre class="methodSignature">public static&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.120">createStarted</a>()</pre>
-<div class="block">Creates (and starts) a new stopwatch using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang" class="externalLink"><code>System.nanoTime()</code></a> as its time source.</div>
+<div class="block">Creates (and starts) a new stopwatch using <code>System.nanoTime()</code> as its time source.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>15.0</dd>
@@ -387,7 +387,7 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>Stopwatch</code> instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the stopwatch is already running.</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the stopwatch is already running.</dd>
 </dl>
 </li>
 </ul>
@@ -405,7 +405,7 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this <code>Stopwatch</code> instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the stopwatch is already stopped.</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the stopwatch is already stopped.</dd>
 </dl>
 </li>
 </ul>
@@ -430,12 +430,12 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <ul class="blockList">
 <li class="blockList">
 <h4>elapsed</h4>
-<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.204">elapsed</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;desiredUnit)</pre>
+<pre class="methodSignature">public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.204">elapsed</a>&#8203;(java.util.concurrent.TimeUnit&nbsp;desiredUnit)</pre>
 <div class="block">Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.
 
  <p>Note that the overhead of measurement can be more than a microsecond, so it is generally not
- useful to specify <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#NANOSECONDS" title="class or interface in java.util.concurrent" class="externalLink"><code>TimeUnit.NANOSECONDS</code></a> precision here.</div>
+ useful to specify <code>TimeUnit.NANOSECONDS</code> precision here.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 10.0 as <code>elapsedTime()</code>)</dd>
@@ -448,11 +448,11 @@ public&nbsp;<a href="Stopwatch.html" title="class in com.google.common.base">Sto
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.209">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.209">toString</a>()</pre>
 <div class="block">Returns a string representation of the current elapsed time.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>

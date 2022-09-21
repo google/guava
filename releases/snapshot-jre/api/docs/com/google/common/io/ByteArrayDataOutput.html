@@ -124,14 +124,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>java.io.DataOutput</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public interface <a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.28">ByteArrayDataOutput</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></pre>
+extends java.io.DataOutput</pre>
 <div class="block">An extension of <code>DataOutput</code> for writing to in-memory byte arrays; its methods offer
- identical functionality but do not throw <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>IOException</code></a>.</div>
+ identical functionality but do not throw <code>IOException</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0</dd>
@@ -208,7 +208,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeBytes(java.lang.String)">writeBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeBytes(java.lang.String)">writeBytes</a></span>&#8203;(java.lang.String&nbsp;s)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">This method is dangerous as it discards the high byte of every character.</div>
@@ -226,7 +226,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeChars(java.lang.String)">writeChars</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeChars(java.lang.String)">writeChars</a></span>&#8203;(java.lang.String&nbsp;s)</code></th>
 <td class="colLast">
 <div class="block">Writes every character in the string <code>s</code>,
  to the output stream, in order,
@@ -275,7 +275,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeUTF(java.lang.String)">writeUTF</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeUTF(java.lang.String)">writeUTF</a></span>&#8203;(java.lang.String&nbsp;s)</code></th>
 <td class="colLast">
 <div class="block">Writes two bytes of length information
  to the output stream, followed
@@ -309,14 +309,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>write</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.31">write</a>&#8203;(int&nbsp;b)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes to the output stream the eight
  low-order bits of the argument <code>b</code>.
  The 24 high-order  bits of <code>b</code>
  are ignored.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the byte to be written.</dd>
 </dl>
@@ -329,7 +329,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>write</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.34">write</a>&#8203;(byte[]&nbsp;b)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes to the output stream all the bytes in array <code>b</code>.
  If <code>b</code> is <code>null</code>,
  a <code>NullPointerException</code> is thrown.
@@ -340,7 +340,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  written is <code>b[b.length-1]</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the data.</dd>
 </dl>
@@ -355,7 +355,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.37">write</a>&#8203;(byte[]&nbsp;b,
            int&nbsp;off,
            int&nbsp;len)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes <code>len</code> bytes from array
  <code>b</code>, in order,  to
  the output stream.  If <code>b</code>
@@ -371,7 +371,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  last byte written is <code>b[off+len-1]</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the data.</dd>
 <dd><code>off</code> - the start offset in the data.</dd>
@@ -386,7 +386,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeBoolean</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.40">writeBoolean</a>&#8203;(boolean&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBoolean(boolean)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>boolean</code> value to this output stream.
  If the argument <code>v</code>
  is <code>true</code>, the value <code>(byte)1</code>
@@ -399,7 +399,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBoolean(boolean)" title="class or interface in java.io" class="externalLink">writeBoolean</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeBoolean</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the boolean to be written.</dd>
 </dl>
@@ -412,7 +412,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeByte</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.43">writeByte</a>&#8203;(int&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeByte(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes to the output stream the eight low-
  order bits of the argument <code>v</code>.
  The 24 high-order bits of <code>v</code>
@@ -425,7 +425,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  equal to <code>(byte)v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeByte(int)" title="class or interface in java.io" class="externalLink">writeByte</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeByte</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the byte value to be written.</dd>
 </dl>
@@ -438,7 +438,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeShort</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.46">writeShort</a>&#8203;(int&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeShort(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes two bytes to the output
  stream to represent the value of the argument.
  The byte values to be written, in the  order
@@ -454,7 +454,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  to <code>(short)v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeShort(int)" title="class or interface in java.io" class="externalLink">writeShort</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeShort</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>short</code> value to be written.</dd>
 </dl>
@@ -467,7 +467,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeChar</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.49">writeChar</a>&#8203;(int&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChar(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>char</code> value, which
  is comprised of two bytes, to the
  output stream.
@@ -484,7 +484,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  to <code>(char)v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChar(int)" title="class or interface in java.io" class="externalLink">writeChar</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeChar</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>char</code> value to be written.</dd>
 </dl>
@@ -497,7 +497,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeInt</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.52">writeInt</a>&#8203;(int&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeInt(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes an <code>int</code> value, which is
  comprised of four bytes, to the output stream.
  The byte values to be written, in the  order
@@ -514,7 +514,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  return an <code>int</code> equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeInt(int)" title="class or interface in java.io" class="externalLink">writeInt</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeInt</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>int</code> value to be written.</dd>
 </dl>
@@ -527,7 +527,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeLong</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.55">writeLong</a>&#8203;(long&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeLong(long)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>long</code> value, which is
  comprised of eight bytes, to the output stream.
  The byte values to be written, in the  order
@@ -549,7 +549,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeLong(long)" title="class or interface in java.io" class="externalLink">writeLong</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeLong</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>long</code> value to be written.</dd>
 </dl>
@@ -562,7 +562,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeFloat</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.58">writeFloat</a>&#8203;(float&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeFloat(float)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>float</code> value,
  which is comprised of four bytes, to the output stream.
  It does this as if it first converts this
@@ -577,7 +577,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeFloat(float)" title="class or interface in java.io" class="externalLink">writeFloat</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeFloat</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>float</code> value to be written.</dd>
 </dl>
@@ -590,7 +590,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <li class="blockList">
 <h4>writeDouble</h4>
 <pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.61">writeDouble</a>&#8203;(double&nbsp;v)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeDouble(double)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>double</code> value,
  which is comprised of eight bytes, to the output stream.
  It does this as if it first converts this
@@ -605,7 +605,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeDouble(double)" title="class or interface in java.io" class="externalLink">writeDouble</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeDouble</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>double</code> value to be written.</dd>
 </dl>
@@ -617,8 +617,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>writeChars</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.64">writeChars</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChars(java.lang.String)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.64">writeChars</a>&#8203;(java.lang.String&nbsp;s)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes every character in the string <code>s</code>,
  to the output stream, in order,
  two bytes per character. If <code>s</code>
@@ -634,7 +634,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  <code>writeChar</code> method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChars(java.lang.String)" title="class or interface in java.io" class="externalLink">writeChars</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeChars</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the string value to be written.</dd>
 </dl>
@@ -646,8 +646,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>writeUTF</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.67">writeUTF</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeUTF(java.lang.String)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.67">writeUTF</a>&#8203;(java.lang.String&nbsp;s)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes two bytes of length information
  to the output stream, followed
  by the
@@ -697,7 +697,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
  return a <code>String</code> equal to <code>s</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeUTF(java.lang.String)" title="class or interface in java.io" class="externalLink">writeUTF</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeUTF</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the string value to be written.</dd>
 </dl>
@@ -709,13 +709,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>writeBytes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.74">writeBytes</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</pre>
+<pre class="methodSignature">@Deprecated
+void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput.html#line.74">writeBytes</a>&#8203;(java.lang.String&nbsp;s)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">This method is dangerous as it discards the high byte of every character. For
      UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</div>
 </div>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBytes(java.lang.String)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a string to the output stream.
  For every character in the string
  <code>s</code>,  taken in order, one byte
@@ -733,7 +733,7 @@ void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataOutput
  in the string are ignored.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBytes(java.lang.String)" title="class or interface in java.io" class="externalLink">writeBytes</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeBytes</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the string of bytes to be written.</dd>
 </dl>

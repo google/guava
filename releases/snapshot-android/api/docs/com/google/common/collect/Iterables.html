@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.Iterables</li>
@@ -133,13 +133,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/collect/Iterables.html#line.64">Iterables</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">An assortment of mainly legacy static utility methods that operate on or return objects of type
- <code>Iterable</code>. Except as noted, each method has a corresponding <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a>-based method
+ <code>Iterable</code>. Except as noted, each method has a corresponding <code>Iterator</code>-based method
  in the <a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a> class.
 
  <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- by the new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> library. Read the method documentation below for
+ by the new <code>Stream</code> library. Read the method documentation below for
  comparisons. This class is not being deprecated, but we gently encourage you to migrate to
  streams.
 
@@ -176,96 +176,96 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection,java.lang.Iterable)">addAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;T&gt;&nbsp;addTo,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;elementsToAdd)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(java.util.Collection,java.lang.Iterable)">addAll</a></span>&#8203;(java.util.Collection&lt;T&gt;&nbsp;addTo,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;elementsToAdd)</code></th>
 <td class="colLast">
 <div class="block">Adds all elements in <code>iterable</code> to <code>collection</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#all(java.lang.Iterable,com.google.common.base.Predicate)">all</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#all(java.lang.Iterable,com.google.common.base.Predicate)">all</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
    <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if every element in <code>iterable</code> satisfies the predicate.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#any(java.lang.Iterable,com.google.common.base.Predicate)">any</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#any(java.lang.Iterable,com.google.common.base.Predicate)">any</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
    <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if any element in <code>iterable</code> satisfies the predicate.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;inputs)</code></th>
 <td class="colLast">
 <div class="block">Combines multiple iterables into a single iterable.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable...)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable...)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;...&nbsp;inputs)</code></th>
 <td class="colLast">
 <div class="block">Combines multiple iterables into a single iterable.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;b)</code></th>
 <td class="colLast">
 <div class="block">Combines two iterables into a single iterable.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;c)</code></th>
 <td class="colLast">
 <div class="block">Combines three iterables into a single iterable.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;d)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">concat</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;c,
+      java.lang.Iterable&lt;? extends T&gt;&nbsp;d)</code></th>
 <td class="colLast">
 <div class="block">Combines four iterables into a single iterable.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#consumingIterable(java.lang.Iterable)">consumingIterable</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#consumingIterable(java.lang.Iterable)">consumingIterable</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
-<div class="block">Returns a view of the supplied iterable that wraps each generated <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a> through
+<div class="block">Returns a view of the supplied iterable that wraps each generated <code>Iterator</code> through
  <a href="Iterators.html#consumingIterator(java.util.Iterator)"><code>Iterators.consumingIterator(Iterator)</code></a>.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Iterable,java.lang.Object)">contains</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;iterable,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#contains(java.lang.Iterable,java.lang.Object)">contains</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;iterable,
+        java.lang.Object&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>iterable</code> contains any element <code>o</code> for which <code>
  Objects.equals(o, element)</code> would return <code>true</code>.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cycle(java.lang.Iterable)">cycle</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cycle(java.lang.Iterable)">cycle</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns an iterable whose iterators cycle indefinitely over the elements of <code>iterable</code>.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#cycle(T...)">cycle</a></span>&#8203;(T...&nbsp;elements)</code></th>
 <td class="colLast">
 <div class="block">Returns an iterable whose iterators cycle indefinitely over the provided elements.</div>
@@ -273,24 +273,24 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementsEqual(java.lang.Iterable,java.lang.Iterable)">elementsEqual</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable1,
-             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable2)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#elementsEqual(java.lang.Iterable,java.lang.Iterable)">elementsEqual</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable1,
+             java.lang.Iterable&lt;?&gt;&nbsp;iterable2)</code></th>
 <td class="colLast">
 <div class="block">Determines whether two iterables contain equal elements in the same order.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Iterable,java.lang.Class)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;unfiltered,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;desiredType)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Iterable,java.lang.Class)">filter</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;unfiltered,
+      java.lang.Class&lt;T&gt;&nbsp;desiredType)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of the type <code>
  desiredType</code>.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Iterable,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;unfiltered,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.lang.Iterable,com.google.common.base.Predicate)">filter</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;unfiltered,
       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy the input predicate
@@ -298,8 +298,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#find(java.lang.Iterable,com.google.common.base.Predicate,T)">find</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#find(java.lang.Iterable,com.google.common.base.Predicate,T)">find</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
     <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate,
     T&nbsp;defaultValue)</code></th>
 <td class="colLast">
@@ -308,8 +308,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#find(java.lang.Iterable,com.google.common.base.Predicate)">find</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#find(java.lang.Iterable,com.google.common.base.Predicate)">find</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
     <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns the first element in <code>iterable</code> that satisfies the given predicate; use this
@@ -318,15 +318,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#frequency(java.lang.Iterable,java.lang.Object)">frequency</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#frequency(java.lang.Iterable,java.lang.Object)">frequency</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable,
+         java.lang.Object&nbsp;element)</code></th>
 <td class="colLast">
 <div class="block">Returns the number of elements in the specified iterable that equal the specified object.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Iterable,int,T)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Iterable,int,T)">get</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
    int&nbsp;position,
    T&nbsp;defaultValue)</code></th>
 <td class="colLast">
@@ -334,39 +334,39 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i19" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Iterable,int)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Iterable,int)">get</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
    int&nbsp;position)</code></th>
 <td class="colLast">
 <div class="block">Returns the element at the specified position in an iterable.</div>
 </td>
 </tr>
 <tr id="i20" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFirst(java.lang.Iterable,T)">getFirst</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFirst(java.lang.Iterable,T)">getFirst</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
         T&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the first element in <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.</div>
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLast(java.lang.Iterable,T)">getLast</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLast(java.lang.Iterable,T)">getLast</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
        T&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the last element of <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLast(java.lang.Iterable)">getLast</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLast(java.lang.Iterable)">getLast</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns the last element of <code>iterable</code>.</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOnlyElement(java.lang.Iterable,T)">getOnlyElement</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOnlyElement(java.lang.Iterable,T)">getOnlyElement</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
               T&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the single element contained in <code>iterable</code>, or <code>defaultValue</code> if the
@@ -374,15 +374,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>T</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOnlyElement(java.lang.Iterable)">getOnlyElement</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>T</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOnlyElement(java.lang.Iterable)">getOnlyElement</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns the single element contained in <code>iterable</code>.</div>
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(java.lang.Iterable,com.google.common.base.Predicate)">indexOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOf(java.lang.Iterable,com.google.common.base.Predicate)">indexOf</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
        <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns the index in <code>iterable</code> of the first element that satisfies the provided <code>
@@ -391,30 +391,30 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i26" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty(java.lang.Iterable)">isEmpty</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty(java.lang.Iterable)">isEmpty</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Determines if the given iterable contains no elements.</div>
 </td>
 </tr>
 <tr id="i27" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#limit(java.lang.Iterable,int)">limit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#limit(java.lang.Iterable,int)">limit</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
      int&nbsp;limitSize)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of <code>iterable</code> containing its first <code>limitSize</code> elements.</div>
 </td>
 </tr>
 <tr id="i28" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mergeSorted(java.lang.Iterable,java.util.Comparator)">mergeSorted</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
-           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mergeSorted(java.lang.Iterable,java.util.Comparator)">mergeSorted</a></span>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;iterables,
+           java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns an iterable over the merged contents of all given <code>iterables</code>.</div>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#paddedPartition(java.lang.Iterable,int)">paddedPartition</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#paddedPartition(java.lang.Iterable,int)">paddedPartition</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
                int&nbsp;size)</code></th>
 <td class="colLast">
 <div class="block">Divides an iterable into unmodifiable sublists of the given size, padding the final iterable
@@ -422,8 +422,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i30" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;T&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#partition(java.lang.Iterable,int)">partition</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;java.util.List&lt;T&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#partition(java.lang.Iterable,int)">partition</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
          int&nbsp;size)</code></th>
 <td class="colLast">
 <div class="block">Divides an iterable into unmodifiable sublists of the given size (the final iterable may be
@@ -432,15 +432,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Iterable,java.util.Collection)">removeAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeAll(java.lang.Iterable,java.util.Collection)">removeAll</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;removeFrom,
+         java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</code></th>
 <td class="colLast">
 <div class="block">Removes, from an iterable, every element that belongs to the provided collection.</div>
 </td>
 </tr>
 <tr id="i32" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeIf(java.lang.Iterable,com.google.common.base.Predicate)">removeIf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;removeFrom,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeIf(java.lang.Iterable,com.google.common.base.Predicate)">removeIf</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;removeFrom,
         <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Removes, from an iterable, every element that satisfies the provided predicate.</div>
@@ -448,22 +448,22 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i33" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.lang.Iterable,java.util.Collection)">retainAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#retainAll(java.lang.Iterable,java.util.Collection)">retainAll</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;removeFrom,
+         java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</code></th>
 <td class="colLast">
 <div class="block">Removes, from an iterable, every element that does not belong to the provided collection.</div>
 </td>
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code>static int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size(java.lang.Iterable)">size</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size(java.lang.Iterable)">size</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns the number of elements in <code>iterable</code>.</div>
 </td>
 </tr>
 <tr id="i35" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#skip(java.lang.Iterable,int)">skip</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#skip(java.lang.Iterable,int)">skip</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
     int&nbsp;numberToSkip)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of <code>iterable</code> that skips its first <code>numberToSkip</code> elements.</div>
@@ -471,24 +471,24 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i36" class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T[]</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.lang.Iterable,java.lang.Class)">toArray</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&nbsp;iterable,
-       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toArray(java.lang.Iterable,java.lang.Class)">toArray</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&nbsp;iterable,
+       java.lang.Class&lt;T&gt;&nbsp;type)</code></th>
 <td class="colLast">
 <div class="block">Copies an iterable's elements into an array.</div>
 </td>
 </tr>
 <tr id="i37" class="rowColor">
-<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString(java.lang.Iterable)">toString</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString(java.lang.Iterable)">toString</a></span>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of <code>iterable</code>, with the format <code>[e1, e2, ..., en]</code>
- (that is, identical to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Arrays</code></a><code>
+ (that is, identical to <code>Arrays</code><code>
  .toString(Iterables.toArray(iterable))</code>).</div>
 </td>
 </tr>
 <tr id="i38" class="altColor">
-<td class="colFirst"><code>static &lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(java.lang.Iterable,com.google.common.base.Function)">transform</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;F&gt;&nbsp;fromIterable,
+<td class="colFirst"><code>static &lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(java.lang.Iterable,com.google.common.base.Function)">transform</a></span>&#8203;(java.lang.Iterable&lt;F&gt;&nbsp;fromIterable,
          <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;? extends T&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Returns a view containing the result of applying <code>function</code> to each element of <code>
@@ -497,7 +497,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i39" class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryFind(java.lang.Iterable,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tryFind(java.lang.Iterable,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
        <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterable</code> that satisfies the
@@ -505,7 +505,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i40" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.lang.Iterable&lt;E&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unmodifiableIterable(com.google.common.collect.ImmutableCollection)">unmodifiableIterable</a></span>&#8203;(<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -514,8 +514,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i41" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unmodifiableIterable(java.lang.Iterable)">unmodifiableIterable</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#unmodifiableIterable(java.lang.Iterable)">unmodifiableIterable</a></span>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable)</code></th>
 <td class="colLast">
 <div class="block">Returns an unmodifiable view of <code>iterable</code>.</div>
 </td>
@@ -525,8 +525,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -550,7 +550,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableIterable</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.70">unmodifiableIterable</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.70">unmodifiableIterable</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns an unmodifiable view of <code>iterable</code>.</div>
 </li>
 </ul>
@@ -560,8 +560,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableIterable</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.87">unmodifiableIterable</a>&#8203;(<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">@Deprecated
+public static&nbsp;&lt;E&gt;&nbsp;java.lang.Iterable&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.87">unmodifiableIterable</a>&#8203;(<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">no need to use this</div>
 </div>
@@ -578,7 +578,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.113">size</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.113">size</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the number of elements in <code>iterable</code>.</div>
 </li>
 </ul>
@@ -588,12 +588,12 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.126">contains</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.126">contains</a>&#8203;(java.lang.Iterable&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;iterable,
                                <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
+                               java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns <code>true</code> if <code>iterable</code> contains any element <code>o</code> for which <code>
  Objects.equals(o, element)</code> would return <code>true</code>. Otherwise returns <code>false</code>, even in
- cases where <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>Collection.contains(java.lang.Object)</code></a> might throw <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>NullPointerException</code></a> or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>ClassCastException</code></a>.</div>
+ cases where <code>Collection.contains(java.lang.Object)</code> might throw <code>NullPointerException</code> or <code>ClassCastException</code>.</div>
 </li>
 </ul>
 <a id="removeAll(java.lang.Iterable,java.util.Collection)">
@@ -603,11 +603,11 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>removeAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.145">removeAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
-                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.145">removeAll</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;removeFrom,
+                                java.util.Collection&lt;?&gt;&nbsp;elementsToRemove)</pre>
 <div class="block">Removes, from an iterable, every element that belongs to the provided collection.
 
- <p>This method calls <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code></a> if <code>iterable</code> is a collection, and
+ <p>This method calls <code>Collection.removeAll(java.util.Collection&lt;?&gt;)</code> if <code>iterable</code> is a collection, and
  <a href="Iterators.html#removeAll(java.util.Iterator,java.util.Collection)"><code>Iterators.removeAll(java.util.Iterator&lt;?&gt;, java.util.Collection&lt;?&gt;)</code></a> otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -625,11 +625,11 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>retainAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.162">retainAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
-                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.162">retainAll</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;removeFrom,
+                                java.util.Collection&lt;?&gt;&nbsp;elementsToRetain)</pre>
 <div class="block">Removes, from an iterable, every element that does not belong to the provided collection.
 
- <p>This method calls <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util" class="externalLink"><code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code></a> if <code>iterable</code> is a collection, and
+ <p>This method calls <code>Collection.retainAll(java.util.Collection&lt;?&gt;)</code> if <code>iterable</code> is a collection, and
  <a href="Iterators.html#retainAll(java.util.Iterator,java.util.Collection)"><code>Iterators.retainAll(java.util.Iterator&lt;?&gt;, java.util.Collection&lt;?&gt;)</code></a> otherwise.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -647,8 +647,8 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>removeIf</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.182">removeIf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;removeFrom,
-                                                            <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.182">removeIf</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;removeFrom,
+                                                                      <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Removes, from an iterable, every element that satisfies the provided predicate.
 
  <p>Removals may or may not happen immediately as each element is tested against the predicate.
@@ -661,7 +661,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if any elements were removed from the iterable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - if the iterable does not support <code>remove()</code>.</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - if the iterable does not support <code>remove()</code>.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>2.0</dd>
 </dl>
@@ -673,8 +673,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>elementsEqual</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.268">elementsEqual</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable1,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable2)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.268">elementsEqual</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable1,
+                                    java.lang.Iterable&lt;?&gt;&nbsp;iterable2)</pre>
 <div class="block">Determines whether two iterables contain equal elements in the same order. More specifically,
  this method returns <code>true</code> if <code>iterable1</code> and <code>iterable2</code> contain the same
  number of elements and every element of <code>iterable1</code> is equal to the corresponding element
@@ -687,10 +687,10 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.286">toString</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.286">toString</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a string representation of <code>iterable</code>, with the format <code>[e1, e2, ..., en]</code>
- (that is, identical to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Arrays</code></a><code>
- .toString(Iterables.toArray(iterable))</code>). Note that for <i>most</i> implementations of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a>, <code>collection.toString()</code> also gives the same result, but that behavior is not
+ (that is, identical to <code>Arrays</code><code>
+ .toString(Iterables.toArray(iterable))</code>). Note that for <i>most</i> implementations of <code>Collection</code>, <code>collection.toString()</code> also gives the same result, but that behavior is not
  generally guaranteed.</div>
 </li>
 </ul>
@@ -700,15 +700,15 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getOnlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.299">getOnlyElement</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.299">getOnlyElement</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the single element contained in <code>iterable</code>.
 
  <p><b>Java 8 users:</b> the <code>Stream</code> equivalent to this method is <code>
  stream.collect(MoreCollectors.onlyElement())</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if the iterable is empty</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the iterable contains multiple elements</dd>
+<dd><code>java.util.NoSuchElementException</code> - if the iterable is empty</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the iterable contains multiple elements</dd>
 </dl>
 </li>
 </ul>
@@ -720,8 +720,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getOnlyElement</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.313">getOnlyElement</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
-                                                            T&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.313">getOnlyElement</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+                                                                      T&nbsp;defaultValue)</pre>
 <div class="block">Returns the single element contained in <code>iterable</code>, or <code>defaultValue</code> if the
  iterable is empty.
 
@@ -729,7 +729,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the iterator contains multiple elements</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the iterator contains multiple elements</dd>
 </dl>
 </li>
 </ul>
@@ -740,8 +740,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>toArray</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.326">toArray</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&nbsp;iterable,
-                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;type)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.326">toArray</a>&#8203;(java.lang.Iterable&lt;? extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&nbsp;iterable,
+                                        java.lang.Class&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Copies an iterable's elements into an array.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -759,8 +759,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://checkerframework.org/api/org/
 <li class="blockList">
 <h4>addAll</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.368">addAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;T&gt;&nbsp;addTo,
-                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;elementsToAdd)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.368">addAll</a>&#8203;(java.util.Collection&lt;T&gt;&nbsp;addTo,
+                                                                    java.lang.Iterable&lt;? extends T&gt;&nbsp;elementsToAdd)</pre>
 <div class="block">Adds all elements in <code>iterable</code> to <code>collection</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -774,19 +774,19 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>frequency</h4>
-<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.389">frequency</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.389">frequency</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;element)</pre>
+                            java.lang.Object&nbsp;element)</pre>
 <div class="block">Returns the number of elements in the specified iterable that equal the specified object. This
- implementation avoids a full iteration when the iterable is a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a>.
+ implementation avoids a full iteration when the iterable is a <a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> or <code>Set</code>.
 
  <p><b>Java 8 users:</b> In most cases, the <code>Stream</code> equivalent of this method is <code>
  stream.filter(element::equals).count()</code>. If <code>element</code> might be null, use <code>
  stream.filter(Predicate.isEqual(element)).count()</code> instead.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#frequency(java.util.Collection,java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>Collections.frequency(Collection,
-     Object)</code></a></dd>
+<dd><code>Collections.frequency(Collection,
+     Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -796,7 +796,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>cycle</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.416">cycle</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.416">cycle</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns an iterable whose iterators cycle indefinitely over the elements of <code>iterable</code>.
 
  <p>That iterator supports <code>remove()</code> if <code>iterable.iterator()</code> does. After <code>
@@ -823,8 +823,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>cycle</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.451">cycle</a>&#8203;(T...&nbsp;elements)</pre>
+<pre class="methodSignature">@SafeVarargs
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.451">cycle</a>&#8203;(T...&nbsp;elements)</pre>
 <div class="block">Returns an iterable whose iterators cycle indefinitely over the provided elements.
 
  <p>After <code>remove</code> is invoked on a generated iterator, the removed element will no longer
@@ -851,8 +851,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.467">concat</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.467">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;b)</pre>
 <div class="block">Combines two iterables into a single iterable. The returned iterable has an iterator that
  traverses the elements in <code>a</code>, followed by the elements in <code>b</code>. The source
  iterators are not polled until necessary.
@@ -870,9 +870,9 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.483">concat</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.483">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;c)</pre>
 <div class="block">Combines three iterables into a single iterable. The returned iterable has an iterator that
  traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by the
  elements in <code>c</code>. The source iterators are not polled until necessary.
@@ -890,10 +890,10 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.500">concat</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;a,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;b,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;c,
-                                                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;d)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.500">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;a,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;b,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;c,
+                                                                                  java.lang.Iterable&lt;? extends T&gt;&nbsp;d)</pre>
 <div class="block">Combines four iterables into a single iterable. The returned iterable has an iterator that
  traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by the
  elements in <code>c</code>, followed by the elements in <code>d</code>. The source iterators are not
@@ -912,8 +912,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.521">concat</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</pre>
+<pre class="methodSignature">@SafeVarargs
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.521">concat</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;...&nbsp;inputs)</pre>
 <div class="block">Combines multiple iterables into a single iterable. The returned iterable has an iterator that
  traverses the elements of each iterable in <code>inputs</code>. The input iterators are not polled
  until necessary.
@@ -925,7 +925,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
  Streams.concat(...)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any of the provided iterables is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any of the provided iterables is null</dd>
 </dl>
 </li>
 </ul>
@@ -935,7 +935,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.538">concat</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.538">concat</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;inputs)</pre>
 <div class="block">Combines multiple iterables into a single iterable. The returned iterable has an iterator that
  traverses the elements of each iterable in <code>inputs</code>. The input iterators are not polled
  until necessary.
@@ -954,20 +954,20 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>partition</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.565">partition</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                                       int&nbsp;size)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;java.util.List&lt;T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.565">partition</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                                                     int&nbsp;size)</pre>
 <div class="block">Divides an iterable into unmodifiable sublists of the given size (the final iterable may be
  smaller). For example, partitioning an iterable containing <code>[a, b, c, d, e]</code> with a
  partition size of 3 yields <code>[[a, b, c], [d, e]]</code> -- an outer iterable containing two
  inner lists of three and two elements, all in the original order.
 
- <p>Iterators returned by the returned iterable do not support the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink"><code>Iterator.remove()</code></a>
- method. The returned lists implement <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>RandomAccess</code></a>, whether or not the input list does.
+ <p>Iterators returned by the returned iterable do not support the <code>Iterator.remove()</code>
+ method. The returned lists implement <code>RandomAccess</code>, whether or not the input list does.
 
  <p><b>Note:</b> The current implementation eagerly allocates storage for <code>size</code> elements.
- As a consequence, passing values like <code>Integer.MAX_VALUE</code> can lead to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/OutOfMemoryError.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>OutOfMemoryError</code></a>.
+ As a consequence, passing values like <code>Integer.MAX_VALUE</code> can lead to <code>OutOfMemoryError</code>.
 
- <p><b>Note:</b> if <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a>, use <a href="Lists.html#partition(java.util.List,int)"><code>Lists.partition(List, int)</code></a>
+ <p><b>Note:</b> if <code>iterable</code> is a <code>List</code>, use <a href="Lists.html#partition(java.util.List,int)"><code>Lists.partition(List, int)</code></a>
  instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -977,7 +977,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dd>an iterable of unmodifiable lists containing the elements of <code>iterable</code> divided
      into partitions</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>size</code> is nonpositive</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>size</code> is nonpositive</dd>
 </dl>
 </li>
 </ul>
@@ -987,14 +987,14 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>paddedPartition</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.592">paddedPartition</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                                                       int&nbsp;size)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;java.util.List&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> T&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.592">paddedPartition</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                                                                     int&nbsp;size)</pre>
 <div class="block">Divides an iterable into unmodifiable sublists of the given size, padding the final iterable
  with null values if necessary. For example, partitioning an iterable containing <code>[a, b,
  c, d, e]</code> with a partition size of 3 yields <code>[[a, b, c], [d, e, null]]</code> -- an outer
  iterable containing two inner lists of three elements each, all in the original order.
 
- <p>Iterators returned by the returned iterable do not support the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink"><code>Iterator.remove()</code></a>
+ <p>Iterators returned by the returned iterable do not support the <code>Iterator.remove()</code>
  method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -1004,7 +1004,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dd>an iterable of unmodifiable lists containing the elements of <code>iterable</code> divided
      into partitions (the final iterable may have trailing null elements)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>size</code> is nonpositive</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>size</code> is nonpositive</dd>
 </dl>
 </li>
 </ul>
@@ -1014,8 +1014,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.610">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;unfiltered,
-                                                              <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.610">filter</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;unfiltered,
+                                                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</pre>
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy the input predicate
  <code>retainIfTrue</code>. The returned iterable's iterator does not support <code>remove()</code>.
 
@@ -1029,8 +1029,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>filter</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.636">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;unfiltered,
-                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;desiredType)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.636">filter</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;unfiltered,
+                                               java.lang.Class&lt;T&gt;&nbsp;desiredType)</pre>
 <div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of the type <code>
  desiredType</code>. The returned iterable's iterator does not support <code>remove()</code>.
 
@@ -1051,8 +1051,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>any</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.649">any</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.649">any</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                 <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if any element in <code>iterable</code> satisfies the predicate.
 
  <p><b><code>Stream</code> equivalent:</b> <code>Stream#anyMatch</code>.</div>
@@ -1064,8 +1064,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.660">all</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.660">all</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                 <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if every element in <code>iterable</code> satisfies the predicate. If <code>
  iterable</code> is empty, <code>true</code> is returned.
 
@@ -1078,8 +1078,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>find</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.674">find</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.674">find</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                            <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the first element in <code>iterable</code> that satisfies the given predicate; use this
  method only when such an element is known to exist. If it is possible that <i>no</i> element
  will match, use <a href="#tryFind(java.lang.Iterable,com.google.common.base.Predicate)"><code>tryFind(java.lang.Iterable&lt;T&gt;, com.google.common.base.Predicate&lt;? super T&gt;)</code></a> or <a href="#find(java.lang.Iterable,com.google.common.base.Predicate,T)"><code>find(Iterable, Predicate, Object)</code></a> instead.
@@ -1087,7 +1087,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
  <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(predicate).findFirst().get()</code></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if no element in <code>iterable</code> matches the given predicate</dd>
+<dd><code>java.util.NoSuchElementException</code> - if no element in <code>iterable</code> matches the given predicate</dd>
 </dl>
 </li>
 </ul>
@@ -1100,10 +1100,10 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>find</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.705">find</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
-                                                  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate,
-                                                  <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                                  T&nbsp;defaultValue)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.705">find</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+                                                            <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate,
+                                                            <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
+                                                            T&nbsp;defaultValue)</pre>
 <div class="block">Returns the first element in <code>iterable</code> that satisfies the given predicate, or <code>
  defaultValue</code> if none found. Note that this can usually be handled more naturally using <code>
  tryFind(iterable, predicate).or(defaultValue)</code>.
@@ -1122,7 +1122,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>tryFind</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.724">tryFind</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<pre class="methodSignature">public static&nbsp;&lt;T&gt;&nbsp;<a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.724">tryFind</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterable</code> that satisfies the
  given predicate, if such an element exists.
@@ -1143,8 +1143,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.738">indexOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.738">indexOf</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                 <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the index in <code>iterable</code> of the first element that satisfies the provided <code>
  predicate</code>, or <code>-1</code> if the Iterable has no such elements.
 
@@ -1163,8 +1163,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.756">transform</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;F&gt;&nbsp;fromIterable,
-                                                                                                  <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;? extends T&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.756">transform</a>&#8203;(java.lang.Iterable&lt;F&gt;&nbsp;fromIterable,
+                                                                                                                                <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;? extends T&gt;&nbsp;function)</pre>
 <div class="block">Returns a view containing the result of applying <code>function</code> to each element of <code>
  fromIterable</code>.
 
@@ -1184,8 +1184,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.779">get</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                 int&nbsp;position)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.779">get</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                           int&nbsp;position)</pre>
 <div class="block">Returns the element at the specified position in an iterable.
 
  <p><b><code>Stream</code> equivalent:</b> <code>stream.skip(position).findFirst().get()</code> (throws
@@ -1196,7 +1196,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the element at the specified position in <code>iterable</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>position</code> is negative or greater than or equal to
+<dd><code>java.lang.IndexOutOfBoundsException</code> - if <code>position</code> is negative or greater than or equal to
      the size of <code>iterable</code></dd>
 </dl>
 </li>
@@ -1209,9 +1209,9 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.802">get</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
-                                                 int&nbsp;position,
-                                                 T&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.802">get</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+                                                           int&nbsp;position,
+                                                           T&nbsp;defaultValue)</pre>
 <div class="block">Returns the element at the specified position in an iterable or a default value otherwise.
 
  <p><b><code>Stream</code> equivalent:</b> <code>
@@ -1226,7 +1226,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dd>the element at the specified position in <code>iterable</code> or <code>defaultValue</code> if
      <code>iterable</code> contains fewer than <code>position + 1</code> elements.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IndexOutOfBoundsException</a></code> - if <code>position</code> is negative</dd>
+<dd><code>java.lang.IndexOutOfBoundsException</code> - if <code>position</code> is negative</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>4.0</dd>
 </dl>
@@ -1240,12 +1240,12 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getFirst</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.834">getFirst</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
-                                                      T&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.834">getFirst</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+                                                                T&nbsp;defaultValue)</pre>
 <div class="block">Returns the first element in <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.
  The <a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a> analog to this method is <a href="Iterators.html#getNext(java.util.Iterator,T)"><code>Iterators.getNext(java.util.Iterator&lt;? extends T&gt;, T)</code></a>.
 
- <p>If no default value is desired (and the caller instead wants a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>NoSuchElementException</code></a> to be thrown), it is recommended that <code>
+ <p>If no default value is desired (and the caller instead wants a <code>NoSuchElementException</code> to be thrown), it is recommended that <code>
  iterable.iterator().next()</code> is used instead.
 
  <p>To get the only element in a single-element <code>Iterable</code>, consider using <a href="#getOnlyElement(java.lang.Iterable)"><code>getOnlyElement(Iterable)</code></a> or <a href="#getOnlyElement(java.lang.Iterable,T)"><code>getOnlyElement(Iterable, Object)</code></a> instead.
@@ -1267,15 +1267,15 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.849">getLast</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
-<div class="block">Returns the last element of <code>iterable</code>. If <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>RandomAccess</code></a> support, then this operation is guaranteed to be <code>O(1)</code>.
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.849">getLast</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
+<div class="block">Returns the last element of <code>iterable</code>. If <code>iterable</code> is a <code>List</code> with <code>RandomAccess</code> support, then this operation is guaranteed to be <code>O(1)</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>Streams.findLast(stream).get()</code></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the last element of <code>iterable</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if the iterable is empty</dd>
+<dd><code>java.util.NoSuchElementException</code> - if the iterable is empty</dd>
 </dl>
 </li>
 </ul>
@@ -1287,10 +1287,10 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.874">getLast</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
-                                                     T&nbsp;defaultValue)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.874">getLast</a>&#8203;(java.lang.Iterable&lt;? extends T&gt;&nbsp;iterable,
+                                                               T&nbsp;defaultValue)</pre>
 <div class="block">Returns the last element of <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.
- If <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>List</code></a> with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>RandomAccess</code></a> support, then this operation is
+ If <code>iterable</code> is a <code>List</code> with <code>RandomAccess</code> support, then this operation is
  guaranteed to be <code>O(1)</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>Streams.findLast(stream).orElse(defaultValue)</code></div>
@@ -1310,20 +1310,20 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>skip</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.913">skip</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                            int&nbsp;numberToSkip)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.913">skip</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                                int&nbsp;numberToSkip)</pre>
 <div class="block">Returns a view of <code>iterable</code> that skips its first <code>numberToSkip</code> elements. If
  <code>iterable</code> contains fewer than <code>numberToSkip</code> elements, the returned iterable skips
  all of its elements.
 
- <p>Modifications to the underlying <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> before a call to <code>iterator()</code> are
+ <p>Modifications to the underlying <code>Iterable</code> before a call to <code>iterator()</code> are
  reflected in the returned iterator. That is, the iterator skips the first <code>numberToSkip</code>
  elements that exist when the <code>Iterator</code> is created, not when <code>skip()</code> is called.
 
  <p>The returned iterable's iterator supports <code>remove()</code> if the iterator of the underlying
  iterable supports it. Note that it is <i>not</i> possible to delete the last skipped element by
  immediately calling <code>remove()</code> on that iterator, as the <code>Iterator</code> contract states
- that a call to <code>remove()</code> before a call to <code>next()</code> will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalStateException</code></a>.
+ that a call to <code>remove()</code> before a call to <code>next()</code> will throw an <code>IllegalStateException</code>.
 
  <p><b><code>Stream</code> equivalent:</b> <code>Stream#skip</code></div>
 <dl>
@@ -1338,8 +1338,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.974">limit</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
-                                                             int&nbsp;limitSize)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.974">limit</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
+                                                                                 int&nbsp;limitSize)</pre>
 <div class="block">Returns a view of <code>iterable</code> containing its first <code>limitSize</code> elements. If <code>
  iterable</code> contains fewer than <code>limitSize</code> elements, the returned view contains all of its
  elements. The returned iterable's iterator supports <code>remove()</code> if <code>iterable</code>'s
@@ -1351,7 +1351,7 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <dd><code>iterable</code> - the iterable to limit</dd>
 <dd><code>limitSize</code> - the maximum number of elements in the returned iterable</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>limitSize</code> is negative</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>limitSize</code> is negative</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.0</dd>
 </dl>
@@ -1363,13 +1363,13 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>consumingIterable</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1002">consumingIterable</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
-<div class="block">Returns a view of the supplied iterable that wraps each generated <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a> through
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1002">consumingIterable</a>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable)</pre>
+<div class="block">Returns a view of the supplied iterable that wraps each generated <code>Iterator</code> through
  <a href="Iterators.html#consumingIterator(java.util.Iterator)"><code>Iterators.consumingIterator(Iterator)</code></a>.
 
- <p>Note: If <code>iterable</code> is a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Queue</code></a>, the returned iterable will get entries from
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true#remove()" title="class or interface in java.util" class="externalLink"><code>Queue.remove()</code></a> since <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Queue</code></a>'s iteration order is undefined. Calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#hasNext()" title="class or interface in java.util" class="externalLink"><code>Iterator.hasNext()</code></a> on a generated iterator from the returned iterable may cause an item to be
- immediately dequeued for return on a subsequent call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next()" title="class or interface in java.util" class="externalLink"><code>Iterator.next()</code></a>.</div>
+ <p>Note: If <code>iterable</code> is a <code>Queue</code>, the returned iterable will get entries from
+ <code>Queue.remove()</code> since <code>Queue</code>'s iteration order is undefined. Calling <code>Iterator.hasNext()</code> on a generated iterator from the returned iterable may cause an item to be
+ immediately dequeued for return on a subsequent call to <code>Iterator.next()</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>iterable</code> - the iterable to wrap</dd>
@@ -1389,11 +1389,11 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1034">isEmpty</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;?&gt;&nbsp;iterable)</pre>
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1034">isEmpty</a>&#8203;(java.lang.Iterable&lt;?&gt;&nbsp;iterable)</pre>
 <div class="block">Determines if the given iterable contains no elements.
 
- <p>There is no precise <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Iterator</code></a> equivalent to this method, since one can only ask an
- iterator whether it has any elements <i>remaining</i> (which one does using <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#hasNext()" title="class or interface in java.util" class="externalLink"><code>Iterator.hasNext()</code></a>).
+ <p>There is no precise <code>Iterator</code> equivalent to this method, since one can only ask an
+ iterator whether it has any elements <i>remaining</i> (which one does using <code>Iterator.hasNext()</code>).
 
  <p><b><code>Stream</code> equivalent:</b> <code>!stream.findAny().isPresent()</code></div>
 <dl>
@@ -1409,8 +1409,8 @@ public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/c
 <li class="blockList">
 <h4>mergeSorted</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1053">mergeSorted</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
-                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
+public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.lang.Iterable&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.1053">mergeSorted</a>&#8203;(java.lang.Iterable&lt;? extends java.lang.Iterable&lt;? extends T&gt;&gt;&nbsp;iterables,
+                                                                                       java.util.Comparator&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterable over the merged contents of all given <code>iterables</code>. Equivalent entries
  will not be de-duplicated.
 

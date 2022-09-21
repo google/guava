@@ -166,11 +166,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang" class="externalLink">Enum</a>&lt;T&gt;&gt;<br><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Enums.</span><code><span class="memberNameLink"><a href="../Enums.html#getIfPresent(java.lang.Class,java.lang.String)">getIfPresent</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;T&gt;&nbsp;enumClass,
-            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;value)</code></th>
+<td class="colFirst"><code>static &lt;T extends java.lang.Enum&lt;T&gt;&gt;<br><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Enums.</span><code><span class="memberNameLink"><a href="../Enums.html#getIfPresent(java.lang.Class,java.lang.String)">getIfPresent</a></span>&#8203;(java.lang.Class&lt;T&gt;&nbsp;enumClass,
+            java.lang.String&nbsp;value)</code></th>
 <td class="colLast">
-<div class="block">Returns an optional enum constant for the given type, using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true#valueOf(java.lang.Class,java.lang.String)" title="class or interface in java.lang" class="externalLink"><code>Enum.valueOf(java.lang.Class&lt;T&gt;, java.lang.String)</code></a>.</div>
+<div class="block">Returns an optional enum constant for the given type, using <code>Enum.valueOf(java.lang.Class&lt;T&gt;, java.lang.String)</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -223,8 +223,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#presentInstances(java.lang.Iterable)">presentInstances</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</code></th>
+<td class="colFirst"><code>static &lt;T&gt;&nbsp;java.lang.Iterable&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Optional.</span><code><span class="memberNameLink"><a href="../Optional.html#presentInstances(java.lang.Iterable)">presentInstances</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</code></th>
 <td class="colLast">
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="../Optional.html#absent()"><code>absent()</code></a>.</div>
@@ -271,7 +271,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Iterables.</span><code><span class="memberNameLink"><a href="../../collect/Iterables.html#tryFind(java.lang.Iterable,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Iterables.</span><code><span class="memberNameLink"><a href="../../collect/Iterables.html#tryFind(java.lang.Iterable,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(java.lang.Iterable&lt;T&gt;&nbsp;iterable,
        <a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterable</code> that satisfies the
@@ -280,7 +280,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Iterators.</span><code><span class="memberNameLink"><a href="../../collect/Iterators.html#tryFind(java.util.Iterator,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util" class="externalLink">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<th class="colSecond" scope="row"><span class="typeNameLabel">Iterators.</span><code><span class="memberNameLink"><a href="../../collect/Iterators.html#tryFind(java.util.Iterator,com.google.common.base.Predicate)">tryFind</a></span>&#8203;(java.util.Iterator&lt;T&gt;&nbsp;iterator,
        <a href="../Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns an <a href="../Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterator</code> that satisfies the
@@ -305,7 +305,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">CharSource.</span><code><span class="memberNameLink"><a href="../../io/CharSource.html#lengthIfKnown()">lengthIfKnown</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the size of this source in chars, if the size can be easily determined without actually
@@ -313,7 +313,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang" class="externalLink">Long</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.lang.Long&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">ByteSource.</span><code><span class="memberNameLink"><a href="../../io/ByteSource.html#sizeIfKnown()">sizeIfKnown</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
@@ -338,7 +338,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../Optional.html" title="class in com.google.common.base">Optional</a>&lt;java.nio.charset.Charset&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">MediaType.</span><code><span class="memberNameLink"><a href="../../net/MediaType.html#charset()">charset</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an optional charset for the value of the charset parameter if it is specified.</div>

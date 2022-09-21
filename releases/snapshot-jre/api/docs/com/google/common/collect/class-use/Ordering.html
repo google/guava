@@ -131,7 +131,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#allEqual()">allEqual</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering which treats all values as equal, indicating "no ordering." Passing this
@@ -139,7 +139,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#arbitrary()">arbitrary</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
@@ -147,8 +147,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#compound(java.lang.Iterable)">compound</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#compound(java.lang.Iterable)">compound</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Comparator&lt;? super T&gt;&gt;&nbsp;comparators)</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering which tries each given comparator in order until a non-zero result is
  found, returning that result, and returning zero only if all comparators return zero.</div>
@@ -156,7 +156,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;U extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#compound(java.util.Comparator)">compound</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#compound(java.util.Comparator)">compound</a></span>&#8203;(java.util.Comparator&lt;? super U&gt;&nbsp;secondaryComparator)</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which in the event of a
  "tie", then delegates to <code>secondaryComparator</code>.</div>
@@ -164,7 +164,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#explicit(java.util.List)">explicit</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;T&gt;&nbsp;valuesInOrder)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#explicit(java.util.List)">explicit</a></span>&#8203;(java.util.List&lt;T&gt;&nbsp;valuesInOrder)</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering that compares objects according to the order in which they appear in the
  given list.</div>
@@ -180,7 +180,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#from(com.google.common.collect.Ordering)">from</a></span>&#8203;(<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -189,14 +189,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#from(java.util.Comparator)">from</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;T&gt;&nbsp;comparator)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#from(java.util.Comparator)">from</a></span>&#8203;(java.util.Comparator&lt;T&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering based on an <i>existing</i> comparator instance.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;S&gt;&gt;</code></td>
+<td class="colFirst"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;java.lang.Iterable&lt;S&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#lexicographical()">lexicographical</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until
@@ -204,7 +204,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#natural()">natural</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a serializable ordering that uses the natural order of the values.</div>
@@ -227,7 +227,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;</code></td>
+<td class="colFirst"><code>&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#onResultOf(com.google.common.base.Function)">onResultOf</a></span>&#8203;(<a href="../../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,&#8203;? extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying a function to them,
@@ -238,11 +238,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>&lt;S extends <a href="../Ordering.html" title="type parameter in Ordering">T</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#reverse()">reverse</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util" class="externalLink"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
+<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <code>Collections.reverseOrder(Comparator)</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#usingToString()">usingToString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an ordering that compares objects by the natural ordering of their string
@@ -260,7 +260,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br><a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
 <th class="colSecond" scope="row"><span class="typeNameLabel">Ordering.</span><code><span class="memberNameLink"><a href="../Ordering.html#from(com.google.common.collect.Ordering)">from</a></span>&#8203;(<a href="../Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>

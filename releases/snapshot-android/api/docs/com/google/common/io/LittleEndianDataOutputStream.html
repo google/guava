@@ -120,13 +120,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">java.io.OutputStream</a></li>
+<li>java.io.OutputStream</li>
 <li>
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></li>
+<li>java.io.FilterOutputStream</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.io.LittleEndianDataOutputStream</li>
@@ -142,15 +142,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io" class="externalLink">Flushable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
+<dd><code>java.io.Closeable</code>, <code>java.io.DataOutput</code>, <code>java.io.Flushable</code>, <code>java.lang.AutoCloseable</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.38">LittleEndianDataOutputStream</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a>
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></pre>
-<div class="block">An implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>DataOutput</code></a> that uses little-endian byte ordering for writing <code>
+extends java.io.FilterOutputStream
+implements java.io.DataOutput</pre>
+<div class="block">An implementation of <code>DataOutput</code> that uses little-endian byte ordering for writing <code>
  char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.
 
  <p><b>Note:</b> This class intentionally violates the specification of its supertype <code>
@@ -178,8 +178,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <li class="blockList"><a id="fields.inherited.from.class.java.io.FilterOutputStream">
 <!--   -->
 </a>
-<h3>Fields inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#out" title="class or interface in java.io" class="externalLink">out</a></code></li>
+<h3>Fields inherited from class&nbsp;java.io.FilterOutputStream</h3>
+<code>out</code></li>
 </ul>
 </li>
 </ul>
@@ -198,7 +198,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.io.OutputStream)">LittleEndianDataOutputStream</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;out)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.io.OutputStream)">LittleEndianDataOutputStream</a></span>&#8203;(java.io.OutputStream&nbsp;out)</code></th>
 <td class="colLast">
 <div class="block">Creates a <code>LittleEndianDataOutputStream</code> that wraps the given stream.</div>
 </td>
@@ -257,7 +257,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeBytes(java.lang.String)">writeBytes</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeBytes(java.lang.String)">writeBytes</a></span>&#8203;(java.lang.String&nbsp;s)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous.</div>
@@ -268,15 +268,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeChar(int)">writeChar</a></span>&#8203;(int&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes a char as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeChar(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeChar(int)</code></a>, except using
+<div class="block">Writes a char as specified by <code>DataOutputStream.writeChar(int)</code>, except using
  little-endian byte order.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeChars(java.lang.String)">writeChars</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeChars(java.lang.String)">writeChars</a></span>&#8203;(java.lang.String&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">Writes a <code>String</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeChars(java.lang.String)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeChars(String)</code></a>, except
+<div class="block">Writes a <code>String</code> as specified by <code>DataOutputStream.writeChars(String)</code>, except
  each character is written using little-endian byte order.</div>
 </td>
 </tr>
@@ -284,7 +284,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeDouble(double)">writeDouble</a></span>&#8203;(double&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes a <code>double</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeDouble(double)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeDouble(double)</code></a>, except
+<div class="block">Writes a <code>double</code> as specified by <code>DataOutputStream.writeDouble(double)</code>, except
  using little-endian byte order.</div>
 </td>
 </tr>
@@ -292,7 +292,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeFloat(float)">writeFloat</a></span>&#8203;(float&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes a <code>float</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeFloat(float)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeFloat(float)</code></a>, except using
+<div class="block">Writes a <code>float</code> as specified by <code>DataOutputStream.writeFloat(float)</code>, except using
  little-endian byte order.</div>
 </td>
 </tr>
@@ -300,7 +300,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeInt(int)">writeInt</a></span>&#8203;(int&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes an <code>int</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeInt(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeInt(int)</code></a>, except using
+<div class="block">Writes an <code>int</code> as specified by <code>DataOutputStream.writeInt(int)</code>, except using
  little-endian byte order.</div>
 </td>
 </tr>
@@ -308,7 +308,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeLong(long)">writeLong</a></span>&#8203;(long&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes a <code>long</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeLong(long)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeLong(long)</code></a>, except using
+<div class="block">Writes a <code>long</code> as specified by <code>DataOutputStream.writeLong(long)</code>, except using
  little-endian byte order.</div>
 </td>
 </tr>
@@ -316,13 +316,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeShort(int)">writeShort</a></span>&#8203;(int&nbsp;v)</code></th>
 <td class="colLast">
-<div class="block">Writes a <code>short</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeShort(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeShort(int)</code></a>, except using
+<div class="block">Writes a <code>short</code> as specified by <code>DataOutputStream.writeShort(int)</code>, except using
  little-endian byte order.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeUTF(java.lang.String)">writeUTF</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeUTF(java.lang.String)">writeUTF</a></span>&#8203;(java.lang.String&nbsp;str)</code></th>
 <td class="colLast">
 <div class="block">Writes two bytes of length information
  to the output stream, followed
@@ -337,29 +337,29 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <li class="blockList"><a id="methods.inherited.from.class.java.io.FilterOutputStream">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#flush()" title="class or interface in java.io" class="externalLink">flush</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D)" title="class or interface in java.io" class="externalLink">write</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">write</a></code></li>
+<h3>Methods inherited from class&nbsp;java.io.FilterOutputStream</h3>
+<code>flush, write, write</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.io.OutputStream">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true#nullOutputStream()" title="class or interface in java.io" class="externalLink">nullOutputStream</a></code></li>
+<h3>Methods inherited from class&nbsp;java.io.OutputStream</h3>
+<code>nullOutputStream</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.io.DataOutput">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.io.<a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D)" title="class or interface in java.io" class="externalLink">write</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink">write</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.io.DataOutput</h3>
+<code>write, write</code></li>
 </ul>
 </li>
 </ul>
@@ -383,7 +383,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <ul class="blockListLast">
 <li class="blockList">
 <h4>LittleEndianDataOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.48">LittleEndianDataOutputStream</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;out)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.48">LittleEndianDataOutputStream</a>&#8203;(java.io.OutputStream&nbsp;out)</pre>
 <div class="block">Creates a <code>LittleEndianDataOutputStream</code> that wraps the given stream.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -410,8 +410,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.52">write</a>&#8203;(byte[]&nbsp;b,
                   int&nbsp;off,
                   int&nbsp;len)
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></code></span></div>
+           throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
 <div class="block">Writes <code>len</code> bytes from the specified
  <code>byte</code> array starting at offset <code>off</code> to
  this output stream.
@@ -426,17 +426,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
  implementation of this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(byte%5B%5D,int,int)" title="class or interface in java.io" class="externalLink">write</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></code></dd>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>b</code> - the data.</dd>
 <dd><code>off</code> - the start offset in the data.</dd>
 <dd><code>len</code> - the number of bytes to write.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#write(int)" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.write(int)</code></a></dd>
+<dd><code>FilterOutputStream.write(int)</code></dd>
 </dl>
 </li>
 </ul>
@@ -447,8 +447,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <li class="blockList">
 <h4>writeBoolean</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.58">writeBoolean</a>&#8203;(boolean&nbsp;v)
-                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBoolean(boolean)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+                  throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a <code>boolean</code> value to this output stream.
  If the argument <code>v</code>
  is <code>true</code>, the value <code>(byte)1</code>
@@ -461,11 +461,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
  equal to <code>v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBoolean(boolean)" title="class or interface in java.io" class="externalLink">writeBoolean</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeBoolean</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the boolean to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 </dl>
 </li>
 </ul>
@@ -476,8 +476,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <li class="blockList">
 <h4>writeByte</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.63">writeByte</a>&#8203;(int&nbsp;v)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeByte(int)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+               throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes to the output stream the eight low-
  order bits of the argument <code>v</code>.
  The 24 high-order bits of <code>v</code>
@@ -490,11 +490,11 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
  equal to <code>(byte)v</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeByte(int)" title="class or interface in java.io" class="externalLink">writeByte</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeByte</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the byte value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 </dl>
 </li>
 </ul>
@@ -504,14 +504,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput
 <ul class="blockList">
 <li class="blockList">
 <h4>writeBytes</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.72">writeBytes</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)
-                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">@Deprecated
+public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.72">writeBytes</a>&#8203;(java.lang.String&nbsp;s)
+                throws java.io.IOException</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
      <a href="#writeUTF(java.lang.String)"><code>writeUTF(String s)</code></a>, <a href="#writeChars(java.lang.String)"><code>writeChars(String s)</code></a> or another write method instead.</div>
 </div>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBytes(java.lang.String)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes a string to the output stream.
  For every character in the string
  <code>s</code>,  taken in order, one byte
@@ -529,11 +529,11 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
  in the string are ignored.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeBytes(java.lang.String)" title="class or interface in java.io" class="externalLink">writeBytes</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeBytes</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the string of bytes to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 </dl>
 </li>
 </ul>
@@ -544,16 +544,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeChar</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.84">writeChar</a>&#8203;(int&nbsp;v)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a char as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeChar(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeChar(int)</code></a>, except using
+               throws java.io.IOException</pre>
+<div class="block">Writes a char as specified by <code>DataOutputStream.writeChar(int)</code>, except using
  little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChar(int)" title="class or interface in java.io" class="externalLink">writeChar</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeChar</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>char</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -563,17 +563,17 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeChars</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.95">writeChars</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;s)
-                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a <code>String</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeChars(java.lang.String)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeChars(String)</code></a>, except
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.95">writeChars</a>&#8203;(java.lang.String&nbsp;s)
+                throws java.io.IOException</pre>
+<div class="block">Writes a <code>String</code> as specified by <code>DataOutputStream.writeChars(String)</code>, except
  each character is written using little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeChars(java.lang.String)" title="class or interface in java.io" class="externalLink">writeChars</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeChars</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>s</code> - the string value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -584,16 +584,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeDouble</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.108">writeDouble</a>&#8203;(double&nbsp;v)
-                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a <code>double</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeDouble(double)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeDouble(double)</code></a>, except
+                 throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> as specified by <code>DataOutputStream.writeDouble(double)</code>, except
  using little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeDouble(double)" title="class or interface in java.io" class="externalLink">writeDouble</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeDouble</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>double</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -604,16 +604,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeFloat</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.119">writeFloat</a>&#8203;(float&nbsp;v)
-                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a <code>float</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeFloat(float)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeFloat(float)</code></a>, except using
+                throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> as specified by <code>DataOutputStream.writeFloat(float)</code>, except using
  little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeFloat(float)" title="class or interface in java.io" class="externalLink">writeFloat</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeFloat</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>float</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -624,16 +624,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeInt</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.130">writeInt</a>&#8203;(int&nbsp;v)
-              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes an <code>int</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeInt(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeInt(int)</code></a>, except using
+              throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> as specified by <code>DataOutputStream.writeInt(int)</code>, except using
  little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeInt(int)" title="class or interface in java.io" class="externalLink">writeInt</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeInt</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>int</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -644,16 +644,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeLong</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.144">writeLong</a>&#8203;(long&nbsp;v)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a <code>long</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeLong(long)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeLong(long)</code></a>, except using
+               throws java.io.IOException</pre>
+<div class="block">Writes a <code>long</code> as specified by <code>DataOutputStream.writeLong(long)</code>, except using
  little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeLong(long)" title="class or interface in java.io" class="externalLink">writeLong</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeLong</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>long</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -664,16 +664,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>writeShort</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.156">writeShort</a>&#8203;(int&nbsp;v)
-                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Writes a <code>short</code> as specified by <a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutputStream.html?is-external=true#writeShort(int)" title="class or interface in java.io" class="externalLink"><code>DataOutputStream.writeShort(int)</code></a>, except using
+                throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> as specified by <code>DataOutputStream.writeShort(int)</code>, except using
  little-endian byte order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeShort(int)" title="class or interface in java.io" class="externalLink">writeShort</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeShort</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - the <code>short</code> value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs</dd>
 </dl>
 </li>
 </ul>
@@ -683,9 +683,9 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <ul class="blockList">
 <li class="blockList">
 <h4>writeUTF</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.162">writeUTF</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str)
-              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeUTF(java.lang.String)" title="class or interface in java.io" class="externalLink">java.io.DataOutput</a></code></span></div>
+<pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.162">writeUTF</a>&#8203;(java.lang.String&nbsp;str)
+              throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.io.DataOutput</code></span></div>
 <div class="block">Writes two bytes of length information
  to the output stream, followed
  by the
@@ -735,11 +735,11 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
  return a <code>String</code> equal to <code>s</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true#writeUTF(java.lang.String)" title="class or interface in java.io" class="externalLink">writeUTF</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io" class="externalLink">DataOutput</a></code></dd>
+<dd><code>writeUTF</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>str</code> - the string value to be written.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 </dl>
 </li>
 </ul>
@@ -750,8 +750,8 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
 <li class="blockList">
 <h4>close</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataOutputStream.html#line.170">close</a>()
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">java.io.FilterOutputStream</a></code></span></div>
+           throws java.io.IOException</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.io.FilterOutputStream</code></span></div>
 <div class="block">Closes this output stream and releases any system resources
  associated with the stream.
  <p>
@@ -760,16 +760,16 @@ public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleE
  calls the <code>close</code> method of its underlying output stream.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang" class="externalLink">AutoCloseable</a></code></dd>
+<dd><code>close</code>&nbsp;in interface&nbsp;<code>java.lang.AutoCloseable</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io" class="externalLink">Closeable</a></code></dd>
+<dd><code>close</code>&nbsp;in interface&nbsp;<code>java.io.Closeable</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#close()" title="class or interface in java.io" class="externalLink">close</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterOutputStream</a></code></dd>
+<dd><code>close</code>&nbsp;in class&nbsp;<code>java.io.FilterOutputStream</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs.</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#flush()" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.flush()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/io/FilterOutputStream.html?is-external=true#out" title="class or interface in java.io" class="externalLink"><code>FilterOutputStream.out</code></a></dd>
+<dd><code>FilterOutputStream.flush()</code>, 
+<code>FilterOutputStream.out</code></dd>
 </dl>
 </li>
 </ul>

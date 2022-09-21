@@ -131,21 +131,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="../TypeToken.html" title="type parameter in TypeToken">T</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../TypeToken.html#constructor(java.lang.reflect.Constructor)">constructor</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;?&gt;&nbsp;constructor)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../TypeToken.html#constructor(java.lang.reflect.Constructor)">constructor</a></span>&#8203;(java.lang.reflect.Constructor&lt;?&gt;&nbsp;constructor)</code></th>
 <td class="colLast">
 <div class="block">Returns the <a href="../Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,&#8203;T&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#from(java.lang.reflect.Constructor)">from</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Constructor</a>&lt;T&gt;&nbsp;constructor)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#from(java.lang.reflect.Constructor)">from</a></span>&#8203;(java.lang.reflect.Constructor&lt;T&gt;&nbsp;constructor)</code></th>
 <td class="colLast">
 <div class="block">Returns <a href="../Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#from(java.lang.reflect.Method)">from</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</code></th>
+<td class="colFirst"><code>static <a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,&#8203;java.lang.Object&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#from(java.lang.reflect.Method)">from</a></span>&#8203;(java.lang.reflect.Method&nbsp;method)</code></th>
 <td class="colLast">
 <div class="block">Returns <a href="../Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>method</code>.</div>
 </td>
@@ -158,8 +158,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../TypeToken.html#method(java.lang.reflect.Method)">method</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect" class="externalLink">Method</a>&nbsp;method)</code></th>
+<td class="colFirst"><code><a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../TypeToken.html" title="type parameter in TypeToken">T</a>,&#8203;java.lang.Object&gt;</code></td>
+<th class="colSecond" scope="row"><span class="typeNameLabel">TypeToken.</span><code><span class="memberNameLink"><a href="../TypeToken.html#method(java.lang.reflect.Method)">method</a></span>&#8203;(java.lang.reflect.Method&nbsp;method)</code></th>
 <td class="colLast">
 <div class="block">Returns the <a href="../Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 </td>
@@ -173,7 +173,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;R1 extends <a href="../Invokable.html" title="type parameter in Invokable">R</a>&gt;<br><a href="../Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../Invokable.html" title="type parameter in Invokable">T</a>,&#8203;R1&gt;</code></td>
-<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#returning(java.lang.Class)">returning</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang" class="externalLink">Class</a>&lt;R1&gt;&nbsp;returnType)</code></th>
+<th class="colSecond" scope="row"><span class="typeNameLabel">Invokable.</span><code><span class="memberNameLink"><a href="../Invokable.html#returning(java.lang.Class)">returning</a></span>&#8203;(java.lang.Class&lt;R1&gt;&nbsp;returnType)</code></th>
 <td class="colLast">
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </td>

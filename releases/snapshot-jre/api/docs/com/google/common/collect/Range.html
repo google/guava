@@ -116,11 +116,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class Range" class="title">Class Range&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</h2>
+<h2 title="Class Range" class="title">Class Range&lt;C extends java.lang.Comparable&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.Range&lt;C&gt;</li>
@@ -132,14 +132,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a>&lt;C&gt;</code></dd>
+<dd><code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;</code>, <code>java.io.Serializable</code>, <code>java.util.function.Predicate&lt;C&gt;</code></dd>
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html?is-external=true#containerOf()" title="class or interface in com.google.errorprone.annotations" class="externalLink">containerOf</a>="C")
-public final class <a href="../../../../src-html/com/google/common/collect/Range.html#line.120">Range</a>&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
-implements <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
+public final class <a href="../../../../src-html/com/google/common/collect/Range.html#line.120">Range</a>&lt;C extends java.lang.Comparable&gt;
+extends java.lang.Object
+implements <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;, java.io.Serializable</pre>
 <div class="block">A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
  <code>Comparable</code> type; for example, "integers from 1 to 100 inclusive." Note that it is not
  possible to <i>iterate</i> over these contained values. To do so, pass this range instance and an
@@ -187,9 +187,9 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  <ul>
    <li>Use immutable value types only, if at all possible. If you must use a mutable type, <b>do
        not</b> allow the endpoint instances to mutate after the range is created!
-   <li>Your value type's comparison method should be <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">consistent with
-       equals</a> if at all possible. Otherwise, be aware that concepts used throughout this
-       documentation such as "equal", "same", "unique" and so on actually refer to whether <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang" class="externalLink"><code>compareTo</code></a> returns zero, not whether <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>equals</code></a>
+   <li>Your value type's comparison method should be consistent with
+       equals if at all possible. Otherwise, be aware that concepts used throughout this
+       documentation such as "equal", "same", "unique" and so on actually refer to whether <code>compareTo</code> returns zero, not whether <code>equals</code>
        returns <code>true</code>.
    <li>A class which implements <code>Comparable&lt;UnrelatedType&gt;</code> is very broken, and will cause
        undefined horrible things to happen in <code>Range</code>. For now, the Range API does not
@@ -246,7 +246,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#all()">all</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a range that contains every value of type <code>C</code>.</div>
@@ -263,14 +263,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#atLeast(C)">atLeast</a></span>&#8203;(C&nbsp;endpoint)</code></th>
 <td class="colLast">
 <div class="block">Returns a range that contains all values greater than or equal to <code>endpoint</code>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#atMost(C)">atMost</a></span>&#8203;(C&nbsp;endpoint)</code></th>
 <td class="colLast">
 <div class="block">Returns a range that contains all values less than or equal to <code>endpoint</code>.</div>
@@ -284,7 +284,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closed(C,C)">closed</a></span>&#8203;(C&nbsp;lower,
       C&nbsp;upper)</code></th>
 <td class="colLast">
@@ -293,7 +293,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#closedOpen(C,C)">closedOpen</a></span>&#8203;(C&nbsp;lower,
           C&nbsp;upper)</code></th>
 <td class="colLast">
@@ -310,14 +310,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsAll(java.lang.Iterable)">containsAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsAll(java.lang.Iterable)">containsAll</a></span>&#8203;(java.lang.Iterable&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if every element in <code>values</code> is <a href="#contains(C)">contained</a> in
  this range.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#downTo(C,com.google.common.collect.BoundType)">downTo</a></span>&#8203;(C&nbsp;endpoint,
       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code></th>
 <td class="colLast">
@@ -326,8 +326,8 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encloseAll(java.lang.Iterable)">encloseAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;C&gt;&nbsp;values)</code></th>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#encloseAll(java.lang.Iterable)">encloseAll</a></span>&#8203;(java.lang.Iterable&lt;C&gt;&nbsp;values)</code></th>
 <td class="colLast">
 <div class="block">Returns the minimal range that <a href="#contains(C)">contains</a> all of the
  given values.</div>
@@ -343,7 +343,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if <code>object</code> is a range having the same endpoints and bound types as
  this range.</div>
@@ -358,7 +358,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#greaterThan(C)">greaterThan</a></span>&#8203;(C&nbsp;endpoint)</code></th>
 <td class="colLast">
 <div class="block">Returns a range that contains all values strictly greater than <code>endpoint</code>.</div>
@@ -408,7 +408,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i21" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lessThan(C)">lessThan</a></span>&#8203;(C&nbsp;endpoint)</code></th>
 <td class="colLast">
 <div class="block">Returns a range that contains all values strictly less than <code>endpoint</code>.</div>
@@ -430,7 +430,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i24" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#open(C,C)">open</a></span>&#8203;(C&nbsp;lower,
     C&nbsp;upper)</code></th>
 <td class="colLast">
@@ -439,7 +439,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i25" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#openClosed(C,C)">openClosed</a></span>&#8203;(C&nbsp;lower,
           C&nbsp;upper)</code></th>
 <td class="colLast">
@@ -448,7 +448,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i26" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#range(C,com.google.common.collect.BoundType,C,com.google.common.collect.BoundType)">range</a></span>&#8203;(C&nbsp;lower,
      <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerType,
      C&nbsp;upper,
@@ -459,7 +459,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i27" class="rowColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#singleton(C)">singleton</a></span>&#8203;(C&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns a range that <a href="#contains(C)">contains</a> only the given value.</div>
@@ -474,7 +474,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of this range, such as <code>"[3..5)"</code> (other examples are
@@ -497,7 +497,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 </td>
 </tr>
 <tr id="i32" class="altColor">
-<td class="colFirst"><code>static &lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
+<td class="colFirst"><code>static &lt;C extends java.lang.Comparable&lt;?&gt;&gt;<br><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#upTo(C,com.google.common.collect.BoundType)">upTo</a></span>&#8203;(C&nbsp;endpoint,
     <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</code></th>
 <td class="colLast">
@@ -510,8 +510,8 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.com.google.common.base.Predicate">
@@ -524,8 +524,8 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <li class="blockList"><a id="methods.inherited.from.class.java.util.function.Predicate">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.function.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Predicate</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#and(java.util.function.Predicate)" title="class or interface in java.util.function" class="externalLink">and</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#negate()" title="class or interface in java.util.function" class="externalLink">negate</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Predicate.html?is-external=true#or(java.util.function.Predicate)" title="class or interface in java.util.function" class="externalLink">or</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.function.Predicate</h3>
+<code>and, negate, or</code></li>
 </ul>
 </li>
 </ul>
@@ -551,15 +551,15 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>open</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.172">open</a>&#8203;(C&nbsp;lower,
-                                                      C&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.172">open</a>&#8203;(C&nbsp;lower,
+                                                                C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>lower</code> and strictly less
  than <code>upper</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <i>or equal to</i> <code>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <i>or equal to</i> <code>
      upper</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
+<dd><code>java.lang.ClassCastException</code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -573,14 +573,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.184">closed</a>&#8203;(C&nbsp;lower,
-                                                        C&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.184">closed</a>&#8203;(C&nbsp;lower,
+                                                                  C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to <code>lower</code> and less than
  or equal to <code>upper</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code>java.lang.ClassCastException</code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -594,14 +594,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.196">closedOpen</a>&#8203;(C&nbsp;lower,
-                                                            C&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.196">closedOpen</a>&#8203;(C&nbsp;lower,
+                                                                      C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to <code>lower</code> and strictly
  less than <code>upper</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code>java.lang.ClassCastException</code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -615,14 +615,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>openClosed</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.208">openClosed</a>&#8203;(C&nbsp;lower,
-                                                            C&nbsp;upper)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.208">openClosed</a>&#8203;(C&nbsp;lower,
+                                                                      C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>lower</code> and less than or
  equal to <code>upper</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code>java.lang.ClassCastException</code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -636,16 +636,16 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>range</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.220">range</a>&#8203;(C&nbsp;lower,
-                                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerType,
-                                                       C&nbsp;upper,
-                                                       <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperType)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.220">range</a>&#8203;(C&nbsp;lower,
+                                                                 <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerType,
+                                                                 C&nbsp;upper,
+                                                                 <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperType)</pre>
 <div class="block">Returns a range that contains any value from <code>lower</code> to <code>upper</code>, where each
  endpoint may be either inclusive (closed) or exclusive (open).</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>lower</code> is greater than <code>upper</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>lower</code> is greater than <code>upper</code></dd>
+<dd><code>java.lang.ClassCastException</code> - if <code>lower</code> and <code>upper</code> are not mutually comparable</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -659,7 +659,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>lessThan</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.237">lessThan</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.237">lessThan</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values strictly less than <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -675,7 +675,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>atMost</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.246">atMost</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.246">atMost</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values less than or equal to <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -691,8 +691,8 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>upTo</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.256">upTo</a>&#8203;(C&nbsp;endpoint,
-                                                      <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.256">upTo</a>&#8203;(C&nbsp;endpoint,
+                                                                <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a range with no lower bound up to the given endpoint, which may be either inclusive
  (closed) or exclusive (open).</div>
 <dl>
@@ -709,7 +709,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>greaterThan</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.272">greaterThan</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.272">greaterThan</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -725,7 +725,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>atLeast</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.281">atLeast</a>&#8203;(C&nbsp;endpoint)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.281">atLeast</a>&#8203;(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to <code>endpoint</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -741,8 +741,8 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>downTo</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.291">downTo</a>&#8203;(C&nbsp;endpoint,
-                                                        <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.291">downTo</a>&#8203;(C&nbsp;endpoint,
+                                                                  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a range from the given endpoint, which may be either inclusive (closed) or exclusive
  (open), with no upper bound.</div>
 <dl>
@@ -757,7 +757,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.309">all</a>()</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.309">all</a>()</pre>
 <div class="block">Returns a range that contains every value of type <code>C</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -773,7 +773,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>singleton</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.320">singleton</a>&#8203;(C&nbsp;value)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.320">singleton</a>&#8203;(C&nbsp;value)</pre>
 <div class="block">Returns a range that <a href="#contains(C)">contains</a> only the given value. The
  returned range is <a href="BoundType.html#CLOSED">closed</a> on both ends.</div>
 <dl>
@@ -788,14 +788,14 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>encloseAll</h4>
-<pre class="methodSignature">public static&nbsp;&lt;C extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.333">encloseAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;C&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;C extends java.lang.Comparable&lt;?&gt;&gt;&nbsp;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.333">encloseAll</a>&#8203;(java.lang.Iterable&lt;C&gt;&nbsp;values)</pre>
 <div class="block">Returns the minimal range that <a href="#contains(C)">contains</a> all of the
  given values. The returned range is <a href="BoundType.html#CLOSED">closed</a> on both ends.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassCastException</a></code> - if the values are not mutually comparable</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util" class="externalLink">NoSuchElementException</a></code> - if <code>values</code> is empty</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any of <code>values</code> is null</dd>
+<dd><code>java.lang.ClassCastException</code> - if the values are not mutually comparable</dd>
+<dd><code>java.util.NoSuchElementException</code> - if <code>values</code> is empty</dd>
+<dd><code>java.lang.NullPointerException</code> - if any of <code>values</code> is null</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
 </dl>
@@ -821,7 +821,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="block">Returns the lower endpoint of this range.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if this range is unbounded below (that is, <a href="#hasLowerBound()"><code>hasLowerBound()</code></a> returns <code>false</code>)</dd>
+<dd><code>java.lang.IllegalStateException</code> - if this range is unbounded below (that is, <a href="#hasLowerBound()"><code>hasLowerBound()</code></a> returns <code>false</code>)</dd>
 </dl>
 </li>
 </ul>
@@ -836,7 +836,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  its lower endpoint, <a href="BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if this range is unbounded below (that is, <a href="#hasLowerBound()"><code>hasLowerBound()</code></a> returns <code>false</code>)</dd>
+<dd><code>java.lang.IllegalStateException</code> - if this range is unbounded below (that is, <a href="#hasLowerBound()"><code>hasLowerBound()</code></a> returns <code>false</code>)</dd>
 </dl>
 </li>
 </ul>
@@ -860,7 +860,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="block">Returns the upper endpoint of this range.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if this range is unbounded above (that is, <a href="#hasUpperBound()"><code>hasUpperBound()</code></a> returns <code>false</code>)</dd>
+<dd><code>java.lang.IllegalStateException</code> - if this range is unbounded above (that is, <a href="#hasUpperBound()"><code>hasUpperBound()</code></a> returns <code>false</code>)</dd>
 </dl>
 </li>
 </ul>
@@ -875,7 +875,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
  its upper endpoint, <a href="BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if this range is unbounded above (that is, <a href="#hasUpperBound()"><code>hasUpperBound()</code></a> returns <code>false</code>)</dd>
+<dd><code>java.lang.IllegalStateException</code> - if this range is unbounded above (that is, <a href="#hasUpperBound()"><code>hasUpperBound()</code></a> returns <code>false</code>)</dd>
 </dl>
 </li>
 </ul>
@@ -917,7 +917,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.446">apply</a>&#8203;(<a href="Range.html" title="type parameter in Range">C</a>&nbsp;input)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Provided only to satisfy the <a href="../base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="#contains(C)"><code>contains(C)</code></a>
@@ -935,7 +935,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  </ul></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../base/Predicate.html#apply(T)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Range.html" title="type parameter in Range">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="../base/Predicate.html#apply(T)">apply</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Range.html" title="type parameter in Range">C</a> extends java.lang.Comparable&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -945,7 +945,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.456">containsAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.456">containsAll</a>&#8203;(java.lang.Iterable&lt;? extends <a href="Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns <code>true</code> if every element in <code>values</code> is <a href="#contains(C)">contained</a> in
  this range.</div>
 </li>
@@ -1029,7 +1029,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  element is <a href="#all()"><code>all()</code></a>).</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>isConnected(connectedRange)</code> is <code>false</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>isConnected(connectedRange)</code> is <code>false</code></dd>
 </dl>
 </li>
 </ul>
@@ -1053,7 +1053,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  <p>The gap operation is commutative.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if this range and <code>otherRange</code> have a nonempty
+<dd><code>java.lang.IllegalArgumentException</code> - if this range and <code>otherRange</code> have a nonempty
      intersection</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>27.0</dd>
@@ -1116,7 +1116,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.678">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
+                      java.lang.Object&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is a range having the same endpoints and bound types as
  this range. Note that discrete ranges such as <code>(1..4)</code> and <code>[2..3]</code> are <b>not</b>
  equal to one another, despite the fact that they each contain precisely the same set of values.
@@ -1124,17 +1124,17 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
  <code>[3..3)</code>, <code>(3..3]</code>, <code>(4..4]</code> are all unequal.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../base/Predicate.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Range.html" title="type parameter in Range">C</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&gt;</code></dd>
+<dd><code><a href="../base/Predicate.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="Range.html" title="type parameter in Range">C</a> extends java.lang.Comparable&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>object</code> - the reference object with which to compare.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this object is the same as the obj
           argument; <code>false</code> otherwise.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a></dd>
+<dd><code>Object.hashCode()</code>, 
+<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1148,12 +1148,12 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <div class="block">Returns a hash code for this range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1163,12 +1163,12 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.697">toString</a>()</pre>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.697">toString</a>()</pre>
 <div class="block">Returns a string representation of this range, such as <code>"[3..5)"</code> (other examples are
  listed in the class documentation).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>

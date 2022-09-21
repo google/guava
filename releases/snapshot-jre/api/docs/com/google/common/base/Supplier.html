@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.base</a></div>
-<h2 title="Interface Supplier" class="title">Interface Supplier&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
+<h2 title="Interface Supplier" class="title">Interface Supplier&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;T&gt;</code></dd>
+<dd><code>java.util.function.Supplier&lt;T&gt;</code></dd>
 </dl>
 <dl>
 <dt>Functional Interface:</dt>
@@ -132,10 +132,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/FunctionalInterface.html?is-external=true" title="class or interface in java.lang" class="externalLink">@FunctionalInterface</a>
-public interface <a href="../../../../src-html/com/google/common/base/Supplier.html#line.39">Supplier</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;T&gt;</pre>
-<div class="block">Legacy version of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink"><code>java.util.function.Supplier</code></a>. Semantically,
+@FunctionalInterface
+public interface <a href="../../../../src-html/com/google/common/base/Supplier.html#line.39">Supplier</a>&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+extends java.util.function.Supplier&lt;T&gt;</pre>
+<div class="block">Legacy version of <code>java.util.function.Supplier</code>. Semantically,
  this could be a factory, generator, builder, closure, or something else entirely. No guarantees
  are implied by this interface.
 
@@ -209,7 +209,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Su
  instance, depending on the implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true#get()" title="class or interface in java.util.function" class="externalLink">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Supplier.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Supplier</a>&lt;<a href="Supplier.html" title="type parameter in Supplier">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.function.Supplier&lt;<a href="Supplier.html" title="type parameter in Supplier">T</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an instance of the appropriate type</dd>
 </dl>

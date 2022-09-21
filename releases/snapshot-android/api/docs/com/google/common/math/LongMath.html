@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.math.LongMath</li>
@@ -133,14 +133,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public final class <a href="../../../../src-html/com/google/common/math/LongMath.html#line.51">LongMath</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">A class for arithmetic on values of type <code>long</code>. Where possible, methods are defined and
  named analogously to their <code>BigInteger</code> counterparts.
 
  <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
 
- <p>Similar functionality for <code>int</code> and for <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math" class="externalLink"><code>BigInteger</code></a> can be found in <a href="IntMath.html" title="class in com.google.common.math"><code>IntMath</code></a> and <a href="BigIntegerMath.html" title="class in com.google.common.math"><code>BigIntegerMath</code></a> respectively. For other common operations on <code>long</code>
+ <p>Similar functionality for <code>int</code> and for <code>BigInteger</code> can be found in <a href="IntMath.html" title="class in com.google.common.math"><code>IntMath</code></a> and <a href="BigIntegerMath.html" title="class in com.google.common.math"><code>BigIntegerMath</code></a> respectively. For other common operations on <code>long</code>
  values, see <a href="../primitives/Longs.html" title="class in com.google.common.primitives"><code>Longs</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -174,7 +174,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
         int&nbsp;k)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
- <code>k</code>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
+ <code>k</code>, or <code>Long.MAX_VALUE</code> if the result does not fit in a <code>long</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -220,7 +220,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>static long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#divide(long,long,java.math.RoundingMode)">divide</a></span>&#8203;(long&nbsp;p,
       long&nbsp;q,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</code></th>
+      java.math.RoundingMode&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
  RoundingMode</code>.</div>
@@ -231,7 +231,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#factorial(int)">factorial</a></span>&#8203;(int&nbsp;n)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
- <code>n == 0</code>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
+ <code>n == 0</code>, or <code>Long.MAX_VALUE</code> if the result does not fit in a <code>long</code>.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -267,7 +267,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#log10(long,java.math.RoundingMode)">log10</a></span>&#8203;(long&nbsp;x,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</code></th>
+     java.math.RoundingMode&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 </td>
@@ -275,7 +275,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#log2(long,java.math.RoundingMode)">log2</a></span>&#8203;(long&nbsp;x,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</code></th>
+    java.math.RoundingMode&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 </td>
@@ -315,7 +315,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#roundToDouble(long,java.math.RoundingMode)">roundToDouble</a></span>&#8203;(long&nbsp;x,
-             <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</code></th>
+             java.math.RoundingMode&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode.</div>
 </td>
@@ -359,7 +359,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sqrt(long,java.math.RoundingMode)">sqrt</a></span>&#8203;(long&nbsp;x,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</code></th>
+    java.math.RoundingMode&nbsp;mode)</code></th>
 <td class="colLast">
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 </td>
@@ -369,8 +369,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -400,8 +400,8 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  <code>checkedPow(2, log2(x, CEILING))</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - of the next-higher power of two is not representable as a <code>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>x &lt;= 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - of the next-higher power of two is not representable as a <code>
      long</code>, i.e. when <code>x &gt; 2^62</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
@@ -420,7 +420,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  checkedPow(2, log2(x, FLOOR))</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>x &lt;= 0</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
 </dl>
@@ -436,7 +436,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.
 
  <p>This differs from <code>Long.bitCount(x) == 1</code>, because <code>
- Long.bitCount(Long.MIN_VALUE) == 1</code>, but <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MIN_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MIN_VALUE</code></a> is not a power of two.</div>
+ Long.bitCount(Long.MIN_VALUE) == 1</code>, but <code>Long.MIN_VALUE</code> is not a power of two.</div>
 </li>
 </ul>
 <a id="log2(long,java.math.RoundingMode)">
@@ -446,12 +446,12 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>log2</h4>
 <pre class="methodSignature">public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.120">log2</a>&#8203;(long&nbsp;x,
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
+                       java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>mode</code> is <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math" class="externalLink"><code>RoundingMode.UNNECESSARY</code></a> and <code>x</code>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>x &lt;= 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>mode</code> is <code>RoundingMode.UNNECESSARY</code> and <code>x</code>
      is not a power of two</dd>
 </dl>
 </li>
@@ -464,12 +464,12 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <h4>log10</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.161">log10</a>&#8203;(long&nbsp;x,
-                        <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
+                        java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>mode</code> is <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math" class="externalLink"><code>RoundingMode.UNNECESSARY</code></a> and <code>x</code>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>x &lt;= 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>mode</code> is <code>RoundingMode.UNNECESSARY</code> and <code>x</code>
      is not a power of ten</dd>
 </dl>
 </li>
@@ -488,7 +488,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  time.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>k &lt; 0</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>k &lt; 0</code></dd>
 </dl>
 </li>
 </ul>
@@ -500,12 +500,12 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <h4>sqrt</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.312">sqrt</a>&#8203;(long&nbsp;x,
-                        <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
+                        java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>x &lt; 0</code></dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>mode</code> is <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math" class="externalLink"><code>RoundingMode.UNNECESSARY</code></a> and <code>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>x &lt; 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>mode</code> is <code>RoundingMode.UNNECESSARY</code> and <code>
      sqrt(x)</code> is not an integer</dd>
 </dl>
 </li>
@@ -519,12 +519,12 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.384">divide</a>&#8203;(long&nbsp;p,
                           long&nbsp;q,
-                          <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
+                          java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
  RoundingMode</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>q == 0</code>, or if <code>mode == UNNECESSARY</code> and <code>a</code>
+<dd><code>java.lang.ArithmeticException</code> - if <code>q == 0</code>, or if <code>mode == UNNECESSARY</code> and <code>a</code>
      is not an integer multiple of <code>b</code></dd>
 </dl>
 </li>
@@ -552,7 +552,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
  </code></pre></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>m &lt;= 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>m &lt;= 0</code></dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a></dd>
@@ -582,7 +582,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  </code></pre></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>m &lt;= 0</code></dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>m &lt;= 0</code></dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a></dd>
@@ -601,7 +601,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  0</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>a &lt; 0</code> or <code>b &lt; 0</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>a &lt; 0</code> or <code>b &lt; 0</code></dd>
 </dl>
 </li>
 </ul>
@@ -616,7 +616,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>a + b</code> overflows in signed <code>long</code> arithmetic</dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>a + b</code> overflows in signed <code>long</code> arithmetic</dd>
 </dl>
 </li>
 </ul>
@@ -632,7 +632,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>a - b</code> overflows in signed <code>long</code> arithmetic</dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>a - b</code> overflows in signed <code>long</code> arithmetic</dd>
 </dl>
 </li>
 </ul>
@@ -647,7 +647,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>a * b</code> overflows in signed <code>long</code> arithmetic</dd>
+<dd><code>java.lang.ArithmeticException</code> - if <code>a * b</code> overflows in signed <code>long</code> arithmetic</dd>
 </dl>
 </li>
 </ul>
@@ -663,7 +663,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>b</code> to the <code>k</code>th power overflows in signed <code>
+<dd><code>java.lang.ArithmeticException</code> - if <code>b</code> to the <code>k</code>th power overflows in signed <code>
      long</code> arithmetic</dd>
 </dl>
 </li>
@@ -745,10 +745,10 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.773">factorial</a>&#8203;(int&nbsp;n)</pre>
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
- <code>n == 0</code>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
+ <code>n == 0</code>, or <code>Long.MAX_VALUE</code> if the result does not fit in a <code>long</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>n &lt; 0</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>n &lt; 0</code></dd>
 </dl>
 </li>
 </ul>
@@ -761,10 +761,10 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <pre class="methodSignature">public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.809">binomial</a>&#8203;(int&nbsp;n,
                             int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
- <code>k</code>, or <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang" class="externalLink"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
+ <code>k</code>, or <code>Long.MAX_VALUE</code> if the result does not fit in a <code>long</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>n &lt; 0</code>, <code>k &lt; 0</code>, or <code>k &gt; n</code></dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>n &lt; 0</code>, <code>k &lt; 0</code>, or <code>k &gt; n</code></dd>
 </dl>
 </li>
 </ul>
@@ -798,10 +798,10 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
  Returns <code>false</code> if <code>n</code> is zero, one, or a composite number (one which <i>can</i> be
  factored into smaller positive integers).
 
- <p>To test larger numbers, use <a href="https://docs.oracle.com/javase/9/docs/api/java/math/BigInteger.html?is-external=true#isProbablePrime(int)" title="class or interface in java.math" class="externalLink"><code>BigInteger.isProbablePrime(int)</code></a>.</div>
+ <p>To test larger numbers, use <code>BigInteger.isProbablePrime(int)</code>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if <code>n</code> is negative</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>n</code> is negative</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
 </dl>
@@ -815,20 +815,20 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <h4>roundToDouble</h4>
 <pre class="methodSignature"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.1244">roundToDouble</a>&#8203;(long&nbsp;x,
-                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math" class="externalLink">RoundingMode</a>&nbsp;mode)</pre>
+                                   java.math.RoundingMode&nbsp;mode)</pre>
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode. If <code>x</code>
  is precisely representable as a <code>double</code>, its <code>double</code> value will be returned;
  otherwise, the rounding will choose between the two nearest representable values with <code>
  mode</code>.
 
- <p>For the case of <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true#HALF_EVEN" title="class or interface in java.math" class="externalLink"><code>RoundingMode.HALF_EVEN</code></a>, this implementation uses the IEEE 754
+ <p>For the case of <code>RoundingMode.HALF_EVEN</code>, this implementation uses the IEEE 754
  default rounding mode: if the two nearest representable values are equally near, the one with
  the least significant bit zero is chosen. (In such cases, both of the nearest representable
  values are even integers; this method returns the one that is a multiple of a greater power of
  two.)</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang" class="externalLink">ArithmeticException</a></code> - if <code>mode</code> is <a href="https://docs.oracle.com/javase/9/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math" class="externalLink"><code>RoundingMode.UNNECESSARY</code></a> and <code>x</code>
+<dd><code>java.lang.ArithmeticException</code> - if <code>mode</code> is <code>RoundingMode.UNNECESSARY</code> and <code>x</code>
      is not precisely representable as a <code>double</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>30.0</dd>

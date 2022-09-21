@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.Monitor</li>
@@ -133,16 +133,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public final class <a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.199">Monitor</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">A synchronization abstraction supporting waiting on arbitrary boolean conditions.
 
- <p>This class is intended as a replacement for <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantLock</code></a>. Code using <code>Monitor</code>
+ <p>This class is intended as a replacement for <code>ReentrantLock</code>. Code using <code>Monitor</code>
  is less error-prone and more readable than code using <code>ReentrantLock</code>, without significant
  performance loss. <code>Monitor</code> even has the potential for performance gain by optimizing the
  evaluation and signaling of conditions. Signaling is entirely <a href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>. By
  eliminating explicit signaling, this class can guarantee that only one thread is awakened when a
- condition becomes true (no "signaling storms" due to use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#signalAll()" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>Condition.signalAll</code></a>) and that no signals are lost
- (no "hangs" due to incorrect use of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/Condition.html?is-external=true#signal()" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>Condition.signal</code></a>).
+ condition becomes true (no "signaling storms" due to use of <code>Condition.signalAll</code>) and that no signals are lost
+ (no "hangs" due to incorrect use of <code>Condition.signal</code>).
 
  <p>A thread is said to <i>occupy</i> a monitor if it has <i>entered</i> the monitor but not yet
  <i>left</i>. Only one thread may occupy a given monitor at any moment. A monitor is also
@@ -182,7 +182,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <h2>Comparison with <code>synchronized</code> and <code>ReentrantLock</code></h2>
 
  <p>The following examples show a simple threadsafe holder expressed using <code>synchronized</code>,
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks" class="externalLink"><code>ReentrantLock</code></a>, and <code>Monitor</code>.
+ <code>ReentrantLock</code>, and <code>Monitor</code>.
 
  <h3><code>synchronized</code></h3>
 
@@ -386,7 +386,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enter(long,java.util.concurrent.TimeUnit)">enter</a></span>&#8203;(long&nbsp;time,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+     java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor.</div>
 </td>
@@ -402,7 +402,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterIf(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterIf</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
        long&nbsp;time,
-       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+       java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
@@ -418,7 +418,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterIfInterruptibly</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                     long&nbsp;time,
-                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                    java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
@@ -433,7 +433,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterInterruptibly(long,java.util.concurrent.TimeUnit)">enterInterruptibly</a></span>&#8203;(long&nbsp;time,
-                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                  java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor.</div>
 </td>
@@ -449,7 +449,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterWhen(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterWhen</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
          long&nbsp;time,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+         java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
@@ -465,7 +465,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">enterWhenUninterruptibly</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                         long&nbsp;time,
-                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                        java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
@@ -494,7 +494,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasQueuedThread(java.lang.Thread)">hasQueuedThread</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;thread)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasQueuedThread(java.lang.Thread)">hasQueuedThread</a></span>&#8203;(java.lang.Thread&nbsp;thread)</code></th>
 <td class="colLast">
 <div class="block">Queries whether the given thread is waiting to enter this monitor.</div>
 </td>
@@ -567,7 +567,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#waitFor(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">waitFor</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
        long&nbsp;time,
-       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+       java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>
@@ -583,7 +583,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">waitForUninterruptibly</a></span>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                       long&nbsp;time,
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+                      java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>
@@ -593,8 +593,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -665,7 +665,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>enter</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.371">enter</a>&#8203;(long&nbsp;time,
-                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
+                     java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Enters this monitor. Blocks at most the given time.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -680,11 +680,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>enterInterruptibly</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.401">enterInterruptibly</a>()
-                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                        throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor. Blocks indefinitely, but may be interrupted.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -695,14 +695,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>enterInterruptibly</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.411">enterInterruptibly</a>&#8203;(long&nbsp;time,
-                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                                  java.util.concurrent.TimeUnit&nbsp;unit)
+                           throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor. Blocks at most the given time, and may be interrupted.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the monitor was entered</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -729,11 +729,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>enterWhen</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.432">enterWhen</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+               throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely, but may be interrupted.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -745,8 +745,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>enterWhen</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.461">enterWhen</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                          long&nbsp;time,
-                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                         java.util.concurrent.TimeUnit&nbsp;unit)
+                  throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
  the time to acquire the lock and the time to wait for the guard to be satisfied, and may be
  interrupted.</div>
@@ -754,7 +754,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the monitor was entered, which guarantees that the guard is now satisfied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -776,7 +776,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>enterWhenUninterruptibly</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.541">enterWhenUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                         long&nbsp;time,
-                                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
+                                        java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
  the time to acquire the lock and the time to wait for the guard to be satisfied.</div>
 <dl>
@@ -808,7 +808,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>enterIf</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.631">enterIf</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
+                       java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
  lock, but does not wait for the guard to be satisfied.</div>
 <dl>
@@ -824,14 +824,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>enterIfInterruptibly</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.657">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
-                             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                             throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied, and may be interrupted.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the monitor was entered, which guarantees that the guard is now satisfied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -843,15 +843,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>enterIfInterruptibly</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.680">enterIfInterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                     long&nbsp;time,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                                    java.util.concurrent.TimeUnit&nbsp;unit)
+                             throws java.lang.InterruptedException</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
  lock, but does not wait for the guard to be satisfied, and may be interrupted.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the monitor was entered, which guarantees that the guard is now satisfied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code></dd>
+<dd><code>java.lang.InterruptedException</code></dd>
 </dl>
 </li>
 </ul>
@@ -879,12 +879,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>waitFor</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.734">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
-             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+             throws java.lang.InterruptedException</pre>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be called
  only by a thread currently occupying this monitor.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -896,15 +896,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>waitFor</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.750">waitFor</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></pre>
+                       java.util.concurrent.TimeUnit&nbsp;unit)
+                throws java.lang.InterruptedException</pre>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time, and may be interrupted. May
  be called only by a thread currently occupying this monitor.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>whether the guard is now satisfied</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang" class="externalLink">InterruptedException</a></code> - if interrupted while waiting</dd>
+<dd><code>java.lang.InterruptedException</code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -927,7 +927,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>waitForUninterruptibly</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.784">waitForUninterruptibly</a>&#8203;(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                       long&nbsp;time,
-                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</pre>
+                                      java.util.concurrent.TimeUnit&nbsp;unit)</pre>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
  thread currently occupying this monitor.</div>
 <dl>
@@ -1021,7 +1021,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThread</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.884">hasQueuedThread</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang" class="externalLink">Thread</a>&nbsp;thread)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.884">hasQueuedThread</a>&#8203;(java.lang.Thread&nbsp;thread)</pre>
 <div class="block">Queries whether the given thread is waiting to enter this monitor. Note that because
  cancellations may occur at any time, a <code>true</code> return does not guarantee that this thread
  will ever enter this monitor. This method is designed primarily for use in monitoring of the

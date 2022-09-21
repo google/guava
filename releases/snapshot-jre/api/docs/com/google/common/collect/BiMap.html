@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Interface BiMap" class="title">Interface BiMap&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
+<h2 title="Interface BiMap" class="title">Interface BiMap&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
 </div>
 <div class="contentContainer">
 <div class="description">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;</code></dd>
+<dd><code>java.util.Map&lt;K,&#8203;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>All Known Implementing Classes:</dt>
@@ -132,8 +132,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.37">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/BiMap.html#line.37">BiMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
+extends java.util.Map&lt;K,&#8203;V&gt;</pre>
 <div class="block">A bimap (or "bidirectional map") is a map that preserves the uniqueness of its values as well as
  that of its keys. This constraint enables bimaps to support an "inverse view", which is another
  bimap containing the same entries as this bimap but with reversed keys and values.
@@ -162,8 +162,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <li class="blockList"><a id="nested.classes.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">K</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">V</a>&gt;</code></li>
+<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
+<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -210,17 +210,17 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</code></th>
 <td class="colLast">
 <div class="block">Copies all of the mappings from the specified map to this map
  (optional operation).</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#values()">values</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> view of the values contained in this map.</div>
+<div class="block">Returns a <code>Collection</code> view of the values contained in this map.</div>
 </td>
 </tr>
 </table>
@@ -228,8 +228,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#compute(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">compute</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfAbsent(K,java.util.function.Function)" title="class or interface in java.util" class="externalLink">computeIfAbsent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfPresent(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">computeIfPresent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsKey</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsValue</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util" class="externalLink">entrySet</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#forEach(java.util.function.BiConsumer)" title="class or interface in java.util" class="externalLink">forEach</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util" class="externalLink">get</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#getOrDefault(java.lang.Object,V)" title="class or interface in java.util" class="externalLink">getOrDefault</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util" class="externalLink">keySet</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#merge(K,V,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">merge</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putIfAbsent(K,V)" title="class or interface in java.util" class="externalLink">putIfAbsent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V)" title="class or interface in java.util" class="externalLink">replace</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V,V)" title="class or interface in java.util" class="externalLink">replace</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replaceAll(java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">replaceAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.Map</h3>
+<code>clear, compute, computeIfAbsent, computeIfPresent, containsKey, containsValue, entrySet, equals, forEach, get, getOrDefault, hashCode, isEmpty, keySet, merge, putIfAbsent, remove, remove, replace, replace, replaceAll, size</code></li>
 </ul>
 </li>
 </ul>
@@ -263,11 +263,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  (optional operation).  If the map previously contained a mapping for
  the key, the old value is replaced by the specified value.  (A map
  <code>m</code> is said to contain a mapping for a key <code>k</code> if and only
- if <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>m.containsKey(k)</code></a> would return
+ if <code>m.containsKey(k)</code> would return
  <code>true</code>.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put(K,V)" title="class or interface in java.util" class="externalLink">put</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is to be associated</dd>
 <dd><code>value</code> - value to be associated with the specified key</dd>
@@ -278,7 +278,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
          previously associated <code>null</code> with <code>key</code>,
          if the implementation supports <code>null</code> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if the given value is already bound to a different key in this
+<dd><code>java.lang.IllegalArgumentException</code> - if the given value is already bound to a different key in this
      bimap. The bimap will remain unmodified in this event. To avoid this exception, call <a href="#forcePut(K,V)"><code>forcePut(K, V)</code></a> instead.</dd>
 </dl>
 </li>
@@ -322,10 +322,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.87">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">void&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.87">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="BiMap.html" title="type parameter in BiMap">K</a>,&#8203;? extends <a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;map)</pre>
 <div class="block">Copies all of the mappings from the specified map to this map
  (optional operation).  The effect of this call is equivalent to that
- of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put(K,V)" title="class or interface in java.util" class="externalLink"><code>put(k, v)</code></a> on this map once
+ of calling <code>put(k, v)</code> on this map once
  for each mapping from key <code>k</code> to value <code>v</code> in the
  specified map.  The behavior of this operation is undefined if the
  specified map is modified while the operation is in progress.
@@ -334,11 +334,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  of <code>map</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util" class="externalLink">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if an attempt to <code>put</code> any entry fails. Note that some
+<dd><code>java.lang.IllegalArgumentException</code> - if an attempt to <code>put</code> any entry fails. Note that some
      map entries may have been added to the bimap before the exception was thrown.</dd>
 </dl>
 </li>
@@ -349,8 +349,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink">Set</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.98">values</a>()</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> view of the values contained in this map.
+<pre class="methodSignature">java.util.Set&lt;<a href="BiMap.html" title="type parameter in BiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/BiMap.html#line.98">values</a>()</pre>
+<div class="block">Returns a <code>Collection</code> view of the values contained in this map.
  The collection is backed by the map, so changes to the map are
  reflected in the collection, and vice-versa.  If the map is
  modified while an iteration over the collection is in progress
@@ -362,10 +362,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
  <code>retainAll</code> and <code>clear</code> operations.  It does not
  support the <code>add</code> or <code>addAll</code> operations.
 
- <p>Because a bimap has unique values, this method returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Set</code></a>, instead of the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> specified in the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> interface.</div>
+ <p>Because a bimap has unique values, this method returns a <code>Set</code>, instead of the <code>Collection</code> specified in the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util" class="externalLink">values</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="BiMap.html" title="type parameter in BiMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="BiMap.html" title="type parameter in BiMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a collection view of the values contained in this map</dd>
 </dl>

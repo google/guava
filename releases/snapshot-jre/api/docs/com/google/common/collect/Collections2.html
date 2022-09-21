@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.Collections2</li>
@@ -133,11 +133,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 public final class <a href="../../../../src-html/com/google/common/collect/Collections2.html#line.57">Collections2</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
+extends java.lang.Object</pre>
 <div class="block">Provides static methods for working with <code>Collection</code> instances.
 
  <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
- by the new <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Stream</code></a> library. Read the method documentation below for
+ by the new <code>Stream</code> library. Read the method documentation below for
  comparisons. These methods are not being deprecated, but we gently encourage you to migrate to
  streams.</div>
 <dl>
@@ -167,39 +167,39 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.Collection,com.google.common.base.Predicate)">filter</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;unfiltered,
+<td class="colFirst"><code>static &lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Collection&lt;E&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.Collection,com.google.common.base.Predicate)">filter</a></span>&#8203;(java.util.Collection&lt;E&gt;&nbsp;unfiltered,
       <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code></th>
 <td class="colLast">
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedPermutations(java.lang.Iterable)">orderedPermutations</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;<br>java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedPermutations(java.lang.Iterable)">orderedPermutations</a></span>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a>.</div>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedPermutations(java.lang.Iterable,java.util.Comparator)">orderedPermutations</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements,
-                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#orderedPermutations(java.lang.Iterable,java.util.Comparator)">orderedPermutations</a></span>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
+                   java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> using
- the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> for establishing the lexicographical ordering.</div>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code> using
+ the specified <code>Comparator</code> for establishing the lexicographical ordering.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#permutations(java.util.Collection)">permutations</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;elements)</code></th>
+<td class="colFirst"><code>static &lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#permutations(java.util.Collection)">permutations</a></span>&#8203;(java.util.Collection&lt;E&gt;&nbsp;elements)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a>.</div>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Collection</code>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static &lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;T&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(java.util.Collection,com.google.common.base.Function)">transform</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;F&gt;&nbsp;fromCollection,
+<td class="colFirst"><code>static &lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;<br>java.util.Collection&lt;T&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#transform(java.util.Collection,com.google.common.base.Function)">transform</a></span>&#8203;(java.util.Collection&lt;F&gt;&nbsp;fromCollection,
          <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block">Returns a collection that applies <code>function</code> to each element of <code>fromCollection</code>.</div>
@@ -210,8 +210,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -235,14 +235,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>filter</h4>
-<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.89">filter</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;unfiltered,
-                                                                <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;E extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.89">filter</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;unfiltered,
+                                                                                    <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the elements of <code>unfiltered</code> that satisfy a predicate. The returned collection is
  a live view of <code>unfiltered</code>; changes to one affect the other.
 
  <p>The resulting collection's iterator does not support <code>remove()</code>, but all other
  collection methods are supported. When given an element that doesn't satisfy the predicate, the
- collection's <code>add()</code> and <code>addAll()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>IllegalArgumentException</code></a>. When methods such as <code>removeAll()</code> and <code>clear()</code> are
+ collection's <code>add()</code> and <code>addAll()</code> methods throw an <code>IllegalArgumentException</code>. When methods such as <code>removeAll()</code> and <code>clear()</code> are
  called on the filtered collection, only elements that satisfy the filter will be removed from
  the underlying collection.
 
@@ -257,7 +257,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <a href="../base/Predicate.html#apply(T)"><code>Predicate.apply(T)</code></a>. Do not provide a predicate such as <code>
  Predicates.instanceOf(ArrayList.class)</code>, which is inconsistent with equals. (See <a href="Iterables.html#filter(java.lang.Iterable,java.lang.Class)"><code>Iterables.filter(Iterable, Class)</code></a> for related functionality.)
 
- <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#filter(java.util.function.Predicate)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.filter</code></a>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>Stream.filter</code>.</div>
 </li>
 </ul>
 <a id="transform(java.util.Collection,com.google.common.base.Function)">
@@ -266,13 +266,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.264">transform</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;F&gt;&nbsp;fromCollection,
-                                                                                                    <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;F extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;&nbsp;java.util.Collection&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.264">transform</a>&#8203;(java.util.Collection&lt;F&gt;&nbsp;fromCollection,
+                                                                                                                                  <a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,&#8203;T&gt;&nbsp;function)</pre>
 <div class="block">Returns a collection that applies <code>function</code> to each element of <code>fromCollection</code>.
  The returned collection is a live view of <code>fromCollection</code>; changes to one affect the
  other.
 
- <p>The returned collection's <code>add()</code> and <code>addAll()</code> methods throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>UnsupportedOperationException</code></a>. All other collection methods are supported, as long as <code>
+ <p>The returned collection's <code>add()</code> and <code>addAll()</code> methods throw an <code>UnsupportedOperationException</code>. All other collection methods are supported, as long as <code>
  fromCollection</code> supports them.
 
  <p>The returned collection isn't threadsafe or serializable, even if <code>fromCollection</code> is.
@@ -282,7 +282,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>If the input <code>Collection</code> is known to be a <code>List</code>, consider <a href="Lists.html#transform(java.util.List,com.google.common.base.Function)"><code>Lists.transform(java.util.List&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>. If only an <code>Iterable</code> is available, use <a href="Iterables.html#transform(java.lang.Iterable,com.google.common.base.Function)"><code>Iterables.transform(java.lang.Iterable&lt;F&gt;, com.google.common.base.Function&lt;? super F, ? extends T&gt;)</code></a>.
 
- <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true#map(java.util.function.Function)" title="class or interface in java.util.stream" class="externalLink"><code>Stream.map</code></a>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>Stream.map</code>.</div>
 </li>
 </ul>
 <a id="orderedPermutations(java.lang.Iterable)">
@@ -292,8 +292,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>orderedPermutations</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.383">orderedPermutations</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a>.
+public static&nbsp;&lt;E extends java.lang.Comparable&lt;? super E&gt;&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.383">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements)</pre>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code>.
 
  <p><i>Notes:</i> This is an implementation of the algorithm for Lexicographical Permutations
  Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,
@@ -301,7 +301,7 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
  first permutation will be in ascending order, and the last will be in descending order.
 
  <p>Duplicate elements are considered equal. For example, the list [1, 1] will have only one
- permutation, instead of two. This is why the elements have to implement <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Comparable</code></a>.
+ permutation, instead of two. This is why the elements have to implement <code>Comparable</code>.
 
  <p>An empty iterable has only one permutation, which is an empty list.
 
@@ -311,10 +311,10 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>elements</code> - the original iterable whose elements have to be permuted.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> containing all the different permutations of the
+<dd>an immutable <code>Collection</code> containing all the different permutations of the
      original iterable.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if the specified iterable is null or has any null elements.</dd>
+<dd><code>java.lang.NullPointerException</code> - if the specified iterable is null or has any null elements.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>
@@ -327,10 +327,10 @@ public static&nbsp;&lt;E extends <a href="https://docs.oracle.com/javase/9/docs/
 <li class="blockList">
 <h4>orderedPermutations</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.435">orderedPermutations</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;E&gt;&nbsp;elements,
-                                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Iterable</code></a> using
- the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Comparator</code></a> for establishing the lexicographical ordering.
+public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.435">orderedPermutations</a>&#8203;(java.lang.Iterable&lt;E&gt;&nbsp;elements,
+                                                                              java.util.Comparator&lt;? super E&gt;&nbsp;comparator)</pre>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Iterable</code> using
+ the specified <code>Comparator</code> for establishing the lexicographical ordering.
 
  <p>Examples:
 
@@ -370,10 +370,10 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <dd><code>elements</code> - the original iterable whose elements have to be permuted.</dd>
 <dd><code>comparator</code> - a comparator for the iterable's elements.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> containing all the different permutations of the
+<dd>an immutable <code>Collection</code> containing all the different permutations of the
      original iterable.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - If the specified iterable is null, has any null elements, or if
+<dd><code>java.lang.NullPointerException</code> - If the specified iterable is null, has any null elements, or if
      the specified comparator is null.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
@@ -387,8 +387,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>permutations</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util" class="externalLink">List</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.597">permutations</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink">Collection</a>&lt;E&gt;&nbsp;elements)</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> of all the permutations of the specified <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a>.
+public static&nbsp;&lt;E&gt;&nbsp;java.util.Collection&lt;java.util.List&lt;E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Collections2.html#line.597">permutations</a>&#8203;(java.util.Collection&lt;E&gt;&nbsp;elements)</pre>
+<div class="block">Returns a <code>Collection</code> of all the permutations of the specified <code>Collection</code>.
 
  <p><i>Notes:</i> This is an implementation of the Plain Changes algorithm for permutations
  generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,
@@ -401,10 +401,10 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>elements</code> - the original collection whose elements have to be permuted.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Collection</code></a> containing all the different permutations of the
+<dd>an immutable <code>Collection</code> containing all the different permutations of the
      original collection.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if the specified collection is null or has any null elements.</dd>
+<dd><code>java.lang.NullPointerException</code> - if the specified collection is null or has any null elements.</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
 </dl>

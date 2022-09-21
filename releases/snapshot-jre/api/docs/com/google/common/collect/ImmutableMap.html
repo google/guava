@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.collect.ImmutableMap&lt;K,&#8203;V&gt;</li>
@@ -132,7 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;</code></dd>
+<dd><code>java.io.Serializable</code>, <code>java.util.Map&lt;K,&#8203;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
@@ -143,9 +143,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true,
                <a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public abstract class <a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.69">ImmutableMap</a>&lt;K,&#8203;V&gt;
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io" class="externalLink">Serializable</a></pre>
-<div class="block">A <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Map</code></a> whose contents will never change, with many other important properties detailed at
+extends java.lang.Object
+implements java.util.Map&lt;K,&#8203;V&gt;, java.io.Serializable</pre>
+<div class="block">A <code>Map</code> whose contents will never change, with many other important properties detailed at
  <a href="ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.</div>
@@ -190,8 +190,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <li class="blockList"><a id="nested.classes.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">K</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">V</a>&gt;</code></li>
+<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
+<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -243,7 +243,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compute(K,java.util.function.BiFunction)">compute</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -253,7 +253,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#computeIfAbsent(K,java.util.function.Function)">computeIfAbsent</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;mappingFunction)</code></th>
+               java.util.function.Function&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;mappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -263,7 +263,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#computeIfPresent(K,java.util.function.BiFunction)">computeIfPresent</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -272,7 +272,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsKey(java.lang.Object)">containsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this map contains a mapping for the specified
  key.</div>
@@ -280,7 +280,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsValue(java.lang.Object)">containsValue</a></span>&#8203;(java.lang.Object&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block">Returns <code>true</code> if this map maps one or more keys to the
  specified value.</div>
@@ -288,20 +288,20 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.lang.Iterable)">copyOf</a></span>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable map containing the specified entries.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Map)">copyOf</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyOf(java.util.Map)">copyOf</a></span>&#8203;(java.util.Map&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;</code></td>
+<td class="colFirst"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entrySet()">entrySet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable set of the mappings in this map.</div>
@@ -309,14 +309,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;object)</code></th>
 <td class="colLast">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>abstract <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object)">get</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#get(java.lang.Object)">get</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">Returns the value to which the specified key is mapped,
  or <code>null</code> if this map contains no mapping for the key.</div>
@@ -324,7 +324,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOrDefault(java.lang.Object,V)">getOrDefault</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOrDefault(java.lang.Object,V)">getOrDefault</a></span>&#8203;(java.lang.Object&nbsp;key,
             <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</code></th>
 <td class="colLast">
 <div class="block">Returns the value to which the specified key is mapped, or
@@ -356,7 +356,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#merge(K,V,java.util.function.BiFunction)">merge</a></span>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
      <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
+     java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -542,7 +542,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>static &lt;K,&#8203;V&gt;<br><a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ofEntries(java.util.Map.Entry...)">ofEntries</a></span>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</code></th>
 <td class="colLast">
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 </td>
@@ -559,7 +559,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i32" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#putAll(java.util.Map)">putAll</a></span>&#8203;(java.util.Map&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -578,7 +578,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code><a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;o)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -587,8 +587,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i35" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#remove(java.lang.Object,java.lang.Object)">remove</a></span>&#8203;(java.lang.Object&nbsp;key,
+      java.lang.Object&nbsp;value)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -618,7 +618,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </tr>
 <tr id="i38" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replaceAll(java.util.function.BiFunction)">replaceAll</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#replaceAll(java.util.function.BiFunction)">replaceAll</a></span>&#8203;(java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</code></th>
 <td class="colLast">
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -626,26 +626,26 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 </td>
 </tr>
 <tr id="i39" class="rowColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function)">toImmutableMap</a></span>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+              java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
  and values are the result of applying the provided mapping functions to the input elements.</div>
 </td>
 </tr>
 <tr id="i40" class="altColor">
-<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;<br><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
-              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</code></th>
+<td class="colFirst"><code>static &lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;<br>java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toImmutableMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)">toImmutableMap</a></span>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+              java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
+              java.util.function.BinaryOperator&lt;V&gt;&nbsp;mergeFunction)</code></th>
 <td class="colLast">
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
  and values are the result of applying the provided mapping functions to the input elements.</div>
 </td>
 </tr>
 <tr id="i41" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of the object.</div>
@@ -664,15 +664,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#forEach(java.util.function.BiConsumer)" title="class or interface in java.util" class="externalLink">forEach</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.Map</h3>
+<code>forEach, size</code></li>
 </ul>
 </li>
 </ul>
@@ -696,15 +696,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableMap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.87">toImmutableMap</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-                                                                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.87">toImmutableMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                                                                                                                                                        java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction)</pre>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
  and values are the result of applying the provided mapping functions to the input elements.
  Entries appear in the result <code>ImmutableMap</code> in encounter order.
 
- <p>If the mapped keys contain duplicates (according to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(Object)</code></a>, an <code>
+ <p>If the mapped keys contain duplicates (according to <code>Object.equals(Object)</code>, an <code>
  IllegalArgumentException</code> is thrown when the collection operation is performed. (This differs
- from the <code>Collector</code> returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collectors.html?is-external=true#toMap(java.util.function.Function,java.util.function.Function)" title="class or interface in java.util.stream" class="externalLink"><code>Collectors.toMap(Function, Function)</code></a>, which
+ from the <code>Collector</code> returned by <code>Collectors.toMap(Function, Function)</code>, which
  throws an <code>IllegalStateException</code>.)</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -718,13 +718,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>toImmutableMap</h4>
-<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;K,&#8203;V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink">Collector</a>&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.104">toImmutableMap</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
-                                                                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
-                                                                                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BinaryOperator.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</pre>
-<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Collector.html?is-external=true" title="class or interface in java.util.stream" class="externalLink"><code>Collector</code></a> that accumulates elements into an <code>ImmutableMap</code> whose keys
+<pre class="methodSignature">public static&nbsp;&lt;T extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;K,&#8203;V&gt;&nbsp;java.util.stream.Collector&lt;T,&#8203;?,&#8203;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.104">toImmutableMap</a>&#8203;(java.util.function.Function&lt;? super T,&#8203;? extends K&gt;&nbsp;keyFunction,
+                                                                                                                                                        java.util.function.Function&lt;? super T,&#8203;? extends V&gt;&nbsp;valueFunction,
+                                                                                                                                                        java.util.function.BinaryOperator&lt;V&gt;&nbsp;mergeFunction)</pre>
+<div class="block">Returns a <code>Collector</code> that accumulates elements into an <code>ImmutableMap</code> whose keys
  and values are the result of applying the provided mapping functions to the input elements.
 
- <p>If the mapped keys contain duplicates (according to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(Object)</code></a>), the
+ <p>If the mapped keys contain duplicates (according to <code>Object.equals(Object)</code>), the
  values are merged using the specified merging function. Entries will appear in the encounter
  order of the first occurrence of the key.</div>
 <dl>
@@ -740,7 +740,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <li class="blockList">
 <h4>of</h4>
 <pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.119">of</a>()</pre>
-<div class="block">Returns the empty map. This map behaves and performs comparably to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#emptyMap()" title="class or interface in java.util" class="externalLink"><code>Collections.emptyMap()</code></a>, and is preferable mainly for consistency and maintainability of your
+<div class="block">Returns the empty map. This map behaves and performs comparably to <code>Collections.emptyMap()</code>, and is preferable mainly for consistency and maintainability of your
  code.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -764,7 +764,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.129">of</a>&#8203;(K&nbsp;k1,
                                                      V&nbsp;v1)</pre>
 <div class="block">Returns an immutable map containing a single entry. This map behaves and performs comparably to
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#singletonMap(K,V)" title="class or interface in java.util" class="externalLink"><code>Collections.singletonMap(K, V)</code></a> but will not accept a null key or value. It is preferable
+ <code>Collections.singletonMap(K, V)</code> but will not accept a null key or value. It is preferable
  mainly for consistency and maintainability of your code.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -803,7 +803,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
 </li>
 </ul>
@@ -836,7 +836,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
 </li>
 </ul>
@@ -873,7 +873,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
 </li>
 </ul>
@@ -914,7 +914,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 </dl>
 </li>
 </ul>
@@ -959,7 +959,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 </dl>
@@ -1010,7 +1010,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 </dl>
@@ -1065,7 +1065,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 </dl>
@@ -1124,7 +1124,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 </dl>
@@ -1187,7 +1187,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 </dl>
@@ -1199,8 +1199,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html
 <ul class="blockList">
 <li class="blockList">
 <h4>ofEntries</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang" class="externalLink">@SafeVarargs</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.326">ofEntries</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
+<pre class="methodSignature">@SafeVarargs
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.326">ofEntries</a>&#8203;(java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;...&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the given entries, in order.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -1211,11 +1211,11 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="cl
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the specified mappings</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if duplicate keys are provided</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if duplicate keys are provided</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>31.0</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entry(K,V)" title="class or interface in java.util" class="externalLink"><code>Map.entry()</code></a></dd>
+<dd><code>Map.entry()</code></dd>
 </dl>
 </li>
 </ul>
@@ -1255,7 +1255,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.Builder.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.676">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
+<pre class="methodSignature">public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.676">copyOf</a>&#8203;(java.util.Map&lt;? extends K,&#8203;? extends V&gt;&nbsp;map)</pre>
 <div class="block">Returns an immutable map containing the same entries as <code>map</code>. The returned map iterates
  over entries in the same order as the <code>entrySet</code> of the original map. If <code>map</code>
  somehow contains entries with duplicate keys (for example, if it is a <code>SortedMap</code> whose
@@ -1273,7 +1273,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.Builder.html" t
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Map</code> containing the entries of the given <code>Map</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any key or value in <code>map</code> is null</dd>
+<dd><code>java.lang.NullPointerException</code> - if any key or value in <code>map</code> is null</dd>
 </dl>
 </li>
 </ul>
@@ -1284,13 +1284,13 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.Builder.html" t
 <li class="blockList">
 <h4>copyOf</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.699">copyOf</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
+public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,&#8203;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.699">copyOf</a>&#8203;(java.lang.Iterable&lt;? extends java.util.Map.Entry&lt;? extends K,&#8203;? extends V&gt;&gt;&nbsp;entries)</pre>
 <div class="block">Returns an immutable map containing the specified entries. The returned map iterates over
  entries in the same order as the original iterable.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang" class="externalLink">NullPointerException</a></code> - if any key, value, or entry is null</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalArgumentException</a></code> - if two entries have the same key</dd>
+<dd><code>java.lang.NullPointerException</code> - if any key, value, or entry is null</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if two entries have the same key</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
 </dl>
@@ -1305,7 +1305,7 @@ public static&nbsp;&lt;K,&#8203;V&gt;&nbsp;<a href="ImmutableMap.html" title="cl
 <li class="blockList">
 <h4>put</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.776">put</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;k,
                    <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;v)</pre>
@@ -1315,7 +1315,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put(K,V)" title="class or interface in java.util" class="externalLink">put</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>put</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>k</code> - key with which the specified value is to be associated</dd>
 <dd><code>v</code> - value to be associated with the specified key</dd>
@@ -1326,7 +1326,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
          previously associated <code>null</code> with <code>key</code>,
          if the implementation supports <code>null</code> values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1339,7 +1339,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>putIfAbsent</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.791">putIfAbsent</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                            <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value)</pre>
@@ -1349,7 +1349,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putIfAbsent(K,V)" title="class or interface in java.util" class="externalLink">putIfAbsent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>putIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is to be associated</dd>
 <dd><code>value</code> - value to be associated with the specified key</dd>
@@ -1360,7 +1360,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
          previously associated <code>null</code> with the key,
          if the implementation supports null values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1372,7 +1372,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>replace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.806">replace</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                              <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;oldValue,
                              <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;newValue)</pre>
@@ -1382,7 +1382,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V,V)" title="class or interface in java.util" class="externalLink">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is associated</dd>
 <dd><code>oldValue</code> - value expected to be associated with the specified key</dd>
@@ -1390,7 +1390,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the value was replaced</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1402,7 +1402,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>replace</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.819">replace</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                        <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value)</pre>
@@ -1412,7 +1412,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V)" title="class or interface in java.util" class="externalLink">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>replace</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is associated</dd>
 <dd><code>value</code> - value to be associated with the specified key</dd>
@@ -1423,7 +1423,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
          previously associated <code>null</code> with the key,
          if the implementation supports null values.)</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1435,16 +1435,16 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>computeIfAbsent</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.833">computeIfAbsent</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/Function.html?is-external=true" title="class or interface in java.util.function" class="externalLink">Function</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;mappingFunction)</pre>
+                               java.util.function.Function&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;mappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfAbsent(K,java.util.function.Function)" title="class or interface in java.util" class="externalLink">computeIfAbsent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>computeIfAbsent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is to be associated</dd>
 <dd><code>mappingFunction</code> - the mapping function to compute a value</dd>
@@ -1452,7 +1452,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dd>the current (existing or computed) value associated with
          the specified key, or null if the computed value is null</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1464,23 +1464,23 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>computeIfPresent</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.846">computeIfPresent</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                                <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+                                java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfPresent(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">computeIfPresent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>computeIfPresent</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is to be associated</dd>
 <dd><code>remappingFunction</code> - the remapping function to compute a value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new value associated with the specified key, or null if none</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1492,23 +1492,23 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>compute</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.860">compute</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
-                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+                       java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#compute(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">compute</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>compute</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is to be associated</dd>
 <dd><code>remappingFunction</code> - the remapping function to compute a value</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the new value associated with the specified key, or null if none</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1520,17 +1520,17 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>merge</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.874">merge</a>&#8203;(<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>&nbsp;key,
                      <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;value,
-                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
+                     java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;remappingFunction)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#merge(K,V,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">merge</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>merge</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the resulting value is to be associated</dd>
 <dd><code>value</code> - the non-null value to be merged with the existing value
@@ -1542,7 +1542,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <dd>the new value associated with the specified key, or null if no
          value is associated with the key</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1552,19 +1552,19 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.888">putAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
+<pre class="methodSignature">@Deprecated
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.888">putAll</a>&#8203;(java.util.Map&lt;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;map)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util" class="externalLink">putAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>putAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>map</code> - mappings to be stored in this map</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1574,19 +1574,19 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceAll</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
-public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.901">replaceAll</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function" class="externalLink">BiFunction</a>&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
+<pre class="methodSignature">@Deprecated
+public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.901">replaceAll</a>&#8203;(java.util.function.BiFunction&lt;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;? super <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>,&#8203;? extends <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&nbsp;function)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replaceAll(java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">replaceAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>replaceAll</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - the function to apply to each entry</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1596,24 +1596,24 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.914">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;o)</pre>
+                      java.lang.Object&nbsp;o)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>o</code> - key whose mapping is to be removed from the map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the previous value associated with <code>key</code>, or
          <code>null</code> if there was no mapping for <code>key</code>.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1623,25 +1623,25 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.928">remove</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+                            java.lang.Object&nbsp;key,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
+                            java.lang.Object&nbsp;value)</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
 </div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key with which the specified value is associated</dd>
 <dd><code>value</code> - value expected to be associated with the specified key</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if the value was removed</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1651,7 +1651,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/c
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre class="methodSignature"><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang" class="externalLink">@Deprecated</a>
+<pre class="methodSignature">@Deprecated
 public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.941">clear</a>()</pre>
 <div class="deprecationBlock"><span class="deprecatedLabel">Deprecated.</span>
 <div class="deprecationComment">Unsupported operation.</div>
@@ -1659,9 +1659,9 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>clear</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang" class="externalLink">UnsupportedOperationException</a></code> - always</dd>
+<dd><code>java.lang.UnsupportedOperationException</code> - always</dd>
 </dl>
 </li>
 </ul>
@@ -1672,11 +1672,11 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>isEmpty</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.948">isEmpty</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
 <div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>isEmpty</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this map contains no key-value mappings</dd>
 </dl>
@@ -1689,8 +1689,8 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>containsKey</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.953">containsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                           <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
+                           java.lang.Object&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
 <div class="block">Returns <code>true</code> if this map contains a mapping for the specified
  key.  More formally, returns <code>true</code> if and only if
  this map contains a mapping for a key <code>k</code> such that
@@ -1698,7 +1698,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
  at most one such mapping.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>containsKey</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key whose presence in this map is to be tested</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1714,8 +1714,8 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>containsValue</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.958">containsValue</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;value)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
+                             java.lang.Object&nbsp;value)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
 <div class="block">Returns <code>true</code> if this map maps one or more keys to the
  specified value.  More formally, returns <code>true</code> if and only if
  this map contains at least one mapping to a value <code>v</code> such that
@@ -1724,7 +1724,7 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
  implementations of the <code>Map</code> interface.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsValue</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>containsValue</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>value</code> - value whose presence in this map is to be tested</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1741,8 +1741,8 @@ public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/coll
 <h4>get</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.964">get</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
+                      java.lang.Object&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
 <div class="block">Returns the value to which the specified key is mapped,
  or <code>null</code> if this map contains no mapping for the key.
 
@@ -1755,10 +1755,10 @@ public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in Immuta
  <p>If this map permits null values, then a return value of
  <code>null</code> does not <i>necessarily</i> indicate that the map
  contains no mapping for the key; it's also possible that the map
- explicitly maps the key to <code>null</code>.  The <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink"><code>containsKey</code></a> operation may be used to distinguish these two cases.</div>
+ explicitly maps the key to <code>null</code>.  The <code>containsKey</code> operation may be used to distinguish these two cases.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util" class="externalLink">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - the key whose associated value is to be returned</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -1777,15 +1777,15 @@ public abstract&nbsp;<a href="ImmutableMap.html" title="type parameter in Immuta
 <h4>getOrDefault</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
 public final&nbsp;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.973">getOrDefault</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key,
+                            java.lang.Object&nbsp;key,
                             <a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
                             <a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&nbsp;defaultValue)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#getOrDefault(java.lang.Object,V)" title="class or interface in java.util" class="externalLink">java.util.Map</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.Map</code></span></div>
 <div class="block">Returns the value to which the specified key is mapped, or
  <code>defaultValue</code> if this map contains no mapping for the key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#getOrDefault(java.lang.Object,V)" title="class or interface in java.util" class="externalLink">getOrDefault</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>getOrDefault</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - the key whose associated value is to be returned</dd>
 <dd><code>defaultValue</code> - the default mapping of the key</dd>
@@ -1804,12 +1804,12 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockList">
 <li class="blockList">
 <h4>entrySet</h4>
-<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1016">entrySet</a>()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;java.util.Map.Entry&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1016">entrySet</a>()</pre>
 <div class="block">Returns an immutable set of the mappings in this map. The iteration order is specified by the
  method used to create this map. Typically, this is insertion order.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util" class="externalLink">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>entrySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a set view of the mappings contained in this map</dd>
 </dl>
@@ -1825,7 +1825,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <div class="block">Returns an immutable set of the keys in this map, in the same order that they appear in <a href="#entrySet"><code>entrySet</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util" class="externalLink">keySet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>keySet</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a set view of the keys contained in this map</dd>
 </dl>
@@ -1842,7 +1842,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
  in <a href="#entrySet"><code>entrySet</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util" class="externalLink">values</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>values</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a collection view of the values contained in this map</dd>
 </dl>
@@ -1869,8 +1869,8 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1170">equals</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;object)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+                      java.lang.Object&nbsp;object)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
  The <code>equals</code> method implements an equivalence relation
@@ -1911,17 +1911,17 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
  that equal objects must have equal hash codes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>object</code> - the reference object with which to compare.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd><code>true</code> if this object is the same as the obj
           argument; <code>false</code> otherwise.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a></dd>
+<dd><code>Object.hashCode()</code>, 
+<code>HashMap</code></dd>
 </dl>
 </li>
 </ul>
@@ -1932,10 +1932,10 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <li class="blockList">
 <h4>hashCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1177">hashCode</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>HashMap</code></a>.
+ <code>HashMap</code>.
  <p>
  The general contract of <code>hashCode</code> is:
  <ul>
@@ -1949,7 +1949,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
      method, then calling the <code>hashCode</code> method on each of
      the two objects must produce the same integer result.
  <li>It is <em>not</em> required that if two objects are unequal
-     according to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>
+     according to the <code>Object.equals(java.lang.Object)</code>
      method, then calling the <code>hashCode</code> method on each of the
      two objects must produce distinct integer results.  However, the
      programmer should be aware that producing distinct integer results
@@ -1963,14 +1963,14 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
  in time.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
+<dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.util.Map&lt;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,&#8203;<a href="ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a hash code value for this object.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="externalLink"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
+<dd><code>Object.equals(java.lang.Object)</code>, 
+<code>System.identityHashCode(java.lang.Object)</code></dd>
 </dl>
 </li>
 </ul>
@@ -1980,8 +1980,8 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1186">toString</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableMap.html#line.1186">toString</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
  "textually represents" this object. The result should
@@ -2001,7 +2001,7 @@ public final&nbsp;<a href="ImmutableMap.html" title="type parameter in Immutable
  </pre></blockquote></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>

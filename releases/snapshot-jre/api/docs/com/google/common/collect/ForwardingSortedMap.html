@@ -116,11 +116,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <main role="main">
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">com.google.common.collect</a></div>
-<h2 title="Class ForwardingSortedMap" class="title">Class ForwardingSortedMap&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</h2>
+<h2 title="Class ForwardingSortedMap" class="title">Class ForwardingSortedMap&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li><a href="ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</a></li>
@@ -142,7 +142,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a>&lt;K,&#8203;V&gt;</code>, <code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;K,&#8203;V&gt;</code></dd>
+<dd><code>java.util.Map&lt;K,&#8203;V&gt;</code>, <code>java.util.SortedMap&lt;K,&#8203;V&gt;</code></dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
@@ -150,9 +150,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.54">ForwardingSortedMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.54">ForwardingSortedMap</a>&lt;K extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;V extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;
 extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,&#8203;V&gt;
-implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;K,&#8203;V&gt;</pre>
+implements java.util.SortedMap&lt;K,&#8203;V&gt;</pre>
 <div class="block">A sorted map which forwards all its method calls to another sorted map. Subclasses should
  override one or more methods to modify the behavior of the backing sorted map as desired per the
  <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
@@ -202,7 +202,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <td class="colFirst"><code>protected class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="ForwardingSortedMap.StandardKeySet.html" title="class in com.google.common.collect">ForwardingSortedMap.StandardKeySet</a></span></code></th>
 <td class="colLast">
-<div class="block">A sensible implementation of <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#keySet()" title="class or interface in java.util" class="externalLink"><code>SortedMap.keySet()</code></a> in terms of the methods of <code>
+<div class="block">A sensible implementation of <code>SortedMap.keySet()</code> in terms of the methods of <code>
  ForwardingSortedMap</code>.</div>
 </td>
 </tr>
@@ -218,8 +218,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList"><a id="nested.classes.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">Map.Entry</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">K</a>,&#8203;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util" class="externalLink">V</a>&gt;</code></li>
+<h3>Nested classes/interfaces inherited from interface&nbsp;java.util.Map</h3>
+<code>java.util.Map.Entry&lt;K,&#8203;V&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -264,15 +264,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#comparator()">comparator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the comparator used to order the keys in this map, or
- <code>null</code> if this map uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">natural ordering</a> of its keys.</div>
+ <code>null</code> if this map uses the natural ordering of its keys.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>protected abstract java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delegate()">delegate</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the backing delegate instance that methods are forwarded to.</div>
@@ -286,7 +286,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#headMap(K)">headMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of the portion of this map whose keys are
@@ -302,14 +302,14 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContainsKey(java.lang.Object)">standardContainsKey</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardContainsKey(java.lang.Object)">standardContainsKey</a></span>&#8203;(java.lang.Object&nbsp;key)</code></th>
 <td class="colLast">
 <div class="block">A sensible definition of <a href="ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> in terms of the <code>firstKey()</code> method of
  <a href="#tailMap(K)"><code>tailMap(K)</code></a>.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>protected java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#standardSubMap(K,K)">standardSubMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
               <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
 <td class="colLast">
@@ -317,7 +317,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#subMap(K,K)">subMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
       <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code></th>
 <td class="colLast">
@@ -326,7 +326,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tailMap(K)">tailMap</a></span>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</code></th>
 <td class="colLast">
 <div class="block">Returns a view of the portion of this map whose keys are
@@ -352,22 +352,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.Map">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util" class="externalLink">Map</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util" class="externalLink">clear</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#compute(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">compute</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfAbsent(K,java.util.function.Function)" title="class or interface in java.util" class="externalLink">computeIfAbsent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#computeIfPresent(K,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">computeIfPresent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsKey</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util" class="externalLink">containsValue</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#forEach(java.util.function.BiConsumer)" title="class or interface in java.util" class="externalLink">forEach</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util" class="externalLink">get</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#getOrDefault(java.lang.Object,V)" title="class or interface in java.util" class="externalLink">getOrDefault</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util" class="externalLink">isEmpty</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#merge(K,V,java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">merge</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put(K,V)" title="class or interface in java.util" class="externalLink">put</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util" class="externalLink">putAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putIfAbsent(K,V)" title="class or interface in java.util" class="externalLink">putIfAbsent</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="externalLink">remove</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V)" title="class or interface in java.util" class="externalLink">replace</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace(K,V,V)" title="class or interface in java.util" class="externalLink">replace</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replaceAll(java.util.function.BiFunction)" title="class or interface in java.util" class="externalLink">replaceAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util" class="externalLink">size</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.Map</h3>
+<code>clear, compute, computeIfAbsent, computeIfPresent, containsKey, containsValue, equals, forEach, get, getOrDefault, hashCode, isEmpty, merge, put, putAll, putIfAbsent, remove, remove, replace, replace, replaceAll, size</code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.util.SortedMap">
 <!--   -->
 </a>
-<h3>Methods inherited from interface&nbsp;java.util.<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#entrySet()" title="class or interface in java.util" class="externalLink">entrySet</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#keySet()" title="class or interface in java.util" class="externalLink">keySet</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#values()" title="class or interface in java.util" class="externalLink">values</a></code></li>
+<h3>Methods inherited from interface&nbsp;java.util.SortedMap</h3>
+<code>entrySet, keySet, values</code></li>
 </ul>
 </li>
 </ul>
@@ -411,7 +411,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre class="methodSignature">protected abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.63">delegate</a>()</pre>
+<pre class="methodSignature">protected abstract&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.63">delegate</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -419,7 +419,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
  instance being decorated.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="ForwardingMap.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingMap.html#delegate()">delegate</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -430,13 +430,13 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMa
 <li class="blockList">
 <h4>comparator</h4>
 <pre class="methodSignature"><a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util" class="externalLink">Comparator</a>&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.66">comparator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#comparator()" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+public&nbsp;java.util.Comparator&lt;? super <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.66">comparator</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns the comparator used to order the keys in this map, or
- <code>null</code> if this map uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang" class="externalLink">natural ordering</a> of its keys.</div>
+ <code>null</code> if this map uses the natural ordering of its keys.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#comparator()" title="class or interface in java.util" class="externalLink">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>comparator</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the comparator used to order the keys in this map,
          or <code>null</code> if this map uses the natural ordering
@@ -451,11 +451,11 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <li class="blockList">
 <h4>firstKey</h4>
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.72">firstKey</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#firstKey()" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns the first (lowest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#firstKey()" title="class or interface in java.util" class="externalLink">firstKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>firstKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first (lowest) key currently in this map</dd>
 </dl>
@@ -469,8 +469,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <ul class="blockList">
 <li class="blockList">
 <h4>headMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.78">headMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#headMap(K)" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.78">headMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns a view of the portion of this map whose keys are
  strictly less than <code>toKey</code>.  The returned map is backed
  by this map, so changes in the returned map are reflected in
@@ -481,7 +481,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
  on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#headMap(K)" title="class or interface in java.util" class="externalLink">headMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>headMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -497,11 +497,11 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <li class="blockList">
 <h4>lastKey</h4>
 <pre class="methodSignature">public&nbsp;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.83">lastKey</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#lastKey()" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns the last (highest) key currently in this map.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#lastKey()" title="class or interface in java.util" class="externalLink">lastKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>lastKey</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the last (highest) key currently in this map</dd>
 </dl>
@@ -515,9 +515,9 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <ul class="blockList">
 <li class="blockList">
 <h4>subMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.89">subMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
-                                   <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#subMap(K,K)" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.89">subMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
+                                             <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns a view of the portion of this map whose keys range from
  <code>fromKey</code>, inclusive, to <code>toKey</code>, exclusive.  (If
  <code>fromKey</code> and <code>toKey</code> are equal, the returned map
@@ -530,7 +530,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
  on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#subMap(K,K)" title="class or interface in java.util" class="externalLink">subMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>subMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
 <dd><code>toKey</code> - high endpoint (exclusive) of the keys in the returned map</dd>
@@ -548,8 +548,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMap</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.94">tailMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#tailMap(K)" title="class or interface in java.util" class="externalLink">java.util.SortedMap</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.94">tailMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code>java.util.SortedMap</code></span></div>
 <div class="block">Returns a view of the portion of this map whose keys are
  greater than or equal to <code>fromKey</code>.  The returned map is
  backed by this map, so changes in the returned map are
@@ -560,7 +560,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
  on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true#tailMap(K)" title="class or interface in java.util" class="externalLink">tailMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code>tailMap</code>&nbsp;in interface&nbsp;<code>java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>fromKey</code> - low endpoint (inclusive) of the keys in the returned map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -577,12 +577,12 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Compara
 <h4>standardContainsKey</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.132">standardContainsKey</a>&#8203;(<a href="https://checkerframework.org/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation" class="externalLink">@CheckForNull</a>
-                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&nbsp;key)</pre>
+                                      java.lang.Object&nbsp;key)</pre>
 <div class="block">A sensible definition of <a href="ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> in terms of the <code>firstKey()</code> method of
  <a href="#tailMap(K)"><code>tailMap(K)</code></a>. If you override <a href="#tailMap(K)"><code>tailMap(K)</code></a>, you may wish to override <a href="ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> to forward to this implementation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>&gt;</code></dd>
+<dd><code><a href="ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></code>&nbsp;in class&nbsp;<code><a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a> extends <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual" class="externalLink">@Nullable</a> java.lang.Object&gt;</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>7.0</dd>
 </dl>
@@ -597,8 +597,8 @@ protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/coll
 <li class="blockList">
 <h4>standardSubMap</h4>
 <pre class="methodSignature"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util" class="externalLink">SortedMap</a>&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.153">standardSubMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
-                                              <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
+protected&nbsp;java.util.SortedMap&lt;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,&#8203;<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSortedMap.html#line.153">standardSubMap</a>&#8203;(<a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
+                                                        <a href="ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</pre>
 <div class="block">A sensible default implementation of <a href="#subMap(K,K)"><code>subMap(Object, Object)</code></a> in terms of <a href="#headMap(K)"><code>headMap(Object)</code></a> and <a href="#tailMap(K)"><code>tailMap(Object)</code></a>. In some situations, you may wish to override
  <a href="#subMap(K,K)"><code>subMap(Object, Object)</code></a> to forward to this implementation.</div>
 <dl>

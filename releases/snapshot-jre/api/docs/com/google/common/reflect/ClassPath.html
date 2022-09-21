@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.reflect.ClassPath</li>
@@ -132,8 +132,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre>public final class <a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.93">ClassPath</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">Scans the source of a <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>ClassLoader</code></a> and finds all loadable classes and resources.
+extends java.lang.Object</pre>
+<div class="block">Scans the source of a <code>ClassLoader</code> and finds all loadable classes and resources.
 
  <h2>Prefer <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a> over <code>
  ClassPath</code></h2>
@@ -143,8 +143,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  including addressing many of its limitations. Limitations of <code>ClassPath</code> include:
 
  <ul>
-   <li>It looks only for files and JARs in URLs available from <a href="https://docs.oracle.com/javase/9/docs/api/java/net/URLClassLoader.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URLClassLoader</code></a> instances or
-       the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassLoader.html?is-external=true#getSystemClassLoader()" title="class or interface in java.lang" class="externalLink">system class loader</a>. This means it does
+   <li>It looks only for files and JARs in URLs available from <code>URLClassLoader</code> instances or
+       the system class loader. This means it does
        not look for classes in the <i>module path</i>.
    <li>It understands only <code>file:</code> URLs. This means that it does not understand <a href="https://openjdk.java.net/jeps/220"><code>jrt:/</code> URLs</a>, among <a href="https://github.com/classgraph/classgraph/wiki/Classpath-specification-mechanisms">others</a>.
    <li>It does not know how to look for classes when running under an Android VM. (ClassGraph does
@@ -224,7 +224,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.ClassLoader)">from</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassLoader</a>&nbsp;classloader)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#from(java.lang.ClassLoader)">from</a></span>&#8203;(java.lang.ClassLoader&nbsp;classloader)</code></th>
 <td class="colLast">
 <div class="block">Returns a <code>ClassPath</code> representing all classes and resources loadable from <code>
  classloader</code> and its ancestor class loaders.</div>
@@ -254,14 +254,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTopLevelClasses(java.lang.String)">getTopLevelClasses</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTopLevelClasses(java.lang.String)">getTopLevelClasses</a></span>&#8203;(java.lang.String&nbsp;packageName)</code></th>
 <td class="colLast">
 <div class="block">Returns all top level classes whose package name is <code>packageName</code>.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTopLevelClassesRecursive(java.lang.String)">getTopLevelClassesRecursive</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTopLevelClassesRecursive(java.lang.String)">getTopLevelClassesRecursive</a></span>&#8203;(java.lang.String&nbsp;packageName)</code></th>
 <td class="colLast">
 <div class="block">Returns all top level classes whose package name is <code>packageName</code> or starts with <code>
  packageName</code> followed by a '.'.</div>
@@ -272,8 +272,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -297,22 +297,22 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre class="methodSignature">public static&nbsp;<a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.125">from</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang" class="externalLink">ClassLoader</a>&nbsp;classloader)
-                      throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+<pre class="methodSignature">public static&nbsp;<a href="ClassPath.html" title="class in com.google.common.reflect">ClassPath</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.125">from</a>&#8203;(java.lang.ClassLoader&nbsp;classloader)
+                      throws java.io.IOException</pre>
 <div class="block">Returns a <code>ClassPath</code> representing all classes and resources loadable from <code>
  classloader</code> and its ancestor class loaders.
 
  <p><b>Warning:</b> <code>ClassPath</code> can find classes and resources only from:
 
  <ul>
-   <li><a href="https://docs.oracle.com/javase/9/docs/api/java/net/URLClassLoader.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URLClassLoader</code></a> instances' <code>file:</code> URLs
-   <li>the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/ClassLoader.html?is-external=true#getSystemClassLoader()" title="class or interface in java.lang" class="externalLink">system class loader</a>. To search the
-       system class loader even when it is not a <a href="https://docs.oracle.com/javase/9/docs/api/java/net/URLClassLoader.html?is-external=true" title="class or interface in java.net" class="externalLink"><code>URLClassLoader</code></a> (as in Java 9), <code>
+   <li><code>URLClassLoader</code> instances' <code>file:</code> URLs
+   <li>the system class loader. To search the
+       system class loader even when it is not a <code>URLClassLoader</code> (as in Java 9), <code>
        ClassPath</code> searches the files from the <code>java.class.path</code> system property.
  </ul></div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if the attempt to read class path resources (jar files or directories)
+<dd><code>java.io.IOException</code> - if the attempt to read class path resources (jar files or directories)
      failed.</dd>
 </dl>
 </li>
@@ -359,7 +359,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getTopLevelClasses</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.172">getTopLevelClasses</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.172">getTopLevelClasses</a>&#8203;(java.lang.String&nbsp;packageName)</pre>
 <div class="block">Returns all top level classes whose package name is <code>packageName</code>.</div>
 </li>
 </ul>
@@ -369,7 +369,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getTopLevelClassesRecursive</h4>
-<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.187">getTopLevelClassesRecursive</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;packageName)</pre>
+<pre class="methodSignature">public&nbsp;<a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.187">getTopLevelClassesRecursive</a>&#8203;(java.lang.String&nbsp;packageName)</pre>
 <div class="block">Returns all top level classes whose package name is <code>packageName</code> or starts with <code>
  packageName</code> followed by a '.'.</div>
 </li>

@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.io.ByteSink</li>
@@ -133,8 +133,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract class <a href="../../../../src-html/com/google/common/io/ByteSink.html#line.48">ByteSink</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></pre>
-<div class="block">A destination to which bytes can be written, such as a file. Unlike an <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a>, a
+extends java.lang.Object</pre>
+<div class="block">A destination to which bytes can be written, such as a file. Unlike an <code>OutputStream</code>, a
  <code>ByteSink</code> is not an open, stateful stream that can be written to and closed. Instead, it
  is an immutable <i>supplier</i> of <code>OutputStream</code> instances.
 
@@ -201,24 +201,24 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="CharSink.html" title="class in com.google.common.io">CharSink</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSink(java.nio.charset.Charset)">asCharSink</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#asCharSink(java.nio.charset.Charset)">asCharSink</a></span>&#8203;(java.nio.charset.Charset&nbsp;charset)</code></th>
 <td class="colLast">
 <div class="block">Returns a <a href="CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> view of this <code>ByteSink</code> that writes characters to this sink as
- bytes encoded with the given <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>charset</code></a>.</div>
+ bytes encoded with the given <code>charset</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></code></td>
+<td class="colFirst"><code>java.io.OutputStream</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#openBufferedStream()">openBufferedStream</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Opens a new buffered <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> for writing to this sink.</div>
+<div class="block">Opens a new buffered <code>OutputStream</code> for writing to this sink.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a></code></td>
+<td class="colFirst"><code>abstract java.io.OutputStream</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#openStream()">openStream</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> for writing to this sink.</div>
+<div class="block">Opens a new <code>OutputStream</code> for writing to this sink.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -230,7 +230,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>long</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeFrom(java.io.InputStream)">writeFrom</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;input)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeFrom(java.io.InputStream)">writeFrom</a></span>&#8203;(java.io.InputStream&nbsp;input)</code></th>
 <td class="colLast">
 <div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink.</div>
 </td>
@@ -240,8 +240,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -285,9 +285,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSink</h4>
-<pre class="methodSignature">public&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.59">asCharSink</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink">Charset</a>&nbsp;charset)</pre>
+<pre class="methodSignature">public&nbsp;<a href="CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.59">asCharSink</a>&#8203;(java.nio.charset.Charset&nbsp;charset)</pre>
 <div class="block">Returns a <a href="CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a> view of this <code>ByteSink</code> that writes characters to this sink as
- bytes encoded with the given <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset" class="externalLink"><code>charset</code></a>.</div>
+ bytes encoded with the given <code>charset</code>.</div>
 </li>
 </ul>
 <a id="openStream()">
@@ -296,15 +296,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre class="methodSignature">public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.71">openStream</a>()
-                                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Opens a new <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> for writing to this sink. This method returns a new,
+<pre class="methodSignature">public abstract&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.71">openStream</a>()
+                                         throws java.io.IOException</pre>
+<div class="block">Opens a new <code>OutputStream</code> for writing to this sink. This method returns a new,
  independent stream each time it is called.
 
  <p>The caller is responsible for ensuring that the returned stream is closed.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs while opening the stream</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs while opening the stream</dd>
 </dl>
 </li>
 </ul>
@@ -314,10 +314,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.85">openBufferedStream</a>()
-                                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
-<div class="block">Opens a new buffered <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>OutputStream</code></a> for writing to this sink. The returned stream is not
- required to be a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>BufferedOutputStream</code></a> in order to allow implementations to simply
+<pre class="methodSignature">public&nbsp;java.io.OutputStream&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.85">openBufferedStream</a>()
+                                        throws java.io.IOException</pre>
+<div class="block">Opens a new buffered <code>OutputStream</code> for writing to this sink. The returned stream is not
+ required to be a <code>BufferedOutputStream</code> in order to allow implementations to simply
  delegate to <a href="#openStream()"><code>openStream()</code></a> when the stream returned by that method does not benefit from
  additional buffering (for example, a <code>ByteArrayOutputStream</code>). This method returns a new,
  independent stream each time it is called.
@@ -325,9 +325,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  <p>The caller is responsible for ensuring that the returned stream is closed.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O error occurs while opening the stream</dd>
+<dd><code>java.io.IOException</code> - if an I/O error occurs while opening the stream</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>15.0 (in 14.0 with return type <a href="https://docs.oracle.com/javase/9/docs/api/java/io/BufferedOutputStream.html?is-external=true" title="class or interface in java.io" class="externalLink"><code>BufferedOutputStream</code></a>)</dd>
+<dd>15.0 (in 14.0 with return type <code>BufferedOutputStream</code>)</dd>
 </dl>
 </li>
 </ul>
@@ -338,11 +338,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>write</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.97">write</a>&#8203;(byte[]&nbsp;bytes)
-           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+           throws java.io.IOException</pre>
 <div class="block">Writes all the given bytes to this sink.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O occurs while writing to this sink</dd>
+<dd><code>java.io.IOException</code> - if an I/O occurs while writing to this sink</dd>
 </dl>
 </li>
 </ul>
@@ -353,15 +353,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>writeFrom</h4>
 <pre class="methodSignature"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations" class="externalLink">@CanIgnoreReturnValue</a>
-public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.119">writeFrom</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io" class="externalLink">InputStream</a>&nbsp;input)
-               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></pre>
+public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSink.html#line.119">writeFrom</a>&#8203;(java.io.InputStream&nbsp;input)
+               throws java.io.IOException</pre>
 <div class="block">Writes all the bytes from the given <code>InputStream</code> to this sink. Does not close <code>
  input</code>.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of bytes written</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io" class="externalLink">IOException</a></code> - if an I/O occurs while reading from <code>input</code> or writing to this sink</dd>
+<dd><code>java.io.IOException</code> - if an I/O occurs while reading from <code>input</code> or writing to this sink</dd>
 </dl>
 </li>
 </ul>

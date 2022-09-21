@@ -120,7 +120,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></li>
+<li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
 <li>com.google.common.util.concurrent.AbstractService</li>
@@ -137,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.52">AbstractService</a>
-extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a>
+extends java.lang.Object
 implements <a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></pre>
 <div class="block">Base class for implementing services that can handle <a href="#doStart()"><code>doStart()</code></a> and <a href="#doStop()"><code>doStop()</code></a>
  requests, responding to them with <a href="#notifyStarted()"><code>notifyStarted()</code></a> and <a href="#notifyStopped()"><code>notifyStopped()</code></a>
@@ -213,9 +213,9 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addListener(com.google.common.util.concurrent.Service.Listener,java.util.concurrent.Executor)">addListener</a></span>&#8203;(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</code></th>
+           java.util.concurrent.Executor&nbsp;executor)</code></th>
 <td class="colLast">
-<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">executed</a> on the given
+<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be executed on the given
  executor.</div>
 </td>
 </tr>
@@ -229,7 +229,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitRunning(long,java.util.concurrent.TimeUnit)">awaitRunning</a></span>&#8203;(long&nbsp;timeout,
-            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+            java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
@@ -245,7 +245,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#awaitTerminated(long,java.util.concurrent.TimeUnit)">awaitTerminated</a></span>&#8203;(long&nbsp;timeout,
-               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)</code></th>
+               java.util.concurrent.TimeUnit&nbsp;unit)</code></th>
 <td class="colLast">
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 </td>
@@ -272,10 +272,10 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a></code></td>
+<td class="colFirst"><code>java.lang.Throwable</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#failureCause()">failureCause</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Throwable</code></a> that caused this service to fail.</div>
+<div class="block">Returns the <code>Throwable</code> that caused this service to fail.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -287,7 +287,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#notifyFailed(java.lang.Throwable)">notifyFailed</a></span>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#notifyFailed(java.lang.Throwable)">notifyFailed</a></span>&#8203;(java.lang.Throwable&nbsp;cause)</code></th>
 <td class="colLast">
 <div class="block">Invoke this method to transition the service to the <a href="Service.State.html#FAILED"><code>Service.State.FAILED</code></a>.</div>
 </td>
@@ -330,7 +330,7 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns a string representation of the object.</div>
@@ -341,8 +341,8 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></h3>
-<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang" class="externalLink">clone</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang" class="externalLink">equals</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang" class="externalLink">finalize</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang" class="externalLink">getClass</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang" class="externalLink">hashCode</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang" class="externalLink">notify</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang" class="externalLink">notifyAll</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang" class="externalLink">wait</a>, <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#wait(long,int)" title="class or interface in java.lang" class="externalLink">wait</a></code></li>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -503,8 +503,8 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <li class="blockList">
 <h4>awaitRunning</h4>
 <pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.313">awaitRunning</a>&#8203;(long&nbsp;timeout,
-                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
+                               java.util.concurrent.TimeUnit&nbsp;unit)
+                        throws java.util.concurrent.TimeoutException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Service.html#awaitRunning(long,java.util.concurrent.TimeUnit)">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="Service.State.html#RUNNING">running state</a> for no more
  than the given time.</div>
@@ -515,7 +515,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
 </dl>
 </li>
 </ul>
@@ -541,8 +541,8 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <li class="blockList">
 <h4>awaitTerminated</h4>
 <pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.340">awaitTerminated</a>&#8203;(long&nbsp;timeout,
-                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeUnit</a>&nbsp;unit)
-                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></pre>
+                                  java.util.concurrent.TimeUnit&nbsp;unit)
+                           throws java.util.concurrent.TimeoutException</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Service.html#awaitTerminated(long,java.util.concurrent.TimeUnit)">Service</a></code></span></div>
 <div class="block">Waits for the <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 <dl>
@@ -552,7 +552,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <dd><code>timeout</code> - the maximum time to wait</dd>
 <dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">TimeoutException</a></code> - if the service has not reached the given state within the deadline</dd>
+<dd><code>java.util.concurrent.TimeoutException</code> - if the service has not reached the given state within the deadline</dd>
 </dl>
 </li>
 </ul>
@@ -567,7 +567,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
  the service to transition from <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a> to <a href="Service.State.html#RUNNING"><code>Service.State.RUNNING</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service is not <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a>.</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the service is not <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a>.</dd>
 </dl>
 </li>
 </ul>
@@ -582,7 +582,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
  the service to transition from <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a> or <a href="Service.State.html#STOPPING"><code>Service.State.STOPPING</code></a> to <a href="Service.State.html#TERMINATED"><code>Service.State.TERMINATED</code></a>.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang" class="externalLink">IllegalStateException</a></code> - if the service is not one of <a href="Service.State.html#STOPPING"><code>Service.State.STOPPING</code></a>, <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a>, or <a href="Service.State.html#RUNNING"><code>Service.State.RUNNING</code></a>.</dd>
+<dd><code>java.lang.IllegalStateException</code> - if the service is not one of <a href="Service.State.html#STOPPING"><code>Service.State.STOPPING</code></a>, <a href="Service.State.html#STARTING"><code>Service.State.STARTING</code></a>, or <a href="Service.State.html#RUNNING"><code>Service.State.RUNNING</code></a>.</dd>
 </dl>
 </li>
 </ul>
@@ -592,7 +592,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <ul class="blockList">
 <li class="blockList">
 <h4>notifyFailed</h4>
-<pre class="methodSignature">protected final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.447">notifyFailed</a>&#8203;(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;cause)</pre>
+<pre class="methodSignature">protected final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.447">notifyFailed</a>&#8203;(java.lang.Throwable&nbsp;cause)</pre>
 <div class="block">Invoke this method to transition the service to the <a href="Service.State.html#FAILED"><code>Service.State.FAILED</code></a>. The service will
  <b>not be stopped</b> if it is running. Invoke this method when a service has failed critically
  or otherwise cannot be started nor stopped.</div>
@@ -634,9 +634,9 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <ul class="blockList">
 <li class="blockList">
 <h4>failureCause</h4>
-<pre class="methodSignature">public final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink">Throwable</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.484">failureCause</a>()</pre>
+<pre class="methodSignature">public final&nbsp;java.lang.Throwable&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.484">failureCause</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Service.html#failureCause()">Service</a></code></span></div>
-<div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang" class="externalLink"><code>Throwable</code></a> that caused this service to fail.</div>
+<div class="block">Returns the <code>Throwable</code> that caused this service to fail.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Service.html#failureCause()">failureCause</a></code>&nbsp;in interface&nbsp;<code><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>
@@ -652,9 +652,9 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <li class="blockList">
 <h4>addListener</h4>
 <pre class="methodSignature">public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.490">addListener</a>&#8203;(<a href="Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
-                              <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent" class="externalLink">Executor</a>&nbsp;executor)</pre>
+                              java.util.concurrent.Executor&nbsp;executor)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Service.html#addListener(com.google.common.util.concurrent.Service.Listener,java.util.concurrent.Executor)">Service</a></code></span></div>
-<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="externalLink">executed</a> on the given
+<div class="block">Registers a <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be executed on the given
  executor. The listener will have the corresponding transition method called whenever the
  service changes state. The listener will not have previous state changes replayed, so it is
  suggested that listeners are added before the service starts.
@@ -687,8 +687,8 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.495">toString</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">java.lang.Object</a></code></span></div>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractService.html#line.495">toString</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code>java.lang.Object</code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
  "textually represents" this object. The result should
@@ -708,7 +708,7 @@ public final&nbsp;<a href="Service.html" title="interface in com.google.common.u
  </pre></blockquote></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang" class="externalLink">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string representation of the object.</dd>
 </dl>
