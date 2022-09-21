@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.junit.Ignore;
 
 /**
@@ -41,6 +42,7 @@ public class MultisetSetCountUnconditionallyTester<E> extends AbstractMultisetSe
     setCount(element, count);
   }
 
+  @CanIgnoreReturnValue
   private int setCount(E element, int count) {
     return getMultiset().setCount(element, count);
   }

@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.Ignore;
@@ -130,6 +131,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
         "Should not contain null after unsupported putIfAbsent(present, null)");
   }
 
+  @CanIgnoreReturnValue
   private V putIfAbsent(Entry<K, V> entry) {
     return getMap().putIfAbsent(entry.getKey(), entry.getValue());
   }

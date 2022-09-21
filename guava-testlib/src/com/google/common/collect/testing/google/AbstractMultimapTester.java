@@ -23,6 +23,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.AbstractContainerTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -121,11 +122,13 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
 
   // TODO: dispose of this once collection is encapsulated.
   @Override
+  @CanIgnoreReturnValue
   protected M resetContainer(M newContents) {
     multimap = super.resetContainer(newContents);
     return multimap;
   }
 
+  @CanIgnoreReturnValue
   protected Multimap<K, V> resetContainer(Entry<K, V>... newContents) {
     multimap = super.resetContainer(getSubjectGenerator().create((Object[]) newContents));
     return multimap;

@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -300,6 +301,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
     return delegate.values();
   }
 
+  @CanIgnoreReturnValue
   private <T> T checkValid(T t) {
     // a ClassCastException is what's supposed to happen!
     @SuppressWarnings("unchecked")
