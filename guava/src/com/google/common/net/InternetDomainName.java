@@ -235,6 +235,8 @@ public final class InternetDomainName {
     return true;
   }
 
+  private static final CharMatcher DASH_MATCHER_ACTUAL = CharMatcher.anyOf("-");
+
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
   private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');
@@ -278,9 +280,20 @@ public final class InternetDomainName {
       return false;
     }
 
-    // No initial or final dashes or underscores.
+     
+    // final label may not start or end with dash or underscore.
+    if (isFinalPart && DASH_MATCHER.matches(part.charAt(0))
+        || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
+      return false;
+    }
 
-    if (DASH_MATCHER.matches(part.charAt(0))
+    /* 
+     * non-final labels can start with an underscore but not with a dash.
+     * The label is not allowed to end with a dash or underscore.
+     * This will allow parsing of DKIM (https://tools.ietf.org/html/rfc6376) names
+    */
+
+    if (DASH_MATCHER_ACTUAL.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
     }
