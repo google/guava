@@ -805,7 +805,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       }
 
       @Override
+      @CheckForNull
       public Comparator<? super E> getComparator() {
+        if (Ordering.natural().equals(comparator)
+                || Comparator.naturalOrder().equals(comparator)) {
+          return null;
+        }
         return comparator;
       }
     };
