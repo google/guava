@@ -69,7 +69,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
@@ -459,8 +458,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyAccessEntry(original, newEntry);
         return newEntry;
       }
@@ -474,8 +476,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyWriteEntry(original, newEntry);
         return newEntry;
       }
@@ -489,8 +494,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyAccessEntry(original, newEntry);
         copyWriteEntry(original, newEntry);
         return newEntry;
@@ -512,8 +520,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyAccessEntry(original, newEntry);
         return newEntry;
       }
@@ -527,8 +538,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyWriteEntry(original, newEntry);
         return newEntry;
       }
@@ -542,8 +556,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
+          Segment<K, V> segment,
+          ReferenceEntry<K, V> original,
+          ReferenceEntry<K, V> newNext,
+          K key) {
+        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext, key);
         copyAccessEntry(original, newEntry);
         copyWriteEntry(original, newEntry);
         return newEntry;
@@ -591,13 +608,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     /**
      * Copies an entry, assigning it a new {@code next} entry.
      *
-     * @param original the entry to copy
+     * @param original the entry to copy. But avoid calling {@code getKey} on it: Instead, use the
+     *     {@code key} parameter. That way, we prevent the key from being garbage collected in the
+     *     case of weak keys. If we create a new entry with a key that is null at construction time,
+     *     we're not sure if entry will necessarily ever be garbage collected.
      * @param newNext entry in the same bucket
+     * @param key the key to copy from the original entry to the new one. Use this in preference to
+     *     {@code original.getKey()}.
      */
     // Guarded By Segment.this
     <K, V> ReferenceEntry<K, V> copyEntry(
-        Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-      return newEntry(segment, original.getKey(), original.getHash(), newNext);
+        Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext, K key) {
+      return newEntry(segment, key, original.getHash(), newNext);
     }
 
     // Guarded By Segment.this
@@ -1983,7 +2005,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      */
     @GuardedBy("this")
     ReferenceEntry<K, V> copyEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-      if (original.getKey() == null) {
+      K key = original.getKey();
+      if (key == null) {
         // key collected
         return null;
       }
@@ -1995,7 +2018,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         return null;
       }
 
-      ReferenceEntry<K, V> newEntry = map.entryFactory.copyEntry(this, original, newNext);
+      ReferenceEntry<K, V> newEntry = map.entryFactory.copyEntry(this, original, newNext, key);
       newEntry.setValueReference(valueReference.copyFor(this.valueReferenceQueue, value, newEntry));
       return newEntry;
     }
