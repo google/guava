@@ -1046,6 +1046,7 @@ class MapMakerInternalMap<
    */
   static final WeakValueReference<Object, Object, DummyInternalEntry> UNSET_WEAK_VALUE_REFERENCE =
       new WeakValueReference<Object, Object, DummyInternalEntry>() {
+        @CheckForNull
         @Override
         public DummyInternalEntry getEntry() {
           return null;
@@ -1054,6 +1055,7 @@ class MapMakerInternalMap<
         @Override
         public void clear() {}
 
+        @CheckForNull
         @Override
         public Object get() {
           return null;
@@ -2376,6 +2378,7 @@ class MapMakerInternalMap<
     return Ints.saturatedCast(sum);
   }
 
+  @CheckForNull
   @Override
   public V get(@CheckForNull Object key) {
     if (key == null) {
@@ -2444,6 +2447,7 @@ class MapMakerInternalMap<
     return false;
   }
 
+  @CheckForNull
   @CanIgnoreReturnValue
   @Override
   public V put(K key, V value) {
@@ -2453,6 +2457,7 @@ class MapMakerInternalMap<
     return segmentFor(hash).put(key, hash, value, false);
   }
 
+  @CheckForNull
   @CanIgnoreReturnValue
   @Override
   public V putIfAbsent(K key, V value) {
@@ -2469,6 +2474,7 @@ class MapMakerInternalMap<
     }
   }
 
+  @CheckForNull
   @CanIgnoreReturnValue
   @Override
   public V remove(@CheckForNull Object key) {
@@ -2501,6 +2507,7 @@ class MapMakerInternalMap<
     return segmentFor(hash).replace(key, hash, oldValue, newValue);
   }
 
+  @CheckForNull
   @CanIgnoreReturnValue
   @Override
   public V replace(K key, V value) {
