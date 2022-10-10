@@ -233,6 +233,11 @@ abstract class InterruptibleTask<T extends @Nullable Object>
       super.setExclusiveOwnerThread(thread);
     }
 
+    @VisibleForTesting
+    Thread getOwner() {
+      return super.getExclusiveOwnerThread();
+    }
+
     @Override
     public String toString() {
       return task.toString();

@@ -17,6 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +62,7 @@ public abstract class AbstractContainerTester<C, E>
    * @see #resetContainer(Object) resetContainer(C)
    * @return the new container instance.
    */
+  @CanIgnoreReturnValue
   protected C resetContainer() {
     return resetContainer(getSubjectGenerator().createTestSubject());
   }
@@ -75,6 +77,7 @@ public abstract class AbstractContainerTester<C, E>
    * @return the new container instance
    * @param newValue the new container instance
    */
+  @CanIgnoreReturnValue
   protected C resetContainer(C newValue) {
     container = newValue;
     return container;

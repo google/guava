@@ -27,7 +27,6 @@ import static java.math.RoundingMode.UNNECESSARY;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +34,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Objects;
 import javax.annotation.CheckForNull;
 
 /**
@@ -318,6 +318,15 @@ public abstract class BaseEncoding {
    */
   public abstract BaseEncoding lowerCase();
 
+  /**
+   * Returns an encoding that behaves equivalently to this encoding, but decodes letters without
+   * regard to case.
+   *
+   * @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
+   *     lower-case characters
+   */
+  public abstract BaseEncoding ignoreCase();
+
   private static final BaseEncoding BASE64 =
       new Base64Encoding(
           "base64()", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", '=');
@@ -428,8 +437,13 @@ public abstract class BaseEncoding {
     final int bytesPerChunk;
     private final byte[] decodabet;
     private final boolean[] validPadding;
+    private final boolean ignoreCase;
 
     Alphabet(String name, char[] chars) {
+      this(name, chars, decodabetFor(chars), /* ignoreCase= */ false);
+    }
+
+    private Alphabet(String name, char[] chars, byte[] decodabet, boolean ignoreCase) {
       this.name = checkNotNull(name);
       this.chars = checkNotNull(chars);
       try {
@@ -438,20 +452,30 @@ public abstract class BaseEncoding {
         throw new IllegalArgumentException("Illegal alphabet length " + chars.length, e);
       }
 
-      /*
-       * e.g. for base64, bitsPerChar == 6, charsPerChunk == 4, and bytesPerChunk == 3. This makes
-       * for the smallest chunk size that still has charsPerChunk * bitsPerChar be a multiple of 8.
-       */
-      int gcd = Math.min(8, Integer.lowestOneBit(bitsPerChar));
-      try {
-        this.charsPerChunk = 8 / gcd;
-        this.bytesPerChunk = bitsPerChar / gcd;
-      } catch (ArithmeticException e) {
-        throw new IllegalArgumentException("Illegal alphabet " + new String(chars), e);
-      }
+      // Compute how input bytes are chunked. For example, with base64 we chunk every 3 bytes into
+      // 4 characters. We have bitsPerChar == 6, charsPerChunk == 4, and bytesPerChunk == 3.
+      // We're looking for the smallest charsPerChunk such that bitsPerChar * charsPerChunk is a
+      // multiple of 8. A multiple of 8 has 3 low zero bits, so we just need to figure out how many
+      // extra zero bits we need to add to the end of bitsPerChar to get 3 in total.
+      // The logic here would be wrong for bitsPerChar > 8, but since we require distinct ASCII
+      // characters that can't happen.
+      int zeroesInBitsPerChar = Integer.numberOfTrailingZeros(bitsPerChar);
+      this.charsPerChunk = 1 << (3 - zeroesInBitsPerChar);
+      this.bytesPerChunk = bitsPerChar >> zeroesInBitsPerChar;
 
       this.mask = chars.length - 1;
 
+      this.decodabet = decodabet;
+
+      boolean[] validPadding = new boolean[charsPerChunk];
+      for (int i = 0; i < bytesPerChunk; i++) {
+        validPadding[divide(i * 8, bitsPerChar, CEILING)] = true;
+      }
+      this.validPadding = validPadding;
+      this.ignoreCase = ignoreCase;
+    }
+
+    private static byte[] decodabetFor(char[] chars) {
       byte[] decodabet = new byte[Ascii.MAX + 1];
       Arrays.fill(decodabet, (byte) -1);
       for (int i = 0; i < chars.length; i++) {
@@ -460,13 +484,33 @@ public abstract class BaseEncoding {
         checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);
         decodabet[c] = (byte) i;
       }
-      this.decodabet = decodabet;
+      return decodabet;
+    }
 
-      boolean[] validPadding = new boolean[charsPerChunk];
-      for (int i = 0; i < bytesPerChunk; i++) {
-        validPadding[divide(i * 8, bitsPerChar, CEILING)] = true;
+    /** Returns an equivalent {@code Alphabet} except it ignores case. */
+    Alphabet ignoreCase() {
+      if (ignoreCase) {
+        return this;
       }
-      this.validPadding = validPadding;
+
+      // We can't use .clone() because of GWT.
+      byte[] newDecodabet = Arrays.copyOf(decodabet, decodabet.length);
+      for (int upper = 'A'; upper <= 'Z'; upper++) {
+        int lower = upper | 0x20;
+        byte decodeUpper = decodabet[upper];
+        byte decodeLower = decodabet[lower];
+        if (decodeUpper == -1) {
+          newDecodabet[upper] = decodeLower;
+        } else {
+          checkState(
+              decodeLower == -1,
+              "Can't ignoreCase() since '%s' and '%s' encode different values",
+              (char) upper,
+              (char) lower);
+          newDecodabet[lower] = decodeUpper;
+        }
+      }
+      return new Alphabet(name + ".ignoreCase()", chars, newDecodabet, /* ignoreCase= */ true);
     }
 
     char encode(int bits) {
@@ -523,7 +567,8 @@ public abstract class BaseEncoding {
       for (int i = 0; i < chars.length; i++) {
         upperCased[i] = Ascii.toUpperCase(chars[i]);
       }
-      return new Alphabet(name + ".upperCase()", upperCased);
+      Alphabet upperCase = new Alphabet(name + ".upperCase()", upperCased);
+      return ignoreCase ? upperCase.ignoreCase() : upperCase;
     }
 
     Alphabet lowerCase() {
@@ -535,7 +580,8 @@ public abstract class BaseEncoding {
       for (int i = 0; i < chars.length; i++) {
         lowerCased[i] = Ascii.toLowerCase(chars[i]);
       }
-      return new Alphabet(name + ".lowerCase()", lowerCased);
+      Alphabet lowerCase = new Alphabet(name + ".lowerCase()", lowerCased);
+      return ignoreCase ? lowerCase.ignoreCase() : lowerCase;
     }
 
     public boolean matches(char c) {
@@ -551,19 +597,18 @@ public abstract class BaseEncoding {
     public boolean equals(@CheckForNull Object other) {
       if (other instanceof Alphabet) {
         Alphabet that = (Alphabet) other;
-        return Arrays.equals(this.chars, that.chars);
+        return this.ignoreCase == that.ignoreCase && Arrays.equals(this.chars, that.chars);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Arrays.hashCode(chars);
+      return Arrays.hashCode(chars) + (ignoreCase ? 1231 : 1237);
     }
   }
 
   static class StandardBaseEncoding extends BaseEncoding {
-    // TODO(lowasser): provide a useful toString
     final Alphabet alphabet;
 
     @CheckForNull final Character paddingChar;
@@ -830,8 +875,9 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    @LazyInit @CheckForNull private transient BaseEncoding upperCase;
-    @LazyInit @CheckForNull private transient BaseEncoding lowerCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding upperCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding lowerCase;
+    @LazyInit @CheckForNull private volatile BaseEncoding ignoreCase;
 
     @Override
     public BaseEncoding upperCase() {
@@ -853,6 +899,16 @@ public abstract class BaseEncoding {
       return result;
     }
 
+    @Override
+    public BaseEncoding ignoreCase() {
+      BaseEncoding result = ignoreCase;
+      if (result == null) {
+        Alphabet ignore = alphabet.ignoreCase();
+        result = ignoreCase = (ignore == alphabet) ? this : newInstance(ignore, paddingChar);
+      }
+      return result;
+    }
+
     BaseEncoding newInstance(Alphabet alphabet, @CheckForNull Character paddingChar) {
       return new StandardBaseEncoding(alphabet, paddingChar);
     }
@@ -860,7 +916,7 @@ public abstract class BaseEncoding {
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder("BaseEncoding.");
-      builder.append(alphabet.toString());
+      builder.append(alphabet);
       if (8 % alphabet.bitsPerChar != 0) {
         if (paddingChar == null) {
           builder.append(".omitPadding()");
@@ -876,7 +932,7 @@ public abstract class BaseEncoding {
       if (other instanceof StandardBaseEncoding) {
         StandardBaseEncoding that = (StandardBaseEncoding) other;
         return this.alphabet.equals(that.alphabet)
-            && Objects.equal(this.paddingChar, that.paddingChar);
+            && Objects.equals(this.paddingChar, that.paddingChar);
       }
       return false;
     }
@@ -1168,6 +1224,11 @@ public abstract class BaseEncoding {
     @Override
     public BaseEncoding lowerCase() {
       return delegate.lowerCase().withSeparator(separator, afterEveryChars);
+    }
+
+    @Override
+    public BaseEncoding ignoreCase() {
+      return delegate.ignoreCase().withSeparator(separator, afterEveryChars);
     }
 
     @Override

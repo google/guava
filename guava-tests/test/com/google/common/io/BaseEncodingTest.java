@@ -125,7 +125,6 @@ public class BaseEncodingTest extends TestCase {
       base64().upperCase();
       fail();
     } catch (IllegalStateException expected) {
-      // success
     }
   }
 
@@ -134,7 +133,14 @@ public class BaseEncodingTest extends TestCase {
       base64().lowerCase();
       fail();
     } catch (IllegalStateException expected) {
-      // success
+    }
+  }
+
+  public void testBase64CannotIgnoreCase() {
+    try {
+      base64().ignoreCase();
+      fail();
+    } catch (IllegalStateException expected) {
     }
   }
 
@@ -262,7 +268,19 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase32UpperCaseIsNoOp() {
-    assertSame(base32(), base32().upperCase());
+    assertThat(base32().upperCase()).isSameInstanceAs(base32());
+  }
+
+  public void testBase32LowerCase() {
+    testEncodingWithCasing(base32().lowerCase(), "foobar", "mzxw6ytboi======");
+  }
+
+  public void testBase32IgnoreCase() {
+    BaseEncoding ignoreCase = base32().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base32());
+    assertThat(ignoreCase).isSameInstanceAs(base32().ignoreCase());
+    testDecodes(ignoreCase, "MZXW6YTBOI======", "foobar");
+    testDecodes(ignoreCase, "mzxw6ytboi======", "foobar");
   }
 
   public void testBase32Offset() {
@@ -318,7 +336,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase32HexUpperCaseIsNoOp() {
-    assertSame(base32Hex(), base32Hex().upperCase());
+    assertThat(base32Hex().upperCase()).isSameInstanceAs(base32Hex());
   }
 
   public void testBase16() {
@@ -332,7 +350,44 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase16UpperCaseIsNoOp() {
-    assertSame(base16(), base16().upperCase());
+    assertThat(base16().upperCase()).isSameInstanceAs(base16());
+  }
+
+  public void testBase16LowerCase() {
+    BaseEncoding lowerCase = base16().lowerCase();
+    assertThat(lowerCase).isNotSameInstanceAs(base16());
+    assertThat(lowerCase).isSameInstanceAs(base16().lowerCase());
+    testEncodingWithCasing(lowerCase, "foobar", "666f6f626172");
+  }
+
+  public void testBase16IgnoreCase() {
+    BaseEncoding ignoreCase = base16().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    assertThat(ignoreCase).isSameInstanceAs(base16().ignoreCase());
+    testEncodingWithCasing(ignoreCase, "foobar", "666F6F626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
+  }
+
+  public void testBase16LowerCaseIgnoreCase() {
+    BaseEncoding ignoreCase = base16().lowerCase().ignoreCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    assertThat(ignoreCase).isSameInstanceAs(base16().lowerCase().ignoreCase());
+    testEncodingWithCasing(ignoreCase, "foobar", "666f6f626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
+  }
+
+  // order the methods are called should not matter
+  public void testBase16IgnoreCaseLowerCase() {
+    BaseEncoding ignoreCase = base16().ignoreCase().lowerCase();
+    assertThat(ignoreCase).isNotSameInstanceAs(base16());
+    testEncodingWithCasing(ignoreCase, "foobar", "666f6f626172");
+    testDecodes(ignoreCase, "666F6F626172", "foobar");
+    testDecodes(ignoreCase, "666f6f626172", "foobar");
+    testDecodes(ignoreCase, "666F6f626172", "foobar");
   }
 
   public void testBase16InvalidDecodings() {
@@ -344,6 +399,8 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base16(), "ABC");
     // These have a combination of invalid length and unrecognized characters.
     assertFailsToDecode(base16(), "?", "Invalid input length 1");
+    assertFailsToDecode(base16(), "ab");
+    assertFailsToDecode(base16().lowerCase(), "AB");
   }
 
   public void testBase16Offset() {
@@ -391,12 +448,12 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
-    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.canDecode(encoded)).isTrue();
     assertThat(encoding.decode(encoded)).isEqualTo(decoded.getBytes(UTF_8));
   }
 
   private static void testDecodesByBytes(BaseEncoding encoding, String encoded, byte[] decoded) {
-    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.canDecode(encoded)).isTrue();
     assertThat(encoding.decode(encoded)).isEqualTo(decoded);
   }
 
@@ -441,7 +498,7 @@ public class BaseEncodingTest extends TestCase {
       @Override
       void assertFailsToDecode(
           BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
-        assertFalse(encoding.canDecode(cannotDecode));
+        assertThat(encoding.canDecode(cannotDecode)).isFalse();
       }
     },
     DECODE {
@@ -512,9 +569,9 @@ public class BaseEncodingTest extends TestCase {
   private static void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     StringWriter writer = new StringWriter();
-    OutputStream encodingStream = encoding.encodingStream(writer);
-    encodingStream.write(decoded.getBytes(UTF_8));
-    encodingStream.close();
+    try (OutputStream encodingStream = encoding.encodingStream(writer)) {
+      encodingStream.write(decoded.getBytes(UTF_8));
+    }
     assertThat(writer.toString()).isEqualTo(encoded);
   }
 
@@ -522,22 +579,21 @@ public class BaseEncodingTest extends TestCase {
   private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
     byte[] bytes = decoded.getBytes(UTF_8);
-    InputStream decodingStream = encoding.decodingStream(new StringReader(encoded));
-    for (int i = 0; i < bytes.length; i++) {
-      assertThat(decodingStream.read()).isEqualTo(bytes[i] & 0xFF);
+    try (InputStream decodingStream = encoding.decodingStream(new StringReader(encoded))) {
+      for (int i = 0; i < bytes.length; i++) {
+        assertThat(decodingStream.read()).isEqualTo(bytes[i] & 0xFF);
+      }
+      assertThat(decodingStream.read()).isEqualTo(-1);
     }
-    assertThat(decodingStream.read()).isEqualTo(-1);
-    decodingStream.close();
   }
 
   public void testToString() {
-    assertEquals("BaseEncoding.base64().withPadChar('=')", base64().toString());
-    assertEquals("BaseEncoding.base32Hex().omitPadding()", base32Hex().omitPadding().toString());
-    assertEquals(
-        "BaseEncoding.base32().lowerCase().withPadChar('$')",
-        base32().lowerCase().withPadChar('$').toString());
-    assertEquals(
-        "BaseEncoding.base16().withSeparator(\"\n\", 10)",
-        base16().withSeparator("\n", 10).toString());
+    assertThat(base64().toString()).isEqualTo("BaseEncoding.base64().withPadChar('=')");
+    assertThat(base32Hex().omitPadding().toString())
+        .isEqualTo("BaseEncoding.base32Hex().omitPadding()");
+    assertThat(base32().lowerCase().withPadChar('$').toString())
+        .isEqualTo("BaseEncoding.base32().lowerCase().withPadChar('$')");
+    assertThat(base16().withSeparator("\n", 10).toString())
+        .isEqualTo("BaseEncoding.base16().withSeparator(\"\n\", 10)");
   }
 }

@@ -18,6 +18,7 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -55,6 +56,7 @@ public class FeatureUtil {
    * @param features the set of features to expand
    * @return the same set of features, expanded with all implied features
    */
+  @CanIgnoreReturnValue
   public static Set<Feature<?>> addImpliedFeatures(Set<Feature<?>> features) {
     Queue<Feature<?>> queue = new ArrayDeque<>(features);
     while (!queue.isEmpty()) {
@@ -254,6 +256,7 @@ public class FeatureUtil {
    * @throws ConflictingRequirementsException if the additional requirements are inconsistent with
    *     the existing requirements
    */
+  @CanIgnoreReturnValue
   private static TesterRequirements incorporateRequirements(
       TesterRequirements requirements, TesterRequirements moreRequirements, Object source)
       throws ConflictingRequirementsException {

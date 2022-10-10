@@ -32,6 +32,7 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
@@ -77,6 +78,7 @@ public final class NullPointerTester {
    * Sets a default value that can be used for any parameter of type {@code type}. Returns this
    * object.
    */
+  @CanIgnoreReturnValue
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
     defaults.putInstance(type, checkNotNull(value));
     return this;
@@ -87,6 +89,7 @@ public final class NullPointerTester {
    *
    * @since 13.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Method method) {
     ignoredMembers.add(checkNotNull(method));
     return this;
@@ -97,6 +100,7 @@ public final class NullPointerTester {
    *
    * @since 22.0
    */
+  @CanIgnoreReturnValue
   public NullPointerTester ignore(Constructor<?> constructor) {
     ignoredMembers.add(checkNotNull(constructor));
     return this;

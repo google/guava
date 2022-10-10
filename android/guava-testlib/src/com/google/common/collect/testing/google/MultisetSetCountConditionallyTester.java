@@ -24,6 +24,7 @@ import static java.util.Collections.nCopies;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.junit.Ignore;
 
 /**
@@ -47,6 +48,7 @@ public class MultisetSetCountConditionallyTester<E> extends AbstractMultisetSetC
     setCount(element, count);
   }
 
+  @CanIgnoreReturnValue
   private boolean setCount(E element, int count) {
     return getMultiset().setCount(element, getMultiset().count(element), count);
   }

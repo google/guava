@@ -135,7 +135,7 @@ public class FakeTickerTest extends TestCase {
         new Callable<Void>() {
           @Override
           public Void call() throws Exception {
-            ticker.read();
+            long unused = ticker.read();
             return null;
           }
         });

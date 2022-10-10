@@ -213,6 +213,7 @@ public class StringsTest extends TestCase {
     assertFalse(Strings.validSurrogatePairAt("\uD8ABx", 0));
   }
 
+  @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing.
   public void testLenientFormat() {
     assertEquals("%s", Strings.lenientFormat("%s"));
     assertEquals("5", Strings.lenientFormat("%s", 5));
