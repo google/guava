@@ -978,7 +978,7 @@ public final class LongMath {
   }
 
   /*
-   * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
+   * This bitmask is used as an optimization for cheaply testing for divisibility by 2, 3, or 5.
    * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so
    * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.
    */

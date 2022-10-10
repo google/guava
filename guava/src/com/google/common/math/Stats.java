@@ -126,9 +126,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(double... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -137,9 +137,9 @@ public final class Stats implements Serializable {
    * @param values a series of values
    */
   public static Stats of(int... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**
@@ -149,9 +149,9 @@ public final class Stats implements Serializable {
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    */
   public static Stats of(long... values) {
-    StatsAccumulator acummulator = new StatsAccumulator();
-    acummulator.addAll(values);
-    return acummulator.snapshot();
+    StatsAccumulator accumulator = new StatsAccumulator();
+    accumulator.addAll(values);
+    return accumulator.snapshot();
   }
 
   /**

@@ -186,7 +186,7 @@ public final class Escapers {
       return wrap((CharEscaper) escaper);
     }
     // In practice this shouldn't happen because it would be very odd not to
-    // extend either CharEscaper or UnicodeEscaper for non trivial cases.
+    // extend either CharEscaper or UnicodeEscaper for non-trivial cases.
     throw new IllegalArgumentException(
         "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());
   }

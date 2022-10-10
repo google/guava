@@ -276,7 +276,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   public void testRemove() {
     MinMaxPriorityQueue<Integer> mmHeap = MinMaxPriorityQueue.create();
     mmHeap.addAll(Lists.newArrayList(1, 2, 3, 4, 47, 1, 5, 3, 0));
-    assertTrue("Heap is not intact initally", mmHeap.isIntact());
+    assertTrue("Heap is not intact initially", mmHeap.isIntact());
     assertEquals(9, mmHeap.size());
     mmHeap.remove(5);
     assertEquals(8, mmHeap.size());

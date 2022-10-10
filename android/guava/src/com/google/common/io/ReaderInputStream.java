@@ -198,8 +198,8 @@ final class ReaderInputStream extends InputStream {
   /** Handle the case of underflow caused by needing more input characters. */
   private void readMoreChars() throws IOException {
     // Possibilities:
-    // 1) array has space available on right hand side (between limit and capacity)
-    // 2) array has space available on left hand side (before position)
+    // 1) array has space available on right-hand side (between limit and capacity)
+    // 2) array has space available on left-hand side (before position)
     // 3) array has no space available
     //
     // In case 2 we shift the existing chars to the left, and in case 3 we create a bigger

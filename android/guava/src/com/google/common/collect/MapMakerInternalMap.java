@@ -1004,7 +1004,7 @@ class MapMakerInternalMap<
 
     /**
      * Returns a freshly created {@link WeakValueReference} for the given {@code entry} (and on the
-     * given {@code queue} with the same value as this {@link WeakValueReference}.
+     * given {@code queue}) with the same value as this {@link WeakValueReference}.
      */
     WeakValueReference<K, V, E> copyFor(ReferenceQueue<V> queue, E entry);
   }
@@ -1041,7 +1041,7 @@ class MapMakerInternalMap<
   }
 
   /**
-   * A singleton {@link WeakValueReference} used to denote an unset value in a entry with weak
+   * A singleton {@link WeakValueReference} used to denote an unset value in an entry with weak
    * values.
    */
   static final WeakValueReference<Object, Object, DummyInternalEntry> UNSET_WEAK_VALUE_REFERENCE =
@@ -1299,7 +1299,7 @@ class MapMakerInternalMap<
      * implementation type.
      *
      * <p>This method is provided as a convenience for tests. Otherwise they'd need to be
-     * knowledgable about all the implementation details of our type system trickery.
+     * knowledgeable about all the implementation details of our type system trickery.
      */
     abstract E castForTesting(InternalEntry<K, V, ?> entry);
 

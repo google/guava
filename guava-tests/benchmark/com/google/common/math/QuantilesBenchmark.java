@@ -50,7 +50,7 @@ public class QuantilesBenchmark {
   }
 
   private double[] dataset(int i) {
-    // We must test on a fresh clone of the dataset each time. Doing sorts and quickselects on an
+    // We must test on a fresh clone of the dataset each time. Doing sorts and quickselects on a
     // dataset which is already sorted or partially sorted is cheating.
     return datasets[i & 0xFF].clone();
   }

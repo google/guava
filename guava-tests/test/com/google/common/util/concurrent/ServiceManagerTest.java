@@ -504,7 +504,7 @@ public class ServiceManagerTest extends TestCase {
           }
         };
     stoppingThread.start();
-    // this should be super fast since the only non stopped service is a NoOpService
+    // this should be super fast since the only non-stopped service is a NoOpService
     stoppingThread.join(1000);
     assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
     failLeave.countDown(); // release the background thread
@@ -623,7 +623,7 @@ public class ServiceManagerTest extends TestCase {
   }
 
   /**
-   * This service will shutdown very quickly after stopAsync is called and uses a background thread
+   * This service will shut down very quickly after stopAsync is called and uses a background thread
    * so that we know that the stopping() listeners will execute on a different thread than the
    * terminated() listeners.
    */

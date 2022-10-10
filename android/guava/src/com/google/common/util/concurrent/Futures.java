@@ -104,7 +104,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
   //    it would just add an edge such that if done() observed non-null, then it would also
   //    definitely observe all earlier writes, but we still have no guarantee that done() would see
-  //    the inital write (just stronger guarantees if it does).
+  //    the initial write (just stronger guarantees if it does).
   //
   // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html
   // For a (long) discussion about this specific issue and the general futility of life.

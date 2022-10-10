@@ -64,7 +64,7 @@ public class ListsImplTest extends TestCase {
     /** Creates a new list with the given contents. */
     public abstract <T> List<T> createList(Class<T> listType, Collection<? extends T> contents);
 
-    /** The modifiablity of this list example. */
+    /** The modifiability of this list example. */
     public Modifiability modifiability() {
       return modifiability;
     }

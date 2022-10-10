@@ -191,7 +191,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
 
   /**
    * Atomically updates the element at index {@code i} with the results of applying the given
-   * function to the curernt and given values.
+   * function to the current and given values.
    *
    * @param i the index to update
    * @param x the update value
@@ -207,7 +207,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
 
   /**
    * Atomically updates the element at index {@code i} with the results of applying the given
-   * function to the curernt and given values.
+   * function to the current and given values.
    *
    * @param i the index to update
    * @param x the update value
@@ -223,7 +223,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
 
   /**
    * Atomically updates the element at index {@code i} with the results of applying the given
-   * function to the curernt value.
+   * function to the current value.
    *
    * @param i the index to update
    * @param updaterFunction the update function
@@ -245,7 +245,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
 
   /**
    * Atomically updates the element at index {@code i} with the results of applying the given
-   * function to the curernt value.
+   * function to the current value.
    *
    * @param i the index to update
    * @param updaterFunction the update function

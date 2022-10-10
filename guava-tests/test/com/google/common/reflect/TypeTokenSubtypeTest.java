@@ -237,7 +237,7 @@ public class TypeTokenSubtypeTest extends TestCase {
     @TestSubtype(suppressGetSupertype = true, suppressGetSubtype = true)
     public List<RecursiveTypeBoundBugExample<?>> ifYouUseTheTypeVariableOnTheClassAndItIsRecursive(
         List<RecursiveTypeBoundBugExample<? extends RecursiveTypeBoundBugExample<T>>> arg) {
-      return notSubtype(arg); // isSubtype() currently incorectly considers it a subtype.
+      return notSubtype(arg); // isSubtype() currently incorrectly considers it a subtype.
     }
   }
 

@@ -282,9 +282,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
-   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
-   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
-   * will contain at most one edge (equivalent to {@code edgeConnecting(nodeU, nodeV).asSet()}).
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link
+   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel
+   * edges}, the resulting set will contain at most one edge (equivalent to {@code
+   * edgeConnecting(nodeU, nodeV).asSet()}).
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
@@ -295,9 +296,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
    * specified by {@code endpoints}).
    *
-   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
-   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
-   * will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link
+   * #incidentNodes(Object)}). If this network does not {@link #allowsParallelEdges() allow parallel
+   * edges}, the resulting set will contain at most one edge (equivalent to {@code
+   * edgeConnecting(endpoints).asSet()}).
    *
    * <p>If this network is directed, {@code endpoints} must be ordered.
    *

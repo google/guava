@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code ByteSink} implementations.
- * Generates tests of a all methods on a {@code ByteSink} given various inputs written to it as well
+ * Generates tests of all methods on a {@code ByteSink} given various inputs written to it as well
  * as sub-suites for testing the {@code CharSink} view in the same way.
  *
  * @author Colin Decker

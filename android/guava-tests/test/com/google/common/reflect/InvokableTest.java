@@ -49,9 +49,9 @@ public class InvokableTest extends TestCase {
   public void testApiCompatibleWithAccessibleObject() {
     ImmutableSet<String> invokableMethods =
         publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
-    ImmutableSet<String> accesibleObjectMethods =
+    ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
-    assertThat(invokableMethods).containsAtLeastElementsIn(accesibleObjectMethods);
+    assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
     Class<?> genericDeclaration;
     try {
       genericDeclaration = Class.forName("java.lang.reflect.GenericDeclaration");
@@ -453,7 +453,7 @@ public class InvokableTest extends TestCase {
 
   static class Foo {}
 
-  public void testConstructor_isOverridablel() throws Exception {
+  public void testConstructor_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(Foo.class.getDeclaredConstructor());
     assertFalse(delegate.isOverridable());
     assertFalse(delegate.isVarArgs());

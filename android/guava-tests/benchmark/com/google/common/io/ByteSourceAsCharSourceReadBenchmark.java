@@ -78,7 +78,7 @@ public class ByteSourceAsCharSourceReadBenchmark {
               return new String(buffer, 0, bufIndex);
             }
             // otherwise we got the size wrong.  This can happen if the size changes between when
-            // we called sizeIfKnown and when we started reading the file (or i guess if
+            // we called sizeIfKnown and when we started reading the file (or I guess if
             // maxCharsPerByte is wrong)
             // Fallback to an incremental approach
             StringBuilder builder = new StringBuilder(bufIndex + 32);

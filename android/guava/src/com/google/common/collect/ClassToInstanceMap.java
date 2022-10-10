@@ -39,7 +39,7 @@ import javax.annotation.CheckForNull;
  * implementation and this interface specify otherwise. Thus, if you use a nullness checker, you can
  * safely suppress any warnings it produces when you write null values into a {@code
  * MutableClassToInstanceMap}. Just be sure to be prepared for null values when reading from it,
- * since nullness checkers will assume that vaules are non-null then, too.
+ * since nullness checkers will assume that values are non-null then, too.
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">{@code
@@ -55,7 +55,7 @@ import javax.annotation.CheckForNull;
 @DoNotMock("Use ImmutableClassToInstanceMap or MutableClassToInstanceMap")
 @GwtCompatible
 @ElementTypesAreNonnullByDefault
-// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86), we
+// If we ever support non-null projections (https://github.com/jspecify/jspecify/issues/86),
 // we might annotate this as...
 // ClassToInstanceMap<B extends @Nullable Object> extends Map<Class<? extends @Nonnull B>, B>
 // ...and change its methods similarly (<T extends @Nonnull B> or Class<@Nonnull T>).

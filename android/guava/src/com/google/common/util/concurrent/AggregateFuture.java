@@ -357,7 +357,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
          * We've seen this, so we've seen its causes, too. No need to re-add them. (There's one case
          * where this isn't true, but we ignore it: If we record an exception, then someone calls
          * initCause() on it, and then we examine it again, we'll conclude that we've seen the whole
-         * chain before when it fact we haven't. But this should be rare.)
+         * chain before when in fact we haven't. But this should be rare.)
          */
         return false;
       }

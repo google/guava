@@ -716,9 +716,9 @@ public final class ClassSanityTester {
     for (Invokable<?, ?> factory : factories) {
       factory.setAccessible(true);
     }
-    // Sorts methods/constructors with least number of parameters first since it's likely easier to
-    // fill dummy parameter values for them. Ties are broken by name then by the string form of the
-    // parameter list.
+    // Sorts methods/constructors with the least number of parameters first since it's likely easier
+    // to fill dummy parameter values for them. Ties are broken by name then by the string form of
+    // the parameter list.
     return BY_NUMBER_OF_PARAMETERS
         .compound(BY_METHOD_NAME)
         .compound(BY_PARAMETERS)

@@ -255,7 +255,7 @@ public class TypeTokenResolutionTest extends TestCase {
     }
   }
 
-  public void testConextIsParameterizedType() throws Exception {
+  public void testContextIsParameterizedType() throws Exception {
     class Context {
       @SuppressWarnings("unused") // used by reflection
       Map<String, Integer> returningMap() {

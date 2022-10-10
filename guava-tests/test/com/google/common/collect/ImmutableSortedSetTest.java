@@ -1006,7 +1006,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(copy instanceof ImmutableSortedAsList);
   }
 
-  public void testAsListInconsistentComprator() {
+  public void testAsListInconsistentComparator() {
     ImmutableSet<String> set =
         ImmutableSortedSet.orderedBy(STRING_LENGTH)
             .add("in", "the", "quick", "jumped", "over", "a")

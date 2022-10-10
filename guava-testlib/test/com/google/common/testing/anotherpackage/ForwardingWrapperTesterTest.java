@@ -256,7 +256,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         new Function<Adder, Adder>() {
           @Override
           public Adder apply(Adder adder) {
-            return new FailsToPropagageException(adder);
+            return new FailsToPropagateException(adder);
           }
         },
         "add(",
@@ -374,10 +374,10 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  private static class FailsToPropagageException implements Adder {
+  private static class FailsToPropagateException implements Adder {
     private final Adder adder;
 
-    FailsToPropagageException(Adder adder) {
+    FailsToPropagateException(Adder adder) {
       this.adder = adder;
     }
 

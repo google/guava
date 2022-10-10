@@ -53,7 +53,7 @@ public class DoubleArrayAsListTest extends TestCase {
     List<ListTestSuiteBuilder<Double>> builders =
         ImmutableList.of(
             ListTestSuiteBuilder.using(new DoublesAsListGenerator()).named("Doubles.asList"),
-            ListTestSuiteBuilder.using(new DoublsAsListHeadSubListGenerator())
+            ListTestSuiteBuilder.using(new DoublesAsListHeadSubListGenerator())
                 .named("Doubles.asList, head subList"),
             ListTestSuiteBuilder.using(new DoublesAsListTailSubListGenerator())
                 .named("Doubles.asList, tail subList"),
@@ -84,7 +84,7 @@ public class DoubleArrayAsListTest extends TestCase {
     }
   }
 
-  public static final class DoublsAsListHeadSubListGenerator extends TestDoubleListGenerator {
+  public static final class DoublesAsListHeadSubListGenerator extends TestDoubleListGenerator {
     @Override
     protected List<Double> create(Double[] elements) {
       Double[] suffix = {Double.MIN_VALUE, Double.MAX_VALUE};

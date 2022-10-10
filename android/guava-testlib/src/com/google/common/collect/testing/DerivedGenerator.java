@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * collection generator.
  *
  * <p>{@code GwtTestSuiteGenerator} expects every {@code DerivedIterator} implementation to provide
- * a one-arg constructor accepting its inner generator as an argument). This requirement enables it
+ * a one-arg constructor accepting its inner generator as an argument. This requirement enables it
  * to generate source code (since GWT cannot use reflection to generate the suites).
  *
  * @author Chris Povirk
