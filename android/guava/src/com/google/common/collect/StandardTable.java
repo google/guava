@@ -957,7 +957,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       public boolean removeAll(Collection<?> c) {
         /*
          * We can't inherit the normal implementation (which calls
-         * Sets.removeAllImpl(Set, *Collection*) because, under some
+         * Sets.removeAllImpl(Set, *Collection*)) because, under some
          * circumstances, it attempts to call columnKeySet().iterator().remove,
          * which is unsupported.
          */

@@ -74,10 +74,10 @@ public final class PercentEscaper extends UnicodeEscaper {
    * space character.
    *
    * <p>Not that it is allowed, but not necessarily desirable to specify {@code %} as a safe
-   * character. This has the effect of creating an escaper which has no well defined inverse but it
+   * character. This has the effect of creating an escaper which has no well-defined inverse but it
    * can be useful when escaping additional characters.
    *
-   * @param safeChars a non null string specifying additional safe characters for this escaper (the
+   * @param safeChars a non-null string specifying additional safe characters for this escaper (the
    *     ranges 0..9, a..z and A..Z are always safe and should not be specified here)
    * @param plusForSpace true if ASCII space should be escaped to {@code +} rather than {@code %20}
    * @throws IllegalArgumentException if any of the parameters were invalid

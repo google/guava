@@ -133,7 +133,7 @@ abstract class Dispatcher {
     // This dispatcher matches the original dispatch behavior of AsyncEventBus.
     //
     // We can't really make any guarantees about the overall dispatch order for this dispatcher in
-    // a multithreaded environment for a couple reasons:
+    // a multithreaded environment for a couple of reasons:
     //
     // 1. Subscribers to events posted on different threads can be interleaved with each other
     //    freely. (A event on one thread, B event on another could yield any of

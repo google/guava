@@ -168,7 +168,7 @@ public class EventBusTest extends TestCase {
     GhostCatcher catcher = new GhostCatcher();
     bus.register(catcher);
 
-    // A String -- an event for which noone has registered.
+    // A String -- an event for which no one has registered.
     bus.post(EVENT);
 
     List<DeadEvent> events = catcher.getEvents();

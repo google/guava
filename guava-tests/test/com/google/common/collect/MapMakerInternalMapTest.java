@@ -90,7 +90,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSetConcurrencyLevel() {
-    // round up to nearest power of two
+    // round up to the nearest power of two
 
     checkConcurrencyLevel(1, 1);
     checkConcurrencyLevel(2, 2);
@@ -109,7 +109,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSetInitialCapacity() {
-    // share capacity over each segment, then round up to nearest power of two
+    // share capacity over each segment, then round up to the nearest power of two
 
     checkInitialCapacity(1, 0, 1);
     checkInitialCapacity(1, 1, 1);
@@ -185,7 +185,7 @@ public class MapMakerInternalMapTest extends TestCase {
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentSize;
     }
-    assertTrue("totalCapcity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity <= maxSize);
+    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity <= maxSize);
   }
 
   public void testSetWeakKeys() {

@@ -212,7 +212,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  // Relies on the correctness of BigIntegrerMath.log2 for all modes except UNNECESSARY.
+  // Relies on the correctness of BigIntegerMath.log2 for all modes except UNNECESSARY.
   public void testLog2MatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {

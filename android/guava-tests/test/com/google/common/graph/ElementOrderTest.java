@@ -150,7 +150,7 @@ public final class ElementOrderTest {
   // Combined node and edge order tests
 
   @Test
-  public void nodeOrderUnorderedandEdgesSorted() {
+  public void nodeOrderUnorderedAndEdgesSorted() {
     MutableNetwork<Integer, String> network =
         NetworkBuilder.directed()
             .nodeOrder(unordered())

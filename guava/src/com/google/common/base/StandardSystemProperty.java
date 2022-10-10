@@ -125,7 +125,7 @@ public enum StandardSystemProperty {
     this.key = key;
   }
 
-  /** Returns the key used to lookup this system property. */
+  /** Returns the key used to look up this system property. */
   public String key() {
     return key;
   }

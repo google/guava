@@ -172,8 +172,8 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      * always call succeedsIn*() to initialize them immediately thereafter.
      *
      * The exception is the *InValueSet fields of multimapHeaderEntry, which are never set. (That
-     * works out fine as long as we continue to be careful not to try delete them or iterate past
-     * them.)
+     * works out fine as long as we continue to be careful not to try to delete them or iterate
+     * past them.)
      *
      * We could consider "lying" and omitting @CheckNotNull from all these fields. Normally, I'm not
      * a fan of that: What if we someday implement (presumably to be enabled during tests only)
@@ -187,7 +187,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      * hopefully could avoid implementing Entry or ValueSetLink at all. (But note that that approach
      * requires us to define extra classes -- unfortunate under Android.) *Then* we could consider
      * lying about the fields below on the grounds that we always initialize them just after the
-     * constructor -- an example of the kind of lying that our hypotheticaly bytecode rewriter would
+     * constructor -- an example of the kind of lying that our hypothetical bytecode rewriter would
      * already have to deal with, thanks to DI frameworks that perform field and method injection,
      * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.
      */

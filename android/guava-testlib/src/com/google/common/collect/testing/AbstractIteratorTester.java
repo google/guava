@@ -146,7 +146,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
      * {@link #previousElements} if the reverse is true, or -- overriding both of these -- {@code
      * null} if {@code remove()} or {@code add()} has been called more recently than either. We use
      * this to determine which stack to pop from on a call to {@code remove()} (or to pop from and
-     * push to on a call to {@code set()}.
+     * push to on a call to {@code set()}).
      */
     Stack<E> stackWithLastReturnedElementAtTop = null;
 

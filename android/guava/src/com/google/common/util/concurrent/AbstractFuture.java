@@ -400,7 +400,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   // Timed Get
   // There are a few design constraints to consider
   // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I
-  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread). So if the
+  //   have observed 12 micros on 64-bit linux systems to wake up a parked thread). So if the
   //   timeout is small we shouldn't park(). This needs to be traded off with the cpu overhead of
   //   spinning, so we use SPIN_THRESHOLD_NANOS which is what AbstractQueuedSynchronizer uses for
   //   similar purposes.
@@ -1028,7 +1028,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
               continue outer;
             }
           }
-          // other wise the future we were trying to set is already done.
+          // otherwise the future we were trying to set is already done.
         } else {
           /*
            * requireNonNull is safe because the listener stack never contains TOMBSTONE until after
@@ -1119,7 +1119,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   @CheckForNull
   private Listener clearListeners(@CheckForNull Listener onto) {
     // We need to
-    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that to
+    // 1. atomically swap the listeners with TOMBSTONE, this is because addListener uses that
     //    to synchronize with us
     // 2. reverse the linked list, because despite our rather clear contract, people depend on us
     //    executing listeners in the order they were added
@@ -1151,7 +1151,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
     } else if (isDone()) {
       addDoneString(builder);
     } else {
-      addPendingString(builder); // delegates to addDoneString if future completes mid-way
+      addPendingString(builder); // delegates to addDoneString if future completes midway
     }
     return builder.append("]").toString();
   }
@@ -1279,10 +1279,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Interna
   }
 
   private abstract static class AtomicHelper {
-    /** Non volatile write of the thread to the {@link Waiter#thread} field. */
+    /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
     abstract void putThread(Waiter waiter, Thread newValue);
 
-    /** Non volatile write of the waiter to the {@link Waiter#next} field. */
+    /** Non-volatile write of the waiter to the {@link Waiter#next} field. */
     abstract void putNext(Waiter waiter, @CheckForNull Waiter newValue);
 
     /** Performs a CAS operation on the {@link #waiters} field. */

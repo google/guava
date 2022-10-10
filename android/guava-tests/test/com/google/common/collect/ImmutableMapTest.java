@@ -977,7 +977,7 @@ public class ImmutableMapTest extends TestCase {
   @GwtIncompatible // SerializableTester
   @SuppressWarnings("unchecked")
   public void ignore_testSerializationNoDuplication_regularImmutableMap() throws Exception {
-    // Tests that searializing a map, its keySet, and values only writes the underlying data once.
+    // Tests that serializing a map, its keySet, and values only writes the underlying data once.
 
     Object[] entries = new Object[2000];
     for (int i = 0; i < entries.length; i++) {

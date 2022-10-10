@@ -128,7 +128,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
       this.safeMinChar = Character.MAX_VALUE;
       this.safeMaxChar = 0;
     } else {
-      // The safe range is non empty and contains values below the surrogate
+      // The safe range is non-empty and contains values below the surrogate
       // range but may extend above it. We may need to clip the maximum value.
       this.safeMinChar = (char) safeMin;
       this.safeMaxChar = (char) Math.min(safeMax, Character.MIN_HIGH_SURROGATE - 1);

@@ -565,7 +565,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
    * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
-   * not guarantee which tied minimum element is returned)
+   * not guarantee which tied minimum element is returned.
    *
    * @param iterable the iterable whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
@@ -656,7 +656,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
    * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
-   * not guarantee which tied maximum element is returned)
+   * not guarantee which tied maximum element is returned.
    *
    * @param iterable the iterable whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty

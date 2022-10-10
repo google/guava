@@ -310,7 +310,7 @@ public class SequentialExecutorTest extends TestCase {
       executor.execute(errorTask);
       service.execute(barrierTask); // submit directly to the service
       // the barrier task runs after the error task so we know that the error has been observed by
-      // SequentialExecutor by the time the barrier is satified
+      // SequentialExecutor by the time the barrier is satisfied
       barrier.await(1, TimeUnit.SECONDS);
       executor.execute(barrierTask);
       // timeout means the second task wasn't even tried

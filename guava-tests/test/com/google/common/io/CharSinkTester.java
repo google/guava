@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code CharSink} implementations.
- * Generates tests of a all methods on a {@code CharSink} given various inputs written to it.
+ * Generates tests of all methods on a {@code CharSink} given various inputs written to it.
  *
  * @author Colin Decker
  */

@@ -1101,7 +1101,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetSupertype_chained() {
-    @SuppressWarnings("unchecked") // StringListIterable extensd ListIterable<String>
+    @SuppressWarnings("unchecked") // StringListIterable extends ListIterable<String>
     TypeToken<ListIterable<String>> listIterableType =
         (TypeToken<ListIterable<String>>)
             TypeToken.of(StringListIterable.class).getSupertype(ListIterable.class);
@@ -1794,7 +1794,7 @@ public class TypeTokenTest extends TestCase {
 
     abstract <T2 extends CharSequence & Iterable<T2>> void acceptT2(T2 t2);
 
-    static void verifyConsitentRawType() {
+    static void verifyConsistentRawType() {
       for (Method method : RawTypeConsistencyTester.class.getDeclaredMethods()) {
         assertEquals(
             method.getReturnType(), TypeToken.of(method.getGenericReturnType()).getRawType());
@@ -1808,7 +1808,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testRawTypes() {
-    RawTypeConsistencyTester.verifyConsitentRawType();
+    RawTypeConsistencyTester.verifyConsistentRawType();
     assertEquals(Object.class, TypeToken.of(Types.subtypeOf(Object.class)).getRawType());
     assertEquals(
         CharSequence.class, TypeToken.of(Types.subtypeOf(CharSequence.class)).getRawType());

@@ -402,7 +402,7 @@ public final class Files {
    * be exploited to create security vulnerabilities, especially when executable files are to be
    * written into the directory.
    *
-   * <p>Depending on the environmment that this code is run in, the system temporary directory (and
+   * <p>Depending on the environment that this code is run in, the system temporary directory (and
    * thus the directory this method creates) may be more visible that a program would like - files
    * written to this directory may be read or overwritten by hostile programs running on the same
    * machine.

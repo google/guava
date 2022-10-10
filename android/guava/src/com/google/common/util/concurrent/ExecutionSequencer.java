@@ -54,7 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *       (However, cancellation can prevent an <i>unstarted</i> task from running.) Therefore, the
  *       next task will wait for any running callable (or pending {@code Future} returned by an
  *       {@code AsyncCallable}) to complete, without interrupting it (and without calling {@code
- *       cancel} on the {@code Future}). So beware: <i>Even if you cancel every precededing {@code
+ *       cancel} on the {@code Future}). So beware: <i>Even if you cancel every preceding {@code
  *       Future} returned by this class, the next task may still have to wait.</i>.
  *   <li>Once an {@code AsyncCallable} returns a {@code Future}, this class considers that task to
  *       be "done" as soon as <i>that</i> {@code Future} completes in any way. Notably, a {@code
@@ -250,7 +250,7 @@ public final class ExecutionSequencer {
             taskFuture.cancel(false);
           }
         };
-    // Adding the listener to both futures guarantees that newFuture will aways be set. Adding to
+    // Adding the listener to both futures guarantees that newFuture will always be set. Adding to
     // taskFuture guarantees completion if the callable is invoked, and adding to outputFuture
     // propagates cancellation if the callable has not yet been invoked.
     outputFuture.addListener(listener, directExecutor());

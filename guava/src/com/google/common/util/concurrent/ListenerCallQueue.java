@@ -147,7 +147,7 @@ final class ListenerCallQueue<L> {
       this.executor = checkNotNull(executor);
     }
 
-    /** Enqueues a event to be run. */
+    /** Enqueues an event to be run. */
     synchronized void add(ListenerCallQueue.Event<L> event, Object label) {
       waitQueue.add(event);
       labelQueue.add(label);

@@ -42,7 +42,7 @@ import javax.annotation.CheckForNull;
  *
  * <p>Note that usually type mappings are already implied by the static type hierarchy (for example,
  * the {@code E} type variable declared by class {@code List} naturally maps to {@code String} in
- * the context of {@code class MyStringList implements List<String>}. In such case, prefer to use
+ * the context of {@code class MyStringList implements List<String>}). In such case, prefer to use
  * {@link TypeToken#resolveType} since it's simpler and more type safe. This class should only be
  * used when the type mapping isn't implied by the static type hierarchy, but provided through other
  * means such as an annotation or external configuration file.
@@ -426,7 +426,7 @@ public final class TypeResolver {
         if (var.equalsType(t)) {
           // cycle detected, remove the entire cycle from the mapping so that
           // each type variable resolves deterministically to itself.
-          // Otherwise, a F -> T cycle will end up resolving both F and T
+          // Otherwise, an F -> T cycle will end up resolving both F and T
           // nondeterministically to either F or T.
           for (Type x = arg; x != null; x = mappings.remove(TypeVariableKey.forLookup(x))) {}
           return;

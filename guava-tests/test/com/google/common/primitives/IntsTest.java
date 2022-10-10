@@ -670,8 +670,8 @@ public class IntsTest extends TestCase {
   }
 
   /**
-   * Encodes the an integer as a string with given radix, then uses {@link Ints#tryParse(String,
-   * int)} to parse the result. Asserts the result is the same as what we started with.
+   * Encodes an integer as a string with given radix, then uses {@link Ints#tryParse(String, int)}
+   * to parse the result. Asserts the result is the same as what we started with.
    */
   private static void radixEncodeParseAndAssertEquals(Integer value, int radix) {
     assertWithMessage("Radix: " + radix)

@@ -45,7 +45,7 @@ public class PercentEscaperTest extends TestCase {
       }
     }
 
-    // Testing mutlibyte escape sequences
+    // Testing multibyte escape sequences
     assertEscaping(e, "%00", '\u0000'); // nul
     assertEscaping(e, "%7F", '\u007f'); // del
     assertEscaping(e, "%C2%80", '\u0080'); // xx-00010,x-000000

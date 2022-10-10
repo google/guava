@@ -323,7 +323,7 @@ public class LocalLoadingCacheTest extends TestCase {
     recursiveCache = CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
 
-    // tells the test when the compution has completed
+    // tells the test when the computation has completed
     final CountDownLatch doneSignal = new CountDownLatch(1);
 
     Thread thread =

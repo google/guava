@@ -54,7 +54,7 @@ public final class Reflection {
    *
    * <p>WARNING: Normally it's a smell if a class needs to be explicitly initialized, because static
    * state hurts system maintainability and testability. In cases when you have no choice while
-   * inter-operating with a legacy framework, this method helps to keep the code less ugly.
+   * interoperating with a legacy framework, this method helps to keep the code less ugly.
    *
    * @throws ExceptionInInitializerError if an exception is thrown during initialization of a class
    */

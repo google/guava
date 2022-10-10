@@ -424,12 +424,12 @@ public class QuantilesTest extends TestCase {
             1, 1.5,
             2, 2.0,
             8, 5.0,
-            9, POSITIVE_INFINITY, // interpolating between 5.0 and POSITIVE_INFNINITY
+            9, POSITIVE_INFINITY, // interpolating between 5.0 and POSITIVE_INFINITY
             10, POSITIVE_INFINITY);
   }
 
   public void testScale_index_compute_doubleCollection_positiveInfinity() {
-    // interpolating between 5.0 and POSITIVE_INFNINITY
+    // interpolating between 5.0 and POSITIVE_INFINITY
     assertThat(Quantiles.scale(10).index(9).compute(ONE_TO_FIVE_AND_POSITIVE_INFINITY))
         .isPositiveInfinity();
   }
@@ -442,7 +442,7 @@ public class QuantilesTest extends TestCase {
         .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
         .containsExactly(
             0, NEGATIVE_INFINITY,
-            1, NEGATIVE_INFINITY, // interpolating between NEGATIVE_INFNINITY and 1.0
+            1, NEGATIVE_INFINITY, // interpolating between NEGATIVE_INFINITY and 1.0
             2, 1.0,
             8, 4.0,
             9, 4.5,
@@ -450,7 +450,7 @@ public class QuantilesTest extends TestCase {
   }
 
   public void testScale_index_compute_doubleCollection_negativeInfinity() {
-    // interpolating between NEGATIVE_INFNINITY and 1.0
+    // interpolating between NEGATIVE_INFINITY and 1.0
     assertThat(Quantiles.scale(10).index(1).compute(ONE_TO_FIVE_AND_NEGATIVE_INFINITY))
         .isNegativeInfinity();
   }
@@ -540,7 +540,7 @@ public class QuantilesTest extends TestCase {
 
     // Assert that the dataset contains the same elements after the in-place computation (although
     // they may be reordered). We only do this for one index rather than for all indexes, as it is
-    // quite expensives (quadratic in the size of PSEUDORANDOM_DATASET).
+    // quite expensive (quadratic in the size of PSEUDORANDOM_DATASET).
     double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
     @SuppressWarnings("unused")
     double actual = percentiles().index(33).computeInPlace(dataset);
